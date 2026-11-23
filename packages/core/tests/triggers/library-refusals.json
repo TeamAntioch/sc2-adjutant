@@ -1,0 +1,354 @@
+{
+  "a parameter of it isn't in the library data": [
+    "Ntve/30D85A7D MakeEmptyBitMask",
+    "Ntve/385D9069 BitMaskCountOnBits"
+  ],
+  "Convert Preset To Purchasable is a function giving a value, not an action": [
+    "Ntve/0AD7E8DB Convert Preset To Purchasable"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a aidef value": [
+    "Ntve/D8A21F36 Start AI Personality For Player",
+    "Ntve/898E65C3 Stop All Attack Waves For Personality"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a aidefwave value": [
+    "Ntve/810C9533 Run Attack Wave",
+    "Ntve/0000EBDB Turn Attack Wave On/Off",
+    "Ntve/641CFD0F Attack Wave Is On",
+    "Ntve/4E74D71A Attack Wave Last Created Units",
+    "Ntve/11CCA676 Attack Wave Last Created Wave"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a attributegame value": [
+    "Ntve/9AC9D531 Attribute Game Value"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a attributeplayer value": [
+    "Ntve/1C7F6A3E Attribute Player Value"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a bitmask value": [
+    "Ntve/72D06237 BitMaskSetIndex",
+    "Ntve/DE45F595 BitMaskIsEqual",
+    "Ntve/C29F8A41 BitMaskTrueIndex",
+    "Ntve/CA455926 BitMaskFalseIndex",
+    "Ntve/7D134CB3 BitMaskReset",
+    "Ntve/8E1C5BA7 BitMaskAddBitMask",
+    "Ntve/D79B5E14 BitMaskAndBitMask",
+    "Ntve/E2D0649C BitMaskOrBitMask",
+    "Ntve/B6ED82BE BitMaskXorBitMask",
+    "Ntve/2539ACD3 BitMaskInvert",
+    "Ntve/17A7CF59 BitMaskLeftShift",
+    "Ntve/EBA91B3C BitMaskRightShift",
+    "Ntve/D16EE5F6 ForEachSetBitInBitMask",
+    "Ntve/4DED547D ForEachUnSetBitInBitMask"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a byte value": [
+    "Ntve/28CC4E7A Save Data Table Value (Byte) - Instance",
+    "Ntve/7CB14337 Save Data Table Value (Byte)"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a catalogentry value": [
+    "Ntve/56331453 Catalog Field Value Modify",
+    "Ntve/ADA0151C Catalog Entry Is Default",
+    "Ntve/E6AB7041 Catalog Entry Is Valid",
+    "Ntve/4753BA4E Catalog Entry Class",
+    "Ntve/00000379 Catalog Entry Parent",
+    "Ntve/00000380 Catalog Entry Scope",
+    "Ntve/00000383 Catalog Field Value Get",
+    "Ntve/70AF8BB2 Catalog Field Value Get As Integer",
+    "Ntve/13FCF4F1 Catalog Field Value Get Flags As Integer",
+    "Ntve/657B90A6 Catalog Field Value Get As Real",
+    "Ntve/4E004004 Catalog Field Value Count",
+    "Ntve/224BC9ED For Each Value In Catalog Field Array",
+    "Ntve/5FD44C2E For Each Scope Field Value In Catalog Field Scope Array",
+    "Ntve/03D7A0F2 Catalog Field Value Set",
+    "Ntve/22AACFEE Catalog Field Value Set As Real",
+    "Ntve/16F885F6 Catalog Field Value Modify (Based On Default Value)",
+    "Ntve/0DB2052E Convert Catalog Entry To String"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a catalogfieldname value": [
+    "Ntve/83B9DED9 Catalog Field Exists",
+    "Ntve/AD46099F Catalog Field Is Array",
+    "Ntve/855AF166 Catalog Field Is Scope",
+    "Ntve/28E8B577 Catalog Field Type",
+    "Ntve/1728334B Catalog Field Type Category",
+    "Ntve/7B1F9C97 Convert Catalog Field Name To String"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a catalogfieldpath value": [
+    "Ntve/8DC8D5BB Convert Catalog Field Path To String"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a charge value": [
+    "Ntve/49540656 Charge Regen Full For Unit Behavior",
+    "Ntve/B20BC13F Remove Charge Regen Time For Unit Behavior (Deprecated)",
+    "Ntve/9C41471B Remove Charge Regen Time For Unit Ability (Deprecated)",
+    "Ntve/64412A12 Remove Charge Regen Time For Unit (Deprecated)",
+    "Ntve/1524735E Add Charge Regen Time For Unit Behavior (Deprecated)",
+    "Ntve/93C52D6B Add Charge Regen Time For Unit Ability (Deprecated)",
+    "Ntve/4FEC2802 Add Charge Regen Time For Unit (Deprecated)",
+    "Ntve/2E734680 Add Charge Remaining Regen Time For Unit Behavior",
+    "Ntve/44459AA8 Add Charge Remaining Regen Time For Unit Ability",
+    "Ntve/417209E7 Add Charge Remaining Regen Time For Unit",
+    "Ntve/A84DED9E Add Charge Full Regen Time For Unit Behavior",
+    "Ntve/6B3B71B3 Add Charge Full Regen Time For Unit Ability",
+    "Ntve/3EE9F19D Add Charge Full Regen Time For Unit",
+    "Ntve/887CD3DA Add Charge Used For Unit Behavior",
+    "Ntve/F14B3F69 Add Charge Used For Unit Ability",
+    "Ntve/F1200B76 Add Charge Used For Unit",
+    "Ntve/4123C5CC Remove Charge Used For Unit Behavior",
+    "Ntve/A72F9A7B Remove Charge Used For Unit Ability",
+    "Ntve/4353C769 Remove Charge Used For Unit",
+    "Ntve/9C98BAC1 Charge Regen Remaining For Unit Behavior",
+    "Ntve/AD5CD155 Charge Regen Remaining For Unit Ability",
+    "Ntve/C03FF78B Charge Regen Remaining For Unit",
+    "Ntve/E1FF2E2B Charge Regen Full For Unit Ability",
+    "Ntve/021AED7B Charge Regen Full For Unit",
+    "Ntve/FC7979E5 Charge Used For Unit Behavior",
+    "Ntve/0DCB7E2E Charge Used For Unit Ability",
+    "Ntve/CC1B5055 Charge Used For Unit"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a convcharacter value": [
+    "Ntve/DAC9B6F4 Set Data Conversation Portrait",
+    "Ntve/980B0F3D Set Data Conversation Unit"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a conversationtag value": [
+    "Ntve/F32154E6 Data Conversation Lines With Tag"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a cooldown value": [
+    "Ntve/6111C017 Add Cooldown For Unit (Deprecated)",
+    "Ntve/669DD68A Add Cooldown For Unit Behavior",
+    "Ntve/25B3A05C Add Cooldown For Unit Ability",
+    "Ntve/5ADEFF8E Modify Cooldown For Unit",
+    "Ntve/979E6CCF Remove Cooldown For Unit Behavior",
+    "Ntve/DC4D3C51 Remove Cooldown For Unit Ability",
+    "Ntve/1DB37563 Remove Cooldown For Unit",
+    "Ntve/21D894B0 Cooldown For Unit Behavior",
+    "Ntve/56B8B8AF Cooldown For Unit Abilty",
+    "Ntve/EB622569 Cooldown For Unit"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a datetime value": [
+    "Ntve/F814386A DateTime is Before",
+    "Ntve/E5DEE105 DateTime is After"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a difficulty value": [
+    "Ntve/BD0E4598 Difficulty Is (one)",
+    "Ntve/3A3B8C53 Difficulty Is (two)",
+    "Ntve/68CB92EB Difficulty High",
+    "Ntve/DD754C85 Difficulty Low",
+    "Ntve/B609FCF9 Set Next Mission Difficulty",
+    "Ntve/CACCC2D8 Set Player Difficulty Level"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a filepath value": [
+    "Ntve/D3FB8606 Set Screen Button Border Image",
+    "Ntve/E5CABD27 Set Screen Button Flashing Border Image",
+    "Ntve/B7865A0A Set Background Image Of Text Tag",
+    "Ntve/9925F414 Display Boss Bar"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a fontstyle value": [
+    "Ntve/3C8304BE Set Dialog Item Style",
+    "Ntve/C199FB04 Display Screen Label"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a gameoption value": [
+    "Ntve/BDF27E57 Override Player Option"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a layoutframe value": [
+    "Ntve/5C08CD1C Create Dialog Item From Template",
+    "Ntve/7319128A Create Dialog Item In Panel From Template"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a modelcamera value": [
+    "Ntve/8ED9E26A Set Camera Channel"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a reference value": [
+    "Ntve/4D4B1A99 Catalog Reference Get",
+    "Ntve/AEF40843 Catalog Reference Get As Integer",
+    "Ntve/3242F98D Catalog Reference Get As Real",
+    "Ntve/F4AC46C4 Catalog Reference Count",
+    "Ntve/02E83924 Catalog Reference Set",
+    "Ntve/804105E9 Catalog Reference Set As Real",
+    "Ntve/CC1B23D8 Catalog Reference Modify",
+    "Ntve/7261B967 Catalog Reference Modify (Based On Default Value)",
+    "Ntve/8C4A6359 Convert Catalog Reference To String",
+    "Ntve/96DDB210 Convert Catalog Reference (Any -> Numeric)",
+    "Ntve/1DD7C745 Convert Catalog Reference (Any -> Upgrade)",
+    "Ntve/A9C9ADB0 Convert Catalog Reference (Upgrade -> Any)",
+    "Ntve/72709D7A Convert Catalog Reference (Numeric -> Any)"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a return value": [
+    "Ntve/00000097 Return"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a timeofday value": [
+    "Ntve/00000391 Set Time Of Day"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a typeless value": [
+    "Ntve/0165CF77 Create Actor",
+    "Ntve/096ADF1D Create Dialog Item (Button)",
+    "Ntve/5C428316 Set Dialog Item Movie",
+    "Ntve/0B3D8934 Set Targeting Order",
+    "Ntve/07C5FA2D Set Path Display Line Texture",
+    "Ntve/E4BE9CB7 Set Path Display Step Model"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a userfield value": [
+    "Ntve/39051196 Load Variable Value Into User Data",
+    "Ntve/AF40397B Type Of User Data Field",
+    "Ntve/D6D5CB34 Value Count Of User Data Field",
+    "Ntve/506AE6E3 Is User Data Field Modifiable",
+    "Ntve/B70F7D91 Load User Data Value Into Variable",
+    "Ntve/220C20A2 User Data (Ability Command)",
+    "Ntve/585225C7 User Data (Actor)",
+    "Ntve/A4E9B3A1 User Data (Color)",
+    "Ntve/66E7F779 User Data (Compare)",
+    "Ntve/D8DCE241 User Data (Game Link)",
+    "Ntve/094200DA User Data (Image)",
+    "Ntve/D90FAABF User Data (Image Edge)",
+    "Ntve/7A847E04 User Data (Image Attach)",
+    "Ntve/1B79DE77 User Data (Integer)",
+    "Ntve/FF4BA99B User Data (Model)",
+    "Ntve/60FC3262 User Data (Movie)",
+    "Ntve/A6423891 User Data (Real)",
+    "Ntve/9A2BEF12 User Data (Sound)",
+    "Ntve/0F7F44F5 User Data (String)",
+    "Ntve/2002EBDA User Data (Text)",
+    "Ntve/C30C7198 User Data (Unit)",
+    "Ntve/CAB7927F User Data (Upgrade)",
+    "Ntve/63B29BEF User Data (User Type)",
+    "Ntve/8732457F User Data (User Instance)",
+    "Ntve/8E0202F1 Modify User Data (Ability Command)",
+    "Ntve/B2C86A74 Modify User Data (Actor)",
+    "Ntve/ECCE2474 Modify User Data (Color)",
+    "Ntve/31C99974 Modify User Data (Compare)",
+    "Ntve/CFD68787 Modify User Data (Game Link)",
+    "Ntve/B53C5B19 Modify User Data (Image)",
+    "Ntve/A56E59EF Modify User Data (Image Edge)",
+    "Ntve/450FEADA Modify User Data (Image Attach)",
+    "Ntve/0C607001 Modify User Data (Integer)",
+    "Ntve/391E911E Modify User Data (Model)",
+    "Ntve/51B28574 Modify User Data (Movie)",
+    "Ntve/E2CB27D0 Modify User Data (Real)",
+    "Ntve/4A855A37 Modify User Data (Sound)",
+    "Ntve/4720DFCB Modify User Data (String)",
+    "Ntve/6649CC1C Modify User Data (Text)",
+    "Ntve/3022613D Modify User Data (Unit)",
+    "Ntve/94F956A9 Modify User Data (Upgrade)",
+    "Ntve/8DE799A6 Modify User Data (User)",
+    "Ntve/2D9F8B59 For Each User Data Value In User Type Field Array",
+    "Ntve/AF5F1505 Reset User Data Value"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds a water value": [
+    "Ntve/56D51508 Set Water State"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds it calls Ntve/<id>, which has no identifier": [
+    "Ntve/2D009905 _Cine Mode Turn On/Off For Player",
+    "Ntve/3B7FC013 _Cine Mode Turn On/Off For Player Group",
+    "Ntve/6814AAE0 _Cine Mode Fog Setting",
+    "Ntve/2F8A67F1 _Cine Mode Change Fog Setting For Player",
+    "Ntve/C407C01A _Cine Mode Change Fog Setting For Player Group",
+    "Ntve/64B9796C _Cine Mode Mask Setting",
+    "Ntve/7E379969 _Cine Mode Change Mask Setting For Player",
+    "Ntve/4359F428 _Cine Mode Change Mask Setting For Player Group",
+    "Ntve/DC02AB11 _Cine Mode Hide UI",
+    "Ntve/8835BE18 _Cine Mode Restore UI",
+    "Ntve/83B90C8A Get DateTime Year",
+    "Ntve/32EB26E3 Get DateTime Month",
+    "Ntve/4499EFA9 Get DateTime Day",
+    "Ntve/500D0579 Get DateTime Hour",
+    "Ntve/7F2F662B Get DateTime Minute",
+    "Ntve/1069D06E Get DateTime Second",
+    "Ntve/F7FF960E Get Current Day of Week",
+    "Ntve/E213E139 DateTime is Between",
+    "Ntve/146F334E Get Weekday From DateTime",
+    "Ntve/E01096C8 Get Month From DateTime",
+    "Ntve/89AE2997 DateTime is Weekend",
+    "Ntve/80A5084A DateTime is Morning",
+    "Ntve/A39DD51A DateTime is Afternoon",
+    "Ntve/59F1433D DateTime is Evening",
+    "Ntve/8EEDA0D8 Clear Alliance",
+    "Ntve/7B417FFD Make Ally",
+    "Ntve/EDCDFAE1 _Story Mode On/Off For Player",
+    "Ntve/71C65781 _Story Mode On/Off For Player Group",
+    "Ntve/91D28CB2 _Story Mode Hide UI",
+    "Ntve/C4F70B3B _Story Mode Restore UI",
+    "Ntve/5A8C1442 Change Unit Height At Rate",
+    "Ntve/C3E7DC19 Debug Unit Info",
+    "Ntve/28C77D31 Order Unit To Target Point Match Facing",
+    "Ntve/D9C1C903 Shuffle Scores",
+    "Ntve/9C5820F2 Sort Scores (Bubble Sort)",
+    "Ntve/45CE88A7 Sort Scores (Selection Sort)",
+    "Ntve/818063A2 Sort Scores (Insertion Sort)",
+    "Ntve/B731B542 Sort Scores (Quick Sort)",
+    "Ntve/6185D17C Index Of Minimum Score",
+    "Ntve/A29DCB5C Index Of Maximum Score"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds it calls the block Ntve/<id> (RegisterEvents), which has no template this can write it from": [
+    "Ntve/5870F9D1 Register Events"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds it calls the operator Ntve/<id> (AndOr), which this doesn't write yet": [
+    "Ntve/00000135 And Or"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds it calls the operator Ntve/<id> (ArithmeticInt2), which this doesn't write yet": [
+    "Ntve/7D16A215 Bitwise Arithmetic (Integer)"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds its custom script <id> is empty, whose Galaxy this doesn't write yet": [
+    "Ntve/00000123 Custom Script"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_Continue's template uses #SMARTCONTINUE, which this doesn't write yet": [
+    "Ntve/268BBACB Continue"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_ConvertPresetToIdentifier's template uses #PRESETIDENT, which this doesn't write yet": [
+    "Ntve/31D70B8A Convert Preset To Identifier"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_IntLoopCurrent names the variable of a PickEachInteger it doesn't sit in": [
+    "Ntve/D02F7ACF Picked Integer"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_PickEachPlayerInGroupDeprecated's template uses #SUBFUNCS in a form this doesn't write yet": [
+    "Ntve/0155FBC1 Pick Each Player In Player Group Deprecated"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_PlayerGroupLoopCurrent names the variable of a PickEachPlayerInGroup it doesn't sit in": [
+    "Ntve/8570CA61 Picked Player"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_SkipRemaining's template uses #DEFRETURN, which this doesn't write yet": [
+    "Ntve/00000139 Skip Remaining Actions"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_SwitchCase names its parent's variable, but sits in no block": [
+    "Ntve/3A1227AB Switch Case"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_TransmissionCommentConversation's template names a parameter sound it doesn't have": [
+    "Ntve/7C65EA1E Active Data Conversation Line",
+    "Ntve/8B09B461 Transmission Comment (Conversation)"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds libNtve_gf_UnitGroupLoopCurrent names the variable of a PickEachUnitInGroup it doesn't sit in": [
+    "Ntve/19CE733E Picked Unit"
+  ],
+  "its Galaxy can't be written as the Editor writes it: it holds the preset Hots/<id>, whose Galaxy isn't known": [
+    "Hots/D85B8164 _UnitDataName"
+  ],
+  "its outline can't express a function's own parameter, which a trigger has none of": [
+    "Ntve/F0E3F78B Unit Attribute Point",
+    "Ntve/3EE18973 Set Unit Attribute Point"
+  ],
+  "Model Camera has no value \"Ntve/<id>\"": [
+    "Ntve/00000360 Use Model Camera"
+  ],
+  "takes a Boolean, but the int \"0\" is an Integer": [
+    "Ntve/C97424F4 Set StockUnitNext"
+  ],
+  "takes a Game Link - Unit, but the int \"-1\" is an Integer": [
+    "Ntve/891D2DCA Default Economy",
+    "Ntve/CBAA7BFC Default Expansion"
+  ],
+  "takes a String, but the int \"0\" is an Integer": [
+    "Ntve/22688BC7 Actor Msg 1",
+    "Ntve/E79AE4CF Actor Msg 2",
+    "Ntve/7CAF43B4 Actor Msg 3",
+    "Ntve/4F54AC74 Actor Msg 4",
+    "Ntve/8B505342 Set StockFree"
+  ],
+  "takes a String, but the int \"1\" is an Integer": [
+    "Ntve/891D2DCA Default Economy"
+  ],
+  "takes a Text, but the string \"\" is a String": [
+    "Ntve/CC8265AD Unit Stats Start"
+  ],
+  "takes a Unit Group, but Triggering Unit's value is a Unit": [
+    "Ntve/29EBBD36 Wave Target UnitGroup",
+    "Ntve/C55EEFBE Wave Target Escort",
+    "Ntve/C6F10828 Wave Target Escort No Leash"
+  ],
+  "takes a Wave, but Triggering Unit's value is a Unit": [
+    "Ntve/225660B8 Wave Target Merge"
+  ]
+}

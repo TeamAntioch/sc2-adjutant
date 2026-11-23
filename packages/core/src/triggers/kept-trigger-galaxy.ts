@@ -74,6 +74,9 @@ const GALAXY_TYPES: Readonly<Record<string, string>> = {
   actor: "actor",
 };
 
+/** The types a local variable's declaration is written for: any other is refused. */
+export const LOCAL_VARIABLE_TYPES: ReadonlySet<string> = new Set(Object.keys(GALAXY_TYPES));
+
 const lowerFirst = (text: string): string => text.charAt(0).toLowerCase() + text.slice(1);
 
 /** A placeholder for a library element's Galaxy name, until `bindLibraryNames` learns it. */

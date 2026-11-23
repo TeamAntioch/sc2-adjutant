@@ -109,8 +109,17 @@ export function editorTypeName(libraries: Readonly<Record<string, GameLibrary>>,
   return types[type] ?? type;
 }
 
+/** Each set of libraries in reach's index, built once: the authoring tool resolves a name for every call it writes, and an outline each again. */
+const INDEXES = new WeakMap<Readonly<Record<string, GameLibrary>>, readonly Indexed[]>();
+
 /** Every function in reach, indexed for search, library by library in reach order. */
-function indexed(libraries: Readonly<Record<string, GameLibrary>>): Indexed[] {
+function indexed(libraries: Readonly<Record<string, GameLibrary>>): readonly Indexed[] {
+  let index = INDEXES.get(libraries);
+  if (index === undefined) INDEXES.set(libraries, (index = buildIndex(libraries)));
+  return index;
+}
+
+function buildIndex(libraries: Readonly<Record<string, GameLibrary>>): Indexed[] {
   const typeName = (spec: TypeShown): string => editorTypeName(libraries, spec);
   // A type answers to the name the Editor shows and to its own (unitgroup), folded.
   const answers = (spec: TypeShown | undefined): string[] => (spec === undefined ? [] : [...new Set([folded(typeName(spec)), ...(spec.type ? [folded(spec.type)] : [])])]);
