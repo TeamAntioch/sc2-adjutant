@@ -82,7 +82,7 @@ jobs:
           key: vitest-${{ runner.os }}-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: vitest-${{ runner.os }}-${{ matrix.part }}-
       # A hang fails here, not at the job's limit.
-      - name: Test core (${{ matrix.part }} of 2)
+      - name: Test core (${{ matrix.part }})
         if: startsWith(matrix.part, 'core-')
         run: npm test -w packages/core -- --shard=${{ matrix.part == 'core-1' && '1' || '2' }}/2
         timeout-minutes: 30
