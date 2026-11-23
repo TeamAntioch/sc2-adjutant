@@ -10,9 +10,10 @@ name: CI
 # Tests that need the game, the Editor or a tool the runner lacks (ImageMagick) skip themselves,
 # as they do on any machine without it.
 #
-# Each OS runs three jobs at once (#5), which together run what `npm test` and `npm run lint` run:
-# core's tests in two shards, and a third job with lint, every other package's tests and the
-# check scripts.
+# Linux and Windows each run three jobs at once (#5), which together run what `npm test` and
+# `npm run lint` run: core's tests in two shards, and a third job with lint, every other package's
+# tests and the check scripts. macOS runs them all in one job: hosted macOS runners are scarce, and
+# three jobs at once were slow to start and sometimes cancelled.
 
 on:
   push:
@@ -34,8 +35,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         part: [core-1, core-2, rest]
+        include:
+          - os: macos-latest
+            part: all
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
@@ -78,12 +82,12 @@ jobs:
           key: vitest-${{ runner.os }}-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: vitest-${{ runner.os }}-${{ matrix.part }}-
       # A hang fails here, not at the job's limit.
-      - name: Test core (shard ${{ matrix.part == 'core-1' && '1' || '2' }} of 2)
-        if: matrix.part != 'rest'
+      - name: Test core (${{ matrix.part }} of 2)
+        if: startsWith(matrix.part, 'core-')
         run: npm test -w packages/core -- --shard=${{ matrix.part == 'core-1' && '1' || '2' }}/2
         timeout-minutes: 30
       - run: npm run lint
-        if: matrix.part == 'rest'
+        if: matrix.part == 'rest' || matrix.part == 'all'
         timeout-minutes: 10
       - name: Test every package but core, then run the checks
         if: matrix.part == 'rest'
@@ -96,6 +100,9 @@ jobs:
           done
           npm test "${workspaces[@]}" --if-present
           npm run test:checks
+      - run: npm test
+        if: matrix.part == 'all'
+        timeout-minutes: 30
       - name: Save vitest's results
         if: always()
         uses: actions/cache/save@v4
