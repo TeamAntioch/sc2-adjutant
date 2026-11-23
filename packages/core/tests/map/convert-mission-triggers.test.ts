@@ -21,7 +21,7 @@ describe("convertMissionTriggers", () => {
 
     const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: ["Hyperion Fighter Acquire Target"] });
 
-    expect(converted).toEqual({ converted: [{ name: "Hyperion Fighter Acquire Target", id: "7611B84F", file: "triggers/hyperion-fighter-acquire-target.json" }], refused: [] });
+    expect(converted).toEqual({ converted: [{ kind: "trigger", name: "Hyperion Fighter Acquire Target", id: "7611B84F", file: "triggers/hyperion-fighter-acquire-target.json" }], refused: [] });
     const blueprint = JSON.parse(await readFile(mission.blueprintPath, "utf8"));
     expect(blueprint.triggers).toEqual(["triggers/hyperion-fighter-acquire-target.json"]);
     const written = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "triggers", "hyperion-fighter-acquire-target.json"), "utf8"));
@@ -198,8 +198,62 @@ describe("convertMissionTriggers", () => {
     const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: ["Opening Transmission"] });
 
     expect(converted.converted).toEqual([]);
-    expect(converted.refused).toEqual([{ trigger: "Opening Transmission", reason: "it calls VCMI/3F2DAB19 (and 10 more of its parts), which is out of reach: the library VCMI isn't in reach of the map (the game's, or a Workspace mod its dependencies load)" }]);
+    expect(converted.refused).toEqual([{ kind: "trigger", element: "Opening Transmission", reason: "it calls VCMI/3F2DAB19 (and 10 more of its parts), which is out of reach: the library VCMI isn't in reach of the map (the game's, or a Workspace mod its dependencies load)" }]);
     expect(JSON.parse(await readFile(mission.blueprintPath, "utf8")).triggers).toBeUndefined();
+  });
+});
+
+describe("a Mission's Kept functions", () => {
+  const FUNCTIONS = ["Player Is In Combat", "Attack with Unburrowing Units", "Create Unburrowing Units"];
+
+  it("converts Kept functions into the Blueprint, each with its interface and body, and compiles them back to the same Triggers, Galaxy and names", async () => {
+    const mission = await harbourWith("map-functions");
+    const before = await readPackage(mission.mapDir);
+
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: FUNCTIONS });
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted.map((item) => [item.kind, item.name, item.id])).toEqual([
+      ["function", "Player Is In Combat", "C11903A4"],
+      ["function", "Attack with Unburrowing Units", "137917D7"],
+      ["function", "Create Unburrowing Units", "555E0ADA"],
+    ]);
+    const written = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "triggers", "player-is-in-combat.json"), "utf8"));
+    expect(written).toMatchObject({ kind: "function", id: "C11903A4", name: "Player Is In Combat", functionKind: "function", grammar: "Player ~player~ is in combat", returns: { type: "bool" }, label: "Ntve/1C34099B" });
+    expect(written.parameters).toEqual([expect.objectContaining({ id: "15EA95A3", name: "Player", type: { type: "int" } })]);
+    // A call to another of the map's functions names it by its Id alone.
+    const create = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "triggers", "create-unburrowing-units.json"), "utf8"));
+    expect(create.actions.map((call: { function: string }) => call.function)).toContain("137917D7");
+
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    const record = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "compile-record.json"), "utf8"));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "function", id: "C11903A4" }));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "galaxy-block", id: "function:gf_PlayerIsInCombat" }));
+    // And again, now that they're Compiled.
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+  }, 60_000);
+
+  it("converts a function one at a time, the other it calls staying Kept", async () => {
+    const mission = await harbourWith("map-functions");
+    const before = await readPackage(mission.mapDir);
+
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: ["Create Unburrowing Units"] });
+
+    expect(converted.refused).toEqual([]);
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+  }, 60_000);
+
+  it("refuses a function whose declaration the script lacks, naming the block", async () => {
+    const read = (file: string): Promise<string> => readFile(path.join(CUTS, "function-flags", "thanson01", file), "utf8");
+    const files: KeptPackageFiles = { triggers: await read("Triggers"), triggerStrings: await read("TriggerStrings.txt"), script: await read("MapScript.galaxy"), gameStrings: new Map() };
+
+    const conversion = convertKeptTriggers(files, { triggers: ["Player Is In Combat"] });
+
+    expect(conversion.functions.converted).toEqual([]);
+    expect(conversion.functions.refused).toEqual([{ function: "Player Is In Combat", id: "C11903A4", reason: "MapScript.galaxy has no function-declaration:gf_PlayerIsInCombat: save the map in the Editor so it writes one, then convert it" }]);
   });
 });
 

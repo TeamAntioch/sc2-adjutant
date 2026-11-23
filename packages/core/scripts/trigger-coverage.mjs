@@ -10,7 +10,7 @@
 //   by where its definition is: core's catalog, the game's library data only, the map's own, or a
 //   library the data doesn't hold.
 //
-//   A map's conversion: each Kept trigger is converted as convert_triggers would
+//   A map's conversion: each Kept trigger and function is converted as convert_triggers would
 //   (convertKeptTriggers, src/map/convert-mission-triggers.ts, writing nothing): read into a
 //   Blueprint element, checked in reach, and written back to the Editor's Triggers XML and Galaxy,
 //   or refused with why. A Mission's package (blueprint.json beside it, in a Workspace) is checked
@@ -113,6 +113,8 @@ const modDiffers = [];
 const conversionResults = [];
 const conversionReasons = new Map();
 const conversionRefusals = [];
+const functionReasons = new Map();
+const functionRefusals = [];
 const notYet = new Map();
 const writeBackReasons = new Map();
 const writeBackFailures = [];
@@ -152,7 +154,11 @@ async function convertMap(dir, triggers) {
   if (gameStrings.size === 0) console.error(`${dir} has no GameStrings: its text values convert as empty`);
   const files = { triggers, triggerStrings: read(findFile(dir, "enUS.SC2Data/LocalizedData/TriggerStrings.txt")), script: read(findFile(dir, "MapScript.galaxy")), gameStrings };
   const context = await missionContext(dir);
-  const { converted, refused, notYetConvertible } = convertKeptTriggers(files, context);
+  const { converted, refused, functions, notYetConvertible } = convertKeptTriggers(files, context);
+  for (const item of functions.refused) {
+    note(functionReasons, normalized(item.reason.replace(/\(and \d+ more/g, "(and N more")), `${label}:${item.function} (${item.id})`);
+    functionRefusals.push({ map: label, function: item.function, id: item.id, reason: item.reason });
+  }
   const others = {};
   for (const item of notYetConvertible) {
     const kind = KIND_NAMES[item.type] ?? item.type;
@@ -180,7 +186,18 @@ async function convertMap(dir, triggers) {
     for (const problem of new Set(problems.map((each) => normalized(each.replace(/^.*?\): |^[^:(]*: /, ""))))) note(writeBackReasons, problem, `${label}:${item.name} (${item.id})`);
     writeBackFailures.push({ map: label, trigger: item.name, id: item.id, problems });
   }
-  conversionResults.push({ label, reach: context.reach, triggers: converted.length + refused.length, converted: converted.length, writtenBack, refused: refused.length, notYetConvertible: notYetConvertible.length, others });
+  conversionResults.push({
+    label,
+    reach: context.reach,
+    triggers: converted.length + refused.length,
+    converted: converted.length,
+    writtenBack,
+    refused: refused.length,
+    functions: functions.converted.length + functions.refused.length,
+    functionsConverted: functions.converted.length,
+    notYetConvertible: notYetConvertible.length,
+    others,
+  });
 }
 
 /** A Mission's conversion context, when `dir` is a Mission's Map Package in a Workspace; the game's libraries alone otherwise. */
@@ -428,6 +445,8 @@ const report = {
   conversion: conversionResults,
   conversionReasons: ranked(conversionReasons),
   conversionRefusals,
+  functionReasons: ranked(functionReasons),
+  functionRefusals,
   notYetConvertible: ranked(notYet),
   writeBackReasons: ranked(writeBackReasons),
   writeBackFailures,
@@ -447,10 +466,23 @@ if (mapResults.length) {
   for (const item of report.forms.slice(0, 20)) lines.push(`- ${item.count} × ${item.key}`);
   lines.push("", `### Renders that differ from the Editor's (${mapDiffers.length})`, "", ...mapDiffers.slice(0, 20).map((line) => `- ${line}`));
   const kindsSeen = [...new Set(conversionResults.flatMap((r) => Object.keys(r.others)))].sort((a, b) => report.notYetConvertible.findIndex((item) => item.key === a) - report.notYetConvertible.findIndex((item) => item.key === b));
-  lines.push("", "## Conversion (Kept triggers into the Blueprint, convert_triggers)", "", `| map | checked against | Kept triggers | convert | written back by the tool | refused | not yet convertible |${kindsSeen.map((kind) => ` ${kind} |`).join("")}`, `|---|---|---|---|---|---|---|${kindsSeen.map(() => "---|").join("")}`);
-  for (const r of conversionResults) lines.push(`| ${r.label} | ${r.reach} | ${r.triggers} | ${r.converted} (${percent(r.converted, r.triggers)}) | ${r.writtenBack} | ${r.refused} | ${r.notYetConvertible} |${kindsSeen.map((kind) => ` ${r.others[kind] ?? 0} |`).join("")}`);
+  lines.push(
+    "",
+    "## Conversion (Kept elements into the Blueprint, convert_triggers)",
+    "",
+    `| map | checked against | Kept elements | convert | Kept triggers | convert | written back by the tool | refused | Kept functions | convert | refused | not yet convertible |${kindsSeen.map((kind) => ` ${kind} |`).join("")}`,
+    `|---|---|---|---|---|---|---|---|---|---|---|---|${kindsSeen.map(() => "---|").join("")}`,
+  );
+  for (const r of conversionResults) {
+    const elements = r.triggers + r.functions + r.notYetConvertible;
+    const convert = r.converted + r.functionsConverted;
+    lines.push(
+      `| ${r.label} | ${r.reach} | ${elements} | ${convert} (${percent(convert, elements)}) | ${r.triggers} | ${r.converted} (${percent(r.converted, r.triggers)}) | ${r.writtenBack} | ${r.refused} | ${r.functions} | ${r.functionsConverted} (${percent(r.functionsConverted, r.functions)}) | ${r.functions - r.functionsConverted} | ${r.notYetConvertible} |${kindsSeen.map((kind) => ` ${r.others[kind] ?? 0} |`).join("")}`,
+    );
+  }
   lines.push("", `### Converted triggers the authoring tool doesn't write back, by form (${writeBackFailures.length} triggers)`, "", ...(report.writeBackReasons.length ? report.writeBackReasons.slice(0, 30).map((item) => `- ${item.count} × ${item.key} (e.g. ${item.examples.slice(0, 3).join("; ")})`) : ["None."]));
   lines.push("", `### Refusals, by reason (${conversionRefusals.length} triggers; top 30)`, "", ...report.conversionReasons.slice(0, 30).map((item) => `- ${item.count} × ${item.key} (e.g. ${item.examples.slice(0, 3).join("; ")})`));
+  lines.push("", `### Function refusals, by reason (${functionRefusals.length} functions; top 30)`, "", ...(report.functionReasons.length ? report.functionReasons.slice(0, 30).map((item) => `- ${item.count} × ${item.key} (e.g. ${item.examples.slice(0, 3).join("; ")})`) : ["None."]));
 }
 if (modResults.length) {
   lines.push("", "## Mods (library generator)", "", "| mod | library | functions | native | read refused | Galaxy refused | match the Editor | match but for an older Editor's forms | differ | no Editor Galaxy | disabled |", "|---|---|---|---|---|---|---|---|---|---|---|");

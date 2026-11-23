@@ -23,6 +23,22 @@ describe("spliceMapScript", () => {
     expect(spliceMapScript(content, undefined, blocks.map((block) => block.id)).content).toBe(keptScript);
   });
 
+  it("adds a Blueprint function's declaration and definition in sections of their own where the Kept script has none, and takes them out again", () => {
+    const rule = "//--------------------------------------------------------------------------------------------------";
+    const definition = "void gf_Ping () {\r\n    // Automatic Variable Declarations\r\n}\r\n\r\n";
+    const generated = writeMapScript({ mapName: "x", triggers: { variables: [], triggers: [] } }).replace(
+      `${rule}\r\n// Trigger Variables\r\n`,
+      `${rule}\r\n// Global Function Declarations\r\n${rule}\r\nvoid gf_Ping ();\r\n\r\n${rule}\r\n// Trigger Variables\r\n`,
+    ).replace(`${rule}\r\n// Trigger Initialization\r\n`, `${rule}\r\n// Global Functions\r\n${rule}\r\n${definition}${rule}\r\n// Trigger Initialization\r\n`);
+
+    const { content, blocks } = spliceMapScript(keptScript, generated, []);
+
+    expect(blocks.map((block) => block.id)).toEqual(["function-declarations", "function-declaration:gf_Ping", "functions", "function:gf_Ping"]);
+    expect(content).toContain(`// Global Function Declarations\r\n${rule}\r\nvoid gf_Ping ();\r\n\r\n${rule}\r\n// Trigger Variables\r\n`);
+    expect(content).toContain(`// Global Functions\r\n${rule}\r\n${definition}${rule}\r\n// Trigger: Kept Start\r\n`);
+    expect(spliceMapScript(content, undefined, blocks.map((block) => block.id)).content).toBe(keptScript);
+  });
+
   it("leaves the section the compile added when the author has declared a global in it since", () => {
     const { content, blocks } = spliceMapScript(keptScript, writeMapScript({ mapName: "x", triggers: compiled }), []);
     const edited = content.replace("int gv_count;\r\n", "int gv_count;\r\nbool gv_authorFlag;\r\n");

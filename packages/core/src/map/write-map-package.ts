@@ -863,10 +863,16 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
     const withAuthored = authored ? compileBlueprintTriggers({ ...authored, triggers: holdBlueprintTriggers(authored.triggers, keptHolds(resolved)) }, generated, { ...(options.libraries ? { libraries: options.libraries } : {}), ...(await keptTriggersOf(outputDir, options.previousRecord)) }) : undefined;
     if (withAuthored && authored) {
       // Written where the package has them, a converted one in place of its Kept original, under the Equivalence Check.
-      out.placeTriggers([...authored.triggers.map(({ trigger }) => `Trigger/${trigger.id}`), ...(authored.variables ?? []).map((variable) => `Variable/${variable.id}`), ...authored.folders.map((folder) => `Category/${folder.id}`)]);
-      for (const { id, scriptName, disabled } of withAuthored.converted) {
-        convertedTriggerParts.add(`trigger:${id}`);
-        if (!disabled) for (const block of ["trigger-variable", "trigger", "trigger-init"]) convertedTriggerParts.add(`galaxy:MapScript.galaxy:${block}:${scriptName}`);
+      out.placeTriggers([
+        ...authored.triggers.map(({ trigger }) => `Trigger/${trigger.id}`),
+        ...(authored.functions ?? []).map(({ fn }) => `FunctionDef/${fn.id}`),
+        ...(authored.variables ?? []).map((variable) => `Variable/${variable.id}`),
+        ...authored.folders.map((folder) => `Category/${folder.id}`),
+      ]);
+      for (const { kind, id, scriptName, disabled } of withAuthored.converted) {
+        convertedTriggerParts.add(`${kind}:${id}`);
+        const blocks = kind === "function" ? ["function-declaration", "function"] : ["trigger-variable", "trigger", "trigger-init"];
+        if (!disabled) for (const block of blocks) convertedTriggerParts.add(`galaxy:MapScript.galaxy:${block}:${scriptName}`);
       }
     }
     out.write("Triggers", withAuthored?.triggers ?? generated.triggers, "triggers");

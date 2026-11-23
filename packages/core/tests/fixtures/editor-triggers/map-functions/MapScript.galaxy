@@ -1,0 +1,66 @@
+//--------------------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------------------
+int gv_inCombatIndicator;
+
+void InitGlobals () {
+}
+
+//--------------------------------------------------------------------------------------------------
+// Global Function Declarations
+//--------------------------------------------------------------------------------------------------
+bool gf_PlayerIsInCombat (int lp_player);
+void gf_AttackwithUnburrowingUnits (int lp_player, unitgroup lp_units);
+void gf_CreateUnburrowingUnits (int lp_qty, string lp_type, int lp_player, point lp_loc);
+
+//--------------------------------------------------------------------------------------------------
+// Global Functions
+//--------------------------------------------------------------------------------------------------
+bool gf_PlayerIsInCombat (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((gv_inCombatIndicator > 0)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void gf_AttackwithUnburrowingUnits (int lp_player, unitgroup lp_units) {
+    // Variable Declarations
+    unit lv_u;
+
+    // Automatic Variable Declarations
+    unitgroup autoC43E849B_g;
+    int autoC43E849B_u;
+
+    // Variable Initialization
+
+    // Implementation
+    autoC43E849B_g = lp_units;
+    autoC43E849B_u = UnitGroupCount(autoC43E849B_g, c_unitCountAll);
+    for (;; autoC43E849B_u -= 1) {
+        lv_u = UnitGroupUnitFromEnd(autoC43E849B_g, autoC43E849B_u);
+        if (lv_u == null) { break; }
+        UnitSetOwner(lv_u, lp_player, true);
+        libNtve_gf_PauseUnit(lv_u, false);
+        UnitIssueOrder(lv_u, Order(AbilityCommand("BurrowZerglingUp", 0)), c_orderQueueReplace);
+        AISetUnitScriptControlled(lv_u, false);
+        AIAttackWaveUseUnit(lp_player, lv_u);
+    }
+    AIAttackWaveSend(lp_player, 0, false);
+}
+
+void gf_CreateUnburrowingUnits (int lp_qty, string lp_type, int lp_player, point lp_loc) {
+    // Variable Declarations
+    unit lv_u;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    libNtve_gf_CreateUnitsAtPoint2(lp_qty, lp_type, 0, lp_player, lp_loc);
+    gf_AttackwithUnburrowingUnits(lp_player, UnitLastCreatedGroup());
+}
+

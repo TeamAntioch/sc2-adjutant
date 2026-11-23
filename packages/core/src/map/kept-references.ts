@@ -10,7 +10,7 @@ import type { BlueprintTrigger } from "../domain/blueprint-trigger.js";
 import type { KeptKind, KeptReference, MissionBlueprint } from "../domain/mission-blueprint.js";
 import { editorForm } from "../triggers/splice-map-script.js";
 import { ITEM_LINE, recordedItemKey } from "../triggers/splice-triggers.js";
-import { editorGlobalName, editorTriggerName, type TriggerDocument } from "../triggers/trigger-model.js";
+import { editorGlobalName, editorTriggerName, galaxyIdentifier, type TriggerDocument } from "../triggers/trigger-model.js";
 import { elementIdentifier, gameDataEntries, packageFiles, readPackageText as read, triggerStringNames } from "./kept-package.js";
 
 /** One Kept Reference's problem: `index` into the Blueprint's `kept`. */
@@ -67,6 +67,15 @@ export function triggerTreeScriptNames(triggers: string, strings: readonly strin
   for (const text of strings) for (const element of triggerElementsIn(triggers, text)) if (element.name !== undefined) add(element);
   // A name only an Identifier gives is the same in every locale.
   for (const element of triggerElementsIn(triggers, "")) add(element);
+  // A function (gf_ and its Identifier, else its name's), which a Mission Blueprint may convert (ADR-0026).
+  const tables = strings.map(triggerStringNames);
+  for (const match of triggers.matchAll(/<Element Type="FunctionDef" Id="([0-9A-F]{8})"(\/?)>/g)) {
+    const close = match[2] ? match.index! : triggers.indexOf("</Element>", match.index!);
+    const identifier = elementIdentifier(triggers.slice(match.index!, close < 0 ? undefined : close));
+    const names = [...new Set([...tables.map((table) => table.get(`FunctionDef:${match[1]}`)).filter((name) => name !== undefined), ...(identifier === undefined ? [] : [""])])];
+    const scriptNames = [...new Set(names.map((name) => `gf_${identifier ?? galaxyIdentifier(name)}`))];
+    if (scriptNames.length > 0) named.set(`FunctionDef:${match[1]}`, scriptNames);
+  }
   const items = (body: string): [string, string][] => [...body.matchAll(ITEM_LINE())].map((match) => [match[1]!, match[2]!]);
   const folders = new Map([...triggers.matchAll(/<Element Type="Category" Id="([0-9A-F]{8})">([\s\S]*?)<\/Element>/g)].map((match) => [match[1]!, items(match[2]!)]));
   const root = /<Root>([\s\S]*?)<\/Root>/.exec(triggers);

@@ -7,14 +7,24 @@
 // variable, or another Blueprint element) is its Id alone, as the Editor writes it. Names sit
 // beside the bodies, and a text value's words in `strings`, keyed by its Param
 // (`Param/Value/<id>`), as a Mod Blueprint's do. Folders are the Blueprint's `triggerFolders`.
+//
+// A file holds one element, by its `kind`: a trigger, or a function, whose interface is a library
+// function's (library-interface.ts) and whose body is its own variables and actions.
 
 import { z } from "zod";
 
 import { StringsSchema } from "./entry-strings.js";
-import { ElementId, ElementRef, MAP_GUI } from "./library-interface.js";
+import { ElementId, ElementRef, FUNCTION_FLAGS, FUNCTION_KINDS, MAP_GUI, MAP_TYPES, MapElementRef, SubFunctionSlotSchema } from "./library-interface.js";
 
 /** A GameStrings file a Blueprint trigger's text values are in: `<locale>.SC2Data/LocalizedData/GameStrings.txt`. */
 const GAME_STRINGS = /^[a-zA-Z]{4}\.SC2Data\/LocalizedData\/GameStrings\.txt$/;
+
+/** Each file of an element's strings checked as a GameStrings file. */
+function gameStringsFiles(strings: Readonly<Record<string, unknown>> | undefined, context: z.RefinementCtx): void {
+  for (const file of Object.keys(strings ?? {})) {
+    if (!GAME_STRINGS.test(file)) context.addIssue({ code: "custom", path: ["strings", file], message: "An element's strings are its text values' words, in a GameStrings file (enUS.SC2Data/LocalizedData/GameStrings.txt)" });
+  }
+}
 
 /** A trigger element (`<Element Type="Trigger">`), as the Editor saves it. */
 export const BlueprintTriggerSchema = z
@@ -40,15 +50,75 @@ export const BlueprintTriggerSchema = z
     strings: StringsSchema.optional(),
   })
   .strict()
-  .superRefine((trigger, context) => {
-    for (const file of Object.keys(trigger.strings ?? {})) {
-      if (!GAME_STRINGS.test(file)) context.addIssue({ code: "custom", path: ["strings", file], message: "A trigger's strings are its text values' words, in a GameStrings file (enUS.SC2Data/LocalizedData/GameStrings.txt)" });
-    }
-  });
+  .superRefine((trigger, context) => gameStringsFiles(trigger.strings, context));
 export type BlueprintTrigger = z.infer<typeof BlueprintTriggerSchema>;
 
+/** A map function's parameter (`<Element Type="ParamDef">`), as a library function's is (LibraryParameterSchema), the map's own preset types by Id. */
+const BlueprintParameterSchema = z
+  .object({
+    id: ElementId,
+    /** Its name, as the Editor shows it (ParamDef/Name/<id>). */
+    name: z.string(),
+    identifier: z.string().min(1).optional(),
+    type: MAP_TYPES.TypeSpecSchema,
+    default: MAP_GUI.HeldValueSchema.optional(),
+    /** The preset its values are limited to (`<Preset Type="Preset">`), or the presets, where there are several. */
+    preset: z.union([MapElementRef, z.array(MapElementRef).min(2)]).optional(),
+    /** ParamFlagPreload: what it names is preloaded. */
+    preload: z.boolean().optional(),
+    limits: z.string().optional(),
+  })
+  .strict();
+
+/**
+ * A map function (`<Element Type="FunctionDef">`), as the Editor saves it: its interface as a
+ * library function's (LibraryFunctionSchema: its kind, flags, return type, parameters and block
+ * slots), its own variables and actions, and its text values' words. Its Galaxy is gf_ and its
+ * identifier, else its name's.
+ */
+export const BlueprintFunctionSchema = z
+  .object({
+    kind: z.literal("function"),
+    id: ElementId,
+    /** Its name, as the Editor's function list shows it (FunctionDef/Name/<id>). */
+    name: z.string().min(1),
+    identifier: z.string().regex(/^[A-Za-z_][A-Za-z0-9_]*$/, "An identifier is a Galaxy name: letters, digits and _").optional(),
+    /** What it is in the Editor (FlagAction, FlagCall, FlagCondition, FlagEvent): an action, a value (function), a condition or an event. */
+    functionKind: z.enum(FUNCTION_KINDS),
+    /** Its other flags (FlagCreateThread is createThread). */
+    flags: z.array(z.enum(FUNCTION_FLAGS)).default([]),
+    /** Its grammar and hint, as the Editor's function list shows them (FunctionDef/Grammar/<id>, FunctionDef/Hint/<id>). */
+    grammar: z.string().optional(),
+    hint: z.string().optional(),
+    /** Its icon in the function list, a Label as `<library>/<id>`: it changes no Galaxy. */
+    label: ElementRef.optional(),
+    /** The part of a campaign it is filed under (`<Section>`): it changes no Galaxy. */
+    section: z.string().min(1).optional(),
+    disabled: z.boolean().optional(),
+    deprecated: z.boolean().optional(),
+    internal: z.boolean().optional(),
+    returns: MAP_TYPES.TypeSpecSchema.optional(),
+    parameters: z.array(BlueprintParameterSchema).default([]),
+    /** Its own block slots, for a block function such as an If Then. */
+    subFunctions: z.array(SubFunctionSlotSchema).default([]),
+    variables: z.array(MAP_GUI.GuiVariableSchema).default([]),
+    actions: z.array(MAP_GUI.GuiStatementSchema).default([]),
+    /** Its text values' words, by GameStrings file, each keyed by the Param holding it (`Param/Value/<id>`). */
+    strings: StringsSchema.optional(),
+  })
+  .strict()
+  .superRefine((fn, context) => {
+    gameStringsFiles(fn.strings, context);
+    if (fn.flags.includes("native")) context.addIssue({ code: "custom", path: ["flags"], message: "A Mission's function is GUI: a native one's body is Galaxy, which a Mission Blueprint doesn't hold" });
+  });
+export type BlueprintFunction = z.infer<typeof BlueprintFunctionSchema>;
+
+/** Any element a Mission Blueprint's trigger element file holds, by its kind. */
+export const BlueprintElementSchema = z.discriminatedUnion("kind", [BlueprintTriggerSchema, BlueprintFunctionSchema]);
+export type BlueprintElement = z.infer<typeof BlueprintElementSchema>;
+
 /** An item a Blueprint Trigger Folder files: one of the Blueprint's triggers, globals or other folders, as `<kind>:<id>`. */
-export const BlueprintFolderItem = z.string().regex(/^(trigger|variable|category):[0-9A-F]{8}$/, "An item is trigger:<id>, variable:<id> or category:<id>, a Blueprint trigger, global or folder by its element Id");
+export const BlueprintFolderItem = z.string().regex(/^(trigger|function|variable|category):[0-9A-F]{8}$/, "An item is trigger:<id>, function:<id>, variable:<id> or category:<id>, a Blueprint trigger, function, global or folder by its element Id");
 
 /** A Trigger Folder (an Editor Category) of the Blueprint's own triggers: its name, its icon and what it files, in order. */
 export const BlueprintTriggerFolderSchema = z
