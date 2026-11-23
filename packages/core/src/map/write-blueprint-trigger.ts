@@ -228,6 +228,7 @@ export async function writeBlueprintTrigger(workspace: Workspace, blueprintPath:
     ...others.flatMap(({ trigger }) => blueprintTriggerIds(trigger)),
     ...(authored.variables ?? []).flatMap((variable) => [variable.id, ...(variable.value ? heldIds(variable.value) : [])]),
     ...(authored.functions ?? []).flatMap(({ fn }) => blueprintFunctionIds(fn)),
+    ...(authored.comments ?? []).map(({ comment }) => comment.id),
     ...authored.folders.map((folder) => folder.id),
   ]);
   const { trigger, calls, keptCalls } = authorTrigger(input, { libraries, map, taken, ...(previous ? { previous: previous.trigger } : {}) });
