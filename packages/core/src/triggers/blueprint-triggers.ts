@@ -45,7 +45,7 @@ export type AuthoredTriggers = {
   readonly folders: readonly BlueprintTriggerFolder[];
 };
 
-/** Whether the Blueprint declares any trigger element of its own: a trigger, a function, a global or a folder. */
+/** Whether the Blueprint declares any trigger element of its own: a trigger, a function, a comment, a global or a folder. */
 export const hasAuthoredTriggers = (authored: AuthoredTriggers | undefined): authored is AuthoredTriggers =>
   authored !== undefined && authored.triggers.length + (authored.functions ?? []).length + (authored.comments ?? []).length + (authored.variables ?? []).length + authored.folders.length > 0;
 
@@ -580,7 +580,7 @@ export type CompiledBlueprintTriggers = {
   readonly script: string;
   readonly triggerStrings: Readonly<Record<string, string>>;
   readonly gameStrings: Strings;
-  /** The Kept triggers and functions the Blueprint converts this compile, each by its kind, element Id and Galaxy name, and whether it is disabled (so has no Galaxy). */
+  /** The Kept elements the Blueprint converts this compile (triggers, functions, globals and comments), each by its kind, element Id and Galaxy name, and whether it has no Galaxy (a disabled trigger, a comment, whose name is empty). */
   readonly converted: readonly { readonly kind: "trigger" | "function" | "variable" | "comment"; readonly id: string; readonly scriptName: string; readonly disabled: boolean }[];
 };
 
@@ -766,8 +766,8 @@ function withFunctions(script: string, functions: readonly FunctionGalaxy[]): st
 }
 
 /**
- * The Blueprint elements that are Kept ones converted: each Blueprint trigger or function whose Id a
- * Kept Trigger or FunctionDef in the package has, by its element key (`Trigger/<id>`), with the
+ * The Blueprint elements that are Kept ones converted: each Blueprint trigger, function, comment or
+ * global whose Id a Kept Trigger, FunctionDef, Comment or Variable in the package has, by its element key (`Trigger/<id>`), with the
  * element keys of the Kept one's elements, which it writes over.
  */
 function convertedKept(authored: AuthoredTriggers, kept: KeptTriggers | undefined): Map<string, string[]> {

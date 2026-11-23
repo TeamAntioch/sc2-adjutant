@@ -60,7 +60,7 @@ The **Conversion** table has one row per map:
 | written back by the tool | the converted triggers the authoring tool writes back as they are |
 | refused | the triggers that stay Kept. Each has a reason, listed below |
 | Kept functions, Kept global variables, Kept comments | the same for each kind: how many the map has, and how many convert |
-| not yet convertible | the map's other Kept items, which no conversion reads yet, then one column per kind in the Editor's terms (folder, global variable, comment, record, custom script, preset), the commonest first |
+| not yet convertible | the map's other Kept items, which no conversion reads yet, then one column per kind in the Editor's terms (folder, record, custom script, preset), the commonest first |
 
 **Refused functions, global variables and comments, by reason** list their reasons as the triggers' are; the JSON's `functionRefusals`, `globalRefusals` and `commentRefusals` list each.
 

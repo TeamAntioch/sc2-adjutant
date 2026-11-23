@@ -278,6 +278,9 @@ describe("a Mission's Kept globals and comments", () => {
     expect(blueprint.triggerVariables.map((variable: { name: string }) => variable.name)).toEqual(GLOBALS);
     expect(blueprint.triggerVariables[1]).toMatchObject({ id: "9CC9DD0E", type: { type: "point", array: [{ size: 50 }] } });
     expect(JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), blueprint.triggers[1]), "utf8"))).toEqual({ kind: "comment", id: "2E116177", comment: "Generate colonists" });
+    // The authoring tool reaches each converted global once, from the Blueprint, before any compile.
+    const reach = await missionTriggerReach(mission.workspace, mission.blueprintPath);
+    expect(missionMapReach(reach, reach.authored.triggers).globals.filter((global) => global.name === "ZergPlayers").map((global) => global.id)).toEqual(["819C3330"]);
 
     await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
     expect(await readPackage(mission.mapDir)).toEqual(before);

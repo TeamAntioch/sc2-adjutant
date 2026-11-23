@@ -182,8 +182,13 @@ export async function missionTriggerReach(workspace: Workspace, blueprintPath: s
   const { files, gameStrings } = await packageFiles(blueprintPath);
   const record = await readCompileRecord(blueprintPath);
   const compiled = record ? recordedItemKeys(record.entries) : new Set<string>();
-  // The Blueprint's own triggers and functions are read from its files, not the package's copies.
-  const owned = new Set([...authored.triggers.map(({ trigger }) => `Trigger/${trigger.id}`), ...(authored.functions ?? []).map(({ fn }) => `FunctionDef/${fn.id}`)]);
+  // The Blueprint's own triggers, functions, globals and comments are read from it, not the package's copies.
+  const owned = new Set([
+    ...authored.triggers.map(({ trigger }) => `Trigger/${trigger.id}`),
+    ...(authored.functions ?? []).map(({ fn }) => `FunctionDef/${fn.id}`),
+    ...(authored.variables ?? []).map((variable) => `Variable/${variable.id}`),
+    ...(authored.comments ?? []).map(({ comment }) => `Comment/${comment.id}`),
+  ]);
   const kept = [...libraryItems(files.triggers)].filter(([key]) => !compiled.has(key) && !owned.has(key)).map(([, item]) => item);
   return { blueprint, authored, libraries: await missionLibraries(workspace, blueprint.dependencies ?? []), files, gameStrings, record, compiled, kept };
 }
