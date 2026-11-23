@@ -104,14 +104,15 @@ describe("the hand-edit hook", () => {
     ["a >& redirect to a file", `make >& ${MAP}/log`, [MAP]],
     ["rm of the bare package", `rm -rf ${MAP} missions/y/Other.SC2Mod`, [MAP, "missions/y/Other.SC2Mod"]],
     ["a python write", `python3 -c "open('${MAP}/T', 'w').write('x')"`, [MAP]],
-    // Resolved as the OS resolves it, with a drive letter and backslashes on Windows.
-    ["an absolute path", "perl -pi -e 's/a/b/' /maps/Name.SC2Map/T", [path.resolve("/maps/Name.SC2Map")]],
+    ["an absolute path", "perl -pi -e 's/a/b/' /maps/Name.SC2Map/T", ["/maps/Name.SC2Map"]],
     ["a ~/ path", "touch ~/maps/Name.SC2Map/T", [path.join(os.homedir(), "maps/Name.SC2Map")]],
     ["a redirect after a quoted >", "echo '<a>' > N.SC2Map/T", ["N.SC2Map"]],
     ["sed -i on a quoted package path", `sed -i '' s/a/b/ "missions/x/N.SC2Map/T"`, ["missions/x/N.SC2Map"]],
     ["a quoted python write", `python3 -c "open('missions/x/N.SC2Map/T','w')"`, ["missions/x/N.SC2Map"]],
   ])("notes a Bash command with a write and a package path (%s), keying it as written", async (_, command, packages) => {
-    expect(await noted(await session(), "Bash", { command })).toEqual(packages);
+    const at = await session();
+    // An absolute path is resolved as the OS resolves it in the hook's folder: on Windows, with that folder's drive letter and backslashes.
+    expect(await noted(at, "Bash", { command })).toEqual(packages.map((pkg) => (path.isAbsolute(pkg) ? path.resolve(at.cwd, pkg) : pkg)));
   });
 
   it("notes a failed call as PostToolUseFailure", async () => {
