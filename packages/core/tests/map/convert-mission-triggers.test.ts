@@ -402,6 +402,27 @@ describe("convertKeptTriggers", () => {
     for (const { reason } of conversion.refused) expect(reason).not.toBe("");
   });
 
+  /** The `transmission` save with its trigger Objective (C8093D15) filed in a folder of the author's named `name`, as harbourWith files one. */
+  const inFolder = async (name: string): Promise<KeptPackageFiles> => {
+    const files = await transmission();
+    const triggers = files.triggers.replace(/( *)<Item Type="Trigger" Id="C8093D15"\/>/, '$1<Item Type="Category" Id="5A5AF001"/>').replace("</TriggerData>", '    <Element Type="Category" Id="5A5AF001">\r\n        <Item Type="Trigger" Id="C8093D15"/>\r\n    </Element>\r\n</TriggerData>');
+    return { ...files, triggers, triggerStrings: `${files.triggerStrings}Category/Name/5A5AF001=${name}\r\n` };
+  };
+
+  it("takes a name a folder and a trigger share for the trigger", async () => {
+    const conversion = convertKeptTriggers(await inFolder("Objective"), { triggers: ["Objective"] });
+
+    expect(conversion.converted.map((item) => item.id)).toEqual(["C8093D15"]);
+    expect(conversion.folders.converted).toEqual([]);
+    expect(conversion.folders.refused).toEqual([]);
+  });
+
+  it("refuses a folder that files an item the last compile wrote, a concept's", async () => {
+    const conversion = convertKeptTriggers(await inFolder("Briefing"), { triggers: ["Briefing"], compiled: new Set(["Trigger/C8093D15"]) });
+
+    expect(conversion.folders.refused).toEqual([{ folder: "Briefing", id: "5A5AF001", reason: "it files trigger:C8093D15, which the compile writes for a Blueprint concept and may change: file it elsewhere in the Editor, or leave the folder Kept" }]);
+  });
+
   it("checks the map's global and folder, leaving no Kept element of a kind that doesn't convert", async () => {
     const files = await transmission();
     // The global filed in a folder of the author's, as harbourWith files one.

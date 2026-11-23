@@ -23,7 +23,7 @@ import type { Strings } from "../domain/entry-strings.js";
 import { type GameLibrary, gameTriggerLibraries, type LibraryVariable } from "../mods/library-galaxy.js";
 import { ElementWriter, escapeXml, functionStrings, functionXml, mapLabelLine } from "../mods/library-xml.js";
 import { KeptGalaxyRenderer, type KeptCatalog, type UnknownPart } from "./kept-trigger-galaxy.js";
-import { libraryItems } from "./splice-triggers.js";
+import { itemKind, libraryItems } from "./splice-triggers.js";
 import { CORE_PRIMITIVES } from "./trigger-catalog.js";
 import { elementKey, readTriggersFile, type TriggersFile } from "./triggers-file.js";
 
@@ -295,6 +295,8 @@ function folderTree(
   problems: string[],
   /** Whether the package has a Kept element of this type and Id, which a Blueprint folder may file (one converted from a Kept folder keeps filing what it did). */
   keptHas: (type: string, id: string) => boolean = () => false,
+  /** The items a Kept folder files, as `<kind>:<id>`. */
+  keptFolderItems: (id: string) => readonly string[] = () => [],
 ): { readonly root: readonly string[]; readonly folders: ReadonlyMap<string, BlueprintTriggerFolder>; readonly keptItems: ReadonlySet<string> } {
   const triggers = new Set(authored.triggers.map(({ trigger }) => `trigger:${trigger.id}`));
   const functions = new Set((authored.functions ?? []).map(({ fn }) => `function:${fn.id}`));
@@ -313,6 +315,9 @@ function folderTree(
       // A Kept item the folder files, by its line alone.
       if (!(kind === "category" && folders.has(id)) && !triggers.has(item) && !functions.has(item) && !comments.has(item) && !variables.has(item) && keptHas(LIBRARY_ITEM_TYPES[kind], id)) {
         keptItems.add(item);
+        // A Kept folder filing a Blueprint folder that files it would be a folder inside itself.
+        const back = kind === "category" ? keptFolderItems(id).find((inner) => inner.startsWith("category:") && folders.has(inner.slice("category:".length))) : undefined;
+        if (back !== undefined) problems.push(`the Trigger Folder "${folder.name}" (${folder.id}) files the Kept folder ${id}, which files ${back} of triggerFolders: a folder can't be inside itself`);
         const other = filed.get(item);
         if (other !== undefined) problems.push(`${item} is filed in both ${other} and ${folder.id}: an item is filed once`);
         filed.set(item, folder.id);
@@ -327,8 +332,10 @@ function folderTree(
               ? [comments.has(item), "Blueprint comment the triggers list"]
             : kind === "variable"
               ? [variables.has(item), "global of triggerVariables"]
-              : [folders.has(id), "folder of triggerFolders"];
-      if (!known) problems.push(`the Trigger Folder "${folder.name}" (${folder.id}) files ${item}, which is no ${list}, nor a Kept one`);
+              : kind === "category"
+                ? [folders.has(id), "folder of triggerFolders"]
+                : [false, `Kept ${kind === "structure" ? "record" : kind}`];
+      if (!known) problems.push(`the Trigger Folder "${folder.name}" (${folder.id}) files ${item}, which is no ${list}${list.startsWith("Kept ") ? "" : ", nor a Kept one"}`);
       const other = filed.get(item);
       if (other !== undefined) problems.push(`${item} is filed in both ${other} and ${folder.id}: an item is filed once`);
       filed.set(item, folder.id);
@@ -625,7 +632,12 @@ export function compileBlueprintTriggers(
   const problems: string[] = [];
   const keptOwn = keptElements(kept);
   const generatedFile = readTriggersFile(generated.triggers);
-  const tree = folderTree(authored, problems, (type, id) => keptOwn.has(elementKey(type, id)));
+  const tree = folderTree(
+    authored,
+    problems,
+    (type, id) => keptOwn.has(elementKey(type, id)),
+    (id) => [...(keptOwn.get(elementKey("Category", id)) ?? "").matchAll(/<Item Type="(\w+)"(?: Library="[^"]*")? Id="([0-9A-F]{8})"\/>/g)].map((match) => `${itemKind(match[1]!) ?? match[1]}:${match[2]}`),
+  );
   // A Blueprint trigger with a Kept trigger's Id is that one converted (convert-mission-triggers): it gives the Ids the Kept one's elements have.
   const converting = convertedKept(authored, kept);
   const replaced = new Set([...converting.values()].flat());

@@ -22,7 +22,7 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { type BlueprintComment, type BlueprintElement, BlueprintFolderItem, type BlueprintFunction, type BlueprintTriggerFolder, BlueprintTriggerFolderSchema, BlueprintFunctionSchema, BlueprintTriggerSchema, type BlueprintTrigger } from "../domain/blueprint-trigger.js";
-import { type GuiCall, type GuiStatement, type GuiVariable, heldIds, isComment, MAP_GUI } from "../domain/library-interface.js";
+import { type GuiCall, type GuiStatement, type GuiVariable, heldIds, isComment, LIBRARY_ITEM_TYPES, MAP_GUI } from "../domain/library-interface.js";
 import { type GameLibrary, gameTriggerLibraries } from "../mods/library-galaxy.js";
 import { difference } from "../mods/equivalence.js";
 import { ElementWriter, mapElements, readMapComment, readMapItem, readMapFunctionWhole, readMapGlobal, readMapTrigger, stringTable, UnconvertibleFunctionError } from "../mods/library-xml.js";
@@ -179,7 +179,10 @@ export function convertKeptTriggers(
     else if (already.type === "Comment") refusedComments.push({ comment: already.name, id: already.id, reason });
     else refusedFolders.push({ folder: already.name, id: already.id, reason });
   }
-  const chosen = asked ? kept.filter((item) => asked.includes(item.id) || asked.includes(item.name)) : kept;
+  // A name two kinds share (a folder named for the trigger it files) asks for the first kind of CONVERTIBLE's that has it; an Id for that element.
+  const rank = (type: string): number => [...CONVERTIBLE].indexOf(type);
+  const byName = (item: { readonly type: string; readonly name: string }): boolean => asked!.includes(item.name) && !kept.some((other) => other.name === item.name && rank(other.type) < rank(item.type));
+  const chosen = asked ? kept.filter((item) => asked.includes(item.id) || byName(item)) : kept;
 
   const elements = mapElements(xml);
   const file = readTriggersFile(xml);
@@ -307,7 +310,10 @@ export function convertKeptTriggers(
       refuse(error.reason);
       continue;
     }
-    if (category.kind !== "category") continue;
+    if (category.kind !== "category") {
+      refuse(`it reads as a ${category.kind}, not a folder`);
+      continue;
+    }
     const { name, identifier, label, items: filed } = category.item;
     if (name === undefined) {
       refuse("it has no name in TriggerStrings.txt, which a Blueprint folder has");
@@ -322,7 +328,21 @@ export function convertKeptTriggers(
       refuse(`it files ${other}, a kind of item a Blueprint folder doesn't file yet`);
       continue;
     }
-    const folder: BlueprintTriggerFolder = { id: item.id, name, ...(label ? { label } : {}), items: filed };
+    // An item the last compile wrote is a concept's, which a Blueprint element can't name.
+    const conceptItem = filed.find((each) => {
+      const [kind, id] = each.split(":") as [keyof typeof LIBRARY_ITEM_TYPES, string];
+      return compiled.has(elementKey(LIBRARY_ITEM_TYPES[kind], id));
+    });
+    if (conceptItem !== undefined) {
+      refuse(`it files ${conceptItem}, which the compile writes for a Blueprint concept and may change: file it elsewhere in the Editor, or leave the folder Kept`);
+      continue;
+    }
+    const parsed = BlueprintTriggerFolderSchema.safeParse({ id: item.id, name, ...(label ? { label } : {}), items: filed });
+    if (!parsed.success) {
+      refuse(`it isn't a folder a Mission Blueprint holds: ${parsed.error.issues.map((issue) => `${issue.path.join(".") || "(folder)"}: ${issue.message}`).join("; ")}`);
+      continue;
+    }
+    const folder: BlueprintTriggerFolder = parsed.data;
     const xmlDiffers = difference(`category:${folder.id}`, item.elements.join("\n"), folderXml(folder));
     if (xmlDiffers) {
       refuse(`its XML would be written otherwise than the Editor's: ${xmlDiffers}`);
