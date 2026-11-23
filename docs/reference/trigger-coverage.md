@@ -7,7 +7,7 @@ How much Editor-saved trigger content core can write as the Editor does, and wha
 The script takes package folders and treats each one by what it holds. A folder with a `<Library>` in its `Triggers` and no `MapScript.galaxy` is a mod; anything else with a `Triggers` is a map. A folder with no `Triggers` is skipped with a note on stderr. Files are found case-insensitively, since Blizzard's packages are lower case.
 
 - **A map.** Each `Trigger` and `FunctionDef` in `Triggers` is rendered by the Kept renderer (`src/triggers/kept-trigger-galaxy.ts`), from core's catalog (`src/triggers/trigger-catalog.ts`), the way `tune_kept_triggers` and `outline_kept_trigger` render one. The result is compared with the element's section of `MapScript.galaxy` (`keptElementSpan`), library element names bound from the saved text as the renderer binds them. A `compile-record.json` beside the map package marks the Compiled elements, which are skipped: only Kept ones count. Every call reachable from a Kept element, through its events, conditions, actions and parameters, is also counted by where the called function is defined.
-- **A map's conversion.** Each Kept trigger is converted as `convert_triggers` converts a Mission's (`convertKeptTriggers` in `src/map/convert-mission-triggers.ts`, the converter without its writes; ADR-0026). It's read into a Blueprint element, everything it names is checked in reach, and its Triggers XML and Galaxy are written back and compared with the Editor's, the Equivalence Check the next compile makes. One that passes converts; any other is refused with why. A Mission's package, one with a `blueprint.json` beside it in a Workspace, is checked as its own conversion would be: its compile record's Compiled items are skipped, its holds and its Blueprint's own triggers are taken into account, and the libraries in reach are the game's and the Workspace mods its dependencies load. The Workspace's Plugins aren't loaded, so a Campaign Mod the map doesn't load is only out of reach, where `convert_triggers` adds that it should be in the Blueprint's dependencies. Any other map is checked against the game's libraries alone. Each Kept function is converted the same way (#1032): its XML, its declaration in Global Function Declarations and its definition in Global Functions are compared with the Editor's. The map's other Kept items (globals, folders and the rest) are counted by kind as not yet convertible.
+- **A map's conversion.** Each Kept trigger is converted as `convert_triggers` converts a Mission's (`convertKeptTriggers` in `src/map/convert-mission-triggers.ts`, the converter without its writes; ADR-0026). It's read into a Blueprint element, everything it names is checked in reach, and its Triggers XML and Galaxy are written back and compared with the Editor's, the Equivalence Check the next compile makes. One that passes converts; any other is refused with why. A Mission's package, one with a `blueprint.json` beside it in a Workspace, is checked as its own conversion would be: its compile record's Compiled items are skipped, its holds and its Blueprint's own triggers are taken into account, and the libraries in reach are the game's and the Workspace mods its dependencies load. The Workspace's Plugins aren't loaded, so a Campaign Mod the map doesn't load is only out of reach, where `convert_triggers` adds that it should be in the Blueprint's dependencies. Any other map is checked against the game's libraries alone. Each Kept function is converted the same way (#1032): its XML, its declaration in Global Function Declarations and its definition in Global Functions are compared with the Editor's; each global its declaration and initialization, and each comment filed among the items its XML. The map's other Kept items (folders and the rest) are counted by kind as not yet convertible.
 - **A mod.** Each `FunctionDef` of the mod's library is read (`src/mods/library-xml.ts`) and written (`src/mods/library-galaxy.ts`) as `convert-library` would, and compared with its definition in the Editor's `Base.SC2Data/Lib<id>.galaxy` by the same normalized comparison the Equivalence Check uses (`difference` in `src/mods/equivalence.ts`).
 
 A match means the text is the same as the Editor's, line for line. It doesn't mean the rest render wrong: a render that differs may still be valid Galaxy. The Editor's Galaxy is the oracle here, as #937 decides.
@@ -59,10 +59,10 @@ The **Conversion** table has one row per map:
 | convert | the triggers that would convert, and their share |
 | written back by the tool | the converted triggers the authoring tool writes back as they are |
 | refused | the triggers that stay Kept. Each has a reason, listed below |
-| Kept functions, convert, refused | the same for the map's Kept functions |
+| Kept functions, Kept global variables, Kept comments | the same for each kind: how many the map has, and how many convert |
 | not yet convertible | the map's other Kept items, which no conversion reads yet, then one column per kind in the Editor's terms (folder, global variable, comment, record, custom script, preset), the commonest first |
 
-**Function refusals, by reason** lists the refused functions' reasons as the triggers' are; the JSON's `functionRefusals` lists each.
+**Refused functions, global variables and comments, by reason** list their reasons as the triggers' are; the JSON's `functionRefusals`, `globalRefusals` and `commentRefusals` list each.
 
 **Refusals, by reason** groups the refused triggers' reasons, Ids, names and counts taken out so like ones group, each with examples as `<map>:<trigger name> (<Id>)`. A trigger has one reason: the first the converter meets, in the order it checks (read, reach, XML, Galaxy). A trigger the reader refuses isn't checked further, so fixing its reason can show another. The JSON's `conversionRefusals` lists every refused trigger by map, name and Id, with its whole reason, `notYetConvertible` counts the other items by kind, and `notYetConvertibleItems` lists each by map, kind, name and Id.
 
@@ -199,3 +199,21 @@ The 20 function refusals, by first reason:
 - **XML in another order than ours**: 5 in Mission C, whose FunctionDef's elements the Editor saved in another order than the one it reaches them in (a call before the parameter definition it was given later). Writing them in the saved order is a follow-up.
 - **Galaxy the renderer doesn't write**: 2 functions returning a preset type (`<ReturnType>` with a `<TypeElement>`), the 3 that call them, an If Then Else whose conditions are all disabled, a water value and a doodad value, all in Mission C.
 - **A call that names no function** (`its call <id> names 0 functions`), 1 in Mission C.
+
+### After globals and comments (#1032)
+
+A Kept global converts into the Blueprint's `triggerVariables`, and a comment filed among the map's items into a file of its own. Run on 2026-11-23 over the same corpus:
+
+| map | Kept elements | convert | triggers | functions | globals | comments | not yet convertible |
+|---|---|---|---|---|---|---|---|
+| Mission A | 70 | 44 (63%) | 40 of 42 | 4 of 5 | 0 of 2 | 0 of 0 | 21 |
+| Mission B | 212 | 156 (74%) | 72 of 74 | 58 of 60 | 21 of 27 | 5 of 5 | 46 |
+| Mission C | 376 | 256 (68%) | 82 of 91 | 97 of 113 | 10 of 25 | 67 of 67 | 80 |
+| thanson01.sc2map | 256 | 166 (65%) | 70 of 127 | 11 of 12 | 67 of 76 | 18 of 18 | 23 |
+
+Of the corpus's 914 Kept elements, 622 (68%) convert, from 434: 98 of its 130 globals and all 90 comments. Not yet convertible: 147 folders, 14 records, 5 custom scripts and 4 presets.
+
+The 32 global refusals, by first reason:
+
+- **Galaxy the renderer doesn't write**: 17 of a record or preset type (`<TypeElement>`: 2, 2, 11 in the Missions, 2 in thanson01), 5 objectives (1 in Mission C, 4 in thanson01), a ping and a `<GameType>` in thanson01.
+- **A constant** (8: 4 in Mission B, 3 in Mission C, 1 in thanson01), which the Editor declares in Constants, a section the compile doesn't write yet.

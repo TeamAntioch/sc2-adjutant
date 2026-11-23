@@ -18,7 +18,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { type GuiBody, type GuiCall, type GuiStatement, type GuiValue, type GuiVariable, heldIds, isComment, LIBRARY_ITEM_TYPES, type LibraryFunction, statementIds, type StructMember, type TypeSpec } from "../domain/library-interface.js";
-import { type BlueprintElement, BlueprintElementSchema, type BlueprintFunction, type BlueprintTrigger, type BlueprintTriggerFolder, BlueprintTriggerSchema } from "../domain/blueprint-trigger.js";
+import { type BlueprintComment, type BlueprintElement, BlueprintElementSchema, type BlueprintFunction, type BlueprintTrigger, type BlueprintTriggerFolder, BlueprintTriggerSchema } from "../domain/blueprint-trigger.js";
 import type { Strings } from "../domain/entry-strings.js";
 import { type GameLibrary, gameTriggerLibraries, type LibraryVariable } from "../mods/library-galaxy.js";
 import { ElementWriter, escapeXml, functionStrings, functionXml, mapLabelLine } from "../mods/library-xml.js";
@@ -33,17 +33,21 @@ export type AuthoredTrigger = { readonly file: string; readonly trigger: Bluepri
 /** A Blueprint function element, with the file it was read from (relative to the Blueprint). */
 export type AuthoredFunction = { readonly file: string; readonly fn: BlueprintFunction };
 
-/** The Blueprint's own trigger elements (its triggers and functions), the global variables it declares, and the folders they're filed in. */
+/** A Blueprint comment element, filed in Root or a folder, with the file it was read from (relative to the Blueprint). */
+export type AuthoredComment = { readonly file: string; readonly comment: BlueprintComment };
+
+/** The Blueprint's own trigger elements (its triggers, functions and comments), the global variables it declares, and the folders they're filed in. */
 export type AuthoredTriggers = {
   readonly triggers: readonly AuthoredTrigger[];
   readonly functions?: readonly AuthoredFunction[];
+  readonly comments?: readonly AuthoredComment[];
   readonly variables?: readonly GuiVariable[];
   readonly folders: readonly BlueprintTriggerFolder[];
 };
 
 /** Whether the Blueprint declares any trigger element of its own: a trigger, a function, a global or a folder. */
 export const hasAuthoredTriggers = (authored: AuthoredTriggers | undefined): authored is AuthoredTriggers =>
-  authored !== undefined && authored.triggers.length + (authored.functions ?? []).length + (authored.variables ?? []).length + authored.folders.length > 0;
+  authored !== undefined && authored.triggers.length + (authored.functions ?? []).length + (authored.comments ?? []).length + (authored.variables ?? []).length + authored.folders.length > 0;
 
 /** A Blueprint function as the library writer and reader have one: its interface (LibraryFunction) and its GUI body. */
 export function libraryForm(fn: BlueprintFunction): { readonly fn: LibraryFunction; readonly body: GuiBody } {
@@ -127,7 +131,8 @@ export async function readAuthoredTriggers(
   );
   const triggers = elements.flatMap(({ file, element }) => (element.kind === "trigger" ? [{ file, trigger: element }] : []));
   const functions = elements.flatMap(({ file, element }) => (element.kind === "function" ? [{ file, fn: element }] : []));
-  return { triggers, functions, variables: blueprint.triggerVariables ?? [], folders: blueprint.triggerFolders ?? [] };
+  const comments = elements.flatMap(({ file, element }) => (element.kind === "comment" ? [{ file, comment: element }] : []));
+  return { triggers, functions, comments, variables: blueprint.triggerVariables ?? [], folders: blueprint.triggerFolders ?? [] };
 }
 
 /** A reference line in a trigger element: `<Event Type="FunctionCall" Id="…"/>`, a comment's `Type="Comment"`. */
@@ -163,7 +168,7 @@ function folderXml(folder: BlueprintTriggerFolder): string {
 }
 
 /** An item a Blueprint folder files, `<kind>:<id>`, as its kind and Id. */
-type FolderItem = { readonly kind: "trigger" | "function" | "variable" | "category"; readonly id: string };
+type FolderItem = { readonly kind: "trigger" | "function" | "comment" | "variable" | "category"; readonly id: string };
 const parseItem = (item: string): FolderItem => {
   const [kind, id] = item.split(":") as [FolderItem["kind"], string];
   return { kind, id };
@@ -288,6 +293,7 @@ export class BlueprintTriggerError extends Error {
 function folderTree(authored: AuthoredTriggers, problems: string[]): { readonly root: readonly string[]; readonly folders: ReadonlyMap<string, BlueprintTriggerFolder> } {
   const triggers = new Set(authored.triggers.map(({ trigger }) => `trigger:${trigger.id}`));
   const functions = new Set((authored.functions ?? []).map(({ fn }) => `function:${fn.id}`));
+  const comments = new Set((authored.comments ?? []).map(({ comment }) => `comment:${comment.id}`));
   const variables = new Set((authored.variables ?? []).map((variable) => `variable:${variable.id}`));
   const folders = new Map<string, BlueprintTriggerFolder>();
   for (const folder of authored.folders) {
@@ -303,6 +309,8 @@ function folderTree(authored: AuthoredTriggers, problems: string[]): { readonly 
           ? [triggers.has(item), "Blueprint trigger the triggers list"]
           : kind === "function"
             ? [functions.has(item), "Blueprint function the triggers list"]
+            : kind === "comment"
+              ? [comments.has(item), "Blueprint comment the triggers list"]
             : kind === "variable"
               ? [variables.has(item), "global of triggerVariables"]
               : [folders.has(id), "folder of triggerFolders"];
@@ -323,7 +331,7 @@ function folderTree(authored: AuthoredTriggers, problems: string[]): { readonly 
       seen.add(at);
     }
   }
-  const root = [...authored.folders.map((folder) => `category:${folder.id}`), ...variables, ...functions, ...triggers].filter((item) => !filed.has(item));
+  const root = [...authored.folders.map((folder) => `category:${folder.id}`), ...variables, ...functions, ...triggers, ...comments].filter((item) => !filed.has(item));
   return { root, folders };
 }
 
@@ -345,6 +353,7 @@ function checkIds(authored: AuthoredTriggers, kept: ReadonlyMap<string, string>,
   };
   for (const entry of authored.triggers) for (const id of blueprintTriggerIds(entry.trigger)) check(id, describeTrigger(entry));
   for (const entry of authored.functions ?? []) for (const id of blueprintFunctionIds(entry.fn)) check(id, describeFunction(entry));
+  for (const { file, comment } of authored.comments ?? []) check(comment.id, `the Blueprint comment ${comment.id} (${file})`);
   for (const variable of authored.variables ?? []) for (const id of [variable.id, ...(variable.value ? heldIds(variable.value) : [])]) check(id, describeGlobal(variable));
   for (const folder of authored.folders) check(folder.id, `the Trigger Folder "${folder.name}"`);
 }
@@ -572,7 +581,7 @@ export type CompiledBlueprintTriggers = {
   readonly triggerStrings: Readonly<Record<string, string>>;
   readonly gameStrings: Strings;
   /** The Kept triggers and functions the Blueprint converts this compile, each by its kind, element Id and Galaxy name, and whether it is disabled (so has no Galaxy). */
-  readonly converted: readonly { readonly kind: "trigger" | "function"; readonly id: string; readonly scriptName: string; readonly disabled: boolean }[];
+  readonly converted: readonly { readonly kind: "trigger" | "function" | "variable" | "comment"; readonly id: string; readonly scriptName: string; readonly disabled: boolean }[];
 };
 
 /**
@@ -613,6 +622,7 @@ export function compileBlueprintTriggers(
   // Triggers: the Root lines, then the elements, depth first.
   const byId = new Map(authored.triggers.map((entry) => [entry.trigger.id, entry]));
   const functionsById = new Map((authored.functions ?? []).map((entry) => [entry.fn.id, entry]));
+  const commentsById = new Map((authored.comments ?? []).map((entry) => [entry.comment.id, entry]));
   const globalsById = new Map((authored.variables ?? []).map((variable) => [variable.id, variable]));
   const order: AuthoredTrigger[] = [];
   const functionOrder: AuthoredFunction[] = [];
@@ -631,6 +641,12 @@ export function compileBlueprintTriggers(
       globalOrder.push(variable);
       const writer = new ElementWriter(undefined, ELEMENT);
       writer.variable(variable);
+      elements.push(...writer.elements);
+      return;
+    }
+    if (kind === "comment") {
+      const writer = new ElementWriter(undefined, ELEMENT);
+      writer.statement(commentsById.get(id)!.comment);
       elements.push(...writer.elements);
       return;
     }
@@ -715,9 +731,11 @@ export function compileBlueprintTriggers(
   script = insertAt(script, inits.index + inits[0].length, written.map(({ name }) => `    ${name}_Init();\r\n`).join(""));
   const converted = [...converting.keys()].map((key) => {
     const [type, id] = key.split("/") as [string, string];
-    return type === "FunctionDef"
-      ? { kind: "function" as const, id, scriptName: renderer.functionName(id), disabled: false }
-      : { kind: "trigger" as const, id, scriptName: renderer.triggerName(id), disabled: byId.get(id)!.trigger.disabled === true };
+    if (type === "FunctionDef") return { kind: "function" as const, id, scriptName: renderer.functionName(id), disabled: false };
+    if (type === "Variable") return { kind: "variable" as const, id, scriptName: renderer.variableGalaxyName(id), disabled: false };
+    // A comment has no Galaxy.
+    if (type === "Comment") return { kind: "comment" as const, id, scriptName: "", disabled: true };
+    return { kind: "trigger" as const, id, scriptName: renderer.triggerName(id), disabled: byId.get(id)!.trigger.disabled === true };
   });
   return { triggers, script, triggerStrings, gameStrings, converted };
 }
@@ -755,7 +773,12 @@ function withFunctions(script: string, functions: readonly FunctionGalaxy[]): st
 function convertedKept(authored: AuthoredTriggers, kept: KeptTriggers | undefined): Map<string, string[]> {
   const out = new Map<string, string[]>();
   if (!kept) return out;
-  const keys = new Set([...authored.triggers.map(({ trigger }) => elementKey("Trigger", trigger.id)), ...(authored.functions ?? []).map(({ fn }) => elementKey("FunctionDef", fn.id))]);
+  const keys = new Set([
+    ...authored.triggers.map(({ trigger }) => elementKey("Trigger", trigger.id)),
+    ...(authored.functions ?? []).map(({ fn }) => elementKey("FunctionDef", fn.id)),
+    ...(authored.comments ?? []).map(({ comment }) => elementKey("Comment", comment.id)),
+    ...(authored.variables ?? []).map((variable) => elementKey("Variable", variable.id)),
+  ]);
   for (const [key, item] of libraryItems(kept.triggers)) {
     if (kept.compiled.has(key) || !keys.has(elementKey(item.type, item.id))) continue;
     out.set(

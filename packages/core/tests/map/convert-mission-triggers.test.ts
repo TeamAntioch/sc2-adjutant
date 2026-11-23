@@ -262,6 +262,42 @@ describe("a Mission's Kept functions", () => {
   });
 });
 
+describe("a Mission's Kept globals and comments", () => {
+  const GLOBALS = ["ZergPlayers", "EscortRouteRallyPoints", "ConvoyGuardCyclingLineIndex", "ColonistsDeathQuota"];
+  const COMMENTS = ["510996FC", "2E116177"];
+
+  it("converts Kept globals into the Blueprint's triggerVariables and comments into files, and compiles them back to the same Triggers, Galaxy and names", async () => {
+    const mission = await harbourWith("globals-comments");
+    const before = await readPackage(mission.mapDir);
+
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: [...GLOBALS, ...COMMENTS] });
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted.map((item) => [item.kind, item.name])).toEqual([...GLOBALS.map((name) => ["global", name]), ...COMMENTS.map((id) => ["comment", id])]);
+    const blueprint = JSON.parse(await readFile(mission.blueprintPath, "utf8"));
+    expect(blueprint.triggerVariables.map((variable: { name: string }) => variable.name)).toEqual(GLOBALS);
+    expect(blueprint.triggerVariables[1]).toMatchObject({ id: "9CC9DD0E", type: { type: "point", array: [{ size: 50 }] } });
+    expect(JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), blueprint.triggers[1]), "utf8"))).toEqual({ kind: "comment", id: "2E116177", comment: "Generate colonists" });
+
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    const record = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "compile-record.json"), "utf8"));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "variable", id: "67430AD6" }));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "comment", id: "510996FC" }));
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+  }, 60_000);
+
+  it("refuses a constant global, naming why", async () => {
+    const read = (file: string): Promise<string> => readFile(path.join(CUTS, "custom-script", file), "utf8");
+    const files: KeptPackageFiles = { triggers: await read("Triggers"), triggerStrings: await read("TriggerStrings.txt"), script: await read("MapScript.galaxy"), gameStrings: new Map() };
+
+    const conversion = convertKeptTriggers(files);
+
+    expect(conversion.globals.refused).toContainEqual(expect.objectContaining({ reason: "it is a constant, which the Editor declares in Constants, a section the compile doesn't write yet" }));
+  });
+});
+
 describe("a Kept trigger naming its Campaign Mod's globals", () => {
   const CMPN = { id: "cmpn-story", name: "Cmpn-Story", library: "Cmpn" };
 
@@ -341,10 +377,16 @@ describe("convertKeptTriggers", () => {
     for (const { reason } of conversion.refused) expect(reason).not.toBe("");
   });
 
-  it("names each Kept element of a kind that doesn't convert yet", async () => {
-    const conversion = convertKeptTriggers(await transmission());
+  it("checks the map's global, and names each Kept element of a kind that doesn't convert yet", async () => {
+    const files = await transmission();
+    // The global filed in a folder of the author's, as harbourWith files one.
+    const filed = files.triggers.replace(/( *)<Item Type="Variable" Id="C7C0764E"\/>/, '$1<Item Type="Category" Id="5A5AF001"/>').replace("</TriggerData>", '    <Element Type="Category" Id="5A5AF001">\r\n        <Item Type="Variable" Id="C7C0764E"/>\r\n    </Element>\r\n</TriggerData>');
 
-    expect(conversion.notYetConvertible).toEqual([{ type: "Variable", id: "C7C0764E", name: "objective" }]);
+    const conversion = convertKeptTriggers({ ...files, triggers: filed, triggerStrings: `${files.triggerStrings}Category/Name/5A5AF001=Objectives\r\n` });
+
+    // An objective global's Galaxy the renderer doesn't write yet.
+    expect(conversion.globals.refused).toEqual([{ global: "objective", id: "C7C0764E", reason: "its Galaxy can't be written as the Editor does: it holds a local variable of type objective" }]);
+    expect(conversion.notYetConvertible).toEqual([{ type: "Category", id: "5A5AF001", name: "Objectives" }]);
   });
 
   it("skips the Compiled items", async () => {

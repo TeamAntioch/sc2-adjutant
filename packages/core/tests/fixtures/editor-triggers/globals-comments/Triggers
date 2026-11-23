@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="Variable" Id="819C3330"/>
+        <Item Type="Variable" Id="9CC9DD0E"/>
+        <Item Type="Variable" Id="E96AC71C"/>
+        <Item Type="Comment" Id="510996FC"/>
+        <Item Type="Variable" Id="67430AD6"/>
+        <Item Type="Comment" Id="2E116177"/>
+    </Root>
+    <Element Type="Variable" Id="819C3330">
+        <VariableType>
+            <Type Value="playergroup"/>
+        </VariableType>
+        <Value Type="Param" Id="A5652406"/>
+    </Element>
+    <Element Type="Param" Id="A5652406">
+        <FunctionCall Type="FunctionCall" Id="7FE548CC"/>
+    </Element>
+    <Element Type="FunctionCall" Id="7FE548CC">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000056"/>
+    </Element>
+    <Element Type="Variable" Id="9CC9DD0E">
+        <VariableType>
+            <Type Value="point"/>
+            <ArraySize Dim="0" Value="50"/>
+        </VariableType>
+        <Value Type="Param" Id="BA02B4FA"/>
+    </Element>
+    <Element Type="Param" Id="BA02B4FA">
+        <Preset Type="PresetValue" Library="Ntve" Id="568CBBF1"/>
+    </Element>
+    <Element Type="Variable" Id="E96AC71C">
+        <VariableType>
+            <Type Value="int"/>
+        </VariableType>
+        <Value Type="Param" Id="1856DC0B"/>
+    </Element>
+    <Element Type="Param" Id="1856DC0B">
+        <Value>1</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Comment" Id="510996FC">
+        <Comment>
+            ---
+        </Comment>
+    </Element>
+    <Element Type="Variable" Id="67430AD6">
+        <VariableType>
+            <Type Value="int"/>
+        </VariableType>
+        <Value Type="Param" Id="5B5344DC"/>
+    </Element>
+    <Element Type="Param" Id="5B5344DC">
+        <FunctionCall Type="FunctionCall" Id="666E6629"/>
+    </Element>
+    <Element Type="FunctionCall" Id="666E6629">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="7703744B"/>
+        <Parameter Type="Param" Id="375061F6"/>
+        <Parameter Type="Param" Id="E6E200D6"/>
+        <Parameter Type="Param" Id="EC8DF26F"/>
+        <Parameter Type="Param" Id="066AE7D2"/>
+    </Element>
+    <Element Type="Param" Id="375061F6">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="450AA777"/>
+        <Value>0</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="E6E200D6">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="EAFE0D4F"/>
+        <Value>0</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="EC8DF26F">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="34D9F076"/>
+        <Value>20</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Param" Id="066AE7D2">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="14E02B62"/>
+        <Value>20</Value>
+        <ValueType Type="int"/>
+    </Element>
+    <Element Type="Comment" Id="2E116177">
+        <Comment>
+            Generate colonists
+        </Comment>
+    </Element>
+</TriggerData>

@@ -510,6 +510,18 @@ export type MapTrigger = Omit<BlueprintTrigger, "kind" | "strings">;
  * `<Type>/Name/<id>`), as blueprintTriggerXml writes it, its own references bare; a form this file
  * doesn't write is refused (UnconvertibleFunctionError), saying what it is.
  */
+/** A map's own global (mapElements) with its initial value, as ElementWriter.variable writes it with no library; a form this file doesn't write is refused (UnconvertibleFunctionError). */
+export function readMapGlobal(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): GuiVariable {
+  return new Reader(elements, strings, undefined, id).variable(id);
+}
+
+/** A map's own comment filed in Root or a folder (mapElements), as ElementWriter.statement writes it with no library; refused (UnconvertibleFunctionError) where it holds what a comment among statements doesn't. */
+export function readMapComment(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): { readonly id: string; readonly comment: string } {
+  const comment = new Reader(elements, strings, undefined, id).comment(id);
+  if (!("comment" in comment) || comment.disabled || comment.sub !== undefined) throw new UnconvertibleFunctionError(id, "it is a disabled comment or one in a block slot, which no item of Root or a folder is");
+  return { id: comment.id, comment: comment.comment };
+}
+
 export function readMapTrigger(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): MapTrigger {
   return new Reader(elements, strings, undefined, id).readTrigger();
 }
@@ -713,7 +725,7 @@ class Reader {
     return attr(ref, "Type") === "Comment" ? this.comment(id) : this.call(id);
   }
 
-  private comment(id: string): GuiStatement {
+  comment(id: string): GuiStatement {
     const node = this.element(id, "Comment");
     this.only(node, ["Comment", "SubFunctionType", "Disabled"]);
     const text = node.children.find((child) => child.name === "Comment");
@@ -773,7 +785,7 @@ class Reader {
     return def ? this.held(this.ref(def, true)) : undefined;
   }
 
-  private variable(id: string): GuiVariable {
+  variable(id: string): GuiVariable {
     const node = this.element(id, "Variable");
     this.only(node, ["Identifier", "VariableType", "Value"]);
     const child = (tag: string): XmlNode | undefined => node.children.find((c) => c.name === tag);

@@ -1,0 +1,13 @@
+//--------------------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------------------
+playergroup gv_zergPlayers;
+point[51] gv_escortRouteRallyPoints;
+int gv_convoyGuardCyclingLineIndex;
+int gv_colonistsDeathQuota;
+
+void InitGlobals () {
+    gv_zergPlayers = PlayerGroupEmpty();
+    gv_convoyGuardCyclingLineIndex = 1;
+    gv_colonistsDeathQuota = libNtve_gf_DifficultyValueInt(0, 0, 20, 20);
+}

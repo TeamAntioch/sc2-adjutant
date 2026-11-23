@@ -8,7 +8,7 @@
 // beside the bodies, and a text value's words in `strings`, keyed by its Param
 // (`Param/Value/<id>`), as a Mod Blueprint's do. Folders are the Blueprint's `triggerFolders`.
 //
-// A file holds one element, by its `kind`: a trigger, or a function, whose interface is a library
+// A file holds one element, by its `kind`: a trigger, a comment, or a function, whose interface is a library
 // function's (library-interface.ts) and whose body is its own variables and actions.
 
 import { z } from "zod";
@@ -118,12 +118,16 @@ export const BlueprintFunctionSchema = z
   });
 export type BlueprintFunction = z.infer<typeof BlueprintFunctionSchema>;
 
+/** A comment filed among the map's items, in Root or a folder (`<Element Type="Comment">`): its text, empty for a blank one. It has no Galaxy. */
+export const BlueprintCommentSchema = z.object({ kind: z.literal("comment"), id: ElementId, comment: z.string() }).strict();
+export type BlueprintComment = z.infer<typeof BlueprintCommentSchema>;
+
 /** Any element a Mission Blueprint's trigger element file holds, by its kind. */
-export const BlueprintElementSchema = z.discriminatedUnion("kind", [BlueprintTriggerSchema, BlueprintFunctionSchema]);
+export const BlueprintElementSchema = z.discriminatedUnion("kind", [BlueprintTriggerSchema, BlueprintFunctionSchema, BlueprintCommentSchema]);
 export type BlueprintElement = z.infer<typeof BlueprintElementSchema>;
 
 /** An item a Blueprint Trigger Folder files: one of the Blueprint's triggers, globals or other folders, as `<kind>:<id>`. */
-export const BlueprintFolderItem = z.string().regex(/^(trigger|function|variable|category):[0-9A-F]{8}$/, "An item is trigger:<id>, function:<id>, variable:<id> or category:<id>, a Blueprint trigger, function, global or folder by its element Id");
+export const BlueprintFolderItem = z.string().regex(/^(trigger|function|comment|variable|category):[0-9A-F]{8}$/, "An item is trigger:<id>, function:<id>, comment:<id>, variable:<id> or category:<id>, a Blueprint trigger, function, comment, global or folder by its element Id");
 
 /** A Trigger Folder (an Editor Category) of the Blueprint's own triggers: its name, its icon and what it files, in order. */
 export const BlueprintTriggerFolderSchema = z

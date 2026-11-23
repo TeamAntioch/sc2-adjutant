@@ -2770,6 +2770,8 @@ exports[`the tool list > is the same on a bare machine 1`] = `
                     "enum": [
                       "trigger",
                       "function",
+                      "global",
+                      "comment",
                     ],
                     "type": "string",
                   },
@@ -2798,6 +2800,8 @@ exports[`the tool list > is the same on a bare machine 1`] = `
                     "enum": [
                       "trigger",
                       "function",
+                      "global",
+                      "comment",
                     ],
                     "type": "string",
                   },
@@ -12027,6 +12031,8 @@ exports[`the tool list > is the same on a machine that can do everything, with b
                     "enum": [
                       "trigger",
                       "function",
+                      "global",
+                      "comment",
                     ],
                     "type": "string",
                   },
@@ -12055,6 +12061,8 @@ exports[`the tool list > is the same on a machine that can do everything, with b
                     "enum": [
                       "trigger",
                       "function",
+                      "global",
+                      "comment",
                     ],
                     "type": "string",
                   },

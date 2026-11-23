@@ -1,0 +1,4 @@
+﻿Variable/Name/67430AD6=ColonistsDeathQuota
+Variable/Name/819C3330=ZergPlayers
+Variable/Name/9CC9DD0E=EscortRouteRallyPoints
+Variable/Name/E96AC71C=ConvoyGuardCyclingLineIndex
