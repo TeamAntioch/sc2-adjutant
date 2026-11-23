@@ -783,8 +783,8 @@ function withFunctions(script: string, functions: readonly FunctionGalaxy[]): st
 }
 
 /**
- * The Blueprint elements that are Kept ones converted: each Blueprint trigger, function, comment or
- * global whose Id a Kept Trigger, FunctionDef, Comment or Variable in the package has, by its element key (`Trigger/<id>`), with the
+ * The Blueprint elements that are Kept ones converted: each Blueprint trigger, function, comment, folder or
+ * global whose Id a Kept Trigger, FunctionDef, Comment, Category or Variable in the package has, by its element key (`Trigger/<id>`), with the
  * element keys of the Kept one's elements, which it writes over.
  */
 function convertedKept(authored: AuthoredTriggers, kept: KeptTriggers | undefined): Map<string, string[]> {
