@@ -9,6 +9,10 @@ name: CI
 #
 # Tests that need the game, the Editor or a tool the runner lacks (ImageMagick) skip themselves,
 # as they do on any machine without it.
+#
+# Each OS runs three jobs at once (#5), which together run what `npm test` and `npm run lint` run:
+# core's tests in two shards, and a third job with lint, every other package's tests and the
+# check scripts.
 
 on:
   push:
@@ -24,16 +28,26 @@ concurrency:
 
 jobs:
   test:
-    name: ${{ matrix.os }}
+    name: ${{ matrix.os }} (${{ matrix.part }})
     # Actions minutes are free only for a public repo: while this one is private, every run is skipped.
     if: ${{ !github.event.repository.private }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        part: [core-1, core-2, rest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
+      # Defender scans every file the install and the tests write, and the temp folder the tests
+      # use is on C:, slower than the D: drive the checkout is on.
+      - name: Speed up the Windows file system
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-MpPreference -DisableRealtimeMonitoring $true
+          "TEMP=$env:RUNNER_TEMP" >> $env:GITHUB_ENV
+          "TMP=$env:RUNNER_TEMP" >> $env:GITHUB_ENV
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -53,8 +67,40 @@ jobs:
       - run: npm ci
       - name: Check nothing moved is back, and the pinned, published packages are what's installed
         run: node scripts/check-catalog-moved.mjs --installed
-      # Lint takes about 2 minutes and the tests up to 20 (Windows is the slowest): a hang fails here, not at the job's limit.
-      - run: npm run lint
-        timeout-minutes: 10
-      - run: npm test
+      # Vitest's record of each test file's last duration, so it starts the longest first. Restored
+      # after npm ci, which deletes node_modules.
+      - name: Restore vitest's results
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/*/node_modules/.vite/vitest
+            site/node_modules/.vite/vitest
+          key: vitest-${{ runner.os }}-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: vitest-${{ runner.os }}-${{ matrix.part }}-
+      # A hang fails here, not at the job's limit.
+      - name: Test core (shard ${{ matrix.part == 'core-1' && '1' || '2' }} of 2)
+        if: matrix.part != 'rest'
+        run: npm test -w packages/core -- --shard=${{ matrix.part == 'core-1' && '1' || '2' }}/2
         timeout-minutes: 30
+      - run: npm run lint
+        if: matrix.part == 'rest'
+        timeout-minutes: 10
+      - name: Test every package but core, then run the checks
+        if: matrix.part == 'rest'
+        shell: bash
+        timeout-minutes: 30
+        run: |
+          workspaces=()
+          for folder in packages/*/ site/; do
+            [ "$folder" = packages/core/ ] || workspaces+=(-w "${folder%/}")
+          done
+          npm test "${workspaces[@]}" --if-present
+          npm run test:checks
+      - name: Save vitest's results
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            packages/*/node_modules/.vite/vitest
+            site/node_modules/.vite/vitest
+          key: vitest-${{ runner.os }}-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
