@@ -69,7 +69,10 @@ export function triggerTreeScriptNames(triggers: string, strings: readonly strin
   for (const element of triggerElementsIn(triggers, "")) add(element);
   // A function (gf_ and its Identifier, else its name's), which a Mission Blueprint may convert (ADR-0026).
   const tables = strings.map(triggerStringNames);
+  // The map's own, outside every library it embeds.
+  const libraries = [...triggers.matchAll(/<Library Id="[^"]*">[\s\S]*?<\/Library>/g)].map((match) => [match.index!, match.index! + match[0].length] as const);
   for (const match of triggers.matchAll(/<Element Type="FunctionDef" Id="([0-9A-F]{8})"(\/?)>/g)) {
+    if (libraries.some(([start, end]) => match.index! >= start && match.index! < end)) continue;
     const close = match[2] ? match.index! : triggers.indexOf("</Element>", match.index!);
     const identifier = elementIdentifier(triggers.slice(match.index!, close < 0 ? undefined : close));
     const names = [...new Set([...tables.map((table) => table.get(`FunctionDef:${match[1]}`)).filter((name) => name !== undefined), ...(identifier === undefined ? [] : [""])])];

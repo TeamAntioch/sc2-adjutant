@@ -9,6 +9,7 @@ import { describe, expect, it } from "vitest";
 
 import { compileMission } from "../../src/map/compile-mission.js";
 import { convertKeptTriggers, convertMissionTriggers, type KeptPackageFiles } from "../../src/map/convert-mission-triggers.js";
+import { missionMapReach, missionTriggerReach } from "../../src/map/write-blueprint-trigger.js";
 import { type GameLibrary, gameTriggerLibraries } from "../../src/mods/library-galaxy.js";
 import { packageLibraries } from "../../src/mods/library-reach.js";
 import { CUTS, harbourWith, readPackage, savedAt } from "./harbour-cuts.js";
@@ -233,6 +234,10 @@ describe("a Mission's Kept functions", () => {
     // And again, now that they're Compiled.
     await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
     expect(await readPackage(mission.mapDir)).toEqual(before);
+    // The authoring tool still reaches each by name: from the Blueprint now, not the package.
+    const reach = await missionTriggerReach(mission.workspace, mission.blueprintPath);
+    expect(reach.kept.filter((item) => item.type === "FunctionDef")).toEqual([]);
+    expect(missionMapReach(reach, reach.authored.triggers).functions.map((fn) => fn.name)).toEqual(FUNCTIONS);
   }, 60_000);
 
   it("converts a function one at a time, the other it calls staying Kept", async () => {

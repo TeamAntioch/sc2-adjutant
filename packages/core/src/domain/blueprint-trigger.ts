@@ -110,6 +110,11 @@ export const BlueprintFunctionSchema = z
   .superRefine((fn, context) => {
     gameStringsFiles(fn.strings, context);
     if (fn.flags.includes("native")) context.addIssue({ code: "custom", path: ["flags"], message: "A Mission's function is GUI: a native one's body is Galaxy, which a Mission Blueprint doesn't hold" });
+    // What the map script's writer (the Kept renderer's renderFunction) doesn't write yet, so no compile could.
+    for (const flag of fn.flags.filter((each) => each !== "createThread" && each !== "native")) context.addIssue({ code: "custom", path: ["flags"], message: `A Mission's function with the flag ${flag} isn't written yet: no compile writes its Galaxy` });
+    for (const key of ["disabled", "deprecated", "internal"] as const) if (fn[key]) context.addIssue({ code: "custom", path: [key], message: `A ${key} Mission function isn't written yet: no compile writes its Galaxy` });
+    if (fn.functionKind === "event") context.addIssue({ code: "custom", path: ["functionKind"], message: "A Mission's event function isn't written yet: no compile writes its Galaxy" });
+    if (fn.subFunctions.length > 0) context.addIssue({ code: "custom", path: ["subFunctions"], message: "A Mission's block function (one with block slots) isn't written yet: no compile writes its Galaxy" });
   });
 export type BlueprintFunction = z.infer<typeof BlueprintFunctionSchema>;
 

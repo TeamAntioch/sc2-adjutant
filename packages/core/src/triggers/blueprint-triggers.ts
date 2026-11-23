@@ -691,8 +691,10 @@ export function compileBlueprintTriggers(
   const functionGalaxy: FunctionGalaxy[] = [];
   for (const entry of functionOrder) {
     const definition = renderer.renderFunction(entry.fn.id);
+    const declaration = definition === undefined ? undefined : functionDeclaration(definition, renderer.functionName(entry.fn.id));
     if (definition === undefined) problems.push(`${describeFunction(entry)} can't be written as Galaxy: it holds ${unknownParts(renderer.unknown)}`);
-    else functionGalaxy.push({ declaration: functionDeclaration(definition, renderer.functionName(entry.fn.id)), definition });
+    else if (declaration === undefined) problems.push(`${describeFunction(entry)} can't be written as Galaxy: its definition has no signature to declare it by`);
+    else functionGalaxy.push({ declaration, definition });
   }
   if (problems.length > 0) throw new BlueprintTriggerError(problems);
 
@@ -717,12 +719,11 @@ export function compileBlueprintTriggers(
 /** A function's Galaxy, as the Editor writes it: its declaration (in Global Function Declarations) and its definition (in Global Functions), with the blank line after it. */
 type FunctionGalaxy = { readonly declaration: string; readonly definition: string };
 
-/** A function's declaration, from its definition (renderFunction's): its signature line, ended `;` in place of ` {`. */
-export function functionDeclaration(definition: string, name: string): string {
+/** A function's declaration, from its definition (renderFunction's): its signature line, ended `;` in place of ` {`; undefined where it has none. */
+export function functionDeclaration(definition: string, name: string): string | undefined {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const signature = new RegExp(`^(\\S[^\\r\\n(]* ${escaped} \\([^\\r\\n]*\\)) \\{\\r?$`, "m").exec(definition);
-  if (!signature) throw new Error(`The Galaxy written for ${name} has no signature`);
-  return `${signature[1]};`;
+  return signature ? `${signature[1]};` : undefined;
 }
 
 /**

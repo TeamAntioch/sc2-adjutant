@@ -188,6 +188,12 @@ export function convertKeptTriggers(
       refuse(error.reason);
       continue;
     }
+    // A form the Blueprint's schema doesn't take (an identifier that is no Galaxy name, …) stays Kept.
+    const parsed = BlueprintFunctionSchema.safeParse(fn);
+    if (!parsed.success) {
+      refuse(`it isn't a function a Mission Blueprint holds: ${parsed.error.issues.map((issue) => `${issue.path.join(".") || "(function)"}: ${issue.message}`).join("; ")}`);
+      continue;
+    }
     const target = fileFor(fn.name);
     const own = ownProblems(blueprintReferenceProblems(withRead({ fn: { file: target, fn } }), keptTriggers, libraries), `the Blueprint function "${fn.name}" (${fn.id}, ${target}) `);
     if (own.length > 0) {
@@ -206,20 +212,22 @@ export function convertKeptTriggers(
       continue;
     }
     const name = renderer.functionName(fn.id);
-    const galaxyProblem = [
-      [`function-declaration:${name}`, `${functionDeclaration(definition, name)}\r\n`],
+    const declaration = functionDeclaration(definition, name);
+    const blocks: [string, string | undefined][] = [
+      [`function-declaration:${name}`, declaration === undefined ? undefined : `${declaration}\r\n`],
       [`function:${name}`, definition],
-    ].flatMap(([block, written]) => {
-      const saved = blockText(script, block!);
+    ];
+    const galaxyProblem = blocks.flatMap(([block, written]) => {
+      if (written === undefined) return [`the Galaxy written for ${name} has no signature to declare it by`];
+      const saved = blockText(script, block);
       if (saved === undefined) return [`MapScript.galaxy has no ${block}: save the map in the Editor so it writes one, then convert it`];
-      const differs = difference(`galaxy:MapScript.galaxy:${block}`, saved, written!.replace(/\r?\n/g, eolOf(saved)));
+      const differs = difference(`galaxy:MapScript.galaxy:${block}`, saved, written.replace(/\r?\n/g, eolOf(saved)));
       return differs ? [`its Galaxy would be written otherwise than the Editor's: ${differs}`] : [];
     })[0];
     if (galaxyProblem) {
       refuse(galaxyProblem);
       continue;
     }
-    BlueprintFunctionSchema.parse(fn);
     taken.add(target);
     readFunctions.push({ name: fn.name, id: fn.id, file: target, fn });
   }

@@ -87,7 +87,12 @@ function typeLines(indent: string, tag: string, type: TypeSpec, library: string 
     ...(type.assetType ? [`${indent}    <AssetType Value="${escapeXml(type.assetType)}"/>`] : []),
     ...(type.userType ? [`${indent}    <UserType Value="${escapeXml(type.userType)}"/>`] : []),
     ...(type.constant ? [`${indent}    <Constant/>`] : []),
-    ...(type.array ?? []).map((bound, dim) => `${indent}    <ArraySize Dim="${dim}" ${"size" in bound ? `Value="${bound.size}"` : `Type="Variable" Library="${refParts(bound.variable, library)[0]}" Id="${refParts(bound.variable, library)[1]}"`}/>`),
+    ...(type.array ?? []).map((bound, dim) => {
+      if ("size" in bound) return `${indent}    <ArraySize Dim="${dim}" Value="${bound.size}"/>`;
+      // A map's own constant names no Library.
+      const [lib, id] = refParts(bound.variable, library);
+      return `${indent}    <ArraySize Dim="${dim}" Type="Variable"${lib === undefined ? "" : ` Library="${lib}"`} Id="${id}"/>`;
+    }),
     `${indent}</${tag}>`,
   ];
 }
