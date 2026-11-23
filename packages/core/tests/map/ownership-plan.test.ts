@@ -60,6 +60,12 @@ describe("planOwnership", () => {
     expect(plan([zone("kept")]).keptReferencesRefusal(true, false)).toBeUndefined();
   });
 
+  it("needs no record for Kept References that each name one of the Blueprint's own triggers", () => {
+    const naming = (...editorIds: string[]) => plan([zone()], false, editorIds.map((editorId) => ({ kind: "trigger" as const, editorId })));
+    expect(naming("15E66F7A").keptReferencesRefusal(true, false, new Set(["15E66F7A"]))).toBeUndefined();
+    expect(naming("15E66F7A", "00000029").keptReferencesRefusal(true, false, new Set(["15E66F7A"]))).toContain("has Kept References");
+  });
+
   it("writes triggers beside Kept ground only when it has any to splice in, and needs a Triggers file for them", () => {
     const beside = plan([]);
     expect(beside.writesTriggers(true, false)).toBe(false);

@@ -25,6 +25,7 @@ example-campaign/
 └── missions/ashfall-relay/
     ├── blueprint.json               # zones, a Marine, the magma hazard, an objective, scene cues
     ├── ashfall-relay.md             # the Screenplay, in core's format (docs/screenplay-format.md)
+    ├── triggers/                    # the Mission's own triggers, one file each, written by write_blueprint_trigger
     └── audio/                       # one voice file per line, named by its sound id
 ```
 
@@ -39,6 +40,32 @@ The Campaign Pack's naming template names the conversation `Ch1_ashfall_relay`, 
 - The **Sergeant** speaks from the Marine on the map, because the Blueprint's `speakerAnchors` puts the `SERGEANT` there.
 
 The files in `audio/` are silent placeholders, so the Mission compiles anywhere. On a Mac, `npm run tts -- missions/ashfall-relay/blueprint.json` replaces them with spoken placeholder lines in each character's `say` voice. Run it in your own Workspace, not on the example in the sc2-adjutant repo: it overwrites the committed voice files. It also writes `audio/manifest.json`, which the `.gitignore` keeps out of commits.
+
+## A trigger of its own
+
+No Blueprint concept shakes the camera, and core's trigger catalog has no primitive for it, so the Mission has two triggers of its own (ADR-0026 in sc2-adjutant). From the Crossing Beat on, the ground trembles every 11 seconds. A session wrote them with three MCP tools, and you can do the same for any of the game's functions.
+
+1. **Find the function.** `search_trigger_functions` with `{ "mission": "ashfall-relay", "text": "shake", "kind": "action" }` finds *Shake Camera*, *Shake Camera Using Preset* and *Stop Shaking Camera*, each with its parameters as the Editor shows them. *Shake Camera Using Preset* takes an amplitude and a frequency by preset name.
+2. **Write the periodic trigger.** `write_blueprint_trigger` takes the trigger in the Editor's terms. Functions and parameters go by name, and a parameter you leave out gets the default the Editor gives a new call (here, no blend in or out):
+
+   ```json
+   { "mission": "ashfall-relay", "trigger": {
+       "name": "Ash Tremors", "initiallyOff": true,
+       "events": [{ "function": "Periodic Event", "params": { "Duration": 11 } }],
+       "actions": [{ "function": "Shake Camera Using Preset", "params": { "Player": 1, "Amplitude": "Medium", "Frequency": "Tremor", "Duration": 2 } }] } }
+   ```
+
+   A wrong name is refused in the Editor's terms, with what would fit. Given `"Amplitude": "Strong"`, it lists `"Massive", "Heavy", "Medium", "Light"`. The tool writes `triggers/ash-tremors.json`, adds it to the Blueprint's `triggers`, and gives the trigger an element Id (`D4B9718B`).
+3. **Write what turns it on.** A Beat can hold back only a trigger that starts on Map Initialization, and a periodic trigger doesn't. So a second trigger, *Start Ash Tremors*, turns the first one on at Map Initialization: `Turn Trigger On/Off` with `"Trigger": { "trigger": "Ash Tremors" }` and `"State": "On"`.
+4. **Cue it from the Beat.** The Blueprint's `kept` names *Start Ash Tremors* by its element Id and holds it until the Crossing Beat starts:
+
+   ```json
+   "kept": [{ "id": "start-ash-tremors", "kind": "trigger", "editorId": "15E66F7A", "name": "Start Ash Tremors",
+              "hold": { "until": { "type": "beatStarts", "beatId": "crossing" } } }]
+   ```
+
+   The compile switches off its Map Initialization event, and *Beat - Crossing* runs it.
+5. **Read it back and compile.** `outline_trigger` with `{ "mission": "ashfall-relay", "trigger": "Ash Tremors" }` reads the trigger back in the form `write_blueprint_trigger` takes. Edit that and rewrite it to change the trigger. Calls you leave alone keep their Ids. `compile_map` then writes both triggers into the Map Package's `Triggers` and `MapScript.galaxy`, where the Editor shows them in the Trigger module like any other.
 
 ## Try it
 
