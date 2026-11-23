@@ -52,7 +52,7 @@ describe("a Cinematic whose Set and cast are a package the map doesn't load", ()
     const { workspace, blueprintPath, map } = await novaRoom();
     const [warning, ...others] = aboutNova((await compileMission(workspace, blueprintPath, map)).warnings);
     expect(others).toEqual([]);
-    expect(warning).toContain("cinematics/radio.json");
+    expect(warning).toContain(path.join("radio-field", "cinematics", "radio.json"));
     expect(warning).toContain(": Its Set room (imported from mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_030.SC2Cutscene)");
     expect(warning).toContain("its cast member operator's model SMX3_FirstOfficer");
     expect(warning).toContain("its Light SMX3_Cutscene_MP03_030_Bridge");

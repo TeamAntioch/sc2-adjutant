@@ -19,6 +19,8 @@ beforeEach(async () => {
 afterEach(() => rm(root, { recursive: true, force: true }));
 
 const options = { waitMs: 400, pollMs: 10 };
+/** A live process that isn't this one: the one that started the test run. (pid 1 is no process on Windows, so a lock it held would be taken over.) */
+const OTHER = process.ppid;
 
 /** A pid that is not running: a child that has exited. */
 async function deadPid(): Promise<number> {
@@ -51,9 +53,8 @@ describe("withPackageLock", () => {
   });
 
   it("refuses with the owner's pid and time when another live process holds it", async () => {
-    // pid 1 is always alive and isn't ours.
-    const lock = await plant({ pid: 1, startedAt: new Date().toISOString(), token: "other" });
-    await expect(withPackageLock(pack, async () => "no", options)).rejects.toThrow(/Harbour\.SC2Map is being written by process 1 since \d{4}-/);
+    const lock = await plant({ pid: OTHER, startedAt: new Date().toISOString(), token: "other" });
+    await expect(withPackageLock(pack, async () => "no", options)).rejects.toThrow(new RegExp(`Harbour\\.SC2Map is being written by process ${OTHER} since \\d{4}-`));
     // The other owner's lock is left alone.
     expect(JSON.parse(await readFile(lock, "utf8")).token).toBe("other");
   });
@@ -64,15 +65,15 @@ describe("withPackageLock", () => {
   });
 
   it("takes over a lock older than the stale age, and a torn one", async () => {
-    await plant({ pid: 1, startedAt: new Date(Date.now() - 3 * 3_600_000).toISOString(), token: "old" });
+    await plant({ pid: OTHER, startedAt: new Date(Date.now() - 3 * 3_600_000).toISOString(), token: "old" });
     expect(await withPackageLock(pack, async () => "old taken", { ...options, staleMs: 3_600_000 })).toBe("old taken");
     await plant("{ half a wri");
     expect(await withPackageLock(pack, async () => "torn taken", { ...options, tornMs: 0 })).toBe("torn taken");
   });
 
   it("waits for a lock that is freed in time", async () => {
-    const lock = await plant({ pid: 1, startedAt: new Date().toISOString(), token: "other" });
-    setTimeout(() => void rm(lock), 80);
+    const lock = await plant({ pid: OTHER, startedAt: new Date().toISOString(), token: "other" });
+    setTimeout(() => void rm(lock, { force: true }), 80);
     expect(await withPackageLock(pack, async () => "got it", { waitMs: 2000, pollMs: 10 })).toBe("got it");
   });
 

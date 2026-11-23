@@ -110,7 +110,9 @@ describe("the hand-edit hook", () => {
     ["sed -i on a quoted package path", `sed -i '' s/a/b/ "missions/x/N.SC2Map/T"`, ["missions/x/N.SC2Map"]],
     ["a quoted python write", `python3 -c "open('missions/x/N.SC2Map/T','w')"`, ["missions/x/N.SC2Map"]],
   ])("notes a Bash command with a write and a package path (%s), keying it as written", async (_, command, packages) => {
-    expect(await noted(await session(), "Bash", { command })).toEqual(packages);
+    const at = await session();
+    // An absolute path is resolved as the OS resolves it in the hook's folder: on Windows, with that folder's drive letter and backslashes.
+    expect(await noted(at, "Bash", { command })).toEqual(packages.map((pkg) => (path.isAbsolute(pkg) ? path.resolve(at.cwd, pkg) : pkg)));
   });
 
   it("notes a failed call as PostToolUseFailure", async () => {

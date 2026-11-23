@@ -185,11 +185,11 @@ describe("editKeptObjects on regions", () => {
 });
 
 describe("two sessions writing one package", () => {
-  /** Another live process (pid 1) holds the package's lock. */
+  /** Another live process (the one that started the test run; pid 1 is no process on Windows) holds the package's lock. */
   async function lockedByAnother(mapPackage: string) {
     const lock = await lockFileFor(mapPackage);
     await mkdir(path.dirname(lock), { recursive: true });
-    await writeFile(lock, JSON.stringify({ pid: 1, startedAt: new Date().toISOString(), token: "other" }));
+    await writeFile(lock, JSON.stringify({ pid: process.ppid, startedAt: new Date().toISOString(), token: "other" }));
     return lock;
   }
   const original = { ...lockDefaults };
@@ -199,7 +199,7 @@ describe("two sessions writing one package", () => {
     const { workspace, blueprintPath, mapPackage } = await setup();
     const lock = await lockedByAnother(mapPackage);
     Object.assign(lockDefaults, { waitMs: 50, pollMs: 10 });
-    await expect(editKeptObjects(workspace, blueprintPath, [{ op: "move", object: 101, by: { x: 1 } }])).rejects.toThrow(/Yard\.SC2Map is being written by process 1/);
+    await expect(editKeptObjects(workspace, blueprintPath, [{ op: "move", object: 101, by: { x: 1 } }])).rejects.toThrow(`Yard.SC2Map is being written by process ${process.ppid} since`);
     expect(await readFile(path.join(mapPackage, "Objects"), "utf8")).toBe(OBJECTS);
     await rm(lock);
   });
@@ -210,7 +210,7 @@ describe("two sessions writing one package", () => {
     Object.assign(lockDefaults, { waitMs: 50, pollMs: 10 });
     const output = new PackageOutput(mapPackage);
     output.write("Objects", "compiled");
-    await expect(output.finish()).rejects.toThrow(/Yard\.SC2Map is being written by process 1/);
+    await expect(output.finish()).rejects.toThrow(`Yard.SC2Map is being written by process ${process.ppid} since`);
     expect(await readFile(path.join(mapPackage, "Objects"), "utf8")).toBe(OBJECTS);
     await rm(lock);
     await output.finish();

@@ -107,7 +107,13 @@ describe("a game mod's dependency libraries", () => {
   it("are looked for only when a function's Galaxy is written", async () => {
     root = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-dependencies-"));
     const pkg = path.join(root, "mods", "novacampaign", "NovaCampaign.SC2Mod");
-    await cp(NOVA, pkg, { recursive: true });
+    // In the Editor's spelling, as import-mod lays a Workspace mod out: the fixture's lower-cased
+    // folders hold no TriggerStrings.txt on a case-sensitive volume, and a function with no name is
+    // refused before its Galaxy is written.
+    await mkdir(path.join(pkg, "enUS.SC2Data", "LocalizedData"), { recursive: true });
+    for (const file of ["DocumentInfo", "Triggers"]) await cp(path.join(NOVA, file), path.join(pkg, file));
+    await cp(path.join(NOVA, "enus.sc2data", "localizeddata", "triggerstrings.txt"), path.join(pkg, "enUS.SC2Data", "LocalizedData", "TriggerStrings.txt"));
+    await cp(path.join(NOVA, "base.sc2data"), path.join(pkg, "Base.SC2Data"), { recursive: true });
     const blueprintPath = path.join(root, "mods", "novacampaign", "blueprint.json");
     await writeFile(blueprintPath, JSON.stringify({ id: "novacampaign", kind: "campaign", dependencies: await readDependencies(NOVA) }));
     await saveCompileRecord(blueprintPath, EMPTY_COMPILE_RECORD);

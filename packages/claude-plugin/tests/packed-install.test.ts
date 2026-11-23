@@ -85,6 +85,10 @@ describe("the plugin, with sc2-adjutant installed from its packed tarballs into 
     const packageFile = path.join(workspace, "package.json");
     initialPackage = JSON.parse(await readFile(packageFile, "utf8"));
     machineConfig = existsSync(env.SC2_ADJUTANT_MACHINE_CONFIG) ? JSON.parse(await readFile(env.SC2_ADJUTANT_MACHINE_CONFIG, "utf8")) : undefined;
+    // With no Host Adapter (Linux), init writes no machine config. A mapper's server then reads the
+    // default location, where a missing file is an empty config, but a file the environment names
+    // must exist: so the server here is given an empty one.
+    if (machineConfig === undefined) await writeFile(env.SC2_ADJUTANT_MACHINE_CONFIG, "{}\n");
     // Forward slashes, which npm reads in a file: spec on Windows too.
     const dependencies = Object.fromEntries(packed.map(({ name, tarball }) => [name, `file:${tarball.split(path.sep).join("/")}`]));
     await writeFile(packageFile, JSON.stringify({ ...initialPackage, dependencies }, null, 2));
@@ -99,7 +103,8 @@ describe("the plugin, with sc2-adjutant installed from its packed tarballs into 
       stderr: "pipe",
     });
     transport.stderr?.on("data", (chunk: Buffer) => (launcherErr += chunk));
-    await client.connect(transport);
+    // The launcher says on stderr why it stopped, which a closed connection alone doesn't.
+    await client.connect(transport).catch((error: unknown) => Promise.reject(new Error(`The MCP server didn't start: ${String(error)}\n${launcherErr}`, { cause: error })));
     tools = (await client.listTools()).tools.map((tool) => tool.name);
   }, 600_000);
 

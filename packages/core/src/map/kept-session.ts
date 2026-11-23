@@ -106,7 +106,9 @@ export async function openKeptSession(blueprintPath: string, options: KeptSessio
   /** Refuses, writing nothing, if a file in `files` is no longer as it was when the session opened. */
   const unchanged = async (files: PackageFiles): Promise<void> => {
     for (const [file] of files) {
-      if ((await signature(path.join(mapPackage, ...file.split("/")))) !== (before.get(file) ?? ABSENT)) {
+      // The snapshot's keys have forward slashes; a key spelled with Windows separators is the same file.
+      const key = file.split(path.sep).join("/");
+      if ((await signature(path.join(mapPackage, ...key.split("/")))) !== (before.get(key) ?? ABSENT)) {
         throw new Error(`Not ${options.verb}: ${file} changed since it was read (another session or the Editor wrote it): nothing was written, run the edit again`);
       }
     }
