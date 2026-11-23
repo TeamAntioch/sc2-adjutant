@@ -127,7 +127,7 @@ export const BlueprintElementSchema = z.discriminatedUnion("kind", [BlueprintTri
 export type BlueprintElement = z.infer<typeof BlueprintElementSchema>;
 
 /** An item a Blueprint Trigger Folder files: one of the Blueprint's triggers, globals or other folders, as `<kind>:<id>`. */
-export const BlueprintFolderItem = z.string().regex(/^(trigger|function|comment|variable|category):[0-9A-F]{8}$/, "An item is trigger:<id>, function:<id>, comment:<id>, variable:<id> or category:<id>, a Blueprint trigger, function, comment, global or folder by its element Id");
+export const BlueprintFolderItem = z.string().regex(/^(trigger|function|comment|variable|category|preset|structure|custom-script):[0-9A-F]{8}$/, "An item is trigger:<id>, function:<id>, comment:<id>, variable:<id> or category:<id>, a Blueprint trigger, function, comment, global or folder by its element Id, or preset:<id>, structure:<id> or custom-script:<id>, a Kept one");
 
 /** A Trigger Folder (an Editor Category) of the Blueprint's own triggers: its name, its icon and what it files, in order. */
 export const BlueprintTriggerFolderSchema = z

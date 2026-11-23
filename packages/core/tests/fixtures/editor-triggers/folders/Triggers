@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="Category" Id="01D9CA01"/>
+    </Root>
+    <Element Type="Category" Id="01D9CA01">
+        <Item Type="Variable" Id="5003998F"/>
+        <Item Type="Variable" Id="388B41AD"/>
+        <Item Type="Trigger" Id="325E9AD9"/>
+        <Item Type="Trigger" Id="2532CD57"/>
+        <Item Type="Trigger" Id="CC3ED831"/>
+    </Element>
+    <Element Type="Variable" Id="5003998F">
+        <VariableType>
+            <Type Value="ping"/>
+        </VariableType>
+        <Value Type="Param" Id="AA06E477"/>
+    </Element>
+    <Element Type="Param" Id="AA06E477">
+        <Preset Type="PresetValue" Library="Ntve" Id="362A0F1D"/>
+    </Element>
+    <Element Type="Variable" Id="388B41AD">
+        <VariableType>
+            <Type Value="objective"/>
+        </VariableType>
+        <Value Type="Param" Id="7BA9D6C4"/>
+    </Element>
+    <Element Type="Param" Id="7BA9D6C4">
+        <Preset Type="PresetValue" Library="Ntve" Id="91651C80"/>
+    </Element>
+    <Element Type="Trigger" Id="325E9AD9">
+        <Condition Type="FunctionCall" Id="A3D85C9E"/>
+        <Action Type="FunctionCall" Id="5D9866DC"/>
+        <Action Type="Comment" Id="048627CA"/>
+        <Action Type="FunctionCall" Id="F0B63754"/>
+        <Action Type="FunctionCall" Id="511740BF"/>
+        <Action Type="FunctionCall" Id="ED0C3F7E"/>
+    </Element>
+    <Element Type="Trigger" Id="2532CD57">
+        <Condition Type="FunctionCall" Id="8429C919"/>
+        <Action Type="FunctionCall" Id="17CBCBFC"/>
+        <Action Type="FunctionCall" Id="CCC8022E"/>
+    </Element>
+    <Element Type="Trigger" Id="CC3ED831">
+        <Condition Type="FunctionCall" Id="992FAC0C"/>
+        <Action Type="FunctionCall" Id="D7961815"/>
+        <Action Type="Comment" Id="EDF2F2C8"/>
+        <Action Type="FunctionCall" Id="C45E1D5E"/>
+        <Action Type="Comment" Id="1FD66921"/>
+        <Action Type="FunctionCall" Id="4B94F060"/>
+        <Action Type="FunctionCall" Id="8D5DCDC0"/>
+        <Action Type="Comment" Id="DF450879"/>
+        <Action Type="FunctionCall" Id="27B75171"/>
+    </Element>
+</TriggerData>

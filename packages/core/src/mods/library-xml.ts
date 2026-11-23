@@ -505,6 +505,11 @@ export function mapElements(xml: string): Map<string, XmlNode> {
 /** A map's trigger as a Mission Blueprint holds it (ADR-0026), less its `kind` and its text values' words. */
 export type MapTrigger = Omit<BlueprintTrigger, "kind" | "strings">;
 
+/** One of a map's own items other than a function (mapElements): a folder, preset type, record, comment or custom script, as a library's is read, its own references bare. A form this file doesn't write is refused (UnconvertibleFunctionError). */
+export function readMapItem(elements: LibraryElements, strings: ReadonlyMap<string, string>, type: string, id: string): LibraryItem {
+  return new Reader(elements, strings, undefined, id).readItem(type);
+}
+
 /** A map's own global (mapElements) with its initial value, as ElementWriter.variable writes it with no library; a form this file doesn't write is refused (UnconvertibleFunctionError). */
 export function readMapGlobal(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): GuiVariable {
   return new Reader(elements, strings, undefined, id).variable(id);

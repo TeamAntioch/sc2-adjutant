@@ -21,13 +21,13 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { type BlueprintComment, type BlueprintElement, type BlueprintFunction, BlueprintFunctionSchema, BlueprintTriggerSchema, type BlueprintTrigger } from "../domain/blueprint-trigger.js";
+import { type BlueprintComment, type BlueprintElement, BlueprintFolderItem, type BlueprintFunction, type BlueprintTriggerFolder, BlueprintTriggerFolderSchema, BlueprintFunctionSchema, BlueprintTriggerSchema, type BlueprintTrigger } from "../domain/blueprint-trigger.js";
 import { type GuiCall, type GuiStatement, type GuiVariable, heldIds, isComment, MAP_GUI } from "../domain/library-interface.js";
 import { type GameLibrary, gameTriggerLibraries } from "../mods/library-galaxy.js";
 import { difference } from "../mods/equivalence.js";
-import { ElementWriter, mapElements, readMapComment, readMapFunctionWhole, readMapGlobal, readMapTrigger, stringTable, UnconvertibleFunctionError } from "../mods/library-xml.js";
+import { ElementWriter, mapElements, readMapComment, readMapItem, readMapFunctionWhole, readMapGlobal, readMapTrigger, stringTable, UnconvertibleFunctionError } from "../mods/library-xml.js";
 import { type Workspace, parseMissionBlueprint } from "../plugins/workspace.js";
-import { type AuthoredFunction, type AuthoredTrigger, type AuthoredTriggers, blueprintElementFile, blueprintFunctionIds, blueprintFunctionOf, blueprintFunctionXml, blueprintReferenceProblems, blueprintTriggerIds, blueprintTriggerXml, functionDeclaration, readAuthoredTriggers, unknownParts } from "../triggers/blueprint-triggers.js";
+import { type AuthoredFunction, type AuthoredTrigger, type AuthoredTriggers, blueprintElementFile, blueprintFunctionIds, blueprintFunctionOf, blueprintFunctionXml, blueprintReferenceProblems, blueprintTriggerIds, blueprintTriggerXml, folderXml, functionDeclaration, readAuthoredTriggers, unknownParts } from "../triggers/blueprint-triggers.js";
 import { KeptGalaxyRenderer, textValueKeys } from "../triggers/kept-trigger-galaxy.js";
 import { blockText, keptElementSpan } from "../triggers/splice-map-script.js";
 import { libraryItems, recordedItemKeys } from "../triggers/splice-triggers.js";
@@ -45,7 +45,7 @@ export type ConvertMissionTriggersOptions = {
 };
 
 /** The kinds of Kept element a Mission's conversion reads into its Blueprint. */
-export type ConvertedKind = "trigger" | "function" | "global" | "comment";
+export type ConvertedKind = "trigger" | "function" | "global" | "comment" | "folder";
 
 export type ConvertedMissionTriggers = {
   /** Each element converted, globals and functions first, each in the package's order: its kind, name, element Id and file (relative to the Blueprint; a global's is the Blueprint itself, its triggerVariables). */
@@ -99,7 +99,12 @@ export type KeptTriggerConversion = {
     readonly converted: readonly { readonly name: string; readonly id: string; readonly file: string; readonly comment: BlueprintComment }[];
     readonly refused: readonly { readonly comment: string; readonly id: string; readonly reason: string }[];
   };
-  /** Each Kept item of a kind that doesn't convert yet (a folder, a preset, …): its type in Triggers, Id and name. Listed only when nothing was asked for. */
+  /** The map's Trigger Folders, each that converts into the Blueprint's triggerFolders (filing what it did, Kept or converted), and each left Kept with why. */
+  readonly folders: {
+    readonly converted: readonly { readonly name: string; readonly id: string; readonly folder: BlueprintTriggerFolder }[];
+    readonly refused: readonly { readonly folder: string; readonly id: string; readonly reason: string }[];
+  };
+  /** Each Kept item of a kind that doesn't convert yet (a preset, a record, …): its type in Triggers, Id and name. Listed only when nothing was asked for. */
   readonly notYetConvertible: readonly { readonly type: string; readonly id: string; readonly name: string }[];
 };
 
@@ -149,6 +154,7 @@ export function convertKeptTriggers(
     ...authoredFunctions.map(({ file, fn }) => ({ type: "FunctionDef", file, id: fn.id, name: fn.name })),
     ...authoredGlobals.map((variable) => ({ type: "Variable", file: "triggerVariables", id: variable.id, name: variable.name })),
     ...authoredComments.map(({ file, comment }) => ({ type: "Comment", file, id: comment.id, name: comment.id })),
+    ...authored.folders.map((folder) => ({ type: "Category", file: "triggerFolders", id: folder.id, name: folder.name })),
   ];
   const owned = new Set(inBlueprint.map((each) => elementKey(each.type, each.id)));
   const items = [...libraryItems(xml)]
@@ -161,6 +167,7 @@ export function convertKeptTriggers(
   const refusedFunctions: { function: string; id: string; reason: string }[] = [];
   const refusedGlobals: { global: string; id: string; reason: string }[] = [];
   const refusedComments: { comment: string; id: string; reason: string }[] = [];
+  const refusedFolders: { folder: string; id: string; reason: string }[] = [];
   for (const wanted of asked ?? []) {
     // A name a Kept element still has is that one's: the Blueprint's namesake of another kind isn't asked for.
     const already = kept.some((item) => item.id === wanted || item.name === wanted) ? undefined : inBlueprint.find((each) => each.id === wanted || each.name === wanted);
@@ -169,7 +176,8 @@ export function convertKeptTriggers(
     if (already.type === "Trigger") refused.push({ trigger: already.name, id: already.id, reason });
     else if (already.type === "FunctionDef") refusedFunctions.push({ function: already.name, id: already.id, reason });
     else if (already.type === "Variable") refusedGlobals.push({ global: already.name, id: already.id, reason });
-    else refusedComments.push({ comment: already.name, id: already.id, reason });
+    else if (already.type === "Comment") refusedComments.push({ comment: already.name, id: already.id, reason });
+    else refusedFolders.push({ folder: already.name, id: already.id, reason });
   }
   const chosen = asked ? kept.filter((item) => asked.includes(item.id) || asked.includes(item.name)) : kept;
 
@@ -283,6 +291,44 @@ export function convertKeptTriggers(
     const target = fileFor(`comment ${comment.id}`);
     taken.add(target);
     readComments.push({ name: item.name, id: comment.id, file: target, comment });
+  }
+
+  // Trigger Folders: each files what it did, Kept or converted, by its item lines; it has no Galaxy.
+  const readFolders: { name: string; id: string; folder: BlueprintTriggerFolder }[] = [];
+  for (const item of chosen.filter((each) => each.type === "Category")) {
+    const refuse = (reason: string): void => {
+      refusedFolders.push({ folder: item.name, id: item.id, reason });
+    };
+    let category: ReturnType<typeof readMapItem>;
+    try {
+      category = readMapItem(elements, strings, "Category", item.id);
+    } catch (error) {
+      if (!(error instanceof UnconvertibleFunctionError)) throw error;
+      refuse(error.reason);
+      continue;
+    }
+    if (category.kind !== "category") continue;
+    const { name, identifier, label, items: filed } = category.item;
+    if (name === undefined) {
+      refuse("it has no name in TriggerStrings.txt, which a Blueprint folder has");
+      continue;
+    }
+    if (identifier !== undefined) {
+      refuse("it has an <Identifier>, which a Blueprint folder doesn't hold yet");
+      continue;
+    }
+    const other = filed.find((each) => !BlueprintFolderItem.safeParse(each).success);
+    if (other !== undefined) {
+      refuse(`it files ${other}, a kind of item a Blueprint folder doesn't file yet`);
+      continue;
+    }
+    const folder: BlueprintTriggerFolder = { id: item.id, name, ...(label ? { label } : {}), items: filed };
+    const xmlDiffers = difference(`category:${folder.id}`, item.elements.join("\n"), folderXml(folder));
+    if (xmlDiffers) {
+      refuse(`its XML would be written otherwise than the Editor's: ${xmlDiffers}`);
+      continue;
+    }
+    readFolders.push({ name, id: folder.id, folder });
   }
 
   // Then functions: a trigger converted beside one may call it.
@@ -400,12 +446,13 @@ export function convertKeptTriggers(
     functions: { converted: readFunctions, refused: refusedFunctions },
     globals: { converted: readGlobals, refused: refusedGlobals },
     comments: { converted: readComments, refused: refusedComments },
+    folders: { converted: readFolders, refused: refusedFolders },
     notYetConvertible,
   };
 }
 
 /** The kinds of Kept item that convert, by their type in Triggers. */
-const CONVERTIBLE = new Set(["Trigger", "FunctionDef", "Variable", "Comment"]);
+const CONVERTIBLE = new Set(["Trigger", "FunctionDef", "Variable", "Comment", "Category"]);
 
 /** The script's line ending: the Editor writes CRLF, an older one LF. */
 const eolOf = (text: string): string => (text.includes("\r\n") ? "\r\n" : "\n");
@@ -454,7 +501,7 @@ export async function convertMissionTriggers(workspace: Workspace, blueprintPath
   };
   const dir = path.dirname(blueprintPath);
   const listed = new Set((blueprint.triggers ?? []).map((each) => each.toLowerCase()));
-  const { converted: triggers, refused: refusedTriggers, functions, globals, comments } = convertKeptTriggers(files, {
+  const { converted: triggers, refused: refusedTriggers, functions, globals, comments, folders } = convertKeptTriggers(files, {
     ...(asked ? { triggers: asked } : {}),
     libraries: given ?? (await missionLibraries(workspace, blueprint.dependencies ?? [])),
     ...recordConversionContext(record.entries),
@@ -467,22 +514,29 @@ export async function convertMissionTriggers(workspace: Workspace, blueprintPath
     ...functions.converted.map((item) => ({ kind: "function" as const, ...item, element: item.fn as BlueprintElement })),
     ...triggers.map((item) => ({ kind: "trigger" as const, ...item, element: item.trigger as BlueprintElement })),
   ];
-  if (written.length + globals.converted.length > 0) {
+  if (written.length + globals.converted.length + folders.converted.length > 0) {
     await mkdir(path.join(dir, "triggers"), { recursive: true });
     for (const { element, file: at } of written) await writeFile(path.join(dir, ...at.split("/")), blueprintElementFile(element));
     const raw = JSON.parse(await readFile(blueprintPath, "utf8")) as Record<string, unknown>;
     if (written.length > 0) raw.triggers = [...((raw.triggers as string[] | undefined) ?? []), ...written.map(({ file: at }) => at)];
     // A global is declared in the Blueprint itself.
     if (globals.converted.length > 0) raw.triggerVariables = [...((raw.triggerVariables as unknown[] | undefined) ?? []), ...globals.converted.map(({ variable }) => MAP_GUI.GuiVariableSchema.parse(variable))];
+    // A folder too.
+    if (folders.converted.length > 0) raw.triggerFolders = [...((raw.triggerFolders as unknown[] | undefined) ?? []), ...folders.converted.map(({ folder }) => BlueprintTriggerFolderSchema.parse(folder))];
     await writeFile(blueprintPath, `${JSON.stringify(raw, null, 2)}\n`);
   }
   return {
-    converted: [...globals.converted.map(({ name, id }) => ({ kind: "global" as const, name, id, file: "blueprint.json (triggerVariables)" })), ...written.map(({ kind, name, id, file: at }) => ({ kind, name, id, file: at }))],
+    converted: [
+      ...globals.converted.map(({ name, id }) => ({ kind: "global" as const, name, id, file: "blueprint.json (triggerVariables)" })),
+      ...written.map(({ kind, name, id, file: at }) => ({ kind, name, id, file: at })),
+      ...folders.converted.map(({ name, id }) => ({ kind: "folder" as const, name, id, file: "blueprint.json (triggerFolders)" })),
+    ],
     refused: [
       ...globals.refused.map((item) => ({ kind: "global" as const, element: item.global, reason: item.reason })),
       ...comments.refused.map((item) => ({ kind: "comment" as const, element: item.comment, reason: item.reason })),
       ...functions.refused.map((item) => ({ kind: "function" as const, element: item.function, reason: item.reason })),
       ...refusedTriggers.map((item) => ({ kind: "trigger" as const, element: item.trigger, reason: item.reason })),
+      ...folders.refused.map((item) => ({ kind: "folder" as const, element: item.folder, reason: item.reason })),
     ],
   };
 }

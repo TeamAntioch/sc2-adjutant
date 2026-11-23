@@ -301,6 +301,28 @@ describe("a Mission's Kept globals and comments", () => {
   });
 });
 
+describe("a Mission's Kept Trigger Folders", () => {
+  it("converts a Kept folder into the Blueprint's triggerFolders, still filing its Kept items, and compiles it back to the same Triggers and names", async () => {
+    const mission = await harbourWith("folders");
+    const before = await readPackage(mission.mapDir);
+
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: ["Main Objective - Reach Hanson"] });
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted).toEqual([{ kind: "folder", name: "Main Objective - Reach Hanson", id: "01D9CA01", file: "blueprint.json (triggerFolders)" }]);
+    expect(JSON.parse(await readFile(mission.blueprintPath, "utf8")).triggerFolders).toEqual([
+      { id: "01D9CA01", name: "Main Objective - Reach Hanson", items: ["variable:5003998F", "variable:388B41AD", "trigger:325E9AD9", "trigger:2532CD57", "trigger:CC3ED831"] },
+    ]);
+
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    const record = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "compile-record.json"), "utf8"));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "category", id: "01D9CA01" }));
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+  }, 60_000);
+});
+
 describe("a Kept trigger naming its Campaign Mod's globals", () => {
   const CMPN = { id: "cmpn-story", name: "Cmpn-Story", library: "Cmpn" };
 
@@ -380,7 +402,7 @@ describe("convertKeptTriggers", () => {
     for (const { reason } of conversion.refused) expect(reason).not.toBe("");
   });
 
-  it("checks the map's global, and names each Kept element of a kind that doesn't convert yet", async () => {
+  it("checks the map's global and folder, leaving no Kept element of a kind that doesn't convert", async () => {
     const files = await transmission();
     // The global filed in a folder of the author's, as harbourWith files one.
     const filed = files.triggers.replace(/( *)<Item Type="Variable" Id="C7C0764E"\/>/, '$1<Item Type="Category" Id="5A5AF001"/>').replace("</TriggerData>", '    <Element Type="Category" Id="5A5AF001">\r\n        <Item Type="Variable" Id="C7C0764E"/>\r\n    </Element>\r\n</TriggerData>');
@@ -389,7 +411,8 @@ describe("convertKeptTriggers", () => {
 
     // An objective global's Galaxy the renderer doesn't write yet.
     expect(conversion.globals.refused).toEqual([{ global: "objective", id: "C7C0764E", reason: "its Galaxy can't be written as the Editor does: it holds a local variable of type objective" }]);
-    expect(conversion.notYetConvertible).toEqual([{ type: "Category", id: "5A5AF001", name: "Objectives" }]);
+    expect(conversion.folders.converted.map((item) => item.name)).toEqual(["Objectives"]);
+    expect(conversion.notYetConvertible).toEqual([]);
   });
 
   it("skips the Compiled items", async () => {

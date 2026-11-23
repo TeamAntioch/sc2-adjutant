@@ -1,0 +1,6 @@
+﻿Category/Name/01D9CA01=Main Objective - Reach Hanson
+Trigger/Name/2532CD57=Main Objective - Reach Hanson - Discover Q
+Trigger/Name/325E9AD9=Main Objective - Reach Hanson - Create
+Trigger/Name/CC3ED831=Main Objective - Reach Hanson - Complete
+Variable/Name/388B41AD=Objective_ReachHanson
+Variable/Name/5003998F=ObjPing_ReachHanson

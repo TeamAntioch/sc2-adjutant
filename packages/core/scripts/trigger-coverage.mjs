@@ -118,6 +118,7 @@ const OTHER_KINDS = [
   { key: "functions", field: "function", kind: "function", plural: "functions" },
   { key: "globals", field: "global", kind: "global variable", plural: "global variables" },
   { key: "comments", field: "comment", kind: "comment", plural: "comments" },
+  { key: "folders", field: "folder", kind: "folder", plural: "folders" },
 ];
 const otherReasons = Object.fromEntries(OTHER_KINDS.map(({ key }) => [key, new Map()]));
 const otherRefusals = Object.fromEntries(OTHER_KINDS.map(({ key }) => [key, []]));

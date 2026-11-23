@@ -421,8 +421,8 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
         strings: z.array(z.string()).optional(),
         mission: z
           .object({
-            converted: z.array(z.object({ kind: z.enum(["trigger", "function", "global", "comment"]), name: z.string(), id: z.string(), file: z.string() })),
-            refused: z.array(z.object({ kind: z.enum(["trigger", "function", "global", "comment"]), element: z.string(), reason: z.string() })),
+            converted: z.array(z.object({ kind: z.enum(["trigger", "function", "global", "comment", "folder"]), name: z.string(), id: z.string(), file: z.string() })),
+            refused: z.array(z.object({ kind: z.enum(["trigger", "function", "global", "comment", "folder"]), element: z.string(), reason: z.string() })),
           })
           .optional(),
       },

@@ -162,13 +162,13 @@ export function blueprintTriggerXml(trigger: BlueprintTrigger): readonly string[
 }
 
 /** A Blueprint folder's Category element (LF): its icon, then the item lines of what it files. */
-function folderXml(folder: BlueprintTriggerFolder): string {
+export function folderXml(folder: BlueprintTriggerFolder): string {
   const items = folder.items.map((item) => `${CHILD}${itemLine(item)}`);
   return [`${ELEMENT}<Element Type="Category" Id="${folder.id}">`, ...(folder.label ? [mapLabelLine(folder.label, CHILD)] : []), ...items, `${ELEMENT}</Element>`].join("\n");
 }
 
 /** An item a Blueprint folder files, `<kind>:<id>`, as its kind and Id. */
-type FolderItem = { readonly kind: "trigger" | "function" | "comment" | "variable" | "category"; readonly id: string };
+type FolderItem = { readonly kind: "trigger" | "function" | "comment" | "variable" | "category" | "preset" | "structure" | "custom-script"; readonly id: string };
 const parseItem = (item: string): FolderItem => {
   const [kind, id] = item.split(":") as [FolderItem["kind"], string];
   return { kind, id };
@@ -290,7 +290,12 @@ export class BlueprintTriggerError extends Error {
 }
 
 /** The folders' tree: each folder's items resolved, filed once, with no folder inside itself; the Root items, folders first, then globals, then functions, then triggers. */
-function folderTree(authored: AuthoredTriggers, problems: string[]): { readonly root: readonly string[]; readonly folders: ReadonlyMap<string, BlueprintTriggerFolder> } {
+function folderTree(
+  authored: AuthoredTriggers,
+  problems: string[],
+  /** Whether the package has a Kept element of this type and Id, which a Blueprint folder may file (one converted from a Kept folder keeps filing what it did). */
+  keptHas: (type: string, id: string) => boolean = () => false,
+): { readonly root: readonly string[]; readonly folders: ReadonlyMap<string, BlueprintTriggerFolder>; readonly keptItems: ReadonlySet<string> } {
   const triggers = new Set(authored.triggers.map(({ trigger }) => `trigger:${trigger.id}`));
   const functions = new Set((authored.functions ?? []).map(({ fn }) => `function:${fn.id}`));
   const comments = new Set((authored.comments ?? []).map(({ comment }) => `comment:${comment.id}`));
@@ -301,9 +306,18 @@ function folderTree(authored: AuthoredTriggers, problems: string[]): { readonly 
     folders.set(folder.id, folder);
   }
   const filed = new Map<string, string>();
+  const keptItems = new Set<string>();
   for (const folder of authored.folders) {
     for (const item of folder.items) {
       const { kind, id } = parseItem(item);
+      // A Kept item the folder files, by its line alone.
+      if (!(kind === "category" && folders.has(id)) && !triggers.has(item) && !functions.has(item) && !comments.has(item) && !variables.has(item) && keptHas(LIBRARY_ITEM_TYPES[kind], id)) {
+        keptItems.add(item);
+        const other = filed.get(item);
+        if (other !== undefined) problems.push(`${item} is filed in both ${other} and ${folder.id}: an item is filed once`);
+        filed.set(item, folder.id);
+        continue;
+      }
       const [known, list] =
         kind === "trigger"
           ? [triggers.has(item), "Blueprint trigger the triggers list"]
@@ -314,7 +328,7 @@ function folderTree(authored: AuthoredTriggers, problems: string[]): { readonly 
             : kind === "variable"
               ? [variables.has(item), "global of triggerVariables"]
               : [folders.has(id), "folder of triggerFolders"];
-      if (!known) problems.push(`the Trigger Folder "${folder.name}" (${folder.id}) files ${item}, which is no ${list}`);
+      if (!known) problems.push(`the Trigger Folder "${folder.name}" (${folder.id}) files ${item}, which is no ${list}, nor a Kept one`);
       const other = filed.get(item);
       if (other !== undefined) problems.push(`${item} is filed in both ${other} and ${folder.id}: an item is filed once`);
       filed.set(item, folder.id);
@@ -332,7 +346,7 @@ function folderTree(authored: AuthoredTriggers, problems: string[]): { readonly 
     }
   }
   const root = [...authored.folders.map((folder) => `category:${folder.id}`), ...variables, ...functions, ...triggers, ...comments].filter((item) => !filed.has(item));
-  return { root, folders };
+  return { root, folders, keptItems };
 }
 
 /** The Ids every Blueprint element gives, checked: each given once, and none a Kept element's or the compile's own. */
@@ -580,8 +594,8 @@ export type CompiledBlueprintTriggers = {
   readonly script: string;
   readonly triggerStrings: Readonly<Record<string, string>>;
   readonly gameStrings: Strings;
-  /** The Kept elements the Blueprint converts this compile (triggers, functions, globals and comments), each by its kind, element Id and Galaxy name, and whether it has no Galaxy (a disabled trigger, a comment, whose name is empty). */
-  readonly converted: readonly { readonly kind: "trigger" | "function" | "variable" | "comment"; readonly id: string; readonly scriptName: string; readonly disabled: boolean }[];
+  /** The Kept elements the Blueprint converts this compile (triggers, functions, globals, comments and folders), each by its kind, element Id and Galaxy name, and whether it has no Galaxy (a disabled trigger, a comment or a folder, whose name is empty). */
+  readonly converted: readonly { readonly kind: "trigger" | "function" | "variable" | "comment" | "category"; readonly id: string; readonly scriptName: string; readonly disabled: boolean }[];
 };
 
 /**
@@ -611,7 +625,7 @@ export function compileBlueprintTriggers(
   const problems: string[] = [];
   const keptOwn = keptElements(kept);
   const generatedFile = readTriggersFile(generated.triggers);
-  const tree = folderTree(authored, problems);
+  const tree = folderTree(authored, problems, (type, id) => keptOwn.has(elementKey(type, id)));
   // A Blueprint trigger with a Kept trigger's Id is that one converted (convert-mission-triggers): it gives the Ids the Kept one's elements have.
   const converting = convertedKept(authored, kept);
   const replaced = new Set([...converting.values()].flat());
@@ -629,6 +643,8 @@ export function compileBlueprintTriggers(
   const globalOrder: GuiVariable[] = [];
   const elements: string[] = [];
   const visit = (item: string): void => {
+    // A Kept item is the package's: the folder files it by its line alone.
+    if (tree.keptItems.has(item)) return;
     const { kind, id } = parseItem(item);
     if (kind === "category") {
       const folder = tree.folders.get(id)!;
@@ -733,8 +749,9 @@ export function compileBlueprintTriggers(
     const [type, id] = key.split("/") as [string, string];
     if (type === "FunctionDef") return { kind: "function" as const, id, scriptName: renderer.functionName(id), disabled: false };
     if (type === "Variable") return { kind: "variable" as const, id, scriptName: renderer.variableGalaxyName(id), disabled: false };
-    // A comment has no Galaxy.
+    // A comment or a folder has no Galaxy.
     if (type === "Comment") return { kind: "comment" as const, id, scriptName: "", disabled: true };
+    if (type === "Category") return { kind: "category" as const, id, scriptName: "", disabled: true };
     return { kind: "trigger" as const, id, scriptName: renderer.triggerName(id), disabled: byId.get(id)!.trigger.disabled === true };
   });
   return { triggers, script, triggerStrings, gameStrings, converted };
@@ -778,6 +795,7 @@ function convertedKept(authored: AuthoredTriggers, kept: KeptTriggers | undefine
     ...(authored.functions ?? []).map(({ fn }) => elementKey("FunctionDef", fn.id)),
     ...(authored.comments ?? []).map(({ comment }) => elementKey("Comment", comment.id)),
     ...(authored.variables ?? []).map((variable) => elementKey("Variable", variable.id)),
+    ...authored.folders.map((folder) => elementKey("Category", folder.id)),
   ]);
   for (const [key, item] of libraryItems(kept.triggers)) {
     if (kept.compiled.has(key) || !keys.has(elementKey(item.type, item.id))) continue;
