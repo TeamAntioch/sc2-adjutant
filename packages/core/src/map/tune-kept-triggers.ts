@@ -80,7 +80,9 @@ export type KeptTriggerTuneOptions = {
   readonly host?: Host;
 };
 
-const TRIGGER_STRINGS = path.join("enUS.SC2Data", "LocalizedData", "TriggerStrings.txt");
+const TRIGGER_STRINGS = "enUS.SC2Data/LocalizedData/TriggerStrings.txt";
+/** A file of the package by its path inside it, which is always written with forward slashes (as the Kept session keys files). */
+const inPackage = (dir: string, file: string): string => path.join(dir, ...file.split("/"));
 
 /** core's catalog and every Mechanic's primitives in the Workspace. */
 export function keptCatalog(workspace: Workspace): KeptCatalog {
@@ -107,18 +109,19 @@ type Package = {
 
 async function readPackage(dir: string): Promise<Package> {
   for (const file of ["Triggers", "MapScript.galaxy", TRIGGER_STRINGS]) {
-    if (!existsSync(path.join(dir, file))) throw new Error(`${dir} has no ${file}, so it has no Kept triggers to tune`);
+    if (!existsSync(inPackage(dir, file))) throw new Error(`${dir} has no ${file}, so it has no Kept triggers to tune`);
   }
   const gameStrings = new Map<string, string>();
   for (const entry of await readdir(dir, { withFileTypes: true })) {
-    const file = path.join(entry.name, "LocalizedData", "GameStrings.txt");
-    if (entry.isDirectory() && entry.name.endsWith(".SC2Data") && existsSync(path.join(dir, file))) gameStrings.set(file, await readFile(path.join(dir, file), "utf8"));
+    // Keyed with forward slashes on every OS: the session finds what it read by this key, and a Windows path's backslashes would match nothing.
+    const file = `${entry.name}/LocalizedData/GameStrings.txt`;
+    if (entry.isDirectory() && entry.name.endsWith(".SC2Data") && existsSync(inPackage(dir, file))) gameStrings.set(file, await readFile(inPackage(dir, file), "utf8"));
   }
   return {
     dir,
     triggers: await readFile(path.join(dir, "Triggers"), "utf8"),
     script: await readFile(path.join(dir, "MapScript.galaxy"), "utf8"),
-    names: triggerStringNames(await readFile(path.join(dir, TRIGGER_STRINGS), "utf8")),
+    names: triggerStringNames(await readFile(inPackage(dir, TRIGGER_STRINGS), "utf8")),
     gameStrings,
     placed: await packageContents(dir, new Set(["unit", "point", "camera", "region"])),
   };
