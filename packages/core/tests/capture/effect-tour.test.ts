@@ -77,6 +77,29 @@ describe("effectTourScript", () => {
     expect(effectTourScript(batch)).toContain("const bool fxFreeze = false;");
     expect(effectTourScript(batch, { freeze: true })).toContain("const bool fxFreeze = true;");
   });
+
+  it("writes Galaxy that has no ?: conditional, which Galaxy lacks (a map using one doesn't compile)", () => {
+    for (const options of [{}, { video: true }, { freeze: true }]) {
+      const code = effectTourScript(batch, options)
+        .split("\n")
+        .filter((line) => !line.trim().startsWith("//"))
+        .join("\n");
+      expect(code).not.toContain("?");
+    }
+  });
+
+  it("waits longer before the first effect when recording, for the recording to start", () => {
+    expect(effectTourScript(batch, { video: true })).toContain("if (fxVideo) {\n        Wait(12.0, c_timeReal);\n    } else {\n        Wait(3.0, c_timeReal);\n    }");
+  });
+
+  it("saves a mark once the pad is reset, a second before the attach, when the capture records video", () => {
+    expect(effectTourScript(batch)).toContain("const bool fxVideo = false;");
+    const script = effectTourScript(batch, { video: true });
+    expect(script).toContain("const bool fxVideo = true;");
+    const reset = script.slice(script.indexOf("void FxTour_Reset(int i) {"), script.indexOf("void FxTour_Film(int i) {"));
+    expect(reset).toContain('BankValueSetFromInt(fxBank, "tour", "mark", i + 1);\n        BankSave(fxBank);\n        Wait(1.0, c_timeReal);');
+    expect(reset.indexOf('"mark"')).toBeGreaterThan(reset.indexOf("CameraPan("));
+  });
 });
 
 describe("batchRange", () => {

@@ -166,7 +166,8 @@ export function effectModelData(batch: EffectBatch): string {
   return `<?xml version="1.0" encoding="utf-8"?>\n<Catalog>\n${models.join("\n")}\n</Catalog>\n`;
 }
 
-const DEFAULT_HOLD = 1.5;
+/** Seconds of real time each frame is held for the screenshot, by default. */
+export const DEFAULT_HOLD = 1.5;
 
 export type EffectTourOptions = {
   /** Where on the map the pad is, in cells. */
@@ -184,6 +185,14 @@ export type EffectTourOptions = {
    * test run (2026-11-23) the game wrote no bank while held, so the capture missed 15 of 38 frames.
    */
   readonly freeze?: boolean;
+  /**
+   * The capture records video as well: once the pad is reset for an effect, the tour saves int key
+   * `mark` (the effect's number from 1), which the Host Adapter notes in the video's timeline, and
+   * attaches the effect a second later, so the frames of a burst over before any screenshot can
+   * be found in it (effect-video.ts). It waits 12 s before the first effect, not 3, for the
+   * recording to start.
+   */
+  readonly video?: boolean;
 };
 
 const fx = (value: number): string => (Number.isInteger(value) ? `${value}.0` : String(value));
@@ -212,6 +221,7 @@ include "TriggerLibs/NativeLib"
 const int fxCount = ${n};
 const fixed fxHold = ${fx(options.hold ?? DEFAULT_HOLD)};
 const bool fxFreeze = ${freeze ? "true" : "false"};
+const bool fxVideo = ${options.video ? "true" : "false"};
 const string fxLighting = ${galaxyString(options.lighting ?? "")};
 string[fxCount] fxModel;
 string[fxCount] fxPlay;
@@ -258,7 +268,15 @@ void FxTour_Reset(int i) {
     CameraSetValue(1, c_cameraValueDistance, fxDistance[i], 0.0, -1, 10.0);
     CameraSetValue(1, c_cameraValueHeightOffset, fxHeight[i], 0.0, -1, 10.0);
     CameraPan(1, fxPad, 0.0, -1, 10.0, false);
-    Wait(0.5, c_timeReal);
+    if (fxVideo) {
+        // Marks the bare pad in the video, then waits long enough that the host noticing the bank
+        // late still finds the pad bare: the effect is attached a second after the mark.
+        BankValueSetFromInt(fxBank, "tour", "mark", i + 1);
+        BankSave(fxBank);
+        Wait(1.0, c_timeReal);
+    } else {
+        Wait(0.5, c_timeReal);
+    }
 }
 
 void FxTour_Film(int i) {
@@ -327,7 +345,13 @@ bool FxTour_Run(bool testConds, bool runActions) {
     CameraApplyInfo(1, CameraInfoDefault(), 0.0, -1, 10.0, false);
     CameraSetValue(1, c_cameraValuePitch, ${fx(EFFECT_PITCH)}, 0.0, -1, 10.0);
     FxTour_Data();
-    Wait(3.0, c_timeReal);
+    // Recording, the Host Adapter can resize and start recording the window only once the game has
+    // loaded: a longer wait, so the first effect is filmed.
+    if (fxVideo) {
+        Wait(12.0, c_timeReal);
+    } else {
+        Wait(3.0, c_timeReal);
+    }
     i = 0;
     while (i < fxCount) {
         FxTour_Film(i);

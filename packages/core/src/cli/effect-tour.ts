@@ -18,12 +18,19 @@
 //     films each batch through the Editor Broker (Test Document; the game's window is
 //     screenshotted at each frame), into <out>/batch-NN/frames/, and writes its index.html. A
 //     batch with its index.html is skipped unless --redo, so a stopped run carries on where it was.
+//     With --video the game window is recorded too (frames/video.mp4, about 1 MB a minute): each
+//     effect gets a clip (clips/<n>.mp4) and the frames where most is on screen (peaks/), for
+//     what's over before a screenshot is taken, such as an impact's burst of particles.
+//   npm run effect-tour -- pick <out> [--batches <a>-<b>]
+//     cuts the clips and picks the frames again from each batch's recording, and rewrites the index
+//     of each batch filmed to its end.
 
 import { existsSync } from "node:fs";
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { batchRange, effectModelData, effectTourScript, batchSeconds, EFFECT_TOUR_BANK, EFFECT_TOUR_INIT, EFFECT_TOUR_SCRIPT_ID, planEffectBatch, type EffectShot, type EffectTourOptions, type TourEffect } from "../capture/effect-tour.js";
+import { cutEffect, effectSegments, parseVideoStops, type EffectVideoResult } from "../capture/effect-video.js";
+import { batchRange, DEFAULT_HOLD, effectModelData, effectTourScript, batchSeconds, EFFECT_TOUR_BANK, EFFECT_TOUR_INIT, EFFECT_TOUR_SCRIPT_ID, planEffectBatch, type EffectShot, type EffectTourOptions, type TourEffect } from "../capture/effect-tour.js";
 import { hideErrorsDuringTest } from "../capture/capture-copy.js";
 import { runBrokeredCapture } from "../capture/editor-broker-client.js";
 import { readM3Footprint } from "../catalog/m3-footprint.js";
@@ -39,7 +46,8 @@ import { withCustomScript } from "../triggers/custom-script.js";
 const USAGE = [
   "Usage: effect-tour base [<folder>]",
   "       effect-tour make --models <folder> --base <map> --out <folder> [--batch <n>] [--only <regex>] [--limit <n>]",
-  "       effect-tour capture <out> [--batches <a>-<b>] [--freeze] [--redo]",
+  "       effect-tour capture <out> [--batches <a>-<b>] [--freeze] [--video] [--redo]",
+  "       effect-tour pick <out> [--batches <a>-<b>]",
 ].join("\n");
 
 /** Void (Campaign): a few effect files are only in the campaign's own assets, and it brings in Liberty's. */
@@ -209,8 +217,10 @@ async function make(args: string[]): Promise<void> {
 
 const html = (text: string): string => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-/** A batch's contact sheet: one row per effect, its frames in order, each labelled. */
-function batchIndex(manifest: Manifest, framesDir: string, present: ReadonlySet<string>): string {
+/** A batch's contact sheet: one row per effect, its frames in order, each labelled, then its clip and picked frames when it was recorded. */
+function batchIndex(manifest: Manifest, framesDir: string, present: ReadonlySet<string>, videos: ReadonlyMap<number, EffectVideoResult> = new Map()): string {
+  const dir = path.dirname(framesDir);
+  const rel = (file: string) => html(path.relative(dir, file).split(path.sep).join("/"));
   const rows = manifest.effects.map((effect, n) => {
     const shots = manifest.shots.filter((shot) => shot.effect === n);
     const cells = shots.map((shot) => {
@@ -220,10 +230,16 @@ function batchIndex(manifest: Manifest, framesDir: string, present: ReadonlySet<
         : `<figure class="missing"><div>no frame</div><figcaption>${shot.label}</figcaption></figure>`;
     });
     const anims = effect.sequences.map((sequence) => `${sequence.name} ${sequence.durationMs / 1000}s${sequence.looping ? "" : " once"}`).join(", ") || "no animations";
-    return `<section><h2>${html(effect.file.replace(/^Assets\/Effects\//, ""))}</h2><p>${html(anims)}</p><div class="row">${cells.join("")}</div></section>`;
+    const video = videos.get(n);
+    const recorded = video
+      ? `<div class="row"><figure><video src="${rel(video.clip)}" controls loop muted playsinline preload="none"></video><figcaption>clip</figcaption></figure>${video.peaks
+          .map((peak) => `<figure><img loading="lazy" src="${rel(peak.file)}"><figcaption>+${peak.seconds.toFixed(2)} s</figcaption></figure>`)
+          .join("")}${video.peaks.length ? "" : `<figure class="missing"><div>nothing new on screen</div><figcaption>video</figcaption></figure>`}</div>`
+      : "";
+    return `<section><h2>${html(effect.file.replace(/^Assets\/Effects\//, ""))}</h2><p>${html(anims)}</p><div class="row">${cells.join("")}</div>${recorded}</section>`;
   });
   return `<!doctype html><meta charset="utf-8"><title>Effect tour, batch ${manifest.batch}</title>
-<style>body{font:14px system-ui;background:#222;color:#ddd;margin:16px}h2{font-size:14px;margin:16px 0 2px}p{margin:0 0 6px;color:#999}.row{display:flex;gap:6px;flex-wrap:wrap}figure{margin:0}img{width:320px;display:block}figcaption{font-size:12px;color:#aaa}.missing div{width:320px;height:180px;background:#400;display:grid;place-items:center}</style>
+<style>body{font:14px system-ui;background:#222;color:#ddd;margin:16px}h2{font-size:14px;margin:16px 0 2px}p{margin:0 0 6px;color:#999}.row{display:flex;gap:6px;flex-wrap:wrap}figure{margin:0}img,video{width:320px;display:block}.row+.row{margin-top:6px}figcaption{font-size:12px;color:#aaa}.missing div{width:320px;height:180px;background:#400;display:grid;place-items:center}</style>
 <h1>Effect tour, batch ${manifest.batch}</h1>
 ${rows.join("\n")}
 `;
@@ -232,6 +248,7 @@ ${rows.join("\n")}
 async function capture(out: string, args: string[]): Promise<void> {
   const range = option(args, "batches");
   const freeze = flag(args, "freeze");
+  const video = flag(args, "video");
   const redo = flag(args, "redo");
   const [from, to] = batchRange(range);
   const host = await loadHost(await loadMachineConfig());
@@ -251,8 +268,9 @@ async function capture(out: string, args: string[]): Promise<void> {
     }
     // The batch's own map, wherever the folder now is.
     const map = path.join(dir, path.basename(manifest.map));
-    // Written on every capture, so a --freeze run doesn't leave the next one frozen too.
-    const options: EffectTourOptions = { freeze };
+    // Written on every capture, so the script matches this run's options: a --freeze run doesn't
+    // leave the next one frozen too, and --video saves a mark before each attach.
+    const options: EffectTourOptions = { freeze, video };
     await writeFile(path.join(map, "Triggers"), withCustomScript(undefined, EFFECT_TOUR_SCRIPT_ID, effectTourScript(planEffectBatch(manifest.effects), options), EFFECT_TOUR_INIT));
     await rm(framesDir, { recursive: true, force: true });
     const started = Date.now();
@@ -265,16 +283,83 @@ async function capture(out: string, args: string[]): Promise<void> {
         label: name,
         copy: true,
         bank: EFFECT_TOUR_BANK,
-        settings: { frameDigits: 4, width: 1600, quality: 85, startSeconds: 450, pressSpaceAfterSeconds: 90 },
+        settings: { frameDigits: 4, width: 1600, quality: 85, startSeconds: 450, pressSpaceAfterSeconds: 90, ...(video ? { video: VIDEO_SETTINGS } : {}) },
         outputDir: framesDir,
       },
       { log: (line) => console.log(`  ${line}`) },
     );
     const present = new Set(existsSync(framesDir) ? (await readdir(framesDir)).filter((file) => file.endsWith(".jpg")) : []);
+    const videos = video ? await cutBatch(dir, manifest) : new Map<number, EffectVideoResult>();
     // Only a batch filmed to its end gets its index, which marks it done: one that ended early is filmed again.
-    if (end === "done") await writeFile(path.join(dir, "index.html"), batchIndex(manifest, framesDir, present));
+    if (end === "done") await writeFile(path.join(dir, "index.html"), batchIndex(manifest, framesDir, present, videos));
     const missed = manifest.shots.filter((shot) => !present.has(`${String(shot.stop).padStart(4, "0")}.jpg`));
     console.log(`${name}: ${frames} frames, ${end}, ${Math.round((Date.now() - started) / 60000)} min${missed.length ? `; ${missed.length} missing` : ""}; ${path.join(dir, "index.html")}`);
+  }
+}
+
+/** The recording's size and rate: 1280 wide shows a burst plainly, and HEVC at 30 fps is about 1 MB a minute of tour. */
+const VIDEO_SETTINGS = { width: 1280, fps: 30 } as const;
+
+/** The hold the batch's map was filmed with (its script's fxHold), else the default: the segments are placed by it. */
+async function batchHold(dir: string, manifest: Manifest): Promise<number> {
+  for (const map of [path.join(dir, path.basename(manifest.map)), manifest.map]) {
+    const triggers = path.join(map, "Triggers");
+    if (!existsSync(triggers)) continue;
+    const hold = /fxHold = ([0-9.]+);/.exec(await readFile(triggers, "utf8"))?.[1];
+    if (hold) return Number(hold);
+  }
+  return DEFAULT_HOLD;
+}
+
+/** Cuts a batch's recording into each effect's clip and picked frames; an empty map when it has no recording. */
+async function cutBatch(dir: string, manifest: Manifest): Promise<Map<number, EffectVideoResult>> {
+  const framesDir = path.join(dir, "frames");
+  const video = path.join(framesDir, "video.mp4");
+  const stopsFile = path.join(framesDir, "video-stops.txt");
+  const results = new Map<number, EffectVideoResult>();
+  if (!existsSync(video) || !existsSync(stopsFile)) {
+    console.log(`  no recording in ${framesDir}`);
+    return results;
+  }
+  const segments = effectSegments(manifest.shots, parseVideoStops(await readFile(stopsFile, "utf8")), await batchHold(dir, manifest));
+  await rm(path.join(dir, "clips"), { recursive: true, force: true });
+  await rm(path.join(dir, "peaks"), { recursive: true, force: true });
+  for (const segment of segments) {
+    try {
+      results.set(segment.effect, await cutEffect(video, segment, dir, String(segment.effect + 1).padStart(4, "0")));
+    } catch (error) {
+      console.log(`  effect ${segment.effect + 1}: couldn't cut its clip: ${(error as Error).message}`);
+    }
+  }
+  const unplaced = manifest.effects.length - segments.length;
+  console.log(`  ${results.size} clips, ${[...results.values()].reduce((sum, each) => sum + each.peaks.length, 0)} picked frames${unplaced ? `; ${unplaced} effects not found in the recording` : ""}`);
+  return results;
+}
+
+async function pick(out: string, args: string[]): Promise<void> {
+  const [from, to] = batchRange(option(args, "batches"));
+  for (const name of (await readdir(out)).filter((each) => /^batch-\d+$/.test(each)).sort()) {
+    const number = Number(name.slice(6));
+    if (number < from || number > to) continue;
+    const dir = path.join(out, name);
+    if (!existsSync(path.join(dir, "manifest.json"))) {
+      console.log(`${name}: no manifest.json, skipped`);
+      continue;
+    }
+    const manifest = JSON.parse(await readFile(path.join(dir, "manifest.json"), "utf8")) as Manifest;
+    const framesDir = path.join(dir, "frames");
+    console.log(`${name}:`);
+    const videos = await cutBatch(dir, manifest);
+    // Only an index capture wrote is rewritten: an index marks a batch filmed to its end, and one
+    // that ended early, or never started, has to stay unmarked so capture films it again.
+    const index = path.join(dir, "index.html");
+    if (!existsSync(index)) {
+      console.log(`${name}: not filmed to its end; clips cut, no index written`);
+      continue;
+    }
+    const present = new Set(existsSync(framesDir) ? (await readdir(framesDir)).filter((file) => file.endsWith(".jpg")) : []);
+    await writeFile(index, batchIndex(manifest, framesDir, present, videos));
+    console.log(`${name}: ${index}`);
   }
 }
 
@@ -283,6 +368,7 @@ async function main(): Promise<void> {
   if (command === "base") return base(args[0] ?? path.resolve("missions", "effect-tour"));
   if (command === "make") return make(args);
   if (command === "capture" && args[0]) return capture(args[0], args.slice(1));
+  if (command === "pick" && args[0]) return pick(args[0], args.slice(1));
   console.error(USAGE);
   process.exitCode = 1;
 }

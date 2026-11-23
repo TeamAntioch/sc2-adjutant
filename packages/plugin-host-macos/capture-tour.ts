@@ -198,6 +198,28 @@ tell application "System Events" to tell process "${EDITOR}"
   end repeat
 end tell`;
 
+/**
+ * The game window's size while recording, in points: 1280 wide, with a 16:9 picture under a 28-point
+ * title bar. Window capture gets no frames while the game window fills the display: macOS then
+ * hands it to the display without compositing it (2026-11-23: 27 s of nothing at 1728x1084, then
+ * steady frames from just after it was resized, with no gaps).
+ */
+export const RECORD_WINDOW = { width: 1280, height: 748 } as const;
+
+/** How many times a recorder that exits before its first frame is started again in one tour. */
+const RECORD_TRIES = 3;
+
+/** resize-game <width> <height>: resizes the game's window; prints its size afterwards, "w, h", or nothing while the game doesn't answer (it doesn't while loading). */
+const RESIZE_GAME = `on run argv
+  tell application "System Events" to tell process "SC2"
+    if (count of windows) is 0 then return ""
+    set size of window 1 to {(item 1 of argv) as integer, (item 2 of argv) as integer}
+    delay 0.3
+    set {w, h} to size of window 1
+    return (w as text) & ", " & (h as text)
+  end tell
+end run`;
+
 const PRESS_SPACE = `
 tell application "System Events" to tell process "SC2" to set value of attribute "AXFrontmost" to true
 delay 0.3
@@ -285,6 +307,217 @@ guard let scaled = context.makeImage() else { exit(1) }
 CGImageDestinationAddImage(destination, scaled, [kCGImageDestinationLossyCompressionQuality: quality] as CFDictionary)
 exit(CGImageDestinationFinalize(destination) ? 0 : 1)
 `;
+
+/**
+ * record <window-id> <out.mp4> <width> <fps>: records one window as HEVC, the 16:9 picture under its
+ * title bar, scaled to <width>. A covered window records; a minimized one doesn't. Frames come only
+ * when the window changes, so a still scene costs next to nothing. Prints "started <unix seconds>"
+ * at the first frame, which is the video's time 0; stops, finishing the file, when stdin closes
+ * (so a caller that dies doesn't leave it recording) or on SIGINT/SIGTERM.
+ */
+const RECORD_SWIFT = `import AppKit
+import AVFoundation
+import CoreMedia
+import Foundation
+import ScreenCaptureKit
+
+_ = NSApplication.shared // a command-line tool needs the window server connection ScreenCaptureKit uses
+let args = CommandLine.arguments
+guard args.count == 5, let windowID = UInt32(args[1]), let width = Int(args[3]), let fps = Int32(args[4]) else {
+  FileHandle.standardError.write("usage: record <window-id> <out.mp4> <width> <fps>\\n".data(using: .utf8)!)
+  exit(2)
+}
+let outURL = URL(fileURLWithPath: args[2])
+try? FileManager.default.removeItem(at: outURL)
+
+final class Recorder: NSObject, SCStreamOutput, SCStreamDelegate {
+  let queue = DispatchQueue(label: "record")
+  var writer: AVAssetWriter?
+  var input: AVAssetWriterInput?
+  var started = false
+  var finishing = false
+  var counts: [Int: Int] = [:]
+  var lastReport = Date()
+
+  func setup(width: Int, height: Int, fps: Int32) throws {
+    let writer = try AVAssetWriter(outputURL: outURL, fileType: .mp4)
+    let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
+      AVVideoCodecKey: AVVideoCodecType.hevc,
+      AVVideoWidthKey: width,
+      AVVideoHeightKey: height,
+      AVVideoCompressionPropertiesKey: [AVVideoQualityKey: 0.5, AVVideoExpectedSourceFrameRateKey: Int(fps)],
+    ])
+    input.expectsMediaDataInRealTime = true
+    writer.add(input)
+    writer.startWriting()
+    self.writer = writer
+    self.input = input
+  }
+
+  func stream(_ stream: SCStream, didOutputSampleBuffer buffer: CMSampleBuffer, of type: SCStreamOutputType) {
+    guard type == .screen, !finishing, let writer, let input else { return }
+    let attachments = CMSampleBufferGetSampleAttachmentsArray(buffer, createIfNecessary: false) as? [[SCStreamFrameInfo: Any]]
+    let status = attachments?.first?[.status] as? Int ?? -1
+    counts[status, default: 0] += 1
+    // Every 5 s, how many frames came by status (0 complete, 1 idle, 2 blank, 3 suspended, 4 started, 5 stopped), to stderr.
+    if Date().timeIntervalSince(lastReport) >= 5 {
+      lastReport = Date()
+      FileHandle.standardError.write("record: frames by status \\(counts.sorted { $0.key < $1.key })\\n".data(using: .utf8)!)
+    }
+    guard buffer.isValid, SCFrameStatus(rawValue: status) == .complete else { return }
+    if !started {
+      writer.startSession(atSourceTime: buffer.presentationTimeStamp)
+      started = true
+      print("started \\(Date().timeIntervalSince1970)")
+      fflush(stdout)
+    }
+    if input.isReadyForMoreMediaData { input.append(buffer) }
+  }
+
+  func stream(_ stream: SCStream, didStopWithError error: Error) {
+    FileHandle.standardError.write("record: the stream stopped: \\(error)\\n".data(using: .utf8)!)
+    finish(code: 1)
+  }
+
+  func finish(code: Int32) {
+    queue.async {
+      guard !self.finishing else { return }
+      self.finishing = true
+      guard let writer = self.writer, let input = self.input, self.started, writer.status == .writing else { exit(code) }
+      input.markAsFinished()
+      writer.finishWriting { exit(writer.status == .completed ? code : 1) }
+    }
+  }
+}
+
+let recorder = Recorder()
+var stream: SCStream?
+func stop() {
+  Task {
+    try? await stream?.stopCapture()
+    recorder.finish(code: 0)
+  }
+}
+
+Task {
+  do {
+    let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: false)
+    guard let window = content.windows.first(where: { $0.windowID == windowID }) else {
+      FileHandle.standardError.write("record: no window \\(windowID)\\n".data(using: .utf8)!)
+      exit(3)
+    }
+    // The 16:9 picture at the bottom of the window: what sits above it is the title bar.
+    let frame = window.frame
+    let pictureHeight = min(frame.height, frame.width * 9 / 16)
+    FileHandle.standardError.write("record: window \\(windowID) \\(window.owningApplication?.applicationName ?? "?") \\(Int(frame.width))x\\(Int(frame.height)) on screen: \\(window.isOnScreen)\\n".data(using: .utf8)!)
+    let config = SCStreamConfiguration()
+    config.sourceRect = CGRect(x: 0, y: frame.height - pictureHeight, width: frame.width, height: pictureHeight)
+    config.width = width & ~1
+    config.height = Int((Double(width) * Double(pictureHeight / frame.width)).rounded()) & ~1
+    config.minimumFrameInterval = CMTime(value: 1, timescale: fps)
+    config.showsCursor = false
+    config.queueDepth = 8
+    try recorder.setup(width: config.width, height: config.height, fps: fps)
+    let started = SCStream(filter: SCContentFilter(desktopIndependentWindow: window), configuration: config, delegate: recorder)
+    try started.addStreamOutput(recorder, type: .screen, sampleHandlerQueue: recorder.queue)
+    try await started.startCapture()
+    stream = started
+  } catch {
+    FileHandle.standardError.write("record: \\(error)\\n".data(using: .utf8)!)
+    exit(1)
+  }
+}
+
+var signals: [DispatchSourceSignal] = []
+for number in [SIGINT, SIGTERM] {
+  signal(number, SIG_IGN)
+  let source = DispatchSource.makeSignalSource(signal: number, queue: .main)
+  source.setEventHandler(handler: stop)
+  source.resume()
+  signals.append(source)
+}
+DispatchQueue.global().async {
+  while readLine() != nil {}
+  stop()
+}
+dispatchMain()
+`;
+
+/** A recording of the game window under way: `mark` notes a stop at the current time. */
+/**
+ * A recording of the game window under way: `mark` notes a stop at the current time; `failed` is
+ * set when the helper exited before its first frame (no window, no permission, a stream error).
+ */
+type Recording = { readonly mark: (stop: string) => Promise<void>; readonly stop: () => Promise<void>; readonly failed: () => boolean };
+
+/** The recording's file names in a tour's output folder. */
+export const VIDEO_FILE = "video.mp4";
+export const VIDEO_STOPS_FILE = "video-stops.txt";
+
+/**
+ * Starts recording `window` into `<outputDir>/video.mp4`. Each `mark` appends `<label> <seconds>` to
+ * video-stops.txt (a stop's number, or m<n> for the bank's "mark" key), the seconds into the video
+ * by the recorder's own first-frame clock; marks made before the first frame are timed from when it
+ * came. A failure to write the timeline is logged, not thrown, so it never stops a tour.
+ */
+async function startRecording(context: HostContext, window: string, outputDir: string, video: NonNullable<CaptureTourRequest["video"]>, log: (line: string) => void): Promise<Recording> {
+  const bin = await swiftTool(context, "record", RECORD_SWIFT);
+  log(`recording window ${window}`);
+  const stopsFile = path.join(outputDir, VIDEO_STOPS_FILE);
+  await rm(stopsFile, { force: true });
+  const child = spawn(bin, [window, path.join(outputDir, VIDEO_FILE), String(video.width), String(video.fps)], { stdio: ["pipe", "pipe", "pipe"] });
+  let startedAt: number | undefined;
+  let gone = false;
+  const early: { stop: string; at: number }[] = [];
+  const write = (stop: string, at: number) =>
+    appendFile(stopsFile, `${stop} ${Math.max(0, at - startedAt!).toFixed(3)}\n`).catch((error: unknown) => log(`couldn't write ${VIDEO_STOPS_FILE}: ${(error as Error).message}`));
+  let pending = Promise.resolve();
+  // Read as whole lines: a chunk can end inside "started <seconds>".
+  let partial = "";
+  child.stdout.setEncoding("utf8").on("data", (text: string) => {
+    const lines = (partial + text).split("\n");
+    partial = lines.pop()!;
+    for (const line of lines) {
+      const match = /^started ([0-9.]+)$/.exec(line.trim());
+      if (!match || startedAt !== undefined) continue;
+      startedAt = Number(match[1]);
+      pending = pending.then(async () => {
+        for (const { stop, at } of early.splice(0)) await write(stop, at);
+      });
+    }
+  });
+  child.stderr.setEncoding("utf8").on("data", (text: string) => log(text.trim()));
+  // A helper that can't start, or a pipe it has already closed, is logged, never thrown.
+  child.on("error", (error) => log(`record helper: ${error.message}`));
+  child.stdin.on("error", () => undefined);
+  const exited = new Promise<void>((resolve) => {
+    child.on("exit", (code) => {
+      gone = true;
+      if (startedAt === undefined) log(`record helper exited (${code ?? "killed"}) before its first frame`);
+      resolve();
+    });
+    child.on("error", () => {
+      gone = true;
+      resolve();
+    });
+  });
+  return {
+    mark: async (stop) => {
+      const at = Date.now() / 1000;
+      if (startedAt === undefined) early.push({ stop, at });
+      else pending = pending.then(() => write(stop, at));
+      await pending;
+    },
+    stop: async () => {
+      child.stdin.end();
+      // Finishing the file is quick; one that hangs is killed, losing only its unwritten tail.
+      const done = await Promise.race([exited.then(() => true), sleep(15).then(() => false)]);
+      if (!done) child.kill("SIGKILL");
+      await pending;
+    },
+    failed: () => gone && startedAt === undefined,
+  };
+}
 
 /** A Swift helper, compiled once into the cache folder. */
 async function swiftTool(context: HostContext, name: string, source: string): Promise<string> {
@@ -417,6 +650,8 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
     );
   }
   const crop = await swiftTool(context, "crop", CROP_SWIFT);
+  // Compiled now, not in the watch loop, where a first build takes several seconds.
+  if (request.video) await swiftTool(context, "record", RECORD_SWIFT);
   const bankFile = path.join(BANKS, `${request.bank}.SC2Bank`);
   await mkdir(request.outputDir, { recursive: true });
   // Keep the display awake for the whole run: a sleeping or locked screen stops every capture.
@@ -430,6 +665,11 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
   // Attached to a game already running, the bank may still hold an earlier run's last stop (-1);
   // that content is ignored until the game saves the bank again.
   let leftover: string | undefined;
+  let recording: Recording | undefined;
+  // The last stop noted in the video: a stop whose screenshot failed is retried, but noted once.
+  let marked = 0;
+  let lastMark: string | undefined;
+  let lastResize = 0;
   try {
     stopIfCancelled();
     if (request.attach) {
@@ -495,12 +735,43 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
 
     let last = 0;
     let frames = 0;
-    let idle = 0;
+    // Seconds without a stop are timed by the clock: a recording's loop polls faster, and each pass
+    // costs more than its sleep.
+    const watching = Date.now();
+    let lastPress = 0;
     let warnedNoWindow = false;
     let end: CaptureTourResult["end"] = "never started";
+    // Recording, the bank is read more often, so each stop's time in the video is closer.
+    const poll = request.video ? 0.1 : 0.5;
+    let polled = Date.now();
+    let resizeTries = 0;
+    let recordTries = 0;
     for (;;) {
-      await sleep(0.5);
+      await sleep(poll);
+      // A watch loop this slow misses stops: say so, as a lead.
+      const took = (Date.now() - polled) / 1000;
+      if (took > 1.5) log(`slow watch loop: ${took.toFixed(1)} s since the last poll`);
+      polled = Date.now();
       stopIfCancelled();
+      // Recording waits until the game window is smaller than the display (RECORD_WINDOW), which
+      // the game allows only once it has loaded; tried once a second until then.
+      // A recorder that exited before its first frame is started again, up to RECORD_TRIES times.
+      if (recording?.failed()) {
+        recording = undefined;
+        if (recordTries >= RECORD_TRIES) log(`no video: the recorder failed ${recordTries} times`);
+      }
+      if (request.video && !recording && recordTries < RECORD_TRIES && Date.now() - lastResize >= 1000) {
+        lastResize = Date.now();
+        const window = await gameWindow();
+        const size = window ? (await quietly(RESIZE_GAME, [String(RECORD_WINDOW.width), String(RECORD_WINDOW.height)])).trim() : "";
+        if (window && size === `${RECORD_WINDOW.width}, ${RECORD_WINDOW.height}`) {
+          recordTries++;
+          recording = await startRecording(context, window, request.outputDir, request.video, log);
+          log(`game window resized to ${size}; recording it to ${path.join(request.outputDir, VIDEO_FILE)}`);
+        } else if (window && ++resizeTries % 10 === 0) {
+          log(`no recording yet: the game window is ${size || "not answering"}, and recording waits for ${RECORD_WINDOW.width}, ${RECORD_WINDOW.height}`);
+        }
+      }
       if (!(await gameRunning())) {
         log(`game exited at stop ${last}`);
         end = "game exited";
@@ -509,13 +780,21 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       const bank = existsSync(bankFile) ? await readFile(bankFile, "utf8") : "";
       if (leftover !== undefined && bank !== leftover) leftover = undefined;
       const stop = leftover === undefined ? bankValue(bank, "stop", "int") : undefined;
+      // A tour that records may save an int key "mark" as well, just before something worth timing
+      // (the effect tour: each attach), noted in the video's timeline as m<mark>.
+      const mark = recording && leftover === undefined ? bankValue(bank, "mark", "int") : undefined;
+      if (recording && mark !== undefined && mark !== lastMark) {
+        lastMark = mark;
+        await recording.mark(`m${mark}`);
+      }
       if (stop === undefined) {
-        idle++;
-        if (idle >= request.pressSpaceAfterSeconds * 2 && idle % 20 === 0) {
+        const waited = (Date.now() - watching) / 1000;
+        if (waited >= request.pressSpaceAfterSeconds && Date.now() - lastPress >= 10_000) {
+          lastPress = Date.now();
           log("no stop yet; pressing Space in the game (takes focus)");
           await quietly(PRESS_SPACE);
         }
-        if (idle > request.startSeconds * 2) {
+        if (waited > request.startSeconds) {
           log("the tour never started");
           break;
         }
@@ -527,6 +806,10 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
         break;
       }
       if (Number(stop) === last) continue;
+      if (recording && Number(stop) !== marked) {
+        marked = Number(stop);
+        await recording.mark(stop);
+      }
       const window = await gameWindow();
       if (!window) {
         if (!warnedNoWindow) log(`stop ${stop}: no game window to capture`);
@@ -556,6 +839,8 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
     }
     return { frames, end };
   } finally {
+    // Whatever went wrong recording, the rest still runs: the shrinks, quitting the game, closing the map.
+    await recording?.stop().catch((error: unknown) => log(`couldn't finish the recording: ${(error as Error).message}`));
     await Promise.all(shrinking);
     if (touchedEditor) {
       await quitGame();
