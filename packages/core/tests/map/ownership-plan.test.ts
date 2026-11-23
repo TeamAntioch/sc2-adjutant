@@ -54,10 +54,10 @@ describe("planOwnership", () => {
 
   it("refuses Kept References with no record, only when the compile builds the Mission's triggers", () => {
     const withKept = plan([zone("kept")], false, [{}]);
-    expect(withKept.keptReferencesRefusal(true, false)).toContain("has Kept References");
-    expect(withKept.keptReferencesRefusal(false, false)).toBeUndefined();
-    expect(withKept.keptReferencesRefusal(true, true)).toBeUndefined();
-    expect(plan([zone("kept")]).keptReferencesRefusal(true, false)).toBeUndefined();
+    expect(withKept.keptReferencesRefusal(true, false, new Set())).toContain("has Kept References");
+    expect(withKept.keptReferencesRefusal(false, false, new Set())).toBeUndefined();
+    expect(withKept.keptReferencesRefusal(true, true, new Set())).toBeUndefined();
+    expect(plan([zone("kept")]).keptReferencesRefusal(true, false, new Set())).toBeUndefined();
   });
 
   it("needs no record for Kept References that each name one of the Blueprint's own triggers", () => {

@@ -92,6 +92,11 @@ describe("the example Campaign Pack", () => {
     expect(galaxy).toContain("TriggerEnable(gt_AshTremors, true);");
     expect(galaxy).not.toContain("TriggerAddEventMapInit(gt_StartAshTremors);");
     expect(galaxy).toContain("TriggerExecute(gt_StartAshTremors, true, false);");
+
+    // Compiled again, now with its record, it writes the same script.
+    const again = await client.callTool({ name: "compile_map", arguments: { mission: "ashfall-relay" } });
+    expect(again.isError, text(again)).toBeFalsy();
+    expect((await readFile(path.join(outputDir, "MapScript.galaxy"), "utf8")).replace(/\r\n/g, "\n")).toBe(galaxy);
   });
 
   it("passes the layout checker, its hazard Mechanic included", async () => {

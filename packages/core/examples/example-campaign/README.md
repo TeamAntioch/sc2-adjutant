@@ -43,7 +43,7 @@ The files in `audio/` are silent placeholders, so the Mission compiles anywhere.
 
 ## A trigger of its own
 
-No Blueprint concept shakes the camera, and core's trigger catalog has no primitive for it, so the Mission has two triggers of its own (ADR-0026 in sc2-adjutant). From the Crossing Beat on, the ground trembles every 11 seconds. A session wrote them with three MCP tools, and you can do the same for any of the game's functions.
+No Blueprint concept shakes the camera, and core's trigger catalog has no primitive for it, so the Mission has two triggers of its own (ADR-0026 in sc2-adjutant). From the Crossing Beat on, the ground trembles every 11 seconds. A session wrote them with the MCP tools below, and you can do the same for any of the game's functions.
 
 1. **Find the function.** `search_trigger_functions` with `{ "mission": "ashfall-relay", "text": "shake", "kind": "action" }` finds *Shake Camera*, *Shake Camera Using Preset* and *Stop Shaking Camera*, each with its parameters as the Editor shows them. *Shake Camera Using Preset* takes an amplitude and a frequency by preset name.
 2. **Write the periodic trigger.** `write_blueprint_trigger` takes the trigger in the Editor's terms. Functions and parameters go by name, and a parameter you leave out gets the default the Editor gives a new call (here, no blend in or out):

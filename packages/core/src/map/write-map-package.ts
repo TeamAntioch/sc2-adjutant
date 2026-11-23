@@ -923,8 +923,8 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
   const previousHolds = (options.previousRecord?.entries ?? []).filter((entry): entry is KeptHoldEntry => entry.kind === "kept-hold");
   const holds = keptHolds(resolved);
   // A hold whose call sits in a Blueprint trigger is switched off in its body (holdBlueprintTriggers), so only the others need the package's Kept triggers.
-  const holdsInPackage = holds.some((hold) => !blueprintTriggers.has((hold.from ?? hold.trigger).id)) || previousHolds.some((entry) => !blueprintTriggers.has(entry.trigger));
-  if (buildsMissionTriggers && holdsInPackage) {
+  const anyHoldInPackage = holds.some((hold) => !blueprintTriggers.has((hold.from ?? hold.trigger).id)) || previousHolds.some((entry) => !blueprintTriggers.has(entry.trigger));
+  if (buildsMissionTriggers && anyHoldInPackage) {
     const holdsRefusal = plan.holdsRefusal(existsSync(path.join(outputDir, "Triggers")));
     if (holdsRefusal) throw new Error(holdsRefusal);
     const read = (file: string): Promise<string> => readFile(path.join(outputDir, ...file.split("/")), "utf8");
