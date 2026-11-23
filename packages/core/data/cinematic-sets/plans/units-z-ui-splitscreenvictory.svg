@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Units (Z_UI_SplitScreenVictory): cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Units (Z_UI_SplitScreenVictory)</text>
+<text x="24" y="54" font-size="10" fill="#666">units-z-ui-splitscreenvictory · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="264.6" y="505.3" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>SMX1RoachT1B, SMX1RoachT1A, SMX1UltraliskT1B, SMX1UltraliskT1A, SMX1EggMonsterT1A, SMX1EggMonsterT1B, SMX1MutaliskT1A, SMX1MutaliskT1B, SMX1ZerglingT1B, SMX1BanelingT1A, SMX1BanelingT1B, SMX1HydraliskT1A, SMX1HydraliskT1B, SMX1ArmyEvolutionSet3, SMX1ArmyEvolutionSet2, SMX1ArmyEvolutionSet</title></rect>
+<text x="280.6" y="515.3" font-size="8" fill="#6d6458">16</text>
+<rect x="293.9" y="145.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1ZerglingT1A</title></rect>
+<polygon points="227.8,445.5 226.2,367.8 287.3,395.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="227.8" cy="445.5" r="2.5" fill="#7b4bd1"><title>Cam Zergling Left</title></circle>
+<text x="231.8" y="442.5" font-size="8" fill="#5a3a9a">Cam Zergling Left</text>
+<polygon points="352.2,479 308.2,415 374.6,404.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="352.2" cy="479" r="2.5" fill="#7b4bd1"><title>Cam Zergling Right</title></circle>
+<text x="356.2" y="476" font-size="8" fill="#5a3a9a">Cam Zergling Right</text>
+<polygon points="237.9,469.8 210.8,397.1 277.7,403.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="237.9" cy="469.8" r="2.5" fill="#7b4bd1"><title>Cam Baneling Left</title></circle>
+<text x="241.9" y="466.8" font-size="8" fill="#5a3a9a">Cam Baneling Left</text>
+<polygon points="324.7,478.1 298.8,404.9 365.7,412.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="324.7" cy="478.1" r="2.5" fill="#7b4bd1"><title>Cam Baneling Right</title></circle>
+<text x="328.7" y="475.1" font-size="8" fill="#5a3a9a">Cam Baneling Right</text>
+<polygon points="218.9,500.3 204.2,424 269.2,441.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="218.9" cy="500.3" r="2.5" fill="#7b4bd1"><title>Cam Hydralisk Left</title></circle>
+<text x="222.9" y="497.3" font-size="8" fill="#5a3a9a">Cam Hydralisk Left</text>
+<polygon points="331.6,515.4 307.3,441.6 374,450.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="331.6" cy="515.4" r="2.5" fill="#7b4bd1"><title>Cam Hydralisk Right</title></circle>
+<text x="335.6" y="512.4" font-size="8" fill="#5a3a9a">Cam Hydralisk Right</text>
+<polygon points="179,564.8 161,489.2 226.7,503.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="179" cy="564.8" r="2.5" fill="#7b4bd1"><title>Cam Mutalisk Left</title></circle>
+<text x="183" y="561.8" font-size="8" fill="#5a3a9a">Cam Mutalisk Left</text>
+<polygon points="352.4,563.6 325.8,490.6 392.7,497.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="352.4" cy="563.6" r="2.5" fill="#7b4bd1"><title>Cam Mutalisk Right</title></circle>
+<text x="356.4" y="560.6" font-size="8" fill="#5a3a9a">Cam Mutalisk Right</text>
+<polygon points="233.7,533.7 197,465.3 264.2,462.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="233.7" cy="533.7" r="2.5" fill="#7b4bd1"><title>Cam SwarmHost Left</title></circle>
+<text x="237.7" y="530.7" font-size="8" fill="#5a3a9a">Cam SwarmHost Left</text>
+<polygon points="275.7,515 282.2,437.7 340.2,471.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="275.7" cy="515" r="2.5" fill="#7b4bd1"><title>Cam SwarmHost Right</title></circle>
+<text x="279.7" y="512" font-size="8" fill="#5a3a9a">Cam SwarmHost Right</text>
+<polygon points="195.3,591.5 164.5,520.2 231.7,522.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="195.3" cy="591.5" r="2.5" fill="#7b4bd1"><title>Cam Ultralisk Left</title></circle>
+<text x="199.3" y="588.5" font-size="8" fill="#5a3a9a">Cam Ultralisk Left</text>
+<polygon points="278,553.9 266.2,477.1 330.5,496.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="278" cy="553.9" r="2.5" fill="#7b4bd1"><title>Cam Ultralisk Right</title></circle>
+<text x="282" y="550.9" font-size="8" fill="#5a3a9a">Cam Ultralisk Right</text>
+<polygon points="255.6,473 220.8,403.6 288,402.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="255.6" cy="473" r="2.5" fill="#7b4bd1"><title>Cam Roach Left</title></circle>
+<text x="259.6" y="470" font-size="8" fill="#5a3a9a">Cam Roach Left</text>
+<polygon points="299.4,463.7 288.3,386.9 352.4,407" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="299.4" cy="463.7" r="2.5" fill="#7b4bd1"><title>Cam Roach Right</title></circle>
+<text x="303.4" y="460.7" font-size="8" fill="#5a3a9a">Cam Roach Right</text>
+</g>
+<line x1="102.8" y1="564.1" x2="361.7" y2="564.1" stroke="#333" stroke-width="2"/>
+<line x1="102.8" y1="560.1" x2="102.8" y2="568.1" stroke="#333"/><line x1="154.6" y1="560.1" x2="154.6" y2="568.1" stroke="#333"/>
+<text x="102.8" y="558.1" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/Z_UI_SplitScreenVictory.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Screens: none known; not read:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX1ArmyEvolutionSet2,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX1ArmyEvolutionSet3</text>
+<text x="560" y="156" font-size="9" fill="#333">Marks: 0; cameras: 14 (14 aimed</text>
+<text x="560" y="168" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="180" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="192" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="204" font-size="9" fill="#333"></text>
+<text x="560" y="216" font-size="9" fill="#333">Models:</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX1ArmyEvolutionSet</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX1ArmyEvolutionSet2</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX1ArmyEvolutionSet3</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX1BanelingT1A</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX1BanelingT1B</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX1EggMonsterT1A</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX1EggMonsterT1B</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX1HydraliskT1A</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX1HydraliskT1B</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX1MutaliskT1A</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX1MutaliskT1B</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX1RoachT1A</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX1RoachT1B</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX1UltraliskT1A</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX1UltraliskT1B</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX1ZerglingT1A</text>
+<text x="560" y="420" font-size="9" fill="#333">SMX1ZerglingT1B</text>
+<text x="560" y="432" font-size="9" fill="#333"></text>
+<text x="560" y="444" font-size="9" fill="#333">Also in:</text>
+</svg>

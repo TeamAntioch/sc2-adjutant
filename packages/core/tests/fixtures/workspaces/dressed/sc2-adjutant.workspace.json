@@ -1,0 +1,4 @@
+{
+  "campaign": { "id": "fixtures", "name": "Fixture Campaign" },
+  "missions": "missions"
+}

@@ -1,0 +1,187 @@
+export const meta = {
+  title: "A 1v1 melee map",
+  summary: "Answer four short questions, and Claude drafts half a Melee Map, compiles it, revises it against the distance report, and hands it over. Then send it notes.",
+  minutes: 20,
+};
+
+You'll make *Cinder Gate*, a 1v1 Melee Map: a map the Galaxy Editor calls Melee, laid out the way ladder maps are. You draw nothing. You answer four short questions, and Claude drafts half the map as a Melee Map Blueprint, a JSON file. The compiler turns that half 180° to make the other half, stamps the standard bases, the main ramp and its plate, checks the melee rules, and times the distances a ladder player cares about. Claude revises the draft against those numbers, then hands the map over for you to walk through in the Editor.
+
+A Melee Map belongs to no Campaign: it can live in any folder. The tools run in a Claude Code session opened in a Workspace, so open Claude Code in the one from [Your first Mission](/tutorials/first-mission/). Without one, the same compile runs from an sc2-adjutant checkout, as `npm run compile-melee-map -- <blueprint.json> <outputDir>`.
+
+The turns below are written by hand. Claude's words will differ in your session, but the tool calls are the ones it makes.
+
+<Objective id="answers" title="Answer the four questions">
+
+Say you want a melee map. The [`melee-design`](/skills/melee-design/) skill asks four questions, one at a time, each with a default.
+
+<You>I want a melee map.</You>
+
+<Claude>
+Where should the map live? Any folder works, and it needs no Workspace. By default I'll make a new folder here, named after the map.
+</Claude>
+
+<You>In ~/sc2-maps.</You>
+
+<Claude>
+What's it called? The title becomes the map's name, and its slug the blueprint's id.
+</Claude>
+
+<You>Cinder Gate.</You>
+
+<Claude>
+<ToolCall name="list_plugins" args={{}}>lists the Workspace's Plugins, to look for a Style Pack's Exemplar Maps</ToolCall>
+
+How should it look? This Workspace has no Style Pack, so there are no Exemplar Maps to start from. Pick a tileset: `Char` (volcanic rock and ash), `BelShir` (jungle), `KorhalCityEx2` (city) or `Agria` (green farmland).
+</Claude>
+
+<You>Char.</You>
+
+<Claude>
+Any idea for it, in a line? It's optional: "a wide open middle", say, or "the thirds sit on high ground".
+</Claude>
+
+<You>A gate in the middle that's shut by rocks, so the short way through opens only when someone breaks them.</You>
+
+<Claude>
+The rest I'll fix without asking: Standard, two spawns, turned 180°, a 160×160 map with 136×136 playable, 14 bases, and Char's stock textures. Say if you'd like any of those changed.
+</Claude>
+
+With a Style Pack in the Workspace, the third question also offers its Exemplar Maps, and Claude takes the tileset and lighting from the one you pick.
+
+</Objective>
+
+<Objective id="draft" title="Draft the half">
+
+Claude draws the half it will hand to the compiler: the main, the natural, two candidate thirds, the other bases, and the middle with its attack paths, shaped by your idea. It writes the blueprint with its own file tool, so Claude Code asks before it writes. Allow it.
+
+<Claude>
+I've made a `cinder-gate` folder in `~/sc2-maps` and written the blueprint there, as `cinder-gate.json`. The half, with the start in the north-west corner (the other player's start is its partner, in the south-east):
+
+```text
+middle        elev 1   12,8 – 148,144 (the whole playable area)
+ridge         elev 2   52,70 – 77,82, no ramp; its partner leaves a 6-cell gate
+natural       elev 2   46,102 – 82,144, ramp down at (68, 102), facing south
+main-rim      elev 2   8,106 – 48,148, a backdrop: the main and natural are drawn over it
+main          elev 3   12,112 – 46,144, ramp down to the natural at (46, 122)
+main-base     (28, 130)   start, no facing
+natural-base  (66, 132)   north-east
+third-west    (22, 90)    south-west  west edge, under the main
+third-east    (100, 132)  north-east  top edge, past the natural
+fourth-west   (22, 54)    south-west
+fifth-middle  (58, 56)    south-west  below the ridge
+corner-east   (136, 134)  north-east
+gate-rocks    6x6 at (80, 79); its partner at (80, 73) shuts the gate
+```
+
+The ridge's partner runs from x 83 to 108, so the gap between them, the gate, sits at the centre. What's left of the main rim is a band one level down along the main's south edge, so no cliff climbs two levels at once. Three attack paths: round the ridge's west end, round its east end, and through the gate once its rocks are down.
+</Claude>
+
+The draft follows the skill's [blueprint reference](https://github.com/TeamAntioch/sc2-adjutant/blob/main/packages/claude-plugin/skills/melee-design/BLUEPRINT.md): positions are map cells from the bottom-left, and a partner lands at (160 − x, 152 − y). Each base is a town hall's spot, with `facing` the corner its mineral line wraps. The start base has none: it faces away from the main ramp.
+
+</Objective>
+
+<Objective id="compile" title="Compile and revise">
+
+Claude compiles the draft, then revises it against the distance report until no warnings remain, three revisions at most.
+
+<Claude>
+<ToolCall name="compile_melee_map" args={{ blueprint: "/Users/you/sc2-maps/cinder-gate/cinder-gate.json", outputDir: "/Users/you/sc2-maps/cinder-gate/CinderGate.SC2Map" }}>
+  writes the package and times the distances
+</ToolCall>
+
+It built, with two warnings:
+
+```text
+Main to natural     13.5 s, to natural-base
+Main to third       21.9 s, to fifth-middle-rot
+Warnings (2):
+  [main-to-natural] natural-base: main to natural is 13.5 s, outside 6-10 s
+  [main-to-third] fifth-middle-rot: main to third is 21.9 s, outside 10-20 s
+```
+
+The natural's hall is too far from the main ramp. And the report took the other player's fifth base, at (102, 96) east of our natural's choke, as our third: both intended thirds are further. I'll move the main's hall nearer the ramp, to (32, 126), and the natural's to (62, 120), with its exit 2 cells west. The thirds come in, to (40, 88) and (94, 118), and the fifth base goes to (44, 60), so its partner moves away from our natural.
+
+<ToolCall name="compile_melee_map" args={{ blueprint: "/Users/you/sc2-maps/cinder-gate/cinder-gate.json", outputDir: "/Users/you/sc2-maps/cinder-gate/CinderGate.SC2Map" }} />
+
+No warnings now.
+</Claude>
+
+A broken melee rule fails the compile and writes nothing: a main with a second way out, a base on its own partner, a start hall off the town-hall rule's spot. The message names the rule and the object, and Claude fixes the blueprint and compiles again. A drawing warning, a mineral or geyser standing on a cliff, is fixed the same way, before the numbers. Neither counts as a revision.
+
+</Objective>
+
+<Objective id="hand-over" title="Read the hand-over">
+
+Claude hands the map over with its path, the report, any warning left with why, and a short play sketch.
+
+<Claude>
+*Cinder Gate* is at `~/sc2-maps/cinder-gate/CinderGate.SC2Map`. The report:
+
+```text
+Ramp to ramp        34.6 s (rocks down 27.7 s)
+Main to main        44.5 s (rocks down 37.6 s); by air 35.2 s
+Natural to natural  32.6 s (rocks down 26.3 s)
+Main to natural     9.6 s, to natural-base
+Main to third       17.5 s, to third-west
+Second third        21.1 s, to third-east
+Air vs ground, from the other main:
+  Player 1's main      air 35.2 s, ground 44.6 s (79%)
+  natural-base         air 29.2 s, ground 38.9 s (75%)
+  third-west           air 27.3 s, ground 31.0 s (88%)
+  Player 2's main      air 35.2 s, ground 44.5 s (79%)
+  natural-base-rot     air 29.2 s, ground 37.8 s (77%)
+  third-west-rot       air 27.3 s, ground 29.9 s (91%)
+Bases               14 (0 gold, 0 rich gas)
+No warnings.
+```
+
+No warnings are left. How it plays: each main sits in a corner, with the natural beside it on the top edge and its choke facing south. Out of the choke the third is a choice. The west third, 17.5 s, is the nearer, under the main's cliff and away from the middle. The east third, 21.1 s, sits east of the natural, out in the open. Armies go round either end of the ridge, until someone breaks the gate's rocks: that takes 7 s off the rush, from 34.6 s to 27.7 s.
+
+Open the map in the Editor and go through the walk-through checklist. Close it before you send me notes: rewriting a map the Editor has open can crash it.
+</Claude>
+
+</Objective>
+
+<Objective id="walk-through" title="Walk it through in the Editor">
+
+The report can't tell everything: walls, drop spots and how the map reads are for you to check. Open the map in the StarCraft II Editor with File > Open, and choose `~/sc2-maps/cinder-gate/CinderGate.SC2Map/ComponentList.SC2Components`. On Apple Silicon, open it with the fixed Editor ([the macOS Host docs](https://github.com/TeamAntioch/sc2-adjutant/blob/main/packages/plugin-host-macos/docs/macos-host.md#opening-a-map-in-the-editor) say how). Then play it with File > Test Document. Go through the skill's checklist:
+
+- Map > Map Status says **Melee**.
+- A Terran wall (Supply Depot, Barracks, Supply Depot) and a Protoss wall close the top of the main ramp, and the unbuildable plate sits at its foot.
+- The natural's choke closes with a standard wall: a Protoss Gateway, Cybernetics Core and Pylon, or Zerg buildings to narrow it.
+- A worker sent from the main's town hall to the natural's takes about the report's 9.6 s.
+- Each base's minerals and geysers look right, and a town hall fits on its spot.
+- No ground that only air can reach sits beside a main or natural, and no low ground under a mineral line gives a Reaper or a Siege Tank a perch.
+- Ramps and cliffs read clearly from the default camera and the minimap.
+
+Note what you'd change, then close the map before you ask for it: rewriting a map the Editor has open can crash it.
+
+</Objective>
+
+<Objective id="notes" title="Revise from your notes">
+
+Send your notes in plain words. Claude turns each into a blueprint edit, leaves the rest of the draft as it was, compiles, and reports which numbers moved.
+
+<You>I've closed it. Two notes: make the fifth base gold, and make the long way round the ridge longer, so breaking the gate matters more.</You>
+
+<Claude>
+I'll make `fifth-middle` a gold base, which makes its partner gold too, and run the ridge's west end 10 cells further, from 52 to 42.
+
+<ToolCall name="compile_melee_map" args={{ blueprint: "/Users/you/sc2-maps/cinder-gate/cinder-gate.json", outputDir: "/Users/you/sc2-maps/cinder-gate/CinderGate.SC2Map" }} />
+
+That went too far. The ridge now runs under the west third: two of its minerals and a geyser stand on the ridge's cliff, and its partner's too. Ramp to ramp is 40.6 s, above the 33-38 s band. I'll pull the west end back to 48.
+
+<ToolCall name="compile_melee_map" args={{ blueprint: "/Users/you/sc2-maps/cinder-gate/cinder-gate.json", outputDir: "/Users/you/sc2-maps/cinder-gate/CinderGate.SC2Map" }} />
+
+Clean, with no warnings. What moved:
+
+- Ramp to ramp 34.6 → 36.1 s. With the rocks down it's still 27.7 s, so breaking the gate now saves 8.4 s, not 6.9.
+- Main to main 44.5 → 45.9 s, and natural to natural 32.6 → 34.0 s.
+- Bases: 14, now 2 of them gold.
+
+The main, the natural and both thirds didn't move. The map is at the same path: walk it through again.
+</Claude>
+
+Each compile writes its files over the package's, so a change you make to them in the Editor is lost at the next one. Change the map through its blueprint, and keep the two together.
+
+</Objective>

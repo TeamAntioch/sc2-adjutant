@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="Trigger" Id="F8E7BD8A"/>
+    </Root>
+    <Element Type="Trigger" Id="F8E7BD8A">
+        <Identifier>StopSoundtrackMultiple</Identifier>
+        <Label Type="Label" Library="Ntve" Id="00000023"/>
+        <Section Value="Shared"/>
+        <InitOff/>
+        <Action Type="FunctionCall" Id="F5BD8D9E"/>
+    </Element>
+    <Element Type="FunctionCall" Id="F5BD8D9E">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="BF972A93"/>
+        <Parameter Type="Param" Id="41D579AF"/>
+        <Parameter Type="Param" Id="2A95095E"/>
+        <Parameter Type="Param" Id="3219B2D8"/>
+    </Element>
+    <Element Type="Param" Id="41D579AF">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="588D8154"/>
+        <FunctionCall Type="FunctionCall" Id="44639C6D"/>
+    </Element>
+    <Element Type="FunctionCall" Id="44639C6D">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+    </Element>
+    <Element Type="Param" Id="2A95095E">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="B779D450"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="E98A7B56"/>
+    </Element>
+    <Element Type="Param" Id="3219B2D8">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="CDA56BCF"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000113"/>
+    </Element>
+</TriggerData>

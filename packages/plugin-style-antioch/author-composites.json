@@ -1,0 +1,76 @@
+{
+  "source": "The author's own Doodad Composite recipes, built and checked in the Editor; merged into composites.json by scripts/build-composites.mjs",
+  "composites": [
+    {
+      "id": "crusher-press",
+      "description": "A crushing press over a conveyor belt, built and checked in the Editor by the author (2026-11-09): a ConveyorBeltBridge running along y, two SpaceDockArch gantries at scale 1 standing across it 2.75 either side of the head, a DOM_Crate double crate (variation 1) at 3x scale hung 3 above the belt as the press head, an AlarmLight centred on each of the four pillars (switch them to Stand Unpowered when the press is safe), and a DO NOT ENTER decal (Decal variation 27) past each end of the belt. For a crush-timing puzzle: the head's drop and the lights are the encounter's triggers, not the recipe's.",
+      "kind": "landmark",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "ConveyorBeltBridge",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "SpaceDockArch",
+          "x": 0,
+          "y": -2.75
+        },
+        {
+          "type": "SpaceDockArch",
+          "x": 0,
+          "y": 2.75
+        },
+        {
+          "type": "DOM_Crate",
+          "x": 0,
+          "y": 0,
+          "height": 3,
+          "scale": 3,
+          "variation": 1,
+          "noFootprint": true
+        },
+        {
+          "type": "AlarmLight",
+          "x": -3.311,
+          "y": -3.976
+        },
+        {
+          "type": "AlarmLight",
+          "x": 3.277,
+          "y": -3.815
+        },
+        {
+          "type": "AlarmLight",
+          "x": -3.338,
+          "y": 1.653
+        },
+        {
+          "type": "AlarmLight",
+          "x": 3.263,
+          "y": 1.583
+        },
+        {
+          "type": "Decal",
+          "x": 0,
+          "y": -8.668,
+          "height": 0.52,
+          "variation": 27
+        },
+        {
+          "type": "Decal",
+          "x": 0,
+          "y": 8.515,
+          "height": 0.52,
+          "variation": 27
+        }
+      ]
+    }
+  ]
+}

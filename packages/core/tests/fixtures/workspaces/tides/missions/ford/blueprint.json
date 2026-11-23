@@ -1,0 +1,36 @@
+{
+  "id": "ford",
+  "campaignId": "fixtures",
+  "title": "Ford",
+  "setting": "Tidal flats between a bank and the dunes, crossed by a ford the tide floods.",
+  "mapSize": { "width": 64, "height": 32 },
+  "zones": [
+    {
+      "id": "bank", "name": "Bank", "elevation": 1, "landform": "flat", "role": "refuge",
+      "polygon": [{ "x": 0, "y": 0 }, { "x": 16, "y": 0 }, { "x": 16, "y": 32 }, { "x": 0, "y": 32 }],
+      "connections": [{ "toZoneId": "flats", "type": "open" }]
+    },
+    {
+      "id": "flats", "name": "Flats", "elevation": 1, "landform": "flat", "role": "path",
+      "polygon": [{ "x": 16, "y": 0 }, { "x": 48, "y": 0 }, { "x": 48, "y": 32 }, { "x": 16, "y": 32 }],
+      "connections": [{ "toZoneId": "bank", "type": "open" }, { "toZoneId": "dunes", "type": "open" }]
+    },
+    {
+      "id": "dunes", "name": "Dunes", "elevation": 1, "landform": "flat", "role": "path",
+      "polygon": [{ "x": 48, "y": 0 }, { "x": 64, "y": 0 }, { "x": 64, "y": 32 }, { "x": 48, "y": 32 }],
+      "connections": [{ "toZoneId": "flats", "type": "open" }]
+    }
+  ],
+  "beats": [{ "id": "rising", "title": "Rising", "summary": "The tide comes in." }],
+  "mechanics": [
+    {
+      "id": "tide", "type": "tide",
+      "params": {
+        "ford": { "fromZoneId": "flats", "toZoneId": "bank" },
+        "lowZoneIds": ["flats"], "safeZoneIds": ["bank"],
+        "firstSeconds": 60, "everySeconds": 90, "floodSeconds": 20, "warningSeconds": 15
+      }
+    }
+  ],
+  "screenplay": { "title": "Ford" }
+}

@@ -1,0 +1,5 @@
+﻿FunctionDef/Name/2F0A387D=Create Hero Survival Objectives
+Structure/Name/3BB61336=Global Variables and Objectives
+Variable/Name/540196B6=GO
+Variable/Name/62F2696B=Global - Hero Dies (Artanis)
+Variable/Name/A86886DA=Global - Hero Dies (Zeratul)

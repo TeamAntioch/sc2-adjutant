@@ -1,0 +1,16 @@
+{
+  "id": "outpost",
+  "campaignId": "fixtures",
+  "title": "Outpost",
+  "setting": "A quiet outpost, where two officers talk at mission start.",
+  "mapSize": { "width": 64, "height": 64 },
+  "zones": [
+    { "id": "yard", "name": "Yard", "elevation": 1, "landform": "flat", "role": "base", "polygon": [{ "x": 0, "y": 0 }, { "x": 64, "y": 0 }, { "x": 64, "y": 64 }, { "x": 0, "y": 64 }] }
+  ],
+  "beats": [{ "id": "convoy", "title": "Convoy", "summary": "The convoy arrives." }],
+  "mechanics": [],
+  "screenplay": {
+    "title": "Outpost",
+    "script": { "source": "outpost.md", "voiceFormat": "wav", "cues": [{ "scene": 1, "cue": { "type": "missionStart" } }] }
+  }
+}

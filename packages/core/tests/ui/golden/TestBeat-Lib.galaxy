@@ -1,0 +1,25 @@
+//--------------------------------------------------------------------------------------------------
+// Custom Script: TestBeat
+//--------------------------------------------------------------------------------------------------
+bool libHbr1_ui_testBeat_playing;
+
+void libHbr1_InitCustomScript () {
+}
+
+int libHbr1_gf_PlayTestBeat (int lp_options) {
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_testBeat_playing = true;
+    Wait(2.0, c_timeReal);
+    libHbr1_ui_testBeat_playing = false;
+    return lp_options;
+}
+
+bool libHbr1_gf_TestBeatIsPlaying () {
+    // Automatic Variable Declarations
+    // Implementation
+    return libHbr1_ui_testBeat_playing;
+}
+
+int libHbr1_gf_PlayTestBeat (int lp_options);
+bool libHbr1_gf_TestBeatIsPlaying ();

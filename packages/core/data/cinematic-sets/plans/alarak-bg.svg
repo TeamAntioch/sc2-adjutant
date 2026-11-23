@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Alarak BG: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Alarak BG</text>
+<text x="24" y="54" font-size="10" fill="#666">alarak-bg · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="296.5" y="241.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMStatic</title></rect>
+<rect x="294.4" y="336.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_SMX3_Alarak_Throne</title></rect>
+<rect x="266.5" y="413.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_Nebula</title></rect>
+<rect x="292.6" y="357.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Background_Starfield_Generic</title></rect>
+<line x1="298" y1="244.4" x2="298" y2="234.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="298" cy="244.4" r="4" fill="#2f7de1" stroke="#fff"><title>Alarak (SMX3ProtossAlarak)</title></circle>
+<text x="304" y="256.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Alarak</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_CloseUp,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot2,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_Attack_Transition,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_Attack</text>
+<text x="560" y="192" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="204" font-size="9" fill="#333">SCREEN RTT s010 s020 s050, SCREEN</text>
+<text x="560" y="216" font-size="9" fill="#333">RTT s070, SCREEN RTT s090, SCREEN</text>
+<text x="560" y="228" font-size="9" fill="#333">RTT s100, SCREEN RTT s120, SCREEN</text>
+<text x="560" y="240" font-size="9" fill="#333">RTT s170</text>
+<text x="560" y="252" font-size="9" fill="#333">Marks: 1; cameras: 0 (0 aimed</text>
+<text x="560" y="264" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="276" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="288" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="300" font-size="9" fill="#333"></text>
+<text x="560" y="312" font-size="9" fill="#333">Models:</text>
+<text x="560" y="324" font-size="9" fill="#333">Glue_SMX3_Alarak_Throne</text>
+<text x="560" y="336" font-size="9" fill="#333">SMStatic</text>
+<text x="560" y="348" font-size="9" fill="#333"></text>
+<text x="560" y="360" font-size="9" fill="#333">Also in:</text>
+</svg>

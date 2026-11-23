@@ -1,0 +1,382 @@
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: HeroMoment
+//--------------------------------------------------------------------------------------------------
+// The hero moment's state: whether one plays, and how many in-play lines hold moments off,
+// which a moment waits for (Missions hold them while a line plays: #656); the hero and its owner;
+// the units frozen, whether the freeze holds and a count of freezes; whether the camera sways
+// and the yaw it sways about; the game UI's frames as they were; the glow on the hero, and the glow fading; and the triggers
+// for the re-sweep, the sway and the fade.
+bool libHbr1_ui_heroMoment_playing;
+int libHbr1_ui_heroMoment_linesPlaying;
+unit libHbr1_ui_heroMoment_hero;
+int libHbr1_ui_heroMoment_player;
+unitgroup libHbr1_ui_heroMoment_frozen;
+bool libHbr1_ui_heroMoment_freezing;
+int libHbr1_ui_heroMoment_freezes;
+bool libHbr1_ui_heroMoment_swaying;
+fixed libHbr1_ui_heroMoment_baseYaw;
+bool[64] libHbr1_ui_heroMoment_uiWasVisible;
+actor libHbr1_ui_heroMoment_aura;
+actor libHbr1_ui_heroMoment_fadingAura;
+actor libHbr1_ui_heroMoment_glaze;
+actor libHbr1_ui_heroMoment_fadingGlaze;
+trigger libHbr1_ui_heroMoment_sweep;
+trigger libHbr1_ui_heroMoment_sway;
+trigger libHbr1_ui_heroMoment_fade;
+
+// True while any player is in cinematic mode, as NativeLib's Cinematic Mode records it.
+bool libHbr1_ui_heroMoment_InCinematic () {
+    playergroup lv_players;
+    int lv_player;
+
+    lv_players = PlayerGroupActive();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(lv_players, lv_player);
+        if (lv_player < 0) {
+            return false;
+        }
+        if (libNtve_gf_PlayerInCinematicMode(lv_player)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Freezes one unit: paused, with its animations paused, which holds a missile in flight.
+void libHbr1_ui_heroMoment_FreezeUnit (unit lp_unit) {
+    libNtve_gf_PauseUnit(lp_unit, true);
+    libNtve_gf_SendActorMessageToUnit(lp_unit, "AnimSetPausedAll");
+    UnitGroupAdd(libHbr1_ui_heroMoment_frozen, lp_unit);
+}
+
+// Freezes every live unit but the hero that isn't frozen yet, missiles with them.
+void libHbr1_ui_heroMoment_FreezeNew () {
+    unitgroup lv_units;
+    int lv_index;
+    unit lv_unit;
+
+    lv_units = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter(0, 0, 0, (1 << (c_targetFilterDead - 32))), 0);
+    lv_index = UnitGroupCount(lv_units, c_unitCountAll);
+    while (lv_index > 0) {
+        lv_unit = UnitGroupUnit(lv_units, lv_index);
+        if ((lv_unit != libHbr1_ui_heroMoment_hero) && !UnitGroupHasUnit(libHbr1_ui_heroMoment_frozen, lv_unit)) {
+            libHbr1_ui_heroMoment_FreezeUnit(lv_unit);
+        }
+        lv_index -= 1;
+    }
+}
+
+// Freezes the world but the hero, who is paused with no anim pause so as to keep animating, and
+// pauses AI and mission time; the re-sweep freezes units created while it holds.
+void libHbr1_ui_heroMoment_Freeze () {
+    libHbr1_ui_heroMoment_frozen = UnitGroupEmpty();
+    libHbr1_ui_heroMoment_FreezeNew();
+    libNtve_gf_PauseUnit(libHbr1_ui_heroMoment_hero, true);
+    AITimePause(true);
+    GameSetMissionTimePaused(true);
+    libHbr1_ui_heroMoment_freezing = true;
+    libHbr1_ui_heroMoment_freezes += 1;
+    if (libHbr1_ui_heroMoment_sweep == null) {
+        libHbr1_ui_heroMoment_sweep = TriggerCreate("libHbr1_ui_heroMoment_SweepFunc");
+    }
+    TriggerExecute(libHbr1_ui_heroMoment_sweep, false, false);
+}
+
+// The re-sweep, every 0.25 s of real time while the freeze that ran it holds: a re-sweep
+// still waiting when the next moment's freeze begins ends, leaving that freeze its own.
+bool libHbr1_ui_heroMoment_SweepFunc (bool testConds, bool runActions) {
+    int lv_freeze;
+
+    lv_freeze = libHbr1_ui_heroMoment_freezes;
+    while (libHbr1_ui_heroMoment_freezing && (lv_freeze == libHbr1_ui_heroMoment_freezes)) {
+        Wait(0.25, c_timeReal);
+        if (libHbr1_ui_heroMoment_freezing && (lv_freeze == libHbr1_ui_heroMoment_freezes)) {
+            libHbr1_ui_heroMoment_FreezeNew();
+        }
+    }
+    return true;
+}
+
+// Unfreezes the units the freeze froze and the hero, and resumes AI and mission time.
+void libHbr1_ui_heroMoment_Unfreeze () {
+    int lv_index;
+    unit lv_unit;
+
+    libHbr1_ui_heroMoment_freezing = false;
+    lv_index = UnitGroupCount(libHbr1_ui_heroMoment_frozen, c_unitCountAll);
+    while (lv_index > 0) {
+        lv_unit = UnitGroupUnit(libHbr1_ui_heroMoment_frozen, lv_index);
+        libNtve_gf_PauseUnit(lv_unit, false);
+        libNtve_gf_SendActorMessageToUnit(lv_unit, "AnimSetPausedAll 0");
+        lv_index -= 1;
+    }
+    libNtve_gf_PauseUnit(libHbr1_ui_heroMoment_hero, false);
+    AITimePause(false);
+    GameSetMissionTimePaused(false);
+}
+
+// Hides the game UI, as NativeLib's cinematic mode does but keeping BattleUI, remembering which
+// frames showed, and stores and clears the owner's selection.
+void libHbr1_ui_heroMoment_HideGameUI () {
+    int lv_frame;
+
+    libNtve_gf_StoreUnitSelection(libHbr1_ui_heroMoment_player, libNtve_ge_UnitSelectionStoreOption_ClearUnitSelection);
+    UISetDragSelectEnabled(PlayerGroupAll(), false);
+    lv_frame = c_syncFrameTypeFirst;
+    while (lv_frame <= c_syncFrameTypeLast) {
+        libHbr1_ui_heroMoment_uiWasVisible[lv_frame] = UIFrameVisible(libHbr1_ui_heroMoment_player, lv_frame);
+        if (lv_frame != c_syncFrameTypeBattleUI) {
+            UISetFrameVisible(PlayerGroupAll(), lv_frame, false);
+        }
+        lv_frame += 1;
+    }
+    UIClearMessages(PlayerGroupAll(), c_messageAreaAll);
+    UISetMode(PlayerGroupAll(), c_uiModeFullscreen, 0.5);
+}
+
+// Shows the game UI as it was, and restores the owner's selection.
+void libHbr1_ui_heroMoment_RestoreGameUI () {
+    int lv_frame;
+
+    UISetMode(PlayerGroupAll(), c_uiModeConsole, 0.5);
+    lv_frame = c_syncFrameTypeFirst;
+    while (lv_frame <= c_syncFrameTypeLast) {
+        if (lv_frame != c_syncFrameTypeBattleUI) {
+            UISetFrameVisible(PlayerGroupAll(), lv_frame, libHbr1_ui_heroMoment_uiWasVisible[lv_frame]);
+        }
+        lv_frame += 1;
+    }
+    UISetDragSelectEnabled(PlayerGroupAll(), true);
+    libNtve_gf_RestoreUnitSelection(libHbr1_ui_heroMoment_player);
+}
+
+// Saves and locks the owner's camera, pans and zooms it to the hero, then starts the sway.
+void libHbr1_ui_heroMoment_CameraIn () {
+    CameraSave(libHbr1_ui_heroMoment_player);
+    CameraLockInput(libHbr1_ui_heroMoment_player, true);
+    libHbr1_ui_heroMoment_baseYaw = (CameraGetYaw(libHbr1_ui_heroMoment_player) + 15.0);
+    CameraPan(libHbr1_ui_heroMoment_player, UnitGetPosition(libHbr1_ui_heroMoment_hero), 0.8, -1.0, 10.0, false);
+    CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueDistance, 13.0, 0.8, -1.0, 10.0);
+    CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValuePitch, 22.0, 0.8, -1.0, 10.0);
+    CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueYaw, libHbr1_ui_heroMoment_baseYaw, 0.8, -1.0, 10.0);
+    CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueHeightOffset, 1.2, 0.8, -1.0, 10.0);
+    libHbr1_ui_heroMoment_swaying = true;
+    if (libHbr1_ui_heroMoment_sway == null) {
+        libHbr1_ui_heroMoment_sway = TriggerCreate("libHbr1_ui_heroMoment_SwayFunc");
+    }
+    TriggerExecute(libHbr1_ui_heroMoment_sway, false, false);
+}
+
+// The sway, in real time once the zoom is done: yaw ±5 every 4 s and height ±0.25
+// every 5 s, each leg eased into the next, until the moment ends it.
+bool libHbr1_ui_heroMoment_SwayFunc (bool testConds, bool runActions) {
+    fixed lv_yawLeft;
+    fixed lv_heightLeft;
+    fixed lv_yawWay;
+    fixed lv_heightWay;
+
+    lv_yawLeft = 0.0;
+    lv_heightLeft = 0.0;
+    lv_yawWay = 1.0;
+    lv_heightWay = 1.0;
+    Wait(0.8, c_timeReal);
+    while (libHbr1_ui_heroMoment_swaying) {
+        if (lv_yawLeft <= 0.0) {
+            CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueYaw, (libHbr1_ui_heroMoment_baseYaw + 5.0 * lv_yawWay), 4.0, -1.0, 10.0);
+            lv_yawWay = -lv_yawWay;
+            lv_yawLeft = 4.0;
+        }
+        if (lv_heightLeft <= 0.0) {
+            CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueHeightOffset, (1.2 + 0.25 * lv_heightWay), 5.0, -1.0, 10.0);
+            lv_heightWay = -lv_heightWay;
+            lv_heightLeft = 5.0;
+        }
+        Wait(0.25, c_timeReal);
+        lv_yawLeft -= 0.25;
+        lv_heightLeft -= 0.25;
+    }
+    return true;
+}
+
+// Stops the sway and returns the owner's camera to exactly where it was, then unlocks it.
+void libHbr1_ui_heroMoment_CameraOut () {
+    libHbr1_ui_heroMoment_swaying = false;
+    CameraRestore(libHbr1_ui_heroMoment_player, 1.0, -1.0, 10.0);
+    Wait(1.0, c_timeReal);
+    CameraLockInput(libHbr1_ui_heroMoment_player, false);
+}
+
+// Takes a glaze off at once.
+void libHbr1_ui_heroMoment_RemoveGlaze (actor lp_glaze) {
+    ActorSend(lp_glaze, "ModelMaterialRemoveFrom ::Main");
+    ActorSend(lp_glaze, "Destroy Immediate");
+}
+
+// Puts the glow on the hero: the burst at the hero's feet for 1.5 s, the aura there, tinted,
+// and the glaze, after taking off a last moment's still fading.
+void libHbr1_ui_heroMoment_GlowOn () {
+    actor lv_burst;
+
+    if (libHbr1_ui_heroMoment_fadingGlaze != null) {
+        libHbr1_ui_heroMoment_RemoveGlaze(libHbr1_ui_heroMoment_fadingGlaze);
+        libHbr1_ui_heroMoment_fadingGlaze = null;
+    }
+    lv_burst = libNtve_gf_AttachModelToUnit(libHbr1_ui_heroMoment_hero, "ShadowManifestationModel", "Ref_Origin");
+    libHbr1_ui_heroMoment_aura = libNtve_gf_AttachModelToUnit(libHbr1_ui_heroMoment_hero, "QuayAura", "Ref_Origin");
+    ActorSend(libHbr1_ui_heroMoment_aura, libNtve_gf_SetTintColor(Color(0.00, 100.00, 67.06), 3.0, 0.0));
+    libNtve_gf_SendActorMessageToUnit(libHbr1_ui_heroMoment_hero, "Create QuayGlaze");
+    libHbr1_ui_heroMoment_glaze = ActorFromScope(ActorScopeFromUnit(libHbr1_ui_heroMoment_hero), "QuayGlaze");
+    Wait(1.5, c_timeReal);
+    ActorSend(lv_burst, "Destroy Immediate");
+}
+
+// Hands the glow to the fade, which fades it out and removes it in its own thread.
+void libHbr1_ui_heroMoment_GlowOff () {
+    libHbr1_ui_heroMoment_fadingAura = libHbr1_ui_heroMoment_aura;
+    libHbr1_ui_heroMoment_aura = null;
+    libHbr1_ui_heroMoment_fadingGlaze = libHbr1_ui_heroMoment_glaze;
+    libHbr1_ui_heroMoment_glaze = null;
+    if (libHbr1_ui_heroMoment_fade == null) {
+        libHbr1_ui_heroMoment_fade = TriggerCreate("libHbr1_ui_heroMoment_FadeFunc");
+    }
+    TriggerExecute(libHbr1_ui_heroMoment_fade, false, false);
+}
+
+// The fade: the glow handed to it fades over 2 s of real time, then goes, the glaze unless a
+// moment since has taken it off.
+bool libHbr1_ui_heroMoment_FadeFunc (bool testConds, bool runActions) {
+    actor lv_aura;
+    actor lv_glaze;
+
+    lv_aura = libHbr1_ui_heroMoment_fadingAura;
+    libHbr1_ui_heroMoment_fadingAura = null;
+    ActorSend(lv_aura, libNtve_gf_SetOpacity(0.0, 2.0));
+    lv_glaze = libHbr1_ui_heroMoment_fadingGlaze;
+    if (lv_glaze != null) {
+        ActorSend(lv_glaze, libNtve_gf_SetOpacity(0.0, 2.0));
+    }
+    Wait(2.0, c_timeReal);
+    ActorSend(lv_aura, "Destroy Immediate");
+    if ((lv_glaze != null) && (lv_glaze == libHbr1_ui_heroMoment_fadingGlaze)) {
+        libHbr1_ui_heroMoment_RemoveGlaze(lv_glaze);
+        libHbr1_ui_heroMoment_fadingGlaze = null;
+    }
+    return true;
+}
+
+// Begin Hero Moment: waits its turn, then plays the moment's start on lp_hero; false, doing
+// nothing, if lp_hero is dead by then.
+bool libHbr1_ui_heroMoment_Begin (unit lp_hero) {
+    while (libHbr1_ui_heroMoment_InCinematic() || libHbr1_ui_heroMoment_playing || (libHbr1_ui_heroMoment_linesPlaying > 0)) {
+        Wait(0.25, c_timeGame);
+    }
+    if (!UnitIsAlive(lp_hero)) {
+        return false;
+    }
+    libHbr1_ui_heroMoment_playing = true;
+    libHbr1_ui_heroMoment_hero = lp_hero;
+    libHbr1_ui_heroMoment_player = UnitGetOwner(lp_hero);
+    SoundPlayForPlayer(SoundLink("UI_AC_Zeratul_BladeOn", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    SoundPlayForPlayer(SoundLink("Protoss_PowerUpLarge", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    libHbr1_ui_heroMoment_Freeze();
+    libHbr1_ui_heroMoment_HideGameUI();
+    libHbr1_ui_heroMoment_CameraIn();
+    libHbr1_ui_heroMoment_GlowOn();
+    return true;
+}
+
+// End Hero Moment: returns the camera, then after the hand-back resumes play and fades the glow.
+void libHbr1_ui_heroMoment_End () {
+    if (!libHbr1_ui_heroMoment_playing) {
+        return;
+    }
+    libHbr1_ui_heroMoment_CameraOut();
+    Wait(0.4, c_timeReal);
+    libHbr1_ui_heroMoment_Unfreeze();
+    libHbr1_ui_heroMoment_RestoreGameUI();
+    libHbr1_ui_heroMoment_GlowOff();
+    libHbr1_ui_heroMoment_playing = false;
+}
+
+// Flash Hero: the flash model on lp_hero, scaled, with its sound; it pauses nothing.
+void libHbr1_ui_heroMoment_Flash (unit lp_hero) {
+    actor lv_flash;
+
+    if (!UnitIsAlive(lp_hero)) {
+        return;
+    }
+    lv_flash = libNtve_gf_AttachModelToUnit(lp_hero, "HeroicAuraImpact", "Ref_Center");
+    ActorSend(lv_flash, libNtve_gf_SetScale(2.25, 2.25, 2.25, 0.0));
+    SoundPlayForPlayer(SoundLink("Protoss_PowerUpSmall", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    Wait(1.8, c_timeReal);
+    ActorSend(lv_flash, "Destroy Immediate");
+}
+
+void libHbr1_InitCustomScript () {
+}
+
+bool libHbr1_gf_BeginHeroMoment (unit lp_hero) {
+    // Automatic Variable Declarations
+    // Implementation
+    return libHbr1_ui_heroMoment_Begin(lp_hero);
+}
+
+void libHbr1_gf_EndHeroMoment () {
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_heroMoment_End();
+}
+
+bool libHbr1_gf_HeroMomentIsPlaying () {
+    // Automatic Variable Declarations
+    // Implementation
+    return libHbr1_ui_heroMoment_playing;
+}
+
+void libHbr1_gf_HoldHeroMomentsForLine () {
+    // Automatic Variable Declarations
+    // Implementation
+    while (libHbr1_ui_heroMoment_playing) {
+        Wait(0.25, c_timeGame);
+    }
+    libHbr1_ui_heroMoment_linesPlaying += 1;
+}
+
+void libHbr1_gf_ReleaseHeroMomentsAfterLine () {
+    // Automatic Variable Declarations
+    // Implementation
+    if (libHbr1_ui_heroMoment_linesPlaying > 0) {
+        libHbr1_ui_heroMoment_linesPlaying -= 1;
+    }
+}
+
+trigger auto_libHbr1_gf_FlashHero_Trigger = null;
+unit auto_libHbr1_gf_FlashHero_lp_hero;
+
+void libHbr1_gf_FlashHero (unit lp_hero) {
+    auto_libHbr1_gf_FlashHero_lp_hero = lp_hero;
+
+    if (auto_libHbr1_gf_FlashHero_Trigger == null) {
+        auto_libHbr1_gf_FlashHero_Trigger = TriggerCreate("auto_libHbr1_gf_FlashHero_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libHbr1_gf_FlashHero_Trigger, false, false);
+}
+
+bool auto_libHbr1_gf_FlashHero_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_hero = auto_libHbr1_gf_FlashHero_lp_hero;
+
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_heroMoment_Flash(lp_hero);
+    return true;
+}
+
+bool libHbr1_gf_BeginHeroMoment (unit lp_hero);
+void libHbr1_gf_EndHeroMoment ();
+bool libHbr1_gf_HeroMomentIsPlaying ();
+void libHbr1_gf_HoldHeroMomentsForLine ();
+void libHbr1_gf_ReleaseHeroMomentsAfterLine ();
+void libHbr1_gf_FlashHero (unit lp_hero);

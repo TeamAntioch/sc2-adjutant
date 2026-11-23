@@ -1,0 +1,217 @@
+export const meta = {
+  title: "Your first Mission",
+  summary: "Start a Workspace with /sc2-adjutant:init, co-design the example Mission through the four Co-design Stages with Claude, signing off each, and open its Map Package in the Editor.",
+  minutes: 25,
+};
+
+You'll make a Workspace, the folder that holds a Campaign's Missions, and co-design its one Mission, *Ashfall Relay*, with Claude. A Mission is built in four Co-design Stages: Beats and Mechanics, the geography sketch, palette and placement, and dialogue and compilation. Each Stage ends with your sign-off, and only you can give it. By the end you'll have a Map Package, the unpacked map folder the StarCraft II Editor opens, and you'll have looked at it in the Editor.
+
+The turns below are written by hand. Claude's words will differ in your session, but the tool calls are the ones it makes.
+
+<Objective id="workspace" title="Start a Workspace">
+
+Install Claude Code and the plugin first ([Install](/install/), steps 1 to 3), and start `claude` in a new, empty folder. Then make the Workspace there:
+
+<You>`/sc2-adjutant:init`</You>
+
+<Claude>
+Node v22.18.0 is new enough, and this folder is empty, so the Workspace goes here. `init` copied the example Campaign, installed sc2-adjutant with this machine's Host Adapter, and wrote your machine config, naming that adapter.
+
+To start the server, type `/mcp`, select `plugin:sc2-adjutant:sc2-adjutant` and reconnect it. Then run `/sc2-adjutant:co-design ashfall-relay`.
+</Claude>
+
+[`/sc2-adjutant:init`](/commands/init/) runs `init` from npm for you. `init` copies the example Campaign into the folder: a Campaign Pack, a Campaign Mod with three stock characters, and one Mission, `ashfall-relay`, with its Blueprint and Screenplay. It installs sc2-adjutant there with your machine's Host Adapter, the macOS or Windows one, and names that adapter in your machine config if you don't have one yet. It refuses a folder that already holds files it would overwrite; Claude then offers a new subfolder.
+
+Reconnect the server with `/mcp` as Claude says. It should list `plugin:sc2-adjutant:sc2-adjutant` as connected. If it doesn't, quit Claude Code and start `claude` again in the folder.
+
+</Objective>
+
+<Objective id="co-design" title="Open the co-design session">
+
+<You>`/sc2-adjutant:co-design ashfall-relay`</You>
+
+<Claude>
+<ToolCall name="get_session_state" args={{ mission: "ashfall-relay" }}>the Stage it's at, what's signed off, what's next</ToolCall>
+
+*Ashfall Relay* is at Stage 1, Beats and Mechanics, with nothing signed off yet. A Marine Sergeant lands on a volcanic plain and has to reach a silent relay to the east. The Ash Flats between them flood with magma every 34 seconds. The next step is to agree the Beats, the Objectives and the Mechanics.
+</Claude>
+
+[`/sc2-adjutant:co-design`](/commands/co-design/) starts a session, or picks one up where you left it. The Stage lives in the Mission's folder (`co-design.json`), not in the conversation, so you can close Claude Code between Stages.
+
+</Objective>
+
+<Objective id="stage-1" title="Stage 1: agree the Beats and Mechanics">
+
+Stage 1 is the Mission's shape: its Beats (the story in steps), its Objectives and its Mechanics. Ask about it in plain words.
+
+<You>What are the Beats? I'd like something to do on the mesa while a surge goes by.</You>
+
+<Claude>
+<ToolCall name="get_blueprint" args={{ mission: "ashfall-relay", pointer: "/beats" }}>reads the Beats</ToolCall>
+
+Three Beats: *Landing* on the pad, where the Adjutant gives the briefing and the Foreman warns of the surges; *Crossing* the flats, waiting out surges on the mesa; and *Relay restored*. The one Objective is to reach the relay. I can add a secondary Objective to the Crossing Beat: reach the lookout on the mesa. Shall I?
+</Claude>
+
+<You>Yes.</You>
+
+<Claude>
+<ToolCall
+  name="patch_blueprint"
+  args={{
+    mission: "ashfall-relay",
+    patch: [
+      {
+        op: "add",
+        path: "/objectives/-",
+        value: {
+          id: "reach_lookout",
+          title: "Reach the lookout",
+          description: "Climb to the lookout on the mesa and watch a surge go by.",
+          type: "secondary",
+          beatId: "crossing",
+          completeWhen: { type: "anchorEntersZone", anchorId: "sergeant", zoneId: "mesa" },
+        },
+      },
+    ],
+  }}
+>
+  saves the Blueprint only if it still validates
+</ToolCall>
+
+Added. When you agree the Beats, the Objectives and the magma hazard as they stand, sign Stage 1 off.
+</Claude>
+
+Claude Code asks before each tool that writes, such as `patch_blueprint`. Allow it.
+
+<You>`/sc2-adjutant:sign-off ashfall-relay three Beats, the magma hazard, a secondary objective at the lookout`</You>
+
+<Claude>
+<ToolCall name="sign_off_stage" args={{ mission: "ashfall-relay", stage: 1, note: "Three Beats, the magma hazard, and a secondary objective at the lookout" }} />
+
+Stage 1 is signed off. *Ashfall Relay* is now at Stage 2, the geography sketch.
+</Claude>
+
+Only you can sign a Stage off: Claude can't run [`/sc2-adjutant:sign-off`](/commands/sign-off/) by itself. A Stage can't be skipped, and a signed-off one comes back only when you ask for it with [`/sc2-adjutant:reopen`](/commands/reopen/).
+
+</Objective>
+
+<Objective id="stage-2" title="Stage 2: sketch the geography">
+
+Stage 2 is the map's layout: its Zones, the Connections between them and their heights. Claude draws it and checks it with the [`level-design`](/skills/level-design/) skill. There's no terrain yet: it waits for this sign-off.
+
+<You>Show me the layout.</You>
+
+<Claude>
+<ToolCall name="preview" args={{ mission: "ashfall-relay" }}>draws the sketch, and writes it beside the Blueprint as preview.svg</ToolCall>
+
+Four Zones, west to east: the Landing Pad, the Ash Flats with the Mesa above them, and the Relay Station. The only way up to the Mesa is a ramp from the flats.
+</Claude>
+
+<You>Add a second ramp, from the pad straight up to the mesa.</You>
+
+<Claude>
+<ToolCall
+  name="patch_blueprint"
+  args={{ mission: "ashfall-relay", patch: [{ op: "add", path: "/zones/0/connections/-", value: { toZoneId: "mesa", type: "ramp" } }] }}
+/>
+
+<ToolCall name="check_layout" args={{ mission: "ashfall-relay" }}>critiques the layout: routes, entrances, travel times, the hazard's warning</ToolCall>
+
+Done, and the layout check passes. The route to the relay still crosses the flats, and the worst retreat from a surge is about 8 seconds against 10 seconds of warning.
+</Claude>
+
+<You>`/sc2-adjutant:sign-off ashfall-relay four Zones, ramps to the mesa from the pad and the flats`</You>
+
+<Claude>
+<ToolCall name="sign_off_stage" args={{ mission: "ashfall-relay", stage: 2, note: "Four Zones, with ramps to the mesa from the pad and the flats" }} />
+
+Stage 2 is signed off. Next is Stage 3, palette and placement.
+</Claude>
+
+</Objective>
+
+<Objective id="stage-3" title="Stage 3: place the Anchors and compile">
+
+Stage 3 is the look and the placement: the tileset, textures, lighting and doodads, with the [`exemplar-design`](/skills/exemplar-design/) skill, and where each Anchor (a named unit or point) stands. Its result is something to look at, so this Stage ends with a compile.
+
+<Claude>
+<ToolCall name="get_session_state" args={{ mission: "ashfall-relay" }} />
+
+Before we start: your Stage 1 sign-off is marked stale, because the Blueprint has changed since you gave it. Stage 2's ramp did that. Does the Stage 1 sign-off still stand?
+</Claude>
+
+<You>It stands. Move the lookout east, to the edge of the mesa nearest the relay.</You>
+
+<Claude>
+<ToolCall name="move_anchor" args={{ mission: "ashfall-relay", anchor: "lookout", position: { x: 64, y: 42 } }} />
+
+The Lookout is at (64, 42), on the Mesa's edge above the flats, near the relay. I'll keep the stock palette for a first pass, and compile the map so you can look at it in the Editor. If the Editor has the map open, close it first: rewriting a map the Editor has open can crash it.
+</Claude>
+
+<You>`/sc2-adjutant:compile ashfall-relay`</You>
+
+<Claude>
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay" }}>writes the package in place, beside the Blueprint</ToolCall>
+
+Compiled to `missions/ashfall-relay/Ashfall-Relay.SC2Map`, with `compile-record.json` beside it. Two warnings: the Landing Beat reveals the Ash Flats and the Mesa with no point chosen, so each reveal explores the widest circle inside its Zone. That's fine for now; a point Anchor for each would aim them.
+</Claude>
+
+A stale sign-off is a question for you, not an error. It stands until you reopen the Stage.
+
+</Objective>
+
+<Objective id="editor" title="Open the Map Package in the Editor">
+
+Open the map in the StarCraft II Editor with File > Open, and choose `missions/ashfall-relay/Ashfall-Relay.SC2Map/ComponentList.SC2Components`. An unpacked Map Package opens through that file, not its folder. On a Mac you can double-click it in Finder. On Apple Silicon, open it with the fixed Editor ([the macOS Host docs](https://github.com/TeamAntioch/sc2-adjutant/blob/main/packages/plugin-host-macos/docs/macos-host.md#opening-a-map-in-the-editor) say how).
+
+Look at the pad, the flats, the two ramps and the lookout. Then close the map, and sign Stage 3 off.
+
+<You>`/sc2-adjutant:sign-off ashfall-relay the stock palette, the lookout near the relay`</You>
+
+<Claude>
+<ToolCall name="sign_off_stage" args={{ mission: "ashfall-relay", stage: 3, note: "The stock palette, and the lookout near the relay" }} />
+
+Stage 3 is signed off. Last is Stage 4, dialogue and compilation.
+</Claude>
+
+#### What the compile owns
+
+The compile wrote only what its compile record lists. Anything you add in the Editor, such as a doodad you place by hand, is Kept Content: the next compile leaves it as it is. If you change something the compile wrote, the next compile stops, writes nothing, and asks whether to keep or discard each change.
+
+</Objective>
+
+<Objective id="stage-4" title="Stage 4: play it, then sign off" needs="editor.testDocument">
+
+Stage 4 wires the dialogue and cutscenes, then plays the Mission. *Ashfall Relay*'s Screenplay is already wired, so this Stage is mostly the play.
+
+<You>When does the dialogue play?</You>
+
+<Claude>
+<ToolCall name="get_blueprint" args={{ mission: "ashfall-relay", pointer: "/screenplay/script/cues" }} />
+
+Scene 1, the briefing on the pad, plays at the start. Scene 2 plays when the Sergeant reaches the relay. The voice files are silent placeholders for now.
+</Claude>
+
+Close the map in the Editor, then type the test command. Claude can't start the game by itself.
+
+<You>`/sc2-adjutant:test ashfall-relay`</You>
+
+<Claude>
+<ToolCall name="test_mission" args={{ mission: "ashfall-relay" }}>compiles, then runs the Editor's Test Document</ToolCall>
+
+Compiled, with the same two warnings, and the game is starting through the Editor's Test Document. Play it, quit the game, and tell me what you saw.
+</Claude>
+
+A Host Adapter that can run Test Document starts the game for you. Without one, `test_mission` still compiles, and hands you the steps: open the map in the Editor, wait for it to load, then choose File > Test Document.
+
+<You>It plays: the briefing, the surges, the lookout and the relay. `/sc2-adjutant:sign-off ashfall-relay it plays as agreed`</You>
+
+<Claude>
+<ToolCall name="sign_off_stage" args={{ mission: "ashfall-relay", stage: 4, note: "It plays: the briefing, the surges, the lookout and the relay" }} />
+
+Every Stage of *Ashfall Relay* is signed off. A change from here goes back to the Stage it belongs to, and that Stage is reopened only when you ask.
+</Claude>
+
+Commit the Workspace: the Blueprint, `co-design.json`, and the Map Package with its compile record. Open the Map Package from there whenever you work on it in the Editor.
+
+</Objective>

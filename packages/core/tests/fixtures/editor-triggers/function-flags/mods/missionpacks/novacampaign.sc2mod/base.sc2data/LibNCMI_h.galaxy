@@ -1,0 +1,2 @@
+void libNCMI_gf_StartAIPersonalitiesForAllPlayersCampaign ();
+void libNCMI_gf_StartCampaignAIForAllPlayersVoid ();

@@ -1,0 +1,23 @@
+bool gt_zeratulReachesField_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    while (!((gv_script_transmissions_playing == false))) {
+        Wait(0.25, c_timeGame);
+    }
+    gv_script_transmissions_playing = true;
+    TransmissionWait(TransmissionLastSent(), 0.0);
+    libBel1_gf_HoldHeroMomentsForLine();
+    TransmissionSendForPlayerSelect(PlayerGroupAll(), TransmissionSourceFromUnit(UnitFromId(26469087), true, false, "Talk"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), "", "Talk", SoundLink("radio_field-3-1", -1), StringExternal("Param/Value/E6A30D10"), StringExternal("Param/Value/70C0CDEA"), 0.0, c_transmissionDurationAdd, true, c_maxPlayers, false);
+    libBel1_gf_ReleaseHeroMomentsAfterLine();
+    libBel1_gf_HoldHeroMomentsForLine();
+    TransmissionSendForPlayerSelect(PlayerGroupAll(), TransmissionSourceFromUnit(UnitFromId(26469087), true, false, "Talk"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), "", "Talk", SoundLink("radio_field-3-2", -1), StringExternal("Param/Value/B19D20F1"), StringExternal("Param/Value/8E5BF047"), 0.0, c_transmissionDurationAdd, true, c_maxPlayers, false);
+    libBel1_gf_ReleaseHeroMomentsAfterLine();
+    gv_script_transmissions_playing = false;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------

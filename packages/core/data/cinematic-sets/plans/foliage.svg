@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="864" viewBox="0 0 760 864" font-family="Helvetica, Arial, sans-serif">
+<title>Foliage: cinematic set</title>
+<rect width="760" height="864" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Foliage</text>
+<text x="24" y="54" font-size="10" fill="#666">foliage · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="213.5" y="162.2" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX1CharSet03, SMX1CharSet04</title></rect>
+<text x="221.5" y="168.2" font-size="8" fill="#6d6458">2</text>
+<rect x="347.5" y="490.8" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX1CharSet, SMX1LeviathanSet, SMX1LeviathanSet01, SMX1LeviathanSet02</title></rect>
+<text x="357.5" y="497.8" font-size="8" fill="#6d6458">4</text>
+<polygon points="389.5,512.3 371,531.8 364.2,503.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="389.5" cy="512.3" r="2.5" fill="#7b4bd1"><title>Adjutant - Kerrigan Closeup</title></circle>
+<polygon points="404.6,508.4 398.3,514.9 396.5,504.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="404.6" cy="508.4" r="2.5" fill="#7b4bd1"><title>Adjutant - Kerrigan Medium</title></circle>
+<polygon points="420.5,500.1 384.5,544.8 367.1,479" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="420.5" cy="500.1" r="2.5" fill="#7b4bd1"><title>Adjutant - Kerrigan Far</title></circle>
+<polygon points="451.5,491.3 378.1,551.9 361.5,460.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="451.5" cy="491.3" r="2.5" fill="#7b4bd1"><title>Adjutant - Kerrigan Double</title></circle>
+<polygon points="404.5,505.5 403.8,485.1 422.8,496.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="404.5" cy="505.5" r="2.5" fill="#7b4bd1"><title>Adjutant - Adjutant Closeup</title></circle>
+<polygon points="400,513.1 399,483 427,499.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="400" cy="513.1" r="2.5" fill="#7b4bd1"><title>Adjutant - Adjutant Medium</title></circle>
+<polygon points="387.4,534.8 384.6,477.3 438.7,508.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="387.4" cy="534.8" r="2.5" fill="#7b4bd1"><title>Adjutant - Adjutant Far</title></circle>
+<polygon points="351,570.7 341.1,476 433.3,522.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="351" cy="570.7" r="2.5" fill="#7b4bd1"><title>Adjutant - Adjutant Double</title></circle>
+<polygon points="276.2,276 230.8,192.4 323.9,193.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="276.2" cy="276" r="2.5" fill="#7b4bd1"><title>Adjutant - Kerrigan Two Shot</title></circle>
+<polygon points="401.6,510.4 400.6,484.3 425,498.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="401.6" cy="510.4" r="2.5" fill="#7b4bd1"><title>Adjutant - Adjutant Custom 01</title></circle>
+<polygon points="464.2,492.3 391.7,549.6 382.2,449.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="464.2" cy="492.3" r="2.5" fill="#7b4bd1"><title>Adjutant - Kerrigan Double Backup</title></circle>
+<polygon points="346.5,489.3 300.4,470.9 344.4,439.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="346.5" cy="489.3" r="2.5" fill="#7b4bd1"><title>Zagara - Zagara Closeup</title></circle>
+<polygon points="362.8,513.3 287.1,481.4 360.9,431.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="362.8" cy="513.3" r="2.5" fill="#7b4bd1"><title>Zagara - Zagara Medium</title></circle>
+<polygon points="367.6,550.3 345.7,531.6 375.8,522.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="367.6" cy="550.3" r="2.5" fill="#7b4bd1"><title>Zagara - Zagara Double</title></circle>
+<polygon points="374.3,527.3 286,491.7 370.5,432.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="374.3" cy="527.3" r="2.5" fill="#7b4bd1"><title>Zagara - Zagara Far</title></circle>
+<polygon points="346.2,500.7 370.9,501.9 355.2,523.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="346.2" cy="500.7" r="2.5" fill="#7b4bd1"><title>Zagara - Kerrigan Closeup</title></circle>
+<polygon points="330.7,489.3 374.5,491.4 346.7,530.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="330.7" cy="489.3" r="2.5" fill="#7b4bd1"><title>Zagara - Kerrigan Medium</title></circle>
+<polygon points="309,473.5 379.4,476.7 334.9,539" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="309" cy="473.5" r="2.5" fill="#7b4bd1"><title>Zagara - Kerrigan Far</title></circle>
+<polygon points="365.4,586.6 314.8,536.4 390.5,519.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="365.4" cy="586.6" r="2.5" fill="#7b4bd1"><title>Zagara - TwoShot</title></circle>
+<polygon points="356.3,489.8 302.9,411 406.3,408.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="356.3" cy="489.8" r="2.5" fill="#7b4bd1"><title>Zagara - Kerrigan Custom 01</title></circle>
+<polygon points="360.2,409.7 379.5,424.1 355,433.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="360.2" cy="409.7" r="2.5" fill="#7b4bd1"><title>Zagara - Kerrigan Custom 02</title></circle>
+<polygon points="356.2,415.4 336.7,473 295.7,421.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="356.2" cy="415.4" r="2.5" fill="#7b4bd1"><title>Zagara - Zagara Custom 02</title></circle>
+<polygon points="336.8,503.3 300.8,475.2 347.6,458.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="336.8" cy="503.3" r="2.5" fill="#7b4bd1"><title>Dehaka - Dehaka Closeup</title></circle>
+<polygon points="341.9,540 277.2,481.2 369,456.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="341.9" cy="540" r="2.5" fill="#7b4bd1"><title>Dehaka - Dehaka Medium</title></circle>
+<polygon points="349.2,567.6 278.7,503.6 378.7,477.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="349.2" cy="567.6" r="2.5" fill="#7b4bd1"><title>Dehaka - Dehaka Far</title></circle>
+<polygon points="368.5,546 350.8,534.7 371.5,525.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="368.5" cy="546" r="2.5" fill="#7b4bd1"><title>Dehaka - Dehaka Double</title></circle>
+<polygon points="346.2,500.7 370.9,501.9 355.2,523.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="346.2" cy="500.7" r="2.5" fill="#7b4bd1"><title>Dehaka - Kerrigan Closeup</title></circle>
+<polygon points="330.7,489.3 374.5,491.4 346.7,530.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="330.7" cy="489.3" r="2.5" fill="#7b4bd1"><title>Dehaka - Kerrigan Medium</title></circle>
+<polygon points="309,473.5 379.4,476.7 334.9,539" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="309" cy="473.5" r="2.5" fill="#7b4bd1"><title>Dehaka - Kerrigan Far</title></circle>
+<polygon points="361.6,586.8 313.3,534.6 389.5,521.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="361.6" cy="586.8" r="2.5" fill="#7b4bd1"><title>Dehaka - TwoShot</title></circle>
+<polygon points="356.9,506.3 300.9,482.9 355.2,445.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="356.9" cy="506.3" r="2.5" fill="#7b4bd1"><title>Dehaka - Dehaka Medium (Original)</title></circle>
+<polygon points="345.2,494.2 309.1,478 345.2,454.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="345.2" cy="494.2" r="2.5" fill="#7b4bd1"><title>Dehaka - Dehaka Closeup (Original)</title></circle>
+<polygon points="365.4,586.6 314.8,536.4 390.5,519.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="365.4" cy="586.6" r="2.5" fill="#7b4bd1"><title>Dehaka - TwoShot (Original)</title></circle>
+<polygon points="347.4,487.6 297.7,525.4 286,476.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="347.4" cy="487.6" r="2.5" fill="#7b4bd1"><title>Dehaka - Zagara Medium</title></circle>
+<polygon points="391.4,554.4 402.4,531.4 416.7,558.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="391.4" cy="554.4" r="2.5" fill="#7b4bd1"><title>Stukov - Stukov Closeup</title></circle>
+<polygon points="380.5,559.5 396,525 418.1,564.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="380.5" cy="559.5" r="2.5" fill="#7b4bd1"><title>Stukov - Stukov Medium</title></circle>
+<polygon points="372.2,569.5 388.7,520.7 423.7,570.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="372.2" cy="569.5" r="2.5" fill="#7b4bd1"><title>Stukov - Stukov Far</title></circle>
+<polygon points="357.7,580.2 359.7,571 367,579.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="357.7" cy="580.2" r="2.5" fill="#7b4bd1"><title>Stukov - Stukov Double</title></circle>
+<polygon points="395.3,551.7 378.3,570.4 372.4,541" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="395.3" cy="551.7" r="2.5" fill="#7b4bd1"><title>Stukov - Kerrigan Closeup</title></circle>
+<polygon points="403.8,550.3 380,574.2 373.9,534.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="403.8" cy="550.3" r="2.5" fill="#7b4bd1"><title>Stukov - Kerrigan Medium</title></circle>
+<polygon points="414.8,547.7 383.1,579.5 375.1,526.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="414.8" cy="547.7" r="2.5" fill="#7b4bd1"><title>Stukov - Kerrigan Far</title></circle>
+<polygon points="445.9,557 402.6,579.5 411.6,522.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="445.9" cy="557" r="2.5" fill="#7b4bd1"><title>Stukov - Kerrigan Double</title></circle>
+<polygon points="348.2,598.2 350,568.9 376.8,591.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="348.2" cy="598.2" r="2.5" fill="#7b4bd1"><title>Stukov - TwoShot</title></circle>
+<polygon points="388.3,554 371.7,578.5 365.1,535.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="388.3" cy="554" r="2.5" fill="#7b4bd1"><title>Stukov - Kerrigan Custom 01</title></circle>
+<polygon points="395,626.1 347.3,543.8 440.4,542.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="395" cy="626.1" r="2.5" fill="#7b4bd1"><title>Stukov - Stukov Custom 01</title></circle>
+<polygon points="402.8,527.1 414.8,498.8 433.3,530.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="402.8" cy="527.1" r="2.5" fill="#7b4bd1"><title>Lasarra - Lasarra Closeup</title></circle>
+<polygon points="391.9,536.3 405.7,493.5 436.9,536.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="391.9" cy="536.3" r="2.5" fill="#7b4bd1"><title>Lasarra - Lasarra Medium</title></circle>
+<polygon points="373.8,545.8 395,483.6 439.5,547.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="373.8" cy="545.8" r="2.5" fill="#7b4bd1"><title>Lasarra - Lasarra Far</title></circle>
+<polygon points="346.5,560.7 370.4,468.6 441.6,556.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="346.5" cy="560.7" r="2.5" fill="#7b4bd1"><title>Lasarra - Lasarra Double</title></circle>
+<polygon points="395.3,551.7 378.1,570.2 372.6,540.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="395.3" cy="551.7" r="2.5" fill="#7b4bd1"><title>Lasarra - Kerrigan Closeup</title></circle>
+<polygon points="403.8,550.3 380.7,574.9 373.5,535.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="403.8" cy="550.3" r="2.5" fill="#7b4bd1"><title>Lasarra - Kerrigan Medium</title></circle>
+<polygon points="414.8,547.7 383.1,579.5 375.1,526.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="414.8" cy="547.7" r="2.5" fill="#7b4bd1"><title>Lasarra - Kerrigan Far</title></circle>
+<polygon points="454,515.9 415.3,560.7 399.7,492.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="454" cy="515.9" r="2.5" fill="#7b4bd1"><title>Lasarra - Kerrigan Double</title></circle>
+<polygon points="328.6,607.4 330.1,512.2 419.9,580.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="328.6" cy="607.4" r="2.5" fill="#7b4bd1"><title>Lasarra - TwoShot</title></circle>
+</g>
+<line x1="61.9" y1="558.3" x2="379.2" y2="558.3" stroke="#333" stroke-width="2"/>
+<line x1="61.9" y1="554.3" x2="61.9" y2="562.3" stroke="#333"/><line x1="125.4" y1="554.3" x2="125.4" y2="562.3" stroke="#333"/>
+<text x="61.9" y="552.3" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">46 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/Conversations_Cameras.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Marks: 0; cameras: 58 (54 aimed</text>
+<text x="560" y="132" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="144" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="156" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="168" font-size="9" fill="#333"></text>
+<text x="560" y="180" font-size="9" fill="#333">Models:</text>
+<text x="560" y="192" font-size="9" fill="#333">SMX1LeviathanSet ×46</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX1LeviathanSet01 ×46</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX1LeviathanSet02 ×44</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX1LeviathanSet03 ×17</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX1KerriganInfestedWithLight ×11</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX1ZergAdjutant ×11</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX1CharSet ×7</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX1KaldrSet00 ×7</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX1KaldrSet01 ×7</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX1_MobiusSet_Dusk ×6</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX1_KorhalSpaceSet ×5</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX1_ZerusSet ×5</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX1CharSet03 ×5</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX1_KorhalSpaceSet_01 ×4</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX1_MobiusSet_Dusk01 ×4</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX1_MobiusSet_Night ×4</text>
+<text x="560" y="384" font-size="9" fill="#333">Drone ×3</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX1_MobiusSet_Dusk02 ×3</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX1_ZerusSet_01 ×3</text>
+<text x="560" y="420" font-size="9" fill="#333">SMX1CharWarfieldsCompoundHS ×3</text>
+<text x="560" y="432" font-size="9" fill="#333">SMX1DominionSpaceSet ×3</text>
+<text x="560" y="444" font-size="9" fill="#333">SMX1DominionSpaceSet01 ×3</text>
+<text x="560" y="456" font-size="9" fill="#333">SMX1Lasarra ×3</text>
+<text x="560" y="468" font-size="9" fill="#333">SMX1_KorhalSet ×2</text>
+<text x="560" y="480" font-size="9" fill="#333">SMX1_LeviathanDoorGlow_Space ×2</text>
+<text x="560" y="492" font-size="9" fill="#333">SMX1_LeviathanDoorLarge ×2</text>
+<text x="560" y="504" font-size="9" fill="#333">SMX1InfestedStukov ×2</text>
+<text x="560" y="516" font-size="9" fill="#333">SMX1KerriganDezergedWithLight ×2</text>
+<text x="560" y="528" font-size="9" fill="#333">… and 15 more</text>
+<text x="560" y="540" font-size="9" fill="#333"></text>
+<text x="560" y="552" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="564" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="576" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zDebrief_Char01.SC2Cutscene</text>
+<text x="560" y="588" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="600" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zSMBriefing_Expedition03.SC2Cutscene</text>
+<text x="560" y="612" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="624" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zScripted_FourthArcAfter.SC2Cutscene</text>
+<text x="560" y="636" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="648" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zDebrief_Expedition01.SC2Cutscene</text>
+<text x="560" y="660" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="672" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zDebrief_Zerus02.SC2Cutscene</text>
+<text x="560" y="684" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="696" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zScripted_HybridArcBefore.SC2Cutscene</text>
+<text x="560" y="708" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="720" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zSM_ZergAdjutant_PreKorhal01.SC2Cutscene</text>
+<text x="560" y="732" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="744" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zSMBriefing_Hybrid02.SC2Cutscene</text>
+<text x="560" y="756" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="768" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/StorymodeSet_Hybrid.SC2Cutscene</text>
+<text x="560" y="780" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="792" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/StorymodeSet_HybridB.SC2Cutscene</text>
+<text x="560" y="804" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="816" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/StorymodeSet_KorhalSpace.SC2Cutscene</text>
+<text x="560" y="828" font-size="9" fill="#333">… and 34 more</text>
+</svg>

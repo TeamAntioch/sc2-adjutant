@@ -1,0 +1,3 @@
+﻿Param/Value/1EAE5176=
+Param/Value/454FF33A=Zeratul must survive
+Param/Value/9236525F=Artanis must survive

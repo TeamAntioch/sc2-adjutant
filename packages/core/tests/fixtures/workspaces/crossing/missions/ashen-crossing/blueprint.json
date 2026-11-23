@@ -1,0 +1,682 @@
+{
+  "id": "ashen_crossing",
+  "campaignId": "fixtures",
+  "title": "Ashen Crossing",
+  "setting": "A scorched plain under a swollen star",
+  "mapSize": {
+    "width": 128,
+    "height": 128
+  },
+  "tilesetId": "MonlythEx1",
+  "textures": [
+    "MeinhoffSandDunes",
+    "MeinhoffWhiteSand",
+    "MeinhoffRoughSand",
+    "MeinhoffCraters",
+    "MeinhoffRock",
+    "MeinhoffConcrete",
+    "MeinhoffPanels",
+    "MeinhoffGrating"
+  ],
+  "zones": [
+    {
+      "id": "surface",
+      "name": "Surface",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "path",
+      "polygon": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 128,
+          "y": 0
+        },
+        {
+          "x": 128,
+          "y": 128
+        },
+        {
+          "x": 0,
+          "y": 128
+        }
+      ],
+      "connections": [],
+      "texture": "MeinhoffCraters"
+    },
+    {
+      "id": "landing_zone",
+      "name": "Landing Zone",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "base",
+      "polygon": [
+        {
+          "x": 10,
+          "y": 10
+        },
+        {
+          "x": 30,
+          "y": 10
+        },
+        {
+          "x": 30,
+          "y": 30
+        },
+        {
+          "x": 10,
+          "y": 30
+        }
+      ],
+      "connections": [
+        {
+          "toZoneId": "overhang",
+          "type": "open"
+        }
+      ],
+      "texture": "MeinhoffWhiteSand"
+    },
+    {
+      "id": "overhang_crag",
+      "name": "Overhang Crag",
+      "elevation": 3,
+      "landform": "ridge",
+      "role": "path",
+      "polygon": [
+        {
+          "x": 38,
+          "y": 28
+        },
+        {
+          "x": 56,
+          "y": 28
+        },
+        {
+          "x": 56,
+          "y": 40
+        },
+        {
+          "x": 38,
+          "y": 40
+        }
+      ],
+      "connections": [],
+      "texture": "MeinhoffRock"
+    },
+    {
+      "id": "overhang",
+      "name": "Overhang",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "objective",
+      "polygon": [
+        {
+          "x": 40,
+          "y": 12
+        },
+        {
+          "x": 52,
+          "y": 12
+        },
+        {
+          "x": 52,
+          "y": 26
+        },
+        {
+          "x": 40,
+          "y": 26
+        }
+      ],
+      "connections": [
+        {
+          "toZoneId": "landing_zone",
+          "type": "open"
+        },
+        {
+          "toZoneId": "rock_arch",
+          "type": "open"
+        }
+      ],
+      "texture": "MeinhoffRoughSand"
+    },
+    {
+      "id": "rock_arch",
+      "name": "Rock Arch",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "objective",
+      "polygon": [
+        {
+          "x": 78,
+          "y": 40
+        },
+        {
+          "x": 90,
+          "y": 40
+        },
+        {
+          "x": 90,
+          "y": 54
+        },
+        {
+          "x": 78,
+          "y": 54
+        }
+      ],
+      "connections": [
+        {
+          "toZoneId": "overhang",
+          "type": "open"
+        },
+        {
+          "toZoneId": "temple_gate",
+          "type": "ramp"
+        }
+      ],
+      "texture": "MeinhoffRoughSand"
+    },
+    {
+      "id": "temple_gate",
+      "name": "Temple Gate",
+      "elevation": 2,
+      "landform": "ridge",
+      "role": "objective",
+      "polygon": [
+        {
+          "x": 100,
+          "y": 80
+        },
+        {
+          "x": 116,
+          "y": 80
+        },
+        {
+          "x": 116,
+          "y": 96
+        },
+        {
+          "x": 100,
+          "y": 96
+        }
+      ],
+      "connections": [
+        {
+          "toZoneId": "rock_arch",
+          "type": "ramp"
+        }
+      ],
+      "texture": "MeinhoffConcrete"
+    }
+  ],
+  "anchors": [
+    {
+      "id": "hero_zeratul",
+      "name": "Zeratul",
+      "zoneId": "landing_zone",
+      "kind": "unit",
+      "position": {
+        "x": 20,
+        "y": 20,
+        "z": 0
+      },
+      "rotation": 0,
+      "unitType": "Zeratul",
+      "player": 1
+    },
+    {
+      "id": "overhang_rock_w",
+      "name": "RockGiant",
+      "zoneId": "overhang",
+      "kind": "doodad",
+      "position": {
+        "x": 41,
+        "y": 24
+      },
+      "doodadType": "RockGiant",
+      "variation": 3
+    },
+    {
+      "id": "overhang_rock_e",
+      "name": "RockGiant",
+      "zoneId": "overhang",
+      "kind": "doodad",
+      "position": {
+        "x": 51,
+        "y": 24
+      },
+      "doodadType": "RockGiant",
+      "variation": 7
+    },
+    {
+      "id": "overhang_rock_n",
+      "name": "RockTower",
+      "zoneId": "overhang_crag",
+      "kind": "doodad",
+      "position": {
+        "x": 47,
+        "y": 34
+      },
+      "doodadType": "RockTower",
+      "variation": 1
+    },
+    {
+      "id": "rock_arch_arch",
+      "name": "RockArch",
+      "zoneId": "rock_arch",
+      "kind": "doodad",
+      "position": {
+        "x": 84,
+        "y": 47
+      },
+      "doodadType": "RockArch",
+      "variation": 2,
+      "scale": 1.4,
+      "rotation": 0
+    },
+    {
+      "id": "rock_arch_w",
+      "name": "RockGiant",
+      "zoneId": "rock_arch",
+      "kind": "doodad",
+      "position": {
+        "x": 79,
+        "y": 50
+      },
+      "doodadType": "RockGiant",
+      "variation": 11
+    },
+    {
+      "id": "rock_arch_e",
+      "name": "RockGiant",
+      "zoneId": "rock_arch",
+      "kind": "doodad",
+      "position": {
+        "x": 89,
+        "y": 44
+      },
+      "doodadType": "RockGiant",
+      "variation": 5
+    },
+    {
+      "id": "temple_gate_doodad",
+      "name": "TempleGate",
+      "zoneId": "temple_gate",
+      "kind": "doodad",
+      "position": {
+        "x": 108,
+        "y": 93
+      },
+      "doodadType": "TempleGate",
+      "variation": 0,
+      "rotation": 0
+    },
+    {
+      "id": "temple_columns_w",
+      "name": "TempleColumnSet",
+      "zoneId": "temple_gate",
+      "kind": "doodad",
+      "position": {
+        "x": 102,
+        "y": 90
+      },
+      "doodadType": "TempleColumnSet",
+      "variation": 2
+    },
+    {
+      "id": "temple_columns_e",
+      "name": "TempleColumnSet",
+      "zoneId": "temple_gate",
+      "kind": "doodad",
+      "position": {
+        "x": 114,
+        "y": 90
+      },
+      "doodadType": "TempleColumnSet",
+      "variation": 5
+    },
+    {
+      "id": "temple_statue_w",
+      "name": "TempleStatue",
+      "zoneId": "temple_gate",
+      "kind": "doodad",
+      "position": {
+        "x": 103,
+        "y": 84
+      },
+      "doodadType": "TempleStatue",
+      "variation": 1
+    },
+    {
+      "id": "temple_statue_e",
+      "name": "TempleStatue",
+      "zoneId": "temple_gate",
+      "kind": "doodad",
+      "position": {
+        "x": 113,
+        "y": 84
+      },
+      "doodadType": "TempleStatue",
+      "variation": 4
+    },
+    {
+      "id": "temple_debris_w",
+      "name": "TempleDebris",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 101,
+        "y": 74
+      },
+      "doodadType": "TempleDebris",
+      "variation": 2
+    },
+    {
+      "id": "temple_debris_e",
+      "name": "TempleDebris",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 115,
+        "y": 74
+      },
+      "doodadType": "TempleDebris",
+      "variation": 6
+    },
+    {
+      "id": "crater_1",
+      "name": "MeinhoffCraterLarge",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 24,
+        "y": 48
+      },
+      "doodadType": "MeinhoffCraterLarge",
+      "variation": 0
+    },
+    {
+      "id": "crater_2",
+      "name": "MeinhoffCraterLarge",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 62,
+        "y": 66
+      },
+      "doodadType": "MeinhoffCraterLarge",
+      "variation": 1
+    },
+    {
+      "id": "crater_3",
+      "name": "MeinhoffCraterLarge",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 40,
+        "y": 88
+      },
+      "doodadType": "MeinhoffCraterLarge",
+      "variation": 0
+    },
+    {
+      "id": "crater_4",
+      "name": "MeinhoffCrater",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 70,
+        "y": 18
+      },
+      "doodadType": "MeinhoffCrater",
+      "variation": 1
+    },
+    {
+      "id": "crater_5",
+      "name": "MeinhoffCrater",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 100,
+        "y": 30
+      },
+      "doodadType": "MeinhoffCrater",
+      "variation": 2
+    },
+    {
+      "id": "crater_6",
+      "name": "MeinhoffCrater",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 84,
+        "y": 96
+      },
+      "doodadType": "MeinhoffCrater",
+      "variation": 0
+    },
+    {
+      "id": "crater_7",
+      "name": "MeinhoffCraterSmall",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 36,
+        "y": 64
+      },
+      "doodadType": "MeinhoffCraterSmall",
+      "variation": 3
+    },
+    {
+      "id": "crater_8",
+      "name": "MeinhoffCraterSmall",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 58,
+        "y": 46
+      },
+      "doodadType": "MeinhoffCraterSmall",
+      "variation": 1
+    },
+    {
+      "id": "crater_9",
+      "name": "MeinhoffCraterSmall",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 110,
+        "y": 56
+      },
+      "doodadType": "MeinhoffCraterSmall",
+      "variation": 2
+    },
+    {
+      "id": "rock_1",
+      "name": "RockLarge",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 32,
+        "y": 14
+      },
+      "doodadType": "RockLarge",
+      "variation": 4
+    },
+    {
+      "id": "rock_2",
+      "name": "RockSmall",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 66,
+        "y": 40
+      },
+      "doodadType": "RockSmall",
+      "variation": 6
+    },
+    {
+      "id": "rock_3",
+      "name": "RockSmall",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 96,
+        "y": 64
+      },
+      "doodadType": "RockSmall",
+      "variation": 2
+    },
+    {
+      "id": "rock_4",
+      "name": "RockLarge",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 16,
+        "y": 70
+      },
+      "doodadType": "RockLarge",
+      "variation": 9
+    },
+    {
+      "id": "rock_5",
+      "name": "Rock",
+      "zoneId": "surface",
+      "kind": "doodad",
+      "position": {
+        "x": 74,
+        "y": 80
+      },
+      "doodadType": "Rock",
+      "variation": 3
+    }
+  ],
+  "placements": [],
+  "beats": [
+    {
+      "id": "landfall",
+      "title": "Landfall",
+      "summary": "Zeratul lands; Karax warns of the surges.",
+      "zoneIds": [
+        "landing_zone"
+      ],
+      "anchorIds": [
+        "hero_zeratul"
+      ]
+    },
+    {
+      "id": "the_run",
+      "title": "The Run",
+      "summary": "Shelter to shelter between flares.",
+      "zoneIds": [
+        "overhang",
+        "overhang_crag",
+        "rock_arch"
+      ],
+      "anchorIds": [
+        "hero_zeratul"
+      ]
+    },
+    {
+      "id": "threshold",
+      "title": "Temple Threshold",
+      "summary": "Zeratul reaches the temple gate.",
+      "zoneIds": [
+        "temple_gate"
+      ],
+      "anchorIds": [
+        "hero_zeratul"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "reach_temple",
+      "title": "Reach the Temple",
+      "description": "Cross the surface between flares. Shelter under the Overhang and the Rock Arch.",
+      "type": "primary",
+      "beatId": "the_run",
+      "completeWhen": {
+        "type": "anchorEntersZone",
+        "anchorId": "hero_zeratul",
+        "zoneId": "temple_gate"
+      }
+    }
+  ],
+  "mechanics": [
+    {
+      "id": "surge",
+      "type": "hazard",
+      "description": "The star surges across the open plain; the Overhang, the Rock Arch and the temple gate give shelter.",
+      "params": {
+        "affectedZoneIds": [
+          "surface",
+          "landing_zone",
+          "overhang_crag"
+        ],
+        "safeZoneIds": [
+          "overhang",
+          "rock_arch",
+          "temple_gate"
+        ],
+        "firstSeconds": 45,
+        "intervalSeconds": 40,
+        "deadlySeconds": 8,
+        "warningSeconds": 5
+      }
+    }
+  ],
+  "screenplay": {
+    "title": "Ashen Crossing",
+    "scenes": [],
+    "script": {
+      "source": "ashen-crossing.md",
+      "audioDir": "audio",
+      "speakerAnchors": {
+        "ZERATUL": "hero_zeratul"
+      },
+      "cues": [
+        {
+          "scene": 1,
+          "cue": {
+            "type": "missionStart"
+          }
+        },
+        {
+          "scene": 3,
+          "cue": {
+            "type": "anchorEntersZone",
+            "anchorId": "hero_zeratul",
+            "zoneId": "temple_gate"
+          }
+        }
+      ]
+    }
+  },
+  "summary": "Zeratul crosses a scorched plain, sheltering from the star's surges on the way to a temple.",
+  "encounters": [],
+  "outcomes": {
+    "victory": [
+      {
+        "type": "anchorEntersZone",
+        "anchorId": "hero_zeratul",
+        "zoneId": "temple_gate"
+      }
+    ],
+    "defeat": [
+      {
+        "type": "anchorDies",
+        "anchorId": "hero_zeratul"
+      }
+    ]
+  },
+  "ramps": [
+    {
+      "id": "temple_ramp",
+      "zoneId": "temple_gate",
+      "edge": "south"
+    }
+  ]
+}

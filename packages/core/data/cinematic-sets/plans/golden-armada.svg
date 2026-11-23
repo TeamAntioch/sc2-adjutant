@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Golden Armada: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Golden Armada</text>
+<text x="24" y="54" font-size="10" fill="#666">golden-armada · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="404.1" y="218.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="441.2" y="182.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="434.2" y="178.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="418.6" y="172.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="437.7" y="231" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="434.7" y="217.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="412" y="194.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="411.3" y="200" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="450.5" y="173.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="405.8" y="175.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="467" y="228.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="427.8" y="245.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="459.3" y="147.1" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Scout, Tempest</title></rect>
+<text x="467.3" y="153.1" font-size="8" fill="#6d6458">2</text>
+<rect x="447.8" y="130.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="439.4" y="137.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="384.6" y="193.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="474.9" y="221.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="403.8" y="269" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="420.2" y="253.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="388.5" y="183.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="362.9" y="227.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scout</title></rect>
+<rect x="483.3" y="151.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Tempest</title></rect>
+<rect x="395.3" y="199.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Tempest</title></rect>
+<rect x="407.4" y="199.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Tempest</title></rect>
+<rect x="428.6" y="152.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Tempest</title></rect>
+<rect x="445.4" y="203.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Tempest</title></rect>
+<rect x="79.7" y="484.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Mothership</title></rect>
+<rect x="420.5" y="524.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Mothership</title></rect>
+<rect x="378.8" y="204.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Mothership</title></rect>
+<polygon points="510.7,63.9 515.4,121.8 459.8,92" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="510.7" cy="63.9" r="2.5" fill="#7b4bd1"><title>Warp Camera</title></circle>
+<text x="514.7" y="60.9" font-size="8" fill="#5a3a9a">Warp Camera</text>
+</g>
+<line x1="43.4" y1="565.7" x2="237.2" y2="565.7" stroke="#333" stroke-width="2"/>
+<line x1="43.4" y1="561.7" x2="43.4" y2="569.7" stroke="#333"/><line x1="82.2" y1="561.7" x2="82.2" y2="569.7" stroke="#333"/>
+<text x="43.4" y="559.7" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_MissionAiur06Intro.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX2CutsceneAiur06Briefing110</text>
+<text x="560" y="144" font-size="9" fill="#333">Marks: 0; cameras: 1 (1 aimed</text>
+<text x="560" y="156" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="168" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="180" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="192" font-size="9" fill="#333"></text>
+<text x="560" y="204" font-size="9" fill="#333">Models:</text>
+<text x="560" y="216" font-size="9" fill="#333">Mothership</text>
+<text x="560" y="228" font-size="9" fill="#333">Scout</text>
+<text x="560" y="240" font-size="9" fill="#333">Tempest</text>
+<text x="560" y="252" font-size="9" fill="#333"></text>
+<text x="560" y="264" font-size="9" fill="#333">Also in:</text>
+</svg>

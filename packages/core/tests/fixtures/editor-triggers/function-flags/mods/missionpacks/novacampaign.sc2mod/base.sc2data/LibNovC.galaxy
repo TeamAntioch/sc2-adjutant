@@ -1,0 +1,79 @@
+trigger auto_libNovC_gf_CampaignAwardAchievement_Trigger = null;
+string auto_libNovC_gf_CampaignAwardAchievement_lp_achievement;
+int auto_libNovC_gf_CampaignAwardAchievement_lp_player;
+
+void libNovC_gf_CampaignAwardAchievement (string lp_achievement, int lp_player) {
+    auto_libNovC_gf_CampaignAwardAchievement_lp_achievement = lp_achievement;
+    auto_libNovC_gf_CampaignAwardAchievement_lp_player = lp_player;
+
+    if (auto_libNovC_gf_CampaignAwardAchievement_Trigger == null) {
+        auto_libNovC_gf_CampaignAwardAchievement_Trigger = TriggerCreate("auto_libNovC_gf_CampaignAwardAchievement_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libNovC_gf_CampaignAwardAchievement_Trigger, false, false);
+}
+
+bool auto_libNovC_gf_CampaignAwardAchievement_TriggerFunc (bool testConds, bool runActions) {
+    string lp_achievement = auto_libNovC_gf_CampaignAwardAchievement_lp_achievement;
+    int lp_player = auto_libNovC_gf_CampaignAwardAchievement_lp_player;
+
+    // Deprecated
+    libComC_gf_CampaignAwardAchievement(lp_achievement, lp_player);
+    return true;
+}
+
+void libNovC_gf_ClearAnimationwithblendtime (string lp_identifier, unit lp_unit, fixed lp_blendTime) {
+    // Deprecated
+    libComC_gf_ClearAnimationwithblendtime(lp_identifier, lp_unit, lp_blendTime);
+}
+
+int libNovC_gf_NC_MissionRewardsBonusPossible (string lp_map) {
+    int autoE95834CF_ae;
+    int autoE95834CF_ai;
+    int auto035CF837_ai;
+    int auto035CF837_ae;
+    int auto02C35687_ai;
+    int auto02C35687_ae;
+
+    // Variable Declarations
+    string lv_indexObjective;
+    string lv_indexPerk;
+    string lv_indexTechItem;
+    int lv_bonusCount;
+
+    // Variable Initialization
+
+    // Implementation
+    autoE95834CF_ae = CatalogFieldValueCount(c_gameCatalogMap, lp_map, "ObjectiveArray", 1);
+    autoE95834CF_ai = 1;
+    while (autoE95834CF_ai <= autoE95834CF_ae) {
+        lv_indexObjective = CatalogFieldValueGet(c_gameCatalogMap, lp_map, "ObjectiveArray["+IntToString(autoE95834CF_ai-1)+"]", 1);
+        autoE95834CF_ai = autoE95834CF_ai + 1;
+        if ((libComC_gf_MissionObjectiveIsPrimary(lv_indexObjective) == false)) {
+            auto035CF837_ai = 1;
+            auto035CF837_ae = UserDataInstanceCount("CampaignPerk")+1;
+            while (auto035CF837_ai < auto035CF837_ae) {
+                lv_indexPerk = UserDataInstance("CampaignPerk", auto035CF837_ai);
+                auto035CF837_ai = auto035CF837_ai+1;
+                if ((libComC_gf_CC_PerkRequiredObjective(lv_indexPerk) == lv_indexObjective)) {
+                    lv_bonusCount += 1;
+                    break;
+                }
+
+            }
+            auto02C35687_ai = 1;
+            auto02C35687_ae = UserDataInstanceCount("CampaignTechItem")+1;
+            while (auto02C35687_ai < auto02C35687_ae) {
+                lv_indexTechItem = UserDataInstance("CampaignTechItem", auto02C35687_ai);
+                auto02C35687_ai = auto02C35687_ai+1;
+                if ((libNovC_gf_NC_ArmyTechItemRequiredObjective(lv_indexTechItem) == lv_indexObjective)) {
+                    lv_bonusCount += 1;
+                    break;
+                }
+
+            }
+        }
+
+    }
+    return lv_bonusCount;
+}

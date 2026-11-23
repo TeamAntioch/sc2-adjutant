@@ -1,0 +1,7450 @@
+{
+  "mapStudyVersion": 1,
+  "exemplar": {
+    "id": "1-2",
+    "provenance": "edited"
+  },
+  "layers": {
+    "note": "Renders are 4 px per cell, north up. textures.png: dominant texture per cell; elevation.png: cliff levels (darker = cliff edge, blue = ramp); doodads.png: doodads by kind, manipulated ones ringed red; vertex-shading.png: t3VertCol kind-1 values (white untouched), cliff edges blue. Outside the playable bounds is dimmed.",
+    "texturesLegend": {
+      "BelShirBrushEx2": "rgb(255,179,0)",
+      "BelShirDirtDarkEx2": "rgb(128,62,117)",
+      "BelShirBricksSmallEx2": "rgb(255,104,0)",
+      "BelShirGrassLightEx2": "rgb(166,189,215)",
+      "BelShirGrassDarkEx2": "rgb(193,0,32)",
+      "BelShirBricksLargeEx2": "rgb(206,162,98)",
+      "BelShirDirtLightEx2": "rgb(129,112,102)",
+      "BelShirSmallTilesEx2": "rgb(0,125,52)"
+    },
+    "doodadsLegend": {
+      "ruin": "rgb(193,0,32)",
+      "foliage": "rgb(166,189,215)",
+      "other": "rgb(255,104,0)",
+      "rock": "rgb(206,162,98)",
+      "tree": "rgb(255,179,0)",
+      "water/fx": "rgb(129,112,102)",
+      "unknown": "rgb(0,125,52)",
+      "manipulated (any)": "rgb(230,30,30) ring"
+    }
+  },
+  "texturing": {
+    "tileset": "BelShirEx1",
+    "textureSets": [
+      "BelShirEx1",
+      "BelShirEx2"
+    ],
+    "note": "Shares normalise each cell's 8 mask weights to sum to 1; 'present' means >= 10% of a cell's mix.",
+    "coverage": [
+      {
+        "name": "BelShirBricksLargeEx2",
+        "count": 7692.326,
+        "share": 0.322
+      },
+      {
+        "name": "BelShirBricksSmallEx2",
+        "count": 5020.834,
+        "share": 0.21
+      },
+      {
+        "name": "BelShirDirtDarkEx2",
+        "count": 3806.352,
+        "share": 0.159
+      },
+      {
+        "name": "BelShirGrassDarkEx2",
+        "count": 2278.172,
+        "share": 0.095
+      },
+      {
+        "name": "BelShirSmallTilesEx2",
+        "count": 2159.628,
+        "share": 0.09
+      },
+      {
+        "name": "BelShirBrushEx2",
+        "count": 1634.055,
+        "share": 0.068
+      },
+      {
+        "name": "BelShirGrassLightEx2",
+        "count": 1019.422,
+        "share": 0.043
+      },
+      {
+        "name": "BelShirDirtLightEx2",
+        "count": 257.21,
+        "share": 0.011
+      }
+    ],
+    "dominant": [
+      {
+        "name": "BelShirBricksLargeEx2",
+        "count": 7730,
+        "share": 0.324
+      },
+      {
+        "name": "BelShirBricksSmallEx2",
+        "count": 5279,
+        "share": 0.221
+      },
+      {
+        "name": "BelShirDirtDarkEx2",
+        "count": 3828,
+        "share": 0.16
+      },
+      {
+        "name": "BelShirSmallTilesEx2",
+        "count": 2319,
+        "share": 0.097
+      },
+      {
+        "name": "BelShirGrassDarkEx2",
+        "count": 2176,
+        "share": 0.091
+      },
+      {
+        "name": "BelShirBrushEx2",
+        "count": 1354,
+        "share": 0.057
+      },
+      {
+        "name": "BelShirGrassLightEx2",
+        "count": 980,
+        "share": 0.041
+      },
+      {
+        "name": "BelShirDirtLightEx2",
+        "count": 202,
+        "share": 0.008
+      }
+    ],
+    "texturesPresentPerCell": {
+      "1": 0.534,
+      "2": 0.332,
+      "3": 0.12,
+      "4": 0.014,
+      "5": 0
+    },
+    "transitions": [
+      {
+        "name": "BelShirBricksSmallEx2 | BelShirGrassDarkEx2",
+        "count": 661
+      },
+      {
+        "name": "BelShirBricksLargeEx2 | BelShirBricksSmallEx2",
+        "count": 651
+      },
+      {
+        "name": "BelShirBricksSmallEx2 | BelShirDirtDarkEx2",
+        "count": 607
+      },
+      {
+        "name": "BelShirBricksSmallEx2 | BelShirSmallTilesEx2",
+        "count": 553
+      },
+      {
+        "name": "BelShirBricksSmallEx2 | BelShirBrushEx2",
+        "count": 536
+      },
+      {
+        "name": "BelShirDirtDarkEx2 | BelShirGrassDarkEx2",
+        "count": 484
+      },
+      {
+        "name": "BelShirBricksLargeEx2 | BelShirSmallTilesEx2",
+        "count": 368
+      },
+      {
+        "name": "BelShirBricksLargeEx2 | BelShirDirtDarkEx2",
+        "count": 321
+      },
+      {
+        "name": "BelShirGrassDarkEx2 | BelShirGrassLightEx2",
+        "count": 319
+      },
+      {
+        "name": "BelShirBrushEx2 | BelShirDirtDarkEx2",
+        "count": 297
+      },
+      {
+        "name": "BelShirGrassLightEx2 | BelShirSmallTilesEx2",
+        "count": 288
+      },
+      {
+        "name": "BelShirDirtDarkEx2 | BelShirGrassLightEx2",
+        "count": 270
+      },
+      {
+        "name": "BelShirDirtDarkEx2 | BelShirSmallTilesEx2",
+        "count": 255
+      },
+      {
+        "name": "BelShirBricksSmallEx2 | BelShirGrassLightEx2",
+        "count": 238
+      },
+      {
+        "name": "BelShirBrushEx2 | BelShirGrassDarkEx2",
+        "count": 216
+      },
+      {
+        "name": "BelShirGrassDarkEx2 | BelShirSmallTilesEx2",
+        "count": 207
+      },
+      {
+        "name": "BelShirBricksLargeEx2 | BelShirGrassDarkEx2",
+        "count": 183
+      },
+      {
+        "name": "BelShirBricksLargeEx2 | BelShirBrushEx2",
+        "count": 173
+      },
+      {
+        "name": "BelShirDirtDarkEx2 | BelShirDirtLightEx2",
+        "count": 137
+      },
+      {
+        "name": "BelShirBrushEx2 | BelShirSmallTilesEx2",
+        "count": 84
+      }
+    ],
+    "blendPlacement": {
+      "note": "mixedNearBorder: share of mixed cells within 2 cells of a dominant-texture border; cellsNearBorder: share of all playable cells that close.",
+      "mixedNearBorder": 0.971,
+      "cellsNearBorder": 0.734
+    },
+    "dominantByContext": {
+      "cliffEdge": [
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 1248,
+          "share": 0.322
+        },
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 1136,
+          "share": 0.293
+        },
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 723,
+          "share": 0.186
+        },
+        {
+          "name": "BelShirBrushEx2",
+          "count": 276,
+          "share": 0.071
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 257,
+          "share": 0.066
+        }
+      ],
+      "nearEdge": [
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 2187,
+          "share": 0.298
+        },
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 1845,
+          "share": 0.251
+        },
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 1261,
+          "share": 0.172
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 690,
+          "share": 0.094
+        },
+        {
+          "name": "BelShirSmallTilesEx2",
+          "count": 614,
+          "share": 0.084
+        }
+      ],
+      "open": [
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 4283,
+          "share": 0.344
+        },
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 2606,
+          "share": 0.209
+        },
+        {
+          "name": "BelShirSmallTilesEx2",
+          "count": 1560,
+          "share": 0.125
+        },
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 1428,
+          "share": 0.115
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 1213,
+          "share": 0.097
+        }
+      ],
+      "ramp": [
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 105,
+          "share": 0.53
+        },
+        {
+          "name": "BelShirBrushEx2",
+          "count": 36,
+          "share": 0.182
+        },
+        {
+          "name": "BelShirSmallTilesEx2",
+          "count": 26,
+          "share": 0.131
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 16,
+          "share": 0.081
+        },
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 12,
+          "share": 0.061
+        }
+      ]
+    },
+    "dominantByLevel": {
+      "level1": [
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 2461,
+          "share": 0.233
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 1982,
+          "share": 0.187
+        },
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 1920,
+          "share": 0.181
+        },
+        {
+          "name": "BelShirSmallTilesEx2",
+          "count": 1322,
+          "share": 0.125
+        },
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 1088,
+          "share": 0.103
+        }
+      ],
+      "level2": [
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 1970,
+          "share": 0.428
+        },
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 870,
+          "share": 0.189
+        },
+        {
+          "name": "BelShirSmallTilesEx2",
+          "count": 818,
+          "share": 0.178
+        },
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 434,
+          "share": 0.094
+        },
+        {
+          "name": "BelShirBrushEx2",
+          "count": 310,
+          "share": 0.067
+        }
+      ],
+      "level3": [
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 1267,
+          "share": 0.402
+        },
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 761,
+          "share": 0.242
+        },
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 643,
+          "share": 0.204
+        },
+        {
+          "name": "BelShirSmallTilesEx2",
+          "count": 153,
+          "share": 0.049
+        },
+        {
+          "name": "BelShirBrushEx2",
+          "count": 140,
+          "share": 0.044
+        }
+      ],
+      "level4": [
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 4479,
+          "share": 0.964
+        },
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 83,
+          "share": 0.018
+        },
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 76,
+          "share": 0.016
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 8,
+          "share": 0.002
+        },
+        {
+          "name": "BelShirBrushEx2",
+          "count": 2,
+          "share": 0
+        }
+      ],
+      "level5": [
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 216,
+          "share": 0.874
+        },
+        {
+          "name": "BelShirBricksSmallEx2",
+          "count": 17,
+          "share": 0.069
+        },
+        {
+          "name": "BelShirBricksLargeEx2",
+          "count": 14,
+          "share": 0.057
+        }
+      ],
+      "level6": [
+        {
+          "name": "BelShirDirtDarkEx2",
+          "count": 418,
+          "share": 0.95
+        },
+        {
+          "name": "BelShirBrushEx2",
+          "count": 22,
+          "share": 0.05
+        }
+      ]
+    }
+  },
+  "cliffs": {
+    "cliffSets": [
+      "BelShirEx1Cliff1",
+      "BelShirEx1Cliff0"
+    ],
+    "cliffSetUse": [
+      {
+        "name": "BelShirEx1Cliff0",
+        "count": 1452,
+        "share": 0.576
+      },
+      {
+        "name": "BelShirEx1Cliff1",
+        "count": 1071,
+        "share": 0.424
+      }
+    ],
+    "levelShare": {
+      "level1": 0.443,
+      "level2": 0.193,
+      "level3": 0.132,
+      "level4": 0.195,
+      "level5": 0.01,
+      "level6": 0.018
+    },
+    "distinctLevels": 6,
+    "cliffEdgeCellShare": 0.163,
+    "rampCellShare": 0.008,
+    "ramps": {
+      "count": 8,
+      "width": {
+        "min": 1.414,
+        "p25": 2.828,
+        "p50": 2.828,
+        "p75": 4,
+        "p90": 6,
+        "max": 6,
+        "mean": 3.195
+      },
+      "directions": {
+        "diag7": 3,
+        "diag4": 1,
+        "diag6": 2,
+        "north": 2
+      },
+      "levelPairs": {
+        "1->2": 7,
+        "2->3": 1
+      }
+    },
+    "cliffDoodads": []
+  },
+  "doodads": {
+    "count": 683,
+    "perHundredCells": 2.862,
+    "distinctTypes": 64,
+    "kinds": [
+      {
+        "name": "ruin",
+        "count": 359,
+        "share": 0.526
+      },
+      {
+        "name": "other",
+        "count": 84,
+        "share": 0.123
+      },
+      {
+        "name": "foliage",
+        "count": 74,
+        "share": 0.108
+      },
+      {
+        "name": "rock",
+        "count": 68,
+        "share": 0.1
+      },
+      {
+        "name": "tree",
+        "count": 67,
+        "share": 0.098
+      },
+      {
+        "name": "unknown",
+        "count": 27,
+        "share": 0.04
+      },
+      {
+        "name": "water/fx",
+        "count": 4,
+        "share": 0.006
+      }
+    ],
+    "topTypes": [
+      {
+        "name": "TempleColumnSet",
+        "count": 115,
+        "share": 0.168
+      },
+      {
+        "name": "AiurTree_Ex2",
+        "count": 67,
+        "share": 0.098
+      },
+      {
+        "name": "TempleColumn",
+        "count": 32,
+        "share": 0.047
+      },
+      {
+        "name": "Aiur_Temple_CliffDoodads",
+        "count": 31,
+        "share": 0.045
+      },
+      {
+        "name": "TempleColumnWalls",
+        "count": 28,
+        "share": 0.041
+      },
+      {
+        "name": "Elsecaro_Bush4x4",
+        "count": 28,
+        "share": 0.041
+      },
+      {
+        "name": "TempleBricks",
+        "count": 25,
+        "share": 0.037
+      },
+      {
+        "name": "Elsecaro_Medium_Rock_Group",
+        "count": 24,
+        "share": 0.035
+      },
+      {
+        "name": "AiurFoliage_Ex2",
+        "count": 20,
+        "share": 0.029
+      },
+      {
+        "name": "Aiur_Temple_Bigwalls",
+        "count": 18,
+        "share": 0.026
+      },
+      {
+        "name": "ZerglingRagdollDoodad",
+        "count": 17,
+        "share": 0.025
+      },
+      {
+        "name": "Aiur_CliffRocks_SmallRocks",
+        "count": 15,
+        "share": 0.022
+      },
+      {
+        "name": "TempleBricksLarge",
+        "count": 15,
+        "share": 0.022
+      },
+      {
+        "name": "AiurProtossBuildingsSmall",
+        "count": 14,
+        "share": 0.02
+      },
+      {
+        "name": "BelShirCliffGapFiller",
+        "count": 14,
+        "share": 0.02
+      },
+      {
+        "name": "Aiur_Vines_Cliff",
+        "count": 14,
+        "share": 0.02
+      },
+      {
+        "name": "Aiur_Temple_Small_Pillar_Destroyed",
+        "count": 13,
+        "share": 0.019
+      },
+      {
+        "name": "TempleSpout",
+        "count": 12,
+        "share": 0.018
+      },
+      {
+        "name": "Aiur_Rock_Cliff_Jungle_Chunks",
+        "count": 11,
+        "share": 0.016
+      },
+      {
+        "name": "CreepWebbing",
+        "count": 10,
+        "share": 0.015
+      },
+      {
+        "name": "HydraliskRagdollDoodad",
+        "count": 10,
+        "share": 0.015
+      },
+      {
+        "name": "Aiur_Temple_GroundDecal",
+        "count": 9,
+        "share": 0.013
+      },
+      {
+        "name": "Aiur_Stone_Temple_Rubble",
+        "count": 8,
+        "share": 0.012
+      },
+      {
+        "name": "AiurUnderbrush",
+        "count": 8,
+        "share": 0.012
+      },
+      {
+        "name": "BloodSplats",
+        "count": 8,
+        "share": 0.012
+      }
+    ],
+    "blockDensity": {
+      "min": 0,
+      "p25": 0,
+      "p50": 1,
+      "p75": 2,
+      "p90": 5,
+      "max": 15,
+      "mean": 1.731,
+      "emptyShare": 0.441
+    },
+    "placement": [
+      {
+        "name": "cliffEdge",
+        "count": 325,
+        "share": 0.476
+      },
+      {
+        "name": "nearEdge",
+        "count": 174,
+        "share": 0.255
+      },
+      {
+        "name": "open",
+        "count": 150,
+        "share": 0.22
+      },
+      {
+        "name": "outsidePlayable",
+        "count": 20,
+        "share": 0.029
+      },
+      {
+        "name": "ramp",
+        "count": 14,
+        "share": 0.02
+      }
+    ],
+    "clusters": {
+      "count": 341,
+      "size": {
+        "min": 1,
+        "p25": 1,
+        "p50": 1,
+        "p75": 2,
+        "p90": 3,
+        "max": 38,
+        "mean": 2.003
+      },
+      "singletonShare": 0.713
+    },
+    "coOccurrence": [
+      {
+        "name": "BloodSplats + ZerglingRagdollDoodad",
+        "count": 29
+      },
+      {
+        "name": "TempleBricks + TempleBricksLarge",
+        "count": 25
+      },
+      {
+        "name": "ForceFieldWall + TempleColumnSet",
+        "count": 23
+      },
+      {
+        "name": "AiurTree_Ex2 + Elsecaro_Bush4x4",
+        "count": 22
+      },
+      {
+        "name": "HydraliskRagdollDoodad + ZerglingRagdollDoodad",
+        "count": 21
+      },
+      {
+        "name": "TempleColumn + TempleColumnSet",
+        "count": 16
+      },
+      {
+        "name": "TempleColumnSet + TempleColumnWalls",
+        "count": 15
+      },
+      {
+        "name": "Aiur_Vines_Cliff + Elsecaro_Bush4x4",
+        "count": 13
+      },
+      {
+        "name": "Aiur_ChiseledRock_Brown_Large + Aiur_CliffRocks_SmallRocks",
+        "count": 13
+      },
+      {
+        "name": "TempleColumn + TempleColumnWalls",
+        "count": 13
+      },
+      {
+        "name": "TempleColumnSet + TempleDebris",
+        "count": 12
+      },
+      {
+        "name": "AiurProtossBuildingsSmall + AiurTree_Ex2",
+        "count": 11
+      },
+      {
+        "name": "BloodSplats + HydraliskRagdollDoodad",
+        "count": 10
+      },
+      {
+        "name": "AiurFoliage_Ex2 + Elsecaro_Bush4x4",
+        "count": 9
+      },
+      {
+        "name": "AiurTree_Ex2 + AiurUnderbrush",
+        "count": 8
+      },
+      {
+        "name": "Aiur_Vines_Cliff + Elsecaro_Medium_Rock_Group",
+        "count": 8
+      },
+      {
+        "name": "AiurTree_Ex2 + Elsecaro_Medium_Rock_Group",
+        "count": 7
+      },
+      {
+        "name": "Elsecaro_Bush4x4 + Elsecaro_Medium_Rock_Group",
+        "count": 7
+      },
+      {
+        "name": "AiurFoliage_Ex2 + Elsecaro_Medium_Rock_Group",
+        "count": 6
+      },
+      {
+        "name": "TempleColumn + TempleDebris",
+        "count": 6
+      },
+      {
+        "name": "TempleBricks + TempleBridgeBroken",
+        "count": 6
+      },
+      {
+        "name": "TempleArch + TempleStatue",
+        "count": 6
+      },
+      {
+        "name": "TempleColumnWalls + TempleDebris",
+        "count": 6
+      },
+      {
+        "name": "AiurProtossBuildingsSmallWrecked + TempleBricks",
+        "count": 5
+      },
+      {
+        "name": "Aiur_Temple_CliffDoodads + TempleColumnSet",
+        "count": 5
+      },
+      {
+        "name": "AiurUnderbrush + Elsecaro_Medium_Rock_Group",
+        "count": 5
+      },
+      {
+        "name": "AiurProtossBuildingsSmall + TempleColumnWalls",
+        "count": 5
+      },
+      {
+        "name": "HydraliskRagdollDoodad + InvisibleWalkablePlatform8x16",
+        "count": 5
+      },
+      {
+        "name": "FloatingCreepPad + TempleColumnWalls",
+        "count": 5
+      },
+      {
+        "name": "TempleBricksLarge + TempleBridgeBroken",
+        "count": 5
+      }
+    ],
+    "manipulation": {
+      "note": "tilted: |pitch| or |roll| > 0.05 rad; nonUniformScale: axis ratio > 1.15; sunk/raised: > 0.5 below/above terrain; extremeScale: >= 2 or <= 0.5.",
+      "counts": [
+        {
+          "name": "raised",
+          "count": 99,
+          "share": 0.145
+        },
+        {
+          "name": "nonUniformScale",
+          "count": 79,
+          "share": 0.116
+        },
+        {
+          "name": "sunk",
+          "count": 66,
+          "share": 0.097
+        },
+        {
+          "name": "tilted",
+          "count": 59,
+          "share": 0.086
+        },
+        {
+          "name": "extremeScale",
+          "count": 22,
+          "share": 0.032
+        },
+        {
+          "name": "tinted",
+          "count": 15,
+          "share": 0.022
+        },
+        {
+          "name": "noFootprint",
+          "count": 1,
+          "share": 0.001
+        }
+      ],
+      "flags": [
+        {
+          "name": "HeightAbsolute",
+          "count": 683,
+          "share": 1
+        },
+        {
+          "name": "ForcePlacement",
+          "count": 555,
+          "share": 0.813
+        },
+        {
+          "name": "HeightOffset",
+          "count": 395,
+          "share": 0.578
+        },
+        {
+          "name": "NoDoodadFootprint",
+          "count": 1,
+          "share": 0.001
+        }
+      ],
+      "typeProfiles": [
+        {
+          "type": "TempleColumnSet",
+          "kind": "ruin",
+          "count": 115,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1.06,
+            "max": 1.3,
+            "mean": 1.009
+          },
+          "aboveTerrain": {
+            "min": -2.395,
+            "p25": 0.005,
+            "p50": 0.007,
+            "p75": 4.506,
+            "p90": 4.507,
+            "max": 4.507,
+            "mean": 0.972
+          },
+          "tiltedShare": 0.183,
+          "nonUniformShare": 0.096,
+          "yawSpread": 0.875
+        },
+        {
+          "type": "AiurTree_Ex2",
+          "kind": "tree",
+          "count": 67,
+          "scale": {
+            "min": 0.835,
+            "p25": 1.062,
+            "p50": 1.219,
+            "p75": 1.219,
+            "p90": 1.6,
+            "max": 1.966,
+            "mean": 1.225
+          },
+          "aboveTerrain": {
+            "min": -0.033,
+            "p25": 0.003,
+            "p50": 0.007,
+            "p75": 0.019,
+            "p90": 0.408,
+            "max": 0.607,
+            "mean": 0.079
+          },
+          "tiltedShare": 0.03,
+          "nonUniformShare": 0.104,
+          "yawSpread": 0.938
+        },
+        {
+          "type": "TempleColumn",
+          "kind": "ruin",
+          "count": 32,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.089,
+            "p25": 0.007,
+            "p50": 0.168,
+            "p75": 0.476,
+            "p90": 0.922,
+            "max": 2.124,
+            "mean": 0.343
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.813
+        },
+        {
+          "type": "Aiur_Temple_CliffDoodads",
+          "kind": "ruin",
+          "count": 31,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -1.095,
+            "p25": -0.087,
+            "p50": 0.46,
+            "p75": 0.933,
+            "p90": 1.329,
+            "max": 1.8,
+            "mean": 0.329
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.438
+        },
+        {
+          "type": "TempleColumnWalls",
+          "kind": "ruin",
+          "count": 28,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -2.375,
+            "p25": -1.572,
+            "p50": -0.989,
+            "p75": -0.207,
+            "p90": -0.1,
+            "max": -0.091,
+            "mean": -1.027
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.25,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "Elsecaro_Bush4x4",
+          "kind": "foliage",
+          "count": 28,
+          "scale": {
+            "min": 0.479,
+            "p25": 0.932,
+            "p50": 1.068,
+            "p75": 1.092,
+            "p90": 1.092,
+            "max": 1.092,
+            "mean": 0.941
+          },
+          "aboveTerrain": {
+            "min": -0.087,
+            "p25": 0.001,
+            "p50": 0.002,
+            "p75": 0.005,
+            "p90": 0.011,
+            "max": 0.026,
+            "mean": -0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.036,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "TempleBricks",
+          "kind": "ruin",
+          "count": 25,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1.65,
+            "max": 1.89,
+            "mean": 1.156
+          },
+          "aboveTerrain": {
+            "min": -0.691,
+            "p25": 0.002,
+            "p50": 0.006,
+            "p75": 0.007,
+            "p90": 0.028,
+            "max": 0.058,
+            "mean": -0.04
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.875
+        },
+        {
+          "type": "Elsecaro_Medium_Rock_Group",
+          "kind": "rock",
+          "count": 24,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.24,
+            "p25": 0,
+            "p50": 0.003,
+            "p75": 0.007,
+            "p90": 0.007,
+            "max": 0.015,
+            "mean": -0.013
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.688
+        },
+        {
+          "type": "AiurFoliage_Ex2",
+          "kind": "foliage",
+          "count": 20,
+          "scale": {
+            "min": 0.844,
+            "p25": 1.539,
+            "p50": 2.418,
+            "p75": 3.168,
+            "p90": 3.168,
+            "max": 3.168,
+            "mean": 2.279
+          },
+          "aboveTerrain": {
+            "min": -0.803,
+            "p25": -0.37,
+            "p50": 0.002,
+            "p75": 0.011,
+            "p90": 0.337,
+            "max": 1.305,
+            "mean": -0.072
+          },
+          "tiltedShare": 0.3,
+          "nonUniformShare": 0,
+          "yawSpread": 0.625
+        },
+        {
+          "type": "Aiur_Temple_Bigwalls",
+          "kind": "ruin",
+          "count": 18,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1.144,
+            "max": 1.226,
+            "mean": 1.025
+          },
+          "aboveTerrain": {
+            "min": -0.363,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.032,
+            "mean": -0.017
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.222,
+          "yawSpread": 0.375
+        },
+        {
+          "type": "ZerglingRagdollDoodad",
+          "kind": "unknown",
+          "count": 17,
+          "scale": {
+            "min": 0.87,
+            "p25": 1.024,
+            "p50": 1.103,
+            "p75": 1.103,
+            "p90": 1.194,
+            "max": 1.198,
+            "mean": 1.068
+          },
+          "aboveTerrain": {
+            "min": -0.107,
+            "p25": 0.183,
+            "p50": 0.336,
+            "p75": 0.412,
+            "p90": 0.569,
+            "max": 0.706,
+            "mean": 0.31
+          },
+          "tiltedShare": 0.647,
+          "nonUniformShare": 0,
+          "yawSpread": 0.625
+        },
+        {
+          "type": "Aiur_CliffRocks_SmallRocks",
+          "kind": "rock",
+          "count": 15,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1.301,
+            "p90": 1.563,
+            "max": 1.563,
+            "mean": 1.142
+          },
+          "aboveTerrain": {
+            "min": -0.244,
+            "p25": -0.001,
+            "p50": 0.004,
+            "p75": 0.013,
+            "p90": 0.015,
+            "max": 0.018,
+            "mean": -0.011
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "TempleBricksLarge",
+          "kind": "ruin",
+          "count": 15,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1.22,
+            "mean": 1.015
+          },
+          "aboveTerrain": {
+            "min": -0.496,
+            "p25": -0.292,
+            "p50": 0.004,
+            "p75": 0.007,
+            "p90": 0.007,
+            "max": 0.007,
+            "mean": -0.123
+          },
+          "tiltedShare": 0.333,
+          "nonUniformShare": 0,
+          "yawSpread": 0.5
+        },
+        {
+          "type": "AiurProtossBuildingsSmall",
+          "kind": "other",
+          "count": 14,
+          "scale": {
+            "min": 0.52,
+            "p25": 0.52,
+            "p50": 0.52,
+            "p75": 0.52,
+            "p90": 1,
+            "max": 1,
+            "mean": 0.623
+          },
+          "aboveTerrain": {
+            "min": -0.007,
+            "p25": 0.005,
+            "p50": 0.007,
+            "p75": 0.008,
+            "p90": 0.009,
+            "max": 0.012,
+            "mean": 0.005
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "BelShirCliffGapFiller",
+          "kind": "other",
+          "count": 14,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.257,
+            "p25": 1.244,
+            "p50": 2.286,
+            "p75": 2.779,
+            "p90": 4.105,
+            "max": 4.263,
+            "mean": 2.123
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.214,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "Aiur_Vines_Cliff",
+          "kind": "foliage",
+          "count": 14,
+          "scale": {
+            "min": 0.824,
+            "p25": 1.12,
+            "p50": 1.12,
+            "p75": 1.12,
+            "p90": 1.12,
+            "max": 1.12,
+            "mean": 1.078
+          },
+          "aboveTerrain": {
+            "min": -0.219,
+            "p25": 0.24,
+            "p50": 0.374,
+            "p75": 0.457,
+            "p90": 1.393,
+            "max": 1.822,
+            "mean": 0.491
+          },
+          "tiltedShare": 0.143,
+          "nonUniformShare": 0,
+          "yawSpread": 0.5
+        },
+        {
+          "type": "Aiur_Temple_Small_Pillar_Destroyed",
+          "kind": "ruin",
+          "count": 13,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1.627,
+            "max": 1.627,
+            "mean": 1.096
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": 0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "TempleSpout",
+          "kind": "ruin",
+          "count": 12,
+          "scale": {
+            "min": 0.7,
+            "p25": 0.7,
+            "p50": 0.7,
+            "p75": 0.7,
+            "p90": 0.7,
+            "max": 0.7,
+            "mean": 0.7
+          },
+          "aboveTerrain": {
+            "min": -0.663,
+            "p25": -0.32,
+            "p50": -0.285,
+            "p75": -0.268,
+            "p90": -0.247,
+            "max": -0.192,
+            "mean": -0.325
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 1,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "Aiur_Rock_Cliff_Jungle_Chunks",
+          "kind": "rock",
+          "count": 11,
+          "scale": {
+            "min": 0.95,
+            "p25": 0.95,
+            "p50": 1.17,
+            "p75": 1.51,
+            "p90": 1.666,
+            "max": 1.843,
+            "mean": 1.22
+          },
+          "aboveTerrain": {
+            "min": -4.074,
+            "p25": -2.371,
+            "p50": -1.46,
+            "p75": -0.162,
+            "p90": -0.084,
+            "max": -0.007,
+            "mean": -1.416
+          },
+          "tiltedShare": 0.091,
+          "nonUniformShare": 0.364,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "CreepWebbing",
+          "kind": "other",
+          "count": 10,
+          "scale": {
+            "min": 0.813,
+            "p25": 1,
+            "p50": 1.088,
+            "p75": 1.718,
+            "p90": 2.067,
+            "max": 2.067,
+            "mean": 1.258
+          },
+          "aboveTerrain": {
+            "min": -1.528,
+            "p25": -0.899,
+            "p50": -0.002,
+            "p75": 0.005,
+            "p90": 0.011,
+            "max": 0.011,
+            "mean": -0.449
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.2,
+          "yawSpread": 0.375
+        },
+        {
+          "type": "HydraliskRagdollDoodad",
+          "kind": "unknown",
+          "count": 10,
+          "scale": {
+            "min": 0.889,
+            "p25": 0.889,
+            "p50": 1.033,
+            "p75": 1.033,
+            "p90": 1.033,
+            "max": 1.033,
+            "mean": 0.987
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.002,
+            "p50": 0.552,
+            "p75": 2.524,
+            "p90": 2.524,
+            "max": 2.524,
+            "mean": 0.958
+          },
+          "tiltedShare": 0.4,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "Aiur_Temple_GroundDecal",
+          "kind": "ruin",
+          "count": 9,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1.937,
+            "p90": 2.614,
+            "max": 2.614,
+            "mean": 1.391
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": 0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.333,
+          "yawSpread": 0.438
+        },
+        {
+          "type": "Aiur_Stone_Temple_Rubble",
+          "kind": "rock",
+          "count": 8,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1.426,
+            "p90": 1.433,
+            "max": 1.433,
+            "mean": 1.138
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.003,
+            "max": 0.003,
+            "mean": 0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "AiurUnderbrush",
+          "kind": "other",
+          "count": 8,
+          "scale": {
+            "min": 0.924,
+            "p25": 0.98,
+            "p50": 0.994,
+            "p75": 1.002,
+            "p90": 1.003,
+            "max": 1.003,
+            "mean": 0.98
+          },
+          "aboveTerrain": {
+            "min": -0.013,
+            "p25": 0,
+            "p50": 0.002,
+            "p75": 0.006,
+            "p90": 0.007,
+            "max": 0.007,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.438
+        },
+        {
+          "type": "BloodSplats",
+          "kind": "other",
+          "count": 8,
+          "scale": {
+            "min": 0.624,
+            "p25": 0.827,
+            "p50": 1.029,
+            "p75": 1.504,
+            "p90": 1.508,
+            "max": 1.508,
+            "mean": 1.04
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.001,
+            "p50": 0.001,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.125,
+          "yawSpread": 0.438
+        },
+        {
+          "type": "TempleArch",
+          "kind": "ruin",
+          "count": 7,
+          "scale": {
+            "min": 0.6,
+            "p25": 0.6,
+            "p50": 0.6,
+            "p75": 0.96,
+            "p90": 0.98,
+            "max": 0.98,
+            "mean": 0.706
+          },
+          "aboveTerrain": {
+            "min": -0.63,
+            "p25": 0.002,
+            "p50": 0.006,
+            "p75": 0.006,
+            "p90": 0.025,
+            "max": 0.025,
+            "mean": -0.083
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 1,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "BelShirFlowers",
+          "kind": "foliage",
+          "count": 6,
+          "scale": {
+            "min": 0.85,
+            "p25": 0.868,
+            "p50": 0.961,
+            "p75": 1.029,
+            "p90": 1.141,
+            "max": 1.141,
+            "mean": 0.968
+          },
+          "aboveTerrain": {
+            "min": 0.002,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.01,
+            "max": 0.01,
+            "mean": 0.003
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "Aiur_Temple_Pillars",
+          "kind": "ruin",
+          "count": 6,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -1.068,
+            "p25": -1.068,
+            "p50": -1.068,
+            "p75": 0.217,
+            "p90": 0.233,
+            "max": 0.233,
+            "mean": -0.637
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "Aiur_Stone_Temple_Shrine",
+          "kind": "rock",
+          "count": 6,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1.026,
+            "p75": 1.026,
+            "p90": 1.251,
+            "max": 1.251,
+            "mean": 1.05
+          },
+          "aboveTerrain": {
+            "min": -0.786,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": -0.129
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.333,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "TempleBanner",
+          "kind": "ruin",
+          "count": 6,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.02,
+            "p25": -0.015,
+            "p50": 0.008,
+            "p75": 0.064,
+            "p90": 0.578,
+            "max": 0.578,
+            "mean": 0.101
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "TempleDebris",
+          "kind": "ruin",
+          "count": 6,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.006,
+            "p25": 0.007,
+            "p50": 0.009,
+            "p75": 0.009,
+            "p90": 0.051,
+            "max": 0.051,
+            "mean": 0.015
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "ShakurasArchonStatue",
+          "kind": "ruin",
+          "count": 5,
+          "scale": {
+            "min": 0.7,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 0.94
+          },
+          "aboveTerrain": {
+            "min": 0.005,
+            "p25": 0.006,
+            "p50": 0.007,
+            "p75": 0.007,
+            "p90": 0.007,
+            "max": 0.007,
+            "mean": 0.006
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "ZerusSwampPlants",
+          "kind": "foliage",
+          "count": 5,
+          "scale": {
+            "min": 0.804,
+            "p25": 0.827,
+            "p50": 0.868,
+            "p75": 0.903,
+            "p90": 1.078,
+            "max": 1.078,
+            "mean": 0.896
+          },
+          "aboveTerrain": {
+            "min": -0.022,
+            "p25": -0.009,
+            "p50": -0.005,
+            "p75": -0.005,
+            "p90": 0.009,
+            "max": 0.009,
+            "mean": -0.006
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "FloatingCreepPad",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 1.113,
+            "p25": 1.5,
+            "p50": 1.5,
+            "p75": 1.5,
+            "p90": 1.5,
+            "max": 1.5,
+            "mean": 1.423
+          },
+          "aboveTerrain": {
+            "min": 1.007,
+            "p25": 1.007,
+            "p50": 1.007,
+            "p75": 1.007,
+            "p90": 1.007,
+            "max": 1.007,
+            "mean": 1.007
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.8,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "AiurProtossBuildingsSmallWrecked",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.048,
+            "p25": -0.005,
+            "p50": 0.004,
+            "p75": 0.007,
+            "p90": 0.02,
+            "max": 0.02,
+            "mean": -0.005
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "Aiur_Temple_Statue",
+          "kind": "ruin",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.002,
+            "p25": 0.002,
+            "p50": 0.005,
+            "p75": 0.006,
+            "p90": 0.006,
+            "max": 0.006,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "Aiur_Temple_Archway",
+          "kind": "ruin",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.015,
+            "p25": 0.001,
+            "p50": 0.008,
+            "p75": 0.585,
+            "p90": 0.585,
+            "max": 0.585,
+            "mean": 0.145
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "BirdHammerRay",
+          "kind": "water/fx",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.011,
+            "p25": 0.001,
+            "p50": 0.005,
+            "p75": 2.623,
+            "p90": 2.623,
+            "max": 2.623,
+            "mean": 0.655
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "TempleStatue",
+          "kind": "ruin",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1.4,
+            "p90": 1.4,
+            "max": 1.4,
+            "mean": 1.1
+          },
+          "aboveTerrain": {
+            "min": -0.494,
+            "p25": 0.003,
+            "p50": 0.024,
+            "p75": 0.025,
+            "p90": 0.025,
+            "max": 0.025,
+            "mean": -0.111
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "Aiur_Temple_Bricks",
+          "kind": "ruin",
+          "count": 4,
+          "scale": {
+            "min": 0.844,
+            "p25": 0.964,
+            "p50": 1.089,
+            "p75": 1.157,
+            "p90": 1.157,
+            "max": 1.157,
+            "mean": 1.014
+          },
+          "aboveTerrain": {
+            "min": 0.002,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": 0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        }
+      ]
+    },
+    "composites": {
+      "count": 27,
+      "top": [
+        {
+          "center": [
+            6.17,
+            136.25
+          ],
+          "bounds": [
+            5.18,
+            126.5,
+            7.71,
+            148.19
+          ],
+          "size": 38,
+          "manipulated": 35,
+          "types": [
+            {
+              "name": "TempleColumnSet",
+              "count": 35
+            },
+            {
+              "name": "ForceFieldWall",
+              "count": 3
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.85,
+                -2.37,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.12,
+                -4.37,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.1,
+                -4.35,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                3.14,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.87,
+                -2.36,
+                4.5
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.86,
+                -2.39,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.83,
+                -2.38,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.01,
+                -0.76,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                3.14,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.01,
+                -0.78,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.95,
+                -5.97,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.73,
+                -5.96,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.97,
+                -5.98,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "ForceFieldWall",
+              "offset": [
+                -0.03,
+                -5.85,
+                2.11
+              ],
+              "yawPitchRoll": [
+                0,
+                1.18,
+                0
+              ],
+              "scale": [
+                0.7,
+                0.7,
+                3
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale",
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.76,
+                -5.95,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.94,
+                1.3,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.77,
+                1.29,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.79,
+                1.27,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.91,
+                1.29,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.16,
+                -7.89,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                3.14,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.18,
+                -7.9,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.08,
+                2.9,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                3.14,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.06,
+                2.89,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "ForceFieldWall",
+              "offset": [
+                0,
+                2.59,
+                2.11
+              ],
+              "yawPitchRoll": [
+                0,
+                1.57,
+                0
+              ],
+              "scale": [
+                0.7,
+                0.7,
+                4.5
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale",
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.79,
+                -9.72,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.77,
+                -9.74,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.92,
+                -9.74,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.94,
+                -9.76,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.85,
+                4.78,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.87,
+                4.77,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.83,
+                4.79,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.86,
+                4.8,
+                4.51
+              ],
+              "yawPitchRoll": [
+                4.71,
+                3.14,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0,
+                6.4,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                3.14,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.02,
+                6.39,
+                4.51
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.6,
+                1,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.97,
+                8.44,
+                1.59
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                1.16,
+                8.28,
+                2.2
+              ],
+              "yawPitchRoll": [
+                4.53,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "ForceFieldWall",
+              "offset": [
+                -0.07,
+                8.21,
+                2.48
+              ],
+              "yawPitchRoll": [
+                0,
+                1.97,
+                0
+              ],
+              "scale": [
+                0.7,
+                0.7,
+                3
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale",
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.25,
+                10.12,
+                0.03
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.99,
+                11.94,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                1.54,
+                11.76,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            23.21,
+            59.85
+          ],
+          "bounds": [
+            14.69,
+            52.95,
+            30.54,
+            67.41
+          ],
+          "size": 28,
+          "manipulated": 18,
+          "types": [
+            {
+              "name": "TempleColumnSet",
+              "count": 10
+            },
+            {
+              "name": "TempleColumnWalls",
+              "count": 7
+            },
+            {
+              "name": "TempleColumn",
+              "count": 4
+            },
+            {
+              "name": "TempleSpout",
+              "count": 4
+            },
+            {
+              "name": "FloatingCreepPad",
+              "count": 2
+            },
+            {
+              "name": "TempleDebris",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "FloatingCreepPad",
+              "offset": [
+                1,
+                -6.31,
+                1.01
+              ],
+              "yawPitchRoll": [
+                5.1,
+                0,
+                0
+              ],
+              "scale": [
+                1.11,
+                1.11,
+                1.11
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                2.1,
+                -5.23,
+                -1.65
+              ],
+              "yawPitchRoll": [
+                3.91,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                2.93,
+                -6.9,
+                -1.15
+              ],
+              "yawPitchRoll": [
+                3.11,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                3.74,
+                -6.1,
+                0.3
+              ],
+              "yawPitchRoll": [
+                5.05,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                1.97,
+                -2.98,
+                -1.26
+              ],
+              "yawPitchRoll": [
+                1.8,
+                0.98,
+                6.13
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                5.28,
+                -4.27,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.36,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                0.92,
+                -2.8,
+                -1.31
+              ],
+              "yawPitchRoll": [
+                3.11,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                1.75,
+                -1.78,
+                0.15
+              ],
+              "yawPitchRoll": [
+                5.05,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleDebris",
+              "offset": [
+                1.55,
+                -0.68,
+                0.01
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                3.16,
+                -1.47,
+                0
+              ],
+              "yawPitchRoll": [
+                2.22,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                7.33,
+                -3.05,
+                -2.37
+              ],
+              "yawPitchRoll": [
+                3.94,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "FloatingCreepPad",
+              "offset": [
+                -1.19,
+                -1.99,
+                1.01
+              ],
+              "yawPitchRoll": [
+                5.73,
+                0,
+                0
+              ],
+              "scale": [
+                1.5,
+                1.11,
+                1.11
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleSpout",
+              "offset": [
+                -0.52,
+                -1.17,
+                -0.66
+              ],
+              "yawPitchRoll": [
+                5.44,
+                0,
+                0
+              ],
+              "scale": [
+                0.58,
+                0.7,
+                0.58
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                1.73,
+                -0.2,
+                -1.49
+              ],
+              "yawPitchRoll": [
+                2.93,
+                0.77,
+                6.13
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                1.27,
+                1.46,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.09,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                3.52,
+                0.75,
+                -2.35
+              ],
+              "yawPitchRoll": [
+                3.94,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                5.39,
+                -1.17,
+                -2.34
+              ],
+              "yawPitchRoll": [
+                3.94,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                2.25,
+                2.25,
+                2.12
+              ],
+              "yawPitchRoll": [
+                5.05,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.68,
+                2.02,
+                -1.49
+              ],
+              "yawPitchRoll": [
+                3.34,
+                0.77,
+                6.13
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleSpout",
+              "offset": [
+                -2.57,
+                0.79,
+                -0.28
+              ],
+              "yawPitchRoll": [
+                5.44,
+                0,
+                0
+              ],
+              "scale": [
+                0.58,
+                0.7,
+                0.58
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.95,
+                3.98,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.45,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -3.03,
+                4.2,
+                -1.49
+              ],
+              "yawPitchRoll": [
+                2.93,
+                0.77,
+                6.13
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleSpout",
+              "offset": [
+                -4.65,
+                2.86,
+                -0.32
+              ],
+              "yawPitchRoll": [
+                5.44,
+                0,
+                0
+              ],
+              "scale": [
+                0.58,
+                0.7,
+                0.58
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -3.82,
+                5.74,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.72,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                -6.01,
+                4.25,
+                -1.26
+              ],
+              "yawPitchRoll": [
+                4.68,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                -7.23,
+                5.4,
+                0.05
+              ],
+              "yawPitchRoll": [
+                5.89,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleSpout",
+              "offset": [
+                -8.52,
+                4.85,
+                -0.28
+              ],
+              "yawPitchRoll": [
+                5.44,
+                0,
+                0
+              ],
+              "scale": [
+                0.58,
+                0.7,
+                0.58
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -6.69,
+                7.56,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.38,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            54.01,
+            169.26
+          ],
+          "bounds": [
+            49.91,
+            163.5,
+            58.12,
+            172.26
+          ],
+          "size": 23,
+          "manipulated": 11,
+          "types": [
+            {
+              "name": "ZerglingRagdollDoodad",
+              "count": 12
+            },
+            {
+              "name": "BloodSplats",
+              "count": 5
+            },
+            {
+              "name": "HydraliskRagdollDoodad",
+              "count": 5
+            },
+            {
+              "name": "Aiur_Ramp_Stairs",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                1.6,
+                3,
+                0.21
+              ],
+              "yawPitchRoll": [
+                2.61,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                0.45,
+                2.65,
+                0.34
+              ],
+              "yawPitchRoll": [
+                2.77,
+                0.08,
+                3.04
+              ],
+              "scale": [
+                1.06,
+                1.06,
+                1.06
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                0.49,
+                1.74,
+                0.35
+              ],
+              "yawPitchRoll": [
+                0.64,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                3.09,
+                1.17,
+                0
+              ],
+              "yawPitchRoll": [
+                1.43,
+                0,
+                0
+              ],
+              "scale": [
+                1.51,
+                1.51,
+                1.51
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                1.96,
+                2.9,
+                0
+              ],
+              "yawPitchRoll": [
+                0.76,
+                0,
+                0
+              ],
+              "scale": [
+                0.85,
+                0.85,
+                0.85
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                0.99,
+                0.74,
+                -0.07
+              ],
+              "yawPitchRoll": [
+                2.83,
+                0,
+                0
+              ],
+              "scale": [
+                1.2,
+                1.2,
+                1.2
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                -0.86,
+                0.75,
+                0.55
+              ],
+              "yawPitchRoll": [
+                3.03,
+                5.98,
+                6.28
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                -1.6,
+                0.8,
+                0
+              ],
+              "yawPitchRoll": [
+                1.03,
+                0,
+                0
+              ],
+              "scale": [
+                1.5,
+                1.5,
+                1.12
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                -1.34,
+                0.73,
+                0.52
+              ],
+              "yawPitchRoll": [
+                5.89,
+                0.29,
+                0.17
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                3.46,
+                -0.02,
+                0.55
+              ],
+              "yawPitchRoll": [
+                3.8,
+                5.89,
+                0.07
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                2.18,
+                -0.48,
+                0.41
+              ],
+              "yawPitchRoll": [
+                4.54,
+                0.15,
+                2.88
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                4.11,
+                1.45,
+                0.48
+              ],
+              "yawPitchRoll": [
+                4.2,
+                6.28,
+                0.44
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                -2.72,
+                -0.64,
+                0
+              ],
+              "yawPitchRoll": [
+                2.83,
+                0,
+                0
+              ],
+              "scale": [
+                0.81,
+                0.81,
+                0.81
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                -2.59,
+                2.15,
+                0
+              ],
+              "yawPitchRoll": [
+                1.43,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                -3.14,
+                2.43,
+                0.18
+              ],
+              "yawPitchRoll": [
+                3.31,
+                6.28,
+                0.13
+              ],
+              "scale": [
+                1.19,
+                1.19,
+                1.19
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                -3.53,
+                0.88,
+                0.41
+              ],
+              "yawPitchRoll": [
+                3.51,
+                5.77,
+                0.22
+              ],
+              "scale": [
+                1.02,
+                1.02,
+                1.02
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                2.88,
+                -2.23,
+                0.15
+              ],
+              "yawPitchRoll": [
+                2.19,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                1.12,
+                -2.65,
+                0
+              ],
+              "yawPitchRoll": [
+                3.2,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                -4.09,
+                -0.46,
+                0.41
+              ],
+              "yawPitchRoll": [
+                4.22,
+                5.92,
+                0.23
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                -3.2,
+                -2.28,
+                0
+              ],
+              "yawPitchRoll": [
+                3.15,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                -1.27,
+                -2.36,
+                0.15
+              ],
+              "yawPitchRoll": [
+                5.53,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ]
+            },
+            {
+              "type": "Aiur_Ramp_Stairs",
+              "offset": [
+                -0.01,
+                -4.53,
+                -0.06
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1.57,
+                1,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                1.99,
+                -5.76,
+                -0.11
+              ],
+              "yawPitchRoll": [
+                5.89,
+                0,
+                0
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            53.41,
+            35.17
+          ],
+          "bounds": [
+            50.06,
+            28.19,
+            56.21,
+            43.64
+          ],
+          "size": 19,
+          "manipulated": 8,
+          "types": [
+            {
+              "name": "Aiur_Vines_Cliff",
+              "count": 9
+            },
+            {
+              "name": "Elsecaro_Bush4x4",
+              "count": 4
+            },
+            {
+              "name": "Elsecaro_Medium_Rock_Group",
+              "count": 4
+            },
+            {
+              "name": "AiurFoliage_Ex2",
+              "count": 1
+            },
+            {
+              "name": "AiurUnderbrush",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "AiurFoliage_Ex2",
+              "offset": [
+                0.65,
+                -0.89,
+                -0.37
+              ],
+              "yawPitchRoll": [
+                0.53,
+                0,
+                0.02
+              ],
+              "scale": [
+                3.17,
+                3.17,
+                3.17
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "Elsecaro_Bush4x4",
+              "offset": [
+                -1.41,
+                -1.17,
+                0.02
+              ],
+              "yawPitchRoll": [
+                3.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.48,
+                0.48,
+                0.48
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                0.45,
+                -2.83,
+                -0.22
+              ],
+              "yawPitchRoll": [
+                0.12,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ]
+            },
+            {
+              "type": "Elsecaro_Bush4x4",
+              "offset": [
+                0.63,
+                -3.12,
+                -0.09
+              ],
+              "yawPitchRoll": [
+                3.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.6,
+                0.6,
+                0.6
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                -0.77,
+                0.68,
+                0.46
+              ],
+              "yawPitchRoll": [
+                5.14,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                2.53,
+                0.54,
+                0.24
+              ],
+              "yawPitchRoll": [
+                1.42,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                -2.07,
+                -3.58,
+                0.89
+              ],
+              "yawPitchRoll": [
+                5.47,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "Elsecaro_Medium_Rock_Group",
+              "offset": [
+                -3.34,
+                -0.09,
+                -0.13
+              ],
+              "yawPitchRoll": [
+                2.74,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                0.55,
+                -4.16,
+                0.37
+              ],
+              "yawPitchRoll": [
+                0.12,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ]
+            },
+            {
+              "type": "AiurUnderbrush",
+              "offset": [
+                -1.23,
+                2.48,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0.54,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ]
+            },
+            {
+              "type": "Elsecaro_Bush4x4",
+              "offset": [
+                -0.16,
+                2.03,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                3.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.6,
+                0.6,
+                0.6
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                -1.02,
+                -5.16,
+                0.36
+              ],
+              "yawPitchRoll": [
+                0.13,
+                6.17,
+                0.09
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                2.81,
+                -4.87,
+                -0.11
+              ],
+              "yawPitchRoll": [
+                0.13,
+                6.17,
+                0.09
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "Elsecaro_Medium_Rock_Group",
+              "offset": [
+                0.61,
+                3.56,
+                0
+              ],
+              "yawPitchRoll": [
+                2.74,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "Elsecaro_Medium_Rock_Group",
+              "offset": [
+                -2.03,
+                -6.98,
+                0
+              ],
+              "yawPitchRoll": [
+                2.34,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                -0.54,
+                5.11,
+                1.82
+              ],
+              "yawPitchRoll": [
+                4.43,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "Elsecaro_Bush4x4",
+              "offset": [
+                2.35,
+                3.5,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.6,
+                0.6,
+                0.43
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "Aiur_Vines_Cliff",
+              "offset": [
+                0.86,
+                6.48,
+                1.39
+              ],
+              "yawPitchRoll": [
+                3.99,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "Elsecaro_Medium_Rock_Group",
+              "offset": [
+                1.15,
+                8.47,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.16,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            53.67,
+            192.36
+          ],
+          "bounds": [
+            51,
+            189.65,
+            56.04,
+            194.6
+          ],
+          "size": 12,
+          "manipulated": 8,
+          "types": [
+            {
+              "name": "ZerglingRagdollDoodad",
+              "count": 5
+            },
+            {
+              "name": "BloodSplats",
+              "count": 3
+            },
+            {
+              "name": "HydraliskRagdollDoodad",
+              "count": 3
+            },
+            {
+              "name": "InvisibleWalkablePlatform8x16",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                -2.67,
+                1.64,
+                0.36
+              ],
+              "yawPitchRoll": [
+                5.89,
+                0.29,
+                0.17
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                -2.53,
+                2.24,
+                0
+              ],
+              "yawPitchRoll": [
+                2.18,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                -1.67,
+                0.64,
+                0
+              ],
+              "yawPitchRoll": [
+                0.35,
+                0,
+                0
+              ],
+              "scale": [
+                0.83,
+                0.83,
+                0.83
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                -1.55,
+                -1.43,
+                0.57
+              ],
+              "yawPitchRoll": [
+                2.43,
+                0.5,
+                0.12
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "InvisibleWalkablePlatform8x16",
+              "offset": [
+                0.24,
+                -0.97,
+                0.14
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0.21,
+                0
+              ],
+              "scale": [
+                0.71,
+                0.1,
+                0.5
+              ],
+              "manipulations": [
+                "tilted",
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                -1.11,
+                -1.49,
+                0.49
+              ],
+              "yawPitchRoll": [
+                2.96,
+                0,
+                6.09
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                0.33,
+                -1.36,
+                0.71
+              ],
+              "yawPitchRoll": [
+                3.43,
+                6.13,
+                0.55
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                2.33,
+                -0.36,
+                0.31
+              ],
+              "yawPitchRoll": [
+                5.89,
+                0.29,
+                0.17
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                1.9,
+                0.51,
+                0
+              ],
+              "yawPitchRoll": [
+                5.56,
+                0,
+                0
+              ],
+              "scale": [
+                1.17,
+                1.17,
+                1.17
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                2.37,
+                -2.72,
+                2.52
+              ],
+              "yawPitchRoll": [
+                2.96,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "ZerglingRagdollDoodad",
+              "offset": [
+                1.76,
+                1.45,
+                0.31
+              ],
+              "yawPitchRoll": [
+                1.3,
+                0.5,
+                0.12
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                0.59,
+                1.87,
+                0
+              ],
+              "yawPitchRoll": [
+                2.96,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            7.25,
+            95.93
+          ],
+          "bounds": [
+            3.36,
+            86.2,
+            11.49,
+            102.34
+          ],
+          "size": 26,
+          "manipulated": 7,
+          "types": [
+            {
+              "name": "TempleColumnSet",
+              "count": 14
+            },
+            {
+              "name": "TempleBricks",
+              "count": 5
+            },
+            {
+              "name": "TempleBricksLarge",
+              "count": 3
+            },
+            {
+              "name": "TempleColumn",
+              "count": 1
+            },
+            {
+              "name": "TempleColumnWalls",
+              "count": 1
+            },
+            {
+              "name": "AiurTree_Ex2",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -1.97,
+                -6.06,
+                0.03
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -3.89,
+                -7.52,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.33,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -3.15,
+                -4.1,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -1.43,
+                -8.3,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                4.35,
+                0,
+                0
+              ],
+              "scale": [
+                1.3,
+                1,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.64,
+                -4.32,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -1.94,
+                -2.42,
+                0.03
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                -0.43,
+                -9.72,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                5.14,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                0.45,
+                -3.66,
+                -1.31
+              ],
+              "yawPitchRoll": [
+                3.12,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -3.17,
+                -0.6,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.65,
+                -0.78,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "AiurTree_Ex2",
+              "offset": [
+                2.25,
+                -3.43,
+                0.16
+              ],
+              "yawPitchRoll": [
+                6.15,
+                0,
+                0
+              ],
+              "scale": [
+                1.31,
+                1.31,
+                1.6
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -1.95,
+                1.13,
+                0.03
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -3.19,
+                2.96,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.67,
+                2.82,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -1.98,
+                4.73,
+                0.03
+              ],
+              "yawPitchRoll": [
+                6.28,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleBricksLarge",
+              "offset": [
+                1.07,
+                4.43,
+                -0.39
+              ],
+              "yawPitchRoll": [
+                0.87,
+                0.96,
+                0
+              ],
+              "scale": [
+                1.22,
+                1.22,
+                1.22
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -3.17,
+                6.42,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleBricks",
+              "offset": [
+                2.61,
+                3.29,
+                0.03
+              ],
+              "yawPitchRoll": [
+                4.81,
+                0,
+                0
+              ],
+              "scale": [
+                1.89,
+                1.89,
+                1.89
+              ]
+            },
+            {
+              "type": "TempleBridgeBroken",
+              "offset": [
+                2.22,
+                4.23,
+                3.47
+              ],
+              "yawPitchRoll": [
+                0.01,
+                0.38,
+                0.46
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                0.35,
+                5.99,
+                0
+              ],
+              "yawPitchRoll": [
+                4.01,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleBricks",
+              "offset": [
+                1.77,
+                1.63,
+                0
+              ],
+              "yawPitchRoll": [
+                6.26,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleBricks",
+              "offset": [
+                2.9,
+                1.16,
+                0
+              ],
+              "yawPitchRoll": [
+                2.39,
+                0,
+                0
+              ],
+              "scale": [
+                1.56,
+                1.56,
+                1.56
+              ]
+            },
+            {
+              "type": "TempleBricksLarge",
+              "offset": [
+                2.75,
+                2.07,
+                0
+              ],
+              "yawPitchRoll": [
+                1.72,
+                0.22,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "TempleBricks",
+              "offset": [
+                4.24,
+                3.33,
+                -0.2
+              ],
+              "yawPitchRoll": [
+                1.94,
+                0,
+                0
+              ],
+              "scale": [
+                1.58,
+                1.58,
+                1.58
+              ]
+            },
+            {
+              "type": "TempleBricks",
+              "offset": [
+                3.9,
+                2.65,
+                0.06
+              ],
+              "yawPitchRoll": [
+                4.79,
+                0,
+                0
+              ],
+              "scale": [
+                1.36,
+                1.36,
+                1.36
+              ]
+            },
+            {
+              "type": "TempleBricksLarge",
+              "offset": [
+                3.75,
+                4.07,
+                -0.5
+              ],
+              "yawPitchRoll": [
+                0.87,
+                0.62,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            53.54,
+            185.16
+          ],
+          "bounds": [
+            52.65,
+            184,
+            54,
+            186.62
+          ],
+          "size": 4,
+          "manipulated": 4,
+          "types": [
+            {
+              "name": "HydraliskRagdollDoodad",
+              "count": 2
+            },
+            {
+              "name": "Aiur_Temple_Bridge_Destructible",
+              "count": 1
+            },
+            {
+              "name": "InvisibleWalkablePlatform8x16",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "Aiur_Temple_Bridge_Destructible",
+              "offset": [
+                0.46,
+                -0.16,
+                2
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                1.25,
+                1.25,
+                0.95
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                -0.04,
+                -1.16,
+                2.52
+              ],
+              "yawPitchRoll": [
+                1.57,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "HydraliskRagdollDoodad",
+              "offset": [
+                -0.89,
+                1.47,
+                2.52
+              ],
+              "yawPitchRoll": [
+                2.96,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "InvisibleWalkablePlatform8x16",
+              "offset": [
+                0.46,
+                -0.16,
+                2.33
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.79,
+                0.73,
+                0.15
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            68.82,
+            49.05
+          ],
+          "bounds": [
+            66.7,
+            46.24,
+            70.22,
+            51.77
+          ],
+          "size": 7,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "AiurFoliage_Ex2",
+              "count": 3
+            },
+            {
+              "name": "Aiur_CliffRocks_SmallRocks",
+              "count": 1
+            },
+            {
+              "name": "BirdHammerRay",
+              "count": 1
+            },
+            {
+              "name": "Elsecaro_Medium_Rock_Group",
+              "count": 1
+            },
+            {
+              "name": "Elsecaro_Bush4x4",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "AiurFoliage_Ex2",
+              "offset": [
+                0.76,
+                -1.57,
+                -0.8
+              ],
+              "yawPitchRoll": [
+                0.53,
+                0.22,
+                0.02
+              ],
+              "scale": [
+                3.17,
+                3.17,
+                3.17
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "Aiur_CliffRocks_SmallRocks",
+              "offset": [
+                0.66,
+                -2.81,
+                0.02
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "BirdHammerRay",
+              "offset": [
+                -0.82,
+                -0.05,
+                0
+              ],
+              "yawPitchRoll": [
+                6.08,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "Elsecaro_Medium_Rock_Group",
+              "offset": [
+                -2.12,
+                -0.49,
+                0.02
+              ],
+              "yawPitchRoll": [
+                2.16,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "AiurFoliage_Ex2",
+              "offset": [
+                -0.59,
+                1.28,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.48,
+                0.07,
+                5.89
+              ],
+              "scale": [
+                3.17,
+                3.17,
+                3.17
+              ],
+              "manipulations": [
+                "tilted",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "Elsecaro_Bush4x4",
+              "offset": [
+                1.4,
+                0.92,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0.81,
+                0,
+                0
+              ],
+              "scale": [
+                0.97,
+                0.97,
+                0.97
+              ]
+            },
+            {
+              "type": "AiurFoliage_Ex2",
+              "offset": [
+                0.72,
+                2.72,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.91,
+                0,
+                0
+              ],
+              "scale": [
+                3.17,
+                3.17,
+                3.17
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            33.51,
+            96.46
+          ],
+          "bounds": [
+            30.87,
+            93.55,
+            36.71,
+            98.85
+          ],
+          "size": 8,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "TempleColumnWalls",
+              "count": 3
+            },
+            {
+              "name": "AiurProtossBuildingsSmall",
+              "count": 3
+            },
+            {
+              "name": "ProtossCratesDoodad",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                -2.29,
+                -1.51,
+                -0.09
+              ],
+              "yawPitchRoll": [
+                5.45,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                0.5
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "AiurProtossBuildingsSmall",
+              "offset": [
+                -2.64,
+                -2.9,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ProtossCratesDoodad",
+              "offset": [
+                -1.06,
+                -1.32,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                3.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ]
+            },
+            {
+              "type": "AiurProtossBuildingsSmall",
+              "offset": [
+                0.2,
+                -0.23,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.68,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                -0.37,
+                0.36,
+                -0.1
+              ],
+              "yawPitchRoll": [
+                5.45,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                0.5
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "ProtossCratesDoodad",
+              "offset": [
+                1.34,
+                0.87,
+                0.01
+              ],
+              "yawPitchRoll": [
+                6.26,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                1.61,
+                2.33,
+                -0.11
+              ],
+              "yawPitchRoll": [
+                5.45,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                0.5
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "AiurProtossBuildingsSmall",
+              "offset": [
+                3.21,
+                2.4,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            67.32,
+            105.87
+          ],
+          "bounds": [
+            67.16,
+            103.83,
+            67.44,
+            106.96
+          ],
+          "size": 4,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "TempleCliffSection",
+              "count": 1
+            },
+            {
+              "name": "ProtossFireMedium",
+              "count": 1
+            },
+            {
+              "name": "TempleGate",
+              "count": 1
+            },
+            {
+              "name": "TempleStatue",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleCliffSection",
+              "offset": [
+                0.12,
+                -2.04,
+                -1.05
+              ],
+              "yawPitchRoll": [
+                5.5,
+                0,
+                0
+              ],
+              "scale": [
+                1.5,
+                1.17,
+                1.17
+              ],
+              "tint": "180,180,180",
+              "manipulations": [
+                "nonUniformScale",
+                "sunk",
+                "tinted",
+                "noFootprint"
+              ]
+            },
+            {
+              "type": "ProtossFireMedium",
+              "offset": [
+                0.11,
+                0.06,
+                4.11
+              ],
+              "yawPitchRoll": [
+                1.53,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleGate",
+              "offset": [
+                -0.08,
+                0.89,
+                -2.89
+              ],
+              "yawPitchRoll": [
+                5.37,
+                0,
+                0
+              ],
+              "scale": [
+                1.54,
+                2.54,
+                1.04
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "sunk",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "TempleStatue",
+              "offset": [
+                -0.16,
+                1.09,
+                -0.49
+              ],
+              "yawPitchRoll": [
+                5.28,
+                0,
+                0
+              ],
+              "scale": [
+                1.4,
+                1.4,
+                1.4
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            13.38,
+            57.55
+          ],
+          "bounds": [
+            12.05,
+            55.88,
+            14.13,
+            59.31
+          ],
+          "size": 5,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "BirdHammerRay",
+              "count": 1
+            },
+            {
+              "name": "TempleStatue",
+              "count": 1
+            },
+            {
+              "name": "AiurTree_Ex2",
+              "count": 1
+            },
+            {
+              "name": "TempleArch",
+              "count": 1
+            },
+            {
+              "name": "TempleSpout",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "BirdHammerRay",
+              "offset": [
+                0.04,
+                0.73,
+                2.62
+              ],
+              "yawPitchRoll": [
+                3.76,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleStatue",
+              "offset": [
+                -1.33,
+                0.56,
+                0.02
+              ],
+              "yawPitchRoll": [
+                2.32,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "AiurTree_Ex2",
+              "offset": [
+                0.74,
+                -1.38,
+                0.05
+              ],
+              "yawPitchRoll": [
+                6.25,
+                0,
+                0
+              ],
+              "scale": [
+                1.13,
+                1.13,
+                1.13
+              ]
+            },
+            {
+              "type": "TempleArch",
+              "offset": [
+                0.6,
+                -1.67,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.33,
+                0,
+                0
+              ],
+              "scale": [
+                0.37,
+                0.37,
+                0.6
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "TempleSpout",
+              "offset": [
+                -0.05,
+                1.76,
+                -0.25
+              ],
+              "yawPitchRoll": [
+                2.3,
+                0,
+                0
+              ],
+              "scale": [
+                0.58,
+                0.7,
+                0.58
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            15.33,
+            96.6
+          ],
+          "bounds": [
+            14.43,
+            95.64,
+            16,
+            98
+          ],
+          "size": 5,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "TempleBricks",
+              "count": 2
+            },
+            {
+              "name": "TempleBricksLarge",
+              "count": 2
+            },
+            {
+              "name": "TempleBridgeBroken",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleBridgeBroken",
+              "offset": [
+                0.64,
+                -0.96,
+                1.37
+              ],
+              "yawPitchRoll": [
+                2.58,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleBricks",
+              "offset": [
+                -0.9,
+                0.28,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.53,
+                0,
+                0
+              ],
+              "scale": [
+                1.87,
+                1.87,
+                1.87
+              ]
+            },
+            {
+              "type": "TempleBricksLarge",
+              "offset": [
+                -0.9,
+                -0.9,
+                -0.41
+              ],
+              "yawPitchRoll": [
+                2.76,
+                6.03,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "TempleBricks",
+              "offset": [
+                0.49,
+                0.18,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                4.12,
+                0,
+                0
+              ],
+              "scale": [
+                1.65,
+                1.65,
+                1.65
+              ]
+            },
+            {
+              "type": "TempleBricksLarge",
+              "offset": [
+                0.67,
+                1.4,
+                -0.29
+              ],
+              "yawPitchRoll": [
+                1.58,
+                0.04,
+                0.23
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            4.98,
+            82.25
+          ],
+          "bounds": [
+            2.29,
+            79.01,
+            8.66,
+            85.68
+          ],
+          "size": 10,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "TempleColumnSet",
+              "count": 3
+            },
+            {
+              "name": "TempleColumn",
+              "count": 2
+            },
+            {
+              "name": "TempleColumnWalls",
+              "count": 2
+            },
+            {
+              "name": "TempleDebris",
+              "count": 2
+            },
+            {
+              "name": "FloatingCreepPad",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleColumn",
+              "offset": [
+                1.87,
+                -2.02,
+                0.48
+              ],
+              "yawPitchRoll": [
+                5.21,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                -0.17,
+                -1.38,
+                -0.53
+              ],
+              "yawPitchRoll": [
+                3.94,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                3.69,
+                -1.43,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.2,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "FloatingCreepPad",
+              "offset": [
+                -1.36,
+                -3.24,
+                1.01
+              ],
+              "yawPitchRoll": [
+                0.04,
+                0,
+                0
+              ],
+              "scale": [
+                1.5,
+                1.5,
+                1.11
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                -0.99,
+                0.55,
+                1.11
+              ],
+              "yawPitchRoll": [
+                5.95,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                -2.69,
+                -0.24,
+                -0.21
+              ],
+              "yawPitchRoll": [
+                4.74,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleDebris",
+              "offset": [
+                -0.98,
+                1.67,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.33,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleDebris",
+              "offset": [
+                0.15,
+                1.42,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.78,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -1.04,
+                3.43,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.63,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                1.52,
+                1.25,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.3,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            9.16,
+            72.66
+          ],
+          "bounds": [
+            7.29,
+            70.68,
+            11.62,
+            74.62
+          ],
+          "size": 6,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "TempleColumnWalls",
+              "count": 2
+            },
+            {
+              "name": "TempleSpout",
+              "count": 1
+            },
+            {
+              "name": "TempleColumn",
+              "count": 1
+            },
+            {
+              "name": "TempleDebris",
+              "count": 1
+            },
+            {
+              "name": "TempleColumnSet",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                -1.07,
+                0.39,
+                -0.88
+              ],
+              "yawPitchRoll": [
+                3.12,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                -1.87,
+                1.95,
+                -1.26
+              ],
+              "yawPitchRoll": [
+                3.94,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleSpout",
+              "offset": [
+                -0.52,
+                -1.98,
+                -0.19
+              ],
+              "yawPitchRoll": [
+                5.44,
+                0,
+                0
+              ],
+              "scale": [
+                0.58,
+                0.7,
+                0.58
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                -0.03,
+                -0.68,
+                0.04
+              ],
+              "yawPitchRoll": [
+                5.33,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleDebris",
+              "offset": [
+                1.02,
+                -0.57,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.33,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                2.47,
+                0.87,
+                0
+              ],
+              "yawPitchRoll": [
+                1.94,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            31.53,
+            129.93
+          ],
+          "bounds": [
+            31.41,
+            129.85,
+            31.65,
+            130
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "CreepWebbing",
+              "count": 1
+            },
+            {
+              "name": "BelShirCliffGapFiller",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "CreepWebbing",
+              "offset": [
+                0.12,
+                0.07,
+                -1.53
+              ],
+              "yawPitchRoll": [
+                1.53,
+                0,
+                0
+              ],
+              "scale": [
+                1.09,
+                1.09,
+                2.07
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "sunk",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "BelShirCliffGapFiller",
+              "offset": [
+                -0.12,
+                -0.07,
+                2.29
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            81.34,
+            63.99
+          ],
+          "bounds": [
+            80.18,
+            63.37,
+            83.23,
+            64.45
+          ],
+          "size": 4,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "Aiur_Stone_Temple_Rubble",
+              "count": 1
+            },
+            {
+              "name": "BelShirCliffGapFiller",
+              "count": 1
+            },
+            {
+              "name": "AiurProtossBuildingsSmall",
+              "count": 1
+            },
+            {
+              "name": "AiurTree_Ex2",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "Aiur_Stone_Temple_Rubble",
+              "offset": [
+                1.89,
+                -0.62,
+                0
+              ],
+              "yawPitchRoll": [
+                0.05,
+                0,
+                0
+              ],
+              "scale": [
+                1.25,
+                1.25,
+                1.25
+              ]
+            },
+            {
+              "type": "BelShirCliffGapFiller",
+              "offset": [
+                0.39,
+                -0.28,
+                1.24
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "AiurProtossBuildingsSmall",
+              "offset": [
+                -1.12,
+                0.46,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.73,
+                0,
+                0
+              ],
+              "scale": [
+                0.52,
+                0.52,
+                0.52
+              ]
+            },
+            {
+              "type": "AiurTree_Ex2",
+              "offset": [
+                -1.16,
+                0.44,
+                0.41
+              ],
+              "yawPitchRoll": [
+                5.58,
+                0,
+                0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.96
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            66.08,
+            163.51
+          ],
+          "bounds": [
+            65.5,
+            163.36,
+            66.66,
+            163.67
+          ],
+          "size": 3,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "Aiur_Temple_CliffDoodads",
+              "count": 2
+            },
+            {
+              "name": "TempleColumn",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "Aiur_Temple_CliffDoodads",
+              "offset": [
+                0.58,
+                -0.15,
+                1.15
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                -0.01,
+                0.16,
+                0.05
+              ],
+              "yawPitchRoll": [
+                6.24,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "Aiur_Temple_CliffDoodads",
+              "offset": [
+                -0.58,
+                -0.01,
+                0.52
+              ],
+              "yawPitchRoll": [
+                5.5,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            76.91,
+            69.44
+          ],
+          "bounds": [
+            76.35,
+            68.5,
+            78,
+            69.92
+          ],
+          "size": 3,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "AiurTree_Ex2",
+              "count": 1
+            },
+            {
+              "name": "AiurProtossBuildingsSmall",
+              "count": 1
+            },
+            {
+              "name": "BelShirCliffGapFiller",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "AiurTree_Ex2",
+              "offset": [
+                -0.56,
+                0.46,
+                0.43
+              ],
+              "yawPitchRoll": [
+                5.58,
+                0,
+                0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.96
+              ],
+              "manipulations": [
+                "nonUniformScale"
+              ]
+            },
+            {
+              "type": "AiurProtossBuildingsSmall",
+              "offset": [
+                -0.52,
+                0.48,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.73,
+                0,
+                0
+              ],
+              "scale": [
+                0.52,
+                0.52,
+                0.52
+              ]
+            },
+            {
+              "type": "BelShirCliffGapFiller",
+              "offset": [
+                1.09,
+                -0.94,
+                1.24
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            20.49,
+            132.03
+          ],
+          "bounds": [
+            20.13,
+            131.67,
+            20.85,
+            132.39
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "Aiur_Temple_Statue_ZealotBust",
+              "count": 1
+            },
+            {
+              "name": "Aiur_Stone_Temple_Shrine",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "Aiur_Temple_Statue_ZealotBust",
+              "offset": [
+                0.36,
+                -0.36,
+                6.47
+              ],
+              "yawPitchRoll": [
+                0.75,
+                0.6,
+                0
+              ],
+              "scale": [
+                0.58,
+                0.58,
+                0.59
+              ],
+              "manipulations": [
+                "tilted",
+                "raised"
+              ]
+            },
+            {
+              "type": "Aiur_Stone_Temple_Shrine",
+              "offset": [
+                -0.36,
+                0.36,
+                -0.79
+              ],
+              "yawPitchRoll": [
+                0.76,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1.25,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "sunk"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            21.84,
+            120.34
+          ],
+          "bounds": [
+            21.62,
+            120.25,
+            22.06,
+            120.43
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "CreepWebbing",
+              "count": 1
+            },
+            {
+              "name": "BelShirCliffGapFiller",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "CreepWebbing",
+              "offset": [
+                -0.22,
+                -0.09,
+                -1.13
+              ],
+              "yawPitchRoll": [
+                5.94,
+                0,
+                0
+              ],
+              "scale": [
+                1.09,
+                1.09,
+                1.09
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "BelShirCliffGapFiller",
+              "offset": [
+                0.22,
+                0.09,
+                2.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            24.94,
+            130.9
+          ],
+          "bounds": [
+            24.94,
+            130.85,
+            24.94,
+            130.95
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "Slayn_Brazier_Fire",
+              "count": 1
+            },
+            {
+              "name": "Slayn_Braziers",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "Slayn_Brazier_Fire",
+              "offset": [
+                0,
+                -0.05,
+                -0.53
+              ],
+              "yawPitchRoll": [
+                1.27,
+                0,
+                0
+              ],
+              "scale": [
+                1.11,
+                1.11,
+                1.11
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "Slayn_Braziers",
+              "offset": [
+                0,
+                0.05,
+                0
+              ],
+              "yawPitchRoll": [
+                2.59,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "tint": "216,216,216 1.500000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            56.99,
+            55.52
+          ],
+          "bounds": [
+            56.5,
+            55,
+            57.49,
+            56.05
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "AiurFoliage_Ex2",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "AiurFoliage_Ex2",
+              "offset": [
+                0.49,
+                0.52,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.91,
+                0,
+                0
+              ],
+              "scale": [
+                2.42,
+                2.42,
+                2.42
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "AiurFoliage_Ex2",
+              "offset": [
+                -0.49,
+                -0.52,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.66,
+                0,
+                0
+              ],
+              "scale": [
+                2.11,
+                2.11,
+                2.11
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            12.23,
+            78.44
+          ],
+          "bounds": [
+            10.29,
+            77.13,
+            13.63,
+            79.88
+          ],
+          "size": 5,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "TempleColumnSet",
+              "count": 2
+            },
+            {
+              "name": "TempleDebris",
+              "count": 1
+            },
+            {
+              "name": "TempleColumnWalls",
+              "count": 1
+            },
+            {
+              "name": "TempleColumn",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -0.43,
+                -1.31,
+                -1.49
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0.77,
+                6.13
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleDebris",
+              "offset": [
+                0.27,
+                0.6,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.33,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnSet",
+              "offset": [
+                -1.94,
+                -0.69,
+                0.01
+              ],
+              "yawPitchRoll": [
+                1.94,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                1.4,
+                -0.05,
+                -1.57
+              ],
+              "yawPitchRoll": [
+                3.12,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumn",
+              "offset": [
+                0.71,
+                1.45,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.44,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            49.68,
+            57.92
+          ],
+          "bounds": [
+            49.5,
+            57.5,
+            49.85,
+            58.33
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "AiurFoliage_Ex2",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "AiurFoliage_Ex2",
+              "offset": [
+                -0.18,
+                -0.42,
+                0
+              ],
+              "yawPitchRoll": [
+                3.38,
+                0,
+                0
+              ],
+              "scale": [
+                2.42,
+                2.42,
+                2.42
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "AiurFoliage_Ex2",
+              "offset": [
+                0.18,
+                0.42,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.38,
+                0,
+                0
+              ],
+              "scale": [
+                2.42,
+                2.42,
+                2.42
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            27.76,
+            49.82
+          ],
+          "bounds": [
+            27.41,
+            49.12,
+            28.11,
+            50.52
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "TempleColumnWalls",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                -0.35,
+                0.7,
+                -1.64
+              ],
+              "yawPitchRoll": [
+                3.91,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "TempleColumnWalls",
+              "offset": [
+                0.35,
+                -0.7,
+                -1.28
+              ],
+              "yawPitchRoll": [
+                3.11,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "landmarks": [
+      {
+        "type": "ForceFieldWall",
+        "position": [
+          6.17,
+          138.84
+        ],
+        "scale": 4.5
+      },
+      {
+        "type": "AiurFoliage_Ex2",
+        "position": [
+          69.58,
+          47.49
+        ],
+        "scale": 3.17
+      },
+      {
+        "type": "AiurFoliage_Ex2",
+        "position": [
+          71.8,
+          55.93
+        ],
+        "scale": 3.17
+      },
+      {
+        "type": "AiurFoliage_Ex2",
+        "position": [
+          74.02,
+          50.02
+        ],
+        "scale": 3.17
+      },
+      {
+        "type": "AiurFoliage_Ex2",
+        "position": [
+          54.05,
+          34.28
+        ],
+        "scale": 3.17
+      },
+      {
+        "type": "AiurFoliage_Ex2",
+        "position": [
+          54.34,
+          47.94
+        ],
+        "scale": 3.17
+      },
+      {
+        "type": "AiurFoliage_Ex2",
+        "position": [
+          68.23,
+          50.33
+        ],
+        "scale": 3.17
+      },
+      {
+        "type": "AiurFoliage_Ex2",
+        "position": [
+          57.97,
+          42.15
+        ],
+        "scale": 3.17
+      },
+      {
+        "type": "AiurFoliage_Ex2",
+        "position": [
+          69.54,
+          51.77
+        ],
+        "scale": 3.17
+      },
+      {
+        "type": "ForceFieldWall",
+        "position": [
+          6.1,
+          144.46
+        ],
+        "scale": 3
+      },
+      {
+        "type": "ForceFieldWall",
+        "position": [
+          6.14,
+          130.41
+        ],
+        "scale": 3
+      },
+      {
+        "type": "Aiur_Temple_GroundDecal",
+        "position": [
+          106,
+          127
+        ],
+        "scale": 2.61
+      }
+    ],
+    "singletonTypes": [
+      "ProtossSummoning",
+      "Aiur_Temple_Bridge_Destructible",
+      "Aiur_Temple_Statue_ZealotBust",
+      "TempleGate",
+      "Aiur_City_Stonegate_Damaged",
+      "Aiur_Temple_Statue_ZealotBust_Crumbled",
+      "Aiur_Ramp_Stairs",
+      "Aiur_Zerg_Ribs",
+      "AiurTempleBuildings",
+      "ProtossFireMedium",
+      "Aiur_Temple_BrickGroup",
+      "CharFlowerSmall"
+    ]
+  },
+  "lighting": {
+    "note": "Lighting is switched by triggers per area or story beat; 'calls' lists every GameSetLighting and the function making it.",
+    "lightsUsed": [],
+    "calls": [],
+    "localLights": [],
+    "localTerrains": [
+      {
+        "id": "BelShirEx1",
+        "lighting": "BelShirEx2",
+        "blendTextures": [],
+        "cliffSets": [],
+        "fog": {}
+      },
+      {
+        "id": "BelShirEx2",
+        "blendTextures": [],
+        "cliffSets": [],
+        "fog": {}
+      }
+    ],
+    "fogType": "Black",
+    "waterBodies": 0
+  },
+  "composition": {
+    "size": [
+      112,
+      240
+    ],
+    "playableBounds": [
+      4,
+      4,
+      106,
+      238
+    ],
+    "playableShare": 0.888,
+    "vertexColour": {
+      "entries": 3055,
+      "entriesPerThousandCells": 113.653,
+      "note": "Entry layout undecoded; count only."
+    },
+    "vertexShading": {
+      "note": "t3VertCol kind-1 per-vertex values; a cell is darkened when its corner mean < 224. Painted or baked is unverified.",
+      "darkenedCellShare": 0,
+      "darkenedShareByContext": {
+        "cliffEdge": 0,
+        "nearEdge": 0,
+        "open": 0,
+        "ramp": 0
+      }
+    },
+    "fluffEntries": 1396,
+    "units": {
+      "count": 394,
+      "byPlayer": {
+        "0": 42,
+        "1": 18,
+        "2": 110,
+        "3": 150,
+        "4": 59,
+        "5": 15
+      },
+      "neutralTopTypes": [
+        {
+          "name": "MineralField",
+          "count": 24
+        },
+        {
+          "name": "NaturalMinerals",
+          "count": 9
+        },
+        {
+          "name": "Kakaru",
+          "count": 7
+        },
+        {
+          "name": "VespeneGeyser",
+          "count": 1
+        },
+        {
+          "name": "Bengalaas",
+          "count": 1
+        }
+      ]
+    },
+    "points": 65
+  }
+}

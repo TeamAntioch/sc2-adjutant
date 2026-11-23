@@ -1,0 +1,11 @@
+{
+  "sets": [{ "id": "room", "file": "sets/radio-room.json", "offset": [10, 0, 0] }],
+  "cast": [
+    { "id": "operator", "model": "SMX3_BGPeople_01", "set": "room", "mark": "Operator", "speaker": "NOVA" },
+    { "id": "visitor", "model": "SMX3_BGPeople_06", "set": "room", "at": [-2, 1, 0], "facing": -90, "speaker": "ZERATUL", "scale": 0.5 }
+  ],
+  "shots": [
+    { "camera": "room/Wide", "line": "radio_field-1-1" },
+    { "camera": "room/Close", "line": "radio_field-1-2" }
+  ]
+}

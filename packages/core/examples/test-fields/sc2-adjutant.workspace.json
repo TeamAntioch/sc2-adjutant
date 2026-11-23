@@ -1,0 +1,5 @@
+{
+  "campaign": { "id": "test_fields", "name": "Test Fields" },
+  "missions": "missions",
+  "plugins": ["bundled:hazard"]
+}

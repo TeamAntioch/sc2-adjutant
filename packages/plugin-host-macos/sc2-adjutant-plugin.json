@@ -1,0 +1,8 @@
+{
+  "name": "host-macos",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["host-adapter"],
+  "entry": "./dist/index.js",
+  "contributions": { "capabilities": ["editor.open", "editor.checkClosed", "editor.refresh","editor.testDocument", "editor.save", "editor.captureTour", "editor.closeCaptureCopies", "game.running", "screen.capture", "tts.speak", "model.render", "model.rendererKey", "model.export", "model.exportGltf"] }
+}

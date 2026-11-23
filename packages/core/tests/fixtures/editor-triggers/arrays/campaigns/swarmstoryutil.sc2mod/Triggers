@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="281DEC45">
+        <Root>
+            <Item Type="FunctionDef" Library="281DEC45" Id="5F3985A1"/>
+            <Item Type="FunctionDef" Library="281DEC45" Id="D28BC4EA"/>
+        </Root>
+        <Element Type="Variable" Id="97E34FC7">
+            <Internal/>
+            <VariableType>
+                <Type Value="unit"/>
+                <ArraySize Dim="0" Value="20"/>
+            </VariableType>
+            <Value Type="Param" Library="281DEC45" Id="D79575ED"/>
+        </Element>
+        <Element Type="Variable" Id="6E4C9947">
+            <Internal/>
+            <VariableType>
+                <Type Value="string"/>
+                <ArraySize Dim="0" Value="20"/>
+            </VariableType>
+            <Value Type="Param" Library="281DEC45" Id="7269EA5B"/>
+        </Element>
+        <Element Type="Variable" Id="0E624C5A">
+            <Internal/>
+            <VariableType>
+                <Type Value="int"/>
+            </VariableType>
+            <Value Type="Param" Library="281DEC45" Id="A012650C"/>
+        </Element>
+        <Element Type="FunctionDef" Id="5F3985A1">
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="281DEC45" Id="5A762B57"/>
+            <Parameter Type="ParamDef" Library="281DEC45" Id="77A14222"/>
+            <FunctionCall Type="FunctionCall" Library="281DEC45" Id="BA048F9A"/>
+            <FunctionCall Type="FunctionCall" Library="281DEC45" Id="BF081136"/>
+            <FunctionCall Type="FunctionCall" Library="281DEC45" Id="07E180F6"/>
+        </Element>
+        <Element Type="ParamDef" Id="5A762B57">
+            <ParameterType>
+                <Type Value="unit"/>
+            </ParameterType>
+            <Default Type="Param" Library="281DEC45" Id="43AD4FF1"/>
+        </Element>
+        <Element Type="Param" Id="43AD4FF1">
+            <FunctionCall Type="FunctionCall" Library="281DEC45" Id="E50B8BAD"/>
+        </Element>
+        <Element Type="FunctionCall" Id="E50B8BAD">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000076"/>
+        </Element>
+        <Element Type="ParamDef" Id="77A14222">
+            <ParameterType>
+                <Type Value="string"/>
+            </ParameterType>
+            <Default Type="Param" Library="281DEC45" Id="E9D5651C"/>
+        </Element>
+        <Element Type="Param" Id="E9D5651C">
+            <ValueType Type="string"/>
+        </Element>
+        <Element Type="FunctionCall" Id="BA048F9A">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="A0F31305"/>
+            <Parameter Type="Param" Library="281DEC45" Id="231FF144"/>
+            <Parameter Type="Param" Library="281DEC45" Id="4ADACE89"/>
+            <Parameter Type="Param" Library="281DEC45" Id="E07A9374"/>
+        </Element>
+        <Element Type="Param" Id="231FF144">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5BFF7323"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="00000085"/>
+        </Element>
+        <Element Type="Param" Id="4ADACE89">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="6725C0EB"/>
+            <Value>1</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="Param" Id="E07A9374">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="7B3B0884"/>
+            <Variable Type="Variable" Library="281DEC45" Id="0E624C5A"/>
+        </Element>
+        <Element Type="FunctionCall" Id="BF081136">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000136"/>
+            <Parameter Type="Param" Library="281DEC45" Id="7168EB40"/>
+            <Parameter Type="Param" Library="281DEC45" Id="4E5CA488"/>
+        </Element>
+        <Element Type="Param" Id="7168EB40">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000219"/>
+            <Variable Type="Variable" Library="281DEC45" Id="6E4C9947"/>
+            <Array Type="Param" Library="281DEC45" Id="FC8EAF6F"/>
+        </Element>
+        <Element Type="Param" Id="FC8EAF6F">
+            <Variable Type="Variable" Library="281DEC45" Id="0E624C5A"/>
+        </Element>
+        <Element Type="Param" Id="4E5CA488">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000220"/>
+            <Parameter Type="ParamDef" Library="281DEC45" Id="77A14222"/>
+        </Element>
+        <Element Type="FunctionCall" Id="07E180F6">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000136"/>
+            <Parameter Type="Param" Library="281DEC45" Id="26A4D717"/>
+            <Parameter Type="Param" Library="281DEC45" Id="5E25E915"/>
+        </Element>
+        <Element Type="Param" Id="26A4D717">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000219"/>
+            <Variable Type="Variable" Library="281DEC45" Id="97E34FC7"/>
+            <Array Type="Param" Library="281DEC45" Id="8CBF4406"/>
+        </Element>
+        <Element Type="Param" Id="8CBF4406">
+            <Variable Type="Variable" Library="281DEC45" Id="0E624C5A"/>
+        </Element>
+        <Element Type="Param" Id="5E25E915">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000220"/>
+            <Parameter Type="ParamDef" Library="281DEC45" Id="5A762B57"/>
+        </Element>
+        <Element Type="Variable" Id="A96DB371">
+            <VariableType>
+                <Type Value="unit"/>
+            </VariableType>
+            <Value Type="Param" Library="281DEC45" Id="E20CE3B6"/>
+        </Element>
+        <Element Type="Variable" Id="2D29A3D7">
+            <Internal/>
+            <VariableType>
+                <Type Value="struct"/>
+                <TypeElement Type="Structure" Library="281DEC45" Id="45A42048"/>
+                <ArraySize Dim="0" Value="40"/>
+            </VariableType>
+        </Element>
+        <Element Type="FunctionDef" Id="D28BC4EA">
+            <FlagCall/>
+            <ReturnType>
+                <Type Value="unit"/>
+            </ReturnType>
+            <Parameter Type="ParamDef" Library="281DEC45" Id="A19C6987"/>
+            <FunctionCall Type="FunctionCall" Library="281DEC45" Id="DFB06827"/>
+        </Element>
+        <Element Type="ParamDef" Id="A19C6987">
+            <ParameterType>
+                <Type Value="userinstance"/>
+                <UserType Value="Character"/>
+            </ParameterType>
+            <Default Type="Param" Library="281DEC45" Id="25CAC829"/>
+        </Element>
+        <Element Type="Param" Id="25CAC829">
+            <Value>Kerrigan</Value>
+            <ValueType Type="userinstance"/>
+            <ValueContext Value="Character"/>
+        </Element>
+        <Element Type="FunctionCall" Id="DFB06827">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000097"/>
+            <Parameter Type="Param" Library="281DEC45" Id="128DFF99"/>
+        </Element>
+        <Element Type="Param" Id="128DFF99">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000488"/>
+            <Variable Type="Variable" Library="281DEC45" Id="2D29A3D7"/>
+            <StructMember Type="Param" Library="281DEC45" Id="CDBE8473"/>
+            <Array Type="Param" Library="281DEC45" Id="2506A877"/>
+        </Element>
+        <Element Type="Param" Id="CDBE8473">
+            <Variable Type="Variable" Library="281DEC45" Id="A96DB371"/>
+        </Element>
+        <Element Type="Param" Id="2506A877">
+            <FunctionCall Type="FunctionCall" Library="281DEC45" Id="3815B916"/>
+        </Element>
+        <Element Type="FunctionCall" Id="3815B916">
+            <FunctionDef Type="FunctionDef" Library="281DEC45" Id="1485A62F"/>
+            <Parameter Type="Param" Library="281DEC45" Id="E8D55DDE"/>
+        </Element>
+        <Element Type="Param" Id="E8D55DDE">
+            <ParameterDef Type="ParamDef" Library="281DEC45" Id="E2AF476C"/>
+            <Parameter Type="ParamDef" Library="281DEC45" Id="A19C6987"/>
+        </Element>
+        <Element Type="FunctionDef" Id="1485A62F">
+            <Internal/>
+            <FlagCall/>
+            <ReturnType>
+                <Type Value="int"/>
+            </ReturnType>
+            <Parameter Type="ParamDef" Library="281DEC45" Id="E2AF476C"/>
+        </Element>
+        <Element Type="ParamDef" Id="E2AF476C">
+            <ParameterType>
+                <Type Value="userinstance"/>
+                <UserType Value="Character"/>
+            </ParameterType>
+        </Element>
+    </Library>
+</TriggerData>

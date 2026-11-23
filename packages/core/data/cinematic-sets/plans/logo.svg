@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Logo: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Logo</text>
+<text x="24" y="54" font-size="10" fill="#666">logo · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="268.8" y="110.4" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Glue_Background_Starfield_Generic, Glue_Background_Starfield_Generic</title></rect>
+<text x="276.8" y="116.4" font-size="8" fill="#6d6458">2</text>
+<rect x="269.3" y="459.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_Nebula_Generic</title></rect>
+<rect x="273.5" y="543.1" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_Logo, UI_Screens_CampaignMode_Light_Raynor, UI_Screen_MainMenu_WCS_Logo</title></rect>
+<text x="282.5" y="549.6" font-size="8" fill="#6d6458">3</text>
+<rect x="293.7" y="492.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS2017_Pulse_Closed</title></rect>
+</g>
+<line x1="182.7" y1="575.5" x2="327.5" y2="575.5" stroke="#333" stroke-width="2"/>
+<line x1="182.7" y1="571.5" x2="182.7" y2="579.5" stroke="#333"/><line x1="211.7" y1="571.5" x2="211.7" y2="579.5" stroke="#333"/>
+<text x="182.7" y="569.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">4 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2019.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: MainMenuWCS</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 3 (0 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">UI_Screen_MainMenu_WCS_Logo ×4</text>
+<text x="560" y="216" font-size="9" fill="#333">UI_Screens_CampaignMode_Light_Raynor</text>
+<text x="560" y="228" font-size="9" fill="#333">×4</text>
+<text x="560" y="240" font-size="9" fill="#333">UI_Screen_MainMenu_WCS2017_Pulse_Closed</text>
+<text x="560" y="252" font-size="9" fill="#333">×3</text>
+<text x="560" y="264" font-size="9" fill="#333">UI_Screen_MainMenu_WCS_Pulse_Closed</text>
+<text x="560" y="276" font-size="9" fill="#333">×1</text>
+<text x="560" y="288" font-size="9" fill="#333"></text>
+<text x="560" y="300" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="312" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="324" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS.SC2Cutscene</text>
+<text x="560" y="336" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="348" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2017.SC2Cutscene</text>
+<text x="560" y="360" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="372" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2018.SC2Cutscene</text>
+</svg>

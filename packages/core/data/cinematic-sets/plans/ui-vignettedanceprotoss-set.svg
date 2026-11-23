@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>UI_VignetteDanceProtoss set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">UI_VignetteDanceProtoss set</text>
+<text x="24" y="54" font-size="10" fill="#666">ui-vignettedanceprotoss-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="297.9" y="378.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Ultralisk</title></rect>
+<rect x="230.9" y="276.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>DarkProbe</title></rect>
+<rect x="332.1" y="276.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>DarkProbe</title></rect>
+<rect x="286.1" y="327.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>DarkHighTemplar</title></rect>
+<polygon points="295.8,637.1 253.5,549.2 332,546.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="295.8" cy="637.1" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 1</title></circle>
+<text x="299.8" y="634.1" font-size="8" fill="#5a3a9a">CAMERA - Section 1</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_VignetteDanceProtoss.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: DefaultLighting</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 1 (1 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">DarkHighTemplar</text>
+<text x="560" y="216" font-size="9" fill="#333">DarkProbe</text>
+<text x="560" y="228" font-size="9" fill="#333">Ultralisk</text>
+<text x="560" y="240" font-size="9" fill="#333"></text>
+<text x="560" y="252" font-size="9" fill="#333">Also in:</text>
+</svg>

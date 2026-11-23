@@ -1,0 +1,11 @@
+﻿Structure/Name/1DA30AEE=Power Area
+Structure/Name/3BB61336=Global Variables and Objectives
+Structure/Name/B148DCA6=Environment Area
+Trigger/Name/017CF088=Banter - Discover Air Pustule
+Trigger/Name/E547FCA7=Banter - Enter Reactor Room
+Variable/Name/540196B6=GO
+Variable/Name/5E669966=Hydroponics - Air Pustules Discovered
+Variable/Name/813B1FD2=Global - Game Over
+Variable/Name/85905AFD=EA
+Variable/Name/CA593D39=Power - Conduit Count
+Variable/Name/CCCC2CCF=PA

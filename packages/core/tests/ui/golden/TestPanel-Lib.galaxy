@@ -1,0 +1,16 @@
+void libHbr1_gf_ShowTestPanel (text lp_title) {
+    // Automatic Variable Declarations
+    // Implementation
+    int lv_panel = DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/TestPanel");
+    DialogControlSetPropertyAsText(DialogControlHookup(lv_panel, c_triggerControlTypeLabel, "Title"), c_triggerControlPropertyText, PlayerGroupAll(), lp_title);
+    DialogControlSetVisible(lv_panel, PlayerGroupAll(), true);
+}
+
+void libHbr1_gf_HideTestPanel () {
+    // Automatic Variable Declarations
+    // Implementation
+    DialogControlSetVisible(DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/TestPanel"), PlayerGroupAll(), false);
+}
+
+void libHbr1_gf_ShowTestPanel (text lp_title);
+void libHbr1_gf_HideTestPanel ();

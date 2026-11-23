@@ -1,0 +1,14 @@
+﻿FunctionDef/Name/0FAE268C=GenerateColonist
+Trigger/Name/1FA24741=Convoy Spawned
+Trigger/Name/8345D960=Init 06 Difficulty
+Trigger/Name/A4CAA752=Gather colonists prior to evacuation
+Variable/Name/00000020=P4_COLONISTS
+Variable/Name/243F81ED=NydusSpawnDelay
+Variable/Name/2D3AF105=EscortIndex
+Variable/Name/50182887=UnloadAmount
+Variable/Name/819C3330=ZergPlayers
+Variable/Name/897962B4=WaveDelay
+Variable/Name/CC6198A3=ColonistsSaveQuota
+Variable/Name/D8AFBD93=NydusWormHP
+Variable/Name/E8866289=DoomsdayZergSpawnCount
+Variable/Name/EDC04D22=ConvoyMovementSpeed

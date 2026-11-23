@@ -1,0 +1,6 @@
+﻿FunctionDef/Name/82A32553=Hyperion Fighter Leashing
+FunctionDef/Name/EDA10F5E=Hyperion Fighter Target Group
+ParamDef/Name/23A2DB1A=Fighter
+Trigger/Name/7611B84F=Hyperion Fighter Acquire Target
+Variable/Name/1874A127=TargetGroup
+Variable/Name/863AD0ED=HyperionFighterGroup

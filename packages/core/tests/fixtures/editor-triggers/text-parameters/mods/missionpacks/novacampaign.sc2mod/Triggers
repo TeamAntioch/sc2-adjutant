@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="NovC">
+        <Root>
+            <Item Type="FunctionDef" Library="NovC" Id="DFC99709"/>
+        </Root>
+        <Element Type="FunctionDef" Id="DFC99709">
+            <Identifier>FormatTimeCampaign</Identifier>
+            <Label Type="Label" Library="Ntve" Id="00000002"/>
+            <Internal/>
+            <FlagCall/>
+            <ReturnType>
+                <Type Value="text"/>
+            </ReturnType>
+            <Parameter Type="ParamDef" Library="NovC" Id="FD40A8A5"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="DB7C7230"/>
+        </Element>
+        <Element Type="ParamDef" Id="FD40A8A5">
+            <Identifier>second</Identifier>
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+            <Default Type="Param" Library="NovC" Id="D72EB64B"/>
+        </Element>
+        <Element Type="Param" Id="D72EB64B">
+            <Value>0</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="FunctionCall" Id="DB7C7230">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000137"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="C56F5079"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="C411F73C"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="53FF9716"/>
+        </Element>
+        <Element Type="FunctionCall" Id="C56F5079">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000003"/>
+            <Parameter Type="Param" Library="NovC" Id="99F879A2"/>
+            <Parameter Type="Param" Library="NovC" Id="3E720403"/>
+            <Parameter Type="Param" Library="NovC" Id="DEB719F8"/>
+        </Element>
+        <Element Type="Param" Id="99F879A2">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
+            <Parameter Type="ParamDef" Library="NovC" Id="FD40A8A5"/>
+        </Element>
+        <Element Type="Param" Id="3E720403">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="684CA9CE"/>
+        </Element>
+        <Element Type="Param" Id="DEB719F8">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
+            <Value>3600</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="FunctionCall" Id="C411F73C">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000097"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000005"/>
+            <Parameter Type="Param" Library="NovC" Id="B2E77B5C"/>
+        </Element>
+        <Element Type="Param" Id="B2E77B5C">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000488"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="C382BD88"/>
+        </Element>
+        <Element Type="FunctionCall" Id="C382BD88">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="312E45EA"/>
+            <Parameter Type="Param" Library="NovC" Id="4E67BE7A"/>
+            <Parameter Type="Param" Library="NovC" Id="9EC8E9F6"/>
+        </Element>
+        <Element Type="Param" Id="4E67BE7A">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="43044FC8"/>
+            <ValueType Type="text"/>
+        </Element>
+        <Element Type="Param" Id="9EC8E9F6">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5685FAB2"/>
+            <Parameter Type="ParamDef" Library="NovC" Id="FD40A8A5"/>
+        </Element>
+        <Element Type="FunctionCall" Id="53FF9716">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000097"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>
+            <Parameter Type="Param" Library="NovC" Id="E0B6E1D9"/>
+        </Element>
+        <Element Type="Param" Id="E0B6E1D9">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000488"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="80FBF07A"/>
+        </Element>
+        <Element Type="FunctionCall" Id="80FBF07A">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="312E45EA"/>
+            <Parameter Type="Param" Library="NovC" Id="A4F1A203"/>
+            <Parameter Type="Param" Library="NovC" Id="1E402CD7"/>
+        </Element>
+        <Element Type="Param" Id="A4F1A203">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="43044FC8"/>
+            <ValueType Type="text"/>
+        </Element>
+        <Element Type="Param" Id="1E402CD7">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5685FAB2"/>
+            <Parameter Type="ParamDef" Library="NovC" Id="FD40A8A5"/>
+        </Element>
+    </Library>
+</TriggerData>

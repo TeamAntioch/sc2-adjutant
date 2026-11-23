@@ -1,0 +1,39 @@
+//--------------------------------------------------------------------------------------------------
+// Trigger: UI Greet
+//--------------------------------------------------------------------------------------------------
+bool gt_UIGreet_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libBel1_gf_ShowTestPanel(StringExternal("Param/Value/F409C4B3"));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_UIGreet_Init () {
+    gt_UIGreet = TriggerCreate("gt_UIGreet_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: UI Farewell
+//--------------------------------------------------------------------------------------------------
+bool gt_UIFarewell_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    Wait(5.0, c_timeGame);
+    libBel1_gf_HideTestPanel();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_UIFarewell_Init () {
+    gt_UIFarewell = TriggerCreate("gt_UIFarewell_Func");
+}
+

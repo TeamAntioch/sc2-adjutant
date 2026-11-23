@@ -1,0 +1,6 @@
+﻿Trigger/Name/00000029=Init 05 Environment
+Trigger/Name/00000044=Main Objective - Save Colonists - Create
+Trigger/Name/00000046=Main Objective - Save Colonists - Complete
+Variable/Name/00000013=Objective_SaveColonists
+Variable/Name/00000029=GameOver
+Variable/Name/CA6749E5=Objective_DontLetColonistsDie

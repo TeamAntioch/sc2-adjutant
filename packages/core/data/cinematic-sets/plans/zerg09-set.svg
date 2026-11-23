@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Zerg09 set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Zerg09 set</text>
+<text x="24" y="54" font-size="10" fill="#666">zerg09-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="277" y="323" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>SMX1_Guts_xtras_A, SMX1_Guts_xtras_A, SMX1_Guts_xtras_B, SMX1_Guts_xtras_C, SMX1_Guts_xtras_C, SMX1_Guts_xtras_C, SMX1_Lighting_xtras_Lite02, SMX1_XelNagaDoor, SMX1_XelNagaPylon, SMX1_XelNagaPylonIntact, SMX1_XelNagaLab_00, SMX1_XelNagaLab_01, SMX1_XelNagaLab_02, SMX1_XelNagaLab_03, SMX1_XelNagaLab_04, SMX1_XelNagaLab_05, SMX1_XelNagaLab_06, SMX1_XelNagaLab_07, SMX1_XelNagaLab_08, SMX1_XelNagaLab_09, SMX1_XelNagaLab_10, SMX1_XelNagaLab_11, SMX1_XelNagaLab_12, SMX1_XelNagaLab_13, SMX1_XelNagaLab_14, SMX1_XelNagaLab_15, SMX1_XelNagaLab_16, SMX1_XelNagaLab_17, SMX1_XelNagaLab_18, SMX1_XelNagaLab_19, SMX1_XelNagaLab_20, SMX1_XelNagaLab_21, SMX1_XelNagaLab_22, SMX1_XelNagaLab_23, SMX1_XelNagaLab_24, SMX1_XelNagaLab_25, SMX1_XelNagaLab_26, SMX1_XelNagaLab_27, SMX1_XelNagaLab_28, SMX1_XelNagaLab_29, SMX1_XelNagaLab_30, SMX1_XelNagaLab_31, SMX1_XelNagaLab_32, SMX1_XelNagaLab_33, SMX1_XelNagaLab_34, SMX1_XelNagaLab_35, SMX1_XelNagaLab_36, SMX1_XelNagaLab_37, SMX1_XelNagaLab_38, SMX1_XelNagaLab_39, SMX1_XelNagaLab_99, SMX1_XelNagaLab_xtras_Floor</title></rect>
+<text x="293" y="333" font-size="8" fill="#6d6458">52</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/swarm.sc2campaign/base.sc2data/Cutscenes/Zerg09.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: BelShir</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 0 (0 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX1_Guts_xtras_A</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX1_Guts_xtras_B</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX1_Guts_xtras_C</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX1_Lighting_xtras_Lite02</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX1_XelNagaDoor</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX1_XelNagaLab_00</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX1_XelNagaLab_01</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX1_XelNagaLab_02</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX1_XelNagaLab_03</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX1_XelNagaLab_04</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX1_XelNagaLab_05</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX1_XelNagaLab_06</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX1_XelNagaLab_07</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX1_XelNagaLab_08</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX1_XelNagaLab_09</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX1_XelNagaLab_10</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX1_XelNagaLab_11</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX1_XelNagaLab_12</text>
+<text x="560" y="420" font-size="9" fill="#333">SMX1_XelNagaLab_13</text>
+<text x="560" y="432" font-size="9" fill="#333">SMX1_XelNagaLab_14</text>
+<text x="560" y="444" font-size="9" fill="#333">SMX1_XelNagaLab_15</text>
+<text x="560" y="456" font-size="9" fill="#333">SMX1_XelNagaLab_16</text>
+<text x="560" y="468" font-size="9" fill="#333">SMX1_XelNagaLab_17</text>
+<text x="560" y="480" font-size="9" fill="#333">SMX1_XelNagaLab_18</text>
+<text x="560" y="492" font-size="9" fill="#333">SMX1_XelNagaLab_19</text>
+<text x="560" y="504" font-size="9" fill="#333">SMX1_XelNagaLab_20</text>
+<text x="560" y="516" font-size="9" fill="#333">SMX1_XelNagaLab_21</text>
+<text x="560" y="528" font-size="9" fill="#333">SMX1_XelNagaLab_22</text>
+<text x="560" y="540" font-size="9" fill="#333">… and 21 more</text>
+<text x="560" y="552" font-size="9" fill="#333"></text>
+<text x="560" y="564" font-size="9" fill="#333">Also in:</text>
+</svg>

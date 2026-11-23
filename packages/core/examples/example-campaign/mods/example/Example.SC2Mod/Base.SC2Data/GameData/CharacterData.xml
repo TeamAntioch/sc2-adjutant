@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CCharacter id="ExampleAdjutant">
+        <Variations Model="AdjutantPortrait"/>
+    </CCharacter>
+    <CCharacter id="ExampleSergeant">
+        <Unit value="Marine"/>
+    </CCharacter>
+    <CCharacter id="ExampleForeman">
+        <Unit value="SCV"/>
+    </CCharacter>
+</Catalog>

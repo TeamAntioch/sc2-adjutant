@@ -1,0 +1,7 @@
+{
+  "campaign": { "id": "fixtures", "name": "Fixture Campaign" },
+  "missions": "missions",
+  "campaignPack": "./plugins/example-pack",
+  "stylePack": "./plugins/example-pack",
+  "plugins": ["bundled:hazard"]
+}

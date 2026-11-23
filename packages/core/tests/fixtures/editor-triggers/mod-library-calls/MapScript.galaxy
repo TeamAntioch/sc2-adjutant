@@ -1,0 +1,71 @@
+gs_GlobalVariablesandObjectives gv_gO;
+gs_EnvironmentArea gv_eA;
+gs_PowerArea gv_pA;
+trigger gt_BanterDiscoverAirPustule;
+trigger gt_BanterEnterReactorRoom;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Banter - Discover Air Pustule
+//--------------------------------------------------------------------------------------------------
+bool gt_BanterDiscoverAirPustule_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((gv_eA.lv_hydroponicsAirPustulesDiscovered == false)) {
+        TriggerQueueEnter();
+        gv_eA.lv_hydroponicsAirPustulesDiscovered = true;
+        libCmpn_gf_SoundChannelVolumeSpeech();
+        libCmpn_gf_SendTransmissionStory("Story03|Line04047", libCmpn_gv_heroUnit.lv_zeratul, true, "Default", libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft));
+        libCmpn_gf_SoundChannelVolumeGameplay();
+        TriggerQueueExit();
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_BanterDiscoverAirPustule_Init () {
+    gt_BanterDiscoverAirPustule = TriggerCreate("gt_BanterDiscoverAirPustule_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Banter - Enter Reactor Room
+//--------------------------------------------------------------------------------------------------
+bool gt_BanterEnterReactorRoom_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gO.lv_globalGameOver == false))) {
+            return false;
+        }
+
+        if (!(((EventUnit() == libCmpn_gv_heroUnit.lv_zeratul) || (EventUnit() == libCmpn_gv_heroUnit.lv_artanis)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    if ((gv_pA.lv_powerConduitCount < 5)) {
+        TriggerQueueEnter();
+        libCmpn_gf_SoundChannelVolumeSpeech();
+        libCmpn_gf_SendTransmissionStory("Story03|Line06045", libCmpn_gv_heroUnit.lv_zeratul, true, "Default", libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft));
+        libCmpn_gf_SoundChannelVolumeGameplay();
+        TriggerQueueExit();
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_BanterEnterReactorRoom_Init () {
+    gt_BanterEnterReactorRoom = TriggerCreate("gt_BanterEnterReactorRoom_Func");
+    TriggerAddEventUnitRegion(gt_BanterEnterReactorRoom, null, RegionFromId(6), true);
+}
+

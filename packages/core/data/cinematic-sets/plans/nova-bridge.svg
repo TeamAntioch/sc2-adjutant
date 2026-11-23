@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Nova Bridge: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Nova Bridge</text>
+<text x="24" y="54" font-size="10" fill="#666">nova-bridge · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="285.5" y="165.4" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Nova_Ship_Bridge_MainScreen, SMX3_Nova_Ship_Bridge_MainScreen_Overlay_01</title></rect>
+<text x="293.5" y="171.4" font-size="8" fill="#6d6458">2</text>
+<rect x="281.5" y="424.4" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Nova_Ship_Bridge_Back_Monitor_Left, SMX3_Nova_Ship_Bridge_Front_Monitor_Left, SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Left, SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Right, SMX3_Nova_Ship_Bridge01, SMX3_Nova_Ship_Bridge03, SMX3_Nova_Ship_Bridge04, SMX3_Nova_Ship_Bridge05, SMX3_Nova_Ship_Bridge07, SMX3_Nova_Ship_Bridge09, SMX3_Nova_Ship_Bridge10, SMX3_Nova_Ship_Bridge11, SMX3_Nova_Ship_Bridge12, SMX3_Nova_Ship_Bridge13, SMX3_Nova_Ship_Bridge14, SMX3_Nova_Ship_Bridge15, SMX3_Nova_Ship_Bridge16, SMX3_Nova_Ship_Bridge18, SMX3_Nova_Ship_Bridge19, SMX3_Background_Starfield_Generic</title></rect>
+<text x="297.5" y="434.4" font-size="8" fill="#6d6458">20</text>
+<polygon points="348.1,172.3 312.8,252 271.2,213.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="348.1" cy="172.3" r="2.5" fill="#7b4bd1"><title>s005</title></circle>
+<polygon points="352.2,336 278.9,271.6 350.7,238.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="352.2" cy="336" r="2.5" fill="#7b4bd1"><title>s040 close</title></circle>
+<polygon points="339.9,189.7 292.1,230.7 280,209.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="339.9" cy="189.7" r="2.5" fill="#7b4bd1"><title>s030 close</title></circle>
+<polygon points="404.7,414.5 321.9,363.1 408,317" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="404.7" cy="414.5" r="2.5" fill="#7b4bd1"><title>s010</title></circle>
+<polygon points="318.3,242.8 275.2,199.1 320.2,181.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="318.3" cy="242.8" r="2.5" fill="#7b4bd1"><title>s020</title></circle>
+<polygon points="339.9,189.7 295.1,234 277.6,199.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="339.9" cy="189.7" r="2.5" fill="#7b4bd1"><title>s030</title></circle>
+<polygon points="352.2,336 279.9,270.5 352.1,238.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="352.2" cy="336" r="2.5" fill="#7b4bd1"><title>s040</title></circle>
+<polygon points="377.4,162.1 306,228.5 282.1,182.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="377.4" cy="162.1" r="2.5" fill="#7b4bd1"><title>s050</title></circle>
+<polygon points="328.8,237.4 278.4,202.8 314.4,178" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="328.8" cy="237.4" r="2.5" fill="#7b4bd1"><title>s060</title></circle>
+<polygon points="384.2,392.5 305.5,335 384.5,295" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="384.2" cy="392.5" r="2.5" fill="#7b4bd1"><title>s070</title></circle>
+<polygon points="329.2,193.3 274.6,231.1 263.7,203.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="329.2" cy="193.3" r="2.5" fill="#7b4bd1"><title>s080</title></circle>
+<polygon points="292.7,253.6 264.8,195.4 328.4,199.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="292.7" cy="253.6" r="2.5" fill="#7b4bd1"><title>s090</title></circle>
+<polygon points="353.5,161 313.8,228.1 284.3,196.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="353.5" cy="161" r="2.5" fill="#7b4bd1"><title>s100</title></circle>
+<polygon points="306.3,242.2 280.4,186.9 312.1,181.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="306.3" cy="242.2" r="2.5" fill="#7b4bd1"><title>s110</title></circle>
+<polygon points="295.4,252.3 265.8,196.6 328.2,198.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="295.4" cy="252.3" r="2.5" fill="#7b4bd1"><title>s130</title></circle>
+<polygon points="354.4,161.9 315.5,212.6 303.2,200.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="354.4" cy="161.9" r="2.5" fill="#7b4bd1"><title>s140</title></circle>
+<polygon points="308.4,253.4 276.4,188.5 312.8,181.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="308.4" cy="253.4" r="2.5" fill="#7b4bd1"><title>s150</title></circle>
+<polygon points="367.6,146 316.1,228.7 284.1,196.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="367.6" cy="146" r="2.5" fill="#7b4bd1"><title>s160</title></circle>
+<polygon points="308.4,253.4 276.4,188.5 312.8,181.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="308.4" cy="253.4" r="2.5" fill="#7b4bd1"><title>s170</title></circle>
+<polygon points="354.4,161.9 315.8,212.6 303.4,200.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="354.4" cy="161.9" r="2.5" fill="#7b4bd1"><title>s180</title></circle>
+<polygon points="295.4,278.3 267.3,229.9 299.8,222.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="295.4" cy="278.3" r="2.5" fill="#7b4bd1"><title>s200</title></circle>
+<line x1="293.9" y1="234.6" x2="295.6" y2="224.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="293.9" cy="234.6" r="4" fill="#2f7de1" stroke="#fff"><title>Nova (SMX3_NovaMP03)</title></circle>
+<text x="299.9" y="246.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova</text>
+<line x1="290.5" y1="491.6" x2="300.5" y2="491.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="290.5" cy="491.6" r="4" fill="#2f7de1" stroke="#fff"><title>Valerian (SMX3_ValerianMP03)</title></circle>
+<text x="296.5" y="503.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Valerian</text>
+<line x1="289" y1="473.2" x2="299" y2="473.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="289" cy="473.2" r="4" fill="#2f7de1" stroke="#fff"><title>Alarak (SMX3ProtossAlarak)</title></circle>
+<text x="295" y="485.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Alarak</text>
+<line x1="274.1" y1="218.4" x2="279.7" y2="210.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="274.1" cy="218.4" r="4" fill="#2f7de1" stroke="#fff"><title>Reigel (SMX3_ReigelMP03)</title></circle>
+<text x="280.1" y="230.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Reigel</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_030.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP03_030_Bridge</text>
+<text x="560" y="144" font-size="9" fill="#333">Screens:</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge_MainScreen</text>
+<text x="560" y="168" font-size="9" fill="#333">(channel 6)</text>
+<text x="560" y="180" font-size="9" fill="#333">Its file feeds displays from: SMX3</text>
+<text x="560" y="192" font-size="9" fill="#333">Nova Ship Bridge Main Screen</text>
+<text x="560" y="204" font-size="9" fill="#333">Marks: 4; cameras: 23 (21 aimed</text>
+<text x="560" y="216" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="228" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="240" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="252" font-size="9" fill="#333"></text>
+<text x="560" y="264" font-size="9" fill="#333">Models:</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge_Back_Monitor_Left</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge_Front_Monitor_Left</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge_MainScreen</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge_MainScreen_Overlay_01</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Left</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Right</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge01</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge03</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge04</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge05</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge07</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge09</text>
+<text x="560" y="420" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge10</text>
+<text x="560" y="432" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge11</text>
+<text x="560" y="444" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge12</text>
+<text x="560" y="456" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge13</text>
+<text x="560" y="468" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge14</text>
+<text x="560" y="480" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge15</text>
+<text x="560" y="492" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge16</text>
+<text x="560" y="504" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge18</text>
+<text x="560" y="516" font-size="9" fill="#333">SMX3_Nova_Ship_Bridge19</text>
+<text x="560" y="528" font-size="9" fill="#333"></text>
+<text x="560" y="540" font-size="9" fill="#333">Also in:</text>
+</svg>

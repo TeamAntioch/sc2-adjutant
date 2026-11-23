@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>upper_building_01: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">upper_building_01</text>
+<text x="24" y="54" font-size="10" fill="#666">upper-building-01 · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="435.8" y="127.5" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Building_02, SMX3_MP03_020_Building_05, SMX3_MP03_020_Building_08, SMX3_MP03_020_Building_09</title></rect>
+<text x="445.8" y="134.5" font-size="8" fill="#6d6458">4</text>
+<rect x="401.3" y="178" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Building_13</title></rect>
+<rect x="102.4" y="433.9" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Background_Buildings_03, SMX3_MP03_020_Background_Buildings_03, SMX3_MP03_020_Background_Buildings_03</title></rect>
+<text x="111.4" y="440.4" font-size="8" fill="#6d6458">3</text>
+<rect x="291.4" y="418" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Background_Buildings_05, SMX3_MP03_020_Background_Buildings_05</title></rect>
+<text x="299.4" y="424" font-size="8" fill="#6d6458">2</text>
+<rect x="184.8" y="113.8" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Background_Buildings_02, SMX3_MP03_020_Background_Buildings_02</title></rect>
+<text x="192.8" y="119.8" font-size="8" fill="#6d6458">2</text>
+<rect x="459.6" y="540.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Background_Buildings_05</title></rect>
+</g>
+<line x1="74.7" y1="574.4" x2="230.8" y2="574.4" stroke="#333" stroke-width="2"/>
+<line x1="74.7" y1="570.4" x2="74.7" y2="578.4" stroke="#333"/><line x1="105.9" y1="570.4" x2="105.9" y2="578.4" stroke="#333"/>
+<text x="74.7" y="568.4" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">4 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_CloseUp,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot2,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_Attack_Transition,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_Attack</text>
+<text x="560" y="192" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="204" font-size="9" fill="#333">SCREEN RTT s010 s020 s050, SCREEN</text>
+<text x="560" y="216" font-size="9" fill="#333">RTT s070, SCREEN RTT s090, SCREEN</text>
+<text x="560" y="228" font-size="9" fill="#333">RTT s100, SCREEN RTT s120, SCREEN</text>
+<text x="560" y="240" font-size="9" fill="#333">RTT s170</text>
+<text x="560" y="252" font-size="9" fill="#333">Marks: 0; cameras: 0 (0 aimed</text>
+<text x="560" y="264" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="276" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="288" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="300" font-size="9" fill="#333"></text>
+<text x="560" y="312" font-size="9" fill="#333">Models:</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX3_MP03_020_Building_02 ×4</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX3_MP03_020_Building_05 ×4</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX3_MP03_020_Building_08 ×4</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX3_MP03_020_Building_09 ×4</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX3_MP03_020_Building_13 ×4</text>
+<text x="560" y="384" font-size="9" fill="#333"></text>
+<text x="560" y="396" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="408" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="420" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="432" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="444" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+<text x="560" y="456" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="468" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+</svg>

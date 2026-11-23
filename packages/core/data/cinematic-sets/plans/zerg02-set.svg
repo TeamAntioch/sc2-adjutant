@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Zerg02 set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Zerg02 set</text>
+<text x="24" y="54" font-size="10" fill="#666">zerg02-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="277" y="323" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>SMX1_CableA, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPodExterior, SMX1_DropPod, SMX1_GhostRifle, SMX1_HyperionExteriorLow, SMX1_HyperionExteriorLow, SMX1_HyperionExteriorLow, SMX1_LabCorridorDestroyed, SMX1_LabDoorDestroyed, SMX1_Lighting, SMX1_MarineRifle, SMX1_MarineRifle, SMX1_MarineRifle, SMX1_MarineRifle, SMX1_MarineRifle, SMX1_MarineRifle, SMX1_MarineRifle, SMX1_ShadowBox, SMX1_TerranLabExterior, SMX1_Zerg02Props, SMX1_Zerg02Props_xtras_120, SMX1_TerranLabDestroyed_01, SMX1_TerranLabDestroyed_02, SMX1_TerranLabDestroyed_03, SMX1_TerranLabDestroyed_04, SMX1_TerranLabDestroyed_05</title></rect>
+<text x="293" y="333" font-size="8" fill="#6d6458">36</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/swarm.sc2campaign/base.sc2data/Cutscenes/Zerg02.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: BelShir, DefaultLight</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 0 (0 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX1_CableA</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX1_DropPod</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX1_DropPodExterior</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX1_GhostRifle</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX1_HyperionExteriorLow</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX1_LabCorridorDestroyed</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX1_LabDoorDestroyed</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX1_Lighting</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX1_MarineRifle</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX1_ShadowBox</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX1_TerranLabDestroyed_01</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX1_TerranLabDestroyed_02</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX1_TerranLabDestroyed_03</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX1_TerranLabDestroyed_04</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX1_TerranLabDestroyed_05</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX1_TerranLabExterior</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX1_Zerg02Props</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX1_Zerg02Props_xtras_120</text>
+<text x="560" y="420" font-size="9" fill="#333"></text>
+<text x="560" y="432" font-size="9" fill="#333">Also in:</text>
+</svg>

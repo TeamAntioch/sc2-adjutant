@@ -1,0 +1,7 @@
+﻿FunctionDef/Name/F9E7C089=Apply Shadow Manifestation FX
+ParamDef/Name/B5314424=CHOSEN_UNIT
+Trigger/Name/7CCCC77A=Wave Shadow FX
+Variable/Name/0A6AB510=PLAYER_07_VOID_EAST
+Variable/Name/41A84A1D=PLAYER_08_VOID_SOUTH
+Variable/Name/A1F7FD63=PLAYER_09_VOID_WEST
+Variable/Name/A99251F2=PLAYER_10_VOID_NORTH

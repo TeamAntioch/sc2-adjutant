@@ -1,0 +1,2 @@
+﻿Param/Value/lib_NovC_4E67BE7A=<hour/>:<min2/>:<sec2/>
+Param/Value/lib_NovC_A4F1A203=<min2/>:<sec2/>

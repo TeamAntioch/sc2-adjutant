@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="NovC">
+        <Root>
+            <Item Type="FunctionDef" Library="NovC" Id="13D859D1"/>
+        </Root>
+        <Element Type="FunctionDef" Id="13D859D1">
+            <Identifier>NC_DebugCampaignTechStoreStates</Identifier>
+            <Internal/>
+            <FlagAction/>
+            <Variable Type="Variable" Library="NovC" Id="906D06A3"/>
+            <Variable Type="Variable" Library="NovC" Id="2271CED0"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="AE49BCF5"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="D57CA587"/>
+        </Element>
+        <Element Type="Variable" Id="906D06A3">
+            <VariableType>
+                <Type Value="userinstance"/>
+                <UserType Value="CampaignPerk"/>
+            </VariableType>
+        </Element>
+        <Element Type="Variable" Id="2271CED0">
+            <VariableType>
+                <Type Value="userinstance"/>
+                <UserType Value="CampaignTechItem"/>
+            </VariableType>
+        </Element>
+        <Element Type="FunctionCall" Id="AE49BCF5">
+            <FunctionDef Type="FunctionDef" Library="NovC" Id="0E4867F4"/>
+            <Parameter Type="Param" Library="NovC" Id="8E40F40E"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="1CC57044"/>
+        </Element>
+        <Element Type="Param" Id="8E40F40E">
+            <ParameterDef Type="ParamDef" Library="NovC" Id="8D505BDA"/>
+            <Variable Type="Variable" Library="NovC" Id="2271CED0"/>
+        </Element>
+        <Element Type="FunctionCall" Id="1CC57044">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="67CE2CB7"/>
+            <SubFunctionType Type="SubFuncType" Library="NovC" Id="04FA8B59"/>
+            <Parameter Type="Param" Library="NovC" Id="9CA841F9"/>
+            <Parameter Type="Param" Library="NovC" Id="EABDB0AD"/>
+            <Parameter Type="Param" Library="NovC" Id="0293BB3E"/>
+        </Element>
+        <Element Type="Param" Id="9CA841F9">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="D6F41B33"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="F7FDF14F"/>
+        </Element>
+        <Element Type="Param" Id="EABDB0AD">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="4B557774"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="8EE92BD9"/>
+        </Element>
+        <Element Type="FunctionCall" Id="8EE92BD9">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="E4B86923"/>
+            <Parameter Type="Param" Library="NovC" Id="996009FD"/>
+        </Element>
+        <Element Type="Param" Id="996009FD">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="711D5A26"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="71D8D2BE"/>
+        </Element>
+        <Element Type="FunctionCall" Id="71D8D2BE">
+            <FunctionDef Type="FunctionDef" Library="NovC" Id="67D7E57D"/>
+            <Parameter Type="Param" Library="NovC" Id="971E796E"/>
+        </Element>
+        <Element Type="Param" Id="971E796E">
+            <ParameterDef Type="ParamDef" Library="NovC" Id="DD7B7325"/>
+            <Variable Type="Variable" Library="NovC" Id="2271CED0"/>
+        </Element>
+        <Element Type="Param" Id="0293BB3E">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="4555BF8B"/>
+            <ExpressionType Type="string"/>
+            <ExpressionText>DebugTechSaveTechItem_~A~</ExpressionText>
+            <ExpressionParam Type="Param" Library="NovC" Id="6BA65304"/>
+        </Element>
+        <Element Type="Param" Id="6BA65304">
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="C837AA5B"/>
+            <ExpressionCode Value="A"/>
+        </Element>
+        <Element Type="FunctionCall" Id="C837AA5B">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="7D1F0181"/>
+            <Parameter Type="Param" Library="NovC" Id="D000FC5D"/>
+        </Element>
+        <Element Type="Param" Id="D000FC5D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8D23E367"/>
+            <Variable Type="Variable" Library="NovC" Id="2271CED0"/>
+        </Element>
+        <Element Type="FunctionCall" Id="D57CA587">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="E5740DB3"/>
+            <Parameter Type="Param" Library="NovC" Id="AFF1F4FD"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="3C713792"/>
+        </Element>
+        <Element Type="Param" Id="AFF1F4FD">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="1B86E1E2"/>
+            <Variable Type="Variable" Library="NovC" Id="906D06A3"/>
+        </Element>
+        <Element Type="FunctionCall" Id="3C713792">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="F1C17BBA"/>
+            <SubFunctionType Type="SubFuncType" Library="ComC" Id="D5E1619D"/>
+            <Parameter Type="Param" Library="NovC" Id="6462C26B"/>
+            <Parameter Type="Param" Library="NovC" Id="43201D0C"/>
+            <Parameter Type="Param" Library="NovC" Id="3AE79A95"/>
+        </Element>
+        <Element Type="Param" Id="6462C26B">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="22B82CD9"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="F7FDF14F"/>
+        </Element>
+        <Element Type="Param" Id="43201D0C">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9E6F0FCC"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="D00F8BE6"/>
+        </Element>
+        <Element Type="FunctionCall" Id="D00F8BE6">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="FC63B7AA"/>
+            <Parameter Type="Param" Library="NovC" Id="510792B5"/>
+        </Element>
+        <Element Type="Param" Id="510792B5">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="86234016"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="7DCDEE21"/>
+        </Element>
+        <Element Type="FunctionCall" Id="7DCDEE21">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="93920441"/>
+            <Parameter Type="Param" Library="NovC" Id="B74B577E"/>
+        </Element>
+        <Element Type="Param" Id="B74B577E">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="10AFB7D8"/>
+            <Variable Type="Variable" Library="NovC" Id="906D06A3"/>
+        </Element>
+        <Element Type="Param" Id="3AE79A95">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="EACCC6EF"/>
+            <ExpressionType Type="string"/>
+            <ExpressionText>DebugTechSaveEquipment_~A~</ExpressionText>
+            <ExpressionParam Type="Param" Library="NovC" Id="40AFAF71"/>
+        </Element>
+        <Element Type="Param" Id="40AFAF71">
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="BAE3C82D"/>
+            <ExpressionCode Value="A"/>
+        </Element>
+        <Element Type="FunctionCall" Id="BAE3C82D">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="7D1F0181"/>
+            <Parameter Type="Param" Library="NovC" Id="C4498570"/>
+        </Element>
+        <Element Type="Param" Id="C4498570">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8D23E367"/>
+            <Variable Type="Variable" Library="NovC" Id="906D06A3"/>
+        </Element>
+        <Element Type="FunctionDef" Id="0E4867F4">
+            <Label Type="Label" Library="Ntve" Id="C5092BE2"/>
+            <Internal/>
+            <FlagAction/>
+            <FlagSubFunctions/>
+            <FlagAllowBreak/>
+            <Parameter Type="ParamDef" Library="NovC" Id="8D505BDA"/>
+            <SubFunctionType Type="SubFuncType" Library="NovC" Id="04FA8B59"/>
+            <ScriptCode>
+                #AUTOVAR(ai) = 1;
+                #AUTOVAR(ae) = UserDataInstanceCount(&quot;CampaignTechItem&quot;)+1;
+                while (#AUTOVAR(ai) &lt; #AUTOVAR(ae)) {
+                    #PARAM(indexTechItem) = UserDataInstance(&quot;CampaignTechItem&quot;, #AUTOVAR(ai));
+                    #AUTOVAR(ai) = #AUTOVAR(ai)+1;
+                    #SUBFUNCS(actions)
+                }
+            </ScriptCode>
+        </Element>
+        <Element Type="ParamDef" Id="8D505BDA">
+            <ParameterType>
+                <Type Value="userinstance"/>
+                <UserType Value="CampaignTechItem"/>
+            </ParameterType>
+        </Element>
+        <Element Type="SubFuncType" Id="04FA8B59">
+            <Identifier>actions</Identifier>
+            <Action/>
+        </Element>
+        <Element Type="FunctionDef" Id="67D7E57D">
+            <Internal/>
+            <FlagCall/>
+            <ReturnType>
+                <Type Value="gamelink"/>
+                <GameType Value="ArmyUnit"/>
+            </ReturnType>
+            <Parameter Type="ParamDef" Library="NovC" Id="DD7B7325"/>
+        </Element>
+        <Element Type="ParamDef" Id="DD7B7325">
+            <ParameterType>
+                <Type Value="userinstance"/>
+                <UserType Value="CampaignTechItem"/>
+            </ParameterType>
+        </Element>
+    </Library>
+</TriggerData>

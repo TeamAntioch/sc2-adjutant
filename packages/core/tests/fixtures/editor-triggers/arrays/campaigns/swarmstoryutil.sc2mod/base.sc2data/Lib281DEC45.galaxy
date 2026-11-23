@@ -1,0 +1,11 @@
+void lib281DEC45_gf_StoryAddAliasedUnit (unit lp_unit, string lp_alias) {
+    // Implementation
+    lib281DEC45_gv_zSS_AliasedUnitCount += 1;
+    lib281DEC45_gv_zSS_Aliases[lib281DEC45_gv_zSS_AliasedUnitCount] = lp_alias;
+    lib281DEC45_gv_zSS_AliasedUnits[lib281DEC45_gv_zSS_AliasedUnitCount] = lp_unit;
+}
+
+unit lib281DEC45_gf_CharacterUnit (string lp_character) {
+    // Implementation
+    return lib281DEC45_gv_zSS_Characters[lib281DEC45_gf_ZSS_CharacterIndex(lp_character)].lv_unit;
+}

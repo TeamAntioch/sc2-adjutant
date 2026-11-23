@@ -1,0 +1,12 @@
+﻿FunctionDef/Name/lib_281DEC45_1485A62F=ZSS_CharacterIndex
+FunctionDef/Name/lib_281DEC45_5F3985A1=Story Add Aliased Unit
+FunctionDef/Name/lib_281DEC45_D28BC4EA=Character Unit
+ParamDef/Name/lib_281DEC45_5A762B57=Unit
+ParamDef/Name/lib_281DEC45_77A14222=Alias
+ParamDef/Name/lib_281DEC45_A19C6987=Character
+ParamDef/Name/lib_281DEC45_E2AF476C=Character
+Variable/Name/lib_281DEC45_0E624C5A=ZSS_AliasedUnitCount
+Variable/Name/lib_281DEC45_2D29A3D7=ZSS_Characters
+Variable/Name/lib_281DEC45_6E4C9947=ZSS_Aliases
+Variable/Name/lib_281DEC45_97E34FC7=ZSS_AliasedUnits
+Variable/Name/lib_281DEC45_A96DB371=Unit

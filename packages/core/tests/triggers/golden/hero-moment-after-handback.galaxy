@@ -1,0 +1,36 @@
+bool gt_TriggerSceneLandingLines_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libBel1_gf_HoldHeroMomentsForLine();
+    gv_trigger_scene_landing_moment_held = true;
+    gv_trigger_scene_landing_line_sent = false;
+    while ((gv_trigger_scene_landing_line_sent == false)) {
+        while ((gv_script_trigger_scene != 0) && (gv_script_trigger_scene != 1)) {
+            Wait(0.25, c_timeGame);
+        }
+        gv_script_trigger_scene = 1;
+        if ((TransmissionIsComplete(gv_script_line) == false)) {
+            TransmissionClear(gv_script_line);
+            gv_script_line_cut = true;
+        }
+
+        gv_script_trigger_scene_line_cut = false;
+        TransmissionSendForPlayerSelect(PlayerGroupAll(), TransmissionSourceFromUnit(UnitFromId(26469087), true, false, "Talk"), libNtve_gf_CinematicPortrait(libNtve_ge_CinematicPortraitPosition_CenterLeft), "", "Talk", SoundLink("radio_field-2-2", -1), StringExternal("Param/Value/EF2A532B"), StringExternal("Param/Value/8F6351C1"), 0.0, c_transmissionDurationAdd, false, c_maxPlayers, false);
+        gv_script_trigger_scene_line = TransmissionLastSent();
+        TransmissionWait(gv_script_trigger_scene_line, 0.0);
+        gv_trigger_scene_landing_line_sent = (gv_script_trigger_scene_line_cut == false);
+    }
+    gv_trigger_scene_landing_moment_held = false;
+    libBel1_gf_ReleaseHeroMomentsAfterLine();
+    if ((gv_script_trigger_scene == 1)) {
+        gv_script_trigger_scene = 0;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------

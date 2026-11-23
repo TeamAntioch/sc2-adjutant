@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="ComC">
+        <Root>
+            <Item Type="FunctionDef" Library="ComC" Id="619CB57C"/>
+        </Root>
+        <Element Type="FunctionDef" Id="619CB57C">
+            <Label Type="Label" Library="Ntve" Id="C5092BE2"/>
+            <Internal/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="ComC" Id="0A53C404"/>
+        </Element>
+        <Element Type="ParamDef" Id="0A53C404">
+            <Identifier>player</Identifier>
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="36E7BA2B"/>
+        </Element>
+        <Element Type="Param" Id="36E7BA2B">
+            <Value>1</Value>
+            <ValueType Type="int"/>
+        </Element>
+    </Library>
+</TriggerData>

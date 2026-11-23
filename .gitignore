@@ -1,0 +1,22 @@
+.DS_Store
+node_modules/
+dist/
+*.log
+.claude/worktrees/
+packages/core/data/thumbnails/
+packages/core/data/catalog-sheets/
+
+# Missions live in their Workspace's own repo, not here. A
+# checkout from before the move may still hold missions/ with compiled maps and voices: keep it,
+# and anything under it, out of commits.
+/missions/
+
+# A Screenplay pull interrupted between writing and renaming its temporary file
+*.partial
+
+# The Doodad Finder's cache from before #678 moved it to the platform's cache folder (ADR-0020)
+packages/doodad-finder/.cache/
+
+# Skills an agent installs into a checkout (`npx skills add`). The repo ships only its own skills.
+.agents/
+skills-lock.json

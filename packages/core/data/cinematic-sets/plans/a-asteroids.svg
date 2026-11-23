@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>A Asteroids: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">A Asteroids</text>
+<text x="24" y="54" font-size="10" fill="#666">a-asteroids · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="229.1" y="219.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid00</title></rect>
+<rect x="199" y="234.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid00</title></rect>
+<rect x="197.8" y="252.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid02</title></rect>
+<rect x="317.6" y="246.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="306.8" y="281.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid09</title></rect>
+<rect x="325" y="252.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid03</title></rect>
+<rect x="291.2" y="247.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid07</title></rect>
+<rect x="258.5" y="151" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid02</title></rect>
+<rect x="250.9" y="216.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid05</title></rect>
+<rect x="262.4" y="211.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid08</title></rect>
+<rect x="260.5" y="193.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid01</title></rect>
+<rect x="179.7" y="169.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid02</title></rect>
+<rect x="148.3" y="272.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid06</title></rect>
+<rect x="267.6" y="149" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="209.1" y="234.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="187.8" y="260.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="376.1" y="203.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="342.6" y="247" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="227.2" y="343.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="212" y="324.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="249.7" y="195.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="273" y="207.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="231.6" y="235.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid00</title></rect>
+<rect x="261.4" y="165.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid02</title></rect>
+<rect x="297.1" y="169.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="293.7" y="153.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="282.7" y="281.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="290.7" y="279.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="196.6" y="275.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="367.5" y="196.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="327.8" y="186.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="364.9" y="237.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="277.2" y="134.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid03</title></rect>
+<rect x="369.6" y="220.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="311.5" y="238.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="296.4" y="252.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid00</title></rect>
+<rect x="298.6" y="248.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid00</title></rect>
+<rect x="339.2" y="231.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid00</title></rect>
+<rect x="335.8" y="264.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid00</title></rect>
+<rect x="323.1" y="208.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid00</title></rect>
+<rect x="327.7" y="271.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="305.4" y="273.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="294.8" y="261.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="297.5" y="273.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="319.1" y="274.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid02</title></rect>
+<rect x="314.7" y="243.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid02</title></rect>
+<rect x="342.8" y="268.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid02</title></rect>
+<rect x="315.6" y="287.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid02</title></rect>
+<rect x="329.6" y="258.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="340.8" y="239.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="330.9" y="231.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="345.5" y="256.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="334.1" y="282.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="332.3" y="238.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="335" y="248" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="343.8" y="244.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="330.7" y="255.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="352.5" y="242.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="306" y="226.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="284.7" y="268.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Asteroid04</title></rect>
+<rect x="336.9" y="195.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="244.8" y="-50.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_AsteroidCluster</title></rect>
+<rect x="244.8" y="84.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_AsteroidCluster</title></rect>
+<rect x="244.8" y="-313.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_AsteroidCluster</title></rect>
+<rect x="244.8" y="-178.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_AsteroidCluster</title></rect>
+<rect x="199" y="-417.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_AsteroidCluster</title></rect>
+<rect x="328.5" y="-41.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_AsteroidCluster</title></rect>
+<rect x="284.4" y="-169.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_AsteroidCluster</title></rect>
+<rect x="243" y="-289.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_AsteroidCluster</title></rect>
+<rect x="321.6" y="231.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="315.5" y="264.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Platform</title></rect>
+<rect x="308.9" y="320.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Debrief_Clouds</title></rect>
+<rect x="307.6" y="257.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Debrief_Clouds</title></rect>
+<rect x="306.9" y="243.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Debrief_Clouds</title></rect>
+<rect x="202.3" y="399.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Debrief_Clouds</title></rect>
+<rect x="414.7" y="87.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Debrief_Clouds</title></rect>
+<rect x="374.9" y="329.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Epilogue_Debrief_Clouds</title></rect>
+<rect x="306.4" y="238.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="314.7" y="260.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="293.8" y="499.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="313.3" y="260.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="309.2" y="262.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="311.1" y="264" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<polygon points="314.8,256.4 320.4,272.3 313.4,273.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="314.8" cy="256.4" r="2.5" fill="#7b4bd1"><title>BASE</title></circle>
+<polygon points="311.8,257.1 307.1,241.5 312.7,240.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="311.8" cy="257.1" r="2.5" fill="#7b4bd1"><title>Artanis Reveal Close</title></circle>
+<polygon points="296,395.3 295.6,378.5 305.5,381.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="296" cy="395.3" r="2.5" fill="#7b4bd1"><title>2shot Tassadar/Artanis far fadeout</title></circle>
+<polygon points="304.6,285.7 313.2,271.3 316.1,273.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="304.6" cy="285.7" r="2.5" fill="#7b4bd1"><title>Artanis XClose Tassadar</title></circle>
+<polygon points="308.4,230.9 319.1,243.9 301.7,246.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="308.4" cy="230.9" r="2.5" fill="#7b4bd1"><title>2shot Artanis/Tassadar wide</title></circle>
+<polygon points="318.5,253.4 324.1,269.2 313.3,269.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="318.5" cy="253.4" r="2.5" fill="#7b4bd1"><title>Artanis/Tassadar 2shot tight</title></circle>
+<polygon points="160.9,429.5 170.6,415.7 173.8,418.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="160.9" cy="429.5" r="2.5" fill="#7b4bd1"><title>Kerrigan Reveal</title></circle>
+<polygon points="283.8,294 293.6,280.3 296.2,282.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="283.8" cy="294" r="2.5" fill="#7b4bd1"><title>Kerrigan Reveal Close</title></circle>
+<polygon points="316.7,256.3 324.1,271.4 312.3,272.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="316.7" cy="256.3" r="2.5" fill="#7b4bd1"><title>OTS Artanis/Ouros birth</title></circle>
+<polygon points="314.7,256.7 329.9,263.8 307.5,272" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="314.7" cy="256.7" r="2.5" fill="#7b4bd1"><title>OTS Artanis/Ouros Medium</title></circle>
+<polygon points="-167.5,838.1 -157.5,824.6 -154.9,827" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-167.5" cy="838.1" r="2.5" fill="#7b4bd1"><title>OTS Ouros/Artanis Medium</title></circle>
+<polygon points="-121.3,862.8 -112.4,848.5 -109.6,850.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-121.3" cy="862.8" r="2.5" fill="#7b4bd1"><title>OTS Ouros 3shot Medium</title></circle>
+<polygon points="320.1,264.1 308.1,270.2 306.6,264.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="320.1" cy="264.1" r="2.5" fill="#7b4bd1"><title>OTS Raynor - Kerrigan Close</title></circle>
+<polygon points="301.5,261.7 311.6,270.5 298.1,274.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="301.5" cy="261.7" r="2.5" fill="#7b4bd1"><title>OTS Kerrigan - Ouros Medium</title></circle>
+<polygon points="297,277.5 306.9,263.8 311.7,269.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="297" cy="277.5" r="2.5" fill="#7b4bd1"><title>OTS Kerrigan - Raynor Close</title></circle>
+<polygon points="306.7,258.3 318.5,268.7 299.3,272.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="306.7" cy="258.3" r="2.5" fill="#7b4bd1"><title>OTS Kerrigan/Raynor - Ouros CLOSE</title></circle>
+<polygon points="-132.1,-147.4 -115.5,-144.1 -131.8,-130.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-132.1" cy="-147.4" r="2.5" fill="#7b4bd1"><title>FAR Artanis/Ouros birth</title></circle>
+<polygon points="314.8,256.4 320.4,272.3 313.3,273.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="314.8" cy="256.4" r="2.5" fill="#7b4bd1"><title>POV Artanis - Ouros Close</title></circle>
+<polygon points="298.2,287.9 308.5,274.6 311.1,277" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="298.2" cy="287.9" r="2.5" fill="#7b4bd1"><title>POV Ouros - Artanis Close</title></circle>
+<polygon points="298.5,283.2 304.7,267.5 307.8,269.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="298.5" cy="283.2" r="2.5" fill="#7b4bd1"><title>POV Ouros - Kerrigan Close</title></circle>
+<polygon points="301.5,275.9 311.4,263 314,265.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="301.5" cy="275.9" r="2.5" fill="#7b4bd1"><title>POV Ouros - Raynor Close</title></circle>
+<polygon points="245.8,345.3 255,331.3 258,333.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="245.8" cy="345.3" r="2.5" fill="#7b4bd1"><title>3shot Medium</title></circle>
+<polygon points="301.8,253.2 316.4,258.2 297.7,268.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="301.8" cy="253.2" r="2.5" fill="#7b4bd1"><title>4shot</title></circle>
+<polygon points="299.4,274.8 309.2,262.3 313.6,267.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="299.4" cy="274.8" r="2.5" fill="#7b4bd1"><title>2shot Kerrigan/Raynor medium</title></circle>
+<polygon points="333.3,269.5 316.6,271.5 316.7,266.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="333.3" cy="269.5" r="2.5" fill="#7b4bd1"><title>OTS Raynor - emote kerrigan hands</title></circle>
+<polygon points="318.6,266.3 305.1,271.6 304.1,267.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="318.6" cy="266.3" r="2.5" fill="#7b4bd1"><title>OTS Raynor - emote 01 kerrigan close</title></circle>
+<polygon points="301.9,273.8 309.4,265 311.2,266.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="301.9" cy="273.8" r="2.5" fill="#7b4bd1"><title>OTS Kerrigan - emote Raynor close</title></circle>
+<line x1="164.1" y1="209.4" x2="173.1" y2="205" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="164.1" cy="209.4" r="4" fill="#2f7de1" stroke="#fff"><title>DropShip (SMDropshipBlue)</title></circle>
+<text x="170.1" y="221.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">DropShip</text>
+<line x1="320.3" y1="264.3" x2="317.5" y2="273.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="320.3" cy="264.3" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="326.3" y="276.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis</text>
+<line x1="306.1" y1="269.2" x2="307" y2="279.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="306.1" cy="269.2" r="4" fill="#2f7de1" stroke="#fff"><title>Kerrigan (SMX1KerriganInfestedWithLight)</title></circle>
+<text x="312.1" y="281.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Kerrigan</text>
+<line x1="313.2" y1="264.5" x2="311.7" y2="274.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="313.2" cy="264.5" r="4" fill="#2f7de1" stroke="#fff"><title>Raynor (SMRaynorMarine)</title></circle>
+<text x="319.2" y="276.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Raynor</text>
+<line x1="327.7" y1="378.4" x2="329.9" y2="368.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="327.7" cy="378.4" r="4" fill="#2f7de1" stroke="#fff"><title>Tassadar (SMX2_Tassadar_Ghost)</title></circle>
+<text x="333.7" y="390.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Tassadar</text>
+<line x1="324.1" y1="573.2" x2="325.1" y2="563.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="324.1" cy="573.2" r="4" fill="#2f7de1" stroke="#fff"><title>Ouros (SMX2Ouros)</title></circle>
+<text x="330.1" y="585.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Ouros</text>
+<line x1="224.8" y1="548.7" x2="225.8" y2="538.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="224.8" cy="548.7" r="4" fill="#2f7de1" stroke="#fff"><title>Ouros OTS (SMX2Ouros)</title></circle>
+<text x="230.8" y="560.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Ouros OTS</text>
+<line x1="306.5" y1="239.1" x2="313.8" y2="245.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="306.5" cy="239.1" r="4" fill="#2f7de1" stroke="#fff"><title>Intro Artanis (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="312.5" y="251.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Intro Artanis</text>
+<line x1="308.8" y1="268.4" x2="314.9" y2="276.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="308.8" cy="268.4" r="4" fill="#2f7de1" stroke="#fff"><title>4shot Kerrigan (SMX1KerriganInfestedWithLight)</title></circle>
+<text x="314.8" y="280.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">4shot Kerrigan</text>
+<line x1="312.8" y1="265.9" x2="313.5" y2="275.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="312.8" cy="265.9" r="4" fill="#2f7de1" stroke="#fff"><title>4shot Raynor (SMRaynorMarine)</title></circle>
+<text x="318.8" y="277.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">4shot Raynor</text>
+<line x1="320.3" y1="264.3" x2="321.3" y2="274.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="320.3" cy="264.3" r="4" fill="#2f7de1" stroke="#fff"><title>4shot Artanis (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="326.3" y="276.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">4shot Artanis</text>
+<line x1="260.2" y1="183.7" x2="261.9" y2="193.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="260.2" cy="183.7" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis Far Shot (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="266.2" y="195.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis Far Shot</text>
+<line x1="249" y1="183.7" x2="257.1" y2="189.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="249" cy="183.7" r="4" fill="#2f7de1" stroke="#fff"><title>Kerrigan Far Shot (SMX1KerriganInfestedWithLight)</title></circle>
+<text x="255" y="195.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Kerrigan Far Shot</text>
+<line x1="254" y1="183" x2="257.6" y2="192.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="254" cy="183" r="4" fill="#2f7de1" stroke="#fff"><title>Raynor Far Shot (SMRaynorMarine)</title></circle>
+<text x="260" y="195" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Raynor Far Shot</text>
+<line x1="306.1" y1="269.2" x2="316" y2="270.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="306.1" cy="269.2" r="4" fill="#2f7de1" stroke="#fff"><title>emote Kerrigan (SMX1KerriganInfestedWithLight)</title></circle>
+<text x="312.1" y="281.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">emote Kerrigan</text>
+<line x1="313.2" y1="264.5" x2="305" y2="270.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="313.2" cy="264.5" r="4" fill="#2f7de1" stroke="#fff"><title>emote Raynor (SMRaynorMarine)</title></circle>
+<text x="319.2" y="276.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">emote Raynor</text>
+</g>
+<line x1="139.5" y1="584.4" x2="195.6" y2="584.4" stroke="#333" stroke-width="2"/>
+<line x1="139.5" y1="580.4" x2="139.5" y2="588.4" stroke="#333"/><line x1="150.7" y1="580.4" x2="150.7" y2="588.4" stroke="#333"/>
+<text x="139.5" y="578.4" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">2 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_Epilogue01Post.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMX2CutsceneEpilogue01Post</text>
+<text x="560" y="132" font-size="9" fill="#333">Screens: none known; not read:</text>
+<text x="560" y="144" font-size="9" fill="#333">SMShadowbox</text>
+<text x="560" y="156" font-size="9" fill="#333">Marks: 16; cameras: 29 (27 aimed</text>
+<text x="560" y="168" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="180" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="192" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="204" font-size="9" fill="#333"></text>
+<text x="560" y="216" font-size="9" fill="#333">Models:</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX2_Epilogue_Asteroid00 ×2</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX2_Epilogue_Asteroid01 ×2</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX2_Epilogue_Asteroid02 ×2</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX2_Epilogue_Asteroid03 ×2</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX2_Epilogue_Asteroid04 ×2</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX2_Epilogue_Asteroid05 ×2</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX2_Epilogue_Asteroid06 ×2</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX2_Epilogue_Asteroid07 ×2</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX2_Epilogue_Asteroid08 ×2</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX2_Epilogue_Asteroid09 ×2</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX2_Epilogue_AsteroidCluster ×2</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX2_Epilogue_Platform ×2</text>
+<text x="560" y="372" font-size="9" fill="#333">SMShadowbox ×1</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX2_Epilogue_Debrief_Clouds ×1</text>
+<text x="560" y="396" font-size="9" fill="#333"></text>
+<text x="560" y="408" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="420" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="432" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_Epilogue01Post.SC2Cutscene</text>
+</svg>

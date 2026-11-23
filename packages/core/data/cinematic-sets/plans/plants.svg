@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="648" viewBox="0 0 760 648" font-family="Helvetica, Arial, sans-serif">
+<title>Plants: cinematic set</title>
+<rect width="760" height="648" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Plants</text>
+<text x="24" y="54" font-size="10" fill="#666">plants · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="163.8" y="478.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_02</title></rect>
+<rect x="169.8" y="480.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_02</title></rect>
+<rect x="162.4" y="505.2" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_03, Glue_GenericRocks12</title></rect>
+<text x="170.4" y="511.2" font-size="8" fill="#6d6458">2</text>
+<rect x="178.6" y="479.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_03</title></rect>
+<rect x="181.1" y="484.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_03</title></rect>
+<rect x="195.2" y="439.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_03</title></rect>
+<rect x="200.1" y="480.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_04</title></rect>
+<rect x="241.6" y="383.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_04</title></rect>
+<rect x="279.9" y="395.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_04</title></rect>
+<rect x="178.9" y="471" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_05</title></rect>
+<rect x="190" y="481.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_05</title></rect>
+<rect x="166.1" y="335.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_01</title></rect>
+<rect x="240.3" y="310.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_01</title></rect>
+<rect x="185.3" y="477.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_07</title></rect>
+<rect x="167.9" y="487.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_07</title></rect>
+<rect x="182.8" y="486.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_08</title></rect>
+<rect x="171.5" y="478.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_08</title></rect>
+<rect x="204.7" y="380.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_04</title></rect>
+<rect x="253.3" y="389.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="295.4" y="417.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="240.7" y="466.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="260.7" y="459.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="311.2" y="328.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="166" y="484.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks09</title></rect>
+<rect x="211.3" y="390.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="235.5" y="412.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks14</title></rect>
+<rect x="273.5" y="395.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="201.3" y="464.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks15</title></rect>
+<rect x="155.4" y="477.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="183.2" y="506.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="194.3" y="414.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="165.3" y="482.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="179.1" y="469.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="230.6" y="362.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="183.5" y="422.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks02</title></rect>
+<rect x="310.3" y="356.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks02</title></rect>
+<rect x="196.7" y="488.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="170.7" y="475.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="192" y="472.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="176" y="486.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="160.7" y="491.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="172.2" y="503.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="188.8" y="496" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="167" y="458.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="211.5" y="453.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="228.1" y="458.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="265.3" y="425.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="181.4" y="475.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="241.9" y="400.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="189.3" y="405.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="230.8" y="430.2" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>UI_Screens_Void_Landing_ImpactCrater, UI_Screens_Void_Landing_ImpactCrater, UI_Screens_Void_Landing_ImpactCrater</title></rect>
+<text x="239.8" y="436.7" font-size="8" fill="#6d6458">3</text>
+<rect x="220.2" y="471.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusSet</title></rect>
+<rect x="180.6" y="513.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusSet_04</title></rect>
+<rect x="213.3" y="405.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusSet_05</title></rect>
+<rect x="263.6" y="563.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusSet_04</title></rect>
+<rect x="197.7" y="491.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusSet_05</title></rect>
+<rect x="160.1" y="512.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusSet_05</title></rect>
+<rect x="227.3" y="432.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusSet_05</title></rect>
+<rect x="210.1" y="440.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="232.6" y="430.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1PrimalZergCommanderT1</title></rect>
+<rect x="291.3" y="91.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>BirdDriftSeeker</title></rect>
+<rect x="407.6" y="314.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>BirdDriftSeeker</title></rect>
+<rect x="179.3" y="471.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Waterfall</title></rect>
+<rect x="174.2" y="480.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scantipede</title></rect>
+<rect x="177.7" y="492.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Scantipede</title></rect>
+<polygon points="210,466.8 201.9,443.9 233,459" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="210" cy="466.8" r="2.5" fill="#7b4bd1"><title>Target Camera</title></circle>
+<text x="214" y="463.8" font-size="8" fill="#5a3a9a">Target Camera</text>
+</g>
+<line x1="141.7" y1="581.9" x2="222.8" y2="581.9" stroke="#333" stroke-width="2"/>
+<line x1="141.7" y1="577.9" x2="141.7" y2="585.9" stroke="#333"/><line x1="157.9" y1="577.9" x2="157.9" y2="585.9" stroke="#333"/>
+<text x="141.7" y="575.9" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuDehaka.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: MainMenuDehaka</text>
+<text x="560" y="132" font-size="9" fill="#333">Screens: none known; not read:</text>
+<text x="560" y="144" font-size="9" fill="#333">Glue_GenericRocks00,</text>
+<text x="560" y="156" font-size="9" fill="#333">Glue_GenericRocks01,</text>
+<text x="560" y="168" font-size="9" fill="#333">Glue_GenericRocks02,</text>
+<text x="560" y="180" font-size="9" fill="#333">Glue_GenericRocks03,</text>
+<text x="560" y="192" font-size="9" fill="#333">Glue_GenericRocks09,</text>
+<text x="560" y="204" font-size="9" fill="#333">Glue_GenericRocks12,</text>
+<text x="560" y="216" font-size="9" fill="#333">Glue_GenericRocks14,</text>
+<text x="560" y="228" font-size="9" fill="#333">Glue_GenericRocks15, SMShadowbox</text>
+<text x="560" y="240" font-size="9" fill="#333">Marks: 0; cameras: 1 (1 aimed</text>
+<text x="560" y="252" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="264" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="276" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="288" font-size="9" fill="#333"></text>
+<text x="560" y="300" font-size="9" fill="#333">Models:</text>
+<text x="560" y="312" font-size="9" fill="#333">BirdDriftSeeker</text>
+<text x="560" y="324" font-size="9" fill="#333">Glue_GenericRocks00</text>
+<text x="560" y="336" font-size="9" fill="#333">Glue_GenericRocks01</text>
+<text x="560" y="348" font-size="9" fill="#333">Glue_GenericRocks02</text>
+<text x="560" y="360" font-size="9" fill="#333">Glue_GenericRocks03</text>
+<text x="560" y="372" font-size="9" fill="#333">Glue_GenericRocks09</text>
+<text x="560" y="384" font-size="9" fill="#333">Glue_GenericRocks12</text>
+<text x="560" y="396" font-size="9" fill="#333">Glue_GenericRocks14</text>
+<text x="560" y="408" font-size="9" fill="#333">Glue_GenericRocks15</text>
+<text x="560" y="420" font-size="9" fill="#333">Scantipede</text>
+<text x="560" y="432" font-size="9" fill="#333">SMShadowbox</text>
+<text x="560" y="444" font-size="9" fill="#333">SMX1_ZerusParts_01</text>
+<text x="560" y="456" font-size="9" fill="#333">SMX1_ZerusParts_02</text>
+<text x="560" y="468" font-size="9" fill="#333">SMX1_ZerusParts_03</text>
+<text x="560" y="480" font-size="9" fill="#333">SMX1_ZerusParts_04</text>
+<text x="560" y="492" font-size="9" fill="#333">SMX1_ZerusParts_05</text>
+<text x="560" y="504" font-size="9" fill="#333">SMX1_ZerusParts_07</text>
+<text x="560" y="516" font-size="9" fill="#333">SMX1_ZerusParts_08</text>
+<text x="560" y="528" font-size="9" fill="#333">SMX1_ZerusSet</text>
+<text x="560" y="540" font-size="9" fill="#333">SMX1_ZerusSet_04</text>
+<text x="560" y="552" font-size="9" fill="#333">SMX1_ZerusSet_05</text>
+<text x="560" y="564" font-size="9" fill="#333">SMX1PrimalZergCommanderT1</text>
+<text x="560" y="576" font-size="9" fill="#333">UI_Screens_Void_Landing_ImpactCrater</text>
+<text x="560" y="588" font-size="9" fill="#333">Waterfall</text>
+<text x="560" y="600" font-size="9" fill="#333"></text>
+<text x="560" y="612" font-size="9" fill="#333">Also in:</text>
+</svg>

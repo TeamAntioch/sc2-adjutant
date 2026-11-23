@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>SMHyperionBridgeStage: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">SMHyperionBridgeStage</text>
+<text x="24" y="54" font-size="10" fill="#666">smhyperionbridgestage · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="280.5" y="326.5" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMHyperionBridgeStage1BattleCommandHS, SMHyperionBridgeStage1Set2, SMHyperionBridgeStage1Set</title></rect>
+<text x="289.5" y="333" font-size="8" fill="#6d6458">3</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2maps/maps/campaign/nova/nova02.sc2map/base.sc2data/Cutscenes/Untitled</text>
+<text x="560" y="120" font-size="9" fill="#333">Scene1.SC2Cutscene</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 0 (0 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">SMHyperionBridgeStage1BattleCommandHS</text>
+<text x="560" y="216" font-size="9" fill="#333">SMHyperionBridgeStage1Set</text>
+<text x="560" y="228" font-size="9" fill="#333">SMHyperionBridgeStage1Set2</text>
+<text x="560" y="240" font-size="9" fill="#333"></text>
+<text x="560" y="252" font-size="9" fill="#333">Also in:</text>
+</svg>

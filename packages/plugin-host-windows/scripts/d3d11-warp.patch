@@ -1,0 +1,23 @@
+diff --git a/src/gfx/d3d11/d3d11_device.cpp b/src/gfx/d3d11/d3d11_device.cpp
+--- a/src/gfx/d3d11/d3d11_device.cpp
++++ b/src/gfx/d3d11/d3d11_device.cpp
+@@ -140,8 +140,18 @@ bool D3D11Device::Init(bool enableValidation) {
+     if (enableValidation)
+         flags |= D3D11_CREATE_DEVICE_DEBUG;
+
++    // WF_D3D11_WARP=1 creates the device on WARP, Windows' software rasterizer, in place of a GPU:
++    // for machines whose GPU driver can't run the renderer (some virtual machines, CI runners).
++    char warpEnv[8]{};
++    size_t warpLen = 0;
++    const bool warp = getenv_s(&warpLen, warpEnv, sizeof(warpEnv), "WF_D3D11_WARP") == 0 && warpEnv[0] == '1';
++    if (warp && bestAdapter) {
++        bestAdapter->Release();
++        bestAdapter = nullptr;
++    }
++
+     D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+     hr = D3D11CreateDevice(
+-        bestAdapter, bestAdapter ? D3D_DRIVER_TYPE_UNKNOWN : D3D_DRIVER_TYPE_HARDWARE, nullptr,
++        bestAdapter, bestAdapter ? D3D_DRIVER_TYPE_UNKNOWN : (warp ? D3D_DRIVER_TYPE_WARP : D3D_DRIVER_TYPE_HARDWARE), nullptr,
+         flags, &featureLevel, 1, D3D11_SDK_VERSION, &device_, nullptr, &context_);
+

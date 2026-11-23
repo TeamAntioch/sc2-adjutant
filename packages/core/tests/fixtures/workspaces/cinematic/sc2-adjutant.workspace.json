@@ -1,0 +1,5 @@
+{
+  "campaign": { "id": "fixtures", "name": "Fixture Campaign" },
+  "missions": "missions",
+  "plugins": ["bundled:hazard", "./plugins/noon"]
+}

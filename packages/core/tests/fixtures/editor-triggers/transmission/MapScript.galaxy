@@ -1,0 +1,156 @@
+//==================================================================================================
+// 
+// Generated Map Script
+// 
+// Name:   Trigger Test
+// 
+//==================================================================================================
+include "TriggerLibs/NativeLib"
+include "TriggerLibs/VoidCampaignMissionLib"
+
+//--------------------------------------------------------------------------------------------------
+// Library Initialization
+//--------------------------------------------------------------------------------------------------
+void InitLibs () {
+    libNtve_InitLib();
+    libVCMI_InitLib();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------------------
+int gv_objective;
+
+void InitGlobals () {
+    gv_objective = c_invalidObjectiveId;
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger Variables
+//--------------------------------------------------------------------------------------------------
+trigger gt_Objective;
+trigger gt_MissionStart;
+trigger gt_OpeningTransmission;
+trigger gt_VictoryZealotDies;
+trigger gt_DefeatZeratulDies;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Objective
+//--------------------------------------------------------------------------------------------------
+bool gt_Objective_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    ObjectiveSetState(gv_objective, c_objectiveStateCompleted);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Objective_Init () {
+    gt_Objective = TriggerCreate("gt_Objective_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Mission Start
+//--------------------------------------------------------------------------------------------------
+bool gt_MissionStart_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    ObjectiveCreate(StringExternal("Param/Value/0E923541"), StringExternal("Param/Value/C957D51C"), c_objectiveStateActive, true);
+    gv_objective = ObjectiveLastCreated();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MissionStart_Init () {
+    gt_MissionStart = TriggerCreate("gt_MissionStart_Func");
+    TriggerAddEventMapInit(gt_MissionStart);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Opening Transmission
+//--------------------------------------------------------------------------------------------------
+bool gt_OpeningTransmission_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libVCMI_gf_SendTransmissionCampaignPlaceHolder(UnitFromId(1379696451), null, StringExternal("Param/Value/4A65B758"), StringExternal("Param/Value/10B2D2D1"), 5.0, false, libVCMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libVCMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior);
+    TriggerExecute(gt_Objective, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_OpeningTransmission_Init () {
+    gt_OpeningTransmission = TriggerCreate("gt_OpeningTransmission_Func");
+    TriggerAddEventMapInit(gt_OpeningTransmission);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Victory - Zealot Dies
+//--------------------------------------------------------------------------------------------------
+bool gt_VictoryZealotDies_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    GameOver(1, c_gameOverVictory, true, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_VictoryZealotDies_Init () {
+    gt_VictoryZealotDies = TriggerCreate("gt_VictoryZealotDies_Func");
+    TriggerAddEventUnitDied(gt_VictoryZealotDies, UnitRefFromUnit(UnitFromId(1621849861)));
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Defeat - Zeratul Dies
+//--------------------------------------------------------------------------------------------------
+bool gt_DefeatZeratulDies_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    GameOver(1, c_gameOverDefeat, true, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DefeatZeratulDies_Init () {
+    gt_DefeatZeratulDies = TriggerCreate("gt_DefeatZeratulDies_Func");
+    TriggerAddEventUnitDied(gt_DefeatZeratulDies, UnitRefFromUnit(UnitFromId(1379696451)));
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger Initialization
+//--------------------------------------------------------------------------------------------------
+void InitTriggers () {
+    gt_Objective_Init();
+    gt_MissionStart_Init();
+    gt_OpeningTransmission_Init();
+    gt_VictoryZealotDies_Init();
+    gt_DefeatZeratulDies_Init();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Map Initialization
+//--------------------------------------------------------------------------------------------------
+void InitMap () {
+    InitLibs();
+    InitGlobals();
+    InitTriggers();
+}

@@ -1,0 +1,4 @@
+﻿FunctionDef/Grammar/lib_NovC_7CC40560=Apply User Tech Choices to Player ~player~
+FunctionDef/Hint/lib_NovC_7CC40560=Takes the tech choices that the user (the one playing the game) has made and applies them to another Player Slot in a map.
+FunctionDef/Name/lib_NovC_7CC40560=Apply User Tech Choices to Player
+ParamDef/Name/lib_NovC_7F430B3D=Player

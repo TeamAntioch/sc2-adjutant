@@ -1,0 +1,6 @@
+{
+  "name": "bare-host",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["host-adapter"]
+}

@@ -1,0 +1,4 @@
+int libNCMI_gf_CampaignPlayerColor () {
+    // Implementation
+    return 14;
+}

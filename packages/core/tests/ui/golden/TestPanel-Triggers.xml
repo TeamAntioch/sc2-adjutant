@@ -1,0 +1,33 @@
+        <Element Type="Category" Id="1E220B14">
+            <Label Type="Label" Library="Ntve" Id="00000026"/>
+            <Item Type="FunctionDef" Library="Hbr1" Id="EC7798FC"/>
+            <Item Type="FunctionDef" Library="Hbr1" Id="73F7AAE3"/>
+        </Element>
+        <Element Type="FunctionDef" Id="EC7798FC">
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="Hbr1" Id="E49F3270"/>
+            <FunctionCall Type="FunctionCall" Library="Hbr1" Id="3CF6B459"/>
+        </Element>
+        <Element Type="ParamDef" Id="E49F3270">
+            <ParameterType>
+                <Type Value="text"/>
+            </ParameterType>
+        </Element>
+        <Element Type="FunctionCall" Id="3CF6B459">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
+            <ScriptCode>
+                int lv_panel = DialogControlHookupStandard(c_triggerControlTypePanel, &quot;UIContainer/ConsoleUIContainer/TestPanel&quot;);
+                DialogControlSetPropertyAsText(DialogControlHookup(lv_panel, c_triggerControlTypeLabel, &quot;Title&quot;), c_triggerControlPropertyText, PlayerGroupAll(), lp_title);
+                DialogControlSetVisible(lv_panel, PlayerGroupAll(), true);
+            </ScriptCode>
+        </Element>
+        <Element Type="FunctionDef" Id="73F7AAE3">
+            <FlagAction/>
+            <FunctionCall Type="FunctionCall" Library="Hbr1" Id="9DC26540"/>
+        </Element>
+        <Element Type="FunctionCall" Id="9DC26540">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000123"/>
+            <ScriptCode>
+                DialogControlSetVisible(DialogControlHookupStandard(c_triggerControlTypePanel, &quot;UIContainer/ConsoleUIContainer/TestPanel&quot;), PlayerGroupAll(), false);
+            </ScriptCode>
+        </Element>

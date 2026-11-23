@@ -1,0 +1,30 @@
+# The Doodad Finder Narrows Locally, Then Ranks with a Swappable Ranker, in Its Own Package
+
+A Doodad Search is slow on purpose: an agent runs keyword queries, looks at each candidate's picture and writes a note on it. The author also wants to ask for doodads many times in a row and see candidates at once, so the Doodad Finder (#630) answers each ask in well under a second, from text alone, and hands only the cards the author ticks to a Doodad Search for judging from pictures.
+
+**Narrow, then rank.** Each ask runs two local searches beside each other: core's keyword search (names, ids, looks and Doodad Uses, about 100 results) and an embeddings search over the same text (about 100 results), merged without duplicates. The doodads the Mission's dependencies provide are never cut at this step. A ranker then grades every remaining candidate against the ask. The whole catalog is never sent to a model per ask. Jev, the default ranker, chooses among at most 255 options and takes 64k tokens per request, so it can't take the catalog at once. Narrowing also gives every ranker the same candidates, so they can be compared fairly.
+
+**Local embeddings, not an API.** The embeddings model runs on the author's machine, so narrowing stays under 50 ms with no network call. Its vectors are a git-ignored cache that the Finder's process keeps current by re-embedding only the entries whose text changed. They are tied to one model, and they are only a copy of committed text.
+
+**A swappable ranker, Jev by default.** The ranker is a slot holding two: Jev (TypeSafe AI's System One model: typed, calibrated answers in hundreds of milliseconds) and Claude Haiku through the Anthropic API. Both grade each candidate on the same four levels, from *doesn't fit* to *reads as exactly this*, so the Finder's test command compares them on the same past searches. Jev is the default because it is fast. Haiku is kept as the comparison, and as the fallback if Jev's early access changes. Which ranker is the default is decided by the test command's numbers, not by this record. Amended on #678 (2026-11-11), for the public Finder (ADR-0022): Jev is the only ranker, and Haiku and the Anthropic SDK are removed everywhere. The slot stays, internal, so tests can fill it with fakes. With no key, the Finder shows the narrowing's order. A `search.json` naming Haiku as its ranker no longer parses; none had been written. Each session stops calling Jev once its estimated spend reaches a cap, $1.00 unless `--budget` sets another, and the page says why.
+
+**Its own package.** The Finder lives in `packages/doodad-finder`, which depends on core. Core keeps the catalog, the keyword search, Doodad Uses and `search.json`. The embeddings model (about 100 MB), the TypeSafe SDK (and the Anthropic SDK, until #678 removed it) and the handling of credentials stay out of core, which every MCP install carries. Core's MCP server serves the Finder's narrowing and Jev ranking to agents as `find_doodads` (#665) only when the package is beside core, as in an sc2-adjutant checkout: it loads the package with a dynamic import, and core gains no dependency on it. Amended on #843: core lists the package as an optional dependency, so an npm install has `find_doodads` by default and `--omit=optional` leaves the model and SDKs out. Core still imports nothing of it: the server finds it by its package name and loads it with the same dynamic import.
+
+**Ticked cards are a shortlist, not judged candidates.** The Finder writes the Doodad Search it started as `search.json`, with each Search Part's ticked ids in a `shortlist` and the asks that found them in `asks`. A shortlist has no notes. The page builder refuses to build while any part's shortlist is unjudged, so a card with no note written from its picture never reaches the author's page. Amended on #678: ticked cards collect in a tray, which the public Finder copies ids and dependencies from. sc2-adjutant's Finder keeps the tray for an object the author names (or reopens) there, an option of the start function, and writes its Doodad Search on every change; look closer is a tray action that hands it over.
+
+## Considered Options
+
+- **The whole catalog, trimmed, in one cached LLM prompt per ask.** It matches by meaning with no narrowing to miss anything, but every ask still reads 25–30k tokens, it can't use Jev, and it takes seconds.
+- **An embeddings API.** Better vectors, but a network round trip on every keystroke the narrowing follows.
+- **An LLM that rewrites the ask into keywords for core's search.** Nothing new to build, but an LLM call before the ranker, which loses most of what Jev gains.
+- **Jev only.** One ranker less to build, but nothing to compare it with, and no Finder if Jev's early access changes.
+- **Haiku through the author's Claude subscription (`claude -p` or the Agent SDK).** No API credentials, but each ask would start an agent process, so the comparison would mostly measure process start-up.
+- **The Finder inside core.** One package to build, but every install would carry the model and two AI SDKs.
+- **Ticked cards written as candidates with the catalog's look as their note.** No schema change, but the page would show unjudged cards as if they had been judged.
+
+## Consequences
+
+- Core's keyword search must return about 100 results for the Finder, more than a Doodad Search asks for.
+- A doodad the narrowing misses never reaches the ranker. The test command reports the narrowing's hit rate on its own, so a miss there shows up before ranking is blamed.
+- Jev needs `TYPESAFE_API_KEY`, from the environment or the macOS Keychain. Haiku uses whatever credential the Anthropic SDK finds, normally an `ant auth login` profile. A missing credential turns off only its ranker, and narrowing still works. Amended on #678: Jev reads `TYPESAFE_API_KEY` from the environment only, on every platform, and the Keychain lookup is gone with Haiku.
+- A Doodad Use added on acceptance is findable by meaning on the next ask, once the Finder's process has re-embedded that doodad.

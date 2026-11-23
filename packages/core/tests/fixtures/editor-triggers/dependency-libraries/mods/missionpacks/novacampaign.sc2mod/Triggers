@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="NovC">
+        <Root>
+            <Item Type="FunctionDef" Library="NovC" Id="7CC40560"/>
+        </Root>
+        <Element Type="FunctionDef" Id="7CC40560">
+            <Label Type="Label" Library="Ntve" Id="0677E49B"/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="NovC" Id="7F430B3D"/>
+            <FunctionCall Type="FunctionCall" Library="NovC" Id="7B3AB3BF"/>
+        </Element>
+        <Element Type="ParamDef" Id="7F430B3D">
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+        </Element>
+        <Element Type="FunctionCall" Id="7B3AB3BF">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="619CB57C"/>
+            <Parameter Type="Param" Library="NovC" Id="1681CF9F"/>
+        </Element>
+        <Element Type="Param" Id="1681CF9F">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="0A53C404"/>
+            <Parameter Type="ParamDef" Library="NovC" Id="7F430B3D"/>
+        </Element>
+    </Library>
+</TriggerData>

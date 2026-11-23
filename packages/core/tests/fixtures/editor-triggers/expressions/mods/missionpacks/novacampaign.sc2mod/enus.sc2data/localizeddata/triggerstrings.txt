@@ -1,0 +1,10 @@
+﻿FunctionDef/Grammar/lib_NovC_0E4867F4=For each army tech item ~indexTechItem~
+FunctionDef/Hint/lib_NovC_67D7E57D=The unit that this tech item has been assigned to, if any.
+FunctionDef/Name/lib_NovC_0E4867F4=NC_ForEachArmyTechItem
+FunctionDef/Name/lib_NovC_13D859D1=NC_DebugCampaignTechStoreStates
+FunctionDef/Name/lib_NovC_67D7E57D=NC_ArmyTechItemAssignedUnit
+ParamDef/Name/lib_NovC_8D505BDA=IndexTechItem
+ParamDef/Name/lib_NovC_DD7B7325=TechItem
+SubFuncType/Name/lib_NovC_04FA8B59=Actions
+Variable/Name/lib_NovC_2271CED0=IndexTechItem
+Variable/Name/lib_NovC_906D06A3=IndexEquipment

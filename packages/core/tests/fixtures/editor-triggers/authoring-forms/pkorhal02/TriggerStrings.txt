@@ -1,0 +1,12 @@
+Structure/Name/1E054BDF=RECORD_EnemyCamp
+Trigger/Name/602A6382=Enemy Camp Controller
+Trigger/Name/A2FEFBBF=Enemy Camp Init
+Variable/Name/022D0478=EnemyCamps
+Variable/Name/089763F7=UnitIndex
+Variable/Name/1030A27A=PLAYER_04_MC_MAIN
+Variable/Name/971EF042=AggroRegion
+Variable/Name/9C7C898D=EnemyCampsCount
+Variable/Name/B0E2D908=UnitGroup
+Variable/Name/E09142D1=HomePosition
+Variable/Name/E67E10BF=TargetDummies
+Variable/Name/F0AC3E2A=EnemyCampIndex

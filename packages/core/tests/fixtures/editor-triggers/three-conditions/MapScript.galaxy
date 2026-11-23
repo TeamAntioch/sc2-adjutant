@@ -1,0 +1,39 @@
+int gv_p4_COLONISTS;
+unitgroup gv_convoyGuards;
+trigger gt_AddConvoyMarineintoUnitGroup;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Add Convoy Marine into Unit Group
+//--------------------------------------------------------------------------------------------------
+bool gt_AddConvoyMarineintoUnitGroup_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitGroupHasUnit(gv_convoyGuards, EventUnit()) == false))) {
+            return false;
+        }
+
+        if (!((UnitGetOwner(EventUnit()) == gv_p4_COLONISTS))) {
+            return false;
+        }
+
+        if (!((UnitGetType(EventUnit()) == "Marine"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitGroupAdd(gv_convoyGuards, EventUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_AddConvoyMarineintoUnitGroup_Init () {
+    gt_AddConvoyMarineintoUnitGroup = TriggerCreate("gt_AddConvoyMarineintoUnitGroup_Func");
+    TriggerAddEventUnitRegion(gt_AddConvoyMarineintoUnitGroup, null, RegionFromId(15), true);
+}
+

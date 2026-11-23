@@ -1,0 +1,70 @@
+name: Publish
+
+# Publishes the public packages to npm (#853), from a `v*` tag, and nowhere else: never from a
+# laptop. A tag run refuses a tag whose version isn't every public package's and the plugin's, then
+# runs npm ci, the build and the tests, then `npm publish --provenance --access public` for each
+# public package in dependency order, core first (scripts/publish-packages.mjs, in the order of
+# scripts/public-packages.mjs). The npm token is the repo secret NPM_TOKEN.
+#
+# On a pull request it runs `npm publish --dry-run` for each one instead, which publishes nothing
+# and needs no token, so a bad name, a private package or a missing `files` entry fails before a
+# release. The CI workflow runs the tests for pull requests.
+
+on:
+  push:
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  publish:
+    name: ${{ github.event_name == 'pull_request' && 'npm publish --dry-run' || 'npm publish' }}
+    # Actions minutes are free only for a public repo: while this one is private, every run is
+    # skipped. Only the public repo publishes, never a fork or this private one.
+    if: ${{ !github.event.repository.private && github.repository == 'TeamAntioch/sc2-adjutant' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      # npm's provenance statement is signed with the workflow's OIDC token.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      - name: Refuse a tag whose version isn't the packages'
+        if: github.event_name == 'push'
+        run: node scripts/publish-packages.mjs check --tag "$GITHUB_REF_NAME"
+      - name: Check the packages and the plugin are at one version
+        if: github.event_name == 'pull_request'
+        run: node scripts/publish-packages.mjs check
+      # A compile turns placeholder voices into Ogg Vorbis with ffmpeg, as on an author's machine.
+      - name: Install ffmpeg
+        if: github.event_name == 'push'
+        timeout-minutes: 15
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      # npm ci builds every package (the root's prepare script).
+      - run: npm ci
+      - name: Check the pinned, published catalog packages are what's installed
+        run: node scripts/check-catalog-moved.mjs --installed
+      - run: npm run build
+      - run: npm test
+        if: github.event_name == 'push'
+        timeout-minutes: 30
+      - name: npm publish --dry-run, each public package
+        if: github.event_name == 'pull_request'
+        run: node scripts/publish-packages.mjs publish --dry-run
+      - name: npm publish, each public package
+        if: github.event_name == 'push'
+        run: node scripts/publish-packages.mjs publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

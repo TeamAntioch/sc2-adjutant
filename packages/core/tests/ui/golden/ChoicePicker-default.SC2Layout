@@ -1,0 +1,1027 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="GameUI/UIContainer/FullscreenUpperContainer" file="GameUI">
+        <Frame type="Frame" name="ChoicePicker">
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Frame type="Image" name="Dim">
+                <Anchor relative="$parent"/>
+                <Texture val="Assets\Textures\white.dds"/>
+                <Color val="0,8,6"/>
+                <Alpha val="120"/>
+                <AcceptsMouse val="false"/>
+                <RenderPriority val="450"/>
+            </Frame>
+            <Frame type="Frame" name="Backdrop">
+                <Anchor relative="$parent"/>
+                <AcceptsMouse val="false"/>
+                <Visible val="false"/>
+                <Frame type="Image" name="HexTL">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Width val="828"/>
+                    <Height val="456"/>
+                    <LayerCount val="2"/>
+                    <Texture val="@UI/LoTV_Shared_ScreenFrame_HexGlow" layer="0"/>
+                    <AlphaLayer val="true" layer="0"/>
+                    <WrapUV val="true" layer="0"/>
+                    <TextureCoords top="0" left="0" bottom="1" right="1" layer="0"/>
+                    <Texture val="@UI/LoTV_Shared_ScreenFrame_HexGlowShimmer" layer="1"/>
+                    <WrapUV val="true" layer="1"/>
+                    <Color val="0,255,170"/>
+                    <AcceptsMouse val="false"/>
+                    <RenderPriority val="460"/>
+                    <Animation name="Shimmer">
+                        <Event event="OnShown" action="Play"/>
+                        <Event event="OnShown" action="Reset"/>
+                        <Controller type="LayerUV" layer="1" side="Left" relative="false" sidelock="True" end="Loop">
+                            <Key type="Curve" time="0" value="-1" out="Linear"/>
+                            <Key type="Curve" time="5" value="1" in="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+                <Frame type="Image" name="HexTR">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Width val="828"/>
+                    <Height val="456"/>
+                    <LayerCount val="2"/>
+                    <Texture val="@UI/LoTV_Shared_ScreenFrame_HexGlow" layer="0"/>
+                    <AlphaLayer val="true" layer="0"/>
+                    <WrapUV val="true" layer="0"/>
+                    <TextureCoords top="0" left="1" bottom="1" right="0" layer="0"/>
+                    <Texture val="@UI/LoTV_Shared_ScreenFrame_HexGlowShimmer" layer="1"/>
+                    <WrapUV val="true" layer="1"/>
+                    <Color val="0,255,170"/>
+                    <AcceptsMouse val="false"/>
+                    <RenderPriority val="460"/>
+                    <Animation name="Shimmer">
+                        <Event event="OnShown" action="Play"/>
+                        <Event event="OnShown" action="Reset"/>
+                        <Controller type="LayerUV" layer="1" side="Left" relative="false" sidelock="True" end="Loop">
+                            <Key type="Curve" time="0" value="-1" out="Linear"/>
+                            <Key type="Curve" time="5" value="1" in="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+                <Frame type="Image" name="HexBL">
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Width val="828"/>
+                    <Height val="456"/>
+                    <LayerCount val="2"/>
+                    <Texture val="@UI/LoTV_Shared_ScreenFrame_HexGlow" layer="0"/>
+                    <AlphaLayer val="true" layer="0"/>
+                    <WrapUV val="true" layer="0"/>
+                    <TextureCoords top="1" left="0" bottom="0" right="1" layer="0"/>
+                    <Texture val="@UI/LoTV_Shared_ScreenFrame_HexGlowShimmer" layer="1"/>
+                    <WrapUV val="true" layer="1"/>
+                    <Color val="0,255,170"/>
+                    <AcceptsMouse val="false"/>
+                    <RenderPriority val="460"/>
+                    <Animation name="Shimmer">
+                        <Event event="OnShown" action="Play"/>
+                        <Event event="OnShown" action="Reset"/>
+                        <Controller type="LayerUV" layer="1" side="Left" relative="false" sidelock="True" end="Loop">
+                            <Key type="Curve" time="0" value="-1" out="Linear"/>
+                            <Key type="Curve" time="5" value="1" in="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+                <Frame type="Image" name="HexBR">
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Width val="828"/>
+                    <Height val="456"/>
+                    <LayerCount val="2"/>
+                    <Texture val="@UI/LoTV_Shared_ScreenFrame_HexGlow" layer="0"/>
+                    <AlphaLayer val="true" layer="0"/>
+                    <WrapUV val="true" layer="0"/>
+                    <TextureCoords top="1" left="1" bottom="0" right="0" layer="0"/>
+                    <Texture val="@UI/LoTV_Shared_ScreenFrame_HexGlowShimmer" layer="1"/>
+                    <WrapUV val="true" layer="1"/>
+                    <Color val="0,255,170"/>
+                    <AcceptsMouse val="false"/>
+                    <RenderPriority val="460"/>
+                    <Animation name="Shimmer">
+                        <Event event="OnShown" action="Play"/>
+                        <Event event="OnShown" action="Reset"/>
+                        <Controller type="LayerUV" layer="1" side="Left" relative="false" sidelock="True" end="Loop">
+                            <Key type="Curve" time="0" value="-1" out="Linear"/>
+                            <Key type="Curve" time="5" value="1" in="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+            </Frame>
+            <Frame type="Frame" name="Content">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="-75"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="-75"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Width val="1120"/>
+                <Height val="570"/>
+                <AcceptsMouse val="false"/>
+                <Frame type="Label" name="Header">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="44"/>
+                    <Style val="TutorialVictoryPanelStageNumber"/>
+                    <AcceptsMouse val="false"/>
+                    <RenderPriority val="530"/>
+                </Frame>
+                <Frame type="Label" name="Prompt">
+                    <Anchor side="Top" relative="$parent/Header" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="26"/>
+                    <Style val="InfoPaneHeroWeapon"/>
+                    <AcceptsMouse val="false"/>
+                    <RenderPriority val="530"/>
+                </Frame>
+                <Frame type="Frame" name="Cards1">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="100"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Width val="1120"/>
+                    <Height val="470"/>
+                    <Visible val="false"/>
+                    <Frame type="Button" name="Card1">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Width val="320"/>
+                        <Height val="470"/>
+                        <NormalImage val="NormalImage"/>
+                        <HoverImage val="HoverImage"/>
+                        <Animation name="CardIn">
+                            <Event event="CardIn" action="Reset"/>
+                            <Event event="CardIn" action="Play"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="60" out="Slow"/>
+                                <Key type="Curve" time="0.35" value="0" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Animation name="Chosen">
+                            <Event event="Chosen" action="Reset"/>
+                            <Event event="Chosen" action="Play"/>
+                            <Event event="CardIn" action="Reset"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="0" out="Fast"/>
+                                <Key type="Curve" time="0.2" value="-18" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Frame type="Image" name="Glow">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="50"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="50"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_SelectionGlow"/>
+                            <AcceptsMouse val="false"/>
+                            <Visible val="false"/>
+                            <RenderPriority val="505"/>
+                        </Frame>
+                        <Frame type="Image" name="Frame">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_BG_Small"/>
+                            <Color val="150,255,220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="509"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTL">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTR">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBL">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBR">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="NormalImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Normal"/>
+                            <Alpha val="150"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="HoverImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Hover"/>
+                            <Alpha val="220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="Icon">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="105"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-42"/>
+                            <Width val="84"/>
+                            <Height val="84"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="520"/>
+                        </Frame>
+                        <Frame type="Label" name="Title">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="290"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="34"/>
+                            <Style val="ExitGameTitle"/>
+                            <Options val="NoWrapping|ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Description">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="330"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+                            <Height val="90"/>
+                            <Style val="InfoPaneUnitSubtitle"/>
+                            <Options val="ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Hotkey">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-14"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="26"/>
+                            <Style val="GameFrameLargeBottomButton"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Cards2">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="100"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Width val="1120"/>
+                    <Height val="470"/>
+                    <Visible val="false"/>
+                    <Frame type="Button" name="Card1">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Width val="320"/>
+                        <Height val="470"/>
+                        <NormalImage val="NormalImage"/>
+                        <HoverImage val="HoverImage"/>
+                        <Animation name="CardIn">
+                            <Event event="CardIn" action="Reset"/>
+                            <Event event="CardIn" action="Play"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="60" out="Slow"/>
+                                <Key type="Curve" time="0.35" value="0" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Animation name="Chosen">
+                            <Event event="Chosen" action="Reset"/>
+                            <Event event="Chosen" action="Play"/>
+                            <Event event="CardIn" action="Reset"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="0" out="Fast"/>
+                                <Key type="Curve" time="0.2" value="-18" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Frame type="Image" name="Glow">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="50"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="50"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_SelectionGlow"/>
+                            <AcceptsMouse val="false"/>
+                            <Visible val="false"/>
+                            <RenderPriority val="505"/>
+                        </Frame>
+                        <Frame type="Image" name="Frame">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_BG_Small"/>
+                            <Color val="150,255,220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="509"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTL">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTR">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBL">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBR">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="NormalImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Normal"/>
+                            <Alpha val="150"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="HoverImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Hover"/>
+                            <Alpha val="220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="Icon">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="105"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-42"/>
+                            <Width val="84"/>
+                            <Height val="84"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="520"/>
+                        </Frame>
+                        <Frame type="Label" name="Title">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="290"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="34"/>
+                            <Style val="ExitGameTitle"/>
+                            <Options val="NoWrapping|ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Description">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="330"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+                            <Height val="90"/>
+                            <Style val="InfoPaneUnitSubtitle"/>
+                            <Options val="ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Hotkey">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-14"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="26"/>
+                            <Style val="GameFrameLargeBottomButton"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                    </Frame>
+                    <Frame type="Button" name="Card2">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="800"/>
+                        <Width val="320"/>
+                        <Height val="470"/>
+                        <NormalImage val="NormalImage"/>
+                        <HoverImage val="HoverImage"/>
+                        <Animation name="CardIn">
+                            <Event event="CardIn" action="Reset"/>
+                            <Event event="CardIn" action="Play"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="60" out="Slow"/>
+                                <Key type="Curve" time="0.35" value="0" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Animation name="Chosen">
+                            <Event event="Chosen" action="Reset"/>
+                            <Event event="Chosen" action="Play"/>
+                            <Event event="CardIn" action="Reset"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="0" out="Fast"/>
+                                <Key type="Curve" time="0.2" value="-18" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Frame type="Image" name="Glow">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="50"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="50"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_SelectionGlow"/>
+                            <AcceptsMouse val="false"/>
+                            <Visible val="false"/>
+                            <RenderPriority val="505"/>
+                        </Frame>
+                        <Frame type="Image" name="Frame">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_BG_Small"/>
+                            <Color val="150,255,220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="509"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTL">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTR">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBL">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBR">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="NormalImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Normal"/>
+                            <Alpha val="150"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="HoverImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Hover"/>
+                            <Alpha val="220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="Icon">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="105"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-42"/>
+                            <Width val="84"/>
+                            <Height val="84"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="520"/>
+                        </Frame>
+                        <Frame type="Label" name="Title">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="290"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="34"/>
+                            <Style val="ExitGameTitle"/>
+                            <Options val="NoWrapping|ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Description">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="330"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+                            <Height val="90"/>
+                            <Style val="InfoPaneUnitSubtitle"/>
+                            <Options val="ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Hotkey">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-14"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="26"/>
+                            <Style val="GameFrameLargeBottomButton"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Cards3">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="100"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Width val="1020"/>
+                    <Height val="470"/>
+                    <Visible val="false"/>
+                    <Frame type="Button" name="Card1">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Width val="320"/>
+                        <Height val="470"/>
+                        <NormalImage val="NormalImage"/>
+                        <HoverImage val="HoverImage"/>
+                        <Animation name="CardIn">
+                            <Event event="CardIn" action="Reset"/>
+                            <Event event="CardIn" action="Play"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="60" out="Slow"/>
+                                <Key type="Curve" time="0.35" value="0" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Animation name="Chosen">
+                            <Event event="Chosen" action="Reset"/>
+                            <Event event="Chosen" action="Play"/>
+                            <Event event="CardIn" action="Reset"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="0" out="Fast"/>
+                                <Key type="Curve" time="0.2" value="-18" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Frame type="Image" name="Glow">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="50"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="50"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_SelectionGlow"/>
+                            <AcceptsMouse val="false"/>
+                            <Visible val="false"/>
+                            <RenderPriority val="505"/>
+                        </Frame>
+                        <Frame type="Image" name="Frame">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_BG_Small"/>
+                            <Color val="150,255,220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="509"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTL">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTR">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBL">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBR">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="NormalImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Normal"/>
+                            <Alpha val="150"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="HoverImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Hover"/>
+                            <Alpha val="220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="Icon">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="105"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-42"/>
+                            <Width val="84"/>
+                            <Height val="84"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="520"/>
+                        </Frame>
+                        <Frame type="Label" name="Title">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="290"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="34"/>
+                            <Style val="ExitGameTitle"/>
+                            <Options val="NoWrapping|ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Description">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="330"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+                            <Height val="90"/>
+                            <Style val="InfoPaneUnitSubtitle"/>
+                            <Options val="ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Hotkey">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-14"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="26"/>
+                            <Style val="GameFrameLargeBottomButton"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                    </Frame>
+                    <Frame type="Button" name="Card2">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="350"/>
+                        <Width val="320"/>
+                        <Height val="470"/>
+                        <NormalImage val="NormalImage"/>
+                        <HoverImage val="HoverImage"/>
+                        <Animation name="CardIn">
+                            <Event event="CardIn" action="Reset"/>
+                            <Event event="CardIn" action="Play"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="60" out="Slow"/>
+                                <Key type="Curve" time="0.35" value="0" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Animation name="Chosen">
+                            <Event event="Chosen" action="Reset"/>
+                            <Event event="Chosen" action="Play"/>
+                            <Event event="CardIn" action="Reset"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="0" out="Fast"/>
+                                <Key type="Curve" time="0.2" value="-18" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Frame type="Image" name="Glow">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="50"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="50"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_SelectionGlow"/>
+                            <AcceptsMouse val="false"/>
+                            <Visible val="false"/>
+                            <RenderPriority val="505"/>
+                        </Frame>
+                        <Frame type="Image" name="Frame">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_BG_Small"/>
+                            <Color val="150,255,220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="509"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTL">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTR">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBL">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBR">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="NormalImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Normal"/>
+                            <Alpha val="150"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="HoverImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Hover"/>
+                            <Alpha val="220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="Icon">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="105"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-42"/>
+                            <Width val="84"/>
+                            <Height val="84"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="520"/>
+                        </Frame>
+                        <Frame type="Label" name="Title">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="290"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="34"/>
+                            <Style val="ExitGameTitle"/>
+                            <Options val="NoWrapping|ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Description">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="330"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+                            <Height val="90"/>
+                            <Style val="InfoPaneUnitSubtitle"/>
+                            <Options val="ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Hotkey">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-14"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="26"/>
+                            <Style val="GameFrameLargeBottomButton"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                    </Frame>
+                    <Frame type="Button" name="Card3">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="700"/>
+                        <Width val="320"/>
+                        <Height val="470"/>
+                        <NormalImage val="NormalImage"/>
+                        <HoverImage val="HoverImage"/>
+                        <Animation name="CardIn">
+                            <Event event="CardIn" action="Reset"/>
+                            <Event event="CardIn" action="Play"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="60" out="Slow"/>
+                                <Key type="Curve" time="0.35" value="0" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Animation name="Chosen">
+                            <Event event="Chosen" action="Reset"/>
+                            <Event event="Chosen" action="Play"/>
+                            <Event event="CardIn" action="Reset"/>
+                            <Controller type="Anchor" side="Top" relative="true" end="Pause">
+                                <Key type="Curve" time="0" value="0" out="Fast"/>
+                                <Key type="Curve" time="0.2" value="-18" in="Slow"/>
+                            </Controller>
+                        </Animation>
+                        <Frame type="Image" name="Glow">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="50"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="-50"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="50"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_SelectionGlow"/>
+                            <AcceptsMouse val="false"/>
+                            <Visible val="false"/>
+                            <RenderPriority val="505"/>
+                        </Frame>
+                        <Frame type="Image" name="Frame">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_BG_Small"/>
+                            <Color val="150,255,220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="509"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTL">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerTR">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Top"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBL">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="CornerBR">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Width val="120"/>
+                            <Height val="118"/>
+                            <Texture val="@UI/LoTV_Shared_ScreenFrame_Corner_Bottom"/>
+                            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                            <Color val="140,255,215"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="512"/>
+                        </Frame>
+                        <Frame type="Image" name="NormalImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Normal"/>
+                            <Alpha val="150"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="HoverImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-100"/>
+                            <Width val="200"/>
+                            <Height val="258"/>
+                            <Texture val="@UI/LotV_StoryMode_ArmyUpgrade_Faction_Nerazim_Hover"/>
+                            <Alpha val="220"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="515"/>
+                        </Frame>
+                        <Frame type="Image" name="Icon">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="105"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="-42"/>
+                            <Width val="84"/>
+                            <Height val="84"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="520"/>
+                        </Frame>
+                        <Frame type="Label" name="Title">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="290"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="34"/>
+                            <Style val="ExitGameTitle"/>
+                            <Options val="NoWrapping|ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Description">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="330"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+                            <Height val="90"/>
+                            <Style val="InfoPaneUnitSubtitle"/>
+                            <Options val="ScaleToPreventTruncation"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                        <Frame type="Label" name="Hotkey">
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-14"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                            <Height val="26"/>
+                            <Style val="GameFrameLargeBottomButton"/>
+                            <AcceptsMouse val="false"/>
+                            <RenderPriority val="530"/>
+                        </Frame>
+                    </Frame>
+                </Frame>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

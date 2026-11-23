@@ -1,0 +1,6 @@
+{
+  "campaign": { "id": "fixtures", "name": "Fixture Campaign" },
+  "missions": "missions",
+  "campaignPack": "./plugins/voice-pack",
+  "mods": ["radio-story"]
+}

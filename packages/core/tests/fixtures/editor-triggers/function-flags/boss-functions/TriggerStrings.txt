@@ -1,0 +1,10 @@
+﻿FunctionDef/Grammar/A43E9385=Set Airborne Boss at (~movePoint~) looking at (~lookPoint~)
+FunctionDef/Hint/504F3B69=Sets a checkpoint, saving all unit positions.
+FunctionDef/Hint/A43E9385=Makes the boss go into air mode. Uses own thread so it can happen after cutscene start has paused all units.
+FunctionDef/Name/504F3B69=Set Checkpoint
+FunctionDef/Name/9FA1AC21=Boss - Is In North Half
+FunctionDef/Name/A43E9385=Boss - Switch to Airborne
+ParamDef/Name/1C90B377=Look Point
+ParamDef/Name/A0DDE088=Move Point
+Trigger/Name/5C4F25ED=Test Save Units
+Variable/Name/716F2BD3=Brood Queen

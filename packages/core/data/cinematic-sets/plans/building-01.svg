@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="720" viewBox="0 0 760 720" font-family="Helvetica, Arial, sans-serif">
+<title>Building_01: cinematic set</title>
+<rect width="760" height="720" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Building_01</text>
+<text x="24" y="54" font-size="10" fill="#666">building-01 · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="279" y="103" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Building_00, SMX3_MP03_020_Building_01, SMX3_MP03_020_Building_02, SMX3_MP03_020_Building_04, SMX3_MP03_020_Building_05, SMX3_MP03_020_Building_06</title></rect>
+<text x="291" y="111" font-size="8" fill="#6d6458">6</text>
+<rect x="281.5" y="549.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Building_03</title></rect>
+<line x1="284" y1="108" x2="294" y2="108" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="284" cy="108" r="4" fill="#2f7de1" stroke="#fff"><title>Crowd 00 STAIR BACK LEFT (SMX3_MP03_020_Crowd_00)</title></circle>
+<text x="290" y="120" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Crowd 00 STAIR BACK LEFT</text>
+<line x1="284" y1="552" x2="294" y2="552" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="284" cy="552" r="4" fill="#2f7de1" stroke="#fff"><title>Crowd 01 STAIR BACK LEFT (SMX3_MP03_020_Crowd_01)</title></circle>
+<text x="290" y="564" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Crowd 01 STAIR BACK LEFT</text>
+</g>
+<line x1="195.2" y1="577.3" x2="322" y2="577.3" stroke="#333" stroke-width="2"/>
+<line x1="195.2" y1="573.3" x2="195.2" y2="581.3" stroke="#333"/><line x1="220.6" y1="573.3" x2="220.6" y2="581.3" stroke="#333"/>
+<text x="195.2" y="571.3" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">12 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_CloseUp,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot2,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_Attack_Transition,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_ExteriorShot_Attack</text>
+<text x="560" y="192" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="204" font-size="9" fill="#333">SCREEN RTT s010 s020 s050, SCREEN</text>
+<text x="560" y="216" font-size="9" fill="#333">RTT s070, SCREEN RTT s090, SCREEN</text>
+<text x="560" y="228" font-size="9" fill="#333">RTT s100, SCREEN RTT s120, SCREEN</text>
+<text x="560" y="240" font-size="9" fill="#333">RTT s170</text>
+<text x="560" y="252" font-size="9" fill="#333">Marks: 2; cameras: 0 (0 aimed</text>
+<text x="560" y="264" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="276" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="288" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="300" font-size="9" fill="#333"></text>
+<text x="560" y="312" font-size="9" fill="#333">Models:</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX3_MP03_020_Building_00 ×12</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX3_MP03_020_Building_01 ×12</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX3_MP03_020_Building_02 ×12</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX3_MP03_020_Building_04 ×12</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX3_MP03_020_Building_05 ×12</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX3_MP03_020_Building_06 ×12</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX3_MP03_020_Building_03 ×8</text>
+<text x="560" y="408" font-size="9" fill="#333"></text>
+<text x="560" y="420" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="432" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="444" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="456" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="468" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="480" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="492" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="504" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="516" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="528" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="540" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_020.SC2Cutscene</text>
+<text x="560" y="552" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="564" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+<text x="560" y="576" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="588" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+<text x="560" y="600" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="612" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+<text x="560" y="624" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="636" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+<text x="560" y="648" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="660" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+<text x="560" y="672" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="684" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+</svg>

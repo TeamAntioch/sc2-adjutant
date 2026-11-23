@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="A3DDD02B">
+        <Root>
+            <Item Type="FunctionDef" Library="A3DDD02B" Id="09EFB9A3"/>
+            <Item Type="FunctionDef" Library="A3DDD02B" Id="56D89176"/>
+        </Root>
+        <Element Type="FunctionDef" Id="09EFB9A3">
+            <Label Type="Label" Library="Ntve" Id="C5092BE2"/>
+            <Internal/>
+            <FlagAction/>
+        </Element>
+        <Element Type="FunctionDef" Id="56D89176">
+            <Label Type="Label" Library="Ntve" Id="C5092BE2"/>
+            <Internal/>
+            <FlagAction/>
+            <FunctionCall Type="Comment" Library="A3DDD02B" Id="65F570E1"/>
+        </Element>
+        <Element Type="Comment" Id="65F570E1">
+            <Comment>
+                Store these stats at the beginning of mission to calculate how much gained at the end
+            </Comment>
+        </Element>
+    </Library>
+</TriggerData>

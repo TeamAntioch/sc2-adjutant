@@ -1,0 +1,8 @@
+{
+  "name": "bell-pack",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["campaign-pack"],
+  "contributions": { "campaignMod": "Bell-Story", "mechanics": ["bell"] },
+  "entry": "./index.ts"
+}

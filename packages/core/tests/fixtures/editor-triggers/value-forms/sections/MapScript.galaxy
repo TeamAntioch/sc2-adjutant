@@ -1,0 +1,69 @@
+void gf_CompleteSection (int lp_section) {
+    // Automatic Variable Declarations
+    int auto6B71695A_val;
+    unitgroup autoF597A436_g;
+    int autoF597A436_u;
+    unit autoF597A436_var;
+    unitgroup autoF3371785_g;
+    int autoF3371785_u;
+    unit autoF3371785_var;
+    unitgroup autoB7C7EF86_g;
+    int autoB7C7EF86_u;
+    unit autoB7C7EF86_var;
+
+    // Implementation
+    auto6B71695A_val = lp_section;
+    if (auto6B71695A_val == ge_Area_Environment) {
+        gv_eA.lv_areaCompleteEnvironment = true;
+        DialogControlSetEnabled(gv_sC.lv_buttonEnvironment, PlayerGroupAll(), false);
+        autoF597A436_g = UnitGroup(null, gv_pLAYER_HUMAN, RegionFromId(7), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        autoF597A436_u = UnitGroupCount(autoF597A436_g, c_unitCountAll);
+        for (;; autoF597A436_u -= 1) {
+            autoF597A436_var = UnitGroupUnitFromEnd(autoF597A436_g, autoF597A436_u);
+            if (autoF597A436_var == null) { break; }
+            UnitSetOwner(autoF597A436_var, 0, true);
+        }
+    }
+    else if (auto6B71695A_val == ge_Area_Power) {
+        gv_pA.lv_areaCompletePower = true;
+        DialogControlSetEnabled(gv_sC.lv_buttonPower, PlayerGroupAll(), false);
+        autoF3371785_g = UnitGroup(null, gv_pLAYER_HUMAN, RegionFromId(4), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        autoF3371785_u = UnitGroupCount(autoF3371785_g, c_unitCountAll);
+        for (;; autoF3371785_u -= 1) {
+            autoF3371785_var = UnitGroupUnitFromEnd(autoF3371785_g, autoF3371785_u);
+            if (autoF3371785_var == null) { break; }
+            UnitSetOwner(autoF3371785_var, 0, true);
+        }
+    }
+    else if (auto6B71695A_val == ge_Area_Stabilizer) {
+        gv_sA.lv_areaComplete = true;
+        DialogControlSetEnabled(gv_sC.lv_buttonStabilizer, PlayerGroupAll(), false);
+        autoB7C7EF86_g = UnitGroup(null, gv_pLAYER_HUMAN, RegionFromId(1), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        autoB7C7EF86_u = UnitGroupCount(autoB7C7EF86_g, c_unitCountAll);
+        for (;; autoB7C7EF86_u -= 1) {
+            autoB7C7EF86_var = UnitGroupUnitFromEnd(autoB7C7EF86_g, autoB7C7EF86_u);
+            if (autoB7C7EF86_var == null) { break; }
+            UnitSetOwner(autoB7C7EF86_var, 0, true);
+        }
+    }
+    else {
+    }
+}
+
+bool gf_BossIsAirPhase () {
+    // Automatic Variable Declarations
+    // Implementation
+    if (((gv_bC.lv_phase == ge_BossPhase_Phase2AirOutsideCar) || (gv_bC.lv_phase == ge_BossPhase_Phase4AirAboveCar))) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void gf_BossSetPhase (int lp_phase) {
+    // Automatic Variable Declarations
+    // Implementation
+    gv_bC.lv_phase = lp_phase;
+}
+

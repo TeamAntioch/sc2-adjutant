@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="FunctionDef" Id="2F6EE379"/>
+    </Root>
+    <Element Type="FunctionDef" Id="2F6EE379">
+        <FlagAction/>
+        <Parameter Type="ParamDef" Id="FD3E030B"/>
+        <Parameter Type="ParamDef" Id="FC0DCBA1"/>
+        <Variable Type="Variable" Id="7C7E27C7"/>
+    </Element>
+    <Element Type="ParamDef" Id="FD3E030B">
+        <ParameterType>
+            <Type Value="fixed"/>
+        </ParameterType>
+        <Default Type="Param" Id="283B039B"/>
+    </Element>
+    <Element Type="Param" Id="283B039B">
+        <Value>0</Value>
+        <ValueType Type="fixed"/>
+    </Element>
+    <Element Type="ParamDef" Id="FC0DCBA1">
+        <ParameterType>
+            <Type Value="fixed"/>
+        </ParameterType>
+        <Default Type="Param" Id="287187B0"/>
+    </Element>
+    <Element Type="Param" Id="287187B0">
+        <Value>0</Value>
+        <ValueType Type="fixed"/>
+    </Element>
+    <Element Type="Variable" Id="7C7E27C7">
+        <VariableType>
+            <Type Value="unitgroup"/>
+        </VariableType>
+        <Value Type="Param" Id="6FF44B86"/>
+    </Element>
+    <Element Type="Param" Id="6FF44B86">
+        <FunctionCall Type="FunctionCall" Id="66CB1612"/>
+    </Element>
+    <Element Type="FunctionCall" Id="66CB1612">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000104"/>
+    </Element>
+</TriggerData>

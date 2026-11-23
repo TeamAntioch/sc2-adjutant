@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Planet1: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Planet1</text>
+<text x="24" y="54" font-size="10" fill="#666">planet1 · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="253.3" y="498.3" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_GenericEarth, UI_Screen_MainMenu_WCS_Years, UI_Screen_MainMenu_WCS_SoulsFlyBy</title></rect>
+<text x="262.3" y="504.8" font-size="8" fill="#6d6458">3</text>
+<rect x="253.8" y="470.8" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_Nebula, UI_Screen_MainMenu_WCS_Nebula</title></rect>
+<text x="261.8" y="476.8" font-size="8" fill="#6d6458">2</text>
+<rect x="353" y="155.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_Nebula</title></rect>
+<rect x="254.3" y="173.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_Nebula</title></rect>
+<rect x="211.7" y="155.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_Nebula</title></rect>
+<rect x="210" y="471.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screen_MainMenu_WCS_Nebula</title></rect>
+</g>
+<line x1="78.2" y1="560.6" x2="372.2" y2="560.6" stroke="#333" stroke-width="2"/>
+<line x1="78.2" y1="556.6" x2="78.2" y2="564.6" stroke="#333"/><line x1="137" y1="556.6" x2="137" y2="564.6" stroke="#333"/>
+<text x="78.2" y="554.6" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">8 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2019.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: MainMenuWCS</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 3 (0 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">UI_Screen_MainMenu_WCS_GenericEarth</text>
+<text x="560" y="216" font-size="9" fill="#333">×8</text>
+<text x="560" y="228" font-size="9" fill="#333">UI_Screen_MainMenu_WCS_SoulsFlyBy</text>
+<text x="560" y="240" font-size="9" fill="#333">×8</text>
+<text x="560" y="252" font-size="9" fill="#333">UI_Screen_MainMenu_WCS_Years ×6</text>
+<text x="560" y="264" font-size="9" fill="#333">UI_Screen_MainMenu_WCS2017_Years</text>
+<text x="560" y="276" font-size="9" fill="#333">×2</text>
+<text x="560" y="288" font-size="9" fill="#333"></text>
+<text x="560" y="300" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="312" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="324" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS.SC2Cutscene</text>
+<text x="560" y="336" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="348" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2017.SC2Cutscene</text>
+<text x="560" y="360" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="372" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2018.SC2Cutscene</text>
+<text x="560" y="384" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="396" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS.SC2Cutscene</text>
+<text x="560" y="408" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="420" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2017.SC2Cutscene</text>
+<text x="560" y="432" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="444" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2018.SC2Cutscene</text>
+<text x="560" y="456" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="468" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuWCS2019.SC2Cutscene</text>
+</svg>

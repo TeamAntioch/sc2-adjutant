@@ -1,0 +1,13 @@
+﻿FunctionDef/Name/4369D5D4=Spooge Area with Tumor
+ParamDef/Name/DB1A329B=SpawnPoint
+Trigger/Name/00000038=Victory Cinematic
+Trigger/Name/00000058=Victory Setup
+Trigger/Name/282C0622=Player Is In Combat
+Trigger/Name/48762FB3=Victory Action
+Trigger/Name/654D9447=Victory Cinematic End
+Trigger/Name/937D11D5=Victory Cleanup
+Trigger/Name/A95E8816=Victory Q
+Variable/Name/00000018=P2_ZERG_ORANGE_NW
+Variable/Name/00000020=P4_COLONISTS
+Variable/Name/258CFDF9=InCombatIndicator
+Variable/Name/BB6D5D05=unit

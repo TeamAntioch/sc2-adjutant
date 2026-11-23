@@ -1,0 +1,45 @@
+string libComC_gf_CC_LocationDataString (string lp_planet) {
+    // Implementation
+    return ("CC_L_" + (lp_planet));
+}
+
+void libComC_gf_CC_MissionObjectiveArchiveProgressSet (string lp_objective, int lp_progress) {
+    // Implementation
+    TextExpressionSetToken("Param/Expression/lib_ComC_6F77848E", "A", StringToText((lp_objective)));
+    TextExpressionSetToken("Param/Expression/lib_ComC_6F77848E", "B", IntToText(lp_progress));
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_ComC_6F77848E"), false);
+    DataTableSetInt(true, ("CC_ArchiveObj_" + (lp_objective)), lp_progress);
+}
+
+void libComC_gf_NC_ClampProgressToMission (string lp_mission) {
+    int auto91EB395C_ae;
+    int auto91EB395C_ai;
+
+    // Variable Declarations
+    string lv_indexMission;
+    string lv_indexPerk;
+
+    // Variable Initialization
+
+    // Implementation
+    auto91EB395C_ae = CatalogEntryCount(c_gameCatalogMap);
+    auto91EB395C_ai = 1;
+    while (auto91EB395C_ai <= auto91EB395C_ae) {
+        lv_indexMission = CatalogEntryGet(c_gameCatalogMap, auto91EB395C_ai);
+        auto91EB395C_ai = auto91EB395C_ai + 1;
+        if (CatalogFieldValueGet(c_gameCatalogMap, lv_indexMission, "Kind", 1) == "Mission" && libComC_gf_CC_MapInternal(lv_indexMission) == false) {
+            if ((libComC_gf_MissionStatusCheck(lv_indexMission, libComC_ge_MissionStatus_Available) == true)) {
+                libComC_gf_CC_MissionStatusSet(lv_indexMission, libComC_ge_MissionStatus_Locked);
+            }
+            else if ((libComC_gf_MissionStatusAge(lv_indexMission, libComC_ge_MissionStatus_Completed) < libComC_gf_MissionStatusAge(lp_mission, libComC_ge_MissionStatus_Completed))) {
+                libComC_gf_CC_MissionStatusSet(lv_indexMission, libComC_ge_MissionStatus_Locked);
+            }
+            else if ((lv_indexMission != lp_mission)) {
+                libComC_gf_CC_MissionStatusAgeSet(lv_indexMission, libComC_ge_MissionStatus_Completed, (libComC_gf_MissionStatusAge(lv_indexMission, libComC_ge_MissionStatus_Completed)-libComC_gf_MissionStatusAge(lp_mission, libComC_ge_MissionStatus_Completed)));
+            }
+        }    
+    }
+    libComC_gf_CC_MissionStatusSet(lp_mission, libComC_ge_MissionStatus_Available);
+    libComC_gf_CC_UpdateTechStates(1);
+    libComC_gf_CC_ApplyTech(1);
+}

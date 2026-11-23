@@ -1,0 +1,263 @@
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: ChoicePicker
+//--------------------------------------------------------------------------------------------------
+// The choice picker's state: its frames once hooked up, by card set and card (1-based), the
+// options to show, whether it shows and waits for a pick, the set showing, the pick, a count of
+// Shows and Hides (so a Show that a Hide ended leaves the next one alone), and the triggers for
+// clicks and mouse-enter on the cards and for keys 1-3.
+bool libHbr1_ui_choicePicker_hooked;
+int libHbr1_ui_choicePicker_panel;
+int libHbr1_ui_choicePicker_header;
+int libHbr1_ui_choicePicker_prompt;
+int libHbr1_ui_choicePicker_backdrop;
+int[4] libHbr1_ui_choicePicker_sets;
+int[4][4] libHbr1_ui_choicePicker_cards;
+int[4][4] libHbr1_ui_choicePicker_icons;
+int[4][4] libHbr1_ui_choicePicker_titles;
+int[4][4] libHbr1_ui_choicePicker_descriptions;
+int[4][4] libHbr1_ui_choicePicker_glows;
+string[4] libHbr1_ui_choicePicker_optionIcon;
+text[4] libHbr1_ui_choicePicker_optionTitle;
+text[4] libHbr1_ui_choicePicker_optionDescription;
+bool libHbr1_ui_choicePicker_shown;
+bool libHbr1_ui_choicePicker_waiting;
+int libHbr1_ui_choicePicker_count;
+int libHbr1_ui_choicePicker_choice;
+int libHbr1_ui_choicePicker_session;
+trigger libHbr1_ui_choicePicker_events;
+trigger libHbr1_ui_choicePicker_keys;
+
+// Plays a sound for every player.
+void libHbr1_ui_choicePicker_Play (string lp_sound) {
+    SoundPlayForPlayer(SoundLink(lp_sound, -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+}
+
+// Picks card lp_index of the set showing, while the picker waits for a pick.
+void libHbr1_ui_choicePicker_Choose (int lp_index) {
+    if (!libHbr1_ui_choicePicker_waiting || (libHbr1_ui_choicePicker_choice != 0) || (lp_index < 1) || (lp_index > libHbr1_ui_choicePicker_count)) {
+        return;
+    }
+    libHbr1_ui_choicePicker_choice = lp_index;
+}
+
+// A click on a card picks it; the mouse entering one plays the hover sound, while the picker waits.
+bool libHbr1_ui_choicePicker_EventsFunc (bool testConds, bool runActions) {
+    int lv_control;
+    int lv_index;
+
+    if (!libHbr1_ui_choicePicker_waiting) {
+        return true;
+    }
+    lv_control = EventDialogControl();
+    lv_index = 1;
+    while (lv_index <= libHbr1_ui_choicePicker_count) {
+        if (lv_control == libHbr1_ui_choicePicker_cards[libHbr1_ui_choicePicker_count][lv_index]) {
+            if (EventDialogControlEventType() == c_triggerControlEventTypeMouseEnter) {
+                libHbr1_ui_choicePicker_Play("UI_Void_Roll_Over_3");
+            }
+            else {
+                libHbr1_ui_choicePicker_Choose(lv_index);
+            }
+        }
+        lv_index += 1;
+    }
+    return true;
+}
+
+// Keys 1-3 pick a card; they do nothing while the picker is closed.
+bool libHbr1_ui_choicePicker_KeysFunc (bool testConds, bool runActions) {
+    int lv_key;
+
+    if (!libHbr1_ui_choicePicker_waiting) {
+        return true;
+    }
+    lv_key = EventKeyPressed();
+    if (lv_key == c_key1) {
+        libHbr1_ui_choicePicker_Choose(1);
+    }
+    if (lv_key == c_key2) {
+        libHbr1_ui_choicePicker_Choose(2);
+    }
+    if (lv_key == c_key3) {
+        libHbr1_ui_choicePicker_Choose(3);
+    }
+    return true;
+}
+
+// Hooks up the picker's frames and creates its triggers, the first time.
+void libHbr1_ui_choicePicker_Hookup () {
+    if (!libHbr1_ui_choicePicker_hooked) {
+        libHbr1_ui_choicePicker_panel = DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/FullscreenUpperContainer/ChoicePicker");
+        libHbr1_ui_choicePicker_header = DialogControlHookup(libHbr1_ui_choicePicker_panel, c_triggerControlTypeLabel, "Content/Header");
+        libHbr1_ui_choicePicker_prompt = DialogControlHookup(libHbr1_ui_choicePicker_panel, c_triggerControlTypeLabel, "Content/Prompt");
+        libHbr1_ui_choicePicker_backdrop = DialogControlHookup(libHbr1_ui_choicePicker_panel, c_triggerControlTypePanel, "Backdrop");
+        libHbr1_ui_choicePicker_sets[1] = DialogControlHookup(libHbr1_ui_choicePicker_panel, c_triggerControlTypePanel, "Content/Cards1");
+        libHbr1_ui_choicePicker_cards[1][1] = DialogControlHookup(libHbr1_ui_choicePicker_sets[1], c_triggerControlTypeButton, "Card1");
+        libHbr1_ui_choicePicker_icons[1][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[1][1], c_triggerControlTypeImage, "Icon");
+        libHbr1_ui_choicePicker_titles[1][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[1][1], c_triggerControlTypeLabel, "Title");
+        libHbr1_ui_choicePicker_descriptions[1][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[1][1], c_triggerControlTypeLabel, "Description");
+        libHbr1_ui_choicePicker_glows[1][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[1][1], c_triggerControlTypeImage, "Glow");
+        DialogControlSetPropertyAsText(DialogControlHookup(libHbr1_ui_choicePicker_cards[1][1], c_triggerControlTypeLabel, "Hotkey"), c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(StringToText("[ 1 ]"), Color(0.00, 100.00, 66.67)));
+        libHbr1_ui_choicePicker_sets[2] = DialogControlHookup(libHbr1_ui_choicePicker_panel, c_triggerControlTypePanel, "Content/Cards2");
+        libHbr1_ui_choicePicker_cards[2][1] = DialogControlHookup(libHbr1_ui_choicePicker_sets[2], c_triggerControlTypeButton, "Card1");
+        libHbr1_ui_choicePicker_icons[2][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[2][1], c_triggerControlTypeImage, "Icon");
+        libHbr1_ui_choicePicker_titles[2][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[2][1], c_triggerControlTypeLabel, "Title");
+        libHbr1_ui_choicePicker_descriptions[2][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[2][1], c_triggerControlTypeLabel, "Description");
+        libHbr1_ui_choicePicker_glows[2][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[2][1], c_triggerControlTypeImage, "Glow");
+        DialogControlSetPropertyAsText(DialogControlHookup(libHbr1_ui_choicePicker_cards[2][1], c_triggerControlTypeLabel, "Hotkey"), c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(StringToText("[ 1 ]"), Color(0.00, 100.00, 66.67)));
+        libHbr1_ui_choicePicker_cards[2][2] = DialogControlHookup(libHbr1_ui_choicePicker_sets[2], c_triggerControlTypeButton, "Card2");
+        libHbr1_ui_choicePicker_icons[2][2] = DialogControlHookup(libHbr1_ui_choicePicker_cards[2][2], c_triggerControlTypeImage, "Icon");
+        libHbr1_ui_choicePicker_titles[2][2] = DialogControlHookup(libHbr1_ui_choicePicker_cards[2][2], c_triggerControlTypeLabel, "Title");
+        libHbr1_ui_choicePicker_descriptions[2][2] = DialogControlHookup(libHbr1_ui_choicePicker_cards[2][2], c_triggerControlTypeLabel, "Description");
+        libHbr1_ui_choicePicker_glows[2][2] = DialogControlHookup(libHbr1_ui_choicePicker_cards[2][2], c_triggerControlTypeImage, "Glow");
+        DialogControlSetPropertyAsText(DialogControlHookup(libHbr1_ui_choicePicker_cards[2][2], c_triggerControlTypeLabel, "Hotkey"), c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(StringToText("[ 2 ]"), Color(0.00, 100.00, 66.67)));
+        libHbr1_ui_choicePicker_sets[3] = DialogControlHookup(libHbr1_ui_choicePicker_panel, c_triggerControlTypePanel, "Content/Cards3");
+        libHbr1_ui_choicePicker_cards[3][1] = DialogControlHookup(libHbr1_ui_choicePicker_sets[3], c_triggerControlTypeButton, "Card1");
+        libHbr1_ui_choicePicker_icons[3][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][1], c_triggerControlTypeImage, "Icon");
+        libHbr1_ui_choicePicker_titles[3][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][1], c_triggerControlTypeLabel, "Title");
+        libHbr1_ui_choicePicker_descriptions[3][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][1], c_triggerControlTypeLabel, "Description");
+        libHbr1_ui_choicePicker_glows[3][1] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][1], c_triggerControlTypeImage, "Glow");
+        DialogControlSetPropertyAsText(DialogControlHookup(libHbr1_ui_choicePicker_cards[3][1], c_triggerControlTypeLabel, "Hotkey"), c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(StringToText("[ 1 ]"), Color(0.00, 100.00, 66.67)));
+        libHbr1_ui_choicePicker_cards[3][2] = DialogControlHookup(libHbr1_ui_choicePicker_sets[3], c_triggerControlTypeButton, "Card2");
+        libHbr1_ui_choicePicker_icons[3][2] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][2], c_triggerControlTypeImage, "Icon");
+        libHbr1_ui_choicePicker_titles[3][2] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][2], c_triggerControlTypeLabel, "Title");
+        libHbr1_ui_choicePicker_descriptions[3][2] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][2], c_triggerControlTypeLabel, "Description");
+        libHbr1_ui_choicePicker_glows[3][2] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][2], c_triggerControlTypeImage, "Glow");
+        DialogControlSetPropertyAsText(DialogControlHookup(libHbr1_ui_choicePicker_cards[3][2], c_triggerControlTypeLabel, "Hotkey"), c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(StringToText("[ 2 ]"), Color(0.00, 100.00, 66.67)));
+        libHbr1_ui_choicePicker_cards[3][3] = DialogControlHookup(libHbr1_ui_choicePicker_sets[3], c_triggerControlTypeButton, "Card3");
+        libHbr1_ui_choicePicker_icons[3][3] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][3], c_triggerControlTypeImage, "Icon");
+        libHbr1_ui_choicePicker_titles[3][3] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][3], c_triggerControlTypeLabel, "Title");
+        libHbr1_ui_choicePicker_descriptions[3][3] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][3], c_triggerControlTypeLabel, "Description");
+        libHbr1_ui_choicePicker_glows[3][3] = DialogControlHookup(libHbr1_ui_choicePicker_cards[3][3], c_triggerControlTypeImage, "Glow");
+        DialogControlSetPropertyAsText(DialogControlHookup(libHbr1_ui_choicePicker_cards[3][3], c_triggerControlTypeLabel, "Hotkey"), c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(StringToText("[ 3 ]"), Color(0.00, 100.00, 66.67)));
+        libHbr1_ui_choicePicker_events = TriggerCreate("libHbr1_ui_choicePicker_EventsFunc");
+        TriggerAddEventDialogControl(libHbr1_ui_choicePicker_events, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
+        TriggerAddEventDialogControl(libHbr1_ui_choicePicker_events, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeMouseEnter);
+        libHbr1_ui_choicePicker_keys = TriggerCreate("libHbr1_ui_choicePicker_KeysFunc");
+        TriggerAddEventKeyPressed(libHbr1_ui_choicePicker_keys, c_playerAny, c_key1, true, c_keyModifierStateIgnore, c_keyModifierStateIgnore, c_keyModifierStateIgnore);
+        TriggerAddEventKeyPressed(libHbr1_ui_choicePicker_keys, c_playerAny, c_key2, true, c_keyModifierStateIgnore, c_keyModifierStateIgnore, c_keyModifierStateIgnore);
+        TriggerAddEventKeyPressed(libHbr1_ui_choicePicker_keys, c_playerAny, c_key3, true, c_keyModifierStateIgnore, c_keyModifierStateIgnore, c_keyModifierStateIgnore);
+        libHbr1_ui_choicePicker_hooked = true;
+    }
+}
+
+// Shows the set of lp_count cards with the options set, waits for a pick and returns it, 1-based;
+// 0 if Hide Choice Picker closes it first, and at once while another picker shows.
+int libHbr1_ui_choicePicker_Show (text lp_header, text lp_prompt, int lp_count) {
+    int lv_count;
+    int lv_index;
+    int lv_other;
+    int lv_choice;
+    int lv_session;
+
+    libHbr1_ui_choicePicker_Hookup();
+    if (libHbr1_ui_choicePicker_shown) {
+        return 0;
+    }
+    lv_count = MinI(MaxI(lp_count, 1), 3);
+    libHbr1_ui_choicePicker_session += 1;
+    lv_session = libHbr1_ui_choicePicker_session;
+    libHbr1_ui_choicePicker_shown = true;
+    libHbr1_ui_choicePicker_count = lv_count;
+    libHbr1_ui_choicePicker_choice = 0;
+    lv_other = 1;
+    while (lv_other <= 3) {
+        DialogControlSetVisible(libHbr1_ui_choicePicker_sets[lv_other], PlayerGroupAll(), (lv_other == lv_count));
+        lv_other += 1;
+    }
+    DialogControlSetPropertyAsText(libHbr1_ui_choicePicker_header, c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(lp_header, Color(70.59, 100.00, 94.12)));
+    DialogControlSetPropertyAsText(libHbr1_ui_choicePicker_prompt, c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(lp_prompt, Color(51.76, 82.35, 100.00)));
+    lv_index = 1;
+    while (lv_index <= lv_count) {
+        DialogControlSetPropertyAsString(libHbr1_ui_choicePicker_icons[lv_count][lv_index], c_triggerControlPropertyImage, PlayerGroupAll(), libHbr1_ui_choicePicker_optionIcon[lv_index]);
+        DialogControlSetVisible(libHbr1_ui_choicePicker_icons[lv_count][lv_index], PlayerGroupAll(), (libHbr1_ui_choicePicker_optionIcon[lv_index] != ""));
+        DialogControlSetPropertyAsText(libHbr1_ui_choicePicker_titles[lv_count][lv_index], c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(libHbr1_ui_choicePicker_optionTitle[lv_index], Color(100.00, 100.00, 100.00)));
+        DialogControlSetPropertyAsText(libHbr1_ui_choicePicker_descriptions[lv_count][lv_index], c_triggerControlPropertyText, PlayerGroupAll(), TextWithColor(libHbr1_ui_choicePicker_optionDescription[lv_index], Color(78.43, 90.20, 87.84)));
+        DialogControlSetVisible(libHbr1_ui_choicePicker_glows[lv_count][lv_index], PlayerGroupAll(), false);
+        DialogControlFadeTransparency(libHbr1_ui_choicePicker_cards[lv_count][lv_index], PlayerGroupAll(), 0.0, 100.0);
+        lv_index += 1;
+    }
+    DialogControlSetVisible(libHbr1_ui_choicePicker_backdrop, PlayerGroupAll(), true);
+    DialogControlFadeTransparency(libHbr1_ui_choicePicker_panel, PlayerGroupAll(), 0.0, 100.0);
+    DialogControlSetVisible(libHbr1_ui_choicePicker_panel, PlayerGroupAll(), true);
+    DialogControlFadeTransparency(libHbr1_ui_choicePicker_panel, PlayerGroupAll(), 0.25, 0.0);
+    libHbr1_ui_choicePicker_Play("UI_ShipUpgrade_BG_YellowFlash");
+    lv_index = 1;
+    while (lv_index <= lv_count) {
+        DialogControlSendAnimationEvent(libHbr1_ui_choicePicker_cards[lv_count][lv_index], PlayerGroupAll(), "CardIn");
+        DialogControlFadeTransparency(libHbr1_ui_choicePicker_cards[lv_count][lv_index], PlayerGroupAll(), 0.3, 0.0);
+        Wait(0.06, c_timeReal);
+        lv_index += 1;
+    }
+    libHbr1_ui_choicePicker_waiting = (lv_session == libHbr1_ui_choicePicker_session);
+    while ((libHbr1_ui_choicePicker_choice == 0) && libHbr1_ui_choicePicker_waiting) {
+        Wait(0.05, c_timeReal);
+    }
+    lv_choice = libHbr1_ui_choicePicker_choice;
+    if (lv_session != libHbr1_ui_choicePicker_session) {
+        return 0;
+    }
+    libHbr1_ui_choicePicker_waiting = false;
+    libHbr1_ui_choicePicker_Play("UI_ArmyRoom_ButtonClick_Confirm");
+    DialogControlSetVisible(libHbr1_ui_choicePicker_glows[lv_count][lv_choice], PlayerGroupAll(), true);
+    DialogControlSendAnimationEvent(libHbr1_ui_choicePicker_cards[lv_count][lv_choice], PlayerGroupAll(), "Chosen");
+    lv_index = 1;
+    while (lv_index <= lv_count) {
+        if (lv_index != lv_choice) {
+            DialogControlFadeTransparency(libHbr1_ui_choicePicker_cards[lv_count][lv_index], PlayerGroupAll(), 0.2, 100.0);
+        }
+        lv_index += 1;
+    }
+    Wait(0.35, c_timeReal);
+    libHbr1_ui_choicePicker_Play("UI_Void_Launch_Actuate_1");
+    DialogControlFadeTransparency(libHbr1_ui_choicePicker_panel, PlayerGroupAll(), 0.3, 100.0);
+    Wait(0.3, c_timeReal);
+    if (lv_session == libHbr1_ui_choicePicker_session) {
+        DialogControlSetVisible(libHbr1_ui_choicePicker_panel, PlayerGroupAll(), false);
+        libHbr1_ui_choicePicker_shown = false;
+    }
+    return lv_choice;
+}
+
+void libHbr1_InitCustomScript () {
+}
+
+void libHbr1_gf_SetChoiceOption (int lp_index, string lp_icon, text lp_title, text lp_description) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((lp_index < 1) || (lp_index > 3)) {
+        return;
+    }
+    libHbr1_ui_choicePicker_optionIcon[lp_index] = lp_icon;
+    libHbr1_ui_choicePicker_optionTitle[lp_index] = lp_title;
+    libHbr1_ui_choicePicker_optionDescription[lp_index] = lp_description;
+}
+
+int libHbr1_gf_ShowChoicePicker (text lp_header, text lp_prompt, int lp_count) {
+    // Automatic Variable Declarations
+    // Implementation
+    return libHbr1_ui_choicePicker_Show(lp_header, lp_prompt, lp_count);
+}
+
+void libHbr1_gf_HideChoicePicker () {
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_choicePicker_session += 1;
+    libHbr1_ui_choicePicker_waiting = false;
+    libHbr1_ui_choicePicker_shown = false;
+    if (libHbr1_ui_choicePicker_hooked) {
+        DialogControlSetVisible(libHbr1_ui_choicePicker_panel, PlayerGroupAll(), false);
+    }
+}
+
+bool libHbr1_gf_ChoicePickerIsOpen () {
+    // Automatic Variable Declarations
+    // Implementation
+    return libHbr1_ui_choicePicker_shown;
+}
+
+void libHbr1_gf_SetChoiceOption (int lp_index, string lp_icon, text lp_title, text lp_description);
+int libHbr1_gf_ShowChoicePicker (text lp_header, text lp_prompt, int lp_count);
+void libHbr1_gf_HideChoicePicker ();
+bool libHbr1_gf_ChoicePickerIsOpen ();

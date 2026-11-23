@@ -1,0 +1,199 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`a Campaign Mod's library primitives through the templates > writes Frm1, of every form's CountOf from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libFrm1_gf_CountOf("group");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes Frm1, of every form's HiddenOne from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libFrm1_gf_HiddenOne();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes Frm1, of every form's IsReady from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!(libFrm1_gf_IsReady("who"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes Frm1, of every form's NativeCall from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    NativeCall("value");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes Frm1, of every form's NativeValue from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    NativeValue();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes Frm1, of every form's NoArgs from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libFrm1_gf_NoArgs();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes Frm1, of every form's Threaded from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libFrm1_gf_Threaded("where");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes Frm1, of every form's TwoArgs from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libFrm1_gf_TwoArgs("count", "labelText");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes the Kept-calls fixture's Cmpn's SendTransmissionStory from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libCmpn_gf_SendTransmissionStory("conversationLine", "unit", "waitUntilDone", "animationName", "portrait");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes the Kept-calls fixture's Cmpn's SoundChannelVolumeGameplay from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libCmpn_gf_SoundChannelVolumeGameplay();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes the Kept-calls fixture's Cmpn's SoundChannelVolumeSpeech from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libCmpn_gf_SoundChannelVolumeSpeech();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;
+
+exports[`a Campaign Mod's library primitives through the templates > writes the bell Workspace's Bel1's RingBell from its template as its own galaxy did 1`] = `
+"bool gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libBel1_gf_RingBell("times", "wait");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+"
+`;

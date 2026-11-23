@@ -1,0 +1,118 @@
+{
+  "id": "ashfall_relay",
+  "campaignId": "example",
+  "title": "Ashfall Relay",
+  "summary": "Lead a Marine across ash flats that flood with magma on a cycle, to restore a silent relay.",
+  "setting": "A volcanic plain, with a landing pad to the west, a relay station to the east and a mesa above the flats between them.",
+  "archetype": "moving-hazard",
+  "mapSize": { "width": 96, "height": 64 },
+  "zones": [
+    {
+      "id": "pad",
+      "name": "Landing Pad",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "base",
+      "polygon": [{ "x": 0, "y": 0 }, { "x": 24, "y": 0 }, { "x": 24, "y": 64 }, { "x": 0, "y": 64 }],
+      "connections": [{ "toZoneId": "flats", "type": "open" }]
+    },
+    {
+      "id": "flats",
+      "name": "Ash Flats",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "path",
+      "polygon": [{ "x": 24, "y": 0 }, { "x": 72, "y": 0 }, { "x": 72, "y": 40 }, { "x": 24, "y": 40 }],
+      "connections": [
+        { "toZoneId": "mesa", "type": "ramp" },
+        { "toZoneId": "relay", "type": "open" }
+      ]
+    },
+    {
+      "id": "mesa",
+      "name": "Mesa",
+      "elevation": 2,
+      "landform": "flat",
+      "role": "refuge",
+      "polygon": [{ "x": 24, "y": 40 }, { "x": 72, "y": 40 }, { "x": 72, "y": 64 }, { "x": 24, "y": 64 }]
+    },
+    {
+      "id": "relay",
+      "name": "Relay Station",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "objective",
+      "polygon": [{ "x": 72, "y": 0 }, { "x": 96, "y": 0 }, { "x": 96, "y": 64 }, { "x": 72, "y": 64 }]
+    }
+  ],
+  "anchors": [
+    { "id": "sergeant", "name": "Sergeant", "zoneId": "pad", "kind": "unit", "unitType": "Marine", "player": 1, "position": { "x": 12, "y": 20 }, "rotation": 0 },
+    { "id": "lookout", "name": "Lookout", "zoneId": "mesa", "kind": "point", "position": { "x": 48, "y": 42 } }
+  ],
+  "beats": [
+    {
+      "id": "landing",
+      "title": "Landing",
+      "summary": "The Sergeant lands at the pad and hears how the flats flood.",
+      "zoneIds": ["pad"],
+      "anchorIds": ["sergeant"],
+      "introduces": ["hazard"],
+      "reveals": ["flats", "mesa"]
+    },
+    {
+      "id": "crossing",
+      "title": "Crossing",
+      "summary": "The Sergeant crosses the flats between surges, waiting them out on the mesa.",
+      "zoneIds": ["flats", "mesa"],
+      "anchorIds": ["lookout"],
+      "startsWhen": [{ "type": "anchorEntersZone", "anchorId": "sergeant", "zoneId": "flats" }]
+    },
+    {
+      "id": "relay_restored",
+      "title": "Relay restored",
+      "summary": "The Sergeant reaches the relay and it comes back on.",
+      "zoneIds": ["relay"],
+      "startsWhen": [{ "type": "anchorEntersZone", "anchorId": "sergeant", "zoneId": "relay" }]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "restore_relay",
+      "title": "Restore the relay",
+      "description": "Get the Sergeant to the relay station. Wait out each surge on the mesa.",
+      "type": "primary",
+      "beatId": "landing",
+      "completeWhen": { "type": "anchorEntersZone", "anchorId": "sergeant", "zoneId": "relay" }
+    }
+  ],
+  "mechanics": [
+    {
+      "id": "magma",
+      "type": "hazard",
+      "description": "The vent floods the flats with magma every 34 seconds, for 22 seconds at a time; the pad, mesa and relay stay dry. A dry spell of 12 seconds is too short to cross the 48-cell flats at a Marine's walk (about 15 s), so the Sergeant has to wait out a surge on the mesa.",
+      "params": {
+        "affectedZoneIds": ["flats"],
+        "safeZoneIds": ["pad", "mesa", "relay"],
+        "firstSeconds": 15,
+        "intervalSeconds": 34,
+        "deadlySeconds": 22,
+        "warningSeconds": 10
+      }
+    }
+  ],
+  "outcomes": {
+    "victory": [{ "type": "anchorEntersZone", "anchorId": "sergeant", "zoneId": "relay" }],
+    "defeat": [{ "type": "anchorDies", "anchorId": "sergeant" }]
+  },
+  "screenplay": {
+    "title": "Ashfall Relay",
+    "script": {
+      "source": "ashfall-relay.md",
+      "speakerAnchors": { "SERGEANT": "sergeant" },
+      "cues": [
+        { "scene": 1, "cue": { "type": "missionStart" } },
+        { "scene": 2, "cue": { "type": "anchorEntersZone", "anchorId": "sergeant", "zoneId": "relay" } }
+      ]
+    }
+  }
+}

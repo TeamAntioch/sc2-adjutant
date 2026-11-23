@@ -1,0 +1,8 @@
+{
+  "name": "scripted-host",
+  "version": "0.2.0",
+  "pluginApi": 2,
+  "roles": ["host-adapter"],
+  "contributions": { "capabilities": ["editor.testDocument", "tts.speak"] },
+  "entry": "./index.ts"
+}

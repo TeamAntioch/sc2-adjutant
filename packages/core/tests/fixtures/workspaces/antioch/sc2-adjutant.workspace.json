@@ -1,0 +1,6 @@
+{
+  "campaign": { "id": "fixtures", "name": "Fixture Campaign" },
+  "missions": "missions",
+  "stylePack": "../../../../../plugin-style-antioch",
+  "plugins": ["bundled:hazard"]
+}

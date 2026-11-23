@@ -1,0 +1,6070 @@
+{
+  "mapStudyVersion": 1,
+  "exemplar": {
+    "id": "3-12",
+    "provenance": "edited"
+  },
+  "layers": {
+    "note": "Renders are 4 px per cell, north up. textures.png: dominant texture per cell; elevation.png: cliff levels (darker = cliff edge, blue = ramp); doodads.png: doodads by kind, manipulated ones ringed red; vertex-shading.png: t3VertCol kind-1 values (white untouched), cliff edges blue. Outside the playable bounds is dimmed.",
+    "texturesLegend": {
+      "ShakurasSand": "rgb(255,179,0)",
+      "ShakurasDirtCracked": "rgb(128,62,117)",
+      "ShakurasTemple5": "rgb(255,104,0)",
+      "ShakurasRockCracked": "rgb(166,189,215)",
+      "ShakurasRockRough": "rgb(193,0,32)",
+      "UlnarHull3": "rgb(206,162,98)",
+      "PurifierWorld3": "rgb(129,112,102)"
+    },
+    "doodadsLegend": {
+      "ruin": "rgb(128,62,117)",
+      "other": "rgb(166,189,215)",
+      "unknown": "rgb(0,125,52)",
+      "light": "rgb(255,104,0)",
+      "manipulated (any)": "rgb(230,30,30) ring"
+    }
+  },
+  "texturing": {
+    "tileset": "NewAntiochWargirl2",
+    "textureSets": [
+      "NewAntiochWargirl2"
+    ],
+    "note": "Shares normalise each cell's 8 mask weights to sum to 1; 'present' means >= 10% of a cell's mix.",
+    "coverage": [
+      {
+        "name": "ShakurasSand",
+        "count": 23453.424,
+        "share": 0.932
+      },
+      {
+        "name": "PurifierWorld3",
+        "count": 762.309,
+        "share": 0.03
+      },
+      {
+        "name": "ShakurasTemple5",
+        "count": 549.728,
+        "share": 0.022
+      },
+      {
+        "name": "ShakurasDirtCracked",
+        "count": 248.889,
+        "share": 0.01
+      },
+      {
+        "name": "UlnarHull3",
+        "count": 57.879,
+        "share": 0.002
+      },
+      {
+        "name": "ShakurasRockRough",
+        "count": 48.221,
+        "share": 0.002
+      },
+      {
+        "name": "ShakurasRockCracked",
+        "count": 39.074,
+        "share": 0.002
+      },
+      {
+        "name": "ShakurasStone",
+        "count": 4.476,
+        "share": 0
+      }
+    ],
+    "dominant": [
+      {
+        "name": "ShakurasSand",
+        "count": 23465,
+        "share": 0.932
+      },
+      {
+        "name": "PurifierWorld3",
+        "count": 774,
+        "share": 0.031
+      },
+      {
+        "name": "ShakurasTemple5",
+        "count": 529,
+        "share": 0.021
+      },
+      {
+        "name": "ShakurasDirtCracked",
+        "count": 291,
+        "share": 0.012
+      },
+      {
+        "name": "UlnarHull3",
+        "count": 61,
+        "share": 0.002
+      },
+      {
+        "name": "ShakurasRockRough",
+        "count": 26,
+        "share": 0.001
+      },
+      {
+        "name": "ShakurasRockCracked",
+        "count": 18,
+        "share": 0.001
+      }
+    ],
+    "texturesPresentPerCell": {
+      "1": 0.966,
+      "2": 0.024,
+      "3": 0.009,
+      "4": 0.001,
+      "5": 0
+    },
+    "transitions": [
+      {
+        "name": "ShakurasDirtCracked | ShakurasSand",
+        "count": 336
+      },
+      {
+        "name": "ShakurasDirtCracked | ShakurasTemple5",
+        "count": 129
+      },
+      {
+        "name": "ShakurasSand | ShakurasTemple5",
+        "count": 120
+      },
+      {
+        "name": "PurifierWorld3 | ShakurasSand",
+        "count": 117
+      },
+      {
+        "name": "PurifierWorld3 | ShakurasTemple5",
+        "count": 72
+      },
+      {
+        "name": "ShakurasSand | UlnarHull3",
+        "count": 60
+      },
+      {
+        "name": "ShakurasRockRough | ShakurasTemple5",
+        "count": 37
+      },
+      {
+        "name": "ShakurasRockCracked | ShakurasTemple5",
+        "count": 22
+      },
+      {
+        "name": "ShakurasRockCracked | ShakurasSand",
+        "count": 15
+      },
+      {
+        "name": "ShakurasRockRough | ShakurasSand",
+        "count": 15
+      },
+      {
+        "name": "ShakurasDirtCracked | UlnarHull3",
+        "count": 15
+      },
+      {
+        "name": "PurifierWorld3 | ShakurasDirtCracked",
+        "count": 10
+      },
+      {
+        "name": "ShakurasDirtCracked | ShakurasRockCracked",
+        "count": 9
+      },
+      {
+        "name": "PurifierWorld3 | ShakurasRockRough",
+        "count": 7
+      },
+      {
+        "name": "ShakurasTemple5 | UlnarHull3",
+        "count": 4
+      },
+      {
+        "name": "ShakurasDirtCracked | ShakurasRockRough",
+        "count": 2
+      },
+      {
+        "name": "ShakurasRockRough | UlnarHull3",
+        "count": 1
+      }
+    ],
+    "blendPlacement": {
+      "note": "mixedNearBorder: share of mixed cells within 2 cells of a dominant-texture border; cellsNearBorder: share of all playable cells that close.",
+      "mixedNearBorder": 1,
+      "cellsNearBorder": 0.109
+    },
+    "dominantByContext": {
+      "cliffEdge": [
+        {
+          "name": "ShakurasSand",
+          "count": 341,
+          "share": 0.596
+        },
+        {
+          "name": "ShakurasDirtCracked",
+          "count": 198,
+          "share": 0.346
+        },
+        {
+          "name": "ShakurasTemple5",
+          "count": 32,
+          "share": 0.056
+        },
+        {
+          "name": "UlnarHull3",
+          "count": 1,
+          "share": 0.002
+        }
+      ],
+      "nearEdge": [
+        {
+          "name": "ShakurasSand",
+          "count": 1429,
+          "share": 0.854
+        },
+        {
+          "name": "ShakurasTemple5",
+          "count": 178,
+          "share": 0.106
+        },
+        {
+          "name": "ShakurasDirtCracked",
+          "count": 49,
+          "share": 0.029
+        },
+        {
+          "name": "ShakurasRockCracked",
+          "count": 11,
+          "share": 0.007
+        },
+        {
+          "name": "ShakurasRockRough",
+          "count": 4,
+          "share": 0.002
+        }
+      ],
+      "open": [
+        {
+          "name": "ShakurasSand",
+          "count": 21695,
+          "share": 0.947
+        },
+        {
+          "name": "PurifierWorld3",
+          "count": 772,
+          "share": 0.034
+        },
+        {
+          "name": "ShakurasTemple5",
+          "count": 319,
+          "share": 0.014
+        },
+        {
+          "name": "UlnarHull3",
+          "count": 59,
+          "share": 0.003
+        },
+        {
+          "name": "ShakurasDirtCracked",
+          "count": 44,
+          "share": 0.002
+        }
+      ],
+      "ramp": []
+    },
+    "dominantByLevel": {
+      "level1": [
+        {
+          "name": "ShakurasSand",
+          "count": 9726,
+          "share": 0.988
+        },
+        {
+          "name": "ShakurasDirtCracked",
+          "count": 122,
+          "share": 0.012
+        }
+      ],
+      "level3": [
+        {
+          "name": "ShakurasSand",
+          "count": 13739,
+          "share": 0.897
+        },
+        {
+          "name": "PurifierWorld3",
+          "count": 774,
+          "share": 0.051
+        },
+        {
+          "name": "ShakurasTemple5",
+          "count": 529,
+          "share": 0.035
+        },
+        {
+          "name": "ShakurasDirtCracked",
+          "count": 169,
+          "share": 0.011
+        },
+        {
+          "name": "UlnarHull3",
+          "count": 61,
+          "share": 0.004
+        }
+      ]
+    }
+  },
+  "cliffs": {
+    "cliffSets": [
+      "ShakurasEx1Cliff0"
+    ],
+    "cliffSetUse": [
+      {
+        "name": "ShakurasEx1Cliff0",
+        "count": 206,
+        "share": 1
+      }
+    ],
+    "levelShare": {
+      "level1": 0.391,
+      "level3": 0.609
+    },
+    "distinctLevels": 2,
+    "cliffEdgeCellShare": 0.023,
+    "rampCellShare": 0,
+    "ramps": {
+      "count": 0,
+      "width": {
+        "min": 0,
+        "p25": 0,
+        "p50": 0,
+        "p75": 0,
+        "p90": 0,
+        "max": 0,
+        "mean": 0
+      },
+      "directions": {},
+      "levelPairs": {}
+    },
+    "cliffDoodads": []
+  },
+  "doodads": {
+    "count": 335,
+    "perHundredCells": 1.331,
+    "distinctTypes": 34,
+    "kinds": [
+      {
+        "name": "ruin",
+        "count": 116,
+        "share": 0.346
+      },
+      {
+        "name": "other",
+        "count": 103,
+        "share": 0.307
+      },
+      {
+        "name": "unknown",
+        "count": 74,
+        "share": 0.221
+      },
+      {
+        "name": "light",
+        "count": 42,
+        "share": 0.125
+      }
+    ],
+    "topTypes": [
+      {
+        "name": "StarshipArch",
+        "count": 110,
+        "share": 0.328
+      },
+      {
+        "name": "RockTower12",
+        "count": 32,
+        "share": 0.096
+      },
+      {
+        "name": "KorhalOutskirtsCurtain",
+        "count": 31,
+        "share": 0.093
+      },
+      {
+        "name": "LightOmniGreenLarge",
+        "count": 25,
+        "share": 0.075
+      },
+      {
+        "name": "IceWorldCurtain",
+        "count": 23,
+        "share": 0.069
+      },
+      {
+        "name": "RockTower1",
+        "count": 18,
+        "share": 0.054
+      },
+      {
+        "name": "DesertWorldCurtain",
+        "count": 14,
+        "share": 0.042
+      },
+      {
+        "name": "RockTower122",
+        "count": 12,
+        "share": 0.036
+      },
+      {
+        "name": "HybridLabCurtain",
+        "count": 7,
+        "share": 0.021
+      },
+      {
+        "name": "StarshipHoldingPen",
+        "count": 6,
+        "share": 0.018
+      },
+      {
+        "name": "LightOmniPurple",
+        "count": 6,
+        "share": 0.018
+      },
+      {
+        "name": "LightOmniOrange",
+        "count": 6,
+        "share": 0.018
+      },
+      {
+        "name": "ProtossBaseArch",
+        "count": 6,
+        "share": 0.018
+      },
+      {
+        "name": "LightOmniOrangeLarge",
+        "count": 5,
+        "share": 0.015
+      },
+      {
+        "name": "GateControlCables",
+        "count": 5,
+        "share": 0.015
+      },
+      {
+        "name": "StarshipOuterHullPlates",
+        "count": 4,
+        "share": 0.012
+      },
+      {
+        "name": "Protoss_Base_GroundTrim",
+        "count": 4,
+        "share": 0.012
+      },
+      {
+        "name": "TurmalisArbiterDoodad",
+        "count": 2,
+        "share": 0.006
+      },
+      {
+        "name": "SpacePlatformCablesLarge",
+        "count": 2,
+        "share": 0.006
+      },
+      {
+        "name": "StarshipOrnateWindowCurved",
+        "count": 2,
+        "share": 0.006
+      },
+      {
+        "name": "CharDunesCurtain",
+        "count": 2,
+        "share": 0.006
+      },
+      {
+        "name": "ShakurasSkybox",
+        "count": 1,
+        "share": 0.003
+      },
+      {
+        "name": "NannothTombstone",
+        "count": 1,
+        "share": 0.003
+      },
+      {
+        "name": "StarshipEngine",
+        "count": 1,
+        "share": 0.003
+      },
+      {
+        "name": "TrenchTombstone",
+        "count": 1,
+        "share": 0.003
+      }
+    ],
+    "blockDensity": {
+      "min": 0,
+      "p25": 0,
+      "p50": 0,
+      "p75": 0,
+      "p90": 1,
+      "max": 102,
+      "mean": 0.798,
+      "emptyShare": 0.888
+    },
+    "placement": [
+      {
+        "name": "open",
+        "count": 251,
+        "share": 0.749
+      },
+      {
+        "name": "nearEdge",
+        "count": 57,
+        "share": 0.17
+      },
+      {
+        "name": "cliffEdge",
+        "count": 27,
+        "share": 0.081
+      }
+    ],
+    "clusters": {
+      "count": 55,
+      "size": {
+        "min": 1,
+        "p25": 1,
+        "p50": 1,
+        "p75": 2,
+        "p90": 18,
+        "max": 116,
+        "mean": 6.091
+      },
+      "singletonShare": 0.691
+    },
+    "coOccurrence": [
+      {
+        "name": "GateControlCables + StarshipArch",
+        "count": 300
+      },
+      {
+        "name": "IceWorldCurtain + KorhalOutskirtsCurtain",
+        "count": 41
+      },
+      {
+        "name": "KorhalOutskirtsCurtain + LightOmniGreenLarge",
+        "count": 40
+      },
+      {
+        "name": "KorhalOutskirtsCurtain + RockTower12",
+        "count": 40
+      },
+      {
+        "name": "IceWorldCurtain + LightOmniGreenLarge",
+        "count": 29
+      },
+      {
+        "name": "IceWorldCurtain + RockTower12",
+        "count": 23
+      },
+      {
+        "name": "DesertWorldCurtain + LightOmniGreenLarge",
+        "count": 23
+      },
+      {
+        "name": "LightOmniGreenLarge + RockTower12",
+        "count": 16
+      },
+      {
+        "name": "LightOmniPurple + StarshipHoldingPen",
+        "count": 16
+      },
+      {
+        "name": "DesertWorldCurtain + IceWorldCurtain",
+        "count": 15
+      },
+      {
+        "name": "DesertWorldCurtain + RockTower122",
+        "count": 14
+      },
+      {
+        "name": "LightOmniGreenLarge + LightOmniOrange",
+        "count": 13
+      },
+      {
+        "name": "HybridLabCurtain + KorhalOutskirtsCurtain",
+        "count": 12
+      },
+      {
+        "name": "DesertWorldCurtain + KorhalOutskirtsCurtain",
+        "count": 11
+      },
+      {
+        "name": "RockTower1 + RockTower12",
+        "count": 11
+      },
+      {
+        "name": "DesertWorldCurtain + RockTower12",
+        "count": 9
+      },
+      {
+        "name": "DesertWorldCurtain + LightOmniOrange",
+        "count": 9
+      },
+      {
+        "name": "IceWorldCurtain + RockTower1",
+        "count": 9
+      },
+      {
+        "name": "KorhalOutskirtsCurtain + LightOmniOrange",
+        "count": 8
+      },
+      {
+        "name": "HybridLabCurtain + IceWorldCurtain",
+        "count": 8
+      },
+      {
+        "name": "IceWorldCurtain + RockTower122",
+        "count": 7
+      },
+      {
+        "name": "KorhalOutskirtsCurtain + LightOmniOrangeLarge",
+        "count": 7
+      },
+      {
+        "name": "HybridLabCurtain + LightOmniGreenLarge",
+        "count": 7
+      },
+      {
+        "name": "RockTower12 + RockTower122",
+        "count": 6
+      },
+      {
+        "name": "LightOmniOrangeLarge + RockTower12",
+        "count": 6
+      },
+      {
+        "name": "LightOmniGreenLarge + RockTower122",
+        "count": 6
+      },
+      {
+        "name": "IceWorldCurtain + LightOmniOrange",
+        "count": 6
+      },
+      {
+        "name": "LightOmniGreenLarge + LightOmniOrangeLarge",
+        "count": 5
+      },
+      {
+        "name": "CharDunesCurtain + DesertWorldCurtain",
+        "count": 5
+      },
+      {
+        "name": "CharDunesCurtain + LightOmniGreenLarge",
+        "count": 5
+      }
+    ],
+    "manipulation": {
+      "note": "tilted: |pitch| or |roll| > 0.05 rad; nonUniformScale: axis ratio > 1.15; sunk/raised: > 0.5 below/above terrain; extremeScale: >= 2 or <= 0.5.",
+      "counts": [
+        {
+          "name": "extremeScale",
+          "count": 123,
+          "share": 0.367
+        },
+        {
+          "name": "raised",
+          "count": 70,
+          "share": 0.209
+        },
+        {
+          "name": "tilted",
+          "count": 7,
+          "share": 0.021
+        },
+        {
+          "name": "sunk",
+          "count": 4,
+          "share": 0.012
+        },
+        {
+          "name": "tinted",
+          "count": 2,
+          "share": 0.006
+        },
+        {
+          "name": "nonUniformScale",
+          "count": 2,
+          "share": 0.006
+        }
+      ],
+      "flags": [
+        {
+          "name": "HeightAbsolute",
+          "count": 335,
+          "share": 1
+        },
+        {
+          "name": "ForcePlacement",
+          "count": 305,
+          "share": 0.91
+        },
+        {
+          "name": "HeightOffset",
+          "count": 135,
+          "share": 0.403
+        }
+      ],
+      "typeProfiles": [
+        {
+          "type": "StarshipArch",
+          "kind": "ruin",
+          "count": 110,
+          "scale": {
+            "min": 0.14,
+            "p25": 0.22,
+            "p50": 0.22,
+            "p75": 0.55,
+            "p90": 0.55,
+            "max": 0.55,
+            "mean": 0.292
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0.101,
+            "p75": 0.5,
+            "p90": 0.7,
+            "max": 0.7,
+            "mean": 0.25
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.75
+        },
+        {
+          "type": "RockTower12",
+          "kind": "unknown",
+          "count": 32,
+          "scale": {
+            "min": 0.648,
+            "p25": 0.648,
+            "p50": 0.648,
+            "p75": 2,
+            "p90": 2,
+            "max": 2,
+            "mean": 1.047
+          },
+          "aboveTerrain": {
+            "min": -0.014,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0.008,
+            "p90": 0.7,
+            "max": 2.501,
+            "mean": 0.181
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.625
+        },
+        {
+          "type": "KorhalOutskirtsCurtain",
+          "kind": "other",
+          "count": 31,
+          "scale": {
+            "min": 0.45,
+            "p25": 0.62,
+            "p50": 0.76,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 0.773
+          },
+          "aboveTerrain": {
+            "min": -0.011,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0.008,
+            "p90": 0.7,
+            "max": 2.6,
+            "mean": 0.218
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.375
+        },
+        {
+          "type": "LightOmniGreenLarge",
+          "kind": "light",
+          "count": 25,
+          "scale": {
+            "min": 0.109,
+            "p25": 0.817,
+            "p50": 0.82,
+            "p75": 0.849,
+            "p90": 1.191,
+            "max": 1.5,
+            "mean": 0.839
+          },
+          "aboveTerrain": {
+            "min": -0.015,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0.015,
+            "max": 1.7,
+            "mean": 0.136
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.688
+        },
+        {
+          "type": "IceWorldCurtain",
+          "kind": "other",
+          "count": 23,
+          "scale": {
+            "min": 0.44,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 0.929
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0.801,
+            "p90": 1.4,
+            "max": 3.61,
+            "mean": 0.553
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.438
+        },
+        {
+          "type": "RockTower1",
+          "kind": "unknown",
+          "count": 18,
+          "scale": {
+            "min": 0.805,
+            "p25": 0.983,
+            "p50": 1.5,
+            "p75": 2,
+            "p90": 2,
+            "max": 2,
+            "mean": 1.41
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0.019,
+            "p90": 0.574,
+            "max": 1.1,
+            "mean": 0.116
+          },
+          "tiltedShare": 0.056,
+          "nonUniformShare": 0,
+          "yawSpread": 0.75
+        },
+        {
+          "type": "DesertWorldCurtain",
+          "kind": "other",
+          "count": 14,
+          "scale": {
+            "min": 0.55,
+            "p25": 0.76,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 0.916
+          },
+          "aboveTerrain": {
+            "min": -0.015,
+            "p25": 0,
+            "p50": 0,
+            "p75": 1.5,
+            "p90": 1.5,
+            "max": 1.5,
+            "mean": 0.428
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.438
+        },
+        {
+          "type": "RockTower122",
+          "kind": "unknown",
+          "count": 12,
+          "scale": {
+            "min": 0.668,
+            "p25": 0.861,
+            "p50": 1.098,
+            "p75": 1.5,
+            "p90": 2,
+            "max": 2,
+            "mean": 1.143
+          },
+          "aboveTerrain": {
+            "min": -0.965,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 1.5,
+            "mean": 0.041
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.625
+        },
+        {
+          "type": "HybridLabCurtain",
+          "kind": "other",
+          "count": 7,
+          "scale": {
+            "min": 0.55,
+            "p25": 0.65,
+            "p50": 0.65,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 0.736
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "StarshipHoldingPen",
+          "kind": "other",
+          "count": 6,
+          "scale": {
+            "min": 0.5,
+            "p25": 0.5,
+            "p50": 0.5,
+            "p75": 0.5,
+            "p90": 0.5,
+            "max": 0.5,
+            "mean": 0.5
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.001,
+            "p50": 0.001,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "LightOmniPurple",
+          "kind": "light",
+          "count": 6,
+          "scale": {
+            "min": 0.408,
+            "p25": 0.408,
+            "p50": 0.408,
+            "p75": 0.408,
+            "p90": 0.458,
+            "max": 0.458,
+            "mean": 0.417
+          },
+          "aboveTerrain": {
+            "min": -0.4,
+            "p25": -0.3,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0.5,
+            "max": 0.5,
+            "mean": -0.05
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "LightOmniOrange",
+          "kind": "light",
+          "count": 6,
+          "scale": {
+            "min": 0.82,
+            "p25": 0.839,
+            "p50": 0.922,
+            "p75": 0.975,
+            "p90": 0.983,
+            "max": 0.983,
+            "mean": 0.896
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "ProtossBaseArch",
+          "kind": "ruin",
+          "count": 6,
+          "scale": {
+            "min": 0.62,
+            "p25": 0.62,
+            "p50": 0.89,
+            "p75": 0.89,
+            "p90": 1.5,
+            "max": 1.5,
+            "mean": 0.885
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0.167,
+          "nonUniformShare": 0,
+          "yawSpread": 0.375
+        },
+        {
+          "type": "LightOmniOrangeLarge",
+          "kind": "light",
+          "count": 5,
+          "scale": {
+            "min": 0.874,
+            "p25": 0.955,
+            "p50": 0.978,
+            "p75": 1.127,
+            "p90": 1.407,
+            "max": 1.407,
+            "mean": 1.068
+          },
+          "aboveTerrain": {
+            "min": -2.056,
+            "p25": 0,
+            "p50": 0.001,
+            "p75": 2.5,
+            "p90": 4.465,
+            "max": 4.465,
+            "mean": 0.982
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "GateControlCables",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 0.2,
+            "p25": 0.2,
+            "p50": 0.2,
+            "p75": 0.2,
+            "p90": 0.2,
+            "max": 0.2,
+            "mean": 0.2
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "StarshipOuterHullPlates",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.001,
+            "p50": 0.001,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "Protoss_Base_GroundTrim",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "TurmalisArbiterDoodad",
+          "kind": "unknown",
+          "count": 2,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0.601,
+            "p75": 0.601,
+            "p90": 0.601,
+            "max": 0.601,
+            "mean": 0.301
+          },
+          "tiltedShare": 1,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "SpacePlatformCablesLarge",
+          "kind": "other",
+          "count": 2,
+          "scale": {
+            "min": 0.71,
+            "p25": 0.71,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 0.855
+          },
+          "aboveTerrain": {
+            "min": -0.6,
+            "p25": -0.6,
+            "p50": 10.801,
+            "p75": 10.801,
+            "p90": 10.801,
+            "max": 10.801,
+            "mean": 5.1
+          },
+          "tiltedShare": 0.5,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "StarshipOrnateWindowCurved",
+          "kind": "other",
+          "count": 2,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.001,
+            "p50": 0.001,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "CharDunesCurtain",
+          "kind": "other",
+          "count": 2,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "ShakurasSkybox",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 0.8,
+            "p25": 0.8,
+            "p50": 0.8,
+            "p75": 0.8,
+            "p90": 0.8,
+            "max": 0.8,
+            "mean": 0.8
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.001,
+            "p50": 0.001,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "NannothTombstone",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 0.9,
+            "p25": 0.9,
+            "p50": 0.9,
+            "p75": 0.9,
+            "p90": 0.9,
+            "max": 0.9,
+            "mean": 0.9
+          },
+          "aboveTerrain": {
+            "min": 0.1,
+            "p25": 0.1,
+            "p50": 0.1,
+            "p75": 0.1,
+            "p90": 0.1,
+            "max": 0.1,
+            "mean": 0.1
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "StarshipEngine",
+          "kind": "other",
+          "count": 1,
+          "scale": {
+            "min": 0.5,
+            "p25": 0.5,
+            "p50": 0.5,
+            "p75": 0.5,
+            "p90": 0.5,
+            "max": 0.5,
+            "mean": 0.5
+          },
+          "aboveTerrain": {
+            "min": 0.301,
+            "p25": 0.301,
+            "p50": 0.301,
+            "p75": 0.301,
+            "p90": 0.301,
+            "max": 0.301,
+            "mean": 0.301
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "TrenchTombstone",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 0.7,
+            "p25": 0.7,
+            "p50": 0.7,
+            "p75": 0.7,
+            "p90": 0.7,
+            "max": 0.7,
+            "mean": 0.7
+          },
+          "aboveTerrain": {
+            "min": 0.1,
+            "p25": 0.1,
+            "p50": 0.1,
+            "p75": 0.1,
+            "p90": 0.1,
+            "max": 0.1,
+            "mean": 0.1
+          },
+          "tiltedShare": 1,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "NurohkTombstone",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 0.5,
+            "p25": 0.5,
+            "p50": 0.5,
+            "p75": 0.5,
+            "p90": 0.5,
+            "max": 0.5,
+            "mean": 0.5
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 1,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "LauriochTombstone",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 0.85,
+            "p25": 0.85,
+            "p50": 0.85,
+            "p75": 0.85,
+            "p90": 0.85,
+            "max": 0.85,
+            "mean": 0.85
+          },
+          "aboveTerrain": {
+            "min": -0.1,
+            "p25": -0.1,
+            "p50": -0.1,
+            "p75": -0.1,
+            "p90": -0.1,
+            "max": -0.1,
+            "mean": -0.1
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "TurmalisArbiterDoodad2",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "JepokTombstone",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 0.65,
+            "p25": 0.65,
+            "p50": 0.65,
+            "p75": 0.65,
+            "p90": 0.65,
+            "max": 0.65,
+            "mean": 0.65
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "ProtossWarpInPad",
+          "kind": "other",
+          "count": 1,
+          "scale": {
+            "min": 5,
+            "p25": 5,
+            "p50": 5,
+            "p75": 5,
+            "p90": 5,
+            "max": 5,
+            "mean": 5
+          },
+          "aboveTerrain": {
+            "min": -2.22,
+            "p25": -2.22,
+            "p50": -2.22,
+            "p75": -2.22,
+            "p90": -2.22,
+            "max": -2.22,
+            "mean": -2.22
+          },
+          "tiltedShare": 1,
+          "nonUniformShare": 1,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "TurmalisDoodad",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.001,
+            "p50": 0.001,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "ShakurasSkybox2",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.001,
+            "p50": 0.001,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "KhorunTombstone",
+          "kind": "unknown",
+          "count": 1,
+          "scale": {
+            "min": 0.65,
+            "p25": 0.65,
+            "p50": 0.65,
+            "p75": 0.65,
+            "p90": 0.65,
+            "max": 0.65,
+            "mean": 0.65
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0,
+            "max": 0,
+            "mean": 0
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "ProtossTarmacSplat",
+          "kind": "other",
+          "count": 1,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.001,
+            "p25": 0.001,
+            "p50": 0.001,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        }
+      ]
+    },
+    "composites": {
+      "count": 9,
+      "top": [
+        {
+          "center": [
+            67.28,
+            220.74
+          ],
+          "bounds": [
+            65.28,
+            216.67,
+            72.89,
+            228.52
+          ],
+          "size": 116,
+          "manipulated": 85,
+          "types": [
+            {
+              "name": "StarshipArch",
+              "count": 110
+            },
+            {
+              "name": "GateControlCables",
+              "count": 5
+            },
+            {
+              "name": "StarshipOuterHullPlates",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.13,
+                -1.68,
+                0.1
+              ],
+              "yawPitchRoll": [
+                5.41,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.87,
+                -4.06,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.85,
+                -3.61,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.87,
+                -3.62,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.89,
+                -3.84,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.88,
+                -3.83,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.88,
+                -3.38,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.86,
+                -3.38,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.7,
+                -1.84,
+                0.5
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.87,
+                -2.5,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.82,
+                -1.1,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.86,
+                -2.95,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -1.35,
+                -1.82,
+                0.5
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.51,
+                -1.69,
+                0
+              ],
+              "yawPitchRoll": [
+                5.41,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.83,
+                -1.1,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.25,
+                -1.86,
+                0.5
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.88,
+                -2.96,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "GateControlCables",
+              "offset": [
+                0.1,
+                -1.72,
+                0
+              ],
+              "yawPitchRoll": [
+                2.99,
+                0,
+                0
+              ],
+              "scale": [
+                0.2,
+                0.2,
+                0.2
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.85,
+                -2.5,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.9,
+                -1.84,
+                0.5
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.83,
+                -0.87,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -1.58,
+                -1.83,
+                0.4
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.86,
+                -3.18,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.86,
+                -2.74,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "GateControlCables",
+              "offset": [
+                -1.33,
+                -1.77,
+                0
+              ],
+              "yawPitchRoll": [
+                2.39,
+                0,
+                0
+              ],
+              "scale": [
+                0.2,
+                0.2,
+                0.2
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                0.08,
+                -1.68,
+                0.1
+              ],
+              "yawPitchRoll": [
+                5.41,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.47,
+                -1.83,
+                0.5
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -1.13,
+                -1.84,
+                0.5
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.84,
+                -2.73,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.87,
+                -3.19,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.33,
+                -1.68,
+                0.1
+              ],
+              "yawPitchRoll": [
+                5.41,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.84,
+                -0.87,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.02,
+                -1.85,
+                0.4
+              ],
+              "yawPitchRoll": [
+                4.71,
+                0,
+                0
+              ],
+              "scale": [
+                0.22,
+                0.22,
+                0.22
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.82,
+                -0.65,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.81,
+                0.23,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.8,
+                0.46,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.81,
+                -0.42,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.82,
+                -0.22,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.14,
+                0.14,
+                0.14
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.81,
+                0.01,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "StarshipArch",
+              "offset": [
+                -0.81,
+                -0.65,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            65.08,
+            70.18
+          ],
+          "bounds": [
+            60.26,
+            68.91,
+            69.86,
+            71.41
+          ],
+          "size": 18,
+          "manipulated": 14,
+          "types": [
+            {
+              "name": "StarshipHoldingPen",
+              "count": 6
+            },
+            {
+              "name": "LightOmniPurple",
+              "count": 6
+            },
+            {
+              "name": "LauriochTombstone",
+              "count": 1
+            },
+            {
+              "name": "JepokTombstone",
+              "count": 1
+            },
+            {
+              "name": "NannothTombstone",
+              "count": 1
+            },
+            {
+              "name": "NurohkTombstone",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "StarshipHoldingPen",
+              "offset": [
+                4.77,
+                1.2,
+                0
+              ],
+              "yawPitchRoll": [
+                0.31,
+                0,
+                0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "LightOmniPurple",
+              "offset": [
+                2.85,
+                0.81,
+                0.5
+              ],
+              "yawPitchRoll": [
+                4.52,
+                0,
+                0
+              ],
+              "scale": [
+                0.41,
+                0.41,
+                0.41
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "LauriochTombstone",
+              "offset": [
+                4.78,
+                1.23,
+                -0.1
+              ],
+              "yawPitchRoll": [
+                0.21,
+                0,
+                0
+              ],
+              "scale": [
+                0.75,
+                0.75,
+                0.85
+              ]
+            },
+            {
+              "type": "JepokTombstone",
+              "offset": [
+                2.9,
+                0.89,
+                0
+              ],
+              "yawPitchRoll": [
+                0.24,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "LightOmniPurple",
+              "offset": [
+                4.78,
+                1.06,
+                -0.1
+              ],
+              "yawPitchRoll": [
+                4.52,
+                0,
+                0
+              ],
+              "scale": [
+                0.41,
+                0.41,
+                0.41
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipHoldingPen",
+              "offset": [
+                2.84,
+                0.84,
+                0
+              ],
+              "yawPitchRoll": [
+                0.31,
+                0,
+                0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "NannothTombstone",
+              "offset": [
+                0.98,
+                0.18,
+                0.1
+              ],
+              "yawPitchRoll": [
+                0.03,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            },
+            {
+              "type": "StarshipHoldingPen",
+              "offset": [
+                1.03,
+                0.23,
+                0
+              ],
+              "yawPitchRoll": [
+                0.31,
+                0,
+                0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "LightOmniPurple",
+              "offset": [
+                0.99,
+                0.19,
+                -0.3
+              ],
+              "yawPitchRoll": [
+                4.52,
+                0,
+                0
+              ],
+              "scale": [
+                0.41,
+                0.41,
+                0.41
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipHoldingPen",
+              "offset": [
+                -0.93,
+                -0.23,
+                0
+              ],
+              "yawPitchRoll": [
+                0.31,
+                0,
+                0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "LightOmniPurple",
+              "offset": [
+                -0.95,
+                -0.32,
+                0
+              ],
+              "yawPitchRoll": [
+                4.52,
+                0,
+                0
+              ],
+              "scale": [
+                0.41,
+                0.41,
+                0.41
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "NurohkTombstone",
+              "offset": [
+                -0.95,
+                -0.18,
+                0
+              ],
+              "yawPitchRoll": [
+                0.22,
+                0,
+                0
+              ],
+              "scale": [
+                0.39,
+                0.39,
+                0.5
+              ],
+              "tint": "NULL 2.000000",
+              "manipulations": [
+                "nonUniformScale",
+                "tinted",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipHoldingPen",
+              "offset": [
+                -2.89,
+                -0.73,
+                0
+              ],
+              "yawPitchRoll": [
+                0.31,
+                0,
+                0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "LightOmniPurple",
+              "offset": [
+                -2.97,
+                -0.84,
+                -0.4
+              ],
+              "yawPitchRoll": [
+                4.52,
+                0,
+                0
+              ],
+              "scale": [
+                0.46,
+                0.46,
+                0.46
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "KhorunTombstone",
+              "offset": [
+                -2.86,
+                -0.69,
+                0
+              ],
+              "yawPitchRoll": [
+                1.08,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "TrenchTombstone",
+              "offset": [
+                -4.78,
+                -1.16,
+                0.1
+              ],
+              "yawPitchRoll": [
+                0.25,
+                5.93,
+                0
+              ],
+              "scale": [
+                0.7,
+                0.7,
+                0.7
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "LightOmniPurple",
+              "offset": [
+                -4.79,
+                -1.28,
+                0
+              ],
+              "yawPitchRoll": [
+                4.52,
+                0,
+                0
+              ],
+              "scale": [
+                0.41,
+                0.41,
+                0.41
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "StarshipHoldingPen",
+              "offset": [
+                -4.82,
+                -1.16,
+                0
+              ],
+              "yawPitchRoll": [
+                0.31,
+                0,
+                0
+              ],
+              "scale": [
+                0.5,
+                0.5,
+                0.5
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            78.21,
+            57.52
+          ],
+          "bounds": [
+            70.88,
+            53.12,
+            86.04,
+            63.86
+          ],
+          "size": 38,
+          "manipulated": 9,
+          "types": [
+            {
+              "name": "KorhalOutskirtsCurtain",
+              "count": 13
+            },
+            {
+              "name": "RockTower12",
+              "count": 11
+            },
+            {
+              "name": "IceWorldCurtain",
+              "count": 5
+            },
+            {
+              "name": "LightOmniGreenLarge",
+              "count": 3
+            },
+            {
+              "name": "LightOmniOrangeLarge",
+              "count": 2
+            },
+            {
+              "name": "HybridLabCurtain",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "Protoss_Base_GroundTrim",
+              "offset": [
+                3.43,
+                5.69,
+                0
+              ],
+              "yawPitchRoll": [
+                0.06,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                4.49,
+                4.14,
+                0
+              ],
+              "yawPitchRoll": [
+                6.23,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                4.54,
+                2.41,
+                0
+              ],
+              "yawPitchRoll": [
+                5.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                5.97,
+                4.91,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                6.44,
+                3.29,
+                0
+              ],
+              "yawPitchRoll": [
+                1.7,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                6.3,
+                4.52,
+                0.6
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                6.2,
+                1.33,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                4.76,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                5.41,
+                0.33,
+                0
+              ],
+              "yawPitchRoll": [
+                0.43,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                6.74,
+                6.34,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                7.83,
+                5.58,
+                0
+              ],
+              "yawPitchRoll": [
+                3.19,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                4.18,
+                -0.19,
+                0
+              ],
+              "yawPitchRoll": [
+                3.27,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                3.29,
+                -0.02,
+                0.7
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                2.52,
+                -1.13,
+                0
+              ],
+              "yawPitchRoll": [
+                1.62,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                1.02,
+                0.19,
+                0.7
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                1.32,
+                -2.82,
+                0
+              ],
+              "yawPitchRoll": [
+                3.19,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -0.8,
+                1.67,
+                0
+              ],
+              "yawPitchRoll": [
+                3.95,
+                0,
+                0
+              ],
+              "scale": [
+                0.44,
+                0.44,
+                0.44
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -1.01,
+                1.51,
+                0
+              ],
+              "yawPitchRoll": [
+                1.26,
+                0,
+                0
+              ],
+              "scale": [
+                0.45,
+                0.45,
+                0.45
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                0.19,
+                1.38,
+                0
+              ],
+              "yawPitchRoll": [
+                3.49,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -0.29,
+                0.09,
+                0
+              ],
+              "yawPitchRoll": [
+                1.62,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -0.59,
+                -2.87,
+                0
+              ],
+              "yawPitchRoll": [
+                0.05,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -1.5,
+                -0.52,
+                0
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "HybridLabCurtain",
+              "offset": [
+                -1.45,
+                1.41,
+                0
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -1.72,
+                1.13,
+                0
+              ],
+              "yawPitchRoll": [
+                5.78,
+                0,
+                0
+              ],
+              "scale": [
+                0.44,
+                0.44,
+                0.44
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -1.72,
+                -0.85,
+                0
+              ],
+              "yawPitchRoll": [
+                3.09,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -1.39,
+                -1.65,
+                0
+              ],
+              "yawPitchRoll": [
+                4.37,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -2.05,
+                -4.35,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                4.84,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -2.45,
+                -2.46,
+                0
+              ],
+              "yawPitchRoll": [
+                2.64,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                -1.9,
+                -2.31,
+                0
+              ],
+              "yawPitchRoll": [
+                5.24,
+                0,
+                0
+              ],
+              "scale": [
+                0.96,
+                0.96,
+                0.96
+              ]
+            },
+            {
+              "type": "LightOmniOrange",
+              "offset": [
+                -3.7,
+                -1.31,
+                0
+              ],
+              "yawPitchRoll": [
+                5.98,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -3.07,
+                -2.12,
+                0
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -3.93,
+                -4.4,
+                0
+              ],
+              "yawPitchRoll": [
+                0.13,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -4.43,
+                -1.96,
+                0
+              ],
+              "yawPitchRoll": [
+                3.09,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -4.77,
+                -3.71,
+                0.99
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -5.5,
+                -3.63,
+                0
+              ],
+              "yawPitchRoll": [
+                4.76,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -6.64,
+                -2.03,
+                0
+              ],
+              "yawPitchRoll": [
+                4.41,
+                0,
+                0
+              ],
+              "scale": [
+                0.45,
+                0.45,
+                0.45
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -6.81,
+                -2.41,
+                0
+              ],
+              "yawPitchRoll": [
+                2.64,
+                0,
+                0
+              ],
+              "scale": [
+                0.49,
+                0.49,
+                0.49
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "HybridLabCurtain",
+              "offset": [
+                -6.8,
+                -2.44,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -7.33,
+                -2.74,
+                0
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            54.97,
+            55.15
+          ],
+          "bounds": [
+            52.79,
+            53.2,
+            56.66,
+            57.12
+          ],
+          "size": 7,
+          "manipulated": 7,
+          "types": [
+            {
+              "name": "LightOmniGreenLarge",
+              "count": 2
+            },
+            {
+              "name": "IceWorldCurtain",
+              "count": 2
+            },
+            {
+              "name": "LightOmniOrangeLarge",
+              "count": 1
+            },
+            {
+              "name": "KorhalOutskirtsCurtain",
+              "count": 1
+            },
+            {
+              "name": "RockTower1",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                1.69,
+                0.3,
+                4.47
+              ],
+              "yawPitchRoll": [
+                0.18,
+                0,
+                0
+              ],
+              "scale": [
+                1.41,
+                1.41,
+                1.41
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -0.75,
+                -0.1,
+                1.7
+              ],
+              "yawPitchRoll": [
+                3.09,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                1.46,
+                -1.2,
+                0.99
+              ],
+              "yawPitchRoll": [
+                2.64,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                1.53,
+                -1.95,
+                1.69
+              ],
+              "yawPitchRoll": [
+                3.09,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                0.05,
+                0.19,
+                2.6
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -1.8,
+                0.79,
+                3.61
+              ],
+              "yawPitchRoll": [
+                2.64,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockTower1",
+              "offset": [
+                -2.18,
+                1.97,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.38,
+                0.53,
+                0
+              ],
+              "scale": [
+                2,
+                2,
+                2
+              ],
+              "manipulations": [
+                "tilted",
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            68.79,
+            76.15
+          ],
+          "bounds": [
+            59.52,
+            73.36,
+            76.83,
+            80.5
+          ],
+          "size": 42,
+          "manipulated": 5,
+          "types": [
+            {
+              "name": "DesertWorldCurtain",
+              "count": 8
+            },
+            {
+              "name": "LightOmniGreenLarge",
+              "count": 7
+            },
+            {
+              "name": "IceWorldCurtain",
+              "count": 5
+            },
+            {
+              "name": "RockTower12",
+              "count": 4
+            },
+            {
+              "name": "LightOmniOrange",
+              "count": 4
+            },
+            {
+              "name": "RockTower122",
+              "count": 4
+            }
+          ],
+          "members": [
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -6.01,
+                -1.41,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -8.11,
+                -2.47,
+                0
+              ],
+              "yawPitchRoll": [
+                0.1,
+                0,
+                0
+              ],
+              "scale": [
+                0.46,
+                0.46,
+                0.46
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -6.37,
+                -2.28,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -6.62,
+                -2.43,
+                0
+              ],
+              "yawPitchRoll": [
+                6.03,
+                0,
+                0
+              ],
+              "scale": [
+                0.93,
+                0.93,
+                0.93
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -6.47,
+                -0.43,
+                0.8
+              ],
+              "yawPitchRoll": [
+                0.17,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -7.28,
+                -0.68,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0.05,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "LightOmniOrange",
+              "offset": [
+                -5.74,
+                -1.9,
+                0
+              ],
+              "yawPitchRoll": [
+                2.25,
+                0,
+                0
+              ],
+              "scale": [
+                0.97,
+                0.97,
+                0.97
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -4.96,
+                -0.22,
+                0
+              ],
+              "yawPitchRoll": [
+                4.84,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                -3.68,
+                -1.98,
+                0
+              ],
+              "yawPitchRoll": [
+                3.83,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -9.27,
+                -2.79,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -8.67,
+                -2.21,
+                0
+              ],
+              "yawPitchRoll": [
+                5.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -3.5,
+                -0.95,
+                0
+              ],
+              "yawPitchRoll": [
+                2.74,
+                0,
+                0
+              ],
+              "scale": [
+                1.11,
+                1.11,
+                1.11
+              ]
+            },
+            {
+              "type": "RockTower122",
+              "offset": [
+                -3.59,
+                0.9,
+                0
+              ],
+              "yawPitchRoll": [
+                5.21,
+                0,
+                0
+              ],
+              "scale": [
+                0.67,
+                0.67,
+                0.67
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -2.39,
+                -0.74,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                -1.65,
+                -0.38,
+                0
+              ],
+              "yawPitchRoll": [
+                4.62,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "RockTower122",
+              "offset": [
+                -2.3,
+                2.39,
+                0
+              ],
+              "yawPitchRoll": [
+                3.67,
+                0,
+                0
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                -1.81,
+                2.11,
+                1.5
+              ],
+              "yawPitchRoll": [
+                1.59,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniOrange",
+              "offset": [
+                0.03,
+                -1.21,
+                0
+              ],
+              "yawPitchRoll": [
+                0.49,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                0.01,
+                -0.53,
+                0
+              ],
+              "yawPitchRoll": [
+                0.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.81,
+                0.81,
+                0.81
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                -0.36,
+                -0.77,
+                0
+              ],
+              "yawPitchRoll": [
+                1.59,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "RockTower122",
+              "offset": [
+                0.01,
+                0.98,
+                0
+              ],
+              "yawPitchRoll": [
+                2.45,
+                0,
+                0
+              ],
+              "scale": [
+                0.68,
+                0.68,
+                0.68
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                -0.34,
+                2.84,
+                1.5
+              ],
+              "yawPitchRoll": [
+                1.59,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                1.99,
+                -0.6,
+                0
+              ],
+              "yawPitchRoll": [
+                2.3,
+                0,
+                0
+              ],
+              "scale": [
+                0.86,
+                0.86,
+                0.86
+              ]
+            },
+            {
+              "type": "CharDunesCurtain",
+              "offset": [
+                1.66,
+                -0.53,
+                0
+              ],
+              "yawPitchRoll": [
+                2.31,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "RockTower1",
+              "offset": [
+                0.1,
+                3.74,
+                0
+              ],
+              "yawPitchRoll": [
+                1.33,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                2.71,
+                -0.65,
+                0
+              ],
+              "yawPitchRoll": [
+                0.31,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniOrange",
+              "offset": [
+                2.6,
+                -0.94,
+                0
+              ],
+              "yawPitchRoll": [
+                4.33,
+                0,
+                0
+              ],
+              "scale": [
+                0.84,
+                0.84,
+                0.84
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                3.64,
+                -0.63,
+                0
+              ],
+              "yawPitchRoll": [
+                5.78,
+                0,
+                0
+              ],
+              "scale": [
+                0.85,
+                0.85,
+                0.85
+              ]
+            },
+            {
+              "type": "RockTower122",
+              "offset": [
+                2.71,
+                1.35,
+                0
+              ],
+              "yawPitchRoll": [
+                0.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.67,
+                0.67,
+                0.67
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                3.71,
+                -0.65,
+                0
+              ],
+              "yawPitchRoll": [
+                5.59,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "Protoss_Base_GroundTrim",
+              "offset": [
+                5.42,
+                -0.86,
+                0
+              ],
+              "yawPitchRoll": [
+                4.64,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "CharDunesCurtain",
+              "offset": [
+                5.99,
+                -0.21,
+                0
+              ],
+              "yawPitchRoll": [
+                3.35,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                4.86,
+                0.89,
+                0
+              ],
+              "yawPitchRoll": [
+                1.04,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                3.05,
+                2.22,
+                0.8
+              ],
+              "yawPitchRoll": [
+                0.17,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                7.48,
+                0.09,
+                0
+              ],
+              "yawPitchRoll": [
+                2.47,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                7.12,
+                0.81,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                7.24,
+                -0.36,
+                0
+              ],
+              "yawPitchRoll": [
+                4.98,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "HybridLabCurtain",
+              "offset": [
+                6.72,
+                0.03,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "LightOmniOrange",
+              "offset": [
+                8.04,
+                -0.81,
+                0
+              ],
+              "yawPitchRoll": [
+                4.5,
+                0,
+                0
+              ],
+              "scale": [
+                0.84,
+                0.84,
+                0.84
+              ]
+            },
+            {
+              "type": "RockTower1",
+              "offset": [
+                5.34,
+                3.09,
+                0
+              ],
+              "yawPitchRoll": [
+                0.33,
+                0,
+                0
+              ],
+              "scale": [
+                0.8,
+                0.8,
+                0.8
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            84.45,
+            75.23
+          ],
+          "bounds": [
+            77.62,
+            69.83,
+            90.61,
+            79.2
+          ],
+          "size": 27,
+          "manipulated": 5,
+          "types": [
+            {
+              "name": "RockTower12",
+              "count": 6
+            },
+            {
+              "name": "KorhalOutskirtsCurtain",
+              "count": 6
+            },
+            {
+              "name": "IceWorldCurtain",
+              "count": 4
+            },
+            {
+              "name": "LightOmniGreenLarge",
+              "count": 3
+            },
+            {
+              "name": "RockTower122",
+              "count": 3
+            },
+            {
+              "name": "DesertWorldCurtain",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "RockTower12",
+              "offset": [
+                3.57,
+                -3.61,
+                0
+              ],
+              "yawPitchRoll": [
+                5.57,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                2.71,
+                -5.4,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                2.59,
+                -3.12,
+                1.5
+              ],
+              "yawPitchRoll": [
+                1.59,
+                0,
+                0
+              ],
+              "scale": [
+                0.55,
+                0.55,
+                0.55
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                1.7,
+                -3.66,
+                0
+              ],
+              "yawPitchRoll": [
+                1.7,
+                0,
+                0
+              ],
+              "scale": [
+                1.19,
+                1.19,
+                1.19
+              ]
+            },
+            {
+              "type": "RockTower122",
+              "offset": [
+                6.05,
+                -3.73,
+                0
+              ],
+              "yawPitchRoll": [
+                3.24,
+                0,
+                0
+              ],
+              "scale": [
+                1.14,
+                1.14,
+                1.14
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                3.05,
+                -0.73,
+                0
+              ],
+              "yawPitchRoll": [
+                3.76,
+                0,
+                0
+              ],
+              "scale": [
+                0.95,
+                0.95,
+                0.95
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                6.15,
+                -4.06,
+                1.4
+              ],
+              "yawPitchRoll": [
+                0.17,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                0.83,
+                -0.8,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                3.99,
+                -0.95,
+                0.8
+              ],
+              "yawPitchRoll": [
+                0.17,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "HybridLabCurtain",
+              "offset": [
+                0.53,
+                0,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -0.42,
+                -0.1,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                0.65,
+                0.13,
+                0
+              ],
+              "yawPitchRoll": [
+                1.7,
+                0,
+                0
+              ],
+              "scale": [
+                1.19,
+                1.19,
+                1.19
+              ]
+            },
+            {
+              "type": "RockTower122",
+              "offset": [
+                6.05,
+                -0.73,
+                0
+              ],
+              "yawPitchRoll": [
+                0.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.95,
+                0.95,
+                0.95
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -1.44,
+                0.63,
+                0
+              ],
+              "yawPitchRoll": [
+                5.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "RockTower122",
+              "offset": [
+                0.05,
+                2.27,
+                0
+              ],
+              "yawPitchRoll": [
+                4.49,
+                0,
+                0
+              ],
+              "scale": [
+                0.86,
+                0.86,
+                0.86
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -2.28,
+                0.23,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -3.85,
+                0.29,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -2.9,
+                1.85,
+                0
+              ],
+              "yawPitchRoll": [
+                4.84,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                -2.22,
+                3.07,
+                1.5
+              ],
+              "yawPitchRoll": [
+                6.26,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                2.05,
+                2.27,
+                0
+              ],
+              "yawPitchRoll": [
+                4.55,
+                0,
+                0
+              ],
+              "scale": [
+                0.8,
+                0.8,
+                0.8
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -4.46,
+                0.88,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -4.5,
+                0.47,
+                0
+              ],
+              "yawPitchRoll": [
+                6.23,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "RockTower1",
+              "offset": [
+                -3.58,
+                3.84,
+                0
+              ],
+              "yawPitchRoll": [
+                5.29,
+                0,
+                0
+              ],
+              "scale": [
+                0.97,
+                0.97,
+                0.97
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                4.05,
+                2.27,
+                0
+              ],
+              "yawPitchRoll": [
+                2.41,
+                0,
+                0
+              ],
+              "scale": [
+                1.11,
+                1.11,
+                1.11
+              ]
+            },
+            {
+              "type": "RockTower12",
+              "offset": [
+                -5.71,
+                2.15,
+                0
+              ],
+              "yawPitchRoll": [
+                0.05,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -5.82,
+                2.56,
+                0.8
+              ],
+              "yawPitchRoll": [
+                0.17,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockTower1",
+              "offset": [
+                -6.83,
+                3.97,
+                0
+              ],
+              "yawPitchRoll": [
+                5.85,
+                0,
+                0
+              ],
+              "scale": [
+                1.08,
+                1.08,
+                1.08
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            47.96,
+            72
+          ],
+          "bounds": [
+            43.93,
+            65.39,
+            53.41,
+            77.5
+          ],
+          "size": 25,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "LightOmniGreenLarge",
+              "count": 8
+            },
+            {
+              "name": "KorhalOutskirtsCurtain",
+              "count": 5
+            },
+            {
+              "name": "DesertWorldCurtain",
+              "count": 4
+            },
+            {
+              "name": "IceWorldCurtain",
+              "count": 4
+            },
+            {
+              "name": "HybridLabCurtain",
+              "count": 2
+            },
+            {
+              "name": "LightOmniOrange",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                5.04,
+                5.5,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                5.61,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniOrange",
+              "offset": [
+                4.45,
+                4.76,
+                0
+              ],
+              "yawPitchRoll": [
+                0.1,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                3.54,
+                4,
+                0
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                4.04,
+                5.5,
+                0
+              ],
+              "yawPitchRoll": [
+                1.57,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                5.45,
+                5.1,
+                0.02
+              ],
+              "yawPitchRoll": [
+                1.84,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                3.77,
+                1.94,
+                0
+              ],
+              "yawPitchRoll": [
+                1.84,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                2.04,
+                2.5,
+                0
+              ],
+              "yawPitchRoll": [
+                1.57,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                2.54,
+                3,
+                0
+              ],
+              "yawPitchRoll": [
+                1.21,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                1.54,
+                2,
+                0
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                2.27,
+                0.1,
+                0
+              ],
+              "yawPitchRoll": [
+                1.84,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                0.42,
+                -0.15,
+                0
+              ],
+              "yawPitchRoll": [
+                1.84,
+                0,
+                0
+              ],
+              "scale": [
+                0.53,
+                0.53,
+                0.53
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                0.35,
+                0.29,
+                0
+              ],
+              "yawPitchRoll": [
+                5.61,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -1.96,
+                -0.35,
+                0
+              ],
+              "yawPitchRoll": [
+                6.23,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -1.31,
+                -0.52,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.62,
+                0.62,
+                0.62
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -0.34,
+                -0.73,
+                0
+              ],
+              "yawPitchRoll": [
+                1.51,
+                0,
+                0
+              ],
+              "scale": [
+                0.11,
+                0.11,
+                0.11
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -3.12,
+                -2.5,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -3.3,
+                -1.8,
+                0.01
+              ],
+              "yawPitchRoll": [
+                1.57,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -2.89,
+                -1.28,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0.27,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                -2.4,
+                -0.56,
+                0
+              ],
+              "yawPitchRoll": [
+                4.04,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "DesertWorldCurtain",
+              "offset": [
+                -3.05,
+                -4.59,
+                0
+              ],
+              "yawPitchRoll": [
+                4.04,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "IceWorldCurtain",
+              "offset": [
+                -3.41,
+                -3.48,
+                0
+              ],
+              "yawPitchRoll": [
+                1.57,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "HybridLabCurtain",
+              "offset": [
+                -3.81,
+                -2.76,
+                0
+              ],
+              "yawPitchRoll": [
+                1.57,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -2.33,
+                -4.15,
+                0
+              ],
+              "yawPitchRoll": [
+                0.27,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "HybridLabCurtain",
+              "offset": [
+                -3.54,
+                -5.22,
+                0
+              ],
+              "yawPitchRoll": [
+                1.57,
+                0,
+                0
+              ],
+              "scale": [
+                0.65,
+                0.65,
+                0.65
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                -4.02,
+                -6.61,
+                2.5
+              ],
+              "yawPitchRoll": [
+                2.03,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            47.39,
+            82.42
+          ],
+          "bounds": [
+            47.28,
+            81.5,
+            47.5,
+            83.34
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockTower12",
+              "count": 1
+            },
+            {
+              "name": "RockTower1",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockTower12",
+              "offset": [
+                0.11,
+                -0.92,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                1.21,
+                0,
+                0
+              ],
+              "scale": [
+                2,
+                2,
+                2
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockTower1",
+              "offset": [
+                -0.11,
+                0.92,
+                0.35
+              ],
+              "yawPitchRoll": [
+                5.29,
+                0,
+                0
+              ],
+              "scale": [
+                2,
+                2,
+                2
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            62.35,
+            52.67
+          ],
+          "bounds": [
+            61.2,
+            52.51,
+            63.2,
+            52.8
+          ],
+          "size": 3,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "KorhalOutskirtsCurtain",
+              "count": 2
+            },
+            {
+              "name": "LightOmniOrangeLarge",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                0.85,
+                0.13,
+                0.44
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ]
+            },
+            {
+              "type": "KorhalOutskirtsCurtain",
+              "offset": [
+                -1.16,
+                0.02,
+                0.73
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.76,
+                0.76,
+                0.76
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                0.31,
+                -0.15,
+                -2.06
+              ],
+              "yawPitchRoll": [
+                2.51,
+                0,
+                0
+              ],
+              "scale": [
+                1.13,
+                1.13,
+                1.13
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "landmarks": [
+      {
+        "type": "ProtossWarpInPad",
+        "position": [
+          47.85,
+          221.01
+        ],
+        "scale": 5
+      },
+      {
+        "type": "RockTower12",
+        "position": [
+          51.05,
+          50.83
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower12",
+        "position": [
+          78.14,
+          50.65
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower122",
+        "position": [
+          42.92,
+          76.73
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower1",
+        "position": [
+          73.48,
+          47.04
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower12",
+        "position": [
+          60.78,
+          83.85
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower12",
+        "position": [
+          47.5,
+          81.5
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower1",
+        "position": [
+          40.61,
+          59.35
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower12",
+        "position": [
+          39.34,
+          65.97
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower1",
+        "position": [
+          47.28,
+          83.34
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower12",
+        "position": [
+          65.79,
+          84.61
+        ],
+        "scale": 2
+      },
+      {
+        "type": "RockTower122",
+        "position": [
+          37.97,
+          73.76
+        ],
+        "scale": 2
+      }
+    ],
+    "singletonTypes": [
+      "ShakurasSkybox",
+      "NannothTombstone",
+      "StarshipEngine",
+      "TrenchTombstone",
+      "NurohkTombstone",
+      "LauriochTombstone",
+      "TurmalisArbiterDoodad2",
+      "JepokTombstone",
+      "ProtossWarpInPad",
+      "TurmalisDoodad",
+      "ShakurasSkybox2",
+      "KhorunTombstone",
+      "ProtossTarmacSplat"
+    ]
+  },
+  "lighting": {
+    "note": "Lighting is switched by triggers per area or story beat; 'calls' lists every GameSetLighting and the function making it.",
+    "lightsUsed": [
+      "DefaultLight",
+      "PsionicWaveUp"
+    ],
+    "calls": [
+      {
+        "light": "DefaultLight",
+        "blendSeconds": 0,
+        "inFunction": "gt_PostcreditScene_Func"
+      },
+      {
+        "light": "PsionicWaveUp",
+        "blendSeconds": 1,
+        "inFunction": "gt_PostcreditScene_Func"
+      }
+    ],
+    "localLights": [
+      {
+        "id": "PsionicWaveUp",
+        "hdrExposure": "1.575000",
+        "colorization": {
+          "hue": "-0.031000",
+          "saturation": "0.176000",
+          "brightness": "1.211000",
+          "blend": "0.617000"
+        },
+        "fill": {
+          "color": "0.501961,0.000000,0.250980",
+          "multiplier": 1.245,
+          "direction": "0.279917,0.506024,0.815835"
+        },
+        "back": {
+          "color": "0.000000,1.000000,0.000000",
+          "multiplier": 1.603
+        }
+      },
+      {
+        "id": "Shakuras",
+        "ambientColor": "0.282353,0.282353,0.282353",
+        "colorize": "1",
+        "hdrExposure": "1.350000",
+        "colorization": {
+          "hue": "-0.362000",
+          "saturation": "0.246000",
+          "blend": "0.331000"
+        },
+        "key": {
+          "color": "0.729412,0.721569,0.713726",
+          "multiplier": 0.733,
+          "direction": "0.694127,-0.217526,-0.686199"
+        },
+        "fill": {
+          "color": "0.184314,0.227451,0.231373",
+          "multiplier": 1.445,
+          "direction": "0.087874,0.175711,-0.980512"
+        },
+        "back": {
+          "color": "1.000000,0.501961,0.000000",
+          "multiplier": 1.365,
+          "direction": "-0.777021,0.131144,0.615662"
+        }
+      },
+      {
+        "id": "Slayn",
+        "ambientColor": "0.207843,0.270588,0.400000",
+        "colorize": "1",
+        "hdrExposure": "0.375000",
+        "colorization": {
+          "hue": "0.001000",
+          "blend": "0.300000"
+        }
+      }
+    ],
+    "localTerrains": [
+      {
+        "id": "NewAntioch",
+        "blendTextures": [
+          "PurifierWorld3"
+        ],
+        "cliffSets": [],
+        "fog": {}
+      },
+      {
+        "id": "NewAntiochWargirl",
+        "lighting": "Shakuras",
+        "blendTextures": [
+          "ShakurasSand",
+          "PurifierWorld3",
+          "ShakurasDirtCracked",
+          "ShakurasStone",
+          "ShakurasRockCracked",
+          "ShakurasRockRough",
+          "UlnarHull3",
+          "KorhalCity2"
+        ],
+        "cliffSets": [
+          "ShakurasEx1Cliff0",
+          "ShakurasEx1Cliff1"
+        ],
+        "skybox": "ShakurasSkyBox",
+        "fog": {
+          "enabled": "1",
+          "color": "255,45,68,86",
+          "density": "0.060000",
+          "falloff": "0.200000"
+        }
+      },
+      {
+        "id": "NewAntiochWargirl2",
+        "lighting": "Shakuras",
+        "blendTextures": [
+          "ShakurasSand",
+          "PurifierWorld3",
+          "ShakurasDirtCracked",
+          "ShakurasStone",
+          "ShakurasRockCracked",
+          "ShakurasRockRough",
+          "UlnarHull3",
+          "ShakurasTemple5"
+        ],
+        "cliffSets": [
+          "ShakurasEx1Cliff0",
+          "ShakurasEx1Cliff1"
+        ],
+        "skybox": "ShakurasSkyBox",
+        "fog": {
+          "enabled": "1",
+          "color": "255,45,68,86",
+          "density": "0.060000",
+          "falloff": "0.200000"
+        }
+      }
+    ],
+    "fogType": "Black",
+    "waterBodies": 0
+  },
+  "composition": {
+    "size": [
+      128,
+      256
+    ],
+    "playableBounds": [
+      10,
+      8,
+      118,
+      241
+    ],
+    "playableShare": 0.768,
+    "vertexColour": {
+      "entries": 2190,
+      "entriesPerThousandCells": 66.833,
+      "note": "Entry layout undecoded; count only."
+    },
+    "vertexShading": {
+      "note": "t3VertCol kind-1 per-vertex values; a cell is darkened when its corner mean < 224. Painted or baked is unverified.",
+      "darkenedCellShare": 0.058,
+      "darkenedShareByContext": {
+        "cliffEdge": 0.339,
+        "nearEdge": 0.279,
+        "open": 0.035,
+        "ramp": 0
+      }
+    },
+    "fluffEntries": 0,
+    "units": {
+      "count": 8,
+      "byPlayer": {
+        "0": 2,
+        "1": 6
+      },
+      "neutralTopTypes": [
+        {
+          "name": "EyeoftheXelNaga",
+          "count": 2
+        }
+      ]
+    },
+    "points": 13
+  }
+}

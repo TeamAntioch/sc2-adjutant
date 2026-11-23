@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="ComC">
+        <Root>
+            <Item Type="FunctionDef" Library="ComC" Id="8077C217"/>
+            <Item Type="FunctionDef" Library="ComC" Id="8DDD8350"/>
+            <Item Type="FunctionDef" Library="ComC" Id="EE958875"/>
+        </Root>
+        <Element Type="FunctionDef" Id="8077C217">
+            <Internal/>
+            <FlagCall/>
+            <ReturnType>
+                <Type Value="string"/>
+            </ReturnType>
+            <Parameter Type="ParamDef" Library="ComC" Id="B0DF6843"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="FA3FC314"/>
+        </Element>
+        <Element Type="ParamDef" Id="B0DF6843">
+            <Identifier>planet</Identifier>
+            <ParameterType>
+                <Type Value="gamelink"/>
+                <GameType Value="Location"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="1B2392A1"/>
+        </Element>
+        <Element Type="Param" Id="1B2392A1">
+            <Preset Type="PresetValue" Library="Ntve" Id="C9DCA6C0"/>
+        </Element>
+        <Element Type="FunctionCall" Id="FA3FC314">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000097"/>
+            <Parameter Type="Param" Library="ComC" Id="F817F19A"/>
+        </Element>
+        <Element Type="Param" Id="F817F19A">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000488"/>
+            <ExpressionType Type="string"/>
+            <ExpressionText>~Prefix~~Planet Name~</ExpressionText>
+            <ExpressionParam Type="Param" Library="ComC" Id="F39F9F2D"/>
+            <ExpressionParam Type="Param" Library="ComC" Id="1EC1C9D0"/>
+        </Element>
+        <Element Type="Param" Id="F39F9F2D">
+            <Value>CC_L_</Value>
+            <ValueType Type="string"/>
+            <ExpressionCode Value="Prefix"/>
+        </Element>
+        <Element Type="Param" Id="1EC1C9D0">
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="50515CC0"/>
+            <ExpressionCode Value="Planet Name"/>
+        </Element>
+        <Element Type="FunctionCall" Id="50515CC0">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="E4B86923"/>
+            <Parameter Type="Param" Library="ComC" Id="78F8944E"/>
+        </Element>
+        <Element Type="Param" Id="78F8944E">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="711D5A26"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="B0DF6843"/>
+        </Element>
+        <Element Type="Preset" Id="13F26229">
+            <Label Type="Label" Library="Ntve" Id="C5092BE2"/>
+            <PresetInteger/>
+            <BaseType Value="int"/>
+            <PresetGenConstVar/>
+            <Item Type="PresetValue" Library="ComC" Id="77F23DD4"/>
+            <Item Type="PresetValue" Library="ComC" Id="9707FBD1"/>
+            <Item Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="PresetValue" Id="77F23DD4">
+        </Element>
+        <Element Type="PresetValue" Id="9707FBD1">
+            <DefinesDefault/>
+        </Element>
+        <Element Type="PresetValue" Id="CE428D9D">
+        </Element>
+        <Element Type="FunctionDef" Id="F0844195">
+            <Identifier>MissionStatusAge</Identifier>
+            <Label Type="Label" Library="Ntve" Id="0677E49B"/>
+            <FlagCall/>
+            <ReturnType>
+                <Type Value="int"/>
+            </ReturnType>
+            <Parameter Type="ParamDef" Library="ComC" Id="765CB1F5"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="6355CB64"/>
+        </Element>
+        <Element Type="ParamDef" Id="765CB1F5">
+            <Identifier>mission</Identifier>
+            <ParameterType>
+                <Type Value="gamelink"/>
+                <GameType Value="Map"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="A99B976D"/>
+        </Element>
+        <Element Type="Param" Id="A99B976D">
+            <Value>Placeholder</Value>
+            <ValueType Type="gamelink"/>
+            <ValueGameType Type="Map"/>
+        </Element>
+        <Element Type="ParamDef" Id="6355CB64">
+            <Identifier>status</Identifier>
+            <ParameterType>
+                <Type Value="preset"/>
+                <TypeElement Type="Preset" Library="ComC" Id="13F26229"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="BB72D11D"/>
+        </Element>
+        <Element Type="Param" Id="BB72D11D">
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="FunctionDef" Id="B3F7BBC4">
+            <Identifier>MissionStatusCheck</Identifier>
+            <Label Type="Label" Library="Ntve" Id="0677E49B"/>
+            <FlagCall/>
+            <ReturnType>
+                <Type Value="bool"/>
+            </ReturnType>
+            <Parameter Type="ParamDef" Library="ComC" Id="4A49F5E5"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="879A76D2"/>
+        </Element>
+        <Element Type="ParamDef" Id="4A49F5E5">
+            <Identifier>mission</Identifier>
+            <ParameterType>
+                <Type Value="gamelink"/>
+                <GameType Value="Map"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="06DF4AE8"/>
+        </Element>
+        <Element Type="Param" Id="06DF4AE8">
+            <Value>Placeholder</Value>
+            <ValueType Type="gamelink"/>
+            <ValueGameType Type="Map"/>
+        </Element>
+        <Element Type="ParamDef" Id="879A76D2">
+            <Identifier>status</Identifier>
+            <ParameterType>
+                <Type Value="preset"/>
+                <TypeElement Type="Preset" Library="ComC" Id="13F26229"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="7851E1B1"/>
+        </Element>
+        <Element Type="Param" Id="7851E1B1">
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="FunctionDef" Id="9A8164F5">
+            <Identifier>ForEachMission</Identifier>
+            <Label Type="Label" Library="Ntve" Id="0677E49B"/>
+            <FlagAction/>
+            <FlagSubFunctions/>
+            <FlagAllowBreak/>
+            <Parameter Type="ParamDef" Library="ComC" Id="D6F90207"/>
+            <SubFunctionType Type="SubFuncType" Library="ComC" Id="D0F9E5FA"/>
+            <ScriptCode>
+                #AUTOVAR(ae) = CatalogEntryCount(c_gameCatalogMap);
+                #AUTOVAR(ai) = 1;
+                while (#AUTOVAR(ai) &lt;= #AUTOVAR(ae)) {
+                    #PARAM(indexMission) = CatalogEntryGet(c_gameCatalogMap, #AUTOVAR(ai));
+                    #AUTOVAR(ai) = #AUTOVAR(ai) + 1;
+                    if (CatalogFieldValueGet(c_gameCatalogMap, #PARAM(indexMission), &quot;Kind&quot;, 1) == &quot;Mission&quot; &amp;&amp; libComC_gf_CC_MapInternal(#PARAM(indexMission)) == false) {
+                        #SUBFUNCS(actions)
+                    }    
+                }
+            </ScriptCode>
+        </Element>
+        <Element Type="ParamDef" Id="D6F90207">
+            <Identifier>indexMission</Identifier>
+            <ParameterType>
+                <Type Value="gamelink"/>
+                <GameType Value="Map"/>
+            </ParameterType>
+        </Element>
+        <Element Type="SubFuncType" Id="D0F9E5FA">
+            <Identifier>actions</Identifier>
+            <Action/>
+        </Element>
+        <Element Type="FunctionDef" Id="12F97312">
+            <Label Type="Label" Library="Ntve" Id="0677E49B"/>
+            <Internal/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="ComC" Id="A015A4D3"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="A3706DCC"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="6B46959B"/>
+        </Element>
+        <Element Type="ParamDef" Id="A015A4D3">
+            <Identifier>mission</Identifier>
+            <ParameterType>
+                <Type Value="gamelink"/>
+                <GameType Value="Map"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="0905E047"/>
+        </Element>
+        <Element Type="Param" Id="0905E047">
+            <Preset Type="PresetValue" Library="Ntve" Id="C9DCA6C0"/>
+        </Element>
+        <Element Type="ParamDef" Id="A3706DCC">
+            <Identifier>status</Identifier>
+            <ParameterType>
+                <Type Value="preset"/>
+                <TypeElement Type="Preset" Library="ComC" Id="13F26229"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="599315FB"/>
+        </Element>
+        <Element Type="Param" Id="599315FB">
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="ParamDef" Id="6B46959B">
+            <Identifier>age</Identifier>
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="0DF9489A"/>
+        </Element>
+        <Element Type="Param" Id="0DF9489A">
+            <Value>0</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="FunctionDef" Id="1594753C">
+            <Label Type="Label" Library="Ntve" Id="0677E49B"/>
+            <Internal/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="ComC" Id="1A286AB3"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="5C6C3582"/>
+        </Element>
+        <Element Type="ParamDef" Id="1A286AB3">
+            <Identifier>mission</Identifier>
+            <ParameterType>
+                <Type Value="gamelink"/>
+                <GameType Value="Map"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="1872F962"/>
+        </Element>
+        <Element Type="Param" Id="1872F962">
+            <Preset Type="PresetValue" Library="Ntve" Id="C9DCA6C0"/>
+        </Element>
+        <Element Type="ParamDef" Id="5C6C3582">
+            <Identifier>status</Identifier>
+            <ParameterType>
+                <Type Value="preset"/>
+                <TypeElement Type="Preset" Library="ComC" Id="13F26229"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="B4830146"/>
+        </Element>
+        <Element Type="Param" Id="B4830146">
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="FunctionDef" Id="8DDD8350">
+            <Internal/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="ComC" Id="C713D35D"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="5D56B9C2"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="602406CA"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="4E57F858"/>
+        </Element>
+        <Element Type="ParamDef" Id="C713D35D">
+            <Identifier>objective</Identifier>
+            <ParameterType>
+                <Type Value="gamelink"/>
+                <GameType Value="Objective"/>
+            </ParameterType>
+        </Element>
+        <Element Type="ParamDef" Id="5D56B9C2">
+            <Identifier>progress</Identifier>
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="0802FE19"/>
+        </Element>
+        <Element Type="Param" Id="0802FE19">
+            <Value>0</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="FunctionCall" Id="602406CA">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000118"/>
+            <Parameter Type="Param" Library="ComC" Id="B4C724FB"/>
+            <Parameter Type="Param" Library="ComC" Id="3DA6D3BC"/>
+            <Parameter Type="Param" Library="ComC" Id="6F77848E"/>
+        </Element>
+        <Element Type="Param" Id="B4C724FB">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="C3CF50B0"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="AEB4446D"/>
+        </Element>
+        <Element Type="Param" Id="3DA6D3BC">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000187"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="00000072"/>
+        </Element>
+        <Element Type="Param" Id="6F77848E">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000186"/>
+            <ExpressionType Type="text"/>
+            <ExpressionParam Type="Param" Library="ComC" Id="B6A9B405"/>
+            <ExpressionParam Type="Param" Library="ComC" Id="C8B30D2F"/>
+        </Element>
+        <Element Type="Param" Id="B6A9B405">
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="776AF277"/>
+            <ExpressionCode Value="A"/>
+        </Element>
+        <Element Type="FunctionCall" Id="776AF277">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="55C79F96"/>
+            <Parameter Type="Param" Library="ComC" Id="916D74DC"/>
+        </Element>
+        <Element Type="Param" Id="916D74DC">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="30693AA2"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="B4C9FFE6"/>
+        </Element>
+        <Element Type="FunctionCall" Id="B4C9FFE6">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="E4B86923"/>
+            <Parameter Type="Param" Library="ComC" Id="FA030628"/>
+        </Element>
+        <Element Type="Param" Id="FA030628">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="711D5A26"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="C713D35D"/>
+        </Element>
+        <Element Type="Param" Id="C8B30D2F">
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="4C52C347"/>
+            <ExpressionCode Value="B"/>
+        </Element>
+        <Element Type="FunctionCall" Id="4C52C347">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="EAC465A1"/>
+            <Parameter Type="Param" Library="ComC" Id="9F6BCD4D"/>
+        </Element>
+        <Element Type="Param" Id="9F6BCD4D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="D125FE97"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="5D56B9C2"/>
+        </Element>
+        <Element Type="FunctionCall" Id="4E57F858">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="F1C17BBA"/>
+            <Parameter Type="Param" Library="ComC" Id="CA6FC337"/>
+            <Parameter Type="Param" Library="ComC" Id="4702999D"/>
+            <Parameter Type="Param" Library="ComC" Id="71DEE83C"/>
+        </Element>
+        <Element Type="Param" Id="CA6FC337">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="22B82CD9"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="F7FDF14F"/>
+        </Element>
+        <Element Type="Param" Id="4702999D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9E6F0FCC"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="5D56B9C2"/>
+        </Element>
+        <Element Type="Param" Id="71DEE83C">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="EACCC6EF"/>
+            <ExpressionType Type="string"/>
+            <ExpressionText>CC_ArchiveObj_~A~</ExpressionText>
+            <ExpressionParam Type="Param" Library="ComC" Id="ECB16100"/>
+        </Element>
+        <Element Type="Param" Id="ECB16100">
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="CBEF190C"/>
+            <ExpressionCode Value="A"/>
+        </Element>
+        <Element Type="FunctionCall" Id="CBEF190C">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="E4B86923"/>
+            <Parameter Type="Param" Library="ComC" Id="DA82DCE6"/>
+        </Element>
+        <Element Type="Param" Id="DA82DCE6">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="711D5A26"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="C713D35D"/>
+        </Element>
+        <Element Type="FunctionDef" Id="619CB57C">
+            <Label Type="Label" Library="Ntve" Id="C5092BE2"/>
+            <Internal/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="ComC" Id="0A53C404"/>
+        </Element>
+        <Element Type="ParamDef" Id="0A53C404">
+            <Identifier>player</Identifier>
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="36E7BA2B"/>
+        </Element>
+        <Element Type="Param" Id="36E7BA2B">
+            <Value>1</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="FunctionDef" Id="6881A3BA">
+            <Label Type="Label" Library="Ntve" Id="C5092BE2"/>
+            <Internal/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="ComC" Id="D2544980"/>
+        </Element>
+        <Element Type="ParamDef" Id="D2544980">
+            <Identifier>player</Identifier>
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+            <Default Type="Param" Library="ComC" Id="3A867217"/>
+        </Element>
+        <Element Type="Param" Id="3A867217">
+            <Value>1</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="FunctionDef" Id="EE958875">
+            <Identifier>NC_ClampProgressToMission</Identifier>
+            <Internal/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="ComC" Id="608D9119"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+            <Variable Type="Variable" Library="ComC" Id="9B2DA0A7"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="91EB395C"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="4AFBBB60"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="DC496AEB"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="FBD148EF"/>
+        </Element>
+        <Element Type="ParamDef" Id="608D9119">
+            <Identifier>mission</Identifier>
+            <ParameterType>
+                <Type Value="gamelink"/>
+                <GameType Value="Map"/>
+            </ParameterType>
+            <ParamFlagPreload/>
+            <Default Type="Param" Library="ComC" Id="3721D9EC"/>
+        </Element>
+        <Element Type="Param" Id="3721D9EC">
+            <Preset Type="PresetValue" Library="Ntve" Id="C9DCA6C0"/>
+        </Element>
+        <Element Type="Variable" Id="DE5275B6">
+            <Identifier>indexMission</Identifier>
+            <VariableType>
+                <Type Value="gamelink"/>
+                <GameType Value="Map"/>
+            </VariableType>
+            <Value Type="Param" Library="ComC" Id="A6A9B586"/>
+        </Element>
+        <Element Type="Param" Id="A6A9B586">
+            <Preset Type="PresetValue" Library="Ntve" Id="C9DCA6C0"/>
+        </Element>
+        <Element Type="Variable" Id="9B2DA0A7">
+            <Identifier>indexPerk</Identifier>
+            <VariableType>
+                <Type Value="userinstance"/>
+                <TypeElement Type="ParamDef" Library="ComC" Id="608D9119"/>
+                <UserType Value="CampaignPerk"/>
+            </VariableType>
+        </Element>
+        <Element Type="FunctionCall" Id="91EB395C">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="9A8164F5"/>
+            <Parameter Type="Param" Library="ComC" Id="C4859D0D"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="E21F8AF3"/>
+        </Element>
+        <Element Type="Param" Id="C4859D0D">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="D6F90207"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+        </Element>
+        <Element Type="FunctionCall" Id="E21F8AF3">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="C0083258"/>
+            <SubFunctionType Type="SubFuncType" Library="ComC" Id="D0F9E5FA"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="9CF2132B"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="FD288CF1"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="9C67D564"/>
+        </Element>
+        <Element Type="FunctionCall" Id="9CF2132B">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="BB1891ED"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="C7699CD9"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="A91EECB9"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="685B75A1"/>
+        </Element>
+        <Element Type="FunctionCall" Id="A91EECB9">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="1594753C"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="BF750C3C"/>
+            <Parameter Type="Param" Library="ComC" Id="8971D42C"/>
+            <Parameter Type="Param" Library="ComC" Id="AD344D7F"/>
+        </Element>
+        <Element Type="Param" Id="8971D42C">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="1A286AB3"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+        </Element>
+        <Element Type="Param" Id="AD344D7F">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="5C6C3582"/>
+            <Preset Type="PresetValue" Library="ComC" Id="77F23DD4"/>
+        </Element>
+        <Element Type="FunctionCall" Id="685B75A1">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="C60B9062"/>
+            <Parameter Type="Param" Library="ComC" Id="C74C8763"/>
+            <Parameter Type="Param" Library="ComC" Id="469A8ACF"/>
+            <Parameter Type="Param" Library="ComC" Id="EA6ED327"/>
+        </Element>
+        <Element Type="Param" Id="C74C8763">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="81C1050C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="81C1050C">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="B3F7BBC4"/>
+            <Parameter Type="Param" Library="ComC" Id="15B99DF5"/>
+            <Parameter Type="Param" Library="ComC" Id="D3F7BFCD"/>
+        </Element>
+        <Element Type="Param" Id="15B99DF5">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="4A49F5E5"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+        </Element>
+        <Element Type="Param" Id="D3F7BFCD">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="879A76D2"/>
+            <Preset Type="PresetValue" Library="ComC" Id="9707FBD1"/>
+        </Element>
+        <Element Type="Param" Id="469A8ACF">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="1E7A4625"/>
+        </Element>
+        <Element Type="Param" Id="EA6ED327">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
+            <Value>true</Value>
+            <ValueType Type="bool"/>
+        </Element>
+        <Element Type="FunctionCall" Id="FD288CF1">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="BB1891ED"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="C7699CD9"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="A4BB7023"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="F7C24898"/>
+        </Element>
+        <Element Type="FunctionCall" Id="A4BB7023">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="1594753C"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="BF750C3C"/>
+            <Parameter Type="Param" Library="ComC" Id="A4E1D9AD"/>
+            <Parameter Type="Param" Library="ComC" Id="40D0A7A7"/>
+        </Element>
+        <Element Type="Param" Id="A4E1D9AD">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="1A286AB3"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+        </Element>
+        <Element Type="Param" Id="40D0A7A7">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="5C6C3582"/>
+            <Preset Type="PresetValue" Library="ComC" Id="77F23DD4"/>
+        </Element>
+        <Element Type="FunctionCall" Id="F7C24898">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="C60B9062"/>
+            <Parameter Type="Param" Library="ComC" Id="47E51B69"/>
+            <Parameter Type="Param" Library="ComC" Id="54241763"/>
+            <Parameter Type="Param" Library="ComC" Id="91A21BDF"/>
+        </Element>
+        <Element Type="Param" Id="47E51B69">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="ED36F2EB"/>
+        </Element>
+        <Element Type="FunctionCall" Id="ED36F2EB">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="F0844195"/>
+            <Parameter Type="Param" Library="ComC" Id="F8F3EAD9"/>
+            <Parameter Type="Param" Library="ComC" Id="0A37245B"/>
+        </Element>
+        <Element Type="Param" Id="F8F3EAD9">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="765CB1F5"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+        </Element>
+        <Element Type="Param" Id="0A37245B">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="6355CB64"/>
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="Param" Id="54241763">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="684CA9CE"/>
+        </Element>
+        <Element Type="Param" Id="91A21BDF">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="570BD512"/>
+        </Element>
+        <Element Type="FunctionCall" Id="570BD512">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="F0844195"/>
+            <Parameter Type="Param" Library="ComC" Id="735110AF"/>
+            <Parameter Type="Param" Library="ComC" Id="952AFCC2"/>
+        </Element>
+        <Element Type="Param" Id="735110AF">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="765CB1F5"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="608D9119"/>
+        </Element>
+        <Element Type="Param" Id="952AFCC2">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="6355CB64"/>
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="FunctionCall" Id="9C67D564">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="BB1891ED"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="C7699CD9"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="1F037928"/>
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="97D54085"/>
+        </Element>
+        <Element Type="FunctionCall" Id="1F037928">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="12F97312"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="BF750C3C"/>
+            <Parameter Type="Param" Library="ComC" Id="9690B456"/>
+            <Parameter Type="Param" Library="ComC" Id="B4D84191"/>
+            <Parameter Type="Param" Library="ComC" Id="687A2EB9"/>
+        </Element>
+        <Element Type="Param" Id="9690B456">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="A015A4D3"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+        </Element>
+        <Element Type="Param" Id="B4D84191">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="A3706DCC"/>
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="Param" Id="687A2EB9">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="6B46959B"/>
+            <ExpressionType Type="int"/>
+            <ExpressionText>~A~-~B~</ExpressionText>
+            <ExpressionParam Type="Param" Library="ComC" Id="B7385406"/>
+            <ExpressionParam Type="Param" Library="ComC" Id="F04A5C2A"/>
+        </Element>
+        <Element Type="Param" Id="B7385406">
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="DE9751B1"/>
+            <ExpressionCode Value="A"/>
+        </Element>
+        <Element Type="FunctionCall" Id="DE9751B1">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="F0844195"/>
+            <Parameter Type="Param" Library="ComC" Id="EA82301C"/>
+            <Parameter Type="Param" Library="ComC" Id="6A57CD59"/>
+        </Element>
+        <Element Type="Param" Id="EA82301C">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="765CB1F5"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+        </Element>
+        <Element Type="Param" Id="6A57CD59">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="6355CB64"/>
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="Param" Id="F04A5C2A">
+            <FunctionCall Type="FunctionCall" Library="ComC" Id="E88A1892"/>
+            <ExpressionCode Value="B"/>
+        </Element>
+        <Element Type="FunctionCall" Id="E88A1892">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="F0844195"/>
+            <Parameter Type="Param" Library="ComC" Id="A3E0647E"/>
+            <Parameter Type="Param" Library="ComC" Id="DC29AAF0"/>
+        </Element>
+        <Element Type="Param" Id="A3E0647E">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="765CB1F5"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="608D9119"/>
+        </Element>
+        <Element Type="Param" Id="DC29AAF0">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="6355CB64"/>
+            <Preset Type="PresetValue" Library="ComC" Id="CE428D9D"/>
+        </Element>
+        <Element Type="FunctionCall" Id="97D54085">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="C439C375"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="C60B9062"/>
+            <Parameter Type="Param" Library="ComC" Id="D51CD528"/>
+            <Parameter Type="Param" Library="ComC" Id="E97F62FF"/>
+            <Parameter Type="Param" Library="ComC" Id="328A739B"/>
+        </Element>
+        <Element Type="Param" Id="D51CD528">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="ABB380C4"/>
+            <Variable Type="Variable" Library="ComC" Id="DE5275B6"/>
+        </Element>
+        <Element Type="Param" Id="E97F62FF">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="51567265"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="500677B2"/>
+        </Element>
+        <Element Type="Param" Id="328A739B">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="4A15EC5F"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="608D9119"/>
+        </Element>
+        <Element Type="FunctionCall" Id="4AFBBB60">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="1594753C"/>
+            <Parameter Type="Param" Library="ComC" Id="FED67EC2"/>
+            <Parameter Type="Param" Library="ComC" Id="FF291A3B"/>
+        </Element>
+        <Element Type="Param" Id="FED67EC2">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="1A286AB3"/>
+            <Parameter Type="ParamDef" Library="ComC" Id="608D9119"/>
+        </Element>
+        <Element Type="Param" Id="FF291A3B">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="5C6C3582"/>
+            <Preset Type="PresetValue" Library="ComC" Id="9707FBD1"/>
+        </Element>
+        <Element Type="FunctionCall" Id="DC496AEB">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="6881A3BA"/>
+            <Parameter Type="Param" Library="ComC" Id="FBE34239"/>
+        </Element>
+        <Element Type="Param" Id="FBE34239">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="D2544980"/>
+            <Value>1</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="FunctionCall" Id="FBD148EF">
+            <FunctionDef Type="FunctionDef" Library="ComC" Id="619CB57C"/>
+            <Parameter Type="Param" Library="ComC" Id="17C5D7BA"/>
+        </Element>
+        <Element Type="Param" Id="17C5D7BA">
+            <ParameterDef Type="ParamDef" Library="ComC" Id="0A53C404"/>
+            <Value>1</Value>
+            <ValueType Type="int"/>
+        </Element>
+    </Library>
+</TriggerData>

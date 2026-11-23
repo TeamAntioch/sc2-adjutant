@@ -1,0 +1,332 @@
+export const meta = {
+  title: "A cutscene with placeholder voices",
+  summary: "Give a scene's lines placeholder voices from your computer's text-to-speech, and have Claude film it as a Cinematic on two sets: two Marines watching a screen on one of Blizzard's own, and the scene itself at a graveside built by hand, shown live on the screen by render-to-texture.",
+  minutes: 35,
+};
+
+You'll add a scene to *Ashfall Relay* and see it played in the game as a Cinematic: a cutscene filmed on sets, with the speakers' faces on screen, cut to their lines. On the bridge of their ship, two Marines watch a broadcast of *Hamlet*. The camera pushes in on the screen and cuts to the play itself: the gravedigger scene, at a bare graveside.
+
+Nobody has recorded the lines, so they get placeholder voices, spoken by your computer's text-to-speech. Placeholders give every line a real length, so the shots are cut to the lines as they'll play. A recording you add later replaces its placeholder, and the next compile uses it.
+
+Use the Workspace from [Your first Mission](/tutorials/first-mission/), with *Ashfall Relay* signed off. The turns below are written by hand. Claude's words will differ in your session, but the tool calls are the ones it makes.
+
+<Objective id="scene" title="Add the scene">
+
+A Mission's scenes and lines are in its Screenplay, `missions/ashfall-relay/ashfall-relay.md`. Each scene is a heading, each line a speaker in bold and the text, and a line starting `>` is a stage direction. A speaker must be one of the Campaign Mod's characters: this Workspace has `ADJUTANT`, `SERGEANT` and `FOREMAN`, so the play's two need adding.
+
+The lines are Shakespeare's, from *Hamlet*, Act 5, Scene 1, copied word for word from [Project Gutenberg's text](https://www.gutenberg.org/ebooks/1524), with the song's two verse lines joined into one. The play is in the public domain. A modern edition's own editing may not be, so take the lines from a public-domain text. The gravedigger is the text's FIRST CLOWN. The stage direction under the heading is the scene's own, not Shakespeare's.
+
+<You>
+Add this scene to the Screenplay, with HAMLET and GRAVEDIGGER as new characters. It plays before the landing.
+
+```markdown
+## Scene 3: THE GRAVEDIGGER
+
+> A tree. A gravestone. A beam of moonlight.
+
+**HAMLET**: Whose grave’s this, sir?
+
+**GRAVEDIGGER**: Mine, sir.
+
+> Sings.
+
+**GRAVEDIGGER**: O, a pit of clay for to be made For such a guest is meet.
+
+**HAMLET**: I think it be thine indeed, for thou liest in’t.
+
+**GRAVEDIGGER**: You lie out on’t, sir, and therefore ’tis not yours. For my part, I do not lie in’t, yet it is mine.
+
+**HAMLET**: Thou dost lie in’t, to be in’t and say it is thine. ’Tis for the dead, not for the quick; therefore thou liest.
+
+**GRAVEDIGGER**: ’Tis a quick lie, sir; ’t will away again from me to you.
+
+**HAMLET**: What man dost thou dig it for?
+
+**GRAVEDIGGER**: For no man, sir.
+
+**HAMLET**: What woman then?
+
+**GRAVEDIGGER**: For none neither.
+
+**HAMLET**: Who is to be buried in’t?
+
+**GRAVEDIGGER**: One that was a woman, sir; but, rest her soul, she’s dead.
+```
+</You>
+
+<Claude>
+I've added HAMLET and GRAVEDIGGER to the Campaign Mod, in `mods/example/blueprint.json`, each with a placeholder voice: `Daniel (English (UK))` and `Grandpa (English (UK))`, two of the Mac's British voices. Then I added the scene to `ashfall-relay.md` as Scene 3, after the relay scene. A scene's number is the one in its heading, and cues name it by that number; when it plays is set by its cue, not by where it sits in the file. Its 13 lines get the Campaign Pack's sound IDs, `Ch1_ashfall_relay_3_01` to `Ch1_ashfall_relay_3_13`, which also name their voice files. `Sings.` is a stage direction, so it has no sound ID.
+</Claude>
+
+This Workspace keeps its Screenplays as files, so Claude edits the file. A Campaign with a Screenplay Source, such as a script database, has its own way to edit them, and Claude uses that instead.
+
+</Objective>
+
+<Objective id="voices" title="Cue it and speak the placeholders" needs="tts.speak">
+
+A scene plays only when it has a cue. Scene 2, the relay, plays as the Mission is won, so nothing can follow it. Scene 3 goes first instead, at mission start, and the landing scene follows it.
+
+<You>Play it at mission start, before the landing. Then give it voices.</You>
+
+<Claude>
+<ToolCall
+  name="patch_blueprint"
+  args={{
+    mission: "ashfall-relay",
+    patch: [
+      { op: "add", path: "/screenplay/script/cues/-", value: { scene: 3, cue: { type: "missionStart" } } },
+      { op: "replace", path: "/screenplay/script/cues/0/cue", value: { type: "scenePlayed", scene: 3 } },
+    ],
+  }}
+>
+  cues Scene 3 at mission start, and the landing scene once it has played
+</ToolCall>
+
+<ToolCall name="speak_placeholder_voices" args={{ mission: "ashfall-relay" }}>speaks a placeholder for every line that has no voice file yet</ToolCall>
+
+Scene 3 now plays at mission start, and the landing briefing follows it. I spoke 13 placeholder lines into `missions/ashfall-relay/audio`, in each character's voice. The first two scenes' lines already have voice files, and no `manifest.json` records them as placeholders, so they count as recordings and were left alone. Delete them if you want them spoken too. Spoken, the scene runs 36.3 s, from 0.9 s for "For none neither." to 6.7 s for "You lie out on’t, sir…".
+</Claude>
+
+[`speak_placeholder_voices`](/tools/speak_placeholder_voices/) uses your computer's own text-to-speech, through the Host Adapter: `say` on macOS, and Windows' speech voices on Windows. It's free, runs offline and needs no key. Placeholders are encoded to `.ogg` with ffmpeg, so install that first: `brew install ffmpeg` on a Mac, `winget install BtbN.FFmpeg.GPL.9.0` on Windows. The Campaign Mod gives each character a voice (`mods/example/blueprint.json`, each character's `voice`). The example's are Mac voices, such as `Kathy`, so on Windows give each character a Windows voice first, such as `Zira` or `David`, or its lines fail to speak. Each file is trimmed to its speech, so lines played back to back have no gap. A file you recorded yourself is never replaced, and a placeholder is spoken again only when its line's text changes.
+
+</Objective>
+
+<Objective id="tier" title="Choose how it plays">
+
+The [`cinematography`](/skills/cinematography/) skill plans a scene: which tier carries it, its shots, its light, its music, and how it hands back to the player. Ask for it in plain words.
+
+<You>How should this scene play? Two Marines are watching it on a screen at first, then we go to the play itself.</You>
+
+<Claude>
+<ToolCall name="get_blueprint" args={{ mission: "ashfall-relay", pointer: "/screenplay" }}>reads the scene's cue and how the Screenplay's scenes play</ToolCall>
+
+The lowest tier that would carry it is Transmissions, portrait lines played over the game. They'd keep the words but lose the two men and their graveside, and the Marines watching. The tiers between, a ping and a Trigger Scene, play on the Mission's map, and neither a ship's bridge nor a graveside is on it. So it's a **Cinematic**, a cutscene filmed on Sets, cut to the lines. It takes two: a ship's bridge with a screen for the Marines, and a graveside for the play, which the screen shows live by render-to-texture.
+
+- **Length:** 36.3 s spoken, and 7 s on the Marines, with the fade in, before the play starts. A story Cinematic runs about a minute, so it fits.
+- **Mood and Light:** the bridge under its own Light; the graveside dark, lit as by moonlight.
+- **Coverage:** the Marines from behind, watching the play on the screen; a push in until the screen fills the frame; then the play, cut to its lines, on a wide of the two men and a single on each.
+- **Music:** I'd play it dry, with none, so the play's own lines carry it. The mission's music pauses under it and comes back after. Keep it silent, or shall I make you a listening sheet of candidates?
+- **Skip:** Escape skips it, and the landing scene plays next either way.
+</Claude>
+
+<You>Keep it silent.</You>
+
+<Claude>
+Silent it is. I've written that down as a choice in the plan, with the reason.
+</Claude>
+
+</Objective>
+
+<Objective id="set" title="Find a set" needs="Set Finder">
+
+Blizzard's campaign cutscenes are filmed on Sets. The Set Finder searches them by how they look.
+
+<Claude>
+<ToolCall name="find_sets" args={{ ask: "the bridge of a small Terran ship, with room for two people to stand and talk" }}>finds the sets that could play the place, best first</ToolCall>
+
+The best fit is **Nova Bridge**, the bridge of Nova's ship in *Nova Covert Ops*: a narrow deck about 7 by 16 cells, two pilot stations under a wide window, and a central aisle where two people can stand in front of the main screen. I looked at its pictures before choosing it: the aisle is clear, the screens light it a cold teal, and the side windows show stars. Its main screen is a display: its model shows render-to-texture channel 6, so it can show the graveside live. The Set catalogued as "D - Nova Bridge", another version of the same room, came a close second.
+</Claude>
+
+[`find_sets`](/tools/find_sets/) needs the Set Finder, an optional part of sc2-adjutant that npm installs with it where it can. Its ranker, Jev, reads each set's written look, never its pictures, so Claude looks at a Set's pictures before choosing it. Each ranked search costs a fraction of a cent on the TypeSafe key the Doodad Finder uses. Without the key it gives the Sets in the order its narrowing found them, by keywords and a local embeddings model.
+
+</Objective>
+
+<Objective id="import" title="Import the set">
+
+A Blizzard set is copied into the Mission as data, from the Cutscene Editor file it was filmed in. No game data ships with sc2-adjutant, so the file comes from the public mirror of the game's data, [sc2-game-data](https://github.com/sc2-arcade-watcher/sc2-game-data), fetched once.
+
+<Claude>
+Nova Bridge comes from `SMX3_Cutscene_MP03_030.SC2Cutscene`. I'll fetch that one file from the mirror, at the commit the set catalog was built from, into `~/sc2-game-data`:
+
+```sh
+curl -fL --create-dirs -o ~/sc2-game-data/mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_030.SC2Cutscene \
+  https://raw.githubusercontent.com/sc2-arcade-watcher/sc2-game-data/7be894538d6eac77a9583acfeb5f721e273beee4/mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_030.SC2Cutscene
+```
+
+<ToolCall
+  name="import_set"
+  args={{ mission: "ashfall-relay", set: "Nova Bridge", sources: [{ kind: "blizzard", dir: "/Users/you/sc2-game-data" }] }}
+>
+  copies the set into the Mission: its pieces, marks, cameras and Lights
+</ToolCall>
+
+Nova Bridge is in `missions/ashfall-relay/sets/nova-bridge.json`: 22 pieces, 4 marks, 23 cameras and 138 lamps, with its base Light. Blizzard moved most of its cameras during their shots, so each comes in as it stands at the start of its shot.
+
+Its models are *Nova Covert Ops* art, and the map loads only the game's base mod so far, `Void.SC2Mod`. So the map needs the art mod as a dependency, or the bridge won't be there in the game:
+
+<ToolCall
+  name="patch_blueprint"
+  args={{ mission: "ashfall-relay", patch: [{ op: "add", path: "/dependencies", value: ["bnet:Nova Covert Ops (Art Mod)/0.0/999,file:Mods/NovaStoryAssets.SC2Mod"] }] }}
+>
+  makes the map load the Nova Covert Ops art mod
+</ToolCall>
+
+The art mod builds on Void Campaign, which builds on `Void.SC2Mod`, so the map still loads everything it did.
+</Claude>
+
+Claude runs the `curl` command with its shell tool, so Claude Code asks first. `dir` is the folder you fetched into, `sc2-game-data` in your home folder (`C:\Users\you\sc2-game-data` on Windows). Keep the mirror's folder layout under it: `import_set` finds the file by the path the catalog records. [`import_set`](/tools/import_set/) needs no Finder. Given the set's name and a folder that holds its file, it works anywhere.
+
+</Objective>
+
+<Objective id="graveside" title="Build the graveside">
+
+No catalogued set is a graveside, so Claude builds one by hand, from the stage direction: a tree, a gravestone, a beam of moonlight. A built Set is the same JSON as an imported one: pieces, marks, cameras and lamps, in cells, with z up and the subject at 0, 0, 0.
+
+<Claude>
+I've written `missions/ashfall-relay/sets/graveside.json`:
+
+```json
+{
+  "name": "Graveside",
+  "lights": ["SMHyperionCantina_Low"],
+  "pieces": [
+    {"id": "gravestone", "model": "TombstoneDLH", "at": [0, 1.5, 0], "rotation": 180},
+    {"id": "tree", "model": "MarSaraTreeDead", "at": [-3, 3, 0]},
+    {"id": "moonlight", "model": "Tarsonis_VentLight", "at": [0, 0, 0]},
+    {"id": "grave", "model": "MarSaraDirtPileLarge", "at": [0, 0.8, 0]},
+    {"id": "ground-left", "model": "Elsecaro_GroundCover", "at": [-1.5, 0.5, 0]},
+    {"id": "ground-right", "model": "Elsecaro_GroundCover", "at": [1.5, 0.5, 0.02], "variation": 1},
+    {"id": "ground-front", "model": "Elsecaro_GroundCover", "at": [0, -0.8, 0.04], "variation": 2},
+    {"id": "sky", "model": "SMX2_Background_Starfield_Generic", "at": [0, 0, 0], "scale": 0.4}
+  ],
+  "marks": [],
+  "cameras": [
+    {"name": "wide", "target": [0, 0.5, 0.45], "distance": 6, "pitch": 8, "yaw": 180, "fov": 40},
+    {"name": "hamlet", "target": [-0.8, 0, 0.5], "distance": 2.2, "pitch": 3, "yaw": 210, "fov": 17},
+    {"name": "gravedigger", "target": [0.8, 0, 0.5], "distance": 2.2, "pitch": 3, "yaw": 150, "fov": 17}
+  ],
+  "lamps": [
+    {"name": "Moon Key", "type": "omni", "at": [-2, -1, 3], "color": [0.6, 0.75, 1], "strength": 3, "attenuationStart": 3, "range": 6, "shadows": false},
+    {"name": "Moon Fill", "type": "omni", "at": [2, -2, 1], "color": [0.4, 0.5, 0.8], "strength": 0.8, "attenuationStart": 3, "range": 6, "shadows": false},
+    {"name": "Moon Rim", "type": "omni", "at": [0, 2.5, 2], "color": [0.7, 0.85, 1], "strength": 3, "attenuationStart": 2, "range": 5, "shadows": false}
+  ]
+}
+```
+
+The gravestone is `TombstoneDLH`, the beam of moonlight `Tarsonis_VentLight`, and the tree `MarSaraTreeDead`, a dead tree from Mar Sara. A Mar Sara dirt pile, `MarSaraDirtPileLarge`, is the grave's dug earth, and three patches of `Elsecaro_GroundCover`, low leafy creeper, are the ground the men stand on, each a little higher than the next so overlapping patches don't flicker. A starfield, `SMX2_Background_Starfield_Generic`, surrounds the cameras as the night sky, so nothing behind the set shows through: a gap in a set shows whatever the game draws behind the map. The base Light, `SMHyperionCantina_Low` from the Hyperion's cantina, is dark with a cool key, but it fills nearly as strongly as it keys. So three lamps light the men as moonlight: a key from above and to the left, a weak fill, and a rim from behind, none casting shadows. The three cameras look north: a wide on both men and the tree on a 40° lens, and a single on each, on 17°, from the side of the man he faces.
+</Claude>
+
+The cinematography skill's [built-set guide](/skills/cinematography/) holds the rules for a set written by hand: where its cameras look, and how a point falls in frame.
+
+</Objective>
+
+<Objective id="shots" title="Write the shot list">
+
+Claude writes the Cinematic: the two sets, who stands where, and which camera each shot uses from which line. It goes in `missions/ashfall-relay/cinematics/broadcast.json`, with the plan, the reasons and the checks in `missions/ashfall-relay/cutscenes.md`.
+
+<Claude>
+The bridge is where it is in Blizzard's file, and the graveside is placed 700 cells off, past the 600-cell far clip, so one set's pieces and lamps never reach into the other's frame. The two Marines stand in the aisle facing the main screen. Hamlet and the gravedigger are two of *Nova Covert Ops*' background people, the ones whose talking animations sc2-adjutant has recorded.
+
+```json
+{
+  "sets": [
+    {"id": "bridge", "file": "sets/nova-bridge.json"},
+    {"id": "graveside", "file": "sets/graveside.json", "offset": [700, 0, 0]}
+  ],
+  "cast": [
+    {"id": "marine-1", "model": "SMMarine01", "set": "bridge", "at": [-0.45, 2.7, 4.49], "facing": 90},
+    {"id": "marine-2", "model": "SMMarine01", "set": "bridge", "at": [0.45, 2.7, 4.49], "facing": 90},
+    {"id": "hamlet", "model": "SMX3_BGPeople_01", "set": "graveside", "at": [-0.8, 0, 0], "facing": 0, "speaker": "HAMLET", "lookAts": [{"at": "gravedigger"}]},
+    {"id": "gravedigger", "model": "SMX3_BGPeople_03", "set": "graveside", "at": [0.8, 0, 0], "facing": 180, "speaker": "GRAVEDIGGER", "lookAts": [{"at": "hamlet"}]}
+  ],
+  "shots": [
+    {"name": "watching", "set": "bridge", "camera": {"target": [0, 4.05, 5.0], "distance": 3, "pitch": 5, "yaw": 180, "fov": 40}, "afterMs": 0, "pauseAfterMs": 3000, "feed": {"camera": "graveside/wide", "channel": 6}},
+    {"name": "push in", "set": "bridge", "camera": {"target": [0, 4.05, 5.0], "distance": 3, "pitch": 5, "yaw": 180, "fov": 40}, "to": {"target": [0, 4.05, 5.0], "distance": 1.6, "pitch": 0, "yaw": 180, "fov": 40}, "afterMs": 0, "pauseAfterMs": 3000, "feed": {"camera": "graveside/wide", "channel": 6}},
+    {"camera": "graveside/wide", "line": "Ch1_ashfall_relay_3_01", "light": "SMHyperionCantina_Low"},
+    {"camera": "graveside/gravedigger", "line": "Ch1_ashfall_relay_3_02"},
+    {"camera": "graveside/hamlet", "line": "Ch1_ashfall_relay_3_04"},
+    {"camera": "graveside/gravedigger", "line": "Ch1_ashfall_relay_3_05"},
+    {"camera": "graveside/hamlet", "line": "Ch1_ashfall_relay_3_06"},
+    {"camera": "graveside/gravedigger", "line": "Ch1_ashfall_relay_3_07"},
+    {"camera": "graveside/wide", "line": "Ch1_ashfall_relay_3_08"},
+    {"camera": "graveside/hamlet", "line": "Ch1_ashfall_relay_3_12"},
+    {"camera": "graveside/gravedigger", "line": "Ch1_ashfall_relay_3_13"}
+  ]
+}
+```
+
+The first two shots are on the bridge, through a camera of their own behind the Marines. Their `feed` puts the graveside's wide on the main screen, live, on channel 6, the channel the screen's model shows. The first holds 3 s on them watching, and the second pushes in on the screen, between their shoulders. Then it cuts to the same wide, so the picture on the screen becomes the whole frame. On the screen the graveside plays in the bridge's Light, since a feed's set is lit by its shot's, so the light shifts at the cut to the graveside's own, and the play runs on its lines: each single carries its speaker's line, the quick exchange from "What man dost thou dig it for?" plays on the wide, and the last question and answer get a single each.
+</Claude>
+
+A speaker's model must be one whose animations sc2-adjutant has recorded, so its Talk can be timed to the lines: the compile refuses any other, naming it. The Marines don't speak, so any model will do for them. A shot's `camera` is one of a set's cameras, `"<set id>/<camera name>"`, or a camera of its own on the shot's `set`. A line is named by its sound ID, so the cuts follow the lines whatever their length: a recording that runs longer than its placeholder moves the cuts with it.
+
+A screen shows live pictures only through a shot's `feed`, and only if its model reads the feed's channel: Nova Bridge's main screen reads 6, and a feed's channel is 0 when left out. Every frame of a fed shot also renders what the feed films, so feed a display from a set of a few models, as the graveside is.
+
+</Objective>
+
+<Objective id="play" title="Compile and play it" needs="editor.testDocument">
+
+<You>Compile it, and let me see it.</You>
+
+<Claude>
+<ToolCall
+  name="patch_blueprint"
+  args={{ mission: "ashfall-relay", patch: [{ op: "add", path: "/screenplay/script/cinematics", value: [{ id: "broadcast", scene: 3 }] }] }}
+>
+  makes Scene 3 play as the broadcast Cinematic, in place of its lines as Transmissions
+</ToolCall>
+
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay" }}>writes the Map Package, with the Cinematic and its voice files</ToolCall>
+
+The map compiled, with the Cinematic at `Base.SC2Data/Cutscenes/broadcast.SC2Cutscene` and the 13 voice files in the package. It runs about 46 s: 7 s on the bridge, with a second's fade in, then the play, a second's fade out, and 2 s of black before it ends, as Blizzard's do. At mission start it plays in a full-screen dialog over the paused map, and when it ends, or you press Escape, the landing scene plays. Each line plays on its speaker in the shot where it starts, so the face on screen talks.
+
+<ToolCall name="test_mission" args={{ mission: "ashfall-relay" }}>starts the map in the game with the Editor's Test Document</ToolCall>
+
+The game is starting. Watch the broadcast, and tell me what to change. Look at the screen in the first two shots: nobody has seen this feed in the game yet. Look at the models' Talk animations too: none of them has a Model Guide yet, so nobody has checked them.
+</Claude>
+
+Close the map in the Editor before Claude compiles: rewriting a map the Editor has open can crash it. [`test_mission`](/tools/test_mission/) runs Test Document through the Host Adapter. Without one that can, Claude gives you the steps: open `Ashfall-Relay.SC2Map/ComponentList.SC2Components` in the Editor, then File > Test Document.
+
+</Objective>
+
+<Objective id="revise" title="Change a shot" needs="editor.testDocument">
+
+Send notes in plain words. A change to the shots alone needn't compile the whole map: [`compile_cutscene`](/tools/compile_cutscene/) writes just the Cinematic into the package.
+
+<You>Stay on the Marines longer before the push in. Five seconds.</You>
+
+<Claude>
+I've set the first shot's `pauseAfterMs` to 5000 in `broadcast.json`.
+
+<ToolCall name="compile_cutscene" args={{ mission: "ashfall-relay", shotList: "missions/ashfall-relay/cinematics/broadcast.json", play: true }}>
+  writes the Cinematic again into the Map Package, and plays the map
+</ToolCall>
+
+Eleven shots written to `Base.SC2Data/Cutscenes/broadcast.SC2Cutscene`. It already plays from its mission-start cue, so it needs no test loop of its own. The game is starting again.
+</Claude>
+
+A change to the lines is a change to the Screenplay: edit the scene, then call `speak_placeholder_voices` again, and it speaks only the lines that changed. A new line needs a shot or rides on the one before it.
+
+</Objective>
+
+<Objective id="sign-off" title="Sign Stage 4 off again">
+
+The scene is Stage 4 work, dialogue and compilation, and Stage 4 was signed off before it.
+
+<You>It plays well. Sign it off.</You>
+
+<Claude>
+<ToolCall name="get_session_state" args={{ mission: "ashfall-relay" }}>what's signed off, and what's stale</ToolCall>
+
+Every Stage is signed off, and every sign-off is now stale: the Blueprint and the Map Package have changed since. A stale sign-off still stands until you say otherwise. Do Stages 1 to 3 still stand? The scene doesn't change their Beats, geography or palette. Stage 4 is the one it changes: to sign it off again with the Cinematic, reopen it first, with `/sc2-adjutant:reopen ashfall-relay 4 adding the broadcast Cinematic`.
+</Claude>
+
+<You>They stand. `/sc2-adjutant:reopen ashfall-relay 4 adding the broadcast Cinematic`</You>
+
+<Claude>
+<ToolCall name="reopen_stage" args={{ mission: "ashfall-relay", stage: 4, note: "Adding the broadcast Cinematic before the landing" }} />
+
+Stage 4 is open again, and its old sign-off is superseded.
+</Claude>
+
+<You>`/sc2-adjutant:sign-off ashfall-relay the broadcast Cinematic plays before the landing`</You>
+
+<Claude>
+<ToolCall name="sign_off_stage" args={{ mission: "ashfall-relay", stage: 4, note: "The broadcast Cinematic plays before the landing" }} />
+
+Signed off Stage 4 again, with the Cinematic. Every Stage of *Ashfall Relay* is signed off.
+</Claude>
+
+Only you can reopen a Stage or sign one off: Claude never does either unasked. When you record the lines, save each in `missions/ashfall-relay/audio` under its sound ID, as `.ogg` or `.wav`, and compile again. A recording is never spoken over, it wins over a placeholder of the other format, and the cuts move with its length.
+
+</Objective>

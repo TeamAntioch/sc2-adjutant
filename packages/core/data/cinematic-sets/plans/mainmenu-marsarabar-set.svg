@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>MainMenu_MarSaraBar set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">MainMenu_MarSaraBar set</text>
+<text x="24" y="54" font-size="10" fill="#666">mainmenu-marsarabar-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="287.4" y="284.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>AnniversaryCake</title></rect>
+<rect x="299.6" y="294.1" width="9" height="9" fill="#b5ab98" stroke="#6d6458"><title>SMMarSaraBar00, SMMarSaraBar01, SMMarSaraBarHydraliskSkull, SMX3MarSaraBarBottles, SMX3MarSaraBarTV</title></rect>
+<text x="310.6" y="301.6" font-size="8" fill="#6d6458">5</text>
+<rect x="261.4" y="284.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMMarSaraBarJukebox</title></rect>
+<rect x="296.5" y="370.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3MarSaraBarBottles</title></rect>
+<polygon points="346.7,367.9 255,334.8 361,271.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="346.7" cy="367.9" r="2.5" fill="#7b4bd1"><title>Game Camera</title></circle>
+<text x="350.7" y="364.9" font-size="8" fill="#5a3a9a">Game Camera</text>
+<polygon points="312.7,290.8 217.6,293.4 334,198.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="312.7" cy="290.8" r="2.5" fill="#7b4bd1"><title>Game CameraBatman</title></circle>
+<text x="316.7" y="287.8" font-size="8" fill="#5a3a9a">Game CameraBatman</text>
+<polygon points="307.8,247.8 253.8,272.8 296.9,189.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="307.8" cy="247.8" r="2.5" fill="#7b4bd1"><title>GameCameraBatman_01</title></circle>
+<text x="311.8" y="244.8" font-size="8" fill="#5a3a9a">GameCameraBatman_01</text>
+<polygon points="307.8,247.8 253.8,272.8 296.9,189.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="307.8" cy="247.8" r="2.5" fill="#7b4bd1"><title>Game CameraBatman</title></circle>
+<text x="311.8" y="244.8" font-size="8" fill="#5a3a9a">Game CameraBatman</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">2 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenu_MarSaraBar.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: MainMenu_MarSaraBar</text>
+<text x="560" y="132" font-size="9" fill="#333">Screens: SMX3MarSaraBarTV (channel</text>
+<text x="560" y="144" font-size="9" fill="#333">0)</text>
+<text x="560" y="156" font-size="9" fill="#333">Marks: 0; cameras: 4 (4 aimed</text>
+<text x="560" y="168" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="180" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="192" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="204" font-size="9" fill="#333"></text>
+<text x="560" y="216" font-size="9" fill="#333">Models:</text>
+<text x="560" y="228" font-size="9" fill="#333">SMMarSaraBar00 ×2</text>
+<text x="560" y="240" font-size="9" fill="#333">SMMarSaraBar01 ×2</text>
+<text x="560" y="252" font-size="9" fill="#333">SMMarSaraBarHydraliskSkull ×2</text>
+<text x="560" y="264" font-size="9" fill="#333">SMMarSaraBarJukebox ×2</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX3MarSaraBarTV ×2</text>
+<text x="560" y="288" font-size="9" fill="#333">AnniversaryCake ×1</text>
+<text x="560" y="300" font-size="9" fill="#333">GlueTychus ×1</text>
+<text x="560" y="312" font-size="9" fill="#333">SMTychusMinigun ×1</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX3MarSaraBarBottles ×1</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX3TychusBarBottles ×1</text>
+<text x="560" y="348" font-size="9" fill="#333"></text>
+<text x="560" y="360" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="372" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="384" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenu_Tychus.SC2Cutscene</text>
+</svg>

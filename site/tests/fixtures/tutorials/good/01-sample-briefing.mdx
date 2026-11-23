@@ -1,0 +1,27 @@
+export const meta = {
+  title: "A sample briefing",
+  summary: "Compile a Mission, then play it.",
+  minutes: 5,
+};
+
+<Objective title="Compile it">
+
+<You>Compile it.</You>
+
+<Claude>
+Compiling.
+
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay", keep: ["object:1"], refresh: true }}>writes the package in place</ToolCall>
+</Claude>
+
+</Objective>
+
+<Objective id="play" title="Play it" needs="editor.testDocument">
+
+<Claude>
+<ToolCall name="test_mission" args={{ mission: "ashfall-relay" }} />
+
+Then again, <ToolCall name="compile_map" args={{ mission: "ashfall-relay" }} /> inline.
+</Claude>
+
+</Objective>

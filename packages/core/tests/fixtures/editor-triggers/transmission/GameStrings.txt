@@ -1,0 +1,7 @@
+﻿DocInfo/DescLong=Kill the Zealot to win; lose if Zeratul dies.
+DocInfo/DescShort=Test arena for generated triggers
+DocInfo/Name=Trigger Test
+Param/Value/0E923541=Kill the Zealot
+Param/Value/10B2D2D1=This is a message.
+Param/Value/4A65B758=Zeratul
+Param/Value/C957D51C=Defeat the Zealot guarding the arena.

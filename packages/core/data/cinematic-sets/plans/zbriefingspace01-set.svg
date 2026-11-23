@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="672" viewBox="0 0 760 672" font-family="Helvetica, Arial, sans-serif">
+<title>ZBriefingSpace01 set: cinematic set</title>
+<rect width="760" height="672" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">ZBriefingSpace01 set</text>
+<text x="24" y="54" font-size="10" fill="#666">zbriefingspace01-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="78.5" y="221.8" width="11" height="11" fill="#b5ab98" stroke="#6d6458"><title>SMBridgeWindowSpace, SMHyperionBridgeBriefing, SMHyperionBridgeBriefingCenter, SMHyperionBridgeStage1Set2, SMHyperionBridgeStage1Set3, SMHyperionBridgeStage1BattleCommandHS, SMHyperionBridgeStage1Set</title></rect>
+<text x="91.5" y="230.3" font-size="8" fill="#6d6458">7</text>
+<rect x="485.9" y="192.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>StaticPortrait</title></rect>
+<rect x="77.1" y="462.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1TVEffect</title></rect>
+<polygon points="69.9,209.9 94.5,205.6 89.7,225.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="69.9" cy="209.9" r="2.5" fill="#7b4bd1"><title>Valerian_Close (old)</title></circle>
+<text x="73.9" y="206.9" font-size="8" fill="#5a3a9a">Valerian_Close (old)</text>
+<polygon points="154.6,229.6 102.5,248.9 105.2,204.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="154.6" cy="229.6" r="2.5" fill="#7b4bd1"><title>Han Camera 1</title></circle>
+<text x="158.6" y="226.6" font-size="8" fill="#5a3a9a">Han Camera 1</text>
+<polygon points="154.1,232.8 101.6,250.9 105.3,206.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="154.1" cy="232.8" r="2.5" fill="#7b4bd1"><title>Han Camera 2</title></circle>
+<text x="158.1" y="229.8" font-size="8" fill="#5a3a9a">Han Camera 2</text>
+<polygon points="60.6,213 93.1,202.7 90.2,230" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="60.6" cy="213" r="2.5" fill="#7b4bd1"><title>Valerian_Medium (old)</title></circle>
+<text x="64.6" y="210" font-size="8" fill="#5a3a9a">Valerian_Medium (old)</text>
+<polygon points="65.6,216.8 93,217.2 83.8,237.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="65.6" cy="216.8" r="2.5" fill="#7b4bd1"><title>Horner Medium (old)</title></circle>
+<text x="69.6" y="213.8" font-size="8" fill="#5a3a9a">Horner Medium (old)</text>
+<polygon points="64.9,208.1 88.1,207.5 81,224.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="64.9" cy="208.1" r="2.5" fill="#7b4bd1"><title>Horner_Medium</title></circle>
+<text x="68.9" y="205.1" font-size="8" fill="#5a3a9a">Horner_Medium</text>
+<polygon points="67.8,232.4 105.1,223.5 98.8,255" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="67.8" cy="232.4" r="2.5" fill="#7b4bd1"><title>Valerian_Medium</title></circle>
+<text x="71.8" y="229.4" font-size="8" fill="#5a3a9a">Valerian_Medium</text>
+<polygon points="56.8,192.2 109.8,208.9 56.5,247.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="56.8" cy="192.2" r="2.5" fill="#7b4bd1"><title>Three Shot</title></circle>
+<text x="60.8" y="189.2" font-size="8" fill="#5a3a9a">Three Shot</text>
+<polygon points="77.4,257.1 75.5,216.8 106.8,229.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="77.4" cy="257.1" r="2.5" fill="#7b4bd1"><title>Two Shot A</title></circle>
+<text x="81.4" y="254.1" font-size="8" fill="#5a3a9a">Two Shot A</text>
+<polygon points="76.5,213.3 98.3,210.9 93,227.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="76.5" cy="213.3" r="2.5" fill="#7b4bd1"><title>Horner_Closeup (Straight on)</title></circle>
+<text x="80.5" y="210.3" font-size="8" fill="#5a3a9a">Horner_Closeup (Straight on)</text>
+<polygon points="68.4,229.6 109.6,232 93.3,262.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="68.4" cy="229.6" r="2.5" fill="#7b4bd1"><title>Valerian_Medium B</title></circle>
+<text x="72.4" y="226.6" font-size="8" fill="#5a3a9a">Valerian_Medium B</text>
+<polygon points="73.9,232.6 105.8,226.8 99,253" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="73.9" cy="232.6" r="2.5" fill="#7b4bd1"><title>Valerian_Close</title></circle>
+<text x="77.9" y="229.6" font-size="8" fill="#5a3a9a">Valerian_Close</text>
+<polygon points="141.3,233.3 88.9,251.8 92.2,207.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="141.3" cy="233.3" r="2.5" fill="#7b4bd1"><title>Han Camera (Valerian Only)</title></circle>
+<text x="145.3" y="230.3" font-size="8" fill="#5a3a9a">Han Camera (Valerian Only)</text>
+<line x1="84" y1="453.5" x2="94" y2="453.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="84" cy="453.5" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1MiraHanPortrait (SMX1MiraHanPortrait)</title></circle>
+<text x="90" y="465.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1MiraHanPortrait</text>
+<line x1="88.2" y1="216.1" x2="78.2" y2="216.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="88.2" cy="216.1" r="4" fill="#2f7de1" stroke="#fff"><title>Horner (SMFirstOfficer)</title></circle>
+<text x="94.2" y="228.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Horner</text>
+<line x1="89.7" y1="237.7" x2="81.1" y2="232.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="89.7" cy="237.7" r="4" fill="#2f7de1" stroke="#fff"><title>Valerian (SMValerianT1)</title></circle>
+<text x="95.7" y="249.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Valerian</text>
+</g>
+<line x1="42.5" y1="501.9" x2="227.7" y2="501.9" stroke="#333" stroke-width="2"/>
+<line x1="42.5" y1="497.9" x2="42.5" y2="505.9" stroke="#333"/><line x1="79.5" y1="497.9" x2="79.5" y2="505.9" stroke="#333"/>
+<text x="42.5" y="495.9" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">7 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/ZBriefingSpace01.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMHyperionBridgeEX1</text>
+<text x="560" y="132" font-size="9" fill="#333">Screens:</text>
+<text x="560" y="144" font-size="9" fill="#333">SMHyperionBridgeBriefingCenter</text>
+<text x="560" y="156" font-size="9" fill="#333">(channels 0, 1, 2)</text>
+<text x="560" y="168" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX1MiraHanPortrait</text>
+<text x="560" y="192" font-size="9" fill="#333">Marks: 3; cameras: 13 (13 aimed</text>
+<text x="560" y="204" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="216" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="228" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="240" font-size="9" fill="#333"></text>
+<text x="560" y="252" font-size="9" fill="#333">Models:</text>
+<text x="560" y="264" font-size="9" fill="#333">SMHyperionBridgeBriefing ×7</text>
+<text x="560" y="276" font-size="9" fill="#333">SMHyperionBridgeBriefingCenter ×7</text>
+<text x="560" y="288" font-size="9" fill="#333">SMHyperionBridgeStage1BattleCommandHS</text>
+<text x="560" y="300" font-size="9" fill="#333">×7</text>
+<text x="560" y="312" font-size="9" fill="#333">SMHyperionBridgeStage1Set ×7</text>
+<text x="560" y="324" font-size="9" fill="#333">SMHyperionBridgeStage1Set2 ×7</text>
+<text x="560" y="336" font-size="9" fill="#333">SMHyperionBridgeStage1Set3 ×7</text>
+<text x="560" y="348" font-size="9" fill="#333">SMHyperionBridgeStage1CantinaHS ×6</text>
+<text x="560" y="360" font-size="9" fill="#333">SMBridgeWindowSpace ×4</text>
+<text x="560" y="372" font-size="9" fill="#333">SMHall ×3</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX1_LeviathanT1 ×2</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX1TVEffect ×2</text>
+<text x="560" y="408" font-size="9" fill="#333">SMCade ×1</text>
+<text x="560" y="420" font-size="9" fill="#333">SMKachinsky ×1</text>
+<text x="560" y="432" font-size="9" fill="#333">SMShadowbox ×1</text>
+<text x="560" y="444" font-size="9" fill="#333">SMX1_KorhalInvasionMonitor ×1</text>
+<text x="560" y="456" font-size="9" fill="#333">SMX1DominionSpaceSet ×1</text>
+<text x="560" y="468" font-size="9" fill="#333">StaticPortrait ×1</text>
+<text x="560" y="480" font-size="9" fill="#333"></text>
+<text x="560" y="492" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="504" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="516" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zScripted_KorhalArcBefore.SC2Cutscene</text>
+<text x="560" y="528" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="540" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/ZMissionSpace01Victory.SC2Cutscene</text>
+<text x="560" y="552" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="564" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zScripted_Space01Travel.SC2Cutscene</text>
+<text x="560" y="576" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="588" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zSMBriefing_Korhal03.SC2Cutscene</text>
+<text x="560" y="600" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="612" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/ZSMBriefing_Space02.SC2Cutscene</text>
+<text x="560" y="624" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="636" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zSM_Valerian.SC2Cutscene</text>
+</svg>

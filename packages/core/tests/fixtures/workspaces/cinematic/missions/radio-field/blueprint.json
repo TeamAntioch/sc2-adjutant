@@ -1,0 +1,20 @@
+{
+  "id": "radio_field",
+  "campaignId": "fixtures",
+  "title": "Radio Field",
+  "setting": "A field where the radio still works.",
+  "mapSize": { "width": 64, "height": 64 },
+  "zones": [
+    { "id": "field", "name": "Field", "elevation": 1, "landform": "flat", "role": "path", "polygon": [{ "x": 0, "y": 0 }, { "x": 64, "y": 0 }, { "x": 64, "y": 64 }, { "x": 0, "y": 64 }] }
+  ],
+  "beats": [{ "id": "radio", "title": "Radio", "summary": "The radio comes on." }],
+  "screenplay": {
+    "title": "Radio Field",
+    "script": {
+      "source": "radio-field.md",
+      "voiceFormat": "wav",
+      "cues": [{ "scene": 1, "cue": { "type": "missionStart" } }],
+      "cinematics": [{ "id": "radio", "scene": 1 }]
+    }
+  }
+}

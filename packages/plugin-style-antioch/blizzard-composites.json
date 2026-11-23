@@ -1,0 +1,812 @@
+{
+  "source": "Doodad Composite recipes (DL-07) cut whole from Blizzard's campaign maps; build-composites.mjs appends them to composites.json",
+  "composites": [
+    {
+      "id": "console-bank",
+      "description": "A control desk set against a wall: a console with three half-scale monitors hung 2.6-3.0 above it on the wall, a wall screen and two small monitors beside it, two hoses running off across the floor, a yellow light and a stain (The Escape's research wing). Back it onto a wall; the hoses point into the room.",
+      "kind": "detail",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "front": 225,
+      "actors": [],
+      "members": [
+        {
+          "type": "DOM_BaseMonitors",
+          "x": -0.415,
+          "y": 2.56,
+          "height": 3.034,
+          "yaw": 5.51,
+          "scale": 0.5,
+          "variation": 3
+        },
+        {
+          "type": "DOM_BaseMonitors",
+          "x": 0.528,
+          "y": 1.846,
+          "height": 2.611,
+          "yaw": 5.51,
+          "scale": 0.5,
+          "variation": 2
+        },
+        {
+          "type": "DOM_BaseMonitors",
+          "x": 1.582,
+          "y": 0.322,
+          "height": 2.908,
+          "yaw": 5.503,
+          "scale": 0.5,
+          "variation": 7
+        },
+        {
+          "type": "DOM_LabConsoles",
+          "x": 1.472,
+          "y": 0.485,
+          "height": 0.851,
+          "yaw": 5.515,
+          "scale": [
+            1.0,
+            0.65,
+            1.0
+          ],
+          "variation": 2
+        },
+        {
+          "type": "DOM_LabWallScreens",
+          "x": -1.39,
+          "y": 2.093,
+          "height": 0.911,
+          "yaw": 2.354,
+          "scale": [
+            0.5,
+            0.3,
+            0.5
+          ],
+          "variation": 1
+        },
+        {
+          "type": "DOM_MonitorLabDestructible",
+          "x": -1.484,
+          "y": 0.237,
+          "height": 0.911,
+          "yaw": 3.119,
+          "scale": 0.5,
+          "variation": 1
+        },
+        {
+          "type": "DOM_MonitorLabDestructible",
+          "x": 0.199,
+          "y": -0.598,
+          "height": 0.0,
+          "yaw": 5.514,
+          "scale": 0.5,
+          "variation": 1
+        },
+        {
+          "type": "DOM_Decals",
+          "x": -1.184,
+          "y": -1.397,
+          "height": 0.0,
+          "yaw": 3.928,
+          "scale": 0.5,
+          "variation": "any"
+        },
+        {
+          "type": "LightOmniYellow",
+          "x": -0.122,
+          "y": -0.969,
+          "height": 0.0,
+          "yaw": 0.788,
+          "scale": 1.113,
+          "variation": 0
+        },
+        {
+          "type": "Korhal_SpacePort_Hose",
+          "x": -0.498,
+          "y": -2.273,
+          "height": 0.0,
+          "yaw": 2.701,
+          "scale": 1.2,
+          "variation": 1
+        },
+        {
+          "type": "Korhal_SpacePort_Hose",
+          "x": 1.31,
+          "y": -2.303,
+          "height": 0.0,
+          "yaw": 2.931,
+          "scale": 1.2,
+          "variation": 1
+        }
+      ]
+    },
+    {
+      "id": "supply-stack",
+      "description": "A palletised store: about forty colonist supply crates packed edge to edge 0.65 apart on the diagonal, in two layers 0.8 high with a few gaps on top, military supplies at its foot, a gun rack, a security camera on top and two white lights (Conviction's hold). Stands against a wall or fills a bay.",
+      "kind": "landmark",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "DecalSpace",
+          "x": -2.839,
+          "y": -1.14,
+          "height": 0.0,
+          "yaw": 3.925,
+          "scale": 0.77,
+          "variation": "any"
+        },
+        {
+          "type": "LightOmniWhite",
+          "x": -3.129,
+          "y": -1.139,
+          "height": 0.0,
+          "yaw": 0.956,
+          "scale": 1.089,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "LightOmniWhite",
+          "x": 0.786,
+          "y": 1.497,
+          "height": 0.0,
+          "yaw": 5.807,
+          "scale": 0.854,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "SpaceCamera",
+          "x": 2.018,
+          "y": 0.826,
+          "height": 0.536,
+          "yaw": 5.498,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "TIMAppendix",
+          "x": -2.874,
+          "y": -1.081,
+          "height": 0.111,
+          "yaw": 0.373,
+          "scale": 1.0,
+          "variation": 0
+        },
+        {
+          "type": "ElectricConduitPathSmall",
+          "x": -2.841,
+          "y": -1.137,
+          "height": 0.0,
+          "yaw": 2.356,
+          "scale": [
+            1.26,
+            1.26,
+            0.76
+          ],
+          "variation": 3
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -2.414,
+          "y": 2.024,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -2.378,
+          "y": 1.965,
+          "height": 0.845,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.973,
+          "y": 2.392,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.938,
+          "y": 2.333,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.766,
+          "y": 1.373,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.731,
+          "y": 1.314,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.17,
+          "y": 1.912,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.135,
+          "y": 1.852,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.129,
+          "y": 0.719,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.093,
+          "y": 0.662,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -0.533,
+          "y": 1.257,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -0.504,
+          "y": 0.109,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -0.496,
+          "y": 1.2,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -0.469,
+          "y": 0.05,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.093,
+          "y": 0.647,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.128,
+          "y": 0.589,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.144,
+          "y": -0.541,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.179,
+          "y": -0.6,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.74,
+          "y": -0.003,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.775,
+          "y": -0.062,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.781,
+          "y": -1.195,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.816,
+          "y": -1.254,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.361,
+          "y": -1.765,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.377,
+          "y": -0.657,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.396,
+          "y": -1.824,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.412,
+          "y": -0.716,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.592,
+          "y": 1.852,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.627,
+          "y": 1.793,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.801,
+          "y": -1.397,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.908,
+          "y": -2.321,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.943,
+          "y": -2.38,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.992,
+          "y": -1.286,
+          "height": 0.832,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.239,
+          "y": 1.202,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.274,
+          "y": 1.143,
+          "height": 0.845,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.504,
+          "y": -1.783,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.54,
+          "y": -1.842,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.876,
+          "y": 0.547,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.911,
+          "y": 0.488,
+          "height": 0.831,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": -2.835,
+          "y": 0.914,
+          "height": 0.057,
+          "yaw": 2.396,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": -1.776,
+          "y": -0.075,
+          "height": 0.0,
+          "yaw": 2.396,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": -0.772,
+          "y": -1.044,
+          "height": 0.0,
+          "yaw": 2.321,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": 0.167,
+          "y": -2.077,
+          "height": 0.0,
+          "yaw": 2.321,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": 1.154,
+          "y": -3.068,
+          "height": 0.0,
+          "yaw": 2.018,
+          "scale": 1.0,
+          "variation": 7,
+          "noFootprint": true
+        },
+        {
+          "type": "SpaceGunRack",
+          "x": -3.745,
+          "y": -0.297,
+          "height": 0.0,
+          "yaw": 5.498,
+          "scale": 0.64,
+          "variation": 2
+        }
+      ]
+    },
+    {
+      "id": "pipe-manifold",
+      "description": "Floor pipework on a one-cell grid: long, short and corner pipes joined into a manifold with a small pipe beside it, every piece at scale 1 and turned to 0/90/180/270 (Engine of Destruction's Valhalla works). Runs along a wall foot or between machines.",
+      "kind": "detail",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "PipesCorner",
+          "x": -2.355,
+          "y": 0.723,
+          "height": 0.0,
+          "yaw": 3.091,
+          "scale": 1.0,
+          "variation": 3
+        },
+        {
+          "type": "PipesCorner",
+          "x": -0.355,
+          "y": -1.277,
+          "height": 0.0,
+          "yaw": 3.09,
+          "scale": 1.0,
+          "variation": 3
+        },
+        {
+          "type": "PipesCorner",
+          "x": -0.355,
+          "y": 2.723,
+          "height": 0.0,
+          "yaw": 1.597,
+          "scale": 1.0,
+          "variation": 2
+        },
+        {
+          "type": "PipesCorner",
+          "x": 1.645,
+          "y": -1.277,
+          "height": 0.0,
+          "yaw": 0.035,
+          "scale": 1.0,
+          "variation": 3
+        },
+        {
+          "type": "PipesCorner",
+          "x": 1.645,
+          "y": 0.723,
+          "height": 0.0,
+          "yaw": 0.036,
+          "scale": 1.0,
+          "variation": 3
+        },
+        {
+          "type": "PipesLong",
+          "x": -0.355,
+          "y": -0.277,
+          "height": 0.0,
+          "yaw": 4.713,
+          "scale": 1.0,
+          "variation": 2
+        },
+        {
+          "type": "PipesLong",
+          "x": 1.645,
+          "y": -0.277,
+          "height": 0.0,
+          "yaw": 4.713,
+          "scale": 1.0,
+          "variation": 2
+        },
+        {
+          "type": "PipesShort",
+          "x": -1.355,
+          "y": -3.277,
+          "height": 0.0,
+          "yaw": 0.0,
+          "scale": 1.0,
+          "variation": 0
+        },
+        {
+          "type": "PipesShort",
+          "x": -1.355,
+          "y": 0.723,
+          "height": 0.0,
+          "yaw": 0.0,
+          "scale": 1.0,
+          "variation": 0
+        },
+        {
+          "type": "PipesSmallCorner",
+          "x": 0.585,
+          "y": 1.753,
+          "height": 0.0,
+          "yaw": 1.571,
+          "scale": 1.0,
+          "variation": 0
+        },
+        {
+          "type": "PipesSmallLong",
+          "x": 0.605,
+          "y": -0.257,
+          "height": 0.0,
+          "yaw": 1.571,
+          "scale": 1.0,
+          "variation": 0
+        }
+      ]
+    },
+    {
+      "id": "steam-hatch",
+      "description": "A floor hatch venting steam: the steam jet sunk 1.6 below the floor so only its plume shows, an alarm light and landing lights raised 0.5-0.7 on the hatch rim, a red light (Dark Whispers). Spaced through a hall, not in rows.",
+      "kind": "detail",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "SpaceSteamJet",
+          "x": -0.833,
+          "y": -0.355,
+          "height": -1.579,
+          "yaw": 2.039,
+          "scale": 1.0,
+          "variation": "any",
+          "noFootprint": true
+        },
+        {
+          "type": "AlarmLight",
+          "x": -1.396,
+          "y": -0.013,
+          "height": 0.515,
+          "yaw": 0.796,
+          "scale": 1.0,
+          "variation": "any",
+          "noFootprint": true
+        },
+        {
+          "type": "LandingLights",
+          "x": 1.498,
+          "y": 0.286,
+          "height": 0.827,
+          "yaw": 0.7,
+          "scale": 1.109,
+          "variation": "any"
+        },
+        {
+          "type": "LightOmniRedLarge",
+          "x": 1.397,
+          "y": 0.41,
+          "height": 0.886,
+          "yaw": 6.178,
+          "scale": 1.074,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "Korhal_Platform_Hatches",
+          "x": -0.664,
+          "y": -0.327,
+          "height": 0.0,
+          "yaw": 5.498,
+          "scale": 1.0,
+          "variation": 2
+        }
+      ]
+    }
+  ]
+}

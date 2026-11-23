@@ -1,0 +1,8 @@
+{
+  "name": "beacon",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": [],
+  "contributions": { "mechanics": ["beacon"] },
+  "entry": "./index.ts"
+}

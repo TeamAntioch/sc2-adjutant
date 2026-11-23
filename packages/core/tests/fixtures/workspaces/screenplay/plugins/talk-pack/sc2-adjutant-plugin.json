@@ -1,0 +1,8 @@
+{
+  "name": "talk-pack",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["campaign-pack"],
+  "contributions": { "naming": ["chapters"], "campaignMod": "Talk-Story" },
+  "entry": "./index.ts"
+}

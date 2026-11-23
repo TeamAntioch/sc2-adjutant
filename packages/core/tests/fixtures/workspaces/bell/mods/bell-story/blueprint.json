@@ -1,0 +1,21 @@
+{
+  "id": "bell-story",
+  "kind": "campaign",
+  "dependencies": [],
+  "library": {
+    "id": "Bel1",
+    "name": "Bell Tools",
+    "functions": [
+      {
+        "id": "0000B001",
+        "name": "Ring Bell",
+        "kind": "action",
+        "parameters": [
+          { "id": "0000B002", "name": "Times", "type": { "type": "int" } },
+          { "id": "0000B003", "name": "Wait", "type": { "type": "preset", "element": "Ntve/00000020" } }
+        ],
+        "gui": "library/RingBell.json"
+      }
+    ]
+  }
+}

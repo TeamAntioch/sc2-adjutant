@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* The fonts are self-hosted from @fontsource (layout.tsx), so a build needs no network. */
+:root {
+  --font-inter: "Inter";
+  --font-chakra-petch: "Chakra Petch";
+}
+
+@layer base {
+  ::selection {
+    background: rgba(34, 211, 238, 0.35);
+    color: #ecfeff;
+  }
+}
+
+/* The mapping reference's console utilities, copied from its globals.css rather than shared. */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Console backdrop: deep slate-blue with a faint cyan grid. */
+  .hud-grid {
+    background-color: #070d16;
+    background-image: linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-attachment: fixed;
+  }
+
+  /*
+   * Clipped-corner shapes. clip-path also clips box-shadow, so put any glow on
+   * a parent as a drop-shadow filter instead.
+   */
+  .clip-tab {
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  }
+  .clip-corner {
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .clip-panel {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+}
+
+/* Hand-written pages (MDX): headings in Chakra Petch caps, cyan on slate. */
+@layer components {
+  .doc h1 {
+    @apply font-display text-2xl font-bold uppercase tracking-wider text-cyan-50 sm:text-3xl;
+  }
+  .doc h2 {
+    @apply mt-8 scroll-mt-24 font-display text-sm font-semibold uppercase tracking-[0.12em] text-cyan-300;
+  }
+  .doc h3 {
+    @apply mt-6 scroll-mt-24 font-display text-xs font-semibold uppercase tracking-[0.12em] text-sky-300;
+  }
+  .doc p,
+  .doc ul,
+  .doc ol {
+    @apply my-3 max-w-[66ch];
+  }
+  .doc ul {
+    @apply list-disc pl-5;
+  }
+  .doc ol {
+    @apply list-decimal pl-5;
+  }
+  .doc a {
+    @apply text-sky-300 underline-offset-2 hover:underline;
+  }
+  .doc code {
+    @apply font-mono text-[0.85em] text-cyan-200;
+  }
+  /* A tutorial step's title (#980), larger than a hand-written page's h2. */
+  .doc h2.objective-title {
+    @apply mb-2 mt-1.5 text-xl font-bold tracking-[0.06em] text-cyan-50 sm:text-2xl;
+  }
+  .doc h4 {
+    @apply mt-6 font-display text-[13px] font-semibold uppercase tracking-[0.12em] text-cyan-300;
+  }
+  .doc pre:not([data-args]) {
+    @apply my-3 max-w-[720px] overflow-x-auto border border-sky-400/25 bg-[#0c1624] px-3 py-2.5 font-mono text-[12.5px] leading-relaxed text-emerald-100;
+  }
+  /* One machine's steps on the Install page (#979): both show until lib/os.ts's OS_SCRIPT sets data-os on <html>. */
+  .doc .for-os {
+    @apply my-3 max-w-[720px] border-l-2 border-amber-400/50 pl-3;
+  }
+  .doc .for-os-label {
+    @apply mb-1 font-display text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-400;
+  }
+  .doc .os-switch {
+    @apply my-3;
+  }
+  html[data-os] .doc .os-switch {
+    @apply h-8;
+  }
+  html[data-os="macos"] .doc .for-os:not([data-for-os="macos"]),
+  html[data-os="windows"] .doc .for-os:not([data-for-os="windows"]) {
+    display: none;
+  }
+  /* A generated tool page's inputs and outputs. */
+  .doc table.fields {
+    @apply w-full border-collapse text-left text-sm;
+  }
+  .doc table.fields th {
+    @apply border-b border-sky-400/35 px-2 py-1.5 font-display text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500;
+  }
+  .doc table.fields td {
+    @apply border-b border-sky-400/10 px-2 py-1.5 align-top;
+  }
+}

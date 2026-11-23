@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Zerg07 set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Zerg07 set</text>
+<text x="24" y="54" font-size="10" fill="#666">zerg07-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="277" y="323" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>SMX1_Guts_xtras_A, SMX1_Lighting_xtras_Lite02, SMX1_Zerus_xtras_BirdTree, SMX1_Zerus_xtras_BrokenRoot, SMX1_Zerus_xtras_Cactus, SMX1_Zerus_xtras_ClawPlant, SMX1_Zerus_xtras_GlowPlant, SMX1_Zerus_xtras_GlowPlant, SMX1_Zerus_xtras_GlowPlant, SMX1_Zerus_xtras_GlowPlant, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_Grass, SMX1_Zerus_xtras_GreenLeafPlant, SMX1_Zerus_xtras_GreenLeafPlant, SMX1_Zerus_xtras_GreenLeafPlant, SMX1_Zerus_xtras_GreenLeafPlant, SMX1_Zerus_xtras_GreenLeafPlant, SMX1_Zerus_xtras_GreenLeafPlant, SMX1_Zerus_xtras_GreenLeafPlant, SMX1_Zerus_xtras_GreenLeafPlant, SMX1_Zerus_xtras_LargeCanopyTree, SMX1_Zerus_xtras_LargeCanopyTree, SMX1_Zerus_xtras_LargeCanopyTree, SMX1_Zerus_xtras_LargeCanopyTree, SMX1_Zerus_xtras_LeafDrape, SMX1_Zerus_xtras_LeafDrape, SMX1_Zerus_xtras_SmallCornStalk, SMX1_Zerus_xtras_SmallCornStalk, SMX1_Zerus_xtras_SmallCornStalk, SMX1_Zerus_xtras_SmallCornStalk, SMX1_Zerus_xtras_SmallCornStalk, SMX1_Zerus_xtras_SpikedRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_TangledRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThickRoot, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_Zerus_xtras_ThinLeafPlant, SMX1_LeviathanInterior_01, SMX1_LeviathanInterior_02, SMX1_LeviathanInterior_03, SMX1_LeviathanInterior_04, SMX1_Zerus_A_00, SMX1_Zerus_A_01, SMX1_Zerus_A_02, SMX1_Zerus_A_03, SMX1_Zerus_A_04, SMX1_Zerus_A_05, SMX1_Zerus_A_06, SMX1_Zerus_A_07, SMX1_Zerus_B_00, SMX1_Zerus_B_01, SMX1_Zerus_B_02, SMX1_Zerus_B_03, SMX1_Zerus_B_04, SMX1_Zerus_B_05, SMX1_Zerus_B_06, SMX1_Zerus_B_07, SMX1_Zerus_B_08, SMX1_Zerus_B_09, SMX1_Zerus_B_10, SMX1_Zerus_B_11, SMX1_Zerus_B_12, SMX1_Zerus_B_13, SMX1_Zerus_B_14, SMX1_Zerus_B_15, SMX1_Zerus_B_16, SMX1_Zerus_B_17, SMX1_Zerus_B_18, SMX1_Zerus_B_19, SMX1_Zerus_B_20, SMX1_Zerus_B_21, SMX1_Zerus_B_22, SMX1_Zerus_B_23, SMX1_Zerus_B_24, SMX1_Zerus_xtras_BG, SMX1_Zerus_C_00, SMX1_Zerus_C_01, SMX1_Zerus_C_02, SMX1_Zerus_C_03, SMX1_Zerus_C_04, SMX1_Zerus_C_05, SMX1_Zerus_C_06, SMX1_Zerus_C_07, SMX1_Zerus_C_08, SMX1_Zerus_C_09, SMX1_Zerus_C_10, SMX1_Zerus_C_11, SMX1_Zerus_C_12, SMX1_Zerus_C_13, SMX1_Zerus_C_14, SMX1_Zerus_C_15, SMX1_Zerus_C_16, SMX1_Zerus_C_17, SMX1_Zerus_C_18, SMX1_Zerus_C_19, SMX1_Zerus_C_20, SMX1_Zerus_C_21, SMX1_Zerus_C_22, SMX1_Zerus_D_00, SMX1_Zerus_D_01, SMX1_Zerus_D_02, SMX1_Zerus_D_03, SMX1_Zerus_D_04, SMX1_Zerus_D_05, SMX1_Zerus_D_06, SMX1_Zerus_D_07, SMX1_Zerus_D_08, SMX1_Zerus_D_09, SMX1_Zerus_D_10, SMX1_Zerus_D_11, SMX1_Zerus_D_12, SMX1_Zerus_D_13, SMX1_Zerus_D_14, SMX1_Zerus_D_15, SMX1_Zerus_D_16, SMX1_Zerus_D_17, SMX1_Zerus_D_18, SMX1_Zerus_D_19, SMX1_Zerus_D_20, SMX1_Zerus_E_00, SMX1_Zerus_E_01, SMX1_Zerus_E_02, SMX1_Zerus_E_03, SMX1_Zerus_E_04, SMX1_Zerus_E_05, SMX1_Zerus_E_06, SMX1_Zerus_E_07, SMX1_Zerus_E_08, SMX1_Zerus_E_09, SMX1_Zerus_E_10, SMX1_Zerus_E_11, SMX1_Zerus_E_12, SMX1_Zerus_E_13, SMX1_Zerus_F_00, SMX1_Zerus_F_01, SMX1_Zerus_G_00, SMX1_Zerus_G_01, SMX1_Zerus_G_02, SMX1_Zerus_G_03, SMX1_Zerus_G_04, SMX1_Zerus_G_05, SMX1_Zerus_G_06, SMX1_Zerus_G_07, SMX1_Zerus_G_08, SMX1_Zerus_G_09, SMX1_Zerus_G_10, SMX1_Zerus_G_11, SMX1_Zerus_G_12, SMX1_Zerus_G_13, SMX1_Zerus_G_14, SMX1_Zerus_G_15, SMX1_Zerus_G_16, SMX1_Zerus_G_17, SMX1_Zerus_G_18, SMX1_Zerus_G_19, SMX1_Zerus_G_20, SMX1_Zerus_G_21, SMX1_Zerus_G_22, SMX1_Zerus_G_23, SMX1_Zerus_G_24, SMX1_Zerus_G_25, SMX1_Zerus_G_26, SMX1_Zerus_G_27, SMX1_Zerus_G_28, SMX1_Zerus_G_29, SMX1_Zerus_G_30, SMX1_Zerus_G_31, SMX1_Zerus_G_32, SMX1_Zerus_G_33, SMX1_Zerus_G_34, SMX1_Zerus_G_35, SMX1_Zerus_G_36, SMX1_Zerus_G_37, SMX1_Zerus_G_38, SMX1_Zerus_G_39, SMX1_Zerus_G_40, SMX1_Zerus_G_41, SMX1_Zerus_G_42, SMX1_Zerus_G_43, SMX1_Zerus_G_44, SMX1_Zerus_G_45, SMX1_Zerus_G_46, SMX1_Zerus_G_47, SMX1_Zerus_G_48, SMX1_Zerus_G_49, SMX1_Zerus_G_50, SMX1_Zerus_G_51, SMX1_Zerus_G_52, SMX1_Zerus_G_53, SMX1_Zerus_G_54, SMX1_Zerus_G_55, SMX1_Zerus_G_56, SMX1_Zerus_G_57, SMX1_Zerus_G_58, SMX1_Zerus_G_59, SMX1_Zerus_H_00, SMX1_Zerus_H_01, SMX1_Zerus_H_02, SMX1_Zerus_H_03, SMX1_Zerus_H_04, SMX1_Zerus_H_05, SMX1_Zerus_H_06, SMX1_Zerus_H_07, SMX1_Zerus_H_08, SMX1_Zerus_H_09, SMX1_Zerus_H_10, SMX1_Zerus_H_11, SMX1_Zerus_H_12, SMX1_Zerus_H_13, SMX1_Zerus_H_14, SMX1_Zerus_H_15, SMX1_Zerus_H_16, SMX1_Zerus_I_00, SMX1_Zerus_I_01, SMX1_Zerus_I_02, SMX1_Zerus_I_03, SMX1_Zerus_I_04, SMX1_Zerus_I_05, SMX1_Zerus_I_06, SMX1_Zerus_I_07, SMX1_Zerus_I_08, SMX1_Zerus_I_09, SMX1_Zerus_I_10, SMX1_Zerus_I_11, SMX1_Zerus_I_12, SMX1_Zerus_I_13, SMX1_Zerus_J, SMX1_Zerus_K_00, SMX1_Zerus_K_01, SMX1_Zerus_K_02, SMX1_Zerus_K_03, SMX1_Zerus_K_04, SMX1_Zerus_K_05, SMX1_Zerus_K_06, SMX1_Zerus_K_07, SMX1_Zerus_K_08, SMX1_Zerus_K_09, SMX1_Zerus_K_10, SMX1_Zerus_K_11, SMX1_Zerus_K_12, SMX1_Zerus_K_13, SMX1_Zerus_K_14, SMX1_Zerus_K_15, SMX1_Zerus_K_16, SMX1_Zerus_K_17, SMX1_Zerus_K_18, SMX1_Zerus_K_19, SMX1_Zerus_K_20, SMX1_Zerus_K_21, SMX1_Zerus_K_22, SMX1_Zerus_K_23</title></rect>
+<text x="293" y="333" font-size="8" fill="#6d6458">305</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/swarm.sc2campaign/base.sc2data/Cutscenes/Zerg07.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: BelShir, DefaultLight</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 0 (0 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX1_Guts_xtras_A</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX1_LeviathanInterior_01</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX1_LeviathanInterior_02</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX1_LeviathanInterior_03</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX1_LeviathanInterior_04</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX1_Lighting_xtras_Lite02</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX1_Zerus_A_00</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX1_Zerus_A_01</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX1_Zerus_A_02</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX1_Zerus_A_03</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX1_Zerus_A_04</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX1_Zerus_A_05</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX1_Zerus_A_06</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX1_Zerus_A_07</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX1_Zerus_B_00</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX1_Zerus_B_01</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX1_Zerus_B_02</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX1_Zerus_B_03</text>
+<text x="560" y="420" font-size="9" fill="#333">SMX1_Zerus_B_04</text>
+<text x="560" y="432" font-size="9" fill="#333">SMX1_Zerus_B_05</text>
+<text x="560" y="444" font-size="9" fill="#333">SMX1_Zerus_B_06</text>
+<text x="560" y="456" font-size="9" fill="#333">SMX1_Zerus_B_07</text>
+<text x="560" y="468" font-size="9" fill="#333">SMX1_Zerus_B_08</text>
+<text x="560" y="480" font-size="9" fill="#333">SMX1_Zerus_B_09</text>
+<text x="560" y="492" font-size="9" fill="#333">SMX1_Zerus_B_10</text>
+<text x="560" y="504" font-size="9" fill="#333">SMX1_Zerus_B_11</text>
+<text x="560" y="516" font-size="9" fill="#333">SMX1_Zerus_B_12</text>
+<text x="560" y="528" font-size="9" fill="#333">SMX1_Zerus_B_13</text>
+<text x="560" y="540" font-size="9" fill="#333">… and 202 more</text>
+<text x="560" y="552" font-size="9" fill="#333"></text>
+<text x="560" y="564" font-size="9" fill="#333">Also in:</text>
+</svg>

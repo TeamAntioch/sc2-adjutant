@@ -1,0 +1,8 @@
+﻿Param/Expression/lib_A3DDD02B_05E157D1=<c val="32cd32">TIP</c> -- ~A~.
+Param/Expression/lib_A3DDD02B_36788E6C=<c val="87ceeb">NEW TECH AVAILABLE</c><n/>~A~
+Param/Expression/lib_A3DDD02B_A269CF22=<c val="87ceeb">NEW STRUCTURE AVAILABLE</c><n/>~A~
+Param/Expression/lib_A3DDD02B_A67804BB=<c val="87ceeb">NEW UNIT ACQUIRED</c><n/>~A~
+Param/Expression/lib_A3DDD02B_D04E5B32=<c val="ffcc00">MISSION FAILED</c><n/>~A~
+Param/Expression/lib_A3DDD02B_E5BD385E=<c val="ff0000">~A~
+Param/Expression/lib_A3DDD02B_ED480A7B=<c val="ffcc00">SECRET FOUND</c><n/>~A~
+Param/Expression/lib_A3DDD02B_F1AA9791=<c val="87ceeb">NEW UNIT AVAILABLE</c><n/>~A~

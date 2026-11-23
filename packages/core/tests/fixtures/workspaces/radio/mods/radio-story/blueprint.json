@@ -1,0 +1,16 @@
+{
+  "id": "radio-story",
+  "kind": "campaign",
+  "dependencies": [],
+  "characters": [
+    {
+      "speaker": "NOVA",
+      "id": "Nova",
+      "voice": "Samantha"
+    },
+    {
+      "speaker": "ZERATUL",
+      "id": "Zeratul"
+    }
+  ]
+}

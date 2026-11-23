@@ -1,0 +1,1524 @@
+{
+  "tilesets": {
+    "Agria": [
+      "AgriaCliff0",
+      "AgriaCliff1"
+    ],
+    "AgriaEx1": [
+      "AgriaEx1Cliff0",
+      "AgriaEx1Cliff1"
+    ],
+    "Aiur": [
+      "AiurCliff0",
+      "AiurCliff1"
+    ],
+    "Aiur4City": [
+      "ProtossBaseManmadeCliffs",
+      "ProtossBaseOrganicCliffs"
+    ],
+    "Aiur4Temple": [
+      "AiurTempleCliff0",
+      "AiurTempleCliff1"
+    ],
+    "AiurCity": [
+      "AiurTempleCliff0",
+      "AiurTempleCliff1",
+      "AiurCityCliff0"
+    ],
+    "AiurCityNight": [
+      "BelShirEx1Cliff0",
+      "HybridLabXelNagaCliff1"
+    ],
+    "AiurEx1": [
+      "AiurEx1Cliff0",
+      "AiurEx1Cliff1"
+    ],
+    "AiurTemple": [
+      "AiurTempleCliff0",
+      "AiurTempleCliff1"
+    ],
+    "AiurTempleJungle": [
+      "ProtossBaseOrganicCliffs",
+      "AiurTempleCliff1"
+    ],
+    "Avernus": [
+      "AvernusCliff0",
+      "AvernusCliff1"
+    ],
+    "AvernusEx1": [
+      "AvernusEx1Cliff0",
+      "AvernusEx1Cliff1"
+    ],
+    "BattleStation": [
+      "KorhalPlatformEx2"
+    ],
+    "BelShir": [
+      "BelShirCliff0",
+      "BelShirCliff1"
+    ],
+    "BelShirEx1": [
+      "BelShirEx1Cliff0",
+      "BelShirEx1Cliff1"
+    ],
+    "BelShirEx2": [
+      "BelShirEx1Cliff0",
+      "BelShirEx1Cliff1"
+    ],
+    "BlackopsLab_A": [
+      "BlackopsLabCliff0"
+    ],
+    "BlackopsLab_B": [
+      "BlackopsLabCliff0"
+    ],
+    "BraxisAlpha": [
+      "BraxisAlphaCliff0",
+      "BraxisAlphaCliff1"
+    ],
+    "BraxisAlphaEx1": [
+      "BraxisAlphaEx1Cliff0",
+      "BraxisAlphaEx1Cliff1"
+    ],
+    "BraxisAlphaEx2": [
+      "BraxisAlphaEx1Cliff0",
+      "BraxisAlphaEx1Cliff1"
+    ],
+    "Castanar": [
+      "CastanarCliff0",
+      "CastanarCliff1"
+    ],
+    "CastanarEx1": [
+      "CastanarEx1Cliff0",
+      "CastanarEx1Cliff1"
+    ],
+    "CastanarEx2": [
+      "CastanarCliff0",
+      "CastanarCliff1"
+    ],
+    "Char": [
+      "CharCliff0",
+      "CharCliff1"
+    ],
+    "Char2": [
+      "Char2Cliff0",
+      "Char2Cliff1"
+    ],
+    "CharDunes": [
+      "CharDunesCliff0",
+      "CharDunesCliff1"
+    ],
+    "CharEx1": [
+      "CharEx1Cliff0",
+      "CharEx1Cliff1"
+    ],
+    "CharEx2": [
+      "CharEx1Cliff0",
+      "CharEx1Cliff1"
+    ],
+    "CharEx2_Fortress": [
+      "CharEx1Cliff0",
+      "CharEx1Cliff1"
+    ],
+    "CompoundMansion": [
+      "CompoundFacilityCliff1",
+      "CompoundFacilityCliff0"
+    ],
+    "CompoundSewer": [
+      "CompoundFacilityCliff1",
+      "CompoundFacilityCliff0"
+    ],
+    "Cybros": [
+      "CybrossCliff0"
+    ],
+    "DefendersCity": [
+      "KorhalCityEx2"
+    ],
+    "DesertWorld": [
+      "DesertWorldCliff0"
+    ],
+    "DominionLab": [
+      "LabCliff0",
+      "LabCliff1"
+    ],
+    "Elsecaro": [
+      "Elsecaro_Organic_Cliffs",
+      "Elsecaro_Manmade_Cliffs"
+    ],
+    "ElsecaroCity": [
+      "Elsecaro_Organic_Cliffs",
+      "Elsecaro_Manmade_Cliffs"
+    ],
+    "Endion": [
+      "EndionCliff0",
+      "EndionCliff1"
+    ],
+    "EndionAiurProtoss": [
+      "EndionCliff0",
+      "EndionProtossCliff1"
+    ],
+    "Generic": [
+      "SlaynCliff0",
+      "StarshipCliff0"
+    ],
+    "Haven": [
+      "HavenCliff0"
+    ],
+    "HavenEx1": [
+      "HavenEx1Cliff0"
+    ],
+    "HybridLabInner": [
+      "HybridLabInnerCliff0",
+      "HybridLabInnerCliff1"
+    ],
+    "HybridLabOuter": [
+      "HybridLabOuterCliff0",
+      "HybridLabOuterCliff1"
+    ],
+    "HybridLabXelNaga": [
+      "HybridLabXelNagaCliff0",
+      "HybridLabXelNagaCliff1"
+    ],
+    "IceWorld": [
+      "IceWorldCliff0",
+      "IceWorldCliff1"
+    ],
+    "IceWorldEx2": [
+      "IceWorldCliff0",
+      "IceWorldCliff1"
+    ],
+    "IceWorldEx2_Fortress": [
+      "IceWorldCliff0",
+      "IceWorldCliff1"
+    ],
+    "JarbanMinor_Jungle": [
+      "JarbanMinorJungleCliff0",
+      "JarbanMinorJungleCliff1"
+    ],
+    "Korhal": [
+      "KorhalCliff0",
+      "KorhalCliff1"
+    ],
+    "KorhalCity": [
+      "KorhalCityCliff0"
+    ],
+    "KorhalCityEx2": [
+      "KorhalCityEx2"
+    ],
+    "KorhalEx1": [
+      "KorhalEx1Cliff0",
+      "KorhalEx1Cliff1"
+    ],
+    "KorhalOutskirts": [
+      "KorhalOutskirtsCliff0",
+      "KorhalOutskirtsCliff1"
+    ],
+    "KorhalPlatform": [
+      "KorhalPlatformCliff0"
+    ],
+    "KorhalPlatformEx2": [
+      "KorhalPlatformEx2"
+    ],
+    "KorhalWastes": [
+      "KorhalOutskirtsCliff0",
+      "KorhalOutskirtsCliff1"
+    ],
+    "MarSara": [
+      "MarSaraCliff0",
+      "MarSaraCliff1"
+    ],
+    "MarSaraEx1": [
+      "MarSaraEx1Cliff0",
+      "MarSaraEx1Cliff1"
+    ],
+    "MarSaraEx2": [
+      "MarSaraEx2Cliff0",
+      "MarSaraEx2Cliff1"
+    ],
+    "Meinhoff": [
+      "MeinhoffCliff0",
+      "MeinhoffCliff1"
+    ],
+    "MeinhoffEx1": [
+      "MeinhoffEx1Cliff0",
+      "MeinhoffEx1Cliff1"
+    ],
+    "MeinhoffEx3": [
+      "MeinhoffEx1Cliff0",
+      "MeinhoffEx1Cliff1"
+    ],
+    "MoebiusLab": [
+      "MoebiusLabCliff0",
+      "MoebiusLabCliff1"
+    ],
+    "Monlyth": [
+      "MonlythCliff0",
+      "MonlythCliff1"
+    ],
+    "MonlythEx1": [
+      "MonlythEx1Cliff0",
+      "MonlythEx1Cliff1"
+    ],
+    "NewFolsom": [
+      "NewFolsomCliff0",
+      "NewFolsomCliff1"
+    ],
+    "NewFolsomEx1": [
+      "NewFolsomEx1Cliff0",
+      "NewFolsomEx1Cliff1"
+    ],
+    "PortCity": [
+      "BelShirEx1Cliff0",
+      "PortCityCliff1"
+    ],
+    "PortCityB": [
+      "TyradorEx1Cliff0",
+      "TyradorEx1Cliff1"
+    ],
+    "PortZion": [
+      "PortZionCliff0",
+      "PortZionCliff1"
+    ],
+    "PortZionEx1": [
+      "PortZionEx1Cliff0",
+      "PortZionEx1Cliff1"
+    ],
+    "PrisonShip": [
+      "PrisonShipCliff0",
+      "LabCliff1"
+    ],
+    "ProtossBase": [
+      "ProtossBaseManmadeCliffs",
+      "ProtossBaseOrganicCliffs"
+    ],
+    "PurificationDesert": [
+      "PurificationDesertCliff0",
+      "PurificationDesertCliff1"
+    ],
+    "PurifierJungle": [
+      "HavenEx1Cliff0"
+    ],
+    "Redstone": [
+      "RedstoneCliff0",
+      "RedstoneCliff1"
+    ],
+    "RedstoneEx1": [
+      "RedstoneEx1Cliff0",
+      "RedstoneEx1Cliff1"
+    ],
+    "Redstorm": [
+      "CharEx1Cliff0",
+      "CharEx1Cliff1"
+    ],
+    "ShadowCorpsPlatform": [
+      "ShadowCorpsPlatformCliff0",
+      "ShadowCorpsPlatformCliff1"
+    ],
+    "Shakuras": [
+      "ShakurasCliff0",
+      "ShakurasCliff1"
+    ],
+    "ShakurasCity": [
+      "HybridLabXelNagaCliff0",
+      "HybridLabXelNagaCliff1"
+    ],
+    "ShakurasEx1": [
+      "ShakurasEx1Cliff0",
+      "ShakurasEx1Cliff1"
+    ],
+    "ShakurasTemple": [
+      "ShakurasTempleCliff0",
+      "ShakurasTempleCliff1"
+    ],
+    "Slayn": [
+      "SlaynCliff0",
+      "SlaynCliff1"
+    ],
+    "SlaynGrass": [
+      "SlaynCliff0",
+      "SlaynCliff1"
+    ],
+    "SlaynTemple": [
+      "SlaynCliff0",
+      "SlaynCliff1"
+    ],
+    "SnowRefinery": [
+      "SnowRefineryCliff1",
+      "SnowRefineryCliff0"
+    ],
+    "SpearOfAdun": [
+      "StarshipCliff0"
+    ],
+    "Starship": [
+      "StarshipCliff0"
+    ],
+    "Tarsonis": [
+      "TarsonisCliff0",
+      "TarsonisCliff1"
+    ],
+    "TarsonisCity": [
+      "TarsonisCityCliff0",
+      "TarsonisCityCliff1"
+    ],
+    "TarsonisEx1": [
+      "TarsonisEx1Cliff0",
+      "TarsonisEx1Cliff1"
+    ],
+    "TarsonisInterior": [
+      "TarsonisEx1Cliff0",
+      "TarsonisEx1Cliff1"
+    ],
+    "TheVoid": [
+      "TheVoidCliff0",
+      "TheVoidCliff1"
+    ],
+    "Typhon": [
+      "TyphonCliff0",
+      "TyphonCliff1"
+    ],
+    "TyphonEx1": [
+      "TyphonEx1Cliff0",
+      "TyphonEx1Cliff1"
+    ],
+    "Tyrador": [
+      "TyradorCliff0",
+      "TyradorCliff1"
+    ],
+    "TyradorEx1": [
+      "TyradorEx1Cliff0",
+      "TyradorEx1Cliff1"
+    ],
+    "Ulaan": [
+      "UlaanCliff0",
+      "UlaanCliff1"
+    ],
+    "UlaanEx1": [
+      "UlaanEx1Cliff0",
+      "UlaanEx1Cliff1"
+    ],
+    "Ulnar": [
+      "UlnarCliff0",
+      "UlnarCliff1"
+    ],
+    "UlnarEx1": [
+      "UlnarEx1Cliff0",
+      "UlnarEx1Cliff1"
+    ],
+    "UlnarInner": [
+      "UlnarInnerCliff0",
+      "UlnarInnerCliff1"
+    ],
+    "UlnarOuter": [
+      "UlnarOuterCliff0",
+      "UlnarOuterCliff1"
+    ],
+    "UlnarPortal": [
+      "UlnarPortalCliff0",
+      "UlnarPortalCliff1"
+    ],
+    "UmojaEx3": [
+      "LabCliff0",
+      "LabCliff1"
+    ],
+    "Valhalla": [
+      "ValhallaCliff0",
+      "ValhallaCliff1"
+    ],
+    "ValhallaEx1": [
+      "ValhallaEx1Cliff0",
+      "ValhallaEx1Cliff1"
+    ],
+    "VolcanoIsle": [
+      "EndionCliff0",
+      "EndionCliff1"
+    ],
+    "XelNagaCavern": [
+      "HybridLabXelNagaCliff0",
+      "XelNagaCavernCliff1"
+    ],
+    "Xil": [
+      "XilCliff0",
+      "XilCliff1"
+    ],
+    "XilEx1": [
+      "XilEx1Cliff0",
+      "XilEx1Cliff1"
+    ],
+    "Zerus": [
+      "ZerusCliff0",
+      "ZerusCliff1"
+    ],
+    "ZhakulDas": [
+      "ZhakulDasCliff0",
+      "ZhakulDasCliff1"
+    ],
+    "ZhakulDasEx1": [
+      "ZhakulDasEx1Cliff0",
+      "ZhakulDasEx1Cliff1"
+    ]
+  },
+  "cliffSets": {
+    "AgriaCliff0": {
+      "tilesets": [
+        "Agria"
+      ],
+      "image": "Agria_Organic.jpg"
+    },
+    "AgriaCliff1": {
+      "tilesets": [
+        "Agria"
+      ],
+      "image": "Agria_Manmade.jpg"
+    },
+    "AgriaEx1Cliff0": {
+      "tilesets": [
+        "AgriaEx1"
+      ],
+      "image": "Agria_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "AgriaEx1Cliff1": {
+      "tilesets": [
+        "AgriaEx1"
+      ],
+      "image": "Agria_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "AiurCityCliff0": {
+      "tilesets": [
+        "AiurCity"
+      ],
+      "image": "Aiur_City_Cliff0.jpg"
+    },
+    "AiurCliff0": {
+      "tilesets": [
+        "Aiur"
+      ],
+      "image": "Aiur_Organic.jpg"
+    },
+    "AiurCliff1": {
+      "tilesets": [
+        "Aiur"
+      ],
+      "image": "Aiur_Manmade.jpg"
+    },
+    "AiurEx1Cliff0": {
+      "tilesets": [
+        "AiurEx1"
+      ],
+      "image": "Aiur_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "AiurEx1Cliff1": {
+      "tilesets": [
+        "AiurEx1"
+      ],
+      "image": "Aiur_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "AiurTempleCliff0": {
+      "tilesets": [
+        "Aiur4Temple",
+        "AiurCity",
+        "AiurTemple"
+      ],
+      "image": "Aiur_Temple_Cliff0.jpg"
+    },
+    "AiurTempleCliff1": {
+      "tilesets": [
+        "Aiur4Temple",
+        "AiurCity",
+        "AiurTemple",
+        "AiurTempleJungle"
+      ],
+      "image": "Aiur_Temple_Cliff1.jpg"
+    },
+    "AvernusCliff0": {
+      "tilesets": [
+        "Avernus"
+      ],
+      "image": "Avernus_Organic.jpg"
+    },
+    "AvernusCliff1": {
+      "tilesets": [
+        "Avernus"
+      ],
+      "image": "Avernus_Manmade.jpg"
+    },
+    "AvernusEx1Cliff0": {
+      "tilesets": [
+        "AvernusEx1"
+      ],
+      "image": "Avernus_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "AvernusEx1Cliff1": {
+      "tilesets": [
+        "AvernusEx1"
+      ],
+      "image": "Avernus_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "BelShirCliff0": {
+      "tilesets": [
+        "BelShir"
+      ],
+      "image": "Bel'Shir_Organic.jpg"
+    },
+    "BelShirCliff1": {
+      "tilesets": [
+        "BelShir"
+      ],
+      "image": "Bel'Shir_Manmade.jpg"
+    },
+    "BelShirEx1Cliff0": {
+      "tilesets": [
+        "AiurCityNight",
+        "BelShirEx1",
+        "BelShirEx2",
+        "PortCity"
+      ],
+      "image": "Bel'Shir_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "BelShirEx1Cliff1": {
+      "tilesets": [
+        "BelShirEx1",
+        "BelShirEx2"
+      ],
+      "image": "Bel'Shir_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "BlackopsLabCliff0": {
+      "tilesets": [
+        "BlackopsLab_A",
+        "BlackopsLab_B"
+      ],
+      "image": "Black_Ops_Lab_Cliff0.jpg"
+    },
+    "BraxisAlphaCliff0": {
+      "tilesets": [
+        "BraxisAlpha"
+      ],
+      "image": "Braxis_Alpha_Organic.jpg"
+    },
+    "BraxisAlphaCliff1": {
+      "tilesets": [
+        "BraxisAlpha"
+      ],
+      "image": "Braxis_Alpha_Manmade.jpg"
+    },
+    "BraxisAlphaEx1Cliff0": {
+      "tilesets": [
+        "BraxisAlphaEx1",
+        "BraxisAlphaEx2"
+      ],
+      "image": "Braxis_Alpha_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "BraxisAlphaEx1Cliff1": {
+      "tilesets": [
+        "BraxisAlphaEx1",
+        "BraxisAlphaEx2"
+      ],
+      "image": "Braxis_Alpha_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "CastanarCliff0": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx2"
+      ],
+      "image": "Castanar_Organic.jpg"
+    },
+    "CastanarCliff1": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx2"
+      ],
+      "image": "Castanar_Manmade.jpg"
+    },
+    "CastanarEx1Cliff0": {
+      "tilesets": [
+        "CastanarEx1"
+      ],
+      "image": "Castanar_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "CastanarEx1Cliff1": {
+      "tilesets": [
+        "CastanarEx1"
+      ],
+      "image": "Castanar_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "Char2Cliff0": {
+      "tilesets": [
+        "Char2"
+      ],
+      "image": "Char2_0.jpg"
+    },
+    "Char2Cliff1": {
+      "tilesets": [
+        "Char2"
+      ],
+      "image": "Char2_1.jpg"
+    },
+    "CharCliff0": {
+      "tilesets": [
+        "Char"
+      ],
+      "image": "Char_Organic.jpg"
+    },
+    "CharCliff1": {
+      "tilesets": [
+        "Char"
+      ]
+    },
+    "CharDunesCliff0": {
+      "tilesets": [
+        "CharDunes"
+      ]
+    },
+    "CharDunesCliff1": {
+      "tilesets": [
+        "CharDunes"
+      ]
+    },
+    "CharEx1Cliff0": {
+      "tilesets": [
+        "CharEx1",
+        "CharEx2",
+        "CharEx2_Fortress",
+        "Redstorm"
+      ],
+      "image": "Char_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "CharEx1Cliff1": {
+      "tilesets": [
+        "CharEx1",
+        "CharEx2",
+        "CharEx2_Fortress",
+        "Redstorm"
+      ]
+    },
+    "CompoundFacilityCliff0": {
+      "tilesets": [
+        "CompoundMansion",
+        "CompoundSewer"
+      ],
+      "image": "Compound_Facility_Cliff0.jpg"
+    },
+    "CompoundFacilityCliff1": {
+      "tilesets": [
+        "CompoundMansion",
+        "CompoundSewer"
+      ],
+      "image": "Compound_Facility_Cliff1.jpg"
+    },
+    "CybrossCliff0": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "image": "Cybross0.jpg"
+    },
+    "DesertWorldCliff0": {
+      "tilesets": [
+        "DesertWorld"
+      ]
+    },
+    "Elsecaro_Manmade_Cliffs": {
+      "tilesets": [
+        "Elsecaro",
+        "ElsecaroCity"
+      ],
+      "image": "Elsecaro_Manmade.jpg"
+    },
+    "Elsecaro_Organic_Cliffs": {
+      "tilesets": [
+        "Elsecaro",
+        "ElsecaroCity"
+      ],
+      "image": "Elsecaro_Organic.jpg"
+    },
+    "EndionCliff0": {
+      "tilesets": [
+        "Endion",
+        "EndionAiurProtoss",
+        "VolcanoIsle"
+      ],
+      "image": "Endion0.jpg"
+    },
+    "EndionCliff1": {
+      "tilesets": [
+        "Endion",
+        "VolcanoIsle"
+      ],
+      "image": "Endion1.jpg"
+    },
+    "EndionProtossCliff1": {
+      "tilesets": [
+        "EndionAiurProtoss"
+      ],
+      "image": "EndionProtoss1.jpg"
+    },
+    "HavenCliff0": {
+      "tilesets": [
+        "Haven"
+      ],
+      "image": "Haven_Organic.jpg"
+    },
+    "HavenEx1Cliff0": {
+      "tilesets": [
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "image": "Haven_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "HybridLabInnerCliff0": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "image": "Skygeirr_Lab_Natural.jpg",
+      "imageMatch": "alias"
+    },
+    "HybridLabInnerCliff1": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "image": "Skygeirr_Lab_Manmade.jpg",
+      "imageMatch": "alias"
+    },
+    "HybridLabOuterCliff0": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "image": "Skygeirr_Platform_Manmade_0.jpg",
+      "imageMatch": "alias"
+    },
+    "HybridLabOuterCliff1": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "image": "Skygeirr_Platform_Manmade_1.jpg",
+      "imageMatch": "alias"
+    },
+    "HybridLabXelNagaCliff0": {
+      "tilesets": [
+        "HybridLabXelNaga",
+        "ShakurasCity",
+        "XelNagaCavern"
+      ]
+    },
+    "HybridLabXelNagaCliff1": {
+      "tilesets": [
+        "AiurCityNight",
+        "HybridLabXelNaga",
+        "ShakurasCity"
+      ]
+    },
+    "IceWorldCliff0": {
+      "tilesets": [
+        "IceWorld",
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "image": "Kaldir_Organic_0.jpg",
+      "imageMatch": "alias"
+    },
+    "IceWorldCliff1": {
+      "tilesets": [
+        "IceWorld",
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "image": "Kaldir_Organic_1.jpg",
+      "imageMatch": "alias"
+    },
+    "JarbanMinorJungleCliff0": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_Organic.jpg"
+    },
+    "JarbanMinorJungleCliff1": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_Manmade.jpg"
+    },
+    "KorhalCityCliff0": {
+      "tilesets": [
+        "KorhalCity"
+      ]
+    },
+    "KorhalCityEx2": {
+      "tilesets": [
+        "DefendersCity",
+        "KorhalCityEx2"
+      ],
+      "image": "Korhal_City_Ex2.jpg"
+    },
+    "KorhalCliff0": {
+      "tilesets": [
+        "Korhal"
+      ]
+    },
+    "KorhalCliff1": {
+      "tilesets": [
+        "Korhal"
+      ],
+      "image": "Korhal_Manmade.jpg"
+    },
+    "KorhalEx1Cliff0": {
+      "tilesets": [
+        "KorhalEx1"
+      ]
+    },
+    "KorhalEx1Cliff1": {
+      "tilesets": [
+        "KorhalEx1"
+      ],
+      "image": "Korhal_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "KorhalOutskirtsCliff0": {
+      "tilesets": [
+        "KorhalOutskirts",
+        "KorhalWastes"
+      ],
+      "image": "Korhal_Wastes_Organic.jpg",
+      "imageMatch": "alias"
+    },
+    "KorhalOutskirtsCliff1": {
+      "tilesets": [
+        "KorhalOutskirts",
+        "KorhalWastes"
+      ],
+      "image": "Korhal_Wastes_Manmade.jpg",
+      "imageMatch": "alias"
+    },
+    "KorhalPlatformCliff0": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "image": "Korhal_Platform_Manmade.jpg",
+      "imageMatch": "alias"
+    },
+    "KorhalPlatformEx2": {
+      "tilesets": [
+        "BattleStation",
+        "KorhalPlatformEx2"
+      ],
+      "image": "Korhal_Platform_Ex2.jpg"
+    },
+    "LabCliff0": {
+      "tilesets": [
+        "DominionLab",
+        "UmojaEx3"
+      ]
+    },
+    "LabCliff1": {
+      "tilesets": [
+        "DominionLab",
+        "PrisonShip",
+        "UmojaEx3"
+      ]
+    },
+    "MarSaraCliff0": {
+      "tilesets": [
+        "MarSara"
+      ],
+      "image": "Mar_Sara_Organic.jpg"
+    },
+    "MarSaraCliff1": {
+      "tilesets": [
+        "MarSara"
+      ],
+      "image": "Mar_Sara_Manmade.jpg"
+    },
+    "MarSaraEx1Cliff0": {
+      "tilesets": [
+        "MarSaraEx1"
+      ],
+      "image": "Mar_Sara_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "MarSaraEx1Cliff1": {
+      "tilesets": [
+        "MarSaraEx1"
+      ],
+      "image": "Mar_Sara_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "MarSaraEx2Cliff0": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "image": "MarSaraEx20.jpg"
+    },
+    "MarSaraEx2Cliff1": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "image": "MarSaraEx21.jpg"
+    },
+    "MeinhoffCliff0": {
+      "tilesets": [
+        "Meinhoff"
+      ],
+      "image": "Meinhoff_Organic.jpg"
+    },
+    "MeinhoffCliff1": {
+      "tilesets": [
+        "Meinhoff"
+      ],
+      "image": "Meinhoff_Manmade.jpg"
+    },
+    "MeinhoffEx1Cliff0": {
+      "tilesets": [
+        "MeinhoffEx1",
+        "MeinhoffEx3"
+      ],
+      "image": "Meinhoff_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "MeinhoffEx1Cliff1": {
+      "tilesets": [
+        "MeinhoffEx1",
+        "MeinhoffEx3"
+      ],
+      "image": "Meinhoff_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "MoebiusLabCliff0": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "image": "MoebiumLab0.jpg",
+      "imageMatch": "alias"
+    },
+    "MoebiusLabCliff1": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "image": "MoebiusLab1.jpg"
+    },
+    "MonlythCliff0": {
+      "tilesets": [
+        "Monlyth"
+      ],
+      "image": "Monlyth_Organic.jpg"
+    },
+    "MonlythCliff1": {
+      "tilesets": [
+        "Monlyth"
+      ],
+      "image": "Monlyth_Manmade.jpg"
+    },
+    "MonlythEx1Cliff0": {
+      "tilesets": [
+        "MonlythEx1"
+      ],
+      "image": "Monlyth_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "MonlythEx1Cliff1": {
+      "tilesets": [
+        "MonlythEx1"
+      ],
+      "image": "Monlyth_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "NewFolsomCliff0": {
+      "tilesets": [
+        "NewFolsom"
+      ],
+      "image": "New_Folsom_Organic.jpg"
+    },
+    "NewFolsomCliff1": {
+      "tilesets": [
+        "NewFolsom"
+      ],
+      "image": "New_Folsom_Manmade.jpg"
+    },
+    "NewFolsomEx1Cliff0": {
+      "tilesets": [
+        "NewFolsomEx1"
+      ],
+      "image": "New_Folsom_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "NewFolsomEx1Cliff1": {
+      "tilesets": [
+        "NewFolsomEx1"
+      ],
+      "image": "New_Folsom_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "PortCityCliff1": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "image": "PortCityCliff1.jpg"
+    },
+    "PortZionCliff0": {
+      "tilesets": [
+        "PortZion"
+      ],
+      "image": "Port_Zion_Organic.jpg"
+    },
+    "PortZionCliff1": {
+      "tilesets": [
+        "PortZion"
+      ],
+      "image": "Port_Zion_Manmade.jpg"
+    },
+    "PortZionEx1Cliff0": {
+      "tilesets": [
+        "PortZionEx1"
+      ],
+      "image": "Port_Zion_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "PortZionEx1Cliff1": {
+      "tilesets": [
+        "PortZionEx1"
+      ],
+      "image": "Port_Zion_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "PrisonShipCliff0": {
+      "tilesets": [
+        "PrisonShip"
+      ]
+    },
+    "ProtossBaseManmadeCliffs": {
+      "tilesets": [
+        "Aiur4City",
+        "ProtossBase"
+      ],
+      "image": "Protoss_Base_Manmade.jpg"
+    },
+    "ProtossBaseOrganicCliffs": {
+      "tilesets": [
+        "Aiur4City",
+        "AiurTempleJungle",
+        "ProtossBase"
+      ],
+      "image": "Protoss_Base_Organic.jpg"
+    },
+    "PurificationDesertCliff0": {
+      "tilesets": [
+        "PurificationDesert"
+      ]
+    },
+    "PurificationDesertCliff1": {
+      "tilesets": [
+        "PurificationDesert"
+      ]
+    },
+    "RedstoneCliff0": {
+      "tilesets": [
+        "Redstone"
+      ],
+      "image": "Redstone_Organic.jpg"
+    },
+    "RedstoneCliff1": {
+      "tilesets": [
+        "Redstone"
+      ],
+      "image": "Redstone_Manmade.jpg"
+    },
+    "RedstoneEx1Cliff0": {
+      "tilesets": [
+        "RedstoneEx1"
+      ],
+      "image": "Redstone_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "RedstoneEx1Cliff1": {
+      "tilesets": [
+        "RedstoneEx1"
+      ],
+      "image": "Redstone_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "ShadowCorpsPlatformCliff0": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "image": "ShadowCorpsPlatform0.jpg"
+    },
+    "ShadowCorpsPlatformCliff1": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "image": "ShadowCorpsPlatform1.jpg"
+    },
+    "ShakurasCliff0": {
+      "tilesets": [
+        "Shakuras"
+      ],
+      "image": "Shakuras_Organic.jpg"
+    },
+    "ShakurasCliff1": {
+      "tilesets": [
+        "Shakuras"
+      ],
+      "image": "Shakuras_Manmade.jpg"
+    },
+    "ShakurasEx1Cliff0": {
+      "tilesets": [
+        "ShakurasEx1"
+      ],
+      "image": "Shakuras_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "ShakurasEx1Cliff1": {
+      "tilesets": [
+        "ShakurasEx1"
+      ],
+      "image": "Shakuras_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "ShakurasTempleCliff0": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "image": "ShakurasTemple0.jpg"
+    },
+    "ShakurasTempleCliff1": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "image": "ShakurasTemple1.jpg"
+    },
+    "SlaynCliff0": {
+      "tilesets": [
+        "Generic",
+        "Slayn",
+        "SlaynGrass",
+        "SlaynTemple"
+      ],
+      "image": "Slayn0.jpg"
+    },
+    "SlaynCliff1": {
+      "tilesets": [
+        "Slayn",
+        "SlaynGrass",
+        "SlaynTemple"
+      ],
+      "image": "Slayn1.jpg"
+    },
+    "SnowRefineryCliff0": {
+      "tilesets": [
+        "SnowRefinery"
+      ]
+    },
+    "SnowRefineryCliff1": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "SnowRefineryCliff1.jpg"
+    },
+    "StarshipCliff0": {
+      "tilesets": [
+        "Generic",
+        "SpearOfAdun",
+        "Starship"
+      ],
+      "image": "Daelaam_Ark_Manmade.jpg",
+      "imageMatch": "alias"
+    },
+    "TarsonisCityCliff0": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "image": "TarsonisCityCliff0.jpg"
+    },
+    "TarsonisCityCliff1": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "image": "TarsonisCityCliff1.jpg"
+    },
+    "TarsonisCliff0": {
+      "tilesets": [
+        "Tarsonis"
+      ],
+      "image": "Tarsonis_Organic.jpg"
+    },
+    "TarsonisCliff1": {
+      "tilesets": [
+        "Tarsonis"
+      ],
+      "image": "Tarsonis_Manmade.jpg"
+    },
+    "TarsonisEx1Cliff0": {
+      "tilesets": [
+        "TarsonisEx1",
+        "TarsonisInterior"
+      ],
+      "image": "Tarsonis_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "TarsonisEx1Cliff1": {
+      "tilesets": [
+        "TarsonisEx1",
+        "TarsonisInterior"
+      ],
+      "image": "Tarsonis_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "TheVoidCliff0": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "image": "TheVoid0.jpg"
+    },
+    "TheVoidCliff1": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "image": "TheVoid1.jpg"
+    },
+    "TyphonCliff0": {
+      "tilesets": [
+        "Typhon"
+      ],
+      "image": "Typhon_Organic.jpg"
+    },
+    "TyphonCliff1": {
+      "tilesets": [
+        "Typhon"
+      ],
+      "image": "Typhon_Manmade.jpg"
+    },
+    "TyphonEx1Cliff0": {
+      "tilesets": [
+        "TyphonEx1"
+      ],
+      "image": "Typhon_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "TyphonEx1Cliff1": {
+      "tilesets": [
+        "TyphonEx1"
+      ],
+      "image": "Typhon_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "TyradorCliff0": {
+      "tilesets": [
+        "Tyrador"
+      ]
+    },
+    "TyradorCliff1": {
+      "tilesets": [
+        "Tyrador"
+      ],
+      "image": "Tyrador_Manmade.jpg"
+    },
+    "TyradorEx1Cliff0": {
+      "tilesets": [
+        "PortCityB",
+        "TyradorEx1"
+      ]
+    },
+    "TyradorEx1Cliff1": {
+      "tilesets": [
+        "PortCityB",
+        "TyradorEx1"
+      ],
+      "image": "Tyrador_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "UlaanCliff0": {
+      "tilesets": [
+        "Ulaan"
+      ],
+      "image": "Ulaan_Organic.jpg"
+    },
+    "UlaanCliff1": {
+      "tilesets": [
+        "Ulaan"
+      ],
+      "image": "Ulaan_Manmade.jpg"
+    },
+    "UlaanEx1Cliff0": {
+      "tilesets": [
+        "UlaanEx1"
+      ],
+      "image": "Ulaan_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "UlaanEx1Cliff1": {
+      "tilesets": [
+        "UlaanEx1"
+      ],
+      "image": "Ulaan_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "UlnarCliff0": {
+      "tilesets": [
+        "Ulnar"
+      ],
+      "image": "Ulnar_Organic.jpg"
+    },
+    "UlnarCliff1": {
+      "tilesets": [
+        "Ulnar"
+      ],
+      "image": "Ulnar_Manmade.jpg"
+    },
+    "UlnarEx1Cliff0": {
+      "tilesets": [
+        "UlnarEx1"
+      ],
+      "image": "Ulnar_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "UlnarEx1Cliff1": {
+      "tilesets": [
+        "UlnarEx1"
+      ],
+      "image": "Ulnar_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "UlnarInnerCliff0": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "image": "Ulnar_Inner0.jpg"
+    },
+    "UlnarInnerCliff1": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "image": "Ulna_Inner1.jpg",
+      "imageMatch": "alias"
+    },
+    "UlnarOuterCliff0": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "image": "Ulnar_Outer0.jpg"
+    },
+    "UlnarOuterCliff1": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "image": "Ulnar_Outer1.jpg"
+    },
+    "UlnarPortalCliff0": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "image": "UlnarPortal0.jpg"
+    },
+    "UlnarPortalCliff1": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "image": "UlnarPortal1.jpg"
+    },
+    "ValhallaCliff0": {
+      "tilesets": [
+        "Valhalla"
+      ],
+      "image": "Valhalla_Organic.jpg"
+    },
+    "ValhallaCliff1": {
+      "tilesets": [
+        "Valhalla"
+      ],
+      "image": "Valhalla_Manmade.jpg"
+    },
+    "ValhallaEx1Cliff0": {
+      "tilesets": [
+        "ValhallaEx1"
+      ],
+      "image": "Valhalla_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "ValhallaEx1Cliff1": {
+      "tilesets": [
+        "ValhallaEx1"
+      ],
+      "image": "Valhalla_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "XelNagaCavernCliff1": {
+      "tilesets": [
+        "XelNagaCavern"
+      ]
+    },
+    "XilCliff0": {
+      "tilesets": [
+        "Xil"
+      ],
+      "image": "Xil_Organic.jpg"
+    },
+    "XilCliff1": {
+      "tilesets": [
+        "Xil"
+      ],
+      "image": "Xil_Manmade.jpg"
+    },
+    "XilEx1Cliff0": {
+      "tilesets": [
+        "XilEx1"
+      ],
+      "image": "Xil_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "XilEx1Cliff1": {
+      "tilesets": [
+        "XilEx1"
+      ],
+      "image": "Xil_Manmade.jpg",
+      "imageMatch": "family"
+    },
+    "ZerusCliff0": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "image": "Zerus_Organic_0.jpg",
+      "imageMatch": "alias"
+    },
+    "ZerusCliff1": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "image": "Zerus_Organic_1.jpg",
+      "imageMatch": "alias"
+    },
+    "ZhakulDasCliff0": {
+      "tilesets": [
+        "ZhakulDas"
+      ],
+      "image": "Zhakul'Das_Organic.jpg"
+    },
+    "ZhakulDasCliff1": {
+      "tilesets": [
+        "ZhakulDas"
+      ],
+      "image": "Zhakul'Das_Manmade.jpg"
+    },
+    "ZhakulDasEx1Cliff0": {
+      "tilesets": [
+        "ZhakulDasEx1"
+      ],
+      "image": "Zhakul'Das_Organic.jpg",
+      "imageMatch": "family"
+    },
+    "ZhakulDasEx1Cliff1": {
+      "tilesets": [
+        "ZhakulDasEx1"
+      ],
+      "image": "Zhakul'Das_Manmade.jpg",
+      "imageMatch": "family"
+    }
+  }
+}

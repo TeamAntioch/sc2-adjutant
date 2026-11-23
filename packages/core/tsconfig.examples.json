@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "paths": { "@team-antioch/sc2-adjutant/plugin-sdk": ["./src/plugins/plugin-sdk.ts"] }
+  },
+  "include": ["examples/*/plugins/**/*.ts"]
+}

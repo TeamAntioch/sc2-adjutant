@@ -1,0 +1,15 @@
+﻿FunctionDef/Hint/94DD08B9=Advances the Zerg tech tree
+FunctionDef/Name/356124F0=Upgrade Hydralisk Move Speed
+FunctionDef/Name/4A12F30F=Upgrade Roach Burrow Move
+FunctionDef/Name/4A20CB91=Upgrade Ultralisk Armor
+FunctionDef/Name/5365746F=Upgrade Zergling Move Speed
+FunctionDef/Name/5A1F9AA2=Upgrade Zergling Attack Speed
+FunctionDef/Name/6FB595C4=Upgrade Ultralisk Move Speed
+FunctionDef/Name/7D674E15=Upgrade Roach Move Speed
+FunctionDef/Name/800DCC85=Upgrade Zerg Ground Attack
+FunctionDef/Name/94DD08B9=Advance Zerg Tech Tree
+FunctionDef/Name/A14E88E7=Upgrade Zerg Ground Armor
+FunctionDef/Name/ADD9F88C=Upgrade Hydralisk Attack Range
+FunctionDef/Name/C1274A1D=Dispatch AI Attack
+FunctionDef/Name/CC60D840=Upgrade Zerg Missile Attack
+Variable/Name/9390F4DF=AI Tech Tree Level

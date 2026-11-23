@@ -1,0 +1,1 @@
+void libNovC_gf_ApplyUserTechChoicestoPlayer (int lp_player);

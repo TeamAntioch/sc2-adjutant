@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Set pieces: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Set pieces</text>
+<text x="24" y="54" font-size="10" fill="#666">set-pieces · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="260.1" y="131" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>InvulnerabilityShield</title></rect>
+<rect x="329.6" y="114.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>GuardianShield</title></rect>
+<rect x="233.4" y="540.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_SolarCore_UI_BG</title></rect>
+<polygon points="226.7,661 214.6,615.6 252,621.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="226.7" cy="661" r="2.5" fill="#7b4bd1"><title>T2 Camera</title></circle>
+<text x="230.7" y="658" font-size="8" fill="#5a3a9a">T2 Camera</text>
+<polygon points="150.7,632.3 153.1,585.5 186.9,602.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="150.7" cy="632.3" r="2.5" fill="#7b4bd1"><title>T3 Camera</title></circle>
+<text x="154.7" y="629.3" font-size="8" fill="#5a3a9a">T3 Camera</text>
+<polygon points="13.3,571.9 36.4,531.1 59,561.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="13.3" cy="571.9" r="2.5" fill="#7b4bd1"><title>T4 Camera</title></circle>
+<text x="17.3" y="568.9" font-size="8" fill="#5a3a9a">T4 Camera</text>
+<polygon points="233.3,629.5 219.1,584.7 256.7,588.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="233.3" cy="629.5" r="2.5" fill="#7b4bd1"><title>T6 Camera</title></circle>
+<text x="237.3" y="626.5" font-size="8" fill="#5a3a9a">T6 Camera</text>
+<polygon points="45.5,581.5 69.2,541 89.7,597.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="45.5" cy="581.5" r="2.5" fill="#7b4bd1"><title>T1_Cockpit_Cam</title></circle>
+<text x="49.5" y="578.5" font-size="8" fill="#5a3a9a">T1_Cockpit_Cam</text>
+<polygon points="-33.1,887.2 -33.2,840.2 13,878.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-33.1" cy="887.2" r="2.5" fill="#7b4bd1"><title>T2_SmallGun_Cam</title></circle>
+<text x="-29.1" y="884.2" font-size="8" fill="#5a3a9a">T2_SmallGun_Cam</text>
+<polygon points="-158.2,717.3 -126.7,682.6 -111.3,717.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-158.2" cy="717.3" r="2.5" fill="#7b4bd1"><title>T3_Core_Cam</title></circle>
+<text x="-154.2" y="714.3" font-size="8" fill="#5a3a9a">T3_Core_Cam</text>
+<polygon points="112.9,292.3 158.5,303.3 110.6,339.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="112.9" cy="292.3" r="2.5" fill="#7b4bd1"><title>T4_BigWeapon_Cam</title></circle>
+<text x="116.9" y="289.3" font-size="8" fill="#5a3a9a">T4_BigWeapon_Cam</text>
+<polygon points="-164.2,-57.4 -123.7,-33.5 -154.6,-11.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-164.2" cy="-57.4" r="2.5" fill="#7b4bd1"><title>T5_Backpiece_Cam</title></circle>
+<text x="-160.2" y="-60.4" font-size="8" fill="#5a3a9a">T5_Backpiece_Cam</text>
+<polygon points="-10.3,210.3 36.2,216.6 -7.9,257.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-10.3" cy="210.3" r="2.5" fill="#7b4bd1"><title>T6_SmallCore_Cam</title></circle>
+<text x="-6.3" y="207.3" font-size="8" fill="#5a3a9a">T6_SmallCore_Cam</text>
+<polygon points="-195.3,1062.5 -186.2,1016.5 -152.9,1042.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-195.3" cy="1062.5" r="2.5" fill="#7b4bd1"><title>T0_MainView_Cam</title></circle>
+<text x="-191.3" y="1059.5" font-size="8" fill="#5a3a9a">T0_MainView_Cam</text>
+</g>
+<line x1="174.5" y1="574.4" x2="330.9" y2="574.4" stroke="#333" stroke-width="2"/>
+<line x1="174.5" y1="570.4" x2="174.5" y2="578.4" stroke="#333"/><line x1="205.8" y1="570.4" x2="205.8" y2="578.4" stroke="#333"/>
+<text x="174.5" y="568.4" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_ShipUpgrade.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: PlanetIcons</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 13 (11 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">GuardianShield</text>
+<text x="560" y="216" font-size="9" fill="#333">InvulnerabilityShield</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX2_SolarCore_UI_BG</text>
+<text x="560" y="240" font-size="9" fill="#333"></text>
+<text x="560" y="252" font-size="9" fill="#333">Also in:</text>
+</svg>

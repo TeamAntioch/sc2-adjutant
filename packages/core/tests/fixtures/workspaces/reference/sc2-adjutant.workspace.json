@@ -1,0 +1,8 @@
+{
+  "campaign": { "id": "reference", "name": "Reference Campaign" },
+  "missions": "missions",
+  "campaignPack": "./plugins/reference-pack",
+  "stylePack": "bundled:style-antioch",
+  "plugins": ["bundled:hazard"],
+  "mods": ["reference-story"]
+}

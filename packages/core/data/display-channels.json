@@ -1,0 +1,2838 @@
+{
+  "AA_TracerShots_Terran": {
+    "file": "Assets/Doodads/AA_TracerShots_Terran/AA_TracerShots_Terran.m3",
+    "channels": []
+  },
+  "Aiur_City_Pillar_Destroyed": {
+    "file": "Assets/Doodads/Aiur_City_Pillar_Destroyed/Aiur_City_Pillar_Destroyed_00.m3",
+    "channels": []
+  },
+  "Aiur_CityBuilding_Spire_Abandoned": {
+    "file": "Assets/Doodads/Aiur_CityBuilding_Spire_Abandoned/Aiur_CityBuilding_Spire_Abandoned_00.m3",
+    "channels": []
+  },
+  "Aiur_CityBuilding_Temple_Destroyed": {
+    "file": "Assets/Doodads/Aiur_CityBuilding_Temple_Destroyed/Aiur_CityBuilding_Temple_Destroyed_00.m3",
+    "channels": []
+  },
+  "Aiur_Power_Point": {
+    "file": "Assets/Doodads/Aiur_Power_Point/Aiur_Power_Point.m3",
+    "channels": []
+  },
+  "Aiur_Pyramid_Tower_Large_Abandoned": {
+    "file": "Assets/Doodads/Aiur_Pyramid_Tower_Large_Abandoned/Aiur_Pyramid_Tower_Large_Abandoned_00.m3",
+    "channels": []
+  },
+  "Aiur_Pyramid_Tower_Medium_Abandoned": {
+    "file": "Assets/Doodads/Aiur_Pyramid_Tower_Medium_Abandoned/Aiur_Pyramid_Tower_Medium_Abandoned_00.m3",
+    "channels": []
+  },
+  "Aiur_Stone_Temple": {
+    "file": "Assets/Doodads/Aiur_Stone_Temple/Aiur_Stone_Temple.m3",
+    "channels": []
+  },
+  "Aiur_Stone_Temple_Doodads": {
+    "file": "Assets/Doodads/Aiur_Stone_Temple_Doodads/Aiur_Stone_Temple_Doodads_00.m3",
+    "channels": []
+  },
+  "Aiur_Temple_Bigwalls": {
+    "file": "Assets/Doodads/Aiur_Temple_Bigwalls/Aiur_Temple_Bigwalls_00.m3",
+    "channels": []
+  },
+  "Aiur_Temple_Buildings_Destroyed": {
+    "file": "Assets/Doodads/Aiur_Temple_Buildings_Destroyed/Aiur_Temple_Buildings_Destroyed_00.m3",
+    "channels": []
+  },
+  "Aiur_Temple_CliffDoodads": {
+    "file": "Assets/Doodads/Aiur_Temple_CliffDoodads/Aiur_Temple_CliffDoodads_00.m3",
+    "channels": []
+  },
+  "Aiur_Vines_Cliff": {
+    "file": "Assets/Doodads/Aiur_Vines_Cliff/Aiur_Vines_Cliff_00.m3",
+    "channels": []
+  },
+  "AiurTree": {
+    "file": "Assets/Doodads/AiurTree/AiurTree_00.m3",
+    "channels": []
+  },
+  "AlarmLight": {
+    "file": "Assets/Doodads/AlarmLight/AlarmLight_00.m3",
+    "channels": []
+  },
+  "AnniversaryCake": {
+    "file": "Assets/Effects/Other/AnniversaryCake/AnniversaryCake.m3",
+    "channels": []
+  },
+  "ArmyHolo_Adept_Purifier": {
+    "file": "Assets/Units/Protoss/Purifier_Adept_HoloUnit/Purifier_Adept_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Arbiter": {
+    "file": "Assets/Units/Protoss/Arbiter_HoloUnit/Arbiter_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_CarrierHero": {
+    "file": "Assets/Units/Protoss/CarrierHero_HoloUnit/CarrierHero_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Colossus_TalDarim": {
+    "file": "Assets/Units/Protoss/Colossus_Taldarim_HoloUnit/Colossus_Taldarim_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Corsair": {
+    "file": "Assets/Units/Protoss/Corsair_HoloUnit/Corsair_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_DarkArchon": {
+    "file": "Assets/Units/Protoss/DarkArchon_HoloUnit/DarkArchon_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_DarkTemplar": {
+    "file": "Assets/Units/Protoss/DarkTemplar_HoloUnit/DarkTemplar_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_DarkTemplar_Aiur": {
+    "file": "Assets/Units/Protoss/DarkTemplar_Aiur_HoloUnit/DarkTemplar_Aiur_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_DarkTemplar_TalDarim": {
+    "file": "Assets/Units/Protoss/DarkTemplar_TalDarim_HoloUnit/DarkTemplar_TalDarim_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_HighTemplar_Aiur": {
+    "file": "Assets/Units/Protoss/HighTemplar_Aiur_HoloUnit/HighTemplar_Aiur_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Immortal_Aiur": {
+    "file": "Assets/Units/Protoss/Immortal_Aiur_HoloUnit/Immortal_Aiur_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Immortal_Nerazim": {
+    "file": "Assets/Units/Protoss/Immortal_Nerazim_HoloUnit/Immortal_Nerazim_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Immortal_TalDarim": {
+    "file": "Assets/Units/Protoss/Immortal_Taldarim_HoloUnit/Immortal_Taldarim_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_MotherShip_TalDarim": {
+    "file": "Assets/Units/Protoss/MotherShip_Taldarim_HoloUnit/MotherShip_Taldarim_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Phoenix_Aiur": {
+    "file": "Assets/Units/Protoss/Phoenix_Aiur_HoloUnit/Phoenix_Aiur_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Phoenix_Purifier": {
+    "file": "Assets/Units/Protoss/Phoenix_Purifier_HoloUnit/Phoenix_Purifier_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Reaver": {
+    "file": "Assets/Units/Protoss/Reaver_HoloUnit/Reaver_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Sentry_Aiur": {
+    "file": "Assets/Units/Protoss/Sentry_Aiur_HoloUnit/Sentry_Aiur_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Sentry_Purifier": {
+    "file": "Assets/Units/Protoss/Sentry_Purifier_HoloUnit/Sentry_Purifier_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Sentry_TalDarim": {
+    "file": "Assets/Units/Protoss/Sentry_Taldarim_HoloUnit/Sentry_Taldarim_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Stalker_Aiur": {
+    "file": "Assets/UI/Protoss/ArmyHolo_Stalker_Aiur/ArmyHolo_Stalker_Aiur.m3",
+    "channels": []
+  },
+  "ArmyHolo_Stalker_Nerazim": {
+    "file": "Assets/UI/Protoss/ArmyHolo_Stalker_Nerazim/ArmyHolo_Stalker_Nerazim.m3",
+    "channels": []
+  },
+  "ArmyHolo_Tempest_Purifier": {
+    "file": "Assets/Units/Protoss/Tempest_Purifier_HoloUnit/Tempest_Purifier_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_VoidRay": {
+    "file": "Assets/Units/Protoss/DarkVoidRay_HoloUnit/DarkVoidRay_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_VoidRay_TalDarim": {
+    "file": "Assets/Units/Protoss/VoidRay_TalDarim_HoloUnit/VoidRay_TalDarim_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHolo_Zealot_Aiur": {
+    "file": "Assets/UI/Protoss/ArmyHolo_Zealot_Aiur/ArmyHolo_Zealot_Aiur.m3",
+    "channels": []
+  },
+  "ArmyHolo_Zealot_Nerazim": {
+    "file": "Assets/UI/Protoss/ArmyHolo_Zealot_Nerazim/ArmyHolo_Zealot_Nerazim.m3",
+    "channels": []
+  },
+  "ArmyHolo_Zealot_Purifier": {
+    "file": "Assets/Units/Protoss/Zealot_Purifier_HoloUnit/Zealot_Purifier_HoloUnit.m3",
+    "channels": []
+  },
+  "ArmyHoloHighTemplarTalDarim": {
+    "file": "Assets/Units/Protoss/HighTemplar_Taldarim_HoloUnit/HighTemplar_Taldarim_HoloUnit.m3",
+    "channels": []
+  },
+  "Artifact": {
+    "file": "Assets/Buildings/Terran/ArtifactContainmentFieldVoid/ArtifactContainmentFieldVoid.m3",
+    "channels": []
+  },
+  "ArtifactAiur06": {
+    "file": "Assets/Buildings/Protoss/Aiur_ArtifactHolder/Aiur_ArtifactHolder.m3",
+    "channels": []
+  },
+  "AsteroidCliff": {
+    "file": "Assets/Doodads/AsteroidCliff/AsteroidCliff_00.m3",
+    "channels": []
+  },
+  "AutoTurretAttackImpact": {
+    "file": "Assets/Effects/Terran/AutoTurretWeaponImpact/AutoTurretWeaponImpact.m3",
+    "channels": []
+  },
+  "BacklashRocketsLMWeapon": {
+    "file": "Assets/Effects/Terran/BansheeMissile/BansheeMissile.m3",
+    "channels": []
+  },
+  "Baneling": {
+    "file": "Assets/Units/Zerg/BanelingEx1/BanelingEx1.m3",
+    "channels": []
+  },
+  "Banshee": {
+    "file": "Assets/Units/Terran/Banshee/Banshee.m3",
+    "channels": []
+  },
+  "Barracks": {
+    "file": "Assets/Buildings/Terran/Barracks/Barracks.m3",
+    "channels": []
+  },
+  "Battlecruiser": {
+    "file": "Assets/Units/Terran/BattlecruiserEX2/BattlecruiserEX2.m3",
+    "channels": []
+  },
+  "BattlecruiserGiantDock": {
+    "file": "Assets/Doodads/BattlecruiserGiantDock/BattlecruiserGiantDock.m3",
+    "channels": []
+  },
+  "BirdDriftSeeker": {
+    "file": "Assets/Doodads/BirdDriftSeeker/BirdDriftSeeker.m3",
+    "channels": []
+  },
+  "Carrier": {
+    "file": "Assets/Units/Protoss/Carrier/Carrier.m3",
+    "channels": []
+  },
+  "Colossus": {
+    "file": "Assets/Units/Protoss/ColossusEx1/ColossusEx1.m3",
+    "channels": []
+  },
+  "DarkCarrier": {
+    "file": "Assets/Units/Protoss/Carrier_Taldarim/Carrier_Taldarim.m3",
+    "channels": []
+  },
+  "DarkHighTemplar": {
+    "file": "Assets/Units/Protoss/HighTemplar_TaldarimEx3/HighTemplar_TaldarimEx3.m3",
+    "channels": []
+  },
+  "DarkInterceptor": {
+    "file": "Assets/Units/Protoss/Interceptor_Taldarim/Interceptor_Taldarim.m3",
+    "channels": []
+  },
+  "DarkProbe": {
+    "file": "Assets/Units/Protoss/Probe_Taldarim/Probe_Taldarim.m3",
+    "channels": []
+  },
+  "DarkStalker": {
+    "file": "Assets/Units/Protoss/Stalker_TalDarim/Stalker_TalDarim.m3",
+    "channels": []
+  },
+  "DarkTemplar": {
+    "file": "Assets/Units/Protoss/DarkTemplar/DarkTemplar_00.m3",
+    "channels": []
+  },
+  "DarkTemplar_Shuttle": {
+    "file": "Assets/Units/Protoss/DarkTemplar_Shuttle/DarkTemplar_Shuttle_00.m3",
+    "channels": []
+  },
+  "DarkVoidRay": {
+    "file": "Assets/Units/Protoss/VoidRay_TalDarim/VoidRay_TalDarim.m3",
+    "channels": []
+  },
+  "DarkZealot": {
+    "file": "Assets/Units/Protoss/Zealot_Taldarim/Zealot_Taldarim.m3",
+    "channels": []
+  },
+  "Drone": {
+    "file": "Assets/Units/Zerg/Drone/Drone.m3",
+    "channels": []
+  },
+  "EvolutionButtonHighlight": {
+    "file": "Assets/UI/Feedback/EvolutionButtonHighlight/EvolutionButtonHighlight.m3",
+    "channels": []
+  },
+  "Gateway_Taldarim": {
+    "file": "Assets/Buildings/Protoss/Gateway_Taldarim/Gateway_Taldarim.m3",
+    "channels": []
+  },
+  "GlaciusDefenseCannon": {
+    "file": "Assets/Doodads/Purifier_Protoss_Turret_Large/Purifier_Protoss_Turret_Large.m3",
+    "channels": []
+  },
+  "Glue_MiraHanPortrait": {
+    "file": "Assets/Portraits/Terran/SMX1_HanPortrait/SMX1_HanPortrait.m3",
+    "channels": []
+  },
+  "Glue_SMX3_Alarak_Throne": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Alarak_Throne/SMX3_Alarak_Throne.m3",
+    "channels": []
+  },
+  "GlueArmyEvolutionSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ArmyEvolutionSet/SMX1_ArmyEvolutionSet.m3",
+    "channels": []
+  },
+  "GlueEggRoomHydraliskEgg": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_EggRoomSet/SMX1_EggRoomSet_02.m3",
+    "channels": []
+  },
+  "GlueEvolutionMaster": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_EvolutionMaster/SMX1_EvolutionMaster.m3",
+    "channels": []
+  },
+  "GlueFenixMech": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Fenix/SMX2_Fenix.m3",
+    "channels": []
+  },
+  "GlueFirstOfficer": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_FirstOfficer/SMX3_FirstOfficer.m3",
+    "channels": []
+  },
+  "GlueInfestedStukov": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_InfestedStukov/SMX1_InfestedStukov.m3",
+    "channels": []
+  },
+  "GlueMainMenuVoidArtanisWithBraids": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Artanis_T1_WithBraids/SMX2_Artanis_T1_WithBraids.m3",
+    "channels": []
+  },
+  "GlueMainMenuVoidArtanisWithGauntlet": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Artanis_T1_WithGauntlet/SMX2_Artanis_T1_WithGauntlet.m3",
+    "channels": []
+  },
+  "GlueSMX3Alarak": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX3_Alarak/SMX3_Alarak.m3",
+    "channels": []
+  },
+  "GlueSMX3Nova": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Nova/SMX3_Nova.m3",
+    "channels": []
+  },
+  "GlueTychus": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_Marine01/SM_Marine01.m3",
+    "channels": []
+  },
+  "GlueVoidKarax": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Karax_T1/SMX2_Karax_T1.m3",
+    "channels": []
+  },
+  "GlueVoidRaynorCommander": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_RaynorCommander/SM_RaynorCommander.m3",
+    "channels": []
+  },
+  "GuardianShield": {
+    "file": "Assets/Effects/Protoss/SentryShieldBubble_Ex2/SentryShieldBubble_Ex2.m3",
+    "channels": []
+  },
+  "HighTemplar": {
+    "file": "Assets/Units/Protoss/HighTemplar/HighTemplar.m3",
+    "channels": []
+  },
+  "HologramBase": {
+    "file": "Assets/StoryModeProps/HologramBase/HologramBase.m3",
+    "channels": []
+  },
+  "HybridBehemoth": {
+    "file": "Assets/Units/Zerg/Hybrid_Zerg_Advanced/Hybrid_Zerg_Advanced.m3",
+    "channels": []
+  },
+  "HybridReaver": {
+    "file": "Assets/Units/Zerg/HybridZerg/HybridZerg.m3",
+    "channels": []
+  },
+  "Hydralisk": {
+    "file": "Assets/Units/Zerg/Hydralisk/Hydralisk.m3",
+    "channels": []
+  },
+  "Immortal": {
+    "file": "Assets/Units/Protoss/Immortal_EX2/Immortal_EX2.m3",
+    "channels": []
+  },
+  "InfestedAbomination": {
+    "file": "Assets/Units/Zerg/Aberration/Aberration.m3",
+    "channels": []
+  },
+  "InterceptorTaldarim": {
+    "file": "Assets/Units/Protoss/DarkInterceptor/DarkInterceptor.m3",
+    "channels": []
+  },
+  "InvulnerabilityShield": {
+    "file": "Assets/Effects/Protoss/TimeBomb/TimeBomb.m3",
+    "channels": []
+  },
+  "KerriganPrimalPortrait": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_KerriganInfested_Background_Portrait/SMX1_KerriganInfested_Background_Portrait.m3",
+    "channels": []
+  },
+  "Leviathan": {
+    "file": "Assets/Units/Zerg/Leviathan/Leviathan.m3",
+    "channels": []
+  },
+  "Marine": {
+    "file": "Assets/Units/Terran/Marine/Marine.m3",
+    "channels": []
+  },
+  "MarineAttackLaunch": {
+    "file": "Assets/Effects/Terran/MarineWeaponLaunch/MarineWeaponLaunch.m3",
+    "channels": []
+  },
+  "MengskPalace": {
+    "file": "Assets/Doodads/MengskPalace/MengskPalace.m3",
+    "channels": []
+  },
+  "Moebius_Reactor": {
+    "file": "Assets/Buildings/Terran/Moebius_Reactor/Moebius_Reactor.m3",
+    "channels": []
+  },
+  "Mothership": {
+    "file": "Assets/Units/Protoss/Mothership/Mothership.m3",
+    "channels": []
+  },
+  "Mutalisk": {
+    "file": "Assets/Units/Zerg/Mutalisk/Mutalisk.m3",
+    "channels": []
+  },
+  "NaturalGas": {
+    "file": "Assets/Buildings/Resources/NaturalGas/NaturalGas.m3",
+    "channels": []
+  },
+  "Observer": {
+    "file": "Assets/Units/Protoss/Observer/Observer.m3",
+    "channels": []
+  },
+  "Overlord": {
+    "file": "Assets/Units/Zerg/Overlord/Overlord.m3",
+    "channels": []
+  },
+  "Overseer": {
+    "file": "Assets/Units/Zerg/Overseer/Overseer.m3",
+    "channels": []
+  },
+  "Phoenix": {
+    "file": "Assets/Units/Protoss/Phoenix_Ex2/Phoenix_Ex2.m3",
+    "channels": []
+  },
+  "PhoenixTaldarim": {
+    "file": "Assets/Units/Protoss/Phoenix_TalDarim/Phoenix_TalDarim.m3",
+    "channels": []
+  },
+  "PitMalash": {
+    "file": "Assets/Units/Protoss/Malash/Malash.m3",
+    "channels": []
+  },
+  "PowerConductorLock": {
+    "file": "Assets/Units/Protoss/Purifier_Small_Energy_Generator/Purifier_Small_Energy_Generator.m3",
+    "channels": []
+  },
+  "Probe": {
+    "file": "Assets/Units/Protoss/Probe/Probe.m3",
+    "channels": []
+  },
+  "Purifier_Destroyed_Units": {
+    "file": "Assets/Doodads/Purifier_Destroyed_Units/Purifier_Destroyed_Units_00.m3",
+    "channels": []
+  },
+  "Purifier_Disruptor_Core": {
+    "file": "Assets/Doodads/Purifier_Disruptor_Core/Purifier_Disruptor_Core.m3",
+    "channels": []
+  },
+  "QueenPortrait": {
+    "file": "Assets/Portraits/Zerg/QueenPortrait/QueenPortrait.m3",
+    "channels": []
+  },
+  "Reaper": {
+    "file": "Assets/Units/Terran/Reaper/Reaper.m3",
+    "channels": []
+  },
+  "Roach": {
+    "file": "Assets/Units/Zerg/Roach/Roach.m3",
+    "channels": []
+  },
+  "Scantipede": {
+    "file": "Assets/Units/Critters/ScantipedeEx1/ScantipedeEx1.m3",
+    "channels": []
+  },
+  "Scout": {
+    "file": "Assets/Units/Protoss/Scout/Scout.m3",
+    "channels": []
+  },
+  "ScrapCube": {
+    "file": "Assets/Doodads/ScrapCube/ScrapCube_00.m3",
+    "channels": []
+  },
+  "Sentry": {
+    "file": "Assets/Units/Protoss/Sentry/Sentry.m3",
+    "channels": []
+  },
+  "Shadow_MarineEX2": {
+    "file": "Assets/Units/Terran/Shadow_MarineEX2/Shadow_MarineEX2.m3",
+    "channels": []
+  },
+  "SiegeTankSiegedMorph": {
+    "file": "Assets/Units/Terran/SiegeTankMorph/SiegeTankMorph.m3",
+    "channels": []
+  },
+  "SJBattlecruiser": {
+    "file": "Assets/Units/Terran/Battlecruiser/Battlecruiser.m3",
+    "channels": []
+  },
+  "SMArmoryTank": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_ArmorySiegeTank/SM_ArmorySiegeTank.m3",
+    "channels": []
+  },
+  "SMBridgeWindowSpace": {
+    "file": "Assets/UI/Glues/BridgeWindowSpace/BridgeWindowSpace.m3",
+    "channels": []
+  },
+  "SMCade": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_HyperionCrew01/SM_HyperionCrew01.m3",
+    "channels": []
+  },
+  "SMCharCinematicSkyparallax": {
+    "file": "Assets/StoryModeSkyboxes/SM_Char_Cinematic_Skyparallax/SM_Char_Cinematic_Skyparallax.m3",
+    "channels": []
+  },
+  "SMHall": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_HyperionCrew02/SM_HyperionCrew02.m3",
+    "channels": []
+  },
+  "SMHyperionArmoryViking": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_ArmoryViking/SM_ArmoryViking.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeBriefing": {
+    "file": "Assets/StoryModeProps/Terran/SM_HyperionBridgeBriefing/SM_HyperionBridgeBriefing_00.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeBriefingCenter": {
+    "file": "Assets/StoryModeProps/Terran/SM_HyperionBridgeBriefing/SM_HyperionBridgeBriefing_01.m3",
+    "channels": [
+      0,
+      1,
+      2
+    ]
+  },
+  "SMHyperionBridgeStage1BattleCommandHS": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeStarmap/SM_HyperionBridgeStarmap.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeStage1BattleReportsHS": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeStage1/SM_HyperionBridgeStage1_08.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeStage1Bow": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeStage1/SM_HyperionBridgeStage1_07.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeStage1CantinaHS": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeStage1Door/SM_HyperionBridgeStage1Door.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeStage1CenterConsoleHS": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeCommConsole/SM_HyperionBridgeCommConsole.m3",
+    "channels": [
+      0
+    ]
+  },
+  "SMHyperionBridgeStage1Set": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeStage1/SM_HyperionBridgeStage1_00.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeStage1Set2": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeStage1/SM_HyperionBridgeStage1_01.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeStage1Set3": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeStage1/SM_HyperionBridgeStage1_02.m3",
+    "channels": []
+  },
+  "SMHyperionBridgeStage1WindowHS": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionBridgeWindow/SM_HyperionBridgeWindow.m3",
+    "channels": []
+  },
+  "SMHyperionExterior": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionExterior/SM_HyperionExterior.m3",
+    "channels": []
+  },
+  "SMHyperionExteriorLow": {
+    "file": "Assets/StoryModeSets/Terran/SM_HyperionExteriorLow/SM_HyperionExteriorLow.m3",
+    "channels": []
+  },
+  "SMKachinsky": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_HyperionCrew04/SM_HyperionCrew04.m3",
+    "channels": []
+  },
+  "SMMarSaraBar00": {
+    "file": "Assets/StoryModeSets/Terran/SM_MarSaraBar/SM_MarSaraBar_00.m3",
+    "channels": []
+  },
+  "SMMarSaraBar01": {
+    "file": "Assets/StoryModeSets/Terran/SM_MarSaraBar/SM_MarSaraBar_01.m3",
+    "channels": []
+  },
+  "SMMarSaraBarHydraliskSkull": {
+    "file": "Assets/StoryModeSets/Terran/SM_MarSaraBarHydraliskSkull/SM_MarSaraBarHydraliskSkull.m3",
+    "channels": []
+  },
+  "SMMarSaraBarJukebox": {
+    "file": "Assets/StoryModeSets/Terran/SM_MarSaraBarJukebox/SM_MarSaraBarJukebox.m3",
+    "channels": []
+  },
+  "SMRaynorCommander": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_RaynorCommander/SM_RaynorCommander.m3",
+    "channels": []
+  },
+  "SMRaynorMarine": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_RaynorMarine/SM_RaynorMarine.m3",
+    "channels": []
+  },
+  "SMStatic": {
+    "file": "Assets/Portraits/Terran/TerranPortraitTransition/TerranPortraitTransition.m3",
+    "channels": []
+  },
+  "SMTychusMinigun": {
+    "file": "Assets/StoryModeCharacters/Terran/SM_Tychus_Minigun/SM_Tychus_Minigun.m3",
+    "channels": []
+  },
+  "SMValerianFlagshipCorridorsSet2": {
+    "file": "Assets/StoryModeSets/Terran/SM_ValerianFlagshipCorridors/SM_ValerianFlagshipCorridors_01.m3",
+    "channels": []
+  },
+  "SMValerianFlagshipCorridorsSet3": {
+    "file": "Assets/StoryModeSets/Terran/SM_ValerianFlagshipCorridors/SM_ValerianFlagshipCorridors_02.m3",
+    "channels": []
+  },
+  "SMValerianObservatoryStarmap": {
+    "file": "Assets/StoryModeSets/Terran/SM_ValerianObservatoryStarmap/SM_ValerianObservatoryStarmap.m3",
+    "channels": []
+  },
+  "SMX1_DropPodKorhalSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_DropPodKorhalSet/SMX1_DropPodKorhalSet.m3",
+    "channels": []
+  },
+  "SMX1_DropPodMengsk": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_DropPodMengsk/SMX1_DropPodMengsk.m3",
+    "channels": []
+  },
+  "SMX1_DropShipT1": {
+    "file": "Assets/StoryModeProps/SMX1_Dropship_T1/SMX1_Dropship_T1.m3",
+    "channels": []
+  },
+  "SMX1_Korhal1_Cutscene": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_Korhal1_Cutscene/SMX1_Korhal1_Cutscene_00.m3",
+    "channels": []
+  },
+  "SMX1_Korhal1_Cutscene_01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_Korhal1_Cutscene/SMX1_Korhal1_Cutscene_01.m3",
+    "channels": []
+  },
+  "SMX1_Korhal1_LeviathanCutscene": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_Korhal1_LeviathanCutscene/SMX1_Korhal1_LeviathanCutscene.m3",
+    "channels": []
+  },
+  "SMX1_KorhalInvasionMonitor": {
+    "file": "Assets/StoryModeProps/SMX1_KorhalInvasionMonitor/SMX1_KorhalInvasionMonitor.m3",
+    "channels": []
+  },
+  "SMX1_KorhalSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_KorhalSet/SMX1_KorhalSet_00.m3",
+    "channels": []
+  },
+  "SMX1_KorhalSet_Close": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_KorhalSet_Close/SMX1_KorhalSet_Close.m3",
+    "channels": []
+  },
+  "SMX1_KorhalSpaceSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_KorhalSpaceSet/SMX1_KorhalSpaceSet_00.m3",
+    "channels": []
+  },
+  "SMX1_KorhalSpaceSet_01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_KorhalSpaceSet/SMX1_KorhalSpaceSet_01.m3",
+    "channels": []
+  },
+  "SMX1_LeviathanDock": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanDock/SMX1_LeviathanDock.m3",
+    "channels": []
+  },
+  "SMX1_LeviathanDockDoor": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanDockDoor/SMX1_LeviathanDockDoor.m3",
+    "channels": []
+  },
+  "SMX1_LeviathanDoorGlow_KorhalSpace": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanDoorGlow_KorhalSpace/SMX1_LeviathanDoorGlow_KorhalSpace.m3",
+    "channels": []
+  },
+  "SMX1_LeviathanDoorGlow_Space": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanDoorGlow_Space/SMX1_LeviathanDoorGlow_Space.m3",
+    "channels": []
+  },
+  "SMX1_LeviathanDoorLarge": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanDoorLarge/SMX1_LeviathanDoorLarge.m3",
+    "channels": []
+  },
+  "SMX1_LeviathanT1": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanT1/SMX1_LeviathanT1.m3",
+    "channels": []
+  },
+  "SMX1_MobiusSet_Dusk": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_MobiusSet_Dusk/SMX1_MobiusSet_Dusk_00.m3",
+    "channels": []
+  },
+  "SMX1_MobiusSet_Dusk01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_MobiusSet_Dusk/SMX1_MobiusSet_Dusk_01.m3",
+    "channels": []
+  },
+  "SMX1_MobiusSet_Dusk02": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_MobiusSet_Dusk/SMX1_MobiusSet_Dusk_02.m3",
+    "channels": []
+  },
+  "SMX1_MobiusSet_Night": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_MobiusSet_Night/SMX1_MobiusSet_Night_00.m3",
+    "channels": []
+  },
+  "SMX1_MobiusSet_Night_01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_MobiusSet_Night/SMX1_MobiusSet_Night_01.m3",
+    "channels": []
+  },
+  "SMX1_MutaliskZerusSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_MutaliskZerusSet/SMX1_MutaliskZerusSet.m3",
+    "channels": []
+  },
+  "SMX1_SpaceBokeh": {
+    "file": "Assets/StoryModeProps/SMX1_SpaceBokeh/SMX1_SpaceBokeh.m3",
+    "channels": []
+  },
+  "SMX1_SpawningPoolWaterPlane": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_SpawningPoolWaterPlane/SMX1_SpawningPoolWaterPlane.m3",
+    "channels": []
+  },
+  "SMX1_TerranLabT1": {
+    "file": "Assets/StoryModeSets/Terran/SMX1_TerranLabT1/SMX1_TerranLabT1.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_00": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_00.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_01.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_02": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_02.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_03": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_03.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_04": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_04.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_05": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_05.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_06": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_06.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_07": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_07.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_08": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_08.m3",
+    "channels": []
+  },
+  "SMX1_ZerusParts_10": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusParts/SMX1_ZerusParts_10.m3",
+    "channels": []
+  },
+  "SMX1_ZerusSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusSet/SMX1_ZerusSet_00.m3",
+    "channels": []
+  },
+  "SMX1_ZerusSet_01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusSet/SMX1_ZerusSet_01.m3",
+    "channels": []
+  },
+  "SMX1_ZerusSet_04": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusSet/SMX1_ZerusSet_04.m3",
+    "channels": []
+  },
+  "SMX1_ZerusSet_05": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ZerusSet/SMX1_ZerusSet_05.m3",
+    "channels": []
+  },
+  "SMX1ArcturusHologram": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX1_ArcturusHologram/SMX1_ArcturusHologram.m3",
+    "channels": []
+  },
+  "SMX1ArmyEvolutionSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_ArmyEvolutionSet/SMX1_ArmyEvolutionSet.m3",
+    "channels": []
+  },
+  "SMX1BanelingT1A": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_BanelingT1A/SMX1_BanelingT1A.m3",
+    "channels": []
+  },
+  "SMX1BanelingT1B": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_BanelingT1B/SMX1_BanelingT1B.m3",
+    "channels": []
+  },
+  "SMX1CharLavaCapHS": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_CharSet/SMX1_CharSet_02.m3",
+    "channels": []
+  },
+  "SMX1CharSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_CharSet/SMX1_CharSet_00.m3",
+    "channels": []
+  },
+  "SMX1CharSet03": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_CharSet/SMX1_CharSet_03.m3",
+    "channels": []
+  },
+  "SMX1CharSet04": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_CharSet/SMX1_CharSet_04.m3",
+    "channels": []
+  },
+  "SMX1CharWarfieldsCompoundHS": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_CharSet/SMX1_CharSet_01.m3",
+    "channels": []
+  },
+  "SMX1DominionSpaceSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_DominionSpaceSet/SMX1_DominionSpaceSet_00.m3",
+    "channels": []
+  },
+  "SMX1DominionSpaceSet01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_DominionSpaceSet/SMX1_DominionSpaceSet_01.m3",
+    "channels": []
+  },
+  "SMX1DropPodLow": {
+    "file": "Assets/StoryModeProps/SMX1_DropPodLow/SMX1_DropPodLow.m3",
+    "channels": []
+  },
+  "SMX1DropPodLowDeath": {
+    "file": "Assets/StoryModeProps/SMX1_DropPodLowDeath/SMX1_DropPodLowDeath.m3",
+    "channels": []
+  },
+  "SMX1EggMonsterT1A": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_EggMonsterT1A/SMX1_EggMonsterT1A.m3",
+    "channels": []
+  },
+  "SMX1EggMonsterT1B": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_EggMonsterT1B/SMX1_EggMonsterT1B.m3",
+    "channels": []
+  },
+  "SMX1EggRoomHydraliskEgg": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_EggRoomSet/SMX1_EggRoomSet_02.m3",
+    "channels": []
+  },
+  "SMX1EggRoomRoachEgg": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_EggRoomSet/SMX1_EggRoomSet_01.m3",
+    "channels": []
+  },
+  "SMX1EggRoomSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_EggRoomSet/SMX1_EggRoomSet_00.m3",
+    "channels": []
+  },
+  "SMX1EvolutionSetMutaliskB": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_MutaliskT1B/SMX1_MutaliskT1B.m3",
+    "channels": []
+  },
+  "SMX1HydraliskT1A": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_HydraliskT1A/SMX1_HydraliskT1A.m3",
+    "channels": []
+  },
+  "SMX1HydraliskT1B": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_HydraliskT1B/SMX1_HydraliskT1B.m3",
+    "channels": []
+  },
+  "SMX1InfestedStukov": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_InfestedStukov/SMX1_InfestedStukov.m3",
+    "channels": []
+  },
+  "SMX1KaldrSet00": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_IceWorldSet/SMX1_IceWorldSet_00.m3",
+    "channels": []
+  },
+  "SMX1KaldrSet01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_IceWorldSet/SMX1_IceWorldSet_01.m3",
+    "channels": []
+  },
+  "SMX1KerriganDezergedWithLight": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_KerriganDeZergedT1/SMX1_KerriganDeZergedT1.m3",
+    "channels": []
+  },
+  "SMX1KerriganInfestedWithLight": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_KerriganInfestedT1/SMX1_KerriganInfestedT1.m3",
+    "channels": []
+  },
+  "SMX1KerriganStatic": {
+    "file": "Assets/StoryModeProps/SMX1_KerriganStatic/SMX1_KerriganStatic.m3",
+    "channels": []
+  },
+  "SMX1Lasarra": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX1_Lasarra/SMX1_Lasarra.m3",
+    "channels": []
+  },
+  "SMX1LeviathanSet": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanSet/SMX1_LeviathanSet_00.m3",
+    "channels": []
+  },
+  "SMX1LeviathanSet01": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanSet/SMX1_LeviathanSet_01.m3",
+    "channels": []
+  },
+  "SMX1LeviathanSet02": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanSet/SMX1_LeviathanSet_02.m3",
+    "channels": []
+  },
+  "SMX1LeviathanSet03": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanSet/SMX1_LeviathanSet_03.m3",
+    "channels": []
+  },
+  "SMX1MaggotT1": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_MaggotT1/SMX1_MaggotT1.m3",
+    "channels": []
+  },
+  "SMX1MutaliskT1A": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_MutaliskT1A/SMX1_MutaliskT1A.m3",
+    "channels": []
+  },
+  "SMX1MutaliskT1B": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_MutaliskT1B/SMX1_MutaliskT1B.m3",
+    "channels": []
+  },
+  "SMX1OverlordT1": {
+    "file": "Assets/StoryModeProps/SMX1_OverlordT1/SMX1_OverlordT1.m3",
+    "channels": []
+  },
+  "SMX1PrimalZergCommanderT1": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_PrimalZergCommanderT1/SMX1_PrimalZergCommanderT1.m3",
+    "channels": []
+  },
+  "SMX1RoachT1": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_RoachT1/SMX1_RoachT1.m3",
+    "channels": []
+  },
+  "SMX1RoachT1A": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_RoachT1B/SMX1_RoachT1B.m3",
+    "channels": []
+  },
+  "SMX1RoachT1B": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_RoachT1A/SMX1_RoachT1A.m3",
+    "channels": []
+  },
+  "SMX1TVEffect": {
+    "file": "Assets/StoryModeProps/SMX1_TVEffect/SMX1_TVEffect.m3",
+    "channels": []
+  },
+  "SMX1UltraliskT1A": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_UltraliskT1B/SMX1_UltraliskT1B.m3",
+    "channels": []
+  },
+  "SMX1UltraliskT1B": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_UltraliskT1A/SMX1_UltraliskT1A.m3",
+    "channels": []
+  },
+  "SMX1VoidSeekerT1": {
+    "file": "Assets/StoryModeProps/SMX1_VoidSeekerT1/SMX1_VoidSeekerT1.m3",
+    "channels": []
+  },
+  "SMX1Zagara": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_Zagara/SMX1_Zagara.m3",
+    "channels": []
+  },
+  "SMX1ZergAdjutant": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_ZergAdjutant/SMX1_ZergAdjutant.m3",
+    "channels": []
+  },
+  "SMX1ZerglingT1": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_ZerglingT1/SMX1_ZerglingT1.m3",
+    "channels": []
+  },
+  "SMX1ZerglingT1A": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_ZerglingT1B/SMX1_ZerglingT1B.m3",
+    "channels": []
+  },
+  "SMX1ZerglingT1B": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_ZerglingT1A/SMX1_ZerglingT1A.m3",
+    "channels": []
+  },
+  "SMX2_Aiur_Complete_Starmap": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Aiur_Complete_Starmap/SMX2_Aiur_Complete_Starmap.m3",
+    "channels": []
+  },
+  "SMX2_Aiur_Hologram": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Aiur_Hologram/SMX2_Aiur_Hologram.m3",
+    "channels": []
+  },
+  "SMX2_Aiur_Tree": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Aiur_Tree/SMX2_Aiur_Tree.m3",
+    "channels": []
+  },
+  "SMX2_Aiur02_Foliage03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Aiur02_Foliage/SMX2_Aiur02_Foliage_03.m3",
+    "channels": []
+  },
+  "SMX2_ArmyRoomSet00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ArmyRoom/SMX2_ArmyRoom_00.m3",
+    "channels": []
+  },
+  "SMX2_ArmyRoomSet01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ArmyRoom/SMX2_ArmyRoom_01.m3",
+    "channels": []
+  },
+  "SMX2_ArmyRoomSet02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ArmyRoom/SMX2_ArmyRoom_02.m3",
+    "channels": []
+  },
+  "SMX2_ArmyRoomSet03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ArmyRoom/SMX2_ArmyRoom_03.m3",
+    "channels": []
+  },
+  "SMX2_ArmyRoomSet04": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ArmyRoom/SMX2_ArmyRoom_04.m3",
+    "channels": []
+  },
+  "SMX2_ArmyRoomSet05": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ArmyRoom/SMX2_ArmyRoom_05.m3",
+    "channels": []
+  },
+  "SMX2_ArmyRoomSet06": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ArmyRoom/SMX2_ArmyRoom_06.m3",
+    "channels": []
+  },
+  "SMX2_ArmyRoomSet07": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ArmyRoom/SMX2_ArmyRoom_07.m3",
+    "channels": []
+  },
+  "SMX2_Bridge_Communicator": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge_Communicator/SMX2_Bridge_Communicator.m3",
+    "channels": [
+      0
+    ]
+  },
+  "SMX2_Bridge00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_00.m3",
+    "channels": []
+  },
+  "SMX2_Bridge01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_01.m3",
+    "channels": []
+  },
+  "SMX2_Bridge02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_02.m3",
+    "channels": [
+      0
+    ]
+  },
+  "SMX2_Bridge03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_03.m3",
+    "channels": []
+  },
+  "SMX2_Bridge04": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_04.m3",
+    "channels": []
+  },
+  "SMX2_Bridge05": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_05.m3",
+    "channels": []
+  },
+  "SMX2_Bridge06": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_06.m3",
+    "channels": []
+  },
+  "SMX2_Bridge07": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_07.m3",
+    "channels": []
+  },
+  "SMX2_Bridge08": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_08.m3",
+    "channels": []
+  },
+  "SMX2_Bridge09": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_09.m3",
+    "channels": []
+  },
+  "SMX2_Bridge10": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_10.m3",
+    "channels": []
+  },
+  "SMX2_Bridge11": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_11.m3",
+    "channels": []
+  },
+  "SMX2_Bridge12": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_12.m3",
+    "channels": []
+  },
+  "SMX2_Bridge13": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_13.m3",
+    "channels": []
+  },
+  "SMX2_Bridge14": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_14.m3",
+    "channels": []
+  },
+  "SMX2_Bridge15": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_15.m3",
+    "channels": []
+  },
+  "SMX2_Bridge16": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Bridge/SMX2_Bridge_16.m3",
+    "channels": []
+  },
+  "SMX2_Carrier_TalDarim": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Carrier_TalDarim/SMX2_Carrier_TalDarim.m3",
+    "channels": []
+  },
+  "SMX2_Cybros": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros/SMX2_Cybros.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Far": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Far/SMX2_Cybros_Far.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Powerup_TopOpening": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Powerup_TopOpening/SMX2_Cybros_Powerup_TopOpening.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_01.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_02.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_03.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield04": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_04.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield05": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_05.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield06": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_06.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield07": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_07.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield09": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_09.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield10": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_10.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield11": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_11.m3",
+    "channels": []
+  },
+  "SMX2_Cybros_Shield12": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Cybros_Shield/SMX2_Cybros_Shield_12.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Arrival_Ulnar_Clouds_Large": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Arrival_Ulnar_Clouds_Large/SMX2_Epilogue_Arrival_Ulnar_Clouds_Large.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Arrival_Ulnar_Clouds_XLarge": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Arrival_Ulnar_Clouds_XLarge/SMX2_Epilogue_Arrival_Ulnar_Clouds_XLarge.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_00.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_01.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_02.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_03.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid04": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_04.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid05": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_05.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid06": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_06.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid07": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_07.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid08": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_08.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Asteroid09": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Asteroid/SMX2_Epilogue_Asteroid_09.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_AsteroidCluster": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_AsteroidCluster/SMX2_Epilogue_AsteroidCluster.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Debrief_Clouds": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Debrief_Clouds/SMX2_Epilogue_Debrief_Clouds.m3",
+    "channels": []
+  },
+  "SMX2_Epilogue_Platform": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Epilogue_Platform/SMX2_Epilogue_Platform.m3",
+    "channels": []
+  },
+  "SMX2_Forge00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Forge/SMX2_Forge_00.m3",
+    "channels": []
+  },
+  "SMX2_Generic_Door": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Generic_Door/SMX2_Generic_Door.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_00.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_01.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_02.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_03.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks04": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_04.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks07": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_07.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks08": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_08.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks09": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_09.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks10": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_10.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks11": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_11.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks14": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_14.m3",
+    "channels": []
+  },
+  "SMX2_GenericRocks15": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_GenericRocks/SMX2_GenericRocks_15.m3",
+    "channels": []
+  },
+  "SMX2_Hallway00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Hallway/SMX2_Hallway_00.m3",
+    "channels": []
+  },
+  "SMX2_KorhalArrival_Amon": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_KorhalArrival_Amon/SMX2_KorhalArrival_Amon.m3",
+    "channels": []
+  },
+  "SMX2_KorhalArrival_Amon_Death": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_KorhalArrival_Amon_Death/SMX2_KorhalArrival_Amon_Death.m3",
+    "channels": []
+  },
+  "SMX2_KorhalArrival_Amon_Hand": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_KorhalArrival_Amon_Hand/SMX2_KorhalArrival_Amon_Hand.m3",
+    "channels": []
+  },
+  "SMX2_KorhalArrival_BattlecruiserFiring": {
+    "file": "Assets/StoryModeSets/Terran/SMX2_KorhalArrival_BattlecruiserFiring/SMX2_KorhalArrival_BattlecruiserFiring.m3",
+    "channels": []
+  },
+  "SMX2_KorhalArrival_MissleExhaust": {
+    "file": "Assets/StoryModeSets/Terran/SMX2_KorhalArrival_MissleExhaust/SMX2_KorhalArrival_MissleExhaust.m3",
+    "channels": []
+  },
+  "SMX2_KorhalArrival_SkyShieldScreen": {
+    "file": "Assets/StoryModeSets/Terran/SMX2_KorhalArrival_SkyShieldScreen/SMX2_KorhalArrival_SkyShieldScreen.m3",
+    "channels": []
+  },
+  "SMX2_KorhalArrival_Turret": {
+    "file": "Assets/StoryModeSets/Terran/SMX2_KorhalArrival_Turret/SMX2_KorhalArrival_Turret.m3",
+    "channels": []
+  },
+  "SMX2_Mobius_Asteroid_Base": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Mobius_Asteroid_Base/SMX2_Mobius_Asteroid_Base.m3",
+    "channels": []
+  },
+  "SMX2_Mothership_TalDarim": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Mothership_TalDarim/SMX2_Mothership_TalDarim.m3",
+    "channels": []
+  },
+  "SMX2_Possessed_StasisChamber": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Possessed_StasisChamber/SMX2_Possessed_StasisChamber.m3",
+    "channels": []
+  },
+  "SMX2_Shakuras_Bridge_Shield": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Shakuras_Bridge_Shield/SMX2_Shakuras_Bridge_Shield.m3",
+    "channels": []
+  },
+  "SMX2_Shakuras_Exploded_Asteroid1": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Shakuras_Exploded_Asteroid1/SMX2_Shakuras_Exploded_Asteroid1.m3",
+    "channels": []
+  },
+  "SMX2_Shakuras_Exploded_Asteroid2": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Shakuras_Exploded_Asteroid2/SMX2_Shakuras_Exploded_Asteroid2.m3",
+    "channels": []
+  },
+  "SMX2_Shakuras01Debrief_Communicator": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Shakuras01Debrief_Communicator/SMX2_Shakuras01Debrief_Communicator.m3",
+    "channels": [
+      0
+    ]
+  },
+  "SMX2_ShipRoom_Hologram00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom_Hologram/SMX2_ShipRoom_Hologram_00.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoom_Hologram01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom_Hologram/SMX2_ShipRoom_Hologram_01.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoom_Hologram02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom_Hologram/SMX2_ShipRoom_Hologram_02.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoom_Hologram03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom_Hologram/SMX2_ShipRoom_Hologram_03.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoom_Hologram04": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom_Hologram/SMX2_ShipRoom_Hologram_04.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoom_SpearWings": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom_SpearWings/SMX2_ShipRoom_SpearWings.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoom_SunCore": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom_SunCore/SMX2_ShipRoom_SunCore.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoomSet00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom/SMX2_ShipRoom_00.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoomSet01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom/SMX2_ShipRoom_01.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoomSet02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom/SMX2_ShipRoom_02.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoomSet03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom/SMX2_ShipRoom_03.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoomSet04": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom/SMX2_ShipRoom_04.m3",
+    "channels": []
+  },
+  "SMX2_ShipRoomSet05": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_ShipRoom/SMX2_ShipRoom_05.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_BackFloaters": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_BackFloaters/SMX2_SolarCore_UI_BackFloaters.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_BG": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_BG/SMX2_SolarCore_UI_BG.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_BigWeapon": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_BigWeapon/SMX2_SolarCore_UI_BigWeapon.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_Cockpit": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_Cockpit/SMX2_SolarCore_UI_Cockpit.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_Core": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_Core/SMX2_SolarCore_UI_Core.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_SmallCore": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_SmallCore/SMX2_SolarCore_UI_SmallCore.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_SmallWeapon": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_SmallWeapon/SMX2_SolarCore_UI_SmallWeapon.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_Spear_Hologram_BackFloaters": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_Spear_Hologram_BackFloaters/SMX2_SolarCore_UI_Spear_Hologram_BackFloaters.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_Spear_Hologram_BigWeapon": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_Spear_Hologram_BigWeapon/SMX2_SolarCore_UI_Spear_Hologram_BigWeapon.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_Spear_Hologram_Cockpit": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_Spear_Hologram_Cockpit/SMX2_SolarCore_UI_Spear_Hologram_Cockpit.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_Spear_Hologram_Core": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_Spear_Hologram_Core/SMX2_SolarCore_UI_Spear_Hologram_Core.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_Spear_Hologram_SmallCore": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_Spear_Hologram_SmallCore/SMX2_SolarCore_UI_Spear_Hologram_SmallCore.m3",
+    "channels": []
+  },
+  "SMX2_SolarCore_UI_Spear_Hologram_SmallWeapon": {
+    "file": "Assets/UI/Protoss/SMX2_SolarCore_UI_Spear_Hologram_SmallWeapon/SMX2_SolarCore_UI_Spear_Hologram_SmallWeapon.m3",
+    "channels": []
+  },
+  "SMX2_Spear_OrbitalStrike02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Spear_OrbitalStrike/SMX2_Spear_OrbitalStrike_02.m3",
+    "channels": []
+  },
+  "SMX2_SpearOfAdun_afterburner": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_SpearOfAdun_afterburner/SMX2_SpearOfAdun_afterburner.m3",
+    "channels": []
+  },
+  "SMX2_SpearOfAdun_OrbitalStrike": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_SpearOfAdun_OrbitalStrike/SMX2_SpearOfAdun_OrbitalStrike.m3",
+    "channels": []
+  },
+  "SMX2_SpearOfAdunUI": {
+    "file": "Assets/UI/Console/Protoss/SMX2_SpearOfAdunUI/SMX2_SpearOfAdunUI.m3",
+    "channels": []
+  },
+  "SMX2_SpearOfAdunUI_powerdown": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_SpearOfAdunUI_powerdown/SMX2_SpearOfAdunUI_powerdown.m3",
+    "channels": []
+  },
+  "SMX2_StarMap_UI_Mission": {
+    "file": "Assets/UI/Console/Protoss/SMX2_StarMap_UI_Mission/SMX2_StarMap_UI_Mission.m3",
+    "channels": []
+  },
+  "SMX2_StarMap_UI_Mission_Tech00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StarMap_UI_Mission_Tech/SMX2_StarMap_UI_Mission_Tech_00.m3",
+    "channels": []
+  },
+  "SMX2_StarMap_UI_Mission_Tech01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StarMap_UI_Mission_Tech/SMX2_StarMap_UI_Mission_Tech_01.m3",
+    "channels": []
+  },
+  "SMX2_StarMap_UI_Travel_Ping": {
+    "file": "Assets/UI/Console/Protoss/SMX2_StarMap_UI_Travel_Ping/SMX2_StarMap_UI_Travel_Ping.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore00": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_00.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore01": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_01.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore02": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_02.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore03": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_03.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore04": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_04.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore05": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_05.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore06": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_06.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore07": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_07.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore09": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_09.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore10": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_10.m3",
+    "channels": []
+  },
+  "SMX2_StasisCore11": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_StasisCore/SMX2_StasisCore_11.m3",
+    "channels": []
+  },
+  "SMX2_Trion_Hologram": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Trion_Hologram/SMX2_Trion_Hologram.m3",
+    "channels": []
+  },
+  "SMX2_Ulnar": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Ulnar/SMX2_Ulnar.m3",
+    "channels": []
+  },
+  "SMX2_Ulnar_Alarak": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Ulnar_Alarak/SMX2_Ulnar_Alarak.m3",
+    "channels": []
+  },
+  "SMX2_Ulnar_Alarak_Stasis": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Ulnar_Alarak_Stasis/SMX2_Ulnar_Alarak_Stasis.m3",
+    "channels": []
+  },
+  "SMX2_Ulnar_Hologram": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Ulnar_Hologram/SMX2_Ulnar_Hologram.m3",
+    "channels": []
+  },
+  "SMX2_Ulnar_Vorazun_Stasis": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Ulnar_Vorazun_Stasis/SMX2_Ulnar_Vorazun_Stasis.m3",
+    "channels": []
+  },
+  "SMX2_VoidRay_TalDarim": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_VoidRay_TalDarim/SMX2_VoidRay_TalDarim.m3",
+    "channels": []
+  },
+  "SMX2_Vorazun_Communication_Room": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Vorazun_Communication_Room/SMX2_Vorazun_Communication_Room.m3",
+    "channels": []
+  },
+  "SMX2_XelNaga_Artifact_Powerup_Close": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_XelNaga_Artifact_Powerup_Close/SMX2_XelNaga_Artifact_Powerup_Close.m3",
+    "channels": []
+  },
+  "SMX2ProtossArtanis": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Artanis_T1/SMX2_Artanis_T1.m3",
+    "channels": []
+  },
+  "SMX2ProtossSmith": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Karax_T1/SMX2_Karax_T1.m3",
+    "channels": []
+  },
+  "SMX2ProtossVorazun": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Vorazun/SMX2_Vorazun.m3",
+    "channels": []
+  },
+  "SMX2ProtossZealot": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Zealot_T1/SMX2_Zealot_T1.m3",
+    "channels": []
+  },
+  "SMX2RobotProbe": {
+    "file": "Assets/StoryModeCharacters/Protoss/SMX2_Robot_Probe/SMX2_Robot_Probe.m3",
+    "channels": []
+  },
+  "SMX3_BridgeSoldierB": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_BridgeSoldierB/SMX3_BridgeSoldierB.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_Camera": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_Camera/SMX3_Cutscene_MP01_010_Camera.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_MainSet13": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_MainSet/SMX3_Cutscene_MP01_010_MainSet_13.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_MainSet14": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_MainSet/SMX3_Cutscene_MP01_010_MainSet_14.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_00.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_01.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_02.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_03.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_04.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_05.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom06": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_06.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom07": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_07.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom08": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_08.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom09": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_09.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom10": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_10.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom11": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_11.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom12": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_12.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom13": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_13.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom14": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_14.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom15": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_15.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom16": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_16.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_010_WranglerRoom18": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_010_WranglerRoom/SMX3_Cutscene_MP01_010_WranglerRoom_18.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_00.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_01.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_02.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_03.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_04.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_05.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor06": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_06.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor07": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_07.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor08": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_08.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor09": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_09.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor10": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_10.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor11": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_11.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Corridor12": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Corridor/SMX3_Cutscene_MP01_020_Corridor_12.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_020_Shuttle": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_020_Shuttle/SMX3_Cutscene_MP01_020_Shuttle.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_Corridor": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_Corridor/SMX3_Cutscene_MP01_030_Corridor.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_Door": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_Door/SMX3_Cutscene_MP01_030_Door.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_TableFX": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_TableFX/SMX3_Cutscene_MP01_030_TableFX.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_00.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_01.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_02.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_03.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_04.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_05.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory06": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_06.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory07": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_07.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory08": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_08.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_030_ValerianObservatory09": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_030_ValerianObservatory/SMX3_Cutscene_MP01_030_ValerianObservatory_09.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Counter": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Counter/SMX3_Cutscene_MP01_040_Counter.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room_ScreenUIElements00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room_ScreenUIElements/SMX3_Cutscene_MP01_040_Room_ScreenUIElements_00.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room_ScreenUIElements01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room_ScreenUIElements/SMX3_Cutscene_MP01_040_Room_ScreenUIElements_01.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room_ScreenUIElements02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room_ScreenUIElements/SMX3_Cutscene_MP01_040_Room_ScreenUIElements_02.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_00.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_01.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_02.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_03.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_04.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_05.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room06": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_06.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room10": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_10.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP01_040_Room11": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_11.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_Cutscene_MP01_040_Room12": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_12.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_Cutscene_MP01_040_Room13": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_13.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_Cutscene_MP01_040_Room14": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_14.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_Cutscene_MP01_040_Room15": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_040_Room/SMX3_Cutscene_MP01_040_Room_15.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_Cutscene_MP01_30_NewsTV": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP01_30_NewsTV/SMX3_Cutscene_MP01_30_NewsTV.m3",
+    "channels": [
+      0
+    ]
+  },
+  "SMX3_Cutscene_MP03_010_DavisOffice00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_010_DavisOffice/SMX3_Cutscene_MP03_010_DavisOffice_00.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_010_DavisOffice01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_010_DavisOffice/SMX3_Cutscene_MP03_010_DavisOffice_01.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_010_DO_Desk": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_010_DO_Desk/SMX3_Cutscene_MP03_010_DO_Desk.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_010_DO_PortraitFrame": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_010_DO_PortraitFrame/SMX3_Cutscene_MP03_010_DO_PortraitFrame.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_020_MarineStatue": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_020_MarineStatue/SMX3_Cutscene_MP03_020_MarineStatue.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_Crate_Filler": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_Crate_Filler/SMX3_Cutscene_MP03_040_Crate_Filler.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_Crate_Swipe": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_Crate_Swipe/SMX3_Cutscene_MP03_040_Crate_Swipe.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_Table_NewsReport": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_Table_NewsReport/SMX3_Cutscene_MP03_040_Table_NewsReport.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_Table_Video": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_Table_Video/SMX3_Cutscene_MP03_040_Table_Video.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_UI_Elements_00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_UI_Elements/SMX3_Cutscene_MP03_040_UI_Elements_00.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_UI_Elements_01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_UI_Elements/SMX3_Cutscene_MP03_040_UI_Elements_01.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_UI_Elements_02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_UI_Elements/SMX3_Cutscene_MP03_040_UI_Elements_02.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_UI_Elements_03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_UI_Elements/SMX3_Cutscene_MP03_040_UI_Elements_03.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_040_UI_Elements_05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_040_UI_Elements/SMX3_Cutscene_MP03_040_UI_Elements_05.m3",
+    "channels": []
+  },
+  "SMX3_Cutscene_MP03_Credits_FlyThrough": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Cutscene_MP03_Credits_FlyThrough/SMX3_Cutscene_MP03_Credits_FlyThrough.m3",
+    "channels": []
+  },
+  "SMX3_Detail_Pipes_a": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Detail_Pipes_a/SMX3_Detail_Pipes_a.m3",
+    "channels": []
+  },
+  "SMX3_Detail_Pipes_b": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Detail_Pipes_b/SMX3_Detail_Pipes_b.m3",
+    "channels": []
+  },
+  "SMX3_Detail_Pipes_c": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Detail_Pipes_c/SMX3_Detail_Pipes_c.m3",
+    "channels": []
+  },
+  "SMX3_Detail_Pipes_d": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Detail_Pipes_d/SMX3_Detail_Pipes_d.m3",
+    "channels": []
+  },
+  "SMX3_Detail_Pipes_e": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Detail_Pipes_e/SMX3_Detail_Pipes_e.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical/SMX3_DominionFlag_Vertical_00.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical/SMX3_DominionFlag_Vertical_01.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical/SMX3_DominionFlag_Vertical_02.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical/SMX3_DominionFlag_Vertical_03.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical/SMX3_DominionFlag_Vertical_04.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical/SMX3_DominionFlag_Vertical_05.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_Damaged_00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical_Damaged/SMX3_DominionFlag_Vertical_Damaged_00.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_Damaged_01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical_Damaged/SMX3_DominionFlag_Vertical_Damaged_01.m3",
+    "channels": []
+  },
+  "SMX3_DominionFlag_Vertical_Damaged_02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_DominionFlag_Vertical_Damaged/SMX3_DominionFlag_Vertical_Damaged_02.m3",
+    "channels": []
+  },
+  "SMX3_FirstOfficer": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_FirstOfficer/SMX3_FirstOfficer.m3",
+    "channels": []
+  },
+  "SMX3_GeneralDavis": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_GeneralDavis/SMX3_GeneralDavis.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_00.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_01.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_02.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_03.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_04.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_05.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_06": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_06.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_07": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_07.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_08": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_08.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_09": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_09.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_10": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_10.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_11": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_11.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_12": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_12.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_13": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_13.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_14": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_14.m3",
+    "channels": []
+  },
+  "SMX3_GriffinPayload_15": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_GriffinPayload/SMX3_GriffinPayload_15.m3",
+    "channels": []
+  },
+  "SMX3_InfiltrationHolograms": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_InfiltrationHolograms/SMX3_InfiltrationHolograms.m3",
+    "channels": []
+  },
+  "SMX3_Leviathan": {
+    "file": "Assets/StoryModeSets/Zerg/SMX1_LeviathanT1/SMX1_LeviathanT1.m3",
+    "channels": []
+  },
+  "SMX3_Main_Screen_Switch": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Main_Screen_Switch/SMX3_Main_Screen_Switch.m3",
+    "channels": []
+  },
+  "SMX3_MainMenuHorner_HyperionBridgeBriefing_00": {
+    "file": "Assets/StoryModeScenes/SMX3_MainMenuHorner_HyperionBridgeBriefing/SMX3_MainMenuHorner_HyperionBridgeBriefing_00.m3",
+    "channels": []
+  },
+  "SMX3_MainMenuHorner_HyperionBridgeBriefing_01": {
+    "file": "Assets/StoryModeScenes/SMX3_MainMenuHorner_HyperionBridgeBriefing/SMX3_MainMenuHorner_HyperionBridgeBriefing_01.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_Marine": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Marine/SMX3_Marine.m3",
+    "channels": []
+  },
+  "SMX3_Mengsk_COOP_Commander": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Mengsk_COOP_Commander/SMX3_Mengsk_COOP_Commander.m3",
+    "channels": []
+  },
+  "SMX3_MP02_005_FallingDebris": {
+    "file": "Assets/StoryModeScenes/SMX3_MP02_005_FallingDebris/SMX3_MP02_005_FallingDebris.m3",
+    "channels": []
+  },
+  "SMX3_MP02_005_Viking": {
+    "file": "Assets/StoryModeScenes/SMX3_MP02_005_Viking/SMX3_MP02_005_Viking.m3",
+    "channels": []
+  },
+  "SMX3_MP02_005_Viking_Shot01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP02_005_Viking_Shot01/SMX3_MP02_005_Viking_Shot01.m3",
+    "channels": []
+  },
+  "SMX3_MP02_005_VikingInterior": {
+    "file": "Assets/StoryModeScenes/SMX3_MP02_005_VikingInterior/SMX3_MP02_005_VikingInterior.m3",
+    "channels": []
+  },
+  "SMX3_MP02_020_Monitor_Scratches": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP02_020_Monitor_Scratches/SMX3_MP02_020_Monitor_Scratches.m3",
+    "channels": []
+  },
+  "SMX3_MP02_040_Nova_Straps_00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP02_040_Nova_Straps/SMX3_MP02_040_Nova_Straps_00.m3",
+    "channels": []
+  },
+  "SMX3_MP02_040_Nova_Straps_01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP02_040_Nova_Straps/SMX3_MP02_040_Nova_Straps_01.m3",
+    "channels": []
+  },
+  "SMX3_MP02_040_ValerianObservatoryExterior": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP02_040_ValerianObservatoryExterior/SMX3_MP02_040_ValerianObservatoryExterior.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_00.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_01.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_02.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_03.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_04.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_05.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_06": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_06.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_08": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_08.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_09": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_09.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_13": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_13.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_14": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_14.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Building_16": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Building/SMX3_MP03_020_Building_16.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Courtyard_00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Courtyard/SMX3_MP03_020_Courtyard_00.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Courtyard_Splash": {
+    "file": "Assets/UI/Glues/SMX3_MP03_020_Courtyard_Splash/SMX3_MP03_020_Courtyard_Splash.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Screens_00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Screens/SMX3_MP03_020_Screens_00.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Screens_RTT": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Screens_RTT/SMX3_MP03_020_Screens_RTT.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_MP03_020_Trees00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Trees/SMX3_MP03_020_Trees_00.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Trees01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Trees/SMX3_MP03_020_Trees_01.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Trees03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Trees/SMX3_MP03_020_Trees_03.m3",
+    "channels": []
+  },
+  "SMX3_MP03_020_Trees04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MP03_020_Trees/SMX3_MP03_020_Trees_04.m3",
+    "channels": []
+  },
+  "SMX3_Mutalisk": {
+    "file": "Assets/StoryModeCharacters/Zerg/SMX1_MutaliskT1/SMX1_MutaliskT1.m3",
+    "channels": []
+  },
+  "SMX3_Nova": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Nova/SMX3_Nova.m3",
+    "channels": []
+  },
+  "SMX3_Nova_PrePurchase": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Nova_PrePurchase/SMX3_Nova_PrePurchase.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_Back_Monitor_Left": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_Back_Monitor_Left/SMX3_Nova_Ship_Bridge_Back_Monitor_Left.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_Back_Monitor_Right": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_Back_Monitor_Right/SMX3_Nova_Ship_Bridge_Back_Monitor_Right.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_Front_Monitor_Left": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_Front_Monitor_Left/SMX3_Nova_Ship_Bridge_Front_Monitor_Left.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_Front_Monitor_Right": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_Front_Monitor_Right/SMX3_Nova_Ship_Bridge_Front_Monitor_Right.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_MainScreen": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_MainScreen/SMX3_Nova_Ship_Bridge_MainScreen.m3",
+    "channels": [
+      6
+    ]
+  },
+  "SMX3_Nova_Ship_Bridge_MainScreen_Overlay_01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_MainScreen_Overlay/SMX3_Nova_Ship_Bridge_MainScreen_Overlay_01.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_MainScreen_Overlay_02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_MainScreen_Overlay/SMX3_Nova_Ship_Bridge_MainScreen_Overlay_02.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_MainScreen_Overlay_03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_MainScreen_Overlay/SMX3_Nova_Ship_Bridge_MainScreen_Overlay_03.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Left": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Left/SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Left.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Right": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Right/SMX3_Nova_Ship_Bridge_Side_Monitor_Arm_Right.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge00": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_00.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge01": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_01.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge02": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_02.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge03": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_03.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge04": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_04.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge05": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_05.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge06": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_06.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge07": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_07.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge08": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_08.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge09": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_09.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge10": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_10.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge11": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_11.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge12": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_12.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge13": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_13.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge14": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_14.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge15": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_15.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge16": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_16.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge17": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_17.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge18": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_18.m3",
+    "channels": []
+  },
+  "SMX3_Nova_Ship_Bridge19": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Nova_Ship_Bridge/SMX3_Nova_Ship_Bridge_19.m3",
+    "channels": []
+  },
+  "SMX3_PsionMeter": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_PsionMeter/SMX3_PsionMeter.m3",
+    "channels": []
+  },
+  "SMX3_PsionMeter_Impact": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_PsionMeter_Impact/SMX3_PsionMeter_Impact.m3",
+    "channels": [
+      0
+    ]
+  },
+  "SMX3_PsionMeter_Impact_a": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_PsionMeter_Impact_a/SMX3_PsionMeter_Impact_a.m3",
+    "channels": []
+  },
+  "SMX3_PsionMeter_Impact_b": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_PsionMeter_Impact_b/SMX3_PsionMeter_Impact_b.m3",
+    "channels": []
+  },
+  "SMX3_Stetmann_COOP_Commander": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Stetmann_COOP_Commander/SMX3_Stetmann_COOP_Commander.m3",
+    "channels": []
+  },
+  "SMX3_Tech": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Tech/SMX3_Tech.m3",
+    "channels": []
+  },
+  "SMX3_UI_Screen_CollectionsBG_00": {
+    "file": "Assets/UI/Glues/SMX3_UI_Screen_CollectionsBG/SMX3_UI_Screen_CollectionsBG_00.m3",
+    "channels": []
+  },
+  "SMX3_UI_Screen_CollectionsBG_01": {
+    "file": "Assets/UI/Glues/SMX3_UI_Screen_CollectionsBG/SMX3_UI_Screen_CollectionsBG_01.m3",
+    "channels": []
+  },
+  "SMX3_UI_Screen_CollectionsBG_03": {
+    "file": "Assets/UI/Glues/SMX3_UI_Screen_CollectionsBG/SMX3_UI_Screen_CollectionsBG_03.m3",
+    "channels": []
+  },
+  "SMX3_UI_Screen_CollectionsBG_05": {
+    "file": "Assets/UI/Glues/SMX3_UI_Screen_CollectionsBG/SMX3_UI_Screen_CollectionsBG_05.m3",
+    "channels": []
+  },
+  "SMX3_UI_Screen_CollectionsBG_06": {
+    "file": "Assets/UI/Glues/SMX3_UI_Screen_CollectionsBG/SMX3_UI_Screen_CollectionsBG_06.m3",
+    "channels": []
+  },
+  "SMX3_UI_Screen_CollectionsBG_07": {
+    "file": "Assets/UI/Glues/SMX3_UI_Screen_CollectionsBG/SMX3_UI_Screen_CollectionsBG_07.m3",
+    "channels": []
+  },
+  "SMX3_UI_Screen_CollectionsBG_08": {
+    "file": "Assets/UI/Glues/SMX3_UI_Screen_CollectionsBG/SMX3_UI_Screen_CollectionsBG_08.m3",
+    "channels": []
+  },
+  "SMX3_UI_Screen_CollectionsBG_09": {
+    "file": "Assets/UI/Glues/SMX3_UI_Screen_CollectionsBG/SMX3_UI_Screen_CollectionsBG_09.m3",
+    "channels": []
+  },
+  "SMX3_UI_Ship_Bridge_MainScreen": {
+    "file": "Assets/UI/Glues/SMX3_UI_Ship_Bridge_MainScreen/SMX3_UI_Ship_Bridge_MainScreen.m3",
+    "channels": []
+  },
+  "SMX3_ValerianObservatory_Gramaphone": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_ValerianObservatory_Gramaphone/SMX3_ValerianObservatory_Gramaphone.m3",
+    "channels": []
+  },
+  "SMX3_Viking": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Viking/SMX3_Viking.m3",
+    "channels": []
+  },
+  "SMX3_Viking_Pilot": {
+    "file": "Assets/StoryModeScenes/SMX3_Viking_Pilot/SMX3_Viking_Pilot.m3",
+    "channels": []
+  },
+  "SMX3_Wrangler": {
+    "file": "Assets/StoryModeCharacters/Terran/SMX3_Wrangler/SMX3_Wrangler.m3",
+    "channels": []
+  },
+  "SMX3MarSaraBarBottles": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MarSaraBar_Bottles/SMX3_MarSaraBar_Bottles.m3",
+    "channels": []
+  },
+  "SMX3MarSaraBarTV": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_MarSaraBar_TV/SMX3_MarSaraBar_TV.m3",
+    "channels": [
+      0
+    ]
+  },
+  "SMX3TychusBarBottles": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_Tychus_Bottles/UI_Screen_MainMenu_Tychus_Bottles.m3",
+    "channels": []
+  },
+  "Snow": {
+    "file": "Assets/Doodads/Snow/Snow.m3",
+    "channels": []
+  },
+  "SnowBlizzard": {
+    "file": "Assets/Doodads/SnowBlizzard/SnowBlizzard.m3",
+    "channels": []
+  },
+  "SnowWind": {
+    "file": "Assets/Doodads/SnowWind/SnowWind.m3",
+    "channels": []
+  },
+  "SpaceFloodLight": {
+    "file": "Assets/Doodads/SpaceFloodLight/SpaceFloodLight_00.m3",
+    "channels": []
+  },
+  "Spectre": {
+    "file": "Assets/Units/Terran/Spectre/Spectre.m3",
+    "channels": []
+  },
+  "Stalker": {
+    "file": "Assets/Units/Protoss/Stalker/Stalker.m3",
+    "channels": []
+  },
+  "StaticPortrait": {
+    "file": "Assets/Portraits/Terran/TerranPortraitTransition/TerranPortraitTransition.m3",
+    "channels": []
+  },
+  "TalDarimMothership": {
+    "file": "Assets/Units/Protoss/Mothership/Mothership.m3",
+    "channels": []
+  },
+  "Tempest": {
+    "file": "Assets/Units/Protoss/TempestEx1/TempestEx1.m3",
+    "channels": []
+  },
+  "TempestDeath": {
+    "file": "Assets/Units/Protoss/TempestEx1Death/TempestEx1Death_00.m3",
+    "channels": []
+  },
+  "TempestTalDarim": {
+    "file": "Assets/Units/Protoss/Tempest_TalDarim/Tempest_Taldarim.m3",
+    "channels": []
+  },
+  "TerrazineFlashbackBorder": {
+    "file": "Assets/UI/TerrazineFlashbackBorder/TerrazineFlashbackBorder.m3",
+    "channels": []
+  },
+  "TerrazineTemple": {
+    "file": "Assets/Buildings/Protoss/Slayn_Terrazine_Psionics_Temple/Slayn_Terrazine_Psionics_Temple.m3",
+    "channels": []
+  },
+  "Thor": {
+    "file": "Assets/Units/Terran/ThorEx1/ThorEx1.m3",
+    "channels": []
+  },
+  "UI_ArmyRoom_Table": {
+    "file": "Assets/UI/Feedback/UI_ArmyRoom_Table/UI_ArmyRoom_Table.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_CityTendril": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_CityTendril/UI_Screen_MainMenu_WCS_CityTendril.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_GenericEarth": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_GenericEarth/UI_Screen_MainMenu_WCS_GenericEarth.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_Logo": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_Logo/UI_Screen_MainMenu_WCS_Logo.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_Nebula": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_Nebula/UI_Screen_MainMenu_WCS_Nebula.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_ParticleLaunch": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_ParticleLaunch/UI_Screen_MainMenu_WCS_ParticleLaunch.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_Pulse": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_Pulse/UI_Screen_MainMenu_WCS_Pulse.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_Pulse_Closed": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_Pulse_Closed/UI_Screen_MainMenu_WCS_Pulse_Closed.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_PulseCore": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_PulseCore/UI_Screen_MainMenu_WCS_PulseCore.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_SoulsFlyBy": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_SoulsFlyBy/UI_Screen_MainMenu_WCS_SoulsFlyBy.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_StartFlythough": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_StartFlythough/UI_Screen_MainMenu_WCS_StartFlythough.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_Target": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_Target/UI_Screen_MainMenu_WCS_Target.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS_Years": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS_Years/UI_Screen_MainMenu_WCS_Years.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS2017_CityTendril": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS2017_CityTendril/UI_Screen_MainMenu_WCS2017_CityTendril.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS2017_ParticleLaunch": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS2017_ParticleLaunch/UI_Screen_MainMenu_WCS2017_ParticleLaunch.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS2017_Pulse": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS2017_Pulse/UI_Screen_MainMenu_WCS2017_Pulse.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS2017_Pulse_Closed": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS2017_Pulse_Closed/UI_Screen_MainMenu_WCS2017_Pulse_Closed.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS2017_PulseCore": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS2017_PulseCore/UI_Screen_MainMenu_WCS2017_PulseCore.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS2017_Target": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS2017_Target/UI_Screen_MainMenu_WCS2017_Target.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenu_WCS2017_Years": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenu_WCS2017_Years/UI_Screen_MainMenu_WCS2017_Years.m3",
+    "channels": []
+  },
+  "UI_Screen_MainMenuReBrand": {
+    "file": "Assets/UI/Glues/UI_Screen_MainMenuReBrand/UI_Screen_MainMenuReBrand.m3",
+    "channels": []
+  },
+  "UI_Screens_CampaignMode_Bounds": {
+    "file": "Assets/UI/Glues/UI_Screens_CampaignMode_Bounds/UI_Screens_CampaignMode_Bounds.m3",
+    "channels": []
+  },
+  "UI_Screens_CampaignMode_Light_Artanis": {
+    "file": "Assets/UI/Glues/UI_Screens_CampaignMode_Light_Artanis/UI_Screens_CampaignMode_Light_Artanis.m3",
+    "channels": []
+  },
+  "UI_Screens_CampaignMode_Light_Kerrigan": {
+    "file": "Assets/UI/Glues/UI_Screens_CampaignMode_Light_Kerrigan/UI_Screens_CampaignMode_Light_Kerrigan.m3",
+    "channels": []
+  },
+  "UI_Screens_CampaignMode_Light_Raynor": {
+    "file": "Assets/UI/Glues/UI_Screens_CampaignMode_Light_Raynor/UI_Screens_CampaignMode_Light_Raynor.m3",
+    "channels": []
+  },
+  "UI_Screens_Default_BG_00": {
+    "file": "Assets/UI/Glues/UI_Screens_Default_BG/UI_Screens_Default_BG_00.m3",
+    "channels": []
+  },
+  "UI_Screens_Default_BG_01": {
+    "file": "Assets/UI/Glues/UI_Screens_Default_BG/UI_Screens_Default_BG_01.m3",
+    "channels": []
+  },
+  "UI_Screens_Default_BG_02": {
+    "file": "Assets/UI/Glues/UI_Screens_Default_BG/UI_Screens_Default_BG_02.m3",
+    "channels": []
+  },
+  "UI_Screens_Default_BG_03": {
+    "file": "Assets/UI/Glues/UI_Screens_Default_BG/UI_Screens_Default_BG_03.m3",
+    "channels": []
+  },
+  "UI_Screens_MainMenuDefaultVoid_00": {
+    "file": "Assets/UI/Glues/UI_Screens_MainMenuDefaultVoid/UI_Screens_MainMenuDefaultVoid_00.m3",
+    "channels": []
+  },
+  "UI_Screens_MainMenuDefaultVoid_01": {
+    "file": "Assets/UI/Glues/UI_Screens_MainMenuDefaultVoid/UI_Screens_MainMenuDefaultVoid_01.m3",
+    "channels": []
+  },
+  "UI_Screens_MainMenuDefaultVoid_02": {
+    "file": "Assets/UI/Glues/UI_Screens_MainMenuDefaultVoid/UI_Screens_MainMenuDefaultVoid_02.m3",
+    "channels": []
+  },
+  "UI_Screens_MainMenuDefaultVoid_04": {
+    "file": "Assets/UI/Glues/UI_Screens_MainMenuDefaultVoid/UI_Screens_MainMenuDefaultVoid_04.m3",
+    "channels": []
+  },
+  "UI_Screens_MainMenuDefaultVoid_05": {
+    "file": "Assets/UI/Glues/UI_Screens_MainMenuDefaultVoid/UI_Screens_MainMenuDefaultVoid_05.m3",
+    "channels": []
+  },
+  "UI_Screens_MainMenuDefaultVoid_06": {
+    "file": "Assets/UI/Glues/UI_Screens_MainMenuDefaultVoid/UI_Screens_MainMenuDefaultVoid_06.m3",
+    "channels": []
+  },
+  "UI_Screens_Mission_TerranCalldownFour": {
+    "file": "Assets/UI/Glues/UI_Screens_Mission_TerranCalldownFour/UI_Screens_Mission_TerranCalldownFour.m3",
+    "channels": []
+  },
+  "UI_Screens_Mission_TerranCalldownTwo": {
+    "file": "Assets/UI/Glues/UI_Screens_Mission_TerranCalldownTwo/UI_Screens_Mission_TerranCalldownTwo.m3",
+    "channels": []
+  },
+  "UI_Screens_Multiplayer_BG_00": {
+    "file": "Assets/UI/Glues/UI_Screens_Multiplayer_BG/UI_Screens_Multiplayer_BG_00.m3",
+    "channels": []
+  },
+  "UI_Screens_Multiplayer_BG_01": {
+    "file": "Assets/UI/Glues/UI_Screens_Multiplayer_BG/UI_Screens_Multiplayer_BG_01.m3",
+    "channels": []
+  },
+  "UI_Screens_Multiplayer_BG_02": {
+    "file": "Assets/UI/Glues/UI_Screens_Multiplayer_BG/UI_Screens_Multiplayer_BG_02.m3",
+    "channels": []
+  },
+  "UI_Screens_Multiplayer_BG_03": {
+    "file": "Assets/UI/Glues/UI_Screens_Multiplayer_BG/UI_Screens_Multiplayer_BG_03.m3",
+    "channels": []
+  },
+  "UI_Screens_Multiplayer_BG_04": {
+    "file": "Assets/UI/Glues/UI_Screens_Multiplayer_BG/UI_Screens_Multiplayer_BG_04.m3",
+    "channels": []
+  },
+  "UI_Screens_Multiplayer_BG_05": {
+    "file": "Assets/UI/Glues/UI_Screens_Multiplayer_BG/UI_Screens_Multiplayer_BG_05.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Battlecruiser": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Battlecruiser/UI_Screens_TrophyRoom_Decorations_Battlecruiser.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_BlackOps": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_BlackOps/UI_Screens_TrophyRoom_Decorations_BlackOps.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Carrier": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Carrier/UI_Screens_TrophyRoom_Decorations_Carrier.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Colossus": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Colossus/UI_Screens_TrophyRoom_Decorations_Colossus.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Griffin": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Griffin/UI_Screens_TrophyRoom_Decorations_Griffin.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_HydraSkull": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_HydraSkull/UI_Screens_TrophyRoom_Decorations_HydraSkull.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Minigun": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Minigun/UI_Screens_TrophyRoom_Decorations_Minigun.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Mutalisk": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Mutalisk/UI_Screens_TrophyRoom_Decorations_Mutalisk.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Nuke": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Nuke/UI_Screens_TrophyRoom_Decorations_Nuke.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_SiegeTank": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_SiegeTank/UI_Screens_TrophyRoom_Decorations_SiegeTank.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Standard": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Standard/UI_Screens_TrophyRoom_Decorations_Standard.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Ultralisk": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Ultralisk/UI_Screens_TrophyRoom_Decorations_Ultralisk.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_Viking": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_Viking/UI_Screens_TrophyRoom_Decorations_Viking.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_Decorations_VoidRay": {
+    "file": "Assets/UI/Glues/UI_Screens_TrophyRoom_Decorations_VoidRay/UI_Screens_TrophyRoom_Decorations_VoidRay.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_LargeTrophy": {
+    "file": "Assets/UI/Glues/Tournaments/UI_Screens_TrophyRoom_LargeTrophy/UI_Screens_TrophyRoom_LargeTrophy.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_LargeTrophy_Ranks_00": {
+    "file": "Assets/UI/Glues/Tournaments/UI_Screens_TrophyRoom_LargeTrophy_Ranks/UI_Screens_TrophyRoom_LargeTrophy_Ranks_00.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_LargeTrophy_Ranks_01": {
+    "file": "Assets/UI/Glues/Tournaments/UI_Screens_TrophyRoom_LargeTrophy_Ranks/UI_Screens_TrophyRoom_LargeTrophy_Ranks_01.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_LargeTrophy_Ranks_02": {
+    "file": "Assets/UI/Glues/Tournaments/UI_Screens_TrophyRoom_LargeTrophy_Ranks/UI_Screens_TrophyRoom_LargeTrophy_Ranks_02.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_LargeTrophy_Ranks_03": {
+    "file": "Assets/UI/Glues/Tournaments/UI_Screens_TrophyRoom_LargeTrophy_Ranks/UI_Screens_TrophyRoom_LargeTrophy_Ranks_03.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_LargeTrophy_Ranks_04": {
+    "file": "Assets/UI/Glues/Tournaments/UI_Screens_TrophyRoom_LargeTrophy_Ranks/UI_Screens_TrophyRoom_LargeTrophy_Ranks_04.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_LargeTrophy_Ranks_05": {
+    "file": "Assets/UI/Glues/Tournaments/UI_Screens_TrophyRoom_LargeTrophy_Ranks/UI_Screens_TrophyRoom_LargeTrophy_Ranks_05.m3",
+    "channels": []
+  },
+  "UI_Screens_TrophyRoom_LargeTrophy_Ranks_06": {
+    "file": "Assets/UI/Glues/Tournaments/UI_Screens_TrophyRoom_LargeTrophy_Ranks/UI_Screens_TrophyRoom_LargeTrophy_Ranks_06.m3",
+    "channels": []
+  },
+  "UI_Screens_Void_Landing_ImpactCrater": {
+    "file": "Assets/UI/Glues/Void/UI_Screens_Void_Landing_ImpactCrater/UI_Screens_Void_Landing_ImpactCrater.m3",
+    "channels": []
+  },
+  "UlnarSkyParallax": {
+    "file": "Assets/Skyboxes/UlnarSkyParallax/UlnarSkyParallax.m3",
+    "channels": []
+  },
+  "Ultralisk": {
+    "file": "Assets/Units/Zerg/UltraliskEx1/UltraliskEx1.m3",
+    "channels": []
+  },
+  "VoidSeeker": {
+    "file": "Assets/Units/Protoss/VoidSeeker/VoidSeeker.m3",
+    "channels": []
+  },
+  "VortexModel": {
+    "file": "Assets/Effects/Protoss/SingularityAreaImpact/SingularityAreaImpact.m3",
+    "channels": []
+  },
+  "WarpConduitShakuras01": {
+    "file": "Assets/Buildings/Protoss/Shakuras_WarpGate/Shakuras_WarpGate.m3",
+    "channels": []
+  },
+  "WarpGateWarpCast": {
+    "file": "Assets/Effects/Protoss/WarpGateWarpCast/WarpGateWarpCast.m3",
+    "channels": []
+  },
+  "WarpPrism": {
+    "file": "Assets/Units/Protoss/WarpPrism/WarpPrism.m3",
+    "channels": []
+  },
+  "Waterfall": {
+    "file": "Assets/Doodads/Waterfall/Waterfall.m3",
+    "channels": []
+  },
+  "Wraith": {
+    "file": "Assets/Units/Terran/Wraith/Wraith.m3",
+    "channels": []
+  },
+  "XelNaga_HugeGate": {
+    "file": "Assets/Doodads/XelNaga_HugeGate/XelNaga_HugeGate.m3",
+    "channels": []
+  },
+  "XelNaga_LargeCrate_Amon": {
+    "file": "Assets/Doodads/XelNaga_LargeCrate_Amon/XelNaga_LargeCrate_Amon.m3",
+    "channels": []
+  },
+  "XelNaga_Vision_Temple": {
+    "file": "Assets/Doodads/XelNaga_Vision_Temple/XelNaga_Vision_Temple.m3",
+    "channels": []
+  },
+  "XelNagaConstruct": {
+    "file": "Assets/Units/Protoss/XelNaga_Construct_Sentinel/XelNaga_Construct_Sentinel.m3",
+    "channels": []
+  },
+  "Zealot": {
+    "file": "Assets/Units/Protoss/Zealot_Ex2/Zealot_Ex2.m3",
+    "channels": []
+  },
+  "ZealotNoCords": {
+    "file": "Assets/Units/Protoss/Zealot_NoCords/Zealot_NoCords.m3",
+    "channels": []
+  },
+  "ZealotXPR": {
+    "file": "Assets/Units/Protoss/ZealotXPReward/ZealotXPReward.m3",
+    "channels": []
+  },
+  "ZenithStone": {
+    "file": "Assets/Doodads/XelNaga_ObeliskConstruct/XelNaga_ObeliskConstruct.m3",
+    "channels": []
+  },
+  "Zergling": {
+    "file": "Assets/Units/Zerg/Zergling/Zergling.m3",
+    "channels": []
+  },
+  "ZerglingUpgrade": {
+    "file": "Assets/Units/Zerg/ZerglingUpgrade/ZerglingUpgrade.m3",
+    "channels": []
+  },
+  "ZerglingXPR": {
+    "file": "Assets/Units/Zerg/ZerglingXPReward/ZerglingXPReward.m3",
+    "channels": []
+  },
+  "ZerusLargeTreeShadow": {
+    "file": "Assets/Doodads/ZerusLargeTreeShadow/ZerusLargeTreeShadow.m3",
+    "channels": []
+  },
+  "ZhakulDasTemple": {
+    "file": "Assets/Doodads/ZhakulDasShrine/ZhakulDasShrine_00.m3",
+    "channels": []
+  }
+}

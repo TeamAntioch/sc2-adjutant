@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="660" viewBox="0 0 760 660" font-family="Helvetica, Arial, sans-serif">
+<title>Monitors: cinematic set</title>
+<rect width="760" height="660" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Monitors</text>
+<text x="24" y="54" font-size="10" fill="#666">monitors · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="367.3" y="180.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_040_Room_ScreenDOMLogo</title></rect>
+<rect x="84.5" y="430.1" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_040_Room11, SMX3_Cutscene_MP01_040_Room12, SMX3_Cutscene_MP01_040_Room13, SMX3_Cutscene_MP01_040_Room14, SMX3_Cutscene_MP01_040_Room15, SMX3_Cutscene_MP01_040_Room02</title></rect>
+<text x="96.5" y="438.1" font-size="8" fill="#6d6458">6</text>
+<rect x="488.5" y="180.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_040_Room_ScreenUIElements00</title></rect>
+<rect x="483.5" y="180.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_040_Room_ScreenUIElements01</title></rect>
+<rect x="357.6" y="180.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_040_Room_ScreenUIElements02</title></rect>
+<rect x="74.5" y="528.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_040_Counter</title></rect>
+<polygon points="87.7,487.5 90,471.5 100,477" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="87.7" cy="487.5" r="2.5" fill="#7b4bd1"><title>cc_s280</title></circle>
+<polygon points="70.5,119.5 101.5,162.5 59.7,171.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="70.5" cy="119.5" r="2.5" fill="#7b4bd1"><title>cc_s010</title></circle>
+<polygon points="73.9,165.4 89.6,177.8 75.4,185.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="73.9" cy="165.4" r="2.5" fill="#7b4bd1"><title>cc_s020</title></circle>
+<polygon points="74.4,177.3 79.4,180.6 75.3,183.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="74.4" cy="177.3" r="2.5" fill="#7b4bd1"><title>cc_s030</title></circle>
+<polygon points="80.2,148.9 105.1,195.7 62.5,198.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="80.2" cy="148.9" r="2.5" fill="#7b4bd1"><title>cc_s035</title></circle>
+<polygon points="81.5,169.5 106.4,216.3 63.9,219.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="81.5" cy="169.5" r="2.5" fill="#7b4bd1"><title>cc_s036</title></circle>
+<polygon points="79.7,146.9 103.8,194.1 61.2,196.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="79.7" cy="146.9" r="2.5" fill="#7b4bd1"><title>s040</title></circle>
+<polygon points="83.8,236.7 69,185.9 111.3,191.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="83.8" cy="236.7" r="2.5" fill="#7b4bd1"><title>cc_s050</title></circle>
+<polygon points="84.5,535.8 85.9,507.7 101.7,513.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="84.5" cy="535.8" r="2.5" fill="#7b4bd1"><title>cc_s070</title></circle>
+<polygon points="87.5,508.7 96.9,513.6 90.2,519" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="87.5" cy="508.7" r="2.5" fill="#7b4bd1"><title>cc_s080</title></circle>
+<polygon points="86.2,501.9 128.1,534.3 90.6,554.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="86.2" cy="501.9" r="2.5" fill="#7b4bd1"><title>s120</title></circle>
+<polygon points="89.2,517.1 89.1,508.3 95.6,511" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="89.2" cy="517.1" r="2.5" fill="#7b4bd1"><title>cc_s130</title></circle>
+<polygon points="85.7,401.8 109.3,449.2 66.7,451.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="85.7" cy="401.8" r="2.5" fill="#7b4bd1"><title>s140</title></circle>
+<polygon points="79.5,191.3 107.6,236.2 65.4,242.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="79.5" cy="191.3" r="2.5" fill="#7b4bd1"><title>s145</title></circle>
+<polygon points="72.6,426.4 96.2,473.8 53.6,475.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="72.6" cy="426.4" r="2.5" fill="#7b4bd1"><title>cc_s147</title></circle>
+<polygon points="89.7,514.7 89.8,505.6 96.5,508.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="89.7" cy="514.7" r="2.5" fill="#7b4bd1"><title>cc_s150</title></circle>
+<polygon points="92.2,512 87.3,493.1 101.7,494.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="92.2" cy="512" r="2.5" fill="#7b4bd1"><title>cc_s150a</title></circle>
+<polygon points="92.3,487.3 105,523.8 81.8,524.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="92.3" cy="487.3" r="2.5" fill="#7b4bd1"><title>cc_s160</title></circle>
+<polygon points="88.8,334.5 81.3,316.1 97.3,316.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="88.8" cy="334.5" r="2.5" fill="#7b4bd1"><title>s170</title></circle>
+<polygon points="96.6,494 110.5,522.7 84.9,523.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="96.6" cy="494" r="2.5" fill="#7b4bd1"><title>s180</title></circle>
+<polygon points="87.6,334.1 80.3,315.8 96.2,316.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="87.6" cy="334.1" r="2.5" fill="#7b4bd1"><title>s190</title></circle>
+<polygon points="88.1,380.6 111.9,428 69.3,430.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="88.1" cy="380.6" r="2.5" fill="#7b4bd1"><title>s200</title></circle>
+<polygon points="86.6,416.6 102.5,438.2 81.5,442.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="86.6" cy="416.6" r="2.5" fill="#7b4bd1"><title>s210</title></circle>
+<polygon points="91,494.9 83.1,473.3 105.4,476.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91" cy="494.9" r="2.5" fill="#7b4bd1"><title>cc_s220</title></circle>
+<polygon points="93.2,482.7 89.2,471.8 97.7,472" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="93.2" cy="482.7" r="2.5" fill="#7b4bd1"><title>cc_s223</title></circle>
+<polygon points="86.9,394.4 71.4,343.7 103,343.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="86.9" cy="394.4" r="2.5" fill="#7b4bd1"><title>cc_s225</title></circle>
+<polygon points="87.8,393.6 71.7,343.2 103.4,343" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="87.8" cy="393.6" r="2.5" fill="#7b4bd1"><title>s225a</title></circle>
+<polygon points="99.5,496.2 107.4,515.2 90.8,514.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="99.5" cy="496.2" r="2.5" fill="#7b4bd1"><title>s230</title></circle>
+<polygon points="94.8,346.8 116.2,395.3 73.6,395.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="94.8" cy="346.8" r="2.5" fill="#7b4bd1"><title>s240</title></circle>
+<polygon points="90.8,481.7 91.6,473.7 96.9,476.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="90.8" cy="481.7" r="2.5" fill="#7b4bd1"><title>cc_s250</title></circle>
+<polygon points="75,466.7 124.1,486.5 83.8,519" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="75" cy="466.7" r="2.5" fill="#7b4bd1"><title>cc_s253</title></circle>
+<polygon points="91,483.7 89.9,452 113.7,461.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91" cy="483.7" r="2.5" fill="#7b4bd1"><title>s255</title></circle>
+<polygon points="60.5,462.7 59.6,476.9 49.5,471.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="60.5" cy="462.7" r="2.5" fill="#7b4bd1"><title>s260</title></circle>
+<polygon points="110.1,494.1 123.1,527.7 94.2,526.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="110.1" cy="494.1" r="2.5" fill="#7b4bd1"><title>s270</title></circle>
+<polygon points="92.6,479.9 90.9,450.2 113.3,458.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="92.6" cy="479.9" r="2.5" fill="#7b4bd1"><title>s285</title></circle>
+<polygon points="88.1,424.9 103.7,456.5 75.3,457.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="88.1" cy="424.9" r="2.5" fill="#7b4bd1"><title>s290</title></circle>
+<polygon points="89.3,459.8 105,491.9 76.2,493.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="89.3" cy="459.8" r="2.5" fill="#7b4bd1"><title>s300</title></circle>
+<polygon points="99.6,349.3 118.2,398.9 75.6,396.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="99.6" cy="349.3" r="2.5" fill="#7b4bd1"><title>s310</title></circle>
+<polygon points="112.9,515.7 79.9,557.2 60,519.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="112.9" cy="515.7" r="2.5" fill="#7b4bd1"><title>s320</title></circle>
+<polygon points="71.7,119.5 100.7,163.8 58.6,170.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="71.7" cy="119.5" r="2.5" fill="#7b4bd1"><title>s010</title></circle>
+<polygon points="74.5,165.4 92.5,181.1 75,189.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="74.5" cy="165.4" r="2.5" fill="#7b4bd1"><title>s020</title></circle>
+<polygon points="75.4,178.2 79.8,181.6 75.9,183.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="75.4" cy="178.2" r="2.5" fill="#7b4bd1"><title>s030</title></circle>
+<polygon points="80.2,149.4 105.1,196.1 62.5,199.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="80.2" cy="149.4" r="2.5" fill="#7b4bd1"><title>s035</title></circle>
+<polygon points="81.5,169.9 106.4,216.6 63.9,219.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="81.5" cy="169.9" r="2.5" fill="#7b4bd1"><title>s036</title></circle>
+<polygon points="82.7,225.4 69.5,174.1 111.6,180.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="82.7" cy="225.4" r="2.5" fill="#7b4bd1"><title>s050</title></circle>
+<polygon points="91.4,532.8 79.4,481.2 121.3,489.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91.4" cy="532.8" r="2.5" fill="#7b4bd1"><title>s070</title></circle>
+<polygon points="91.9,517.4 87,498.2 102.7,500.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91.9" cy="517.4" r="2.5" fill="#7b4bd1"><title>s130</title></circle>
+<polygon points="72.6,426.4 96.2,473.9 53.6,475.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="72.6" cy="426.4" r="2.5" fill="#7b4bd1"><title>s147</title></circle>
+<polygon points="92.3,512 87.6,492.9 103.1,495.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="92.3" cy="512" r="2.5" fill="#7b4bd1"><title>s150</title></circle>
+<polygon points="91.8,512 87.1,492.9 102.7,495.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91.8" cy="512" r="2.5" fill="#7b4bd1"><title>s150a</title></circle>
+<polygon points="92.3,494 106.2,522.7 80.5,523.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="92.3" cy="494" r="2.5" fill="#7b4bd1"><title>s160</title></circle>
+<polygon points="91.8,486.6 90.2,456.8 112.7,465.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91.8" cy="486.6" r="2.5" fill="#7b4bd1"><title>s220</title></circle>
+<polygon points="91.9,476.8 89.8,444.8 114.1,453.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91.9" cy="476.8" r="2.5" fill="#7b4bd1"><title>s223</title></circle>
+<polygon points="86.9,394.4 73.5,343.1 105.1,344.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="86.9" cy="394.4" r="2.5" fill="#7b4bd1"><title>s225</title></circle>
+<polygon points="86.9,394.4 73.5,343.1 105.1,344.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="86.9" cy="394.4" r="2.5" fill="#7b4bd1"><title>s225a</title></circle>
+<polygon points="92.1,480.8 90,448.8 114.3,457.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="92.1" cy="480.8" r="2.5" fill="#7b4bd1"><title>s250</title></circle>
+<polygon points="75.8,462.4 113.3,485.2 75.9,506.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="75.8" cy="462.4" r="2.5" fill="#7b4bd1"><title>s253</title></circle>
+<polygon points="90.3,486.8 88.2,450.6 115.6,460.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="90.3" cy="486.8" r="2.5" fill="#7b4bd1"><title>s280</title></circle>
+<line x1="82.1" y1="129.4" x2="92.1" y2="129.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="82.1" cy="129.4" r="4" fill="#2f7de1" stroke="#fff"><title>Technician (SMX3_Tech)</title></circle>
+<text x="88.1" y="141.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Technician</text>
+<line x1="89.5" y1="182.2" x2="99.5" y2="182.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="89.5" cy="182.2" r="4" fill="#2f7de1" stroke="#fff"><title>SMX3 Nova Sword (SMX3_NovaSword)</title></circle>
+<text x="95.5" y="194.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX3 Nova Sword</text>
+</g>
+<line x1="41.7" y1="565.9" x2="218.3" y2="565.9" stroke="#333" stroke-width="2"/>
+<line x1="41.7" y1="561.9" x2="41.7" y2="569.9" stroke="#333"/><line x1="77" y1="561.9" x2="77" y2="569.9" stroke="#333"/>
+<text x="41.7" y="559.9" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP01_040.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMX3_Cutscene_MP04_Default,</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP04_ScreenWalkup,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP04_Orange,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP04_Green,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX3_Cutscene_MP04_Green_Face_Closeup,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX3_Cutscene_MP04_ScreenWalkup_Death,</text>
+<text x="560" y="192" font-size="9" fill="#333">SMX3_Cutscene_MP04_Nova_Monitor</text>
+<text x="560" y="204" font-size="9" fill="#333">Screens:</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room11</text>
+<text x="560" y="228" font-size="9" fill="#333">(channel 6);</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room12</text>
+<text x="560" y="252" font-size="9" fill="#333">(channel 6);</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room13</text>
+<text x="560" y="276" font-size="9" fill="#333">(channel 6);</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room14</text>
+<text x="560" y="300" font-size="9" fill="#333">(channel 6);</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room15</text>
+<text x="560" y="324" font-size="9" fill="#333">(channel 6)</text>
+<text x="560" y="336" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenDOMLogo,</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenUIElements_00,</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenUIElements_01,</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenUIElements_02,</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenHologram</text>
+<text x="560" y="408" font-size="9" fill="#333">Marks: 2; cameras: 70 (58 aimed</text>
+<text x="560" y="420" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="432" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="444" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="456" font-size="9" fill="#333"></text>
+<text x="560" y="468" font-size="9" fill="#333">Models:</text>
+<text x="560" y="480" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Counter</text>
+<text x="560" y="492" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenDOMLogo</text>
+<text x="560" y="504" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenUIElements00</text>
+<text x="560" y="516" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenUIElements01</text>
+<text x="560" y="528" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room_ScreenUIElements02</text>
+<text x="560" y="540" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room02</text>
+<text x="560" y="552" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room11</text>
+<text x="560" y="564" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room12</text>
+<text x="560" y="576" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room13</text>
+<text x="560" y="588" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room14</text>
+<text x="560" y="600" font-size="9" fill="#333">SMX3_Cutscene_MP01_040_Room15</text>
+<text x="560" y="612" font-size="9" fill="#333"></text>
+<text x="560" y="624" font-size="9" fill="#333">Also in:</text>
+</svg>

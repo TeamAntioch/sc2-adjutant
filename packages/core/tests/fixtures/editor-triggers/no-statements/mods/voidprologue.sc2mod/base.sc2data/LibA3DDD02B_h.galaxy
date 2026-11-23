@@ -1,0 +1,2 @@
+void libA3DDD02B_gf_PP_ResetTech ();
+void libA3DDD02B_gf_PP_StoreTechBonusAtMissionBeginning ();

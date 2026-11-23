@@ -1,0 +1,11 @@
+{
+  "id": "reference-story",
+  "kind": "campaign",
+  "dependencies": [],
+  "characters": [
+    { "speaker": "WARDEN", "id": "RefWarden", "unit": "Zealot", "voice": "Daniel" },
+    { "speaker": "SEER", "id": "RefSeer", "unit": "HighTemplar", "model": "HighTemplarPortrait", "voice": "Samantha", "fields": { "Gender": "Female", "Age": 40 } },
+    { "speaker": "PILOT", "id": "RefPilot", "name": "Pilot", "model": "ProbePortrait" },
+    { "speaker": "WARLORD", "id": "RefWarlord", "unit": "Stalker" }
+  ]
+}

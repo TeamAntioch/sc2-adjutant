@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Filtered_elements: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Filtered_elements</text>
+<text x="24" y="54" font-size="10" fill="#666">filtered-elements · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="257.6" y="312.7" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>UI_Screens_CampaignMode_Light_Kerrigan, UI_Screens_CampaignMode_Light_Kerrigan</title></rect>
+<text x="265.6" y="318.7" font-size="8" fill="#6d6458">2</text>
+<rect x="205.1" y="325.5" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>UI_Screens_CampaignMode_Light_Raynor, UI_Screens_CampaignMode_Light_Raynor</title></rect>
+<text x="213.1" y="331.5" font-size="8" fill="#6d6458">2</text>
+<rect x="300.6" y="341.3" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>UI_Screens_CampaignMode_Light_Artanis, UI_Screens_CampaignMode_Light_Artanis</title></rect>
+<text x="308.6" y="347.3" font-size="8" fill="#6d6458">2</text>
+<rect x="357.4" y="326.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screens_CampaignMode_Light_Raynor</title></rect>
+<rect x="352.5" y="328" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Nova_PrePurchase, GlueSMX3Nova, SMX3_Nova_PrePurchase, SMX3_Nova_PrePurchase</title></rect>
+<text x="362.5" y="335" font-size="8" fill="#6d6458">4</text>
+<rect x="253" y="328.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screens_CampaignMode_Floor</title></rect>
+<polygon points="251,1075.5 235.8,979.2 267.9,979.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="251" cy="1075.5" r="2.5" fill="#7b4bd1"><title>Pre CLC Camera</title></circle>
+<text x="255" y="1072.5" font-size="8" fill="#5a3a9a">Pre CLC Camera</text>
+<polygon points="275.2,1749.7 265.4,1652.7 285.9,1652.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="275.2" cy="1749.7" r="2.5" fill="#7b4bd1"><title>Nova Camera</title></circle>
+<text x="279.2" y="1746.7" font-size="8" fill="#5a3a9a">Nova Camera</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/UI_Screens_CampaignMode_ForeGround.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">UIScreensCampaignModeForeGround</text>
+<text x="560" y="144" font-size="9" fill="#333">Screens: none known; not read:</text>
+<text x="560" y="156" font-size="9" fill="#333">UI_Screens_CampaignMode_Floor</text>
+<text x="560" y="168" font-size="9" fill="#333">Marks: 0; cameras: 2 (2 aimed</text>
+<text x="560" y="180" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="192" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="204" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="216" font-size="9" fill="#333"></text>
+<text x="560" y="228" font-size="9" fill="#333">Models:</text>
+<text x="560" y="240" font-size="9" fill="#333">GlueSMX3Nova</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX3_Nova_PrePurchase</text>
+<text x="560" y="264" font-size="9" fill="#333">UI_Screens_CampaignMode_Floor</text>
+<text x="560" y="276" font-size="9" fill="#333">UI_Screens_CampaignMode_Light_Artanis</text>
+<text x="560" y="288" font-size="9" fill="#333">UI_Screens_CampaignMode_Light_Kerrigan</text>
+<text x="560" y="300" font-size="9" fill="#333">UI_Screens_CampaignMode_Light_Raynor</text>
+<text x="560" y="312" font-size="9" fill="#333"></text>
+<text x="560" y="324" font-size="9" fill="#333">Also in:</text>
+</svg>

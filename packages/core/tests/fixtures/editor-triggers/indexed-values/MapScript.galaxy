@@ -1,0 +1,92 @@
+//--------------------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------------------
+int gv_p4_COLONISTS;
+playergroup gv_zergPlayers;
+int gv_escortIndex;
+int[7] gv_unloadAmount;
+fixed gv_convoyMovementSpeed;
+int gv_colonistsSaveQuota;
+int gv_doomsdayZergSpawnCount;
+fixed gv_nydusSpawnDelay;
+fixed gv_nydusWormHP;
+fixed gv_waveDelay;
+
+void gf_GenerateColonist ();
+
+trigger gt_Init06Difficulty;
+trigger gt_Gathercolonistspriortoevacuation;
+trigger gt_ConvoySpawned;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Init 06 Difficulty
+//--------------------------------------------------------------------------------------------------
+bool gt_Init06Difficulty_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    playergroup auto395B6C3C_g;
+    int auto395B6C3C_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((libNtve_gf_DifficultyValueInt(1, 0, 0, 0) == 1)) {
+        auto395B6C3C_g = gv_zergPlayers;
+        auto395B6C3C_var = -1;
+        while (true) {
+            auto395B6C3C_var = PlayerGroupNextPlayer(auto395B6C3C_g, auto395B6C3C_var);
+            if (auto395B6C3C_var < 0) { break; }
+            PlayerModifyPropertyInt(auto395B6C3C_var, c_playerPropHandicap, c_playerPropOperSetTo, 50);
+        }
+    }
+
+    gv_nydusSpawnDelay = libNtve_gf_DifficultyValueFixed(12.0, 12.0, 9.0, 8.0);
+    gv_nydusWormHP = libNtve_gf_DifficultyValueFixed(200.0, 200.0, 350.0, 500.0);
+    gv_colonistsSaveQuota = 50;
+    gv_waveDelay = libNtve_gf_DifficultyValueFixed(50.0, 50.0, 25.0, 15.0);
+    gv_doomsdayZergSpawnCount = libNtve_gf_DifficultyValueInt(3, 3, 4, 5);
+    gv_unloadAmount[1] = 10;
+    gv_unloadAmount[2] = 10;
+    gv_unloadAmount[3] = 10;
+    gv_unloadAmount[4] = 12;
+    gv_unloadAmount[5] = 12;
+    gv_convoyMovementSpeed = 1.0;
+    TechTreeUpgradeAddLevel(gv_p4_COLONISTS, "CombatShield", 1);
+    gv_unloadAmount[6] = 16;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Init06Difficulty_Init () {
+    gt_Init06Difficulty = TriggerCreate("gt_Init06Difficulty_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Gather colonists prior to evacuation
+//--------------------------------------------------------------------------------------------------
+bool gt_Gathercolonistspriortoevacuation_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    int auto37AAE177_n;
+    int auto37AAE177_i;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto37AAE177_n = gv_unloadAmount[gv_escortIndex];
+    for (auto37AAE177_i = 1; auto37AAE177_i <= auto37AAE177_n; auto37AAE177_i += 1) {
+        gf_GenerateColonist();
+        Wait(2.25, c_timeGame);
+    }
+    Wait(18.0, c_timeGame);
+    TriggerExecute(gt_ConvoySpawned, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Gathercolonistspriortoevacuation_Init () {
+    gt_Gathercolonistspriortoevacuation = TriggerCreate("gt_Gathercolonistspriortoevacuation_Func");
+}
+

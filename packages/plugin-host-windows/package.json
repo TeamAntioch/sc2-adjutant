@@ -1,0 +1,35 @@
+{
+  "name": "@team-antioch/sc2-adjutant-host-windows",
+  "version": "0.1.0",
+  "description": "The Windows Host Adapter Plugin for sc2-adjutant: opens the Galaxy Editor, runs Test Document and saves a copy of a map there, captures camera tours, starts the game and captures its window, speaks placeholder voice lines and renders game models.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamAntioch/sc2-adjutant.git",
+    "directory": "packages/plugin-host-windows"
+  },
+  "type": "module",
+  "exports": {
+    "./sc2-adjutant-plugin.json": "./sc2-adjutant-plugin.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "!dist/.tsbuildinfo",
+    "sc2-adjutant-plugin.json",
+    "docs",
+    "scripts"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"const fs = require('node:fs'); fs.cpSync('helpers', 'dist/helpers', { recursive: true }); fs.writeFileSync('dist/.built', '')\"",
+    "prepack": "npm run build",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && vitest run"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "peerDependencies": {
+    "@team-antioch/sc2-adjutant": "^0.1.0"
+  }
+}

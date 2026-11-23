@@ -1,0 +1,10 @@
+void gf_PowerAreaMoveUnitsAway (fixed lp_x, fixed lp_y) {
+    // Variable Declarations
+    unitgroup lv_playerGroup;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_playerGroup = UnitGroupEmpty();
+
+}
+

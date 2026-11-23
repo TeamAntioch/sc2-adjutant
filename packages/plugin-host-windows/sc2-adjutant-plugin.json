@@ -1,0 +1,8 @@
+{
+  "name": "host-windows",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["host-adapter"],
+  "entry": "./dist/index.js",
+  "contributions": { "capabilities": ["editor.open", "editor.checkClosed", "editor.testDocument", "editor.save", "editor.captureTour", "editor.closeCaptureCopies", "screen.capture", "game.launch", "tts.speak", "model.render", "model.rendererKey", "model.export", "model.exportGltf"] }
+}

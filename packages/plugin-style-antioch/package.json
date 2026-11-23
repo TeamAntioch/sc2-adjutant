@@ -1,0 +1,41 @@
+{
+  "name": "@team-antioch/sc2-adjutant-style-antioch",
+  "version": "0.1.0",
+  "description": "The Antioch Style Pack Plugin for sc2-adjutant: Exemplar Maps and their Map Studies, Design Lessons and their style rules, Doodad Composites and the guides for a Mission's look.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamAntioch/sc2-adjutant.git",
+    "directory": "packages/plugin-style-antioch"
+  },
+  "type": "module",
+  "exports": {
+    "./sc2-adjutant-plugin.json": "./sc2-adjutant-plugin.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "!dist/.tsbuildinfo",
+    "sc2-adjutant-plugin.json",
+    "*composites.json",
+    "knowledge",
+    "prompts",
+    "exemplar-maps/*.json",
+    "exemplar-maps/*.md",
+    "exemplar-maps/*/study.json",
+    "exemplar-maps/*/*.png",
+    "!exemplar-maps/*/minimap.png"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"require('node:fs').writeFileSync('dist/.built', '')\"",
+    "prepack": "npm run build",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && vitest run"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "peerDependencies": {
+    "@team-antioch/sc2-adjutant": "^0.1.0"
+  }
+}

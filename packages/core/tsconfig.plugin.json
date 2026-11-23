@@ -1,0 +1,20 @@
+{
+  // The base of a first-party Plugin package's tsconfig (`"extends": "../core/tsconfig.plugin.json"`).
+  // The package builds to JavaScript in its dist/, which its manifest's entry names: Node won't strip
+  // types from a file under node_modules, so an npm install can't run the TypeScript. Relative imports
+  // keep their .ts extensions in the source and become .js in dist/. Core comes from
+  // @team-antioch/sc2-adjutant/plugin-sdk, checked against core's emitted declarations (dist/, so core
+  // builds first), not its source: core's source is checked once, by core.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "${configDir}",
+    "outDir": "${configDir}/dist",
+    "declaration": false,
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+    "incremental": true,
+    "tsBuildInfoFile": "${configDir}/dist/.tsbuildinfo"
+  },
+  "include": ["${configDir}/**/*.ts"],
+  "exclude": ["${configDir}/dist", "${configDir}/tests", "${configDir}/vitest.config.ts", "${configDir}/node_modules"]
+}

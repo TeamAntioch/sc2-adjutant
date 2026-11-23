@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>T1_Cockpit: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">T1_Cockpit</text>
+<text x="24" y="54" font-size="10" fill="#666">t1-cockpit · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="281" y="327" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_SolarCore_UI_Spear_Hologram_Cockpit, SMX2_SolarCore_UI_Cockpit</title></rect>
+<text x="289" y="333" font-size="8" fill="#6d6458">2</text>
+<polygon points="260.7,684.2 235.6,590 313.2,602" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="260.7" cy="684.2" r="2.5" fill="#7b4bd1"><title>T2 Camera</title></circle>
+<text x="264.7" y="681.2" font-size="8" fill="#5a3a9a">T2 Camera</text>
+<polygon points="274.5,618.7 245,525.8 323.1,534.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="274.5" cy="618.7" r="2.5" fill="#7b4bd1"><title>T6 Camera</title></circle>
+<text x="278.5" y="615.7" font-size="8" fill="#5a3a9a">T6 Camera</text>
+<polygon points="-115.7,519.2 -66.5,435 -23.9,551.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-115.7" cy="519.2" r="2.5" fill="#7b4bd1"><title>T1_Cockpit_Cam</title></circle>
+<text x="-111.7" y="516.2" font-size="8" fill="#5a3a9a">T1_Cockpit_Cam</text>
+<polygon points="-278.9,1154.1 -279.2,1056.6 -183.2,1135.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-278.9" cy="1154.1" r="2.5" fill="#7b4bd1"><title>T2_SmallGun_Cam</title></circle>
+<text x="-274.9" y="1151.1" font-size="8" fill="#5a3a9a">T2_SmallGun_Cam</text>
+<polygon points="-539,801.2 -473.5,729.1 -441.5,801.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-539" cy="801.2" r="2.5" fill="#7b4bd1"><title>T3_Core_Cam</title></circle>
+<text x="-535" y="798.2" font-size="8" fill="#5a3a9a">T3_Core_Cam</text>
+<polygon points="24.2,-81.6 119,-58.9 19.5,15.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="24.2" cy="-81.6" r="2.5" fill="#7b4bd1"><title>T4_BigWeapon_Cam</title></circle>
+<text x="28.2" y="-84.6" font-size="8" fill="#5a3a9a">T4_BigWeapon_Cam</text>
+<polygon points="-551.3,-808.2 -467.3,-758.7 -531.4,-712.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-551.3" cy="-808.2" r="2.5" fill="#7b4bd1"><title>T5_Backpiece_Cam</title></circle>
+<text x="-547.3" y="-811.2" font-size="8" fill="#5a3a9a">T5_Backpiece_Cam</text>
+<polygon points="-231.7,-252.1 -135.1,-239.1 -226.6,-154.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-231.7" cy="-252.1" r="2.5" fill="#7b4bd1"><title>T6_SmallCore_Cam</title></circle>
+<text x="-227.7" y="-255.1" font-size="8" fill="#5a3a9a">T6_SmallCore_Cam</text>
+<polygon points="-616,1518.3 -597,1422.7 -527.9,1476.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="-616" cy="1518.3" r="2.5" fill="#7b4bd1"><title>T0_MainView_Cam</title></circle>
+<text x="-612" y="1515.3" font-size="8" fill="#5a3a9a">T0_MainView_Cam</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_ShipUpgrade.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: PlanetIcons</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 13 (9 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX2_SolarCore_UI_Cockpit</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX2_SolarCore_UI_Spear_Hologram_Cockpit</text>
+<text x="560" y="228" font-size="9" fill="#333"></text>
+<text x="560" y="240" font-size="9" fill="#333">Also in:</text>
+</svg>

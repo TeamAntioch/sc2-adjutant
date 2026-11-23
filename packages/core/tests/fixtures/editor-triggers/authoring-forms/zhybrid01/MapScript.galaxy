@@ -1,0 +1,144 @@
+//--------------------------------------------------------------------------------------------------
+// Trigger: Gas Animation Handler
+//--------------------------------------------------------------------------------------------------
+bool gt_GasAnimationHandler_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    int auto668C5880_val;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto668C5880_val = gv_gasStatus;
+    if (auto668C5880_val == ge_PRESET_IsGasOn_GasOff) {
+        libNtve_gf_SendActorMessageToGameRegion(RegionEntireMap(), "Signal GasOff");
+    }
+    else if (auto668C5880_val == ge_PRESET_IsGasOn_GasOn) {
+        libNtve_gf_SendActorMessageToGameRegion(RegionEntireMap(), "Signal GasOn");
+    }
+    else {
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_GasAnimationHandler_Init () {
+    gt_GasAnimationHandler = TriggerCreate("gt_GasAnimationHandler_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Expansion Clear - Spawn Gas Pallets
+//--------------------------------------------------------------------------------------------------
+bool gt_ExpansionClearSpawnGasPallets_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    const int auto8B79EA2A_n = 4;
+    int auto8B79EA2A_i;
+
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    for (auto8B79EA2A_i = 1; auto8B79EA2A_i <= auto8B79EA2A_n; auto8B79EA2A_i += 1) {
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, "PalletGas", c_unitCreateIgnorePlacement, 0, RegionRandomPoint(RegionCircle(UnitGetPosition(EventUnit()), 2.5)));
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ExpansionClearSpawnGasPallets_Init () {
+    gt_ExpansionClearSpawnGasPallets = TriggerCreate("gt_ExpansionClearSpawnGasPallets_Func");
+    TriggerAddEventUnitDied(gt_ExpansionClearSpawnGasPallets, UnitRefFromUnit(UnitFromId(53)));
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Achievement: Dominated Terran Added
+//--------------------------------------------------------------------------------------------------
+bool gt_AchievementDominatedTerranAdded_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((libNtve_gf_DifficultyValueInt(0, 1, 1, 1) == 1))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitGroupAdd(gv_achievementDominatedTerranUnits, EventUnit());
+    if ((UnitGroupCount(gv_achievementDominatedTerranUnits, c_unitCountAlive) >= gv_achievementMaxDomiantedTerran)) {
+        gv_achievementMaxDomiantedTerran = UnitGroupCount(gv_achievementDominatedTerranUnits, c_unitCountAlive);
+        AchievementTermQuantitySet(gv_pLAYER_01_USER, "Anniversary_ZHybrid01", gv_achievementMaxDomiantedTerran);
+        TextExpressionSetToken("Param/Expression/C56EE2DC", "A", IntToText(gv_achievementMaxDomiantedTerran));
+        TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/C56EE2DC"), false);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_AchievementDominatedTerranAdded_Init () {
+    gt_AchievementDominatedTerranAdded = TriggerCreate("gt_AchievementDominatedTerranAdded_Func");
+    TriggerAddEventUnitBehaviorChange(gt_AchievementDominatedTerranAdded, null, "NPSwarm", c_unitBehaviorChangeActivate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Ghost Nuke Base Entrance
+//--------------------------------------------------------------------------------------------------
+bool gt_GhostNukeBaseEntrance_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+
+        if (!((UnitGroupCount(UnitGroup(null, gv_pLAYER_01_USER, RegionFromId(18), UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterWorker) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterSummoned - 32))), 0), c_unitCountAlive) >= 5))) {
+            return false;
+        }
+
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    UnitIssueOrder(gv_ghost_BaseEntrance, OrderTargetingPoint(AbilityCommand("TacNukeStrike", 0), RegionGetCenter(RegionFromId(18))), c_orderQueueReplace);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_GhostNukeBaseEntrance_Init () {
+    gt_GhostNukeBaseEntrance = TriggerCreate("gt_GhostNukeBaseEntrance_Func");
+    TriggerAddEventTimePeriodic(gt_GhostNukeBaseEntrance, 0.5, c_timeGame);
+}
+

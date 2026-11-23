@@ -1,0 +1,498 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`core's catalog through the templates > writes Ntve/00000022 from its template as its hand-written renderer did 1`] = `"Point(<x>, <y>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000027 from its template as its hand-written renderer did 1`] = `"DistanceBetweenPoints(<from>, <to>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000030 from its template as its hand-written renderer did 1`] = `"RegionCircle(<center>, <radius>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000034 from its template as its hand-written renderer did 1`] = `"RegionSetCenter(<region>, <point>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000039 from its template as its hand-written renderer did 1`] = `"RegionGetCenter(<region>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000041 from its template as its hand-written renderer did 1`] = `"TriggerAddEventUnitRegion(gt_Test, ref<unit>, <region>, <state>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000042 from its template as its hand-written renderer did 1`] = `"TimerStart(<timer>, <duration>, <repeating>, <timeType>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000044 from its template as its hand-written renderer did 1`] = `"TimerPause(<timer>, <pause>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000049 from its template as its hand-written renderer did 1`] = `"TriggerAddEventTimer(gt_Test, <timer>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000051 from its template as its hand-written renderer did 1`] = `"PlayerGetPropertyInt(<player>, <property>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000076 from its template as its hand-written renderer did 1`] = `"UnitLastCreated()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000077 from its template as its hand-written renderer did 1`] = `"UnitKill(<unit>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000078 from its template as its hand-written renderer did 1`] = `"UnitRemove(<unit>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000079 from its template as its hand-written renderer did 1`] = `"UnitGetType(<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000081 from its template as its hand-written renderer did 1`] = `"UnitGetOwner(<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000082 from its template as its hand-written renderer did 1`] = `"UnitSetOwner(<unit>, <player>, <color>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000083 from its template as its hand-written renderer did 1`] = `"UnitGetPosition(<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000086 from its template as its hand-written renderer did 1`] = `"UnitSetFacing(<unit>, <facing>, <duration>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000087 from its template as its hand-written renderer did 1`] = `"UnitSetPropertyFixed(<unit>, <property>, <value>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000089 from its template as its hand-written renderer did 1`] = `"UnitIssueOrder(<unit>, <order>, <queue>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000090 from its template as its hand-written renderer did 1`] = `"TriggerAddEventUnitDied(gt_Test, ref<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000092 from its template as its hand-written renderer did 1`] = `"EventUnit()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000098 from its template as its hand-written renderer did 1`] = `"EventUnitDamageAmount()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000104 from its template as its hand-written renderer did 1`] = `"UnitGroupEmpty()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000106 from its template as its hand-written renderer did 1`] = `"UnitGroupClear(<group>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000110 from its template as its hand-written renderer did 1`] = `"UnitGroupHasUnit(<group>, <unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000111 from its template as its hand-written renderer did 1`] = `"TriggerEnable(<trigger>, <state>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000112 from its template as its hand-written renderer did 1`] = `"TriggerIsEnabled(<trigger>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000116 from its template as its hand-written renderer did 1`] = `"TriggerExecute(<trigger>, <checkConditions>, <wait>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000118 from its template as its hand-written renderer did 1`] = `"TriggerDebugOutput(<type>, <message>, <showInGame>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000120 from its template as its hand-written renderer did 1`] = `"TriggerAddEventMapInit(gt_Test)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000128 from its template as its hand-written renderer did 1`] = `"(<left> <operator> <right>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000129 from its template as its hand-written renderer did 1`] = `"(<left> <operator> <right>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000136 from its template as its hand-written renderer did 1`] = `"<variable> = <value>;"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000141 from its template as its hand-written renderer did 1`] = `"UnitLastCreatedGroup()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000143 from its template as its hand-written renderer did 1`] = `"MeleeInitResources();"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000145 from its template as its hand-written renderer did 1`] = `"MeleeInitUnits();"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000148 from its template as its hand-written renderer did 1`] = `"MeleeInitOptions();"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000150 from its template as its hand-written renderer did 1`] = `"MeleeInitAI();"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000162 from its template as its hand-written renderer did 1`] = `"VisEnable(<type>, <enable>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000163 from its template as its hand-written renderer did 1`] = `"VisIsEnabled(<type>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000175 from its template as its hand-written renderer did 1`] = `"UnitSelect(<unit>, <player>, <select>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000183 from its template as its hand-written renderer did 1`] = `"SoundStop(<sound>, <fade>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000184 from its template as its hand-written renderer did 1`] = `"SoundSetVolume(<sound>, <volume>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000189 from its template as its hand-written renderer did 1`] = `"Color(<r>, <g>, <b>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000192 from its template as its hand-written renderer did 1`] = `"PlayerGroupAll()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000193 from its template as its hand-written renderer did 1`] = `"TimerCreate()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000194 from its template as its hand-written renderer did 1`] = `"TimerIsPaused(<timer>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000195 from its template as its hand-written renderer did 1`] = `"RandomInt(<min>, <max>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000198 from its template as its hand-written renderer did 1`] = `"GameOver(<player>, <type>, <showDialog>, <showScore>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000199 from its template as its hand-written renderer did 1`] = `"MinimapPing(<players>, <point>, <duration>, <color>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000213 from its template as its hand-written renderer did 1`] = `"UnitGroupUnit(<group>, <index>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000216 from its template as its hand-written renderer did 1`] = `"UnitIsAlive(<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000217 from its template as its hand-written renderer did 1`] = `"TriggerGetCurrent()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000241 from its template as its hand-written renderer did 1`] = `"PointWithOffsetPolar(<point>, <distance>, <angle>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000242 from its template as its hand-written renderer did 1`] = `"Wait(<time>, <timeType>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000326 from its template as its hand-written renderer did 1`] = `"CameraLockInput(<player>, <lock>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000356 from its template as its hand-written renderer did 1`] = `"RegionEntireMap()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000359 from its template as its hand-written renderer did 1`] = `"UnitGroup(<unitType>, <player>, <region>, <filter>, <count>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000388 from its template as its hand-written renderer did 1`] = `"UnitPauseAll(<pause>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000410 from its template as its hand-written renderer did 1`] = `"TriggerSkippableBegin(<players>, <requiredCount>, <onSkip>, <checkConditions>, <wait>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000433 from its template as its hand-written renderer did 1`] = `"ObjectiveLastCreated()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000440 from its template as its hand-written renderer did 1`] = `"ObjectiveSetState(<objective>, <state>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000469 from its template as its hand-written renderer did 1`] = `"TimerWindowLastCreated()"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000471 from its template as its hand-written renderer did 1`] = `"TimerWindowShow(<window>, <players>, <show>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00000473 from its template as its hand-written renderer did 1`] = `"TimerWindowSetTitle(<window>, <title>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/00B542C6 from its template as its hand-written renderer did 1`] = `"TransmissionSendForPlayerSelect(<players>, <source>, <portrait>, <portraitActor>, <portraitAnim>, <sound>, <speaker>, <message>, <duration>, <durationType>, <wait>, <player>, <isSelect>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/02FA0FB6 from its template as its hand-written renderer did 1`] = `"libNtve_gf_MakeUnitUncommandable(<unit>, <onOff>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/0366EE04 from its template as its hand-written renderer did 1`] = `"UIDisplayMessage(<players>, <area>, <message>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/04454841 from its template as its hand-written renderer did 1`] = `"libNtve_gf_KillModel(<model>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/09840835 from its template as its hand-written renderer did 1`] = `"UnitBehaviorRemove(<unit>, <behavior>, <count>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/0B0A4FBE from its template as its hand-written renderer did 1`] = `"TechTreeUpgradeAllow(<player>, <upgrade>, <allow>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/0C83D19F from its template as its hand-written renderer did 1`] = `"FogSetDensity(<density>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/0CDF60FB from its template as its hand-written renderer did 1`] = `"WaitForCutsceneToEnd(<cutscene>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/0E8A5B30 from its template as its hand-written renderer did 1`] = `"UnitSetPosition(<unit>, <point>, <blend>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/0F696993 from its template as its hand-written renderer did 1`] = `"libNtve_gf_ActorLastCreated()"`;
+
+exports[`core's catalog through the templates > writes Ntve/1D6F1270 from its template as its hand-written renderer did 1`] = `"ObjectiveCreate(<name>, <description>, <state>, <show>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/2C194B61 from its template as its hand-written renderer did 1`] = `"TriggerAddEventCutsceneEndSceneFired(gt_Test, <cutscene>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/3A0403D0 from its template as its hand-written renderer did 1`] = `"AIAttackWaveSend(<player>, <time>, <wait>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/3A43F8C8 from its template as its hand-written renderer did 1`] = `"libNtve_gf_AttachModelToUnit(<unit>, <model>, <attachPoint>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/3B8D5BC4 from its template as its hand-written renderer did 1`] = `"libNtve_gf_SetAllSoundChannelVolumes(<mode>, <players>, <duration>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/3C0566C4 from its template as its hand-written renderer did 1`] = `"TriggerAddEventUnitBehaviorChange(gt_Test, ref<unit>, <behavior>, <change>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/3FCF7471 from its template as its hand-written renderer did 1`] = `"TimerWindowCreate(<timer>, <title>, <visible>, <elapsed>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/4AB42F83 from its template as its hand-written renderer did 1`] = `"DialogControlLastCreated()"`;
+
+exports[`core's catalog through the templates > writes Ntve/5A41C578 from its template as its hand-written renderer did 1`] = `"SoundtrackPause(<players>, <category>, <pause>, <fade>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/5C010D48 from its template as its hand-written renderer did 1`] = `"TriggerAddEventUnitDamaged(gt_Test, ref<unit>, <damageType>, <fatal>, <effect>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/6C39A0DF from its template as its hand-written renderer did 1`] = `"UnitCreate(<count>, <unitType>, <flags>, <player>, <point>, <facing>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/6D565EB4 from its template as its hand-written renderer did 1`] = `"TriggerAddEventTimePeriodic(gt_Test, <duration>, <timeType>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/7E8F82B1 from its template as its hand-written renderer did 1`] = `"DialogSetFullscreen(<dialog>, <fullscreen>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/8A467CA8 from its template as its hand-written renderer did 1`] = `"UnitSetTeamColorIndex(<unit>, <color>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/8EDD3557 from its template as its hand-written renderer did 1`] = `"UISetMode(<players>, <mode>, <duration>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/9A0D729F from its template as its hand-written renderer did 1`] = `"CameraRestore(<player>, <duration>, <velocity>, <deceleration>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/9AD8B4CA from its template as its hand-written renderer did 1`] = `"RegionPlayableMapSet(<region>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/9C391799 from its template as its hand-written renderer did 1`] = `"DialogSetImageVisible(<dialog>, <visible>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/9D5EB505 from its template as its hand-written renderer did 1`] = `"FogSetColor(<color>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/9D67F076 from its template as its hand-written renderer did 1`] = `"SoundtrackPlay(<players>, <category>, <soundtrack>, <cue>, <index>, <makeDefault>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/9F8EF8FB from its template as its hand-written renderer did 1`] = `"libNtve_gf_SetUpgradeLevelForPlayer(<player>, <upgrade>, <level>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/9FFA06A7 from its template as its hand-written renderer did 1`] = `"TriggerAddEventPlayerEffectUsed(gt_Test, <player>, <effect>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/11EB5EB1 from its template as its hand-written renderer did 1`] = `"EventUnitCreatedUnit()"`;
+
+exports[`core's catalog through the templates > writes Ntve/12A2BFA8 from its template as its hand-written renderer did 1`] = `"TechTreeRestrictionsEnable(<player>, <enable>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/12E81501 from its template as its hand-written renderer did 1`] = `"AIAttackWaveSetTargetPoint(<player>, <point>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/17E6D92B from its template as its hand-written renderer did 1`] = `"AIAttackWaveAddWaypoint(<player>, <waypoint>, <useTransport>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/19BA63F9 from its template as its hand-written renderer did 1`] = `"ObjectiveShow(<objective>, <players>, <show>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/19CE733E from its template as its hand-written renderer did 1`] = `"auto0000P1CK_var"`;
+
+exports[`core's catalog through the templates > writes Ntve/20E3B9BE from its template as its hand-written renderer did 1`] = `"DialogLastCreated()"`;
+
+exports[`core's catalog through the templates > writes Ntve/22E8E351 from its template as its hand-written renderer did 1`] = `"libNtve_gf_UnitInRegion(<unit>, <region>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/22F7DAC6 from its template as its hand-written renderer did 1`] = `"TriggerAddEventCutsceneBookmarkFired(gt_Test, <cutscene>, <bookmark>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/25FDDB2A from its template as its hand-written renderer did 1`] = `"UnitSetProgressComplete(<unit>, <slot>, <percent>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/31D7ABB2 from its template as its hand-written renderer did 1`] = `"UnitWaitUntilIdle(<unit>, <waitForOrders>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/33E26C4B from its template as its hand-written renderer did 1`] = `"UIClearMessages(<players>, <options>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/43F16BA5 from its template as its hand-written renderer did 1`] = `"OrderTargetingPoint(<abilityCommand>, <point>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/46F2D5B8 from its template as its hand-written renderer did 1`] = `"RegionPlayableMap()"`;
+
+exports[`core's catalog through the templates > writes Ntve/49A95989 from its template as its hand-written renderer did 1`] = `"libNtve_gf_UnitIsHidden(<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/51A273F5 from its template as its hand-written renderer did 1`] = `"TechTreeUnitAllow(<player>, <unitType>, <allow>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/56D51508 from its template as its hand-written renderer did 1`] = `"WaterSetState(<water>, <duration>, <curve>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/59BA1DDF from its template as its hand-written renderer did 1`] = `"Order(<abilityCommand>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/59DA6647 from its template as its hand-written renderer did 1`] = `"FogSetEnabled(<enable>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/72C1FB76 from its template as its hand-written renderer did 1`] = `"DialogSetVisible(<dialog>, <players>, <visible>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/74A20203 from its template as its hand-written renderer did 1`] = `"TransmissionClearAll();"`;
+
+exports[`core's catalog through the templates > writes Ntve/81F08ADC from its template as its hand-written renderer did 1`] = `"TriggerWaitForTrigger(<trigger>, <wait>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/83B4BF45 from its template as its hand-written renderer did 1`] = `"UnitGroupCount(<group>, <type>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/86E40471 from its template as its hand-written renderer did 1`] = `"(<text1> + <text2>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/90CBEC01 from its template as its hand-written renderer did 1`] = `"UnitGroupRemove(<group>, <unit>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/95E0136A from its template as its hand-written renderer did 1`] = `"TransmissionWait(<transmission>, <offset>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/96B15E03 from its template as its hand-written renderer did 1`] = `"DialogControlSetFullDialog(<dialogItem>, <players>, <sizeToParent>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/142FF15A from its template as its hand-written renderer did 1`] = `"UnitHasBehavior2(<unit>, <behavior>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/503F3DE6 from its template as its hand-written renderer did 1`] = `"CameraSave(<player>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/651D9322 from its template as its hand-written renderer did 1`] = `"SoundPlayForPlayer(<sound>, <owningPlayer>, <audibleTo>, <volume>, <offset>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/698FE891 from its template as its hand-written renderer did 1`] = `"TriggerStop(<trigger>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/798AC00C from its template as its hand-written renderer did 1`] = `"EventCutsceneId()"`;
+
+exports[`core's catalog through the templates > writes Ntve/869F0576 from its template as its hand-written renderer did 1`] = `"AIUnitGetWave(<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/943DF2F7 from its template as its hand-written renderer did 1`] = `"PlayerModifyPropertyInt(<player>, <property>, <operation>, <value>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/1005DE91 from its template as its hand-written renderer did 1`] = `"DialogControlCreate(<dialog>, <type>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/5669CBC2 from its template as its hand-written renderer did 1`] = `"EventCutsceneBookmark()"`;
+
+exports[`core's catalog through the templates > writes Ntve/5958C7E2 from its template as its hand-written renderer did 1`] = `"CutsceneCreateNew(<path>, <pos>, <facing>, <players>, <autoPlay>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/8518EA3D from its template as its hand-written renderer did 1`] = `"libNtve_gf_UnitIsPaused(<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/9435D821 from its template as its hand-written renderer did 1`] = `"UnitGroupAdd(<group>, <unit>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/10393B26 from its template as its hand-written renderer did 1`] = `"FogSetStartHeight(<startHeight>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/63326FA7 from its template as its hand-written renderer did 1`] = `"TransmissionSourceFromUnit(<unit>, <flash>, <overridePortrait>, <anim>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/232935FA from its template as its hand-written renderer did 1`] = `"AIAttackWaveCancel(<wave>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/7703744B from its template as its hand-written renderer did 1`] = `"libNtve_gf_DifficultyValueInt(<casual>, <normal>, <hard>, <brutal>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/18377668 from its template as its hand-written renderer did 1`] = `"TriggerAddEventUnitCreated(gt_Test, ref<creator>, <ability>, <behavior>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/30000000 from its template as its hand-written renderer did 1`] = `"libNtve_gf_PauseUnit(<unit>, <pause>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/40000000 from its template as its hand-written renderer did 1`] = `"libNtve_gf_ShowHideUnit(<unit>, <showHide>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/A2B4587F from its template as its hand-written renderer did 1`] = `"TransmissionSourceFromModel(<model>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/A1037B3E from its template as its hand-written renderer did 1`] = `"CameraApplyInfo(<player>, <camera>, <duration>, <velocity>, <deceleration>, <useTarget>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/A8732F20 from its template as its hand-written renderer did 1`] = `"UnitGroupAddUnitGroup(<target>, <source>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/B3D5BF65 from its template as its hand-written renderer did 1`] = `"FogSetFallOff(<falloff>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/B4E65256 from its template as its hand-written renderer did 1`] = `"libNtve_gf_SetDialogItemRenderType(<dialogItem>, <renderType>, <players>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/B8AD02AA from its template as its hand-written renderer did 1`] = `"libNtve_gf_CinematicPortrait(<position>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/B34FAB70 from its template as its hand-written renderer did 1`] = `"CameraFollowUnitGroup(<player>, <group>, <follow>, <clearOffset>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/B83E0A67 from its template as its hand-written renderer did 1`] = `"TriggerAddEventPlayerPropChange(gt_Test, <player>, <property>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/B6218C18 from its template as its hand-written renderer did 1`] = `"libNtve_gf_SetOpacity(<opacity>, <duration>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/BADA9C08 from its template as its hand-written renderer did 1`] = `"EventPlayerEffectUsedUnit(<location>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/BAEAC6C3 from its template as its hand-written renderer did 1`] = `"libNtve_gf_ConvertUnitToUnitGroup(<unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/BB08B228 from its template as its hand-written renderer did 1`] = `"GameSetLighting(<light>, <blendTime>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/BC53F705 from its template as its hand-written renderer did 1`] = `"StringExternal(<key>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/BC622053 from its template as its hand-written renderer did 1`] = `"AITimePause(<pause>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/BD9AF7D6 from its template as its hand-written renderer did 1`] = `"DialogCreate(<width>, <height>, <anchor>, <offsetX>, <offsetY>, <modal>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/C9ADFB21 from its template as its hand-written renderer did 1`] = `"SoundLastPlayed()"`;
+
+exports[`core's catalog through the templates > writes Ntve/C47C0524 from its template as its hand-written renderer did 1`] = `"UnitBehaviorAdd(<unit>, <behavior>, <caster>, <count>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/C65CC121 from its template as its hand-written renderer did 1`] = `"UnitGetPropertyFixed(<unit>, <property>, <current>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/C439C375 from its template as its hand-written renderer did 1`] = `"(<left> <operator> <right>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/C575C576 from its template as its hand-written renderer did 1`] = `"CutsceneStop(<cutscene>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/C752E622 from its template as its hand-written renderer did 1`] = `"TransmissionIsComplete(<transmission>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/C551984B from its template as its hand-written renderer did 1`] = `"TransmissionSource()"`;
+
+exports[`core's catalog through the templates > writes Ntve/C560675A from its template as its hand-written renderer did 1`] = `"CutscenePlay(<cutscene>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/D8A9F49F from its template as its hand-written renderer did 1`] = `"CinematicFade(<direction>, <duration>, <style>, <color>, <transparency>, <wait>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/D59E1980 from its template as its hand-written renderer did 1`] = `"AITimeIsPaused()"`;
+
+exports[`core's catalog through the templates > writes Ntve/D463A836 from its template as its hand-written renderer did 1`] = `"VisExploreArea(<player>, <area>, <state>, <cliffLevel>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/D3945DFC from its template as its hand-written renderer did 1`] = `"CutsceneLastCreated()"`;
+
+exports[`core's catalog through the templates > writes Ntve/D5445D96 from its template as its hand-written renderer did 1`] = `"libNtve_gf_MakeUnitFacePoint(<unit>, <point>, <duration>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/D16912F9 from its template as its hand-written renderer did 1`] = `"AIAttackWaveUseGroup(<player>, <group>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/D27035F2 from its template as its hand-written renderer did 1`] = `"CutsceneFade(<direction>, <duration>, <color>, <amount>, <players>, <wait>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/DB4E6196 from its template as its hand-written renderer did 1`] = `"PointGetFacing(<point>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/DBF8E9E3 from its template as its hand-written renderer did 1`] = `"PointSet(<point>, <source>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/DC635AEF from its template as its hand-written renderer did 1`] = `"CameraPan(<player>, <point>, <duration>, <velocity>, <deceleration>, <smart>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/E2E35DF6 from its template as its hand-written renderer did 1`] = `"AICampaignStart(<player>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/E6F8D690 from its template as its hand-written renderer did 1`] = `"CutsceneGetTriggerControl(<dialogItem>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/E54B2D20 from its template as its hand-written renderer did 1`] = `"TriggerAddEventUnitRange(gt_Test, ref<unit>, <fromUnit>, <range>, <state>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/E92E544E from its template as its hand-written renderer did 1`] = `"libNtve_gf_CinematicMode(<onOff>, <players>, <duration>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/E267A52A from its template as its hand-written renderer did 1`] = `"TriggerAddEventUnitRangePoint(gt_Test, ref<unit>, <point>, <range>, <enters>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/E1552C18 from its template as its hand-written renderer did 1`] = `"libNtve_gf_SendActorMessageToUnit(<unit>, <message>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/EAC465A1 from its template as its hand-written renderer did 1`] = `"IntToText(<value>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/ED236D9F from its template as its hand-written renderer did 1`] = `"TransmissionSourceFromUnitType(<unitType>, <overridePortrait>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/EF4E46C6 from its template as its hand-written renderer did 1`] = `"UnitGroupRemoveUnitGroup(<target>, <source>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/EF15E7E2 from its template as its hand-written renderer did 1`] = `"PlayerCreateEffectUnit(<caster>, <effect>, <unit>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/EF6279C8 from its template as its hand-written renderer did 1`] = `"libNtve_gf_SetDialogItemCutscene(<dialogItem>, <cutscene>, <players>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/F4B5BEE7 from its template as its hand-written renderer did 1`] = `"DialogDestroy(<dialog>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/F5C63A46 from its template as its hand-written renderer did 1`] = `"EnvironmentShow(<environmentType>, <showHide>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/F6F9120D from its template as its hand-written renderer did 1`] = `"OrderTargetingUnit(<abilityCommand>, <unit>)"`;
+
+exports[`core's catalog through the templates > writes Ntve/F14A27E9 from its template as its hand-written renderer did 1`] = `"TransmissionClear(<transmission>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/F470860B from its template as its hand-written renderer did 1`] = `"CameraSetBounds(<players>, <region>, <minimap>);"`;
+
+exports[`core's catalog through the templates > writes Ntve/FDD4A4BA from its template as its hand-written renderer did 1`] = `"TransmissionLastSent()"`;
+
+exports[`core's catalog through the templates > writes Ntve/FF16983A from its template as its hand-written renderer did 1`] = `"TriggerAddEventUnitChangeOwner(gt_Test, ref<unit>)"`;
+
+exports[`core's catalog through the templates > writes every block, nested, as the compile's hand-written block renderers did 1`] = `
+"//==================================================================================================
+// 
+// Generated Map Script
+// 
+// Name:   Blocks
+// 
+//==================================================================================================
+include "TriggerLibs/NativeLib"
+
+//--------------------------------------------------------------------------------------------------
+// Library Initialization
+//--------------------------------------------------------------------------------------------------
+void InitLibs () {
+    libNtve_InitLib();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------------------
+bool gv_gate_open;
+unit gv_hero;
+
+void InitGlobals () {
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger Variables
+//--------------------------------------------------------------------------------------------------
+trigger gt_EveryBlock;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Every Block
+//--------------------------------------------------------------------------------------------------
+bool gt_EveryBlock_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto20000024_g;
+    int auto20000024_u;
+    unit auto20000024_var;
+
+    // Conditions
+    if (testConds) {
+        if (!((gv_gate_open == false))) {
+            return false;
+        }
+
+        if (!((gv_gate_open == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((gv_gate_open == true) && (gv_gate_open == false)) {
+        Wait(1.0, c_timeGame);
+    }
+    else {
+        Wait(2.0, c_timeGame);
+        gv_gate_open = true;
+    }
+    auto20000024_g = UnitGroup(null, 1, RegionEntireMap(), UnitFilter(0, 0, 0, (1 << (c_targetFilterDead - 32))), 0);
+    auto20000024_u = UnitGroupCount(auto20000024_g, c_unitCountAll);
+    for (;; auto20000024_u -= 1) {
+        auto20000024_var = UnitGroupUnitFromEnd(auto20000024_g, auto20000024_u);
+        if (auto20000024_var == null) { break; }
+        if ((UnitIsAlive(auto20000024_var) == true)) {
+            UnitKill(auto20000024_var);
+        }
+
+    }
+    while ((gv_gate_open == false)) {
+        Wait(0.5, c_timeGame);
+    }
+    while (!((gv_gate_open == true))) {
+        Wait(1.0, c_timeGame);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_EveryBlock_Init () {
+    gt_EveryBlock = TriggerCreate("gt_EveryBlock_Func");
+    TriggerAddEventUnitDied(gt_EveryBlock, UnitRefFromVariable("gv_hero"));
+    TriggerAddEventUnitRange(gt_EveryBlock, UnitRefFromVariable("gv_hero"), UnitFromId(7), 8.0, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger Initialization
+//--------------------------------------------------------------------------------------------------
+void InitTriggers () {
+    gt_EveryBlock_Init();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Map Initialization
+//--------------------------------------------------------------------------------------------------
+void InitMap () {
+    InitLibs();
+    InitGlobals();
+    InitTriggers();
+}
+"
+`;

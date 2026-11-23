@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="792" viewBox="0 0 760 792" font-family="Helvetica, Arial, sans-serif">
+<title>city: cinematic set</title>
+<rect width="760" height="792" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">city</text>
+<text x="24" y="54" font-size="10" fill="#666">city · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="137.5" y="342.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="126.1" y="337.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="112.5" y="337.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="99.9" y="334.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="80.7" y="332.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="330.2" y="532.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="332.1" y="545.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="339.8" y="577.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="336.2" y="558.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="149.7" y="346.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="166.7" y="356" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="481.8" y="329.2" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Stone_Temple, Aiur_Stone_Temple</title></rect>
+<text x="489.8" y="335.2" font-size="8" fill="#6d6458">2</text>
+<rect x="377.2" y="225.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_CityBuilding_Temple_Destroyed</title></rect>
+<rect x="452.8" y="310.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Pyramid_Tower_Large_Abandoned</title></rect>
+<rect x="188.5" y="369.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="235.8" y="308.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Stone_Temple</title></rect>
+<rect x="224.2" y="399.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="233" y="408.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="242.8" y="417.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="304.5" y="495.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="249.5" y="428.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="294.8" y="486.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="278.3" y="464.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="288.3" y="474.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="198" y="379.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="176.7" y="363.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="209.2" y="386.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="316.6" y="510.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="323.5" y="522.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Bigwalls</title></rect>
+<rect x="159.3" y="349.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_CliffDoodads</title></rect>
+<rect x="313" y="501.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_CliffDoodads</title></rect>
+<rect x="218.5" y="390.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_CliffDoodads</title></rect>
+<rect x="114.7" y="210" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Stone_Temple</title></rect>
+<rect x="451.4" y="149.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Stone_Temple</title></rect>
+<rect x="331.2" y="412.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Pyramid_Tower_Large_Abandoned</title></rect>
+<rect x="429.6" y="475.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_CityBuilding_Temple_Destroyed</title></rect>
+<rect x="239.8" y="217.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_CityBuilding_Temple_Destroyed</title></rect>
+<rect x="187.8" y="155.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Pyramid_Tower_Large_Abandoned</title></rect>
+<rect x="465.1" y="201.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_City_Pillar_Destroyed</title></rect>
+<rect x="466.2" y="200.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_City_Pillar_Destroyed</title></rect>
+<rect x="266" y="162.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_City_Pillar_Destroyed</title></rect>
+<rect x="186" y="221.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Pyramid_Tower_Medium_Abandoned</title></rect>
+<rect x="409" y="333.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Stone_Temple_Doodads</title></rect>
+<rect x="362.9" y="160.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Buildings_Destroyed</title></rect>
+<rect x="233.7" y="409.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Vines_Cliff</title></rect>
+<rect x="330.5" y="490.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Vines_Cliff</title></rect>
+<rect x="376.6" y="418.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Vines_Cliff</title></rect>
+<rect x="438.5" y="77.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_City_Pillar_Destroyed</title></rect>
+<rect x="375.3" y="479.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_CityBuilding_Spire_Abandoned</title></rect>
+<rect x="266.8" y="445.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Stone_Temple_Doodads</title></rect>
+<rect x="307.5" y="360.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Temple_Buildings_Destroyed</title></rect>
+<rect x="434.5" y="285.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Vines_Cliff</title></rect>
+<rect x="390" y="524.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_CityBuilding_Spire_Abandoned</title></rect>
+<rect x="445.6" y="341.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_ZerusParts_07</title></rect>
+</g>
+<line x1="76.6" y1="586.7" x2="109.6" y2="586.7" stroke="#333" stroke-width="2"/>
+<line x1="76.6" y1="582.7" x2="76.6" y2="590.7" stroke="#333"/><line x1="83.2" y1="582.7" x2="83.2" y2="590.7" stroke="#333"/>
+<text x="76.6" y="580.7" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">2 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_Aiur02Debrief.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMX2CutsceneAiur02Night010,</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX2CutsceneAiur02Night020,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX2CutsceneAiur02Night030,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX2CutsceneAiur02Night040,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX2CutsceneAiur02Night050,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX2CutsceneAiur02Night060,</text>
+<text x="560" y="192" font-size="9" fill="#333">SMX2CutsceneAiur02Night070,</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX2CutsceneAiur02Night075,</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX2CutsceneAiur02Night080,</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX2CutsceneAiur02Night090,</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX2CutsceneAiur02Night100,</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX2CutsceneAiur02Night103,</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX2CutsceneAiur02Night105,</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX2CutsceneAiur02Night110,</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX2CutsceneAiur02Night120,</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX2CutsceneAiur02Night125,</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX2CutsceneAiur02Night130,</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX2CutsceneAiur02Night140,</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX2CutsceneAiur02Night150,</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX2CutsceneAiur02Night160,</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX2CutsceneAiur02Night170,</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX2CutsceneAiur02Night180,</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX2CutsceneAiur02Night190,</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX2CutsceneAiur02Night200,</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX2CutsceneAiur02Night210,</text>
+<text x="560" y="420" font-size="9" fill="#333">SMX2CutsceneAiur02Night220,</text>
+<text x="560" y="432" font-size="9" fill="#333">SMX2CutsceneAiur02Night230</text>
+<text x="560" y="444" font-size="9" fill="#333">Marks: 0; cameras: 0 (0 aimed</text>
+<text x="560" y="456" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="468" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="480" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="492" font-size="9" fill="#333"></text>
+<text x="560" y="504" font-size="9" fill="#333">Models:</text>
+<text x="560" y="516" font-size="9" fill="#333">Aiur_City_Pillar_Destroyed ×2</text>
+<text x="560" y="528" font-size="9" fill="#333">Aiur_CityBuilding_Temple_Destroyed</text>
+<text x="560" y="540" font-size="9" fill="#333">×2</text>
+<text x="560" y="552" font-size="9" fill="#333">Aiur_Pyramid_Tower_Large_Abandoned</text>
+<text x="560" y="564" font-size="9" fill="#333">×2</text>
+<text x="560" y="576" font-size="9" fill="#333">Aiur_Stone_Temple ×2</text>
+<text x="560" y="588" font-size="9" fill="#333">Aiur_CityBuilding_Spire_Abandoned</text>
+<text x="560" y="600" font-size="9" fill="#333">×1</text>
+<text x="560" y="612" font-size="9" fill="#333">Aiur_Pyramid_Tower_Medium_Abandoned</text>
+<text x="560" y="624" font-size="9" fill="#333">×1</text>
+<text x="560" y="636" font-size="9" fill="#333">Aiur_Stone_Temple_Doodads ×1</text>
+<text x="560" y="648" font-size="9" fill="#333">Aiur_Temple_Bigwalls ×1</text>
+<text x="560" y="660" font-size="9" fill="#333">Aiur_Temple_Buildings_Destroyed ×1</text>
+<text x="560" y="672" font-size="9" fill="#333">Aiur_Temple_CliffDoodads ×1</text>
+<text x="560" y="684" font-size="9" fill="#333">Aiur_Vines_Cliff ×1</text>
+<text x="560" y="696" font-size="9" fill="#333">SMCharCinematicSkyparallax ×1</text>
+<text x="560" y="708" font-size="9" fill="#333">SMX1_ZerusParts_07 ×1</text>
+<text x="560" y="720" font-size="9" fill="#333"></text>
+<text x="560" y="732" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="744" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="756" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_Aiur02Debrief.SC2Cutscene</text>
+</svg>

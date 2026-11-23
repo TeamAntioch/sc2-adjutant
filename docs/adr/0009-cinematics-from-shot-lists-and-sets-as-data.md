@@ -1,0 +1,12 @@
+# Cinematics From Shot Lists, Sets Imported as Data
+
+A Screenplay scene that needs faces, eye lines and a set off the map is a **Cinematic**: a Cutscene Editor timeline that the compiler builds from a shot list in the Workspace (`missions/<id>/cinematics/<cinematicId>.json`, listed in the Blueprint's `screenplay.script.cinematics` with its scene). We don't build it by hand in the Cutscene Editor. A hand-built timeline lives outside the Workspace and has to be rebuilt after every script change. A shot list names its lines by sound ID and its cameras by name, so recording the voices or editing the script moves the cuts with the lines, and the checker can catch a line, camera or mark that went missing. The lines play from the conversation data the compiler already writes for Transmissions (the same conversation and line ids), so the two never disagree.
+
+The **Sets** a Cinematic films are imported once (`import-set`) from a source `.SC2Cutscene` into the Workspace as JSON (pieces, marks, named cameras and Lights in the set's own frame, with the source file recorded). They aren't referenced in their source files at compile time. That way a compile needs no Campaign or Blizzard checkout, a change to a set is reviewed as a diff, and a Cinematic can place two sets side by side at offsets.
+
+## Consequences
+
+- An import is a snapshot. A fix made later in the source file reaches the Workspace only by importing the set again, which replaces the JSON.
+- Only what the importer reads survives: orbit cameras (at their own position, which a still rig doesn't move, with the Editor's `heightOffset` kept as written), pieces, marks and lamps, a mark's look-at at another mark, a lamp attached to a character (attached to its mark), and a Sound looping all through the file (the set's ambience). Other Sounds are the scene's cues, written into the shot list. A target camera (an eye and a point it looks at, as Blizzard's story sets film) is converted to orbit values. Camera moves and animated rigs aren't imported, so a camera marked `moves` is filmed held at its start (a target camera at its first key).
+- Timing is derived, not stored: shots start on a line's start or after the shot before, and lines run back to back from the end of the 1 s fade in, apart from pauses. A Cinematic's length changes when its voice files do.
+- A Cinematic replaces the hand-built scene, not the Cutscene Editor. Editing one there and syncing it back is a later round trip, as with Anchors ([ADR 0001](./0001-round-trip-unpacked-map-packages.md)).

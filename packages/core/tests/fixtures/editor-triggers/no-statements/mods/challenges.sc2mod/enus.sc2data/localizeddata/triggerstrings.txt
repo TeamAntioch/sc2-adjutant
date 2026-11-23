@@ -1,0 +1,8 @@
+FunctionDef/Grammar/lib_Chal_C130BC3B=Load challenge data for ~type|ChallengeType~
+FunctionDef/Name/lib_Chal_B7E0EFE2=CHL_InitChallengeData
+FunctionDef/Name/lib_Chal_C130BC3B=Load Challenge Data
+Label/Name/lib_Chal_CE4780F8=Challenge
+ParamDef/Name/lib_Chal_AA7FD5E2=Type
+Preset/Name/lib_Chal_E2E8015A=Challenge Type
+PresetValue/Name/lib_Chal_48BB62BE=Rush Defense
+Variable/Name/lib_Chal_E82DFB50=CHL_CurrentType

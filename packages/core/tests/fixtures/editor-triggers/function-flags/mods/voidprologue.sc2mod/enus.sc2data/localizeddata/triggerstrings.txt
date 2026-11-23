@@ -1,0 +1,5 @@
+﻿FunctionDef/Grammar/lib_A3DDD02B_5010B489=Clear  the ~identifier|identifier~ animation for ~unit|unit~ using blend time ~blendTime|blendTime|Blend Time~ seconds
+FunctionDef/Name/lib_A3DDD02B_5010B489=Clear Animation (with blend time)
+ParamDef/Name/lib_A3DDD02B_10A427C4=Identifier
+ParamDef/Name/lib_A3DDD02B_AC7832F1=BlendTime
+ParamDef/Name/lib_A3DDD02B_CD15B906=Unit

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlacedObjects Version="27">
+    <ObjectPoint Id="27108753" Position="60.8298,64.0498,0" Scale="1,1,1" Type="Normal" Name="spawn point" Color="0,0,0,0"/>
+    <ObjectUnit Id="1374594985" Position="51.6743,53.7023,0" Rotation="0.766" Scale="1,1,1" UnitType="Zeratul" Player="1"/>
+    <ObjectUnit Id="1007375417" Position="57.0017,49.7707,0" Rotation="1.55" Scale="1,1,1" UnitType="Marine" Player="1"/>
+</PlacedObjects>

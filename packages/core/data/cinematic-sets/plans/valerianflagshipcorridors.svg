@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>ValerianFlagshipCorridors: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">ValerianFlagshipCorridors</text>
+<text x="24" y="54" font-size="10" fill="#666">valerianflagshipcorridors · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="276.9" y="115.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_030_Corridor</title></rect>
+<rect x="274" y="371.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_030_Door</title></rect>
+<rect x="276.9" y="373.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_030_Corridor</title></rect>
+<polygon points="265.8,347.7 286.2,391.2 274.9,394.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="265.8" cy="347.7" r="2.5" fill="#7b4bd1"><title>A_Valerian_Close1</title></circle>
+<polygon points="253.5,285.5 288.1,318.8 245.1,332.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="253.5" cy="285.5" r="2.5" fill="#7b4bd1"><title>A_Nova_HallwayWalk_DoorOpen</title></circle>
+<polygon points="254.1,128.4 267.1,115.8 268.9,138.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="254.1" cy="128.4" r="2.5" fill="#7b4bd1"><title>A_Nova_HallwayWalk_Escort3</title></circle>
+<polygon points="275.8,196.2 288.7,201.7 270.3,209.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="275.8" cy="196.2" r="2.5" fill="#7b4bd1"><title>A_Nova_HallwayWalk_Escort4 alt</title></circle>
+<polygon points="267.5,335.1 276.4,331.4 273.1,342.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="267.5" cy="335.1" r="2.5" fill="#7b4bd1"><title>A_Nova_HallwayWalk_DoorOpen alt</title></circle>
+<polygon points="267.5,420.8 286.7,464.8 269.8,468.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="267.5" cy="420.8" r="2.5" fill="#7b4bd1"><title>A_Lockwell_new1</title></circle>
+<polygon points="272,433.1 295.2,475.2 268.4,481" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="272" cy="433.1" r="2.5" fill="#7b4bd1"><title>A_Lockwell_new2</title></circle>
+<polygon points="280.8,470 306.8,497.5 266.3,505" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="280.8" cy="470" r="2.5" fill="#7b4bd1"><title>A_Lockwell_new3</title></circle>
+<polygon points="325.2,484.6 279.5,499.2 278.8,472.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="325.2" cy="484.6" r="2.5" fill="#7b4bd1"><title>B_2s_Valerian</title></circle>
+<polygon points="209.8,470.1 257.8,468.4 249,497.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="209.8" cy="470.1" r="2.5" fill="#7b4bd1"><title>B_2s_Nova</title></circle>
+<polygon points="251.4,466.2 299.1,471.7 285.5,500" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="251.4" cy="466.2" r="2.5" fill="#7b4bd1"><title>B_Valerian_Medium</title></circle>
+<polygon points="297.8,484.2 250.4,491.9 250.6,475.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="297.8" cy="484.2" r="2.5" fill="#7b4bd1"><title>B_Nova_Close</title></circle>
+<polygon points="267.9,470.9 312.5,486.4 307,497.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="267.9" cy="470.9" r="2.5" fill="#7b4bd1"><title>B_Valerian_Close</title></circle>
+<polygon points="226.6,482.3 268.6,459 267.8,507" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="226.6" cy="482.3" r="2.5" fill="#7b4bd1"><title>B_Valerian_Full</title></circle>
+<polygon points="317.4,479 274.7,501 269.7,473.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="317.4" cy="479" r="2.5" fill="#7b4bd1"><title>B_2s_Valerian alt</title></circle>
+<polygon points="281.4,459.6 274.5,480.8 259.7,464.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="281.4" cy="459.6" r="2.5" fill="#7b4bd1"><title>C_Nova_OTS</title></circle>
+<polygon points="217.7,482.1 258.6,456.9 260.5,503.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="217.7" cy="482.1" r="2.5" fill="#7b4bd1"><title>C_Valerian_Medium</title></circle>
+<polygon points="262.6,494 273.4,532.1 225.4,507.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="262.6" cy="494" r="2.5" fill="#7b4bd1"><title>C_ShipReveal</title></circle>
+<polygon points="209.4,486.2 254.5,469.8 257.3,487.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="209.4" cy="486.2" r="2.5" fill="#7b4bd1"><title>C_Valerian_OTS_Close</title></circle>
+<polygon points="260.1,424.1 254.4,377.5 296.2,394.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="260.1" cy="424.1" r="2.5" fill="#7b4bd1"><title>D_ReigelEntrance</title></circle>
+<polygon points="219.4,484.7 245,469 249.2,488.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="219.4" cy="484.7" r="2.5" fill="#7b4bd1"><title>D_3s_ReigelHitMark</title></circle>
+<polygon points="226.9,485.6 245.2,466.7 251.9,477.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="226.9" cy="485.6" r="2.5" fill="#7b4bd1"><title>D_ReigelRevealDevice</title></circle>
+<polygon points="244.6,467.5 249.8,483.7 235.1,481.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="244.6" cy="467.5" r="2.5" fill="#7b4bd1"><title>D_ReigelDeviceSwapStart</title></circle>
+<polygon points="230.5,484.5 237.5,474.5 242.6,486.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="230.5" cy="484.5" r="2.5" fill="#7b4bd1"><title>D_DeviceSwap</title></circle>
+<polygon points="240,470.7 246.5,481.3 237,482.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="240" cy="470.7" r="2.5" fill="#7b4bd1"><title>D_Nova_I'llBeFine</title></circle>
+<polygon points="236.8,485.9 237.8,482 240.7,486.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="236.8" cy="485.9" r="2.5" fill="#7b4bd1"><title>D_DeviceInNeck</title></circle>
+<polygon points="246.7,461.1 251.9,482.2 234.9,479.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="246.7" cy="461.1" r="2.5" fill="#7b4bd1"><title>D_NovaFall</title></circle>
+<polygon points="231.2,485 253.1,466.5 259,491.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="231.2" cy="485" r="2.5" fill="#7b4bd1"><title>D_ValerienReact</title></circle>
+<polygon points="238.9,462.8 247.3,480.4 236.1,482.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="238.9" cy="462.8" r="2.5" fill="#7b4bd1"><title>D_NovaNotWorking</title></circle>
+<polygon points="228,478.4 258.1,461.1 262.6,481.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="228" cy="478.4" r="2.5" fill="#7b4bd1"><title>D_2s_ReigelValGlance</title></circle>
+<polygon points="252.2,457.3 253.6,485.7 234.3,479.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="252.2" cy="457.3" r="2.5" fill="#7b4bd1"><title>D_Nova_OTS_Reigel</title></circle>
+<polygon points="234,486.1 238.6,478.7 242.7,486.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="234" cy="486.1" r="2.5" fill="#7b4bd1"><title>D_DeviceRemove</title></circle>
+<polygon points="240.3,481.3 263.2,464.9 267.8,487.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="240.3" cy="481.3" r="2.5" fill="#7b4bd1"><title>E_Val_OTS_Nova</title></circle>
+<polygon points="271.3,456.5 271.2,486.1 248,474.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="271.3" cy="456.5" r="2.5" fill="#7b4bd1"><title>E_NovaShipPush</title></circle>
+<polygon points="267.5,456.8 258.9,480.1 244.8,466.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="267.5" cy="456.8" r="2.5" fill="#7b4bd1"><title>E_3s_NovaWalkToVal</title></circle>
+<polygon points="272.9,458.3 263.3,478.8 251.5,465.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="272.9" cy="458.3" r="2.5" fill="#7b4bd1"><title>E_3s_NovaWalkToVal alt1</title></circle>
+<polygon points="265.9,493 269.5,513.6 245.6,497.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="265.9" cy="493" r="2.5" fill="#7b4bd1"><title>E_NovaShipPush alt</title></circle>
+<polygon points="245,474.6 244.8,482.4 240.8,481.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="245" cy="474.6" r="2.5" fill="#7b4bd1"><title>E_NovaFaceShot</title></circle>
+<polygon points="256.8,128.4 269.6,120 270,136.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="256.8" cy="128.4" r="2.5" fill="#7b4bd1"><title>CP1_A_Nova_HallwayWalk_Escort3 GAE!</title></circle>
+<polygon points="272.1,193.2 290,196.5 268.8,211" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="272.1" cy="193.2" r="2.5" fill="#7b4bd1"><title>CP1_A_Nova_HallwayWalk_Escort4 GAE!</title></circle>
+<polygon points="253.5,285.5 288.1,318.8 245.1,332.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="253.5" cy="285.5" r="2.5" fill="#7b4bd1"><title>CP1_A_Nova_HallwayWalk_DoorOpen GAE!</title></circle>
+<line x1="253" y1="463.1" x2="247.9" y2="471.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="253" cy="463.1" r="4" fill="#2f7de1" stroke="#fff"><title>Reigel (SMX3_Reigel)</title></circle>
+<text x="259" y="475.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Reigel</text>
+<line x1="326.6" y1="542" x2="320.7" y2="550" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="326.6" cy="542" r="4" fill="#2f7de1" stroke="#fff"><title>Valerian (SMX3_Valerian)</title></circle>
+<text x="332.6" y="554" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Valerian</text>
+<line x1="269.1" y1="464.8" x2="279" y2="466.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.1" cy="464.8" r="4" fill="#2f7de1" stroke="#fff"><title>ValerianWalkTV (SMX3_Valerian)</title></circle>
+<text x="275.1" y="476.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">ValerianWalkTV</text>
+<line x1="252.8" y1="488.4" x2="261.4" y2="493.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="252.8" cy="488.4" r="4" fill="#2f7de1" stroke="#fff"><title>Nova (SMX3_Nova)</title></circle>
+<text x="258.8" y="500.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova</text>
+<line x1="282.9" y1="383" x2="279.2" y2="392.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.9" cy="383" r="4" fill="#2f7de1" stroke="#fff"><title>NovaCrossOver (SMX3_Nova)</title></circle>
+<text x="288.9" y="395" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">NovaCrossOver</text>
+<line x1="252.8" y1="507.7" x2="250.6" y2="517.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="252.8" cy="507.7" r="4" fill="#2f7de1" stroke="#fff"><title>Nova (SMX3_Nova)</title></circle>
+<text x="258.8" y="519.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova</text>
+<line x1="268.5" y1="501.7" x2="261.8" y2="509.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="268.5" cy="501.7" r="4" fill="#2f7de1" stroke="#fff"><title>ValerianFacingShip (SMX3_Valerian)</title></circle>
+<text x="274.5" y="513.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">ValerianFacingShip</text>
+<line x1="241.4" y1="483" x2="250.6" y2="486.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="241.4" cy="483" r="4" fill="#2f7de1" stroke="#fff"><title>EscortNova (SMX3_Nova)</title></circle>
+<text x="247.4" y="495" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">EscortNova</text>
+<line x1="266.3" y1="391.3" x2="256.3" y2="391.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="266.3" cy="391.3" r="4" fill="#2f7de1" stroke="#fff"><title>EscortMarine01 (SMX3_Marine)</title></circle>
+<text x="272.3" y="403.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">EscortMarine01</text>
+<line x1="288.8" y1="395.2" x2="278.8" y2="395.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="288.8" cy="395.2" r="4" fill="#2f7de1" stroke="#fff"><title>EscortMarine02 (SMX3_Marine)</title></circle>
+<text x="294.8" y="407.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">EscortMarine02</text>
+<line x1="293.7" y1="355.6" x2="283.7" y2="355.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="293.7" cy="355.6" r="4" fill="#2f7de1" stroke="#fff"><title>EscortMarine03 (SMX3_Marine)</title></circle>
+<text x="299.7" y="367.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">EscortMarine03</text>
+<line x1="259" y1="357.8" x2="267.3" y2="352.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="259" cy="357.8" r="4" fill="#2f7de1" stroke="#fff"><title>EscortMarine04 (SMX3_Marine)</title></circle>
+<text x="265" y="369.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">EscortMarine04</text>
+<line x1="266.3" y1="391.3" x2="256.3" y2="391.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="266.3" cy="391.3" r="4" fill="#2f7de1" stroke="#fff"><title>Marine01 (SMX3_Marine)</title></circle>
+<text x="272.3" y="403.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine01</text>
+<line x1="288.8" y1="395.2" x2="278.8" y2="395.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="288.8" cy="395.2" r="4" fill="#2f7de1" stroke="#fff"><title>Marine02 (SMX3_Marine)</title></circle>
+<text x="294.8" y="407.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine02</text>
+<line x1="293.7" y1="355.6" x2="283.7" y2="355.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="293.7" cy="355.6" r="4" fill="#2f7de1" stroke="#fff"><title>Marine03 (SMX3_Marine)</title></circle>
+<text x="299.7" y="367.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine03</text>
+<line x1="259" y1="357.8" x2="267.3" y2="352.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="259" cy="357.8" r="4" fill="#2f7de1" stroke="#fff"><title>Marine04 (SMX3_Marine)</title></circle>
+<text x="265" y="369.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine04</text>
+<line x1="269.6" y1="400.3" x2="265.9" y2="409.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.6" cy="400.3" r="4" fill="#2f7de1" stroke="#fff"><title>NovaFaceShot (SMX3_Nova)</title></circle>
+<text x="275.6" y="412.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">NovaFaceShot</text>
+<line x1="290.9" y1="481.1" x2="300.9" y2="481.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="290.9" cy="481.1" r="4" fill="#2f7de1" stroke="#fff"><title>KateLockwellConvoDriver (SMX3_KateLockwell)</title></circle>
+<text x="296.9" y="493.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">KateLockwellConvoDriver</text>
+<line x1="241.4" y1="483" x2="248.2" y2="475.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="241.4" cy="483" r="4" fill="#2f7de1" stroke="#fff"><title>IMPLANT_Nova (SMX3_NeckImplant)</title></circle>
+<text x="247.4" y="495" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">IMPLANT_Nova</text>
+<line x1="249.5" y1="472.1" x2="244.3" y2="480.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="249.5" cy="472.1" r="4" fill="#2f7de1" stroke="#fff"><title>IMPLANT_ReigelHand (SMX3_NeckImplant)</title></circle>
+<text x="255.5" y="484.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">IMPLANT_ReigelHand</text>
+</g>
+<line x1="172" y1="574" x2="332.1" y2="574" stroke="#333" stroke-width="2"/>
+<line x1="172" y1="570" x2="172" y2="578" stroke="#333"/><line x1="204" y1="570" x2="204" y2="578" stroke="#333"/>
+<text x="172" y="568" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP01_030.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP01_030_ValerianRoom,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP01_030_Corridor,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP01_030_ValerianRoom_Bloom</text>
+<text x="560" y="168" font-size="9" fill="#333">Marks: 20; cameras: 41 (41 aimed</text>
+<text x="560" y="180" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="192" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="204" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="216" font-size="9" fill="#333"></text>
+<text x="560" y="228" font-size="9" fill="#333">Models:</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX3_Cutscene_MP01_030_Corridor</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX3_Cutscene_MP01_030_Door</text>
+<text x="560" y="264" font-size="9" fill="#333"></text>
+<text x="560" y="276" font-size="9" fill="#333">Also in:</text>
+</svg>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="GameUI/UIContainer/ConsoleUIContainer" file="GameUI">
+        <Frame type="Frame" name="TestPanel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="100"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="400"/>
+            <Height val="60"/>
+            <Visible val="false"/>
+            <Frame type="Image" name="Back">
+                <Anchor relative="$parent"/>
+                <Texture val="@UI/HealthBar"/>
+                <Color val="40,40,40"/>
+            </Frame>
+            <Frame type="Label" name="Title">
+                <Anchor relative="$parent"/>
+                <Style val="@BossBarTitle"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

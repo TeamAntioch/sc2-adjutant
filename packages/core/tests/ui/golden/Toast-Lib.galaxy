@@ -1,0 +1,134 @@
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: Toast
+//--------------------------------------------------------------------------------------------------
+// The toast's state: its frames once hooked up, the toasts waiting (a ring of
+// 8 from the head), and whether the loop that plays them is running.
+bool libHbr1_ui_toast_hooked;
+int libHbr1_ui_toast_panel;
+int libHbr1_ui_toast_icon;
+int libHbr1_ui_toast_title;
+int libHbr1_ui_toast_text;
+string[8] libHbr1_ui_toast_queueIcon;
+text[8] libHbr1_ui_toast_queueTitle;
+text[8] libHbr1_ui_toast_queueText;
+string[8] libHbr1_ui_toast_queueSound;
+int libHbr1_ui_toast_head;
+int libHbr1_ui_toast_count;
+bool libHbr1_ui_toast_running;
+trigger libHbr1_ui_toast_loop;
+
+// Hooks up the toast's frames, the first time.
+void libHbr1_ui_toast_Hookup () {
+    if (!libHbr1_ui_toast_hooked) {
+        libHbr1_ui_toast_panel = DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/Toast");
+        libHbr1_ui_toast_icon = DialogControlHookup(libHbr1_ui_toast_panel, c_triggerControlTypeImage, "Body/Icon");
+        libHbr1_ui_toast_title = DialogControlHookup(libHbr1_ui_toast_panel, c_triggerControlTypeLabel, "Body/Title");
+        libHbr1_ui_toast_text = DialogControlHookup(libHbr1_ui_toast_panel, c_triggerControlTypeLabel, "Body/Text");
+        libHbr1_ui_toast_hooked = true;
+    }
+}
+
+// True while any player is in cinematic mode, as NativeLib's Cinematic Mode records it.
+bool libHbr1_ui_toast_InCinematic () {
+    playergroup lv_players;
+    int lv_player;
+
+    lv_players = PlayerGroupActive();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(lv_players, lv_player);
+        if (lv_player < 0) {
+            return false;
+        }
+        if (libNtve_gf_PlayerInCinematicMode(lv_player)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Waits lp_seconds of game time, counting only the time outside cinematic mode.
+void libHbr1_ui_toast_Hold (fixed lp_seconds) {
+    fixed lv_left;
+
+    lv_left = lp_seconds;
+    while (lv_left > 0.0) {
+        Wait(0.25, c_timeGame);
+        if (!libHbr1_ui_toast_InCinematic()) {
+            lv_left -= 0.25;
+        }
+    }
+}
+
+// Plays the toast at lp_index of the queue: it slides and fades in with its sound, stays, then
+// fades out. An empty icon or sound is the look's.
+void libHbr1_ui_toast_Play (int lp_index) {
+    string lv_icon;
+    string lv_sound;
+
+    lv_icon = libHbr1_ui_toast_queueIcon[lp_index];
+    if (lv_icon == "") {
+        lv_icon = "Assets\\Textures\\UI_Glues_HelpMenu_AchievementIcon.dds";
+    }
+    lv_sound = libHbr1_ui_toast_queueSound[lp_index];
+    if (lv_sound == "") {
+        lv_sound = "UI_Achievement";
+    }
+    DialogControlSetPropertyAsString(libHbr1_ui_toast_icon, c_triggerControlPropertyImage, PlayerGroupAll(), lv_icon);
+    DialogControlSetPropertyAsText(libHbr1_ui_toast_title, c_triggerControlPropertyText, PlayerGroupAll(), libHbr1_ui_toast_queueTitle[lp_index]);
+    DialogControlSetPropertyAsText(libHbr1_ui_toast_text, c_triggerControlPropertyText, PlayerGroupAll(), libHbr1_ui_toast_queueText[lp_index]);
+    DialogControlFadeTransparency(libHbr1_ui_toast_panel, PlayerGroupAll(), 0.0, 100.0);
+    DialogControlSetVisible(libHbr1_ui_toast_panel, PlayerGroupAll(), true);
+    DialogControlSendAnimationEvent(libHbr1_ui_toast_panel, PlayerGroupAll(), "SlideIn");
+    DialogControlFadeTransparency(libHbr1_ui_toast_panel, PlayerGroupAll(), 0.3, 0.0);
+    SoundPlayForPlayer(SoundLink(lv_sound, -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    libHbr1_ui_toast_Hold(3.5);
+    DialogControlFadeTransparency(libHbr1_ui_toast_panel, PlayerGroupAll(), 0.5, 100.0);
+    Wait(0.5, c_timeGame);
+    DialogControlSetVisible(libHbr1_ui_toast_panel, PlayerGroupAll(), false);
+}
+
+// The queue's loop: plays its toasts one at a time, each once no player is in cinematic mode.
+bool libHbr1_ui_toast_LoopFunc (bool testConds, bool runActions) {
+    int lv_index;
+
+    libHbr1_ui_toast_Hookup();
+    while (libHbr1_ui_toast_count > 0) {
+        while (libHbr1_ui_toast_InCinematic()) {
+            Wait(0.25, c_timeGame);
+        }
+        lv_index = libHbr1_ui_toast_head;
+        libHbr1_ui_toast_head = (libHbr1_ui_toast_head + 1) % 8;
+        libHbr1_ui_toast_count -= 1;
+        libHbr1_ui_toast_Play(lv_index);
+        Wait(0.25, c_timeGame);
+    }
+    libHbr1_ui_toast_running = false;
+    return true;
+}
+
+void libHbr1_InitCustomScript () {
+}
+
+void libHbr1_gf_ShowToast (string lp_icon, text lp_title, text lp_text, string lp_sound) {
+    // Automatic Variable Declarations
+    // Implementation
+    if (libHbr1_ui_toast_count >= 8) {
+        return;
+    }
+    libHbr1_ui_toast_queueIcon[(libHbr1_ui_toast_head + libHbr1_ui_toast_count) % 8] = lp_icon;
+    libHbr1_ui_toast_queueTitle[(libHbr1_ui_toast_head + libHbr1_ui_toast_count) % 8] = lp_title;
+    libHbr1_ui_toast_queueText[(libHbr1_ui_toast_head + libHbr1_ui_toast_count) % 8] = lp_text;
+    libHbr1_ui_toast_queueSound[(libHbr1_ui_toast_head + libHbr1_ui_toast_count) % 8] = lp_sound;
+    libHbr1_ui_toast_count += 1;
+    if (!libHbr1_ui_toast_running) {
+        libHbr1_ui_toast_running = true;
+        if (libHbr1_ui_toast_loop == null) {
+            libHbr1_ui_toast_loop = TriggerCreate("libHbr1_ui_toast_LoopFunc");
+        }
+        TriggerExecute(libHbr1_ui_toast_loop, false, false);
+    }
+}
+
+void libHbr1_gf_ShowToast (string lp_icon, text lp_title, text lp_text, string lp_sound);

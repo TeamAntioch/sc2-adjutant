@@ -1,0 +1,38 @@
+bool gf_BossIsInNorthHalf () {
+    // Automatic Variable Declarations
+    // Implementation
+    return libNtve_gf_UnitInRegion(gv_broodQueen, RegionFromId(17));
+}
+
+trigger auto_gf_BossSwitchtoAirborne_Trigger = null;
+point auto_gf_BossSwitchtoAirborne_lp_movePoint;
+point auto_gf_BossSwitchtoAirborne_lp_lookPoint;
+
+void gf_BossSwitchtoAirborne (point lp_movePoint, point lp_lookPoint) {
+    auto_gf_BossSwitchtoAirborne_lp_movePoint = lp_movePoint;
+    auto_gf_BossSwitchtoAirborne_lp_lookPoint = lp_lookPoint;
+
+    if (auto_gf_BossSwitchtoAirborne_Trigger == null) {
+        auto_gf_BossSwitchtoAirborne_Trigger = TriggerCreate("auto_gf_BossSwitchtoAirborne_TriggerFunc");
+    }
+
+    TriggerExecute(auto_gf_BossSwitchtoAirborne_Trigger, false, false);
+}
+
+bool auto_gf_BossSwitchtoAirborne_TriggerFunc (bool testConds, bool runActions) {
+    point lp_movePoint = auto_gf_BossSwitchtoAirborne_lp_movePoint;
+    point lp_lookPoint = auto_gf_BossSwitchtoAirborne_lp_lookPoint;
+
+    // Automatic Variable Declarations
+    // Implementation
+    Wait(2.0, c_timeGame);
+    libNtve_gf_PauseUnit(gv_broodQueen, false);
+    UnitSetPosition(gv_broodQueen, lp_movePoint, false);
+    UnitIssueOrder(gv_broodQueen, Order(AbilityCommand("BroodQueenAirMode", 0)), c_orderQueueReplace);
+    libNtve_gf_MakeUnitFacePoint(gv_broodQueen, lp_lookPoint, 0.0);
+    Wait(2.0, c_timeGame);
+    libNtve_gf_PauseUnit(gv_broodQueen, true);
+    CameraPan(1, lp_movePoint, 0.0, -1, 10.0, false);
+    return true;
+}
+

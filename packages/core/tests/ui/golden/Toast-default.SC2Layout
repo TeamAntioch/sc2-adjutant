@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="GameUI/UIContainer/ConsoleUIContainer" file="GameUI">
+        <Frame type="Frame" name="Toast">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="260"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Width val="400"/>
+            <Height val="110"/>
+            <Visible val="false"/>
+            <Animation name="SlideIn">
+                <Event event="SlideIn" action="Reset"/>
+                <Event event="SlideIn" action="Play"/>
+                <Controller type="Anchor" side="Right" relative="true" end="Pause">
+                    <Key type="Curve" time="0" value="400" out="Fast"/>
+                    <Key type="Curve" time="0.3" value="0" in="Fast"/>
+                </Controller>
+            </Animation>
+            <Frame type="Frame" name="Body">
+                <Anchor relative="$parent"/>
+                <Frame type="Image" name="Background">
+                    <Anchor relative="$parent"/>
+                    <Texture val="@UI/Glues_Battlenet_ToastBg"/>
+                    <TextureType val="NineSlice"/>
+                    <RenderPriority val="500"/>
+                </Frame>
+                <Frame type="Image" name="Icon">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+                    <Width val="64"/>
+                    <Height val="64"/>
+                    <Texture val="Assets\Textures\UI_Glues_HelpMenu_AchievementIcon.dds"/>
+                    <RenderPriority val="510"/>
+                </Frame>
+                <Frame type="Label" name="Title">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="14"/>
+                    <Anchor side="Left" relative="$parent/Icon" pos="Max" offset="10"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-14"/>
+                    <Height val="28"/>
+                    <Style val="StandardTooltipHeader_White"/>
+                    <Options val="NoWrapping|ScaleToPreventTruncation"/>
+                </Frame>
+                <Frame type="Label" name="Text">
+                    <Anchor side="Top" relative="$parent/Title" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent/Icon" pos="Max" offset="10"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-14"/>
+                    <Height val="56"/>
+                    <Style val="StandardTooltip"/>
+                    <Options val="ScaleToPreventTruncation"/>
+                </Frame>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

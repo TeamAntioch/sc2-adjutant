@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="Cmpn">
+        <Root>
+            <Item Type="Variable" Library="Cmpn" Id="E5539606"/>
+            <Item Type="Variable" Library="Cmpn" Id="663B6404"/>
+        </Root>
+        <Element Type="Structure" Id="EF280903">
+            <Variable Type="Variable" Library="Cmpn" Id="C8F0D280"/>
+        </Element>
+        <Element Type="Structure" Id="62EEFC1A">
+            <Variable Type="Variable" Library="Cmpn" Id="111A5B24"/>
+        </Element>
+        <Element Type="Variable" Id="C8F0D280">
+            <VariableType>
+                <Type Value="unit"/>
+            </VariableType>
+            <Value Type="Param" Library="Cmpn" Id="A3EED5F5"/>
+        </Element>
+        <Element Type="Variable" Id="E5539606">
+            <VariableType>
+                <Type Value="struct"/>
+                <TypeElement Type="Structure" Library="Cmpn" Id="EF280903"/>
+            </VariableType>
+        </Element>
+        <Element Type="Variable" Id="111A5B24">
+            <VariableType>
+                <Type Value="int"/>
+            </VariableType>
+            <Value Type="Param" Library="Cmpn" Id="F404CB12"/>
+        </Element>
+        <Element Type="Variable" Id="663B6404">
+            <VariableType>
+                <Type Value="struct"/>
+                <TypeElement Type="Structure" Library="Cmpn" Id="62EEFC1A"/>
+            </VariableType>
+        </Element>
+    </Library>
+</TriggerData>

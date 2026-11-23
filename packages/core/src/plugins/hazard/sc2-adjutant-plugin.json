@@ -1,0 +1,7 @@
+{
+  "name": "hazard",
+  "version": "1.0.0",
+  "pluginApi": 2,
+  "roles": [],
+  "contributions": { "mechanics": ["hazard"] }
+}

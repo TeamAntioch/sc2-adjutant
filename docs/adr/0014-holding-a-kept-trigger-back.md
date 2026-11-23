@@ -1,0 +1,27 @@
+# Holding a Kept Trigger Back Until a Cue
+
+A Kept trigger can be **held**: its Kept Reference gets a `hold`, `{ "from"?: "<Kept trigger id>", "until": <cue> }`. The compile switches off what starts the trigger in the Map Package, and the cue's Compiled trigger runs it once the cue's scenes have played. So a Compiled scene that comes first in the story plays first, and the Kept scene after it starts once it has ended.
+
+The case is a Kept city map. Its Kept `Initialization` ends with `TriggerExecute(gt_StealthOpening, false, false)`, which starts Scene 9's stealth section at map initialization. The Compiled Cinematic for Scene 7 is cued at mission start. Both played at once, with two skippable waits, two sets of camera moves and two sets of fades. `keptTriggerRuns` only lets a Compiled scene wait on a Kept trigger, which is the other way round. With `{ "from": "initialization", "until": { "type": "scenePlayed", "scene": 7 } }` on the stealth opening's reference, the stealth opening starts once the Cinematic has handed back.
+
+**What is switched off.** With `from`, every Run Trigger of the held trigger in that Kept trigger. Without it, the held trigger's own Map Initialization event. That covers the two ways a Kept scene starts with the map: called from an initialization trigger, or fired by its own event. Run Trigger in another Kept trigger, not named in `from`, still runs it, and the compile says so. A trigger fired by any other event (a unit entering a region) is refused. Running it on a cue would ignore what its event says, and holding such a trigger means gating it, which is a different feature.
+
+**How it is switched off.** The same way the Editor does it: the call's `<Disabled/>` flag in `Triggers`, with its line taken out of `MapScript.galaxy`, since an Editor save leaves a disabled call out. The Editor shows the call greyed in its trigger, which stays editable there. Test Document runs the change without a save, and a save writes the same script. Before taking a line out, the compile checks that the caller's Galaxy has exactly as many matching lines as `Triggers` has calls. If the counts differ, the script isn't what the Editor writes for those triggers, and the compile refuses.
+
+**How it runs.** The cue's trigger runs it after the cue's scenes, checking its conditions and without waiting. A cue that plays a Cinematic or trigger scene waits for its cleanup, so the held trigger starts after the handback, whether the scene was skipped or watched to its end. A `scenePlayed` cue fires then too. In a Beat's trigger it runs after the Beat's last Cinematic or trigger scene, not after the Transmissions that follow on the Beat's Lines thread.
+
+**Undoing it.** The compile record lists each call a hold switched off (`kept-hold`), with its Galaxy line and the two lines around it. A compile with no hold for that call clears the flag and puts the line back between those two lines. If the script around it has changed, so they are no longer side by side, it refuses and asks the author to turn the call on in the Editor and save. If the author has switched the call back on in the Editor already, it does nothing. The calls stay Kept Content: they have no fingerprint, and a call the author turns back on while the hold stays is switched off again on the next compile, because the Blueprint asks for it.
+
+## Considered Options
+
+- **(a) Rewrite or wrap the Kept call site** so it waits for the scene, for example with a Wait Until on a Compiled variable before the Run Trigger. Rejected because it puts Compiled code inside a Kept trigger that the Editor and `tune_kept_triggers` own. A call in a block, or a function the catalog can't render, would make the rewrite fail. And the wait would hold up the rest of the Kept caller, not just the held trigger.
+- **(b) A switch-off field plus a separate cue that runs the trigger.** This is what was chosen, but as one `hold` on the reference, not two fields that could disagree.
+- **Turn the trigger off at map start** (Turn Trigger Off from a Compiled Map Initialization trigger). Rejected: turning a trigger off is understood to stop only its events, not a Run Trigger of it (not checked in Test Document). Even for the event case, the order of two map-initialization triggers isn't one to rely on.
+- **Switch the call off with `tune_kept_triggers`, a one-time Kept edit, with only the cue in the Blueprint.** Rejected: the Blueprint wouldn't say that the trigger is held, dropping the cue would leave the Kept scene never playing, and that tool renders the whole caller's Galaxy, which that map's `Initialization` (UnitGroup loops, library calls) may not allow.
+
+## Consequences
+
+- A compile now changes Kept triggers in place, as it already relinks a Kept cutscene's `soundLink` (ADR-0010). It changes only the Disabled flag of the calls a hold names, and the matching lines.
+- `hold.until` is any cue, and is checked like the others. A hold may not name itself in `from`, or wait on its own run (`keptTriggerRuns` on itself), which the hold would keep from ever coming.
+- A Blueprint trigger (ADR-0026) is held the same way, through a trigger reference naming it by element Id (#1036). Its start is switched off in its body (`holdBlueprintTriggers`), with the same refusals, and the compile writes it Disabled.
+- Not yet confirmed in Test Document: that the Editor, on opening and saving a map with a held call, writes the same `MapScript.galaxy`. `npm run drift-test` checks it.

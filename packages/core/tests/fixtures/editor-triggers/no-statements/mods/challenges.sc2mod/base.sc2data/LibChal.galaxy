@@ -1,0 +1,6 @@
+void libChal_gf_LoadChallengeData (int lp_type) {
+    // Implementation
+    libChal_gf_CHL_InitChallengeData();
+    AchievementPanelSetCategory(PlayerGroupAll(), "Challenge_TerranCombat_Basic");
+    libChal_gv_cHL_CurrentType = lp_type;
+}

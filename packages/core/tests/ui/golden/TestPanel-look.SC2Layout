@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="GameUI/UIContainer/ConsoleUIContainer" file="GameUI">
+        <Frame type="Frame" name="TestPanel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="40"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-20"/>
+            <Width val="400"/>
+            <Height val="60"/>
+            <Visible val="false"/>
+            <Frame type="Image" name="Back">
+                <Anchor relative="$parent"/>
+                <Texture val="Assets\Textures\ui_quay.dds"/>
+                <Color val="200,0,0"/>
+            </Frame>
+            <Frame type="Label" name="Title">
+                <Anchor relative="$parent"/>
+                <Style val="@QuayTitle"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

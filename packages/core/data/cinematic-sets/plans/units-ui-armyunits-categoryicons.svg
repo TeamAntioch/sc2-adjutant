@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="660" viewBox="0 0 760 660" font-family="Helvetica, Arial, sans-serif">
+<title>Units (UI_ArmyUnits_CategoryIcons): cinematic set</title>
+<rect width="760" height="660" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Units (UI_ArmyUnits_CategoryIcons)</text>
+<text x="24" y="54" font-size="10" fill="#666">units-ui-armyunits-categoryicons · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="274.4" y="321.8" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>ArmyHolo_Zealot_Aiur, ArmyHolo_Zealot_Nerazim, ArmyHolo_Zealot_Purifier, Zealot, ArmyHolo_Immortal_Aiur, ArmyHolo_Immortal_Nerazim, ArmyHolo_Immortal_TalDarim, Immortal, ArmyHolo_Sentry_Aiur, ArmyHolo_Sentry_TalDarim, ArmyHolo_Sentry_Purifier, Sentry, ArmyHolo_Colossus_Purifier, ArmyHolo_Reaver, ArmyHolo_Colossus_TalDarim, Colossus</title></rect>
+<text x="290.4" y="331.8" font-size="8" fill="#6d6458">16</text>
+<rect x="279.5" y="314.1" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>ArmyHolo_Stalker_Aiur, ArmyHolo_Stalker_Nerazim</title></rect>
+<text x="287.5" y="320.1" font-size="8" fill="#6d6458">2</text>
+<rect x="278" y="319.1" width="9" height="9" fill="#b5ab98" stroke="#6d6458"><title>ArmyHolo_Adept_Purifier, Stalker, ArmyHolo_DarkTemplar_Aiur, ArmyHolo_DarkTemplar, ArmyHolo_DarkTemplar_TalDarim</title></rect>
+<text x="289" y="326.6" font-size="8" fill="#6d6458">5</text>
+<rect x="287" y="327.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>DarkTemplar</title></rect>
+<rect x="274.6" y="336.9" width="12" height="12" fill="#b5ab98" stroke="#6d6458"><title>ArmyHolo_Phoenix_Aiur, ArmyHolo_Phoenix_Purifier, ArmyHolo_Corsair, Phoenix, ArmyHolo_Arbiter, ArmyHolo_VoidRay_TalDarim, ArmyHolo_VoidRay, VoidRay</title></rect>
+<text x="288.6" y="345.9" font-size="8" fill="#6d6458">8</text>
+<rect x="275.3" y="327.9" width="12" height="12" fill="#b5ab98" stroke="#6d6458"><title>ArmyHolo_HighTemplar_Aiur, ArmyHolo_DarkArchon, ArmyHoloHighTemplarTalDarim, HighTemplar, ArmyHolo_CarrierHero, ArmyHolo_Tempest_Purifier, ArmyHolo_MotherShip_TalDarim, Carrier</title></rect>
+<text x="289.3" y="336.9" font-size="8" fill="#6d6458">8</text>
+<polygon points="272.8,388.9 257.4,334.5 302.4,340.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="272.8" cy="388.9" r="2.5" fill="#7b4bd1"><title>Standard Camera</title></circle>
+<text x="276.8" y="385.9" font-size="8" fill="#5a3a9a">Standard Camera</text>
+<polygon points="245.3,589.5 219,495.6 296.7,506.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="245.3" cy="589.5" r="2.5" fill="#7b4bd1"><title>Noselect Cam</title></circle>
+<text x="249.3" y="586.5" font-size="8" fill="#5a3a9a">Noselect Cam</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">2 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_ArmyUnits_CategoryIcons.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMX2SetArmyRoom</text>
+<text x="560" y="132" font-size="9" fill="#333">Screens: none known; not read:</text>
+<text x="560" y="144" font-size="9" fill="#333">ArmyHolo_Colossus_Purifier,</text>
+<text x="560" y="156" font-size="9" fill="#333">VoidRay</text>
+<text x="560" y="168" font-size="9" fill="#333">Marks: 0; cameras: 2 (2 aimed</text>
+<text x="560" y="180" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="192" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="204" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="216" font-size="9" fill="#333"></text>
+<text x="560" y="228" font-size="9" fill="#333">Models:</text>
+<text x="560" y="240" font-size="9" fill="#333">ArmyHolo_Adept_Purifier ×2</text>
+<text x="560" y="252" font-size="9" fill="#333">ArmyHolo_Arbiter ×2</text>
+<text x="560" y="264" font-size="9" fill="#333">ArmyHolo_CarrierHero ×2</text>
+<text x="560" y="276" font-size="9" fill="#333">ArmyHolo_Colossus_Purifier ×2</text>
+<text x="560" y="288" font-size="9" fill="#333">ArmyHolo_Colossus_TalDarim ×2</text>
+<text x="560" y="300" font-size="9" fill="#333">ArmyHolo_Corsair ×2</text>
+<text x="560" y="312" font-size="9" fill="#333">ArmyHolo_DarkArchon ×2</text>
+<text x="560" y="324" font-size="9" fill="#333">ArmyHolo_DarkTemplar ×2</text>
+<text x="560" y="336" font-size="9" fill="#333">ArmyHolo_DarkTemplar_Aiur ×2</text>
+<text x="560" y="348" font-size="9" fill="#333">ArmyHolo_DarkTemplar_TalDarim ×2</text>
+<text x="560" y="360" font-size="9" fill="#333">ArmyHolo_HighTemplar_Aiur ×2</text>
+<text x="560" y="372" font-size="9" fill="#333">ArmyHolo_Immortal_Aiur ×2</text>
+<text x="560" y="384" font-size="9" fill="#333">ArmyHolo_Immortal_Nerazim ×2</text>
+<text x="560" y="396" font-size="9" fill="#333">ArmyHolo_Immortal_TalDarim ×2</text>
+<text x="560" y="408" font-size="9" fill="#333">ArmyHolo_MotherShip_TalDarim ×2</text>
+<text x="560" y="420" font-size="9" fill="#333">ArmyHolo_Phoenix_Aiur ×2</text>
+<text x="560" y="432" font-size="9" fill="#333">ArmyHolo_Phoenix_Purifier ×2</text>
+<text x="560" y="444" font-size="9" fill="#333">ArmyHolo_Reaver ×2</text>
+<text x="560" y="456" font-size="9" fill="#333">ArmyHolo_Sentry_Aiur ×2</text>
+<text x="560" y="468" font-size="9" fill="#333">ArmyHolo_Sentry_Purifier ×2</text>
+<text x="560" y="480" font-size="9" fill="#333">ArmyHolo_Sentry_TalDarim ×2</text>
+<text x="560" y="492" font-size="9" fill="#333">ArmyHolo_Stalker_Aiur ×2</text>
+<text x="560" y="504" font-size="9" fill="#333">ArmyHolo_Stalker_Nerazim ×2</text>
+<text x="560" y="516" font-size="9" fill="#333">ArmyHolo_Tempest_Purifier ×2</text>
+<text x="560" y="528" font-size="9" fill="#333">ArmyHolo_VoidRay ×2</text>
+<text x="560" y="540" font-size="9" fill="#333">ArmyHolo_VoidRay_TalDarim ×2</text>
+<text x="560" y="552" font-size="9" fill="#333">ArmyHolo_Zealot_Aiur ×2</text>
+<text x="560" y="564" font-size="9" fill="#333">ArmyHolo_Zealot_Nerazim ×2</text>
+<text x="560" y="576" font-size="9" fill="#333">… and 16 more</text>
+<text x="560" y="588" font-size="9" fill="#333"></text>
+<text x="560" y="600" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="612" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="624" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_ArmyUnits.SC2Cutscene</text>
+</svg>

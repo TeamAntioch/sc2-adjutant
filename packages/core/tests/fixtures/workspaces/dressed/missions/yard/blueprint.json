@@ -1,0 +1,31 @@
+{
+  "id": "yard",
+  "campaignId": "fixtures",
+  "title": "Yard",
+  "setting": "A yard with a bench, and a lane beside it.",
+  "mapSize": { "width": 64, "height": 64 },
+  "zones": [
+    { "id": "yard", "name": "Yard", "elevation": 1, "landform": "flat", "role": "base", "polygon": [{ "x": 0, "y": 0 }, { "x": 32, "y": 0 }, { "x": 32, "y": 64 }, { "x": 0, "y": 64 }] },
+    { "id": "lane", "name": "Lane", "elevation": 1, "landform": "flat", "role": "path", "polygon": [{ "x": 32, "y": 0 }, { "x": 64, "y": 0 }, { "x": 64, "y": 64 }, { "x": 32, "y": 64 }] }
+  ],
+  "anchors": [
+    { "id": "start", "name": "Start", "zoneId": "yard", "kind": "point", "position": { "x": 8, "y": 8 } }
+  ],
+  "placements": [
+    {
+      "id": "bench",
+      "zoneId": "yard",
+      "kind": "set-piece",
+      "params": {
+        "story": "Kerbs round a bench nobody sits on",
+        "added": [
+          { "type": "Korhal_Curbs", "x": 14, "y": 30, "rotation": 1.57, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 18, "y": 30, "rotation": 1.57, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 16, "y": 34, "rotation": 0, "scale": 1, "variation": 0, "forcePlacement": true }
+        ]
+      }
+    }
+  ],
+  "beats": [{ "id": "arrive", "title": "Arrive", "summary": "The player walks into the yard." }],
+  "screenplay": { "title": "Yard" }
+}

@@ -1,0 +1,965 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="876" viewBox="0 0 760 876" font-family="Helvetica, Arial, sans-serif">
+<title>grass (Cutscene_Aiur02Debrief): cinematic set</title>
+<rect width="760" height="876" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">grass (Cutscene_Aiur02Debrief)</text>
+<text x="24" y="54" font-size="10" fill="#666">grass-cutscene-aiur02debrief · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="231.3" y="453.4" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="240.3" y="459.9" font-size="8" fill="#6d6458">3</text>
+<rect x="232.6" y="441.7" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="241.6" y="448.2" font-size="8" fill="#6d6458">3</text>
+<rect x="228" y="429.2" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="237" y="435.7" font-size="8" fill="#6d6458">3</text>
+<rect x="216.7" y="406.8" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="225.7" y="413.3" font-size="8" fill="#6d6458">3</text>
+<rect x="188.7" y="351.9" width="9" height="9" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="199.7" y="359.4" font-size="8" fill="#6d6458">5</text>
+<rect x="235.3" y="442.4" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00</title></rect>
+<text x="247.3" y="450.4" font-size="8" fill="#6d6458">6</text>
+<rect x="237.5" y="447.8" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01</title></rect>
+<text x="247.5" y="454.8" font-size="8" fill="#6d6458">4</text>
+<rect x="172.1" y="346.2" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00</title></rect>
+<text x="182.1" y="353.2" font-size="8" fill="#6d6458">4</text>
+<rect x="176.7" y="364.3" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="185.7" y="370.8" font-size="8" fill="#6d6458">3</text>
+<rect x="208.9" y="395.4" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="218.9" y="402.4" font-size="8" fill="#6d6458">4</text>
+<rect x="197.8" y="387.1" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="207.8" y="394.1" font-size="8" fill="#6d6458">4</text>
+<rect x="187" y="378.3" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="197" y="385.3" font-size="8" fill="#6d6458">4</text>
+<rect x="240.1" y="454.5" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01</title></rect>
+<text x="248.1" y="460.5" font-size="8" fill="#6d6458">2</text>
+<rect x="211.1" y="423.6" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01</title></rect>
+<text x="220.1" y="430.1" font-size="8" fill="#6d6458">3</text>
+<rect x="213.3" y="423.3" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01</title></rect>
+<text x="222.3" y="429.8" font-size="8" fill="#6d6458">3</text>
+<rect x="198.5" y="339.8" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01</title></rect>
+<text x="207.5" y="346.3" font-size="8" fill="#6d6458">3</text>
+<rect x="178.2" y="337.4" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01</title></rect>
+<text x="188.2" y="344.4" font-size="8" fill="#6d6458">4</text>
+<rect x="213.2" y="326.9" width="9" height="9" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="224.2" y="334.4" font-size="8" fill="#6d6458">5</text>
+<rect x="205.3" y="360.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="195.9" y="368.6" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="205.9" y="375.6" font-size="8" fill="#6d6458">4</text>
+<rect x="213.6" y="341.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="224.7" y="345.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="228.6" y="323.8" width="9" height="9" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="239.6" y="331.3" font-size="8" fill="#6d6458">5</text>
+<rect x="238.1" y="339.9" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="246.1" y="345.9" font-size="8" fill="#6d6458">2</text>
+<rect x="203.2" y="344.4" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="212.2" y="350.9" font-size="8" fill="#6d6458">3</text>
+<rect x="206.2" y="377.5" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="216.2" y="384.5" font-size="8" fill="#6d6458">4</text>
+<rect x="208.9" y="356.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="255.7" y="440.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="238.1" y="434.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="229.2" y="417.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="214.4" y="391" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="198.5" y="356.4" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="207.5" y="362.9" font-size="8" fill="#6d6458">3</text>
+<rect x="208.3" y="329.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="222.2" y="337" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="204.9" y="340.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="248.9" y="357.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="259.1" y="412.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="255.4" y="370.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="256.3" y="393.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="222.1" y="406.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="208.9" y="332.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="237.7" y="343.9" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="245.7" y="349.9" font-size="8" fill="#6d6458">2</text>
+<rect x="202.6" y="344" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="243.3" y="383.5" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01</title></rect>
+<text x="251.3" y="389.5" font-size="8" fill="#6d6458">2</text>
+<rect x="243.1" y="358.7" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_00, SMX2_Aiur02_Foliage_00</title></rect>
+<text x="251.1" y="364.7" font-size="8" fill="#6d6458">2</text>
+<rect x="241.4" y="350.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_03</title></rect>
+<rect x="235.9" y="359" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="207.3" y="334.7" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="215.3" y="340.7" font-size="8" fill="#6d6458">2</text>
+<rect x="221" y="338.7" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMX2_Aiur02_Foliage_04</title></rect>
+<text x="229" y="344.7" font-size="8" fill="#6d6458">2</text>
+<rect x="250.5" y="334.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="216.8" y="360.9" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04, SMShadowbox</title></rect>
+<text x="224.8" y="366.9" font-size="8" fill="#6d6458">2</text>
+<rect x="248.3" y="374.3" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_01, SMX2_Aiur02_Foliage_01</title></rect>
+<text x="256.3" y="380.3" font-size="8" fill="#6d6458">2</text>
+<rect x="230" y="327.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="221.4" y="331.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="206.9" y="334.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="225.9" y="348.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="211.9" y="347.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="218.9" y="338.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="216.8" y="348.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="238.8" y="332.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_03</title></rect>
+<rect x="228.7" y="362.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="240.8" y="312.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="214.7" y="362.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="239.1" y="437.9" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="249.1" y="444.9" font-size="8" fill="#6d6458">4</text>
+<rect x="250.3" y="450.1" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="260.3" y="457.1" font-size="8" fill="#6d6458">4</text>
+<rect x="234" y="456.4" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="244" y="463.4" font-size="8" fill="#6d6458">4</text>
+<rect x="234.9" y="456.7" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="242.9" y="462.7" font-size="8" fill="#6d6458">2</text>
+<rect x="256.2" y="421" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="264.2" y="427" font-size="8" fill="#6d6458">2</text>
+<rect x="259.7" y="397.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="269.8" y="321" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="277.8" y="327" font-size="8" fill="#6d6458">2</text>
+<rect x="207.3" y="413.3" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="216.3" y="419.8" font-size="8" fill="#6d6458">3</text>
+<rect x="159.5" y="341" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="171.5" y="349" font-size="8" fill="#6d6458">6</text>
+<rect x="241.4" y="458.2" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09</title></rect>
+<text x="251.4" y="465.2" font-size="8" fill="#6d6458">4</text>
+<rect x="243.8" y="458.3" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_12, SMX2_GenericRocks_12, SMX2_GenericRocks_12, SMX2_GenericRocks_12</title></rect>
+<text x="253.8" y="465.3" font-size="8" fill="#6d6458">4</text>
+<rect x="177" y="335.6" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00</title></rect>
+<text x="189" y="343.6" font-size="8" fill="#6d6458">6</text>
+<rect x="209.3" y="447.6" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="219.3" y="454.6" font-size="8" fill="#6d6458">4</text>
+<rect x="190.2" y="323" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02</title></rect>
+<text x="202.2" y="331" font-size="8" fill="#6d6458">6</text>
+<rect x="177.9" y="322.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="205.3" y="290.6" width="9" height="9" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="216.3" y="298.1" font-size="8" fill="#6d6458">5</text>
+<rect x="152.3" y="360.1" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="162.3" y="367.1" font-size="8" fill="#6d6458">4</text>
+<rect x="199.4" y="316" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00</title></rect>
+<text x="211.4" y="324" font-size="8" fill="#6d6458">6</text>
+<rect x="146.9" y="365.2" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="156.9" y="372.2" font-size="8" fill="#6d6458">4</text>
+<rect x="141.4" y="372.1" width="12" height="12" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00, SMX2_GenericRocks_00</title></rect>
+<text x="155.4" y="381.1" font-size="8" fill="#6d6458">8</text>
+<rect x="216.1" y="303.1" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="228.1" y="311.1" font-size="8" fill="#6d6458">6</text>
+<rect x="218" y="309.8" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02</title></rect>
+<text x="230" y="317.8" font-size="8" fill="#6d6458">6</text>
+<rect x="231.6" y="446.9" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09</title></rect>
+<text x="240.6" y="453.4" font-size="8" fill="#6d6458">3</text>
+<rect x="252" y="458.9" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09</title></rect>
+<text x="262" y="465.9" font-size="8" fill="#6d6458">4</text>
+<rect x="193.2" y="336.7" width="9" height="9" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09</title></rect>
+<text x="204.2" y="344.2" font-size="8" fill="#6d6458">5</text>
+<rect x="196.4" y="333.4" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_14, SMX2_GenericRocks_14, SMX2_GenericRocks_14, SMX2_GenericRocks_14, SMX2_GenericRocks_14, SMX2_GenericRocks_14</title></rect>
+<text x="208.4" y="341.4" font-size="8" fill="#6d6458">6</text>
+<rect x="216" y="417.1" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09</title></rect>
+<text x="225" y="423.6" font-size="8" fill="#6d6458">3</text>
+<rect x="237.3" y="345.2" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="245.3" y="351.2" font-size="8" fill="#6d6458">2</text>
+<rect x="279.2" y="-154.7" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax</title></rect>
+<text x="295.2" y="-144.7" font-size="8" fill="#6d6458">10</text>
+<rect x="226" y="332.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="209.1" y="343.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="357.6" y="160.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax</title></rect>
+<rect x="230.7" y="336.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="213.7" y="347.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="220.7" y="328.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="206.4" y="342.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="118.2" y="200.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax</title></rect>
+<rect x="251.5" y="450.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00</title></rect>
+<rect x="232.2" y="449.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00</title></rect>
+<rect x="218" y="446.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00</title></rect>
+<rect x="244.3" y="447.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00</title></rect>
+<rect x="205.5" y="408.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="186.3" y="401" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="196.4" y="409.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="199.5" y="400.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="179.7" y="437.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur_Tree</title></rect>
+<rect x="312.4" y="489.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="301" y="434" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="301.2" y="440.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="320.5" y="520.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="286.6" y="421.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="320.3" y="468.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="283.1" y="428.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="313" y="447.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="293" y="466.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="279.8" y="444.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="331.7" y="530" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="343" y="519.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="348.2" y="441.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="358.5" y="501.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="366.8" y="568.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur_Tree</title></rect>
+<rect x="397.3" y="514.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur_Tree</title></rect>
+<rect x="295.4" y="473.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="308.8" y="498" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="310.6" y="516.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="329.2" y="506" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="336.5" y="489.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="332.9" y="474.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="326.5" y="458.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="312.7" y="452.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_00</title></rect>
+<rect x="318.4" y="469.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_00</title></rect>
+<rect x="268.9" y="430.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="326" y="439.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="304.5" y="524.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="323.2" y="484.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="357.2" y="540.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="324.1" y="494.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="326.8" y="499.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="377.3" y="565.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="306.1" y="488.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="355.6" y="517.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="305.5" y="496.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="340.6" y="501.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="330.1" y="527.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="309.2" y="512.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="391.3" y="569.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="397.5" y="555.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="370.4" y="482.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="400" y="531.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="439" y="590.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur_Tree</title></rect>
+<rect x="444.8" y="528.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur_Tree</title></rect>
+<rect x="335.1" y="532.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="357.3" y="549.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="366.4" y="565.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="379.2" y="548.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="379.1" y="530.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="369.6" y="517.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="357.4" y="506" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="342.3" y="506.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_00</title></rect>
+<rect x="354.6" y="519.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_00</title></rect>
+<rect x="293.3" y="503.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="349.2" y="489" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur02_Foliage_04</title></rect>
+<rect x="257.8" y="399.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="207.6" y="418.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="263.9" y="468.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="179.9" y="320.5" width="9" height="9" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="190.9" y="328" font-size="8" fill="#6d6458">5</text>
+<rect x="264.1" y="452.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="202.6" y="345.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="216.9" y="417" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09</title></rect>
+<rect x="273.8" y="438.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="273.9" y="397" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="270.6" y="361.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="265.5" y="337.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="271.9" y="368" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="279.9" y="392.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="235.1" y="471.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="199.3" y="426.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00</title></rect>
+<rect x="162.6" y="400" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="164.3" y="412.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="251.5" y="355.5" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02, SMX2_GenericRocks_02</title></rect>
+<text x="261.5" y="362.5" font-size="8" fill="#6d6458">4</text>
+<rect x="239.8" y="356.1" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="249.8" y="363.1" font-size="8" fill="#6d6458">4</text>
+<rect x="235.3" y="337.1" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="245.3" y="344.1" font-size="8" fill="#6d6458">4</text>
+<rect x="267.5" y="335.4" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="277.5" y="342.4" font-size="8" fill="#6d6458">4</text>
+<rect x="265.5" y="329.6" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="275.5" y="336.6" font-size="8" fill="#6d6458">4</text>
+<rect x="255.5" y="331.9" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="265.5" y="338.9" font-size="8" fill="#6d6458">4</text>
+<rect x="260.4" y="301.4" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="270.4" y="308.4" font-size="8" fill="#6d6458">4</text>
+<rect x="258.9" y="286.3" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="268.9" y="293.3" font-size="8" fill="#6d6458">4</text>
+<rect x="237" y="347.5" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="247" y="354.5" font-size="8" fill="#6d6458">4</text>
+<rect x="254.9" y="337.7" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="264.9" y="344.7" font-size="8" fill="#6d6458">4</text>
+<rect x="183.3" y="340.6" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="192.3" y="347.1" font-size="8" fill="#6d6458">3</text>
+<rect x="233.3" y="348.9" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_15, SMX2_GenericRocks_15, SMX2_GenericRocks_15, SMX2_GenericRocks_15</title></rect>
+<text x="243.3" y="355.9" font-size="8" fill="#6d6458">4</text>
+<rect x="208.8" y="348.5" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_15, SMX2_GenericRocks_15, SMX2_GenericRocks_15, SMX2_GenericRocks_15</title></rect>
+<text x="218.8" y="355.5" font-size="8" fill="#6d6458">4</text>
+<rect x="213.3" y="322.4" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09</title></rect>
+<text x="223.3" y="329.4" font-size="8" fill="#6d6458">4</text>
+<rect x="210.9" y="317.1" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_14, SMX2_GenericRocks_14, SMX2_GenericRocks_14</title></rect>
+<text x="219.9" y="323.6" font-size="8" fill="#6d6458">3</text>
+<rect x="242.7" y="315.7" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="252.7" y="322.7" font-size="8" fill="#6d6458">4</text>
+<rect x="243.3" y="360.2" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09</title></rect>
+<text x="253.3" y="367.2" font-size="8" fill="#6d6458">4</text>
+<rect x="255.9" y="353.1" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09, SMX2_GenericRocks_09</title></rect>
+<text x="265.9" y="360.1" font-size="8" fill="#6d6458">4</text>
+<rect x="213.4" y="357.4" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_12, SMX2_GenericRocks_12, SMX2_GenericRocks_12, SMX2_GenericRocks_12</title></rect>
+<text x="223.4" y="364.4" font-size="8" fill="#6d6458">4</text>
+<rect x="242.6" y="355" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_04, SMX2_GenericRocks_04, SMX2_GenericRocks_04, SMX2_GenericRocks_04</title></rect>
+<text x="252.6" y="362" font-size="8" fill="#6d6458">4</text>
+<rect x="225.1" y="353.4" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_15, SMX2_GenericRocks_15</title></rect>
+<text x="233.1" y="359.4" font-size="8" fill="#6d6458">2</text>
+<rect x="252.4" y="385.4" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_00, SMX2_GenericRocks_00</title></rect>
+<text x="260.4" y="391.4" font-size="8" fill="#6d6458">2</text>
+<rect x="256.7" y="420.6" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="264.7" y="426.6" font-size="8" fill="#6d6458">2</text>
+<rect x="244.9" y="401.7" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="252.9" y="407.7" font-size="8" fill="#6d6458">2</text>
+<rect x="245.9" y="363" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="253.9" y="369" font-size="8" fill="#6d6458">2</text>
+<rect x="199.7" y="363.9" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="207.7" y="369.9" font-size="8" fill="#6d6458">2</text>
+<rect x="208.9" y="368.1" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01, SMX2_GenericRocks_01</title></rect>
+<text x="216.9" y="374.1" font-size="8" fill="#6d6458">2</text>
+<rect x="407" y="392.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="396.5" y="408.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="384.4" y="443.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="375.2" y="439.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="345.5" y="460.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="342.6" y="485" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="409.6" y="398.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="400.8" y="411.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="389.9" y="425.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="362.5" y="466.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="373" y="466.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="374.7" y="459.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="377.5" y="461.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="353.8" y="478.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="355.6" y="481.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="378.6" y="444.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="376.9" y="450.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="373.4" y="458.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="351.3" y="468.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="659.9" y="605.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="1008.2" y="569.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="934.7" y="680" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="1047.4" y="635.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="934.7" y="757.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="1010.6" y="684.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="955.5" y="581.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="974.7" y="576.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="1000.5" y="586.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="993.8" y="604" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="999.9" y="620.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="1000.6" y="642.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="995.8" y="662.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="938.9" y="563.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="947.8" y="536.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="933.1" y="520" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="977.7" y="547.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="989.9" y="517.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="991.1" y="498" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="973.8" y="484.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="1006.2" y="631.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="1028.4" y="631.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="217.6" y="529.7" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax, SMCharCinematicSkyparallax, SMCharCinematicSkyparallax</title></rect>
+<text x="226.6" y="536.2" font-size="8" fill="#6d6458">3</text>
+<rect x="245.8" y="226.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Aiur_Tree</title></rect>
+<rect x="223.2" y="282.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="165" y="279" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax</title></rect>
+<rect x="199.7" y="266" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="681.8" y="503" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="995.9" y="390.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="922.5" y="501.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="1035.1" y="456.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="922.4" y="579" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="998.4" y="505.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="943.3" y="402.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="962.5" y="397.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="988.3" y="407.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="981.6" y="425.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="987.7" y="442.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="988.3" y="463.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="983.6" y="483.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="926.7" y="385.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="935.6" y="358.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="920.9" y="341.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="965.4" y="368.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="977.7" y="338.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="978.8" y="319.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="961.6" y="305.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="993.9" y="453" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="1016.1" y="453" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="943.2" y="445.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="338" y="419.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="341.5" y="411.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="343.1" y="405.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="315.8" y="429.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="327.8" y="429.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="337.5" y="427.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="342" y="422.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="348.9" y="404" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="354.5" y="386.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="365.3" y="372" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="374.1" y="359.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="320.1" y="442.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="318.3" y="439.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="307.1" y="445.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="339.2" y="420.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="343.6" y="398.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="356.9" y="368.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="371.3" y="350.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="310" y="421.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="332.6" y="347.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="347.3" y="355.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="328.8" y="367.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="335.4" y="397.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="301.9" y="429.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="365.9" y="339.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="338.9" y="349.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="335.3" y="355.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="333" y="364.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="333.2" y="359.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="342.7" y="342.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="327.4" y="368.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="325.5" y="364.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="362.8" y="325.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="382.8" y="328.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="289.5" y="450.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="505.5" y="585.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax</title></rect>
+<rect x="324.6" y="503.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="328.2" y="504.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="331.7" y="501.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="341" y="486.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="349" y="471.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="364" y="461.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="377.2" y="452.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="313.1" y="506.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="308.7" y="510.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="297.9" y="513" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="329" y="499.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="321.8" y="493.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="354.1" y="455.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="375.5" y="442.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="302.9" y="490.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="332.1" y="427.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="348.5" y="439.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="324.4" y="445.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="322.7" y="476" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="289.3" y="495" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="375.1" y="430.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="370.6" y="416.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="393.8" y="425.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="277.4" y="510.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="392.1" y="784.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="484.4" y="551.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="416.1" y="665" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="524.3" y="615.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="415.8" y="742.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="489.5" y="666.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="210.6" y="317.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="201.2" y="331.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="350" y="430.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="353.5" y="422.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="355.2" y="416.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="327.8" y="440.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="339.1" y="437.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="349.5" y="438.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="354.1" y="433.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="361" y="414.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="366.5" y="397.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="377.3" y="382.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="386.1" y="370.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="332.1" y="453.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="330.3" y="450.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="319.1" y="456.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="351.2" y="431.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="355.6" y="409" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="368.9" y="379.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="383.4" y="361" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="322" y="432.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="344.6" y="358.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="359.3" y="366" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="340.9" y="378.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="347.4" y="408.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="313.9" y="440.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="377.9" y="350" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="350.9" y="360.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="347.4" y="366.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="345" y="375.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="345.3" y="370.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="354.7" y="353.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="339.4" y="379.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="337.5" y="375.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="684.3" y="582.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="785.1" y="353.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="577.3" y="454.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="824.3" y="419.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="711.6" y="542.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="787.5" y="469" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="732.4" y="366.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="751.7" y="361.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="777.4" y="370.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="770.7" y="388.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="776.8" y="405.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="777.5" y="426.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="772.7" y="446.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="715.8" y="348.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="724.7" y="321.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="710" y="304.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="754.6" y="332.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="766.8" y="301.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="768" y="282.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="750.8" y="269" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="783.1" y="416.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="805.3" y="416.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="464.7" y="101.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="444.3" y="88.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="433.4" y="76.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="411.6" y="69.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="391.2" y="64" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="372.7" y="54.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="466.2" y="94.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="465.6" y="-68.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax</title></rect>
+<rect x="699" y="872.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="799.8" y="643.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="726.3" y="754.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="838.9" y="709.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="726.2" y="832" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="802.2" y="758.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="747.1" y="655.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="766.3" y="650.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="792.1" y="660.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="785.4" y="678.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="791.5" y="695.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="792.2" y="716.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="787.4" y="736.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="730.5" y="638.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="739.4" y="611.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="724.7" y="594.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="769.2" y="621.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="781.5" y="591.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="782.6" y="572.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="765.4" y="558.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="797.7" y="706.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="819.9" y="706" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="342" y="486.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="345.5" y="478.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="347.1" y="471.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="319.8" y="496" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="331" y="493.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="341.5" y="493.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="346" y="489.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="352.9" y="470.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="358.5" y="453.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="369.3" y="438.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="378.1" y="426.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="324.1" y="508.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="322.3" y="506.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="311.1" y="512.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="343.2" y="487.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="347.6" y="464.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="360.9" y="435.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="375.3" y="416.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="314" y="487.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="336.6" y="414.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="351.3" y="421.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="332.8" y="434.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="339.4" y="464.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="305.9" y="495.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="369.9" y="405.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="342.9" y="416.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="339.3" y="421.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="337" y="431.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="337.2" y="426.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="346.7" y="409.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="331.4" y="435.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="329.5" y="435.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Overgrowth_05</title></rect>
+<rect x="562.5" y="936.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="604.4" y="690.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="561.2" y="815.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="656.8" y="744.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="577" y="891" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="633.3" y="801.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks01</title></rect>
+<rect x="201.1" y="337.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="192.9" y="358.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_02</title></rect>
+<rect x="210.3" y="326.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_GenericRocks_01</title></rect>
+<rect x="162.9" y="85.2" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax, SMCharCinematicSkyparallax</title></rect>
+<text x="170.9" y="91.2" font-size="8" fill="#6d6458">2</text>
+<rect x="283.7" y="-160.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax</title></rect>
+<rect x="195.6" y="134.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMCharCinematicSkyparallax</title></rect>
+<rect x="241.4" y="427.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="226.5" y="367.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="229.6" y="363.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="232.1" y="366.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="235.3" y="378.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="232.8" y="382.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="232.2" y="382.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="219.8" y="370.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="288.6" y="439" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="224.7" y="349.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="218.4" y="352.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="222.7" y="347.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="217.4" y="353.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="222.4" y="352.2" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox, SMShadowbox</title></rect>
+<text x="230.4" y="358.2" font-size="8" fill="#6d6458">2</text>
+<rect x="221.4" y="345.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="229.9" y="356.8" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox, SMShadowbox, SMShadowbox</title></rect>
+<text x="238.9" y="363.3" font-size="8" fill="#6d6458">3</text>
+<rect x="225.2" y="352.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="232.1" y="355.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="233.1" y="358.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="220.4" y="351.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="226.3" y="360.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<polygon points="254,450.4 243.1,435.8 252.9,432.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="254" cy="450.4" r="2.5" fill="#7b4bd1"><title>s010_CAM_Surrounded</title></circle>
+<polygon points="237.6,392.3 229.4,376.7 238.8,374.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="237.6" cy="392.3" r="2.5" fill="#7b4bd1"><title>s020_CAM_TemplarTakeDown</title></circle>
+<polygon points="241.9,374.9 232.5,367.3 237.1,363.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="241.9" cy="374.9" r="2.5" fill="#7b4bd1"><title>s030_CAM_KaraxReaction</title></circle>
+<polygon points="247.3,385.7 229.3,383.2 239.2,369.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="247.3" cy="385.7" r="2.5" fill="#7b4bd1"><title>s040_CAM_HydraReveal</title></circle>
+<polygon points="227.2,368.8 220.2,363.1 224.7,360.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="227.2" cy="368.8" r="2.5" fill="#7b4bd1"><title>s050_CAM_KaraxCloseBackPedal</title></circle>
+<polygon points="238.5,353.2 239.3,369.6 231.1,367.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="238.5" cy="353.2" r="2.5" fill="#7b4bd1"><title>s060_CAM_HydraClose</title></circle>
+<polygon points="234.3,365.4 238.2,383.2 232.3,383.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="234.3" cy="365.4" r="2.5" fill="#7b4bd1"><title>s070_CAM_ArtanisReveal</title></circle>
+<polygon points="234.8,374.1 238.7,391.3 233.2,391.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="234.8" cy="374.1" r="2.5" fill="#7b4bd1"><title>s075_CAM_ArtanisClose</title></circle>
+<polygon points="245.2,353.2 235.8,368.8 231.4,365.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="245.2" cy="353.2" r="2.5" fill="#7b4bd1"><title>s080_CAM_FIGHT_ArtanisAttack</title></circle>
+<polygon points="283,421.2 293.1,436.4 283.5,439.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="283" cy="421.2" r="2.5" fill="#7b4bd1"><title>s090_CAM_FIGHT_ZerglingRun</title></circle>
+<polygon points="236.1,364.3 223,351.7 230.5,347" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="236.1" cy="364.3" r="2.5" fill="#7b4bd1"><title>s100_CAM_FIGHT_ZealotAttack</title></circle>
+<polygon points="279.3,492.6 297.5,492.4 295.9,500.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="279.3" cy="492.6" r="2.5" fill="#7b4bd1"><title>s103_CAM_FIGHT_ZerglingRun</title></circle>
+<polygon points="219.5,365 220.9,357.6 223.1,358.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="219.5" cy="365" r="2.5" fill="#7b4bd1"><title>s105_CAM_FIGHT_</title></circle>
+<polygon points="203.6,344.7 220.2,352.2 216.3,357.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="203.6" cy="344.7" r="2.5" fill="#7b4bd1"><title>s110_CAM_FIGHT_ArtanisImpale</title></circle>
+<polygon points="228.8,359.7 226.5,349.9 230.5,349.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="228.8" cy="359.7" r="2.5" fill="#7b4bd1"><title>s120_CAM_FIGHT_ZealotAttack</title></circle>
+<polygon points="224,330.9 226,349 217.2,347.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="224" cy="330.9" r="2.5" fill="#7b4bd1"><title>s125_CAM_FIGHT_Wide</title></circle>
+<polygon points="226.9,344.6 222.6,359.4 216.8,356.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="226.9" cy="344.6" r="2.5" fill="#7b4bd1"><title>s130_CAM_FIGHT_ArtanisSwipe</title></circle>
+<polygon points="228.9,367.5 226.4,349.5 236.5,351" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="228.9" cy="367.5" r="2.5" fill="#7b4bd1"><title>s140_CAM_ArtanisVictory</title></circle>
+<polygon points="233.3,367.8 240.9,368.9 238.8,373.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="233.3" cy="367.8" r="2.5" fill="#7b4bd1"><title>s150_ALT_KaraxPostFight</title></circle>
+<polygon points="199.7,341.7 217.4,345.9 211.7,355.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="199.7" cy="341.7" r="2.5" fill="#7b4bd1"><title>s150_CAM_KaraxPostFight</title></circle>
+<polygon points="224.2,362.8 222.1,349.3 228.3,349.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="224.2" cy="362.8" r="2.5" fill="#7b4bd1"><title>s160_CAM_ArtanisAggro</title></circle>
+<polygon points="232.6,369.3 239.7,367.6 238.7,373.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="232.6" cy="369.3" r="2.5" fill="#7b4bd1"><title>s170_CAM_KaraxBraids</title></circle>
+<polygon points="238.8,371.3 237,368.6 239,368.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="238.8" cy="371.3" r="2.5" fill="#7b4bd1"><title>s180_CAM_ArtanisOTSKarax</title></circle>
+<polygon points="232.5,361.3 227.5,355.7 230.3,354.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="232.5" cy="361.3" r="2.5" fill="#7b4bd1"><title>s190_CAM_ArtanisClose</title></circle>
+<polygon points="231.9,362.4 240,363.2 238.2,367.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="231.9" cy="362.4" r="2.5" fill="#7b4bd1"><title>s200_CAM_KaraxMedium</title></circle>
+<polygon points="227,378.4 224.2,360.4 240.6,366.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="227" cy="378.4" r="2.5" fill="#7b4bd1"><title>s210_ALT_TopDown</title></circle>
+<polygon points="222.4,375.5 220.6,357.4 238.1,366.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="222.4" cy="375.5" r="2.5" fill="#7b4bd1"><title>s210_CAM_TopDown</title></circle>
+<polygon points="224.8,361.5 232.9,367.1 229.4,370.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="224.8" cy="361.5" r="2.5" fill="#7b4bd1"><title>s220_CAM_ArtanisZealotDouble</title></circle>
+<polygon points="216.4,379.7 223.9,363.1 233.2,372.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="216.4" cy="379.7" r="2.5" fill="#7b4bd1"><title>s230_ALT_KaraxMedium</title></circle>
+<polygon points="208.3,390.1 215.2,373.3 224.5,381.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="208.3" cy="390.1" r="2.5" fill="#7b4bd1"><title>s230_CAM_KaraxMedium</title></circle>
+<polygon points="246.4,432.2 233.4,419.4 238.7,415.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="246.4" cy="432.2" r="2.5" fill="#7b4bd1"><title>BACKUP s020_CAM_Surrounded</title></circle>
+<polygon points="235.9,342.7 237.8,360.8 232.2,360.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="235.9" cy="342.7" r="2.5" fill="#7b4bd1"><title>BACKUP_s040_CAM_HydraClose</title></circle>
+<polygon points="217.9,353.5 235.8,356.4 232.2,364.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="217.9" cy="353.5" r="2.5" fill="#7b4bd1"><title>BACKUP_s140_CAM_KaraxMedium</title></circle>
+<polygon points="264.3,435.8 248.8,430.6 253.1,423.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="264.3" cy="435.8" r="2.5" fill="#7b4bd1"><title>s010_CAM_HydraDarkTemplarDouble</title></circle>
+<polygon points="249.3,430.7 241.2,414.5 247.4,412.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="249.3" cy="430.7" r="2.5" fill="#7b4bd1"><title>s020_CAM_Surrounded</title></circle>
+<polygon points="231.1,358.9 224,355 226.6,352.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="231.1" cy="358.9" r="2.5" fill="#7b4bd1"><title>s030_CAM_KaraxClose</title></circle>
+<polygon points="212.6,345.5 221.9,361.2 213.6,363.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="212.6" cy="345.5" r="2.5" fill="#7b4bd1"><title>s110_backup_FIGHT_ArtanisImpale</title></circle>
+<polygon points="231.6,364.7 227.8,358.2 232.4,357.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="231.6" cy="364.7" r="2.5" fill="#7b4bd1"><title>s130_CAM_FIGHT_ArtanisSwipe</title></circle>
+<polygon points="199.7,346.5 212.9,359.1 204.8,364" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="199.7" cy="346.5" r="2.5" fill="#7b4bd1"><title>s110_alt_FIGHT_ArtanisImpale</title></circle>
+<line x1="228.3" y1="348.7" x2="238.3" y2="348.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="228.3" cy="348.7" r="4" fill="#2f7de1" stroke="#fff"><title>R_BLADE EFFECT (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="234.3" y="360.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">R_BLADE EFFECT</text>
+<line x1="228.3" y1="348.7" x2="238.3" y2="348.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="228.3" cy="348.7" r="4" fill="#2f7de1" stroke="#fff"><title>L_BLADE EFFECT (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="234.3" y="360.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">L_BLADE EFFECT</text>
+<line x1="227.9" y1="354.3" x2="235.7" y2="360.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="227.9" cy="354.3" r="4" fill="#2f7de1" stroke="#fff"><title>ARTANIS_MASTER (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="233.9" y="366.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">ARTANIS_MASTER</text>
+<line x1="235.8" y1="382.7" x2="228.8" y2="375.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="235.8" cy="382.7" r="4" fill="#2f7de1" stroke="#fff"><title>s070_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="241.8" y="394.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s070_ARTANIS</text>
+<line x1="227.2" y1="369.7" x2="237.2" y2="369.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="227.2" cy="369.7" r="4" fill="#2f7de1" stroke="#fff"><title>s080_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="233.2" y="381.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s080_ARTANIS</text>
+<line x1="222.2" y1="355.5" x2="232.2" y2="355.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="222.2" cy="355.5" r="4" fill="#2f7de1" stroke="#fff"><title>s105_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="228.2" y="367.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s105_ARTANIS</text>
+<line x1="222.2" y1="355.5" x2="232.2" y2="355.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="222.2" cy="355.5" r="4" fill="#2f7de1" stroke="#fff"><title>s110_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="228.2" y="367.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s110_ARTANIS</text>
+<line x1="222.2" y1="355.5" x2="232.2" y2="355.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="222.2" cy="355.5" r="4" fill="#2f7de1" stroke="#fff"><title>s125_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="228.2" y="367.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s125_ARTANIS</text>
+<line x1="222.2" y1="355.5" x2="232.2" y2="355.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="222.2" cy="355.5" r="4" fill="#2f7de1" stroke="#fff"><title>s130_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="228.2" y="367.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s130_ARTANIS</text>
+<line x1="227.8" y1="353.6" x2="233.5" y2="361.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="227.8" cy="353.6" r="4" fill="#2f7de1" stroke="#fff"><title>s140_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="233.8" y="365.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s140_ARTANIS</text>
+<line x1="223.9" y1="351.8" x2="229.5" y2="360.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="223.9" cy="351.8" r="4" fill="#2f7de1" stroke="#fff"><title>s150_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="229.9" y="363.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s150_ARTANIS</text>
+<line x1="221.9" y1="348.6" x2="227.5" y2="356.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="221.9" cy="348.6" r="4" fill="#2f7de1" stroke="#fff"><title>s160_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="227.9" y="360.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s160_ARTANIS</text>
+<line x1="229.6" y1="356.2" x2="237.7" y2="362.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="229.6" cy="356.2" r="4" fill="#2f7de1" stroke="#fff"><title>s180_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="235.6" y="368.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s180_ARTANIS</text>
+<line x1="228.5" y1="351.5" x2="231.4" y2="361.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="228.5" cy="351.5" r="4" fill="#2f7de1" stroke="#fff"><title>s210_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="234.5" y="363.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s210_ARTANIS</text>
+<line x1="232" y1="357.1" x2="233.6" y2="367" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="232" cy="357.1" r="4" fill="#2f7de1" stroke="#fff"><title>s230_ARTANIS (SMX2ProtossArtanisWithGauntlet)</title></circle>
+<text x="238" y="369.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s230_ARTANIS</text>
+<line x1="238.4" y1="365.7" x2="234.3" y2="356.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="238.4" cy="365.7" r="4" fill="#2f7de1" stroke="#fff"><title>KARAX_MASTER (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="244.4" y="377.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">KARAX_MASTER</text>
+<line x1="232.6" y1="364.1" x2="230.2" y2="373.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="232.6" cy="364.1" r="4" fill="#2f7de1" stroke="#fff"><title>s010_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="238.6" y="376.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s010_KARAX</text>
+<line x1="231.6" y1="367.1" x2="241.3" y2="364.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="231.6" cy="367.1" r="4" fill="#2f7de1" stroke="#fff"><title>s020_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="237.6" y="379.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s020_KARAX</text>
+<line x1="226.2" y1="348.8" x2="226.2" y2="338.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="226.2" cy="348.8" r="4" fill="#2f7de1" stroke="#fff"><title>s030_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="232.2" y="360.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s030_KARAX</text>
+<line x1="226.2" y1="348.8" x2="226.2" y2="338.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="226.2" cy="348.8" r="4" fill="#2f7de1" stroke="#fff"><title>s040_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="232.2" y="360.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s040_KARAX</text>
+<line x1="226.2" y1="348.8" x2="226.2" y2="338.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="226.2" cy="348.8" r="4" fill="#2f7de1" stroke="#fff"><title>s050_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="232.2" y="360.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s050_KARAX</text>
+<line x1="239.8" y1="372" x2="235" y2="363.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="239.8" cy="372" r="4" fill="#2f7de1" stroke="#fff"><title>s150_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="245.8" y="384" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s150_KARAX</text>
+<line x1="238.5" y1="371.6" x2="239.5" y2="361.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="238.5" cy="371.6" r="4" fill="#2f7de1" stroke="#fff"><title>s170_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="244.5" y="383.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s170_KARAX</text>
+<line x1="229.3" y1="369.7" x2="230.3" y2="359.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="229.3" cy="369.7" r="4" fill="#2f7de1" stroke="#fff"><title>s210_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="235.3" y="381.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s210_KARAX</text>
+<line x1="229.8" y1="368.3" x2="228.1" y2="358.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="229.8" cy="368.3" r="4" fill="#2f7de1" stroke="#fff"><title>s220_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="235.8" y="380.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s220_KARAX</text>
+<line x1="238.6" y1="367.7" x2="236.2" y2="358" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="238.6" cy="367.7" r="4" fill="#2f7de1" stroke="#fff"><title>s230_KARAX (SMX2ProtossSmithNoMechBraids)</title></circle>
+<text x="244.6" y="379.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s230_KARAX</text>
+<line x1="238.8" y1="405.8" x2="239" y2="415.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="238.8" cy="405.8" r="4" fill="#2f7de1" stroke="#fff"><title>s010_DARKTEMPLAR_attack (SMX2_ProtossDarkTemplarGuard01)</title></circle>
+<text x="244.8" y="417.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s010_DARKTEMPLAR_attack</text>
+<line x1="244.3" y1="453.2" x2="244" y2="443.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="244.3" cy="453.2" r="4" fill="#2f7de1" stroke="#fff"><title>s010_DARKTEMPLAR_dead (SMX2_ProtossDarkTemplarGuard00)</title></circle>
+<text x="250.3" y="465.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s010_DARKTEMPLAR_dead</text>
+<line x1="230.1" y1="378.3" x2="232.9" y2="387.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="230.1" cy="378.3" r="4" fill="#2f7de1" stroke="#fff"><title>s020_DARKTEMPLAR_attack (SMX2_ProtossDarkTemplarGuard01)</title></circle>
+<text x="236.1" y="390.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s020_DARKTEMPLAR_attack</text>
+<line x1="248.1" y1="378.5" x2="246.3" y2="388.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="248.1" cy="378.5" r="4" fill="#2f7de1" stroke="#fff"><title>s030_DARKTEMPLAR_attack (SMX2ProtossZealot)</title></circle>
+<text x="254.1" y="390.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s030_DARKTEMPLAR_attack</text>
+<line x1="248.1" y1="378.5" x2="246.3" y2="388.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="248.1" cy="378.5" r="4" fill="#2f7de1" stroke="#fff"><title>s040_DARKTEMPLAR_attack (SMX2_ProtossDarkTemplarGuard00)</title></circle>
+<text x="254.1" y="390.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s040_DARKTEMPLAR_attack</text>
+<line x1="228.4" y1="349" x2="238.4" y2="349" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="228.4" cy="349" r="4" fill="#2f7de1" stroke="#fff"><title>s100_ZEALOT (SMX2ProtossZealot)</title></circle>
+<text x="234.4" y="361" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s100_ZEALOT</text>
+<line x1="228.4" y1="349" x2="238.4" y2="349" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="228.4" cy="349" r="4" fill="#2f7de1" stroke="#fff"><title>s120_ZEALOT (SMX2ProtossZealot)</title></circle>
+<text x="234.4" y="361" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s120_ZEALOT</text>
+<line x1="223.7" y1="379.5" x2="226.4" y2="369.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="223.7" cy="379.5" r="4" fill="#2f7de1" stroke="#fff"><title>s125_ZEALOT_A (SMX2ProtossZealot)</title></circle>
+<text x="229.7" y="391.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s125_ZEALOT_A</text>
+<line x1="236.3" y1="358.8" x2="231.7" y2="349.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="236.3" cy="358.8" r="4" fill="#2f7de1" stroke="#fff"><title>s125_ZEALOT_B (SMX2ProtossZealot)</title></circle>
+<text x="242.3" y="370.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s125_ZEALOT_B</text>
+<line x1="223.6" y1="350.8" x2="229.6" y2="358.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="223.6" cy="350.8" r="4" fill="#2f7de1" stroke="#fff"><title>ZEALOT_A_MASTER (SMX2ProtossZealot)</title></circle>
+<text x="229.6" y="362.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">ZEALOT_A_MASTER</text>
+<line x1="239.1" y1="388.5" x2="241.7" y2="378.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="239.1" cy="388.5" r="4" fill="#2f7de1" stroke="#fff"><title>s070_ZEALOT_A (SMX2ProtossZealot)</title></circle>
+<text x="245.1" y="400.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s070_ZEALOT_A</text>
+<line x1="208.8" y1="351.6" x2="218.7" y2="352.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="208.8" cy="351.6" r="4" fill="#2f7de1" stroke="#fff"><title>s150_ZEALOT_A (SMX2ProtossZealot)</title></circle>
+<text x="214.8" y="363.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s150_ZEALOT_A</text>
+<line x1="222.2" y1="360.2" x2="231.9" y2="362.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="222.2" cy="360.2" r="4" fill="#2f7de1" stroke="#fff"><title>s210_ZEALOT_A (SMX2ProtossZealot)</title></circle>
+<text x="228.2" y="372.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s210_ZEALOT_A</text>
+<line x1="224.6" y1="362.6" x2="234.2" y2="359.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="224.6" cy="362.6" r="4" fill="#2f7de1" stroke="#fff"><title>s230_ZEALOT_A (SMX2ProtossZealot)</title></circle>
+<text x="230.6" y="374.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s230_ZEALOT_A</text>
+<line x1="234.4" y1="351.8" x2="236.5" y2="361.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="234.4" cy="351.8" r="4" fill="#2f7de1" stroke="#fff"><title>ZEALOT_B_MASTER (SMX2ProtossZealot)</title></circle>
+<text x="240.4" y="363.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">ZEALOT_B_MASTER</text>
+<line x1="231.9" y1="391.7" x2="223.2" y2="386.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="231.9" cy="391.7" r="4" fill="#2f7de1" stroke="#fff"><title>s070_ZEALOT_B (SMX2ProtossZealot)</title></circle>
+<text x="237.9" y="403.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s070_ZEALOT_B</text>
+<line x1="234" y1="352.4" x2="238.4" y2="361.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="234" cy="352.4" r="4" fill="#2f7de1" stroke="#fff"><title>s140_ZEALOT_B (SMX2ProtossZealot)</title></circle>
+<text x="240" y="364.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s140_ZEALOT_B</text>
+<line x1="239" y1="353.7" x2="232.7" y2="361.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="239" cy="353.7" r="4" fill="#2f7de1" stroke="#fff"><title>s150_ZEALOT_B (SMX2ProtossZealot)</title></circle>
+<text x="245" y="365.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s150_ZEALOT_B</text>
+<line x1="236" y1="343.3" x2="240.7" y2="352.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="236" cy="343.3" r="4" fill="#2f7de1" stroke="#fff"><title>s210_ZEALOT_B (SMX2ProtossZealot)</title></circle>
+<text x="242" y="355.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s210_ZEALOT_B</text>
+<line x1="237.6" y1="344.2" x2="243.5" y2="352.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="237.6" cy="344.2" r="4" fill="#2f7de1" stroke="#fff"><title>s230_ZEALOT_B (SMX2ProtossZealot)</title></circle>
+<text x="243.6" y="356.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s230_ZEALOT_B</text>
+<line x1="241.1" y1="432" x2="240.1" y2="422" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="241.1" cy="432" r="4" fill="#2f7de1" stroke="#fff"><title>s010_ZERGLING_A (SMX1ZerglingT1)</title></circle>
+<text x="247.1" y="444" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s010_ZERGLING_A</text>
+<line x1="240.4" y1="388.7" x2="238.6" y2="378.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="240.4" cy="388.7" r="4" fill="#2f7de1" stroke="#fff"><title>s010_ZERGLING_B (SMX1ZerglingT1)</title></circle>
+<text x="246.4" y="400.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s010_ZERGLING_B</text>
+<line x1="206.5" y1="321.1" x2="212.7" y2="329" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="206.5" cy="321.1" r="4" fill="#2f7de1" stroke="#fff"><title>s010_ZERGLING_C (SMX1ZerglingT1)</title></circle>
+<text x="212.5" y="333.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s010_ZERGLING_C</text>
+<line x1="206.5" y1="321.1" x2="212.7" y2="329" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="206.5" cy="321.1" r="4" fill="#2f7de1" stroke="#fff"><title>s010_ZERGLING_D (SMX1ZerglingT1)</title></circle>
+<text x="212.5" y="333.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s010_ZERGLING_D</text>
+<line x1="239" y1="410.4" x2="233" y2="402.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="239" cy="410.4" r="4" fill="#2f7de1" stroke="#fff"><title>s010_ZERGLING_DEAD (SMX1ZerglingT1)</title></circle>
+<text x="245" y="422.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s010_ZERGLING_DEAD</text>
+<line x1="231.4" y1="382.7" x2="223.5" y2="376.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="231.4" cy="382.7" r="4" fill="#2f7de1" stroke="#fff"><title>s020_ZERGLING_DEAD (SMX1ZerglingT1)</title></circle>
+<text x="237.4" y="394.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s020_ZERGLING_DEAD</text>
+<line x1="230.1" y1="378.3" x2="232.9" y2="387.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="230.1" cy="378.3" r="4" fill="#2f7de1" stroke="#fff"><title>s020_ZERGLING_JUMP ATTACK (SMX1ZerglingT1)</title></circle>
+<text x="236.1" y="390.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s020_ZERGLING_JUMP ATTACK</text>
+<line x1="242.8" y1="378.1" x2="252.6" y2="380" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="242.8" cy="378.1" r="4" fill="#2f7de1" stroke="#fff"><title>s030_ZERGLING_JUMP ATTACK (SMX1ZerglingT1)</title></circle>
+<text x="248.8" y="390.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s030_ZERGLING_JUMP ATTACK</text>
+<line x1="244.3" y1="378.1" x2="254.1" y2="380" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="244.3" cy="378.1" r="4" fill="#2f7de1" stroke="#fff"><title>s040_ZERGLING_JUMP ATTACK (SMX1ZerglingT1)</title></circle>
+<text x="250.3" y="390.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s040_ZERGLING_JUMP ATTACK</text>
+<line x1="178.5" y1="339.9" x2="188.5" y2="339.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="178.5" cy="339.9" r="4" fill="#2f7de1" stroke="#fff"><title>s040_HYDRA (SMX1HydraliskT1)</title></circle>
+<text x="184.5" y="351.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s040_HYDRA</text>
+<line x1="233.8" y1="378" x2="233.7" y2="368" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="233.8" cy="378" r="4" fill="#2f7de1" stroke="#fff"><title>s060_HYDRA (SMX1HydraliskT1)</title></circle>
+<text x="239.8" y="390" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s060_HYDRA</text>
+<line x1="227.2" y1="369.7" x2="237.2" y2="369.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="227.2" cy="369.7" r="4" fill="#2f7de1" stroke="#fff"><title>s080_ZERGLING (SMX1ZerglingT1)</title></circle>
+<text x="233.2" y="381.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s080_ZERGLING</text>
+<line x1="302.3" y1="447.3" x2="296.1" y2="439.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="302.3" cy="447.3" r="4" fill="#2f7de1" stroke="#fff"><title>s090_ZERGLING (SMX1ZerglingT1)</title></circle>
+<text x="308.3" y="459.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s090_ZERGLING</text>
+<line x1="228.4" y1="349" x2="238.4" y2="349" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="228.4" cy="349" r="4" fill="#2f7de1" stroke="#fff"><title>s100_ZERGLING (SMX1ZerglingT1)</title></circle>
+<text x="234.4" y="361" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s100_ZERGLING</text>
+<line x1="302.3" y1="447.3" x2="296.1" y2="439.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="302.3" cy="447.3" r="4" fill="#2f7de1" stroke="#fff"><title>s103_ZERGLING_A (SMX1ZerglingT1)</title></circle>
+<text x="308.3" y="459.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s103_ZERGLING_A</text>
+<line x1="302.3" y1="447.3" x2="296.1" y2="439.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="302.3" cy="447.3" r="4" fill="#2f7de1" stroke="#fff"><title>s103_ZERGLING_B (SMX1ZerglingT1)</title></circle>
+<text x="308.3" y="459.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s103_ZERGLING_B</text>
+<line x1="222.2" y1="355.5" x2="232.2" y2="355.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="222.2" cy="355.5" r="4" fill="#2f7de1" stroke="#fff"><title>s110_ZERGLING (SMX1ZerglingT1)</title></circle>
+<text x="228.2" y="367.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s110_ZERGLING</text>
+<line x1="222.2" y1="355.5" x2="232.2" y2="355.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="222.2" cy="355.5" r="4" fill="#2f7de1" stroke="#fff"><title>s125_ZERGLING_vs_ARTANIS (SMX1ZerglingT1)</title></circle>
+<text x="228.2" y="367.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s125_ZERGLING_vs_ARTANIS</text>
+<line x1="178.5" y1="339.9" x2="188.5" y2="339.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="178.5" cy="339.9" r="4" fill="#2f7de1" stroke="#fff"><title>s125_HYDRA (SMX1HydraliskT1)</title></circle>
+<text x="184.5" y="351.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s125_HYDRA</text>
+<line x1="235" y1="354.6" x2="236.4" y2="344.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="235" cy="354.6" r="4" fill="#2f7de1" stroke="#fff"><title>s125_ZERGLING_DEAD_A (SMX1ZerglingT1)</title></circle>
+<text x="241" y="366.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s125_ZERGLING_DEAD_A</text>
+<line x1="241.2" y1="406.2" x2="251.2" y2="406.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="241.2" cy="406.2" r="4" fill="#2f7de1" stroke="#fff"><title>s125_ZERGLING_DEAD_B (SMX1ZerglingT1)</title></circle>
+<text x="247.2" y="418.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s125_ZERGLING_DEAD_B</text>
+<line x1="302.3" y1="447.3" x2="296.1" y2="439.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="302.3" cy="447.3" r="4" fill="#2f7de1" stroke="#fff"><title>s125_ZERGLING_A (SMX1ZerglingT1)</title></circle>
+<text x="308.3" y="459.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s125_ZERGLING_A</text>
+<line x1="222.2" y1="355.5" x2="232.2" y2="355.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="222.2" cy="355.5" r="4" fill="#2f7de1" stroke="#fff"><title>s130_ZERGLING_vs_ARTANIS (SMX1ZerglingT1)</title></circle>
+<text x="228.2" y="367.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s130_ZERGLING_vs_ARTANIS</text>
+<line x1="218.8" y1="352.2" x2="213.2" y2="360.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="218.8" cy="352.2" r="4" fill="#2f7de1" stroke="#fff"><title>s140_HYDRA (SMX1HydraliskT1)</title></circle>
+<text x="224.8" y="364.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s140_HYDRA</text>
+<line x1="237.8" y1="390.1" x2="243.9" y2="398" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="237.8" cy="390.1" r="4" fill="#2f7de1" stroke="#fff"><title>s150_DEAD ZERGLING (SMX1ZerglingT1)</title></circle>
+<text x="243.8" y="402.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s150_DEAD ZERGLING</text>
+<line x1="250.2" y1="357.2" x2="241" y2="353.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="250.2" cy="357.2" r="4" fill="#2f7de1" stroke="#fff"><title>s210_DEAD ZERGLING (SMX1ZerglingT1)</title></circle>
+<text x="256.2" y="369.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s210_DEAD ZERGLING</text>
+<line x1="228" y1="379.4" x2="218.8" y2="375.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="228" cy="379.4" r="4" fill="#2f7de1" stroke="#fff"><title>s210_DEAD ZERGLING (SMX1ZerglingT1)</title></circle>
+<text x="234" y="391.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s210_DEAD ZERGLING</text>
+<line x1="213.5" y1="374" x2="208.4" y2="382.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="213.5" cy="374" r="4" fill="#2f7de1" stroke="#fff"><title>s210_DEAD ZERGLING (SMX1ZerglingT1)</title></circle>
+<text x="219.5" y="386" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s210_DEAD ZERGLING</text>
+<line x1="243.9" y1="454.7" x2="244.2" y2="444.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="243.9" cy="454.7" r="4" fill="#2f7de1" stroke="#fff"><title>SMX2 Aiur02 Debrief Dark Templar Death (SMX2_Aiur02Debrief_DarkTemplar_Death)</title></circle>
+<text x="249.9" y="466.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX2 Aiur02 Debrief Dark Templar Death</text>
+</g>
+<line x1="108.6" y1="583.9" x2="169.2" y2="583.9" stroke="#333" stroke-width="2"/>
+<line x1="108.6" y1="579.9" x2="108.6" y2="587.9" stroke="#333"/><line x1="120.7" y1="579.9" x2="120.7" y2="587.9" stroke="#333"/>
+<text x="108.6" y="577.9" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">2 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_Aiur02Debrief.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMX2CutsceneAiur02Night010,</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX2CutsceneAiur02Night020,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX2CutsceneAiur02Night030,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX2CutsceneAiur02Night040,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX2CutsceneAiur02Night050,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX2CutsceneAiur02Night060,</text>
+<text x="560" y="192" font-size="9" fill="#333">SMX2CutsceneAiur02Night070,</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX2CutsceneAiur02Night075,</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX2CutsceneAiur02Night080,</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX2CutsceneAiur02Night090,</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX2CutsceneAiur02Night100,</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX2CutsceneAiur02Night103,</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX2CutsceneAiur02Night105,</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX2CutsceneAiur02Night110,</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX2CutsceneAiur02Night120,</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX2CutsceneAiur02Night125,</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX2CutsceneAiur02Night130,</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX2CutsceneAiur02Night140,</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX2CutsceneAiur02Night150,</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX2CutsceneAiur02Night160,</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX2CutsceneAiur02Night170,</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX2CutsceneAiur02Night180,</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX2CutsceneAiur02Night190,</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX2CutsceneAiur02Night200,</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX2CutsceneAiur02Night210,</text>
+<text x="560" y="420" font-size="9" fill="#333">SMX2CutsceneAiur02Night220,</text>
+<text x="560" y="432" font-size="9" fill="#333">SMX2CutsceneAiur02Night230</text>
+<text x="560" y="444" font-size="9" fill="#333">Screens: none known; not read:</text>
+<text x="560" y="456" font-size="9" fill="#333">AiurPsionicStorm, SMShadowbox</text>
+<text x="560" y="468" font-size="9" fill="#333">Marks: 75; cameras: 39 (39 aimed</text>
+<text x="560" y="480" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="492" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="504" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="516" font-size="9" fill="#333"></text>
+<text x="560" y="528" font-size="9" fill="#333">Models:</text>
+<text x="560" y="540" font-size="9" fill="#333">SMCharCinematicSkyparallax ×2</text>
+<text x="560" y="552" font-size="9" fill="#333">SMX2_Aiur02_Foliage_00 ×2</text>
+<text x="560" y="564" font-size="9" fill="#333">SMX2_Aiur02_Foliage_01 ×2</text>
+<text x="560" y="576" font-size="9" fill="#333">SMX2_Aiur02_Foliage_03 ×2</text>
+<text x="560" y="588" font-size="9" fill="#333">SMX2_Aiur02_Foliage_04 ×2</text>
+<text x="560" y="600" font-size="9" fill="#333">SMX2_GenericRocks_00 ×2</text>
+<text x="560" y="612" font-size="9" fill="#333">SMX2_GenericRocks_01 ×2</text>
+<text x="560" y="624" font-size="9" fill="#333">SMX2_GenericRocks_02 ×2</text>
+<text x="560" y="636" font-size="9" fill="#333">SMX2_GenericRocks_04 ×2</text>
+<text x="560" y="648" font-size="9" fill="#333">SMX2_GenericRocks_09 ×2</text>
+<text x="560" y="660" font-size="9" fill="#333">SMX2_GenericRocks_12 ×2</text>
+<text x="560" y="672" font-size="9" fill="#333">SMX2_GenericRocks_14 ×2</text>
+<text x="560" y="684" font-size="9" fill="#333">SMX2_GenericRocks_15 ×2</text>
+<text x="560" y="696" font-size="9" fill="#333">Aiur_Overgrowth_05 ×1</text>
+<text x="560" y="708" font-size="9" fill="#333">AiurPsionicStorm ×1</text>
+<text x="560" y="720" font-size="9" fill="#333">SMShadowbox ×1</text>
+<text x="560" y="732" font-size="9" fill="#333">SMX1ZerglingT1 ×1</text>
+<text x="560" y="744" font-size="9" fill="#333">SMX2_Aiur_Tree ×1</text>
+<text x="560" y="756" font-size="9" fill="#333">SMX2_Cybros ×1</text>
+<text x="560" y="768" font-size="9" fill="#333">SMX2_GenericRocks01 ×1</text>
+<text x="560" y="780" font-size="9" fill="#333">SMX2ProtossArtanis ×1</text>
+<text x="560" y="792" font-size="9" fill="#333">SMX2ProtossSmith ×1</text>
+<text x="560" y="804" font-size="9" fill="#333"></text>
+<text x="560" y="816" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="828" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="840" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_MissionPurifier03End.SC2Cutscene</text>
+</svg>

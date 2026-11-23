@@ -1,0 +1,269 @@
+import { ForOs, OsSwitch } from "@/components/os-switch";
+
+export const metadata = { title: "Install" };
+
+# Install sc2-adjutant
+
+Setup happens inside Claude Code: add the plugin, then `/sc2-adjutant:init` makes a Workspace for your Campaign. The plugin comes from GitHub and everything else from npm, so nothing needs building.
+
+## Before you start
+
+You need StarCraft II and its Editor, on macOS or Windows. On Linux you can compile and check Missions, but nothing can open the Editor or play a Mission for you.
+
+Some steps differ by machine. Each shows the macOS version, then the Windows one. Pick yours, and the page shows only its commands:
+
+<OsSwitch />
+
+## Install in Claude Code
+
+### 1. Install Claude Code and Node.js
+
+- [Claude Code](https://claude.com/claude-code).
+- [Node.js](https://nodejs.org/) 22.18 or later, which comes with npm. `node --version` says which you have. After installing Node, open a new terminal so Claude Code finds it.
+
+### 2. Start Claude Code in an empty folder
+
+```sh
+mkdir my-campaign
+cd my-campaign
+claude
+```
+
+This folder becomes your **Workspace**, the folder that holds your Campaign's Missions.
+
+### 3. Add the plugin
+
+In Claude Code, type:
+
+```text
+/plugin marketplace add TeamAntioch/sc2-adjutant
+/plugin install sc2-adjutant@sc2-adjutant
+```
+
+This adds the sc2-adjutant GitHub repo as a plugin source; nothing is installed from a store. The plugin brings the MCP server's launcher, the co-design skills and the commands. The server itself is core, which the next step installs in your Workspace. Until then, `/mcp` lists the sc2-adjutant server as failed, since the folder isn't a Workspace yet: that's expected.
+
+If `/sc2-adjutant:init` doesn't come up when you start typing it, quit Claude Code and start `claude` again in the same folder.
+
+### 4. Make a Workspace
+
+```text
+/sc2-adjutant:init
+```
+
+The command checks your Node, checks the folder, then runs `init` from npm, which starts the Workspace from the example Campaign. It uses only Bash, so it works before the server can start, and runs these without asking for your approval. `init` refuses a folder that already has a Workspace, or a file it would overwrite; the command then offers to make the Workspace in a new subfolder, and Claude Code asks you to approve `init` once you've named it. If you started Claude Code in a folder that isn't empty, you can name the subfolder straight away: `/sc2-adjutant:init my-campaign` makes `my-campaign` inside the current folder.
+
+<ForOs os="macos">
+
+`init` installs core (`@team-antioch/sc2-adjutant`) and the macOS Host Adapter (`@team-antioch/sc2-adjutant-host-macos`) in the Workspace. If you have no machine config yet, it writes `~/.config/sc2-adjutant/machine.json` (under `$XDG_CONFIG_HOME` instead, when that's set), naming the Host Adapter as `"hostAdapter": "bundled:host-macos"`.
+
+</ForOs>
+
+<ForOs os="windows">
+
+`init` installs core (`@team-antioch/sc2-adjutant`) and the Windows Host Adapter (`@team-antioch/sc2-adjutant-host-windows`) in the Workspace. If you have no machine config yet, it writes `%APPDATA%\sc2-adjutant\machine.json`, naming the Host Adapter as `"hostAdapter": "bundled:host-windows"`.
+
+</ForOs>
+
+`init` picks the Host Adapter for the machine it runs on, and has no option to choose another. It also writes the Workspace's `package.json` and `.gitignore`, runs `npm install`, and copies the skills of the Workspace's Plugins into `.claude/skills/`. A machine config you already have is never changed: Claude says what yours names, and if it names no Host Adapter, what to add.
+
+### 5. Start the server
+
+If the Workspace is the folder Claude Code is in, type `/mcp`, select `plugin:sc2-adjutant:sc2-adjutant` and reconnect it. If it doesn't connect, quit Claude Code and start `claude` again in the folder. If `init` made a subfolder, quit Claude Code, `cd` into the subfolder and start `claude` there.
+
+Then type `/sc2-adjutant:co-design ashfall-relay` to start on the example Mission, or follow the [first tutorial](/tutorials/01-first-mission/).
+
+### 6. Tell the Host Adapter where the Editor is
+
+The **Host Adapter** opens your maps in the Editor, plays them and captures the screen for you. Without it, those tools hand you the steps to do by hand. It reads every path from the machine config, so add your Editor's:
+
+<ForOs os="macos">
+
+In `~/.config/sc2-adjutant/machine.json`:
+
+```json
+{
+  "hostAdapter": "bundled:host-macos",
+  "editorPath": "/Applications/StarCraft II Editor (Fixed).app",
+  "cacheDir": "~/Library/Caches/sc2-adjutant"
+}
+```
+
+On Apple Silicon, the native Editor runs only through a community fix that ships as a launcher app. Point `editorPath` at the launcher, since the bare Editor crashes at launch ([the native Editor fix](https://github.com/TeamAntioch/sc2-adjutant/blob/main/packages/plugin-host-macos/docs/macos-host.md#the-native-editor-fix)). Give the app that runs Claude Code (your terminal, say) Accessibility and Screen Recording permission in System Settings: the Editor is driven through its menus, and captures read the screen. The rest, such as the model viewer for thumbnails, is in the [macOS Host Adapter's README](https://github.com/TeamAntioch/sc2-adjutant/tree/main/packages/plugin-host-macos#what-it-needs).
+
+</ForOs>
+
+<ForOs os="windows">
+
+In `%APPDATA%\sc2-adjutant\machine.json`:
+
+```json
+{
+  "hostAdapter": "bundled:host-windows",
+  "editorPath": "C:\\Program Files (x86)\\StarCraft II\\Support\\SC2Editor.exe",
+  "sc2Path": "C:\\Program Files (x86)\\StarCraft II",
+  "cacheDir": "~/AppData/Local/sc2-adjutant"
+}
+```
+
+`editorPath` is the 32-bit Editor, `Support\SC2Editor.exe`, and `sc2Path` the install folder, for starting the game without the Editor. Write each backslash twice, as JSON needs. The rest, such as the model viewer for thumbnails, is in the [Windows Host Adapter's README](https://github.com/TeamAntioch/sc2-adjutant/tree/main/packages/plugin-host-windows#what-it-needs).
+
+</ForOs>
+
+The server reads the machine config as it starts, so after editing it, reconnect the server in `/mcp`, or restart Claude Code.
+
+### From a terminal
+
+`init` also runs from a terminal, without the command. Add the plugin with `claude plugin marketplace add TeamAntioch/sc2-adjutant` and `claude plugin install sc2-adjutant@sc2-adjutant`, then make the Workspace in a new folder:
+
+<ForOs os="macos">
+
+```sh
+npx @team-antioch/sc2-adjutant init my-campaign
+```
+
+</ForOs>
+
+<ForOs os="windows">
+
+```powershell
+npx.cmd @team-antioch/sc2-adjutant init my-campaign
+```
+
+Type `npx.cmd`, not `npx`: PowerShell's default policy refuses to run `npx`, and `npx.cmd` works in PowerShell and cmd.exe alike.
+
+</ForOs>
+
+Then `cd my-campaign` and start `claude` there.
+
+### Updating
+
+Run `npm update` in the Workspace for core and the Host Adapter, and `claude plugin update sc2-adjutant@sc2-adjutant` for the plugin, then restart Claude Code. The two release together, so update both.
+
+## Check the server
+
+In Claude Code, type `/mcp`: the list shows `plugin:sc2-adjutant:sc2-adjutant` as connected. From a terminal in the Workspace, `claude mcp list` says the same. Then ask Claude to list the Workspace's Plugins: `list_plugins` names the Campaign Pack and the other Plugins, then the machine's Host Adapter if one loaded.
+
+When the server isn't connected, select it in `/mcp` to see what it printed. These are the messages it prints, and what to do about each. Two don't stop it starting: the version warning, and the old-Node error, which comes back from a tool call instead.
+
+### Not in a Workspace
+
+```text
+sc2-adjutant: the MCP server didn't start.
+/path/to/folder isn't in a Workspace: no sc2-adjutant.workspace.json in it or any folder above it.
+Make one here with /sc2-adjutant:init, or open Claude Code in a Workspace folder. From a terminal, npx @team-antioch/sc2-adjutant init <folder> makes one too.
+```
+
+Claude Code was opened outside a Workspace. To make this folder one, type `/sc2-adjutant:init`, as in [step 4](#4-make-a-workspace). If you already have a Workspace, quit, `cd` into it (or any folder inside it), and start `claude` there.
+
+### Core not found
+
+```text
+sc2-adjutant: the MCP server didn't start.
+Couldn't find sc2-adjutant core. Looked in:
+- @team-antioch/sc2-adjutant installed in /path/to/my-campaign
+- /path/to/…/core
+Run npm install in the Workspace folder, which installs core there. To use a checkout of https://github.com/TeamAntioch/sc2-adjutant instead, set the plugin's core_path option to it (/plugin configure sc2-adjutant@sc2-adjutant).
+The install page has the rest: https://adjutant.antioch.games/install/
+```
+
+The Workspace has no core in its `node_modules`. Run `npm install` in the Workspace folder, then restart Claude Code. The second place is a checkout around the plugin, which an install from GitHub doesn't have. The `core_path` option is for the [route from a checkout](#from-a-checkout), which you don't need.
+
+### Core not built
+
+```text
+sc2-adjutant: the MCP server didn't start.
+Found sc2-adjutant core in /path/to/sc2-adjutant/packages/core (the core_path option), but it isn't built: no /path/to/sc2-adjutant/packages/core/dist/mcp/main.js.
+```
+
+Only from a checkout: run `npm install`, or `npm run build`, in it.
+
+### Versions don't match
+
+```text
+sc2-adjutant: warning: the plugin and core versions don't match.
+```
+
+A warning, and the server starts anyway. The plugin and core are from different releases, so an update is half done. Run `npm update` in the Workspace and `claude plugin update sc2-adjutant@sc2-adjutant`, then restart Claude Code.
+
+### Host Adapter not installed
+
+```text
+Bundled Plugin bundled:host-macos is the package @team-antioch/sc2-adjutant-host-macos, which core can't find: install it beside sc2-adjutant (…)
+```
+
+The machine config names a Host Adapter that the Workspace doesn't have installed, as in a Workspace copied rather than made with `init`. Install it in the Workspace:
+
+<ForOs os="macos">
+
+```sh
+npm install @team-antioch/sc2-adjutant-host-macos
+```
+
+</ForOs>
+
+<ForOs os="windows">
+
+```powershell
+npm install @team-antioch/sc2-adjutant-host-windows
+```
+
+</ForOs>
+
+### A broken machine config
+
+```text
+Invalid machine config /path/to/machine.json: (config): Unrecognized key: "editorPth"
+Can't read the machine config /path/to/machine.json: Bad escaped character in JSON at position 19 (line 1 column 20)
+```
+
+The server reads the machine config as it starts. Fix the setting it names, or the JSON (a missing comma, or a single backslash in a Windows path), then restart Claude Code.
+
+### Node is too old
+
+```text
+Unknown file extension ".ts" for /path/to/my-campaign/plugins/campaign-example/index.ts
+```
+
+Core needs Node 22.18 or later, which loads a Workspace's TypeScript Plugins as they are. On Node 20 the server starts, but every tool that loads the Workspace's Plugins fails with this. On an older Node, such as 16, the server doesn't start at all, with `SyntaxError: Unexpected token 'with'`. npm warns `EBADENGINE` during `init` too. Install a newer Node, check with `node --version`, and restart Claude Code, which runs the server with the `node` it finds.
+
+## Optional: ranked doodad and set search
+
+The Doodad Finder and the Set Finder find doodads and cinematic sets from a description in plain words. The details are in the asset catalog's README: [Ranking with Jev](https://github.com/TeamAntioch/sc2-asset-catalog#ranking-with-jev) and [The cache folder](https://github.com/TeamAntioch/sc2-asset-catalog#the-cache-folder).
+
+- **They come with core.** `find_doodads`, `open_doodad_finder` and `find_sets` are served when core's optional dependencies, the Doodad Finder and Set Finder packages, are installed, as `init` does. An install with `--omit=optional` leaves them out, and the server doesn't list those tools.
+- **The first use downloads a model.** A Finder's first start downloads its embeddings model (gte-small, about 34 MB) into the cache folder. After that it works offline.
+- **On Windows**, the model needs the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist), which a fresh Windows doesn't have.
+- **Jev ranking is optional.** Get a [TypeSafe AI](https://typesafe.ai) API key, then run `npx @team-antioch/sc2-doodad-finder login` (`npx.cmd` on Windows). One key serves every Finder. Or set `TYPESAFE_API_KEY` where Claude Code starts. Without a key, the cards come in the narrowing's order.
+- **What it costs.** A ranked Doodad Finder ask costs about $0.0013, and a Set Finder ask less. Each session stops ranking at $1.00 by default (`--budget` sets another cap), and every call's payload is logged in the cache folder's `ranker-payloads/`.
+- **To check it**, ask Claude to open the Doodad Finder: `open_doodad_finder` says whether the model is cached and whether it found a key.
+
+## From a checkout
+
+For contributors running the plugin from a clone of sc2-adjutant, which serves the plugin and core in place.
+
+1. Clone sc2-adjutant and build it:
+
+   ```sh
+   git clone https://github.com/TeamAntioch/sc2-adjutant.git
+   cd sc2-adjutant
+   npm install
+   ```
+
+   `npm install` builds core. After pulling changes, run `npm run build` again.
+
+2. Add the checkout as a plugin marketplace, and install the plugin from it:
+
+   ```sh
+   claude plugin marketplace add /path/to/sc2-adjutant
+   claude plugin install sc2-adjutant@sc2-adjutant
+   ```
+
+   A marketplace added from a local folder is read in place, so the plugin finds core in the same checkout. Pass `--scope project` to `install` inside a Workspace to enable it there only.
+
+3. Make a Workspace by copying the checkout's `packages/core/examples/example-campaign`. Nothing writes a machine config for it, so write your own, as in [step 6](#6-tell-the-host-adapter-where-the-editor-is) above. The checkout's core finds both Host Adapters in it.
+
+4. Open Claude Code in the Workspace, and check the server as [above](#check-the-server).
+
+To use a checkout as core with the plugin installed from GitHub (`claude plugin marketplace add TeamAntioch/sc2-adjutant`), set the plugin's `core_path` option to the checkout: `/plugin configure sc2-adjutant@sc2-adjutant`, or `claude plugin install sc2-adjutant@sc2-adjutant --config core_path=/path/to/sc2-adjutant`. The server looks for core in `core_path`, then in the Workspace's `node_modules`, then in the checkout around the plugin. The [plugin's README](https://github.com/TeamAntioch/sc2-adjutant/tree/main/packages/claude-plugin#how-the-server-finds-its-workspace-and-core) has the details.
+
+To try a change to the plugin without installing it, start Claude Code with `claude --plugin-dir /path/to/sc2-adjutant/packages/claude-plugin`.

@@ -1,0 +1,9 @@
+text libNovC_gf_FormatTimeCampaign (int lp_second) {
+    // Implementation
+    if ((lp_second < 3600)) {
+        return TextTimeFormat(StringExternal("Param/Value/lib_NovC_A4F1A203"), lp_second);
+    }
+    else {
+        return TextTimeFormat(StringExternal("Param/Value/lib_NovC_4E67BE7A"), lp_second);
+    }
+}

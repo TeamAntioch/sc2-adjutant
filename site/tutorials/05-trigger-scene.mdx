@@ -1,0 +1,182 @@
+export const meta = {
+  title: "An in-game cutscene on the map",
+  summary: "Stage a Screenplay scene on the Mission's own map as a Trigger Scene: camera Anchors, a shot aimed at a unit, an eased camera move and a unit walked to its mark, played as the victory outro.",
+  minutes: 20,
+};
+
+You'll stage *Ashfall Relay*'s last scene, THE RELAY, on the map itself. When the Sergeant reaches the Relay Station, the game goes into Cinematic Mode: he walks to the relay mast and reports in, the camera eases up to the mast as the Adjutant answers, and the Mission ends in victory. This is a **Trigger Scene**: an in-game cutscene filmed with the Mission's own camera Anchors, with the scene's lines played as Transmissions.
+
+Use the Workspace from [Your first Mission](/tutorials/first-mission/), with *Ashfall Relay* signed off. [A cutscene with placeholder voices](/tutorials/cutscene/) isn't needed first, but this works after it too. The turns below are written by hand. Claude's words will differ in your session, but the tool calls are the ones it makes.
+
+<Objective id="tier" title="Choose how it plays">
+
+Scene 2 is already in the Screenplay, with two lines and a stage direction:
+
+```markdown
+## Scene 2: THE RELAY
+
+> The Sergeant reaches the dish. Its lights flicker back on.
+```
+
+Today its lines play as bare Transmissions over the game as the Mission is won. Ask the [`cinematography`](/skills/cinematography/) skill how it should play.
+
+<You>How should the relay scene play?</You>
+
+<Claude>
+<ToolCall name="get_blueprint" args={{ mission: "ashfall-relay", pointer: "/screenplay" }}>reads the scene's cue and how the Screenplay's scenes play</ToolCall>
+
+Scene 2 plays when the Sergeant enters the Relay Station, the Mission's victory condition. Its stage direction is a moment on this map, the Sergeant reaching the relay, so it wants the camera on him: not bare Transmissions, and not a ping, which points at the moment but leaves the player's camera where it is. It needs no Set of its own, so it's not a Cinematic: it's a **Trigger Scene**, played on the map in Cinematic Mode. Since it plays on the win, it's a **victory outro**: it ends the game instead of handing back.
+
+- **Length:** two short lines and a held last shot, well inside an outro's 25 s.
+- **Shots:** a close shot on the Sergeant as he arrives, then an eased move up to the relay mast under the Adjutant's line, held a few seconds before the fade to victory.
+- **Staging:** he walks to the mast's foot as he talks. The scene films the live Sergeant, not a copy staged for it, because the game ends after it and nothing has to be put back. A skip leaves him where it caught him, which is fine for the same reason.
+- **Music:** the mission's music pauses under it, as for any scene.
+- **Skip:** Escape goes straight to the victory.
+
+The first shot is on the Sergeant, not a wide: the scene is framed on its speaker, and I'll note that in the plan.
+
+The map has no mast yet. The Landing Tower, the pick for the mast in [Finding doodads](/tutorials/finding-doodads/), reads as one, so I'd place it in the Relay Station. A doodad can't be sent actor messages, so its lights can't flicker on: the camera rising to the mast plays that beat instead.
+</Claude>
+
+<You>Do it.</You>
+
+</Objective>
+
+<Objective id="cameras" title="Place the mast and the cameras">
+
+A Trigger Scene films from camera Anchors: Blueprint Anchors of kind `camera`, each with a target and the Editor's camera values. The compile writes them into the map as camera objects.
+
+<Claude>
+<ToolCall
+  name="patch_blueprint"
+  args={{
+    mission: "ashfall-relay",
+    patch: [
+      { op: "add", path: "/anchors/-", value: { id: "relay-mast", name: "Relay mast", zoneId: "relay", kind: "doodad", doodadType: "LandingTower", position: { x: 86, y: 32 }, rotation: 0 } },
+      {
+        op: "add",
+        path: "/anchors/-",
+        value: {
+          id: "cam-arrival", name: "Arrival", zoneId: "relay", kind: "camera", position: { x: 76, y: 32 }, cameraTarget: { x: 76, y: 32 },
+          cameraValues: [{ index: "Distance", value: 14 }, { index: "Pitch", value: 30 }, { index: "Yaw", value: 180 }, { index: "FieldOfView", value: 27.8 }],
+        },
+      },
+      {
+        op: "add",
+        path: "/anchors/-",
+        value: {
+          id: "cam-mast", name: "Mast", zoneId: "relay", kind: "camera", position: { x: 86, y: 32 }, cameraTarget: { x: 86, y: 32 },
+          cameraValues: [{ index: "Distance", value: 26 }, { index: "Pitch", value: 20 }, { index: "Yaw", value: 180 }, { index: "FieldOfView", value: 27.8 }],
+        },
+      },
+    ],
+  }}
+>
+  places the relay mast, and two camera Anchors: a close one for the arrival and a low, wide one on the mast
+</ToolCall>
+
+The mast stands in the middle of the Relay Station. `cam-arrival` is close, at 14 distance, and lower than the game camera, at 30° pitch. `cam-mast` is a wide, nearly twice as far and lower still, at 20°, so the mast stands tall against the sky. Both face the way the game camera does, at yaw 180, with its lens, 27.8, so the scene keeps the player's sense of direction.
+</Claude>
+
+A camera Anchor's `cameraValues` are the Editor's camera object fields: `Distance` in cells, and `Pitch` (degrees down from level; the game camera's is 56), `Yaw` and `FieldOfView` in degrees. `npm run check` warns on a camera turned more than 45° from the game camera's yaw, or with another lens. Placing the mast is dressing, Stage 3's work; that comes up again at the sign-off.
+
+</Objective>
+
+<Objective id="shots" title="Write the shot list">
+
+Claude writes the scene's shot list in `missions/ashfall-relay/trigger-scenes/relay.json`, with the plan, its reasons and the checks in `missions/ashfall-relay/cutscenes.md`.
+
+<Claude>
+```json
+{
+  "outro": "victory",
+  "shots": [
+    {
+      "camera": "cam-arrival", "unit": { "anchorId": "sergeant" }, "line": "Ch1_ashfall_relay_2_01",
+      "orders": [{ "units": ["sergeant"], "moveTo": { "x": 83, "y": 30 } }]
+    },
+    {
+      "camera": "cam-arrival", "unit": { "anchorId": "sergeant" }, "to": "cam-mast",
+      "line": "Ch1_ashfall_relay_2_02", "pauseAfterMs": 3000
+    }
+  ]
+}
+```
+
+Two shots, each cut at the start of its line. The first is `cam-arrival`'s values aimed at the Sergeant, wherever he came in, and it orders him to walk to the mast's foot. The second starts on that same framing, so there's no cut, and eases to `cam-mast` over the Adjutant's line, then holds 3 s. `outro: "victory"` makes it end the game: after its fade out, the victory screen follows.
+</Claude>
+
+A shot's `unit` aims its camera at a unit with its Anchor's values. It aims where the unit is at the cut, and doesn't follow him. A shot aimed at `"cue"`, the unit the scene's cue found, needs a cue that names one, such as `anchorNears`. Scene 2's `anchorEntersZone` cue names none, so the shot names the Sergeant's Anchor. A shot's `move` defaults to an ease, which leaves at speed and settles.
+
+</Objective>
+
+<Objective id="play" title="Compile and play it" needs="editor.testDocument">
+
+<You>Compile it, and let me see it.</You>
+
+<Claude>
+<ToolCall
+  name="patch_blueprint"
+  args={{ mission: "ashfall-relay", patch: [{ op: "add", path: "/screenplay/script/triggerScenes", value: [{ id: "relay", scene: 2 }] }] }}
+>
+  makes Scene 2 play as the relay Trigger Scene, in place of its bare Transmissions
+</ToolCall>
+
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay" }}>writes the Map Package, with the scene's four triggers and the camera objects</ToolCall>
+
+The map compiled. The scene is four triggers, as Blizzard's are: Setup goes to black and into Cinematic Mode, Cinematic plays the shots and lines, CinematicEnd fades out, and Cleanup, which in an outro puts nothing back for play: the screen stays black under Cinematic Mode, and the victory follows. The compile warns that the Landing Tower has no recorded ground outline, so units can walk through it. Nothing walks into the mast here, so I've left it.
+
+<ToolCall name="test_mission" args={{ mission: "ashfall-relay" }}>compiles, then starts the map in the game with the Editor's Test Document</ToolCall>
+
+The game is starting. Walk the Sergeant to the Relay Station, between the surges, and watch the scene. Tell me what to change.
+</Claude>
+
+Close the map in the Editor before Claude compiles: rewriting a map the Editor has open can crash it. In the Editor, the scene's triggers are in the Trigger Editor and the camera Anchors are camera objects on the map. You can frame a camera there: save the map and ask Claude to [`sync`](/tools/sync/), and the camera's new place and values go back into its Anchor. Don't change the scene's triggers there: the next compile stops and asks whether to keep or discard the change. Ask Claude to change the shot list instead.
+
+</Objective>
+
+<Objective id="revise" title="Change a shot" needs="editor.testDocument">
+
+<You>Hold on the mast longer before it fades. Five seconds.</You>
+
+<Claude>
+I've set the second shot's `pauseAfterMs` to 5000 in `relay.json`.
+
+<ToolCall name="test_mission" args={{ mission: "ashfall-relay" }}>compiles the map with the longer hold, then starts it again</ToolCall>
+
+The scene now holds 5 s on the mast. The game is starting again.
+</Claude>
+
+A Trigger Scene is written into the map's triggers, so any change to it compiles the whole map: [`test_mission`](/tools/test_mission/) compiles before it plays. Only a Cinematic, which is a file of its own, can be written alone, with [`compile_cutscene`](/tools/compile_cutscene/).
+
+</Objective>
+
+<Objective id="sign-off" title="Sign Stage 4 off again">
+
+<You>It plays well. Sign it off.</You>
+
+<Claude>
+<ToolCall name="get_session_state" args={{ mission: "ashfall-relay" }}>what's signed off, and what's stale</ToolCall>
+
+Every Stage is signed off, and every sign-off is now stale: the Blueprint and the Map Package have changed since. A stale sign-off still stands until you say otherwise. The mast is new dressing, which is Stage 3's work: does Stage 3 still stand with it, or do you want to look at the mast as dressing first? Stage 4 is the one the scene changes: to sign it off again with the scene, reopen it first, with `/sc2-adjutant:reopen ashfall-relay 4 staging the relay scene`.
+</Claude>
+
+<You>Stage 3 stands; the mast is for the scene. `/sc2-adjutant:reopen ashfall-relay 4 staging the relay scene`</You>
+
+<Claude>
+<ToolCall name="reopen_stage" args={{ mission: "ashfall-relay", stage: 4, note: "Staging the relay scene as a Trigger Scene" }} />
+
+Stage 4 is open again, and its old sign-off is superseded.
+</Claude>
+
+<You>`/sc2-adjutant:sign-off ashfall-relay the relay scene plays on the map as the victory outro`</You>
+
+<Claude>
+<ToolCall name="sign_off_stage" args={{ mission: "ashfall-relay", stage: 4, note: "The relay scene plays on the map as the victory outro" }} />
+
+Signed off Stage 4 again, with the scene. Every Stage of *Ashfall Relay* is signed off.
+</Claude>
+
+Only you can reopen a Stage or sign one off: Claude never does either unasked.
+
+</Objective>

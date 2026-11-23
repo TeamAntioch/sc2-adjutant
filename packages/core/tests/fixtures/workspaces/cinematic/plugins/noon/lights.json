@@ -1,0 +1,13 @@
+{
+  "lights": [
+    {
+      "id": "NoonGlare",
+      "from": "ArcadeCityLight",
+      "ambient": { "color": [0.8, 0.5, 0.25] },
+      "key": { "color": [1, 0.6, 0.3], "direction": [0, 0, -2] },
+      "fill": { "color": [1, 0.55, 0.3], "scale": 0.5, "direction": [0, 0, 1] },
+      "exposure": 1.2
+    },
+    { "id": "NoonShade", "from": "ArcadeCityLight", "exposure": 0.8 }
+  ]
+}

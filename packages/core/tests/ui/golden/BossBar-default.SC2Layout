@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="GameUI/UIContainer/ConsoleUIContainer" file="GameUI">
+        <Frame type="Frame" name="BossBar">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="100"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="316"/>
+            <Height val="84"/>
+            <Visible val="false"/>
+            <Frame type="Image" name="Backing">
+                <Anchor side="Top" relative="$parent/Border" pos="Min" offset="10"/>
+                <Anchor side="Left" relative="$parent/Border" pos="Min" offset="10"/>
+                <Anchor side="Bottom" relative="$parent/Border" pos="Max" offset="-10"/>
+                <Anchor side="Right" relative="$parent/Border" pos="Max" offset="-10"/>
+                <Texture val="Assets\Textures\white.dds"/>
+                <Color val="0,0,0"/>
+                <Alpha val="150"/>
+                <RenderPriority val="400"/>
+            </Frame>
+            <Frame type="Image" name="Health">
+                <Anchor side="Top" relative="$parent/Border" pos="Min" offset="15"/>
+                <Anchor side="Left" relative="$parent/Border" pos="Min" offset="14"/>
+                <Width val="288"/>
+                <Height val="30"/>
+                <Texture val="@UI/LotV_Shared_InGame_BossBarFill"/>
+                <TextureType val="NineSlice"/>
+                <Color val="41,208,0"/>
+                <RenderPriority val="508"/>
+            </Frame>
+            <Frame type="Image" name="Shield">
+                <Anchor side="Top" relative="$parent/Border" pos="Min" offset="15"/>
+                <Anchor side="Left" relative="$parent/Border" pos="Min" offset="14"/>
+                <Width val="288"/>
+                <Height val="8"/>
+                <Texture val="@UI/LotV_Shared_InGame_BossBarFill"/>
+                <TextureType val="NineSlice"/>
+                <Color val="0,170,255"/>
+                <RenderPriority val="508"/>
+                <Visible val="false"/>
+            </Frame>
+            <Frame type="Image" name="Mark1">
+                <Anchor side="Top" relative="$parent/Border" pos="Min" offset="15"/>
+                <Anchor side="Left" relative="$parent/Border" pos="Min" offset="14"/>
+                <Width val="2"/>
+                <Height val="30"/>
+                <Texture val="Assets\Textures\white.dds"/>
+                <Color val="255,255,255"/>
+                <RenderPriority val="509"/>
+                <Visible val="false"/>
+            </Frame>
+            <Frame type="Image" name="Mark2">
+                <Anchor side="Top" relative="$parent/Border" pos="Min" offset="15"/>
+                <Anchor side="Left" relative="$parent/Border" pos="Min" offset="14"/>
+                <Width val="2"/>
+                <Height val="30"/>
+                <Texture val="Assets\Textures\white.dds"/>
+                <Color val="255,255,255"/>
+                <RenderPriority val="509"/>
+                <Visible val="false"/>
+            </Frame>
+            <Frame type="Image" name="Mark3">
+                <Anchor side="Top" relative="$parent/Border" pos="Min" offset="15"/>
+                <Anchor side="Left" relative="$parent/Border" pos="Min" offset="14"/>
+                <Width val="2"/>
+                <Height val="30"/>
+                <Texture val="Assets\Textures\white.dds"/>
+                <Color val="255,255,255"/>
+                <RenderPriority val="509"/>
+                <Visible val="false"/>
+            </Frame>
+            <Frame type="Image" name="Mark4">
+                <Anchor side="Top" relative="$parent/Border" pos="Min" offset="15"/>
+                <Anchor side="Left" relative="$parent/Border" pos="Min" offset="14"/>
+                <Width val="2"/>
+                <Height val="30"/>
+                <Texture val="Assets\Textures\white.dds"/>
+                <Color val="255,255,255"/>
+                <RenderPriority val="509"/>
+                <Visible val="false"/>
+            </Frame>
+            <Frame type="Image" name="Border">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Width val="316"/>
+                <Height val="60"/>
+                <Texture val="@UI/LotV_Shared_InGame_BossBarFrame"/>
+                <RenderPriority val="510"/>
+            </Frame>
+            <Frame type="Image" name="Flash">
+                <Anchor relative="$parent/Border"/>
+                <Texture val="@UI/LotV_Shared_InGame_BossBarFrameFlash"/>
+                <Alpha val="0"/>
+                <RenderPriority val="511"/>
+                <Animation name="Flash">
+                    <Event event="Flash" action="Reset" frame="$parent"/>
+                    <Event event="Flash" action="Play" frame="$parent"/>
+                    <Controller type="Fade" end="Pause">
+                        <Key type="Curve" time="0" value="0" out="Auto"/>
+                        <Key type="Curve" time="0.1" value="255" in="Auto" out="Auto"/>
+                        <Key type="Curve" time="0.6" value="0" in="Auto"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+            <Frame type="Label" name="Title">
+                <Anchor side="Bottom" relative="$parent/Border" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Border" pos="Min" offset="14"/>
+                <Anchor side="Right" relative="$parent/Border" pos="Max" offset="-14"/>
+                <Height val="24"/>
+                <Style val="Void_BossUnitFrameUnitName"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

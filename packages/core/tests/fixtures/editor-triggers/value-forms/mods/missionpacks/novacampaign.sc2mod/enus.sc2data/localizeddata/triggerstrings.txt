@@ -1,0 +1,2 @@
+﻿FunctionDef/Hint/lib_NCMI_2FE7927E=The function returns the player color should to be used for Kerrigan/Zerg in Swarm campaign
+FunctionDef/Name/lib_NCMI_2FE7927E=Campaign Player Color

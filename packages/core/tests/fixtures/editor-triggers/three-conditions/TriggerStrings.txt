@@ -1,0 +1,3 @@
+﻿Trigger/Name/49030CDB=Add Convoy Marine into Unit Group
+Variable/Name/00000020=P4_COLONISTS
+Variable/Name/BAB35D6B=ConvoyGuards

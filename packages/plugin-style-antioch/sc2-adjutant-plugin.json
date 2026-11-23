@@ -1,0 +1,111 @@
+{
+  "name": "style-antioch",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["style-pack"],
+  "contributions": {
+    "knowledge": [
+      {
+        "id": "guide",
+        "title": "The Antioch look, step by step",
+        "description": "Start here: which Design Lessons govern each step of proposing or critiquing a Mission's look, how much each weighs, and the leading words they use.",
+        "file": "knowledge/GUIDE.md"
+      },
+      {
+        "id": "lessons",
+        "title": "Design Lessons",
+        "description": "The ratified Design Lessons DL-01 to DL-19: each rule, the measured evidence and frames behind it, its weight and the Blueprint hook it shapes.",
+        "file": "exemplar-maps/LESSONS.md"
+      },
+      {
+        "id": "textures",
+        "title": "Choosing textures",
+        "description": "How to fill a Blueprint's texturePalette, and a texture set's palette past 8 textures: the palette's slots, pads of built ground, and how to search the texture catalog.",
+        "file": "knowledge/TEXTURES.md"
+      },
+      {
+        "id": "cliffs",
+        "title": "Choosing cliffs",
+        "description": "How to fill a Blueprint's cliffPalette and cliffSets: a cliff family chosen with the ground it borders, per map or per area, and how to search the cliff catalog.",
+        "file": "knowledge/CLIFFS.md"
+      },
+      {
+        "id": "dressing",
+        "title": "Dressing",
+        "description": "Cliff piles, edge lines and what makes an edge read right, shore dressing, set pieces and Doodad Composites (captured or composed), how to search the doodad catalog, and how to take dressing feedback.",
+        "file": "knowledge/DRESSING.md"
+      },
+      {
+        "id": "interiors",
+        "title": "Interiors",
+        "description": "Dressing a built room (factory, lab, prison, ship's deck): target densities by room type, where things go, the order to dress in, the kits that make a room read as working, and what never stands alone.",
+        "file": "knowledge/INTERIORS.md"
+      },
+      {
+        "id": "lighting",
+        "title": "Lighting",
+        "description": "Lighting a Mission from its mood: its own lights, Beat transitions, and point lights in dark places (night, interiors, caves, void).",
+        "file": "knowledge/LIGHTING.md"
+      },
+      {
+        "id": "sky",
+        "title": "Sky",
+        "description": "Setting a Mission's skybox, fog and open sky through the Blueprint's sky.",
+        "file": "knowledge/SKY.md"
+      },
+      {
+        "id": "water",
+        "title": "Water",
+        "description": "Filling pits with water or lava, raising them at a Beat, and dressing their shores.",
+        "file": "knowledge/WATER.md"
+      },
+      {
+        "id": "terrain-objects",
+        "title": "Terrain objects",
+        "description": "Built pieces that reshape the ground (bridges, pits, trenches, craters, elevators), placed through the Blueprint's terrainObjects.",
+        "file": "knowledge/TERRAIN-OBJECTS.md"
+      },
+      {
+        "id": "mood-mixtures",
+        "title": "Mood mixtures",
+        "description": "How the Exemplar Maps' dressed places group into moods, and how to dress a new place from its mood's mixture instead of copying a layout.",
+        "file": "exemplar-maps/mixtures.md"
+      },
+      {
+        "id": "mixtures",
+        "title": "Mood mixtures (data)",
+        "description": "Every dressed place on the independent Exemplar Maps with its mood, and each mood's motifs, type count, density, spacing and snapping.",
+        "file": "exemplar-maps/mixtures.json"
+      },
+      {
+        "id": "data-analysis",
+        "title": "Exemplar data analysis",
+        "description": "The measurements behind the Design Lessons, with corrections, counterexamples and open questions.",
+        "file": "exemplar-maps/data-analysis.md"
+      },
+      {
+        "id": "exemplar-maps-readme",
+        "title": "About the Exemplar Maps",
+        "description": "What each Exemplar Map's folder holds, how Map Studies and captures are made, and how lessons are ratified.",
+        "file": "exemplar-maps/README.md"
+      }
+    ],
+    "exemplarMaps": "exemplar-maps/exemplars.json",
+    "composites": "composites.json",
+    "styleRules": ["never-one-texture", "cliff-texture-change", "blend-by-tone", "cliff-piles", "landmark-repetition", "yaw-and-scale", "shore-piles", "wild-lips-and-wear"],
+    "prompts": [
+      {
+        "name": "add-exemplar-map",
+        "title": "Add an Exemplar Map to the Antioch Style Pack",
+        "description": "Walks through adding a map to the Antioch Style Pack: recording its provenance, studying and capturing it, and bringing each new or changed Design Lesson to the author.",
+        "arguments": [
+          { "name": "id", "description": "A short id for the map, such as 4-1", "required": true },
+          { "name": "map", "description": "The map's path inside the Workspace's Exemplar Map folder", "required": true },
+          { "name": "provenance", "description": "made, edited or approved (a map the author admires)" }
+        ],
+        "file": "prompts/add-exemplar-map.md"
+      }
+    ]
+  },
+  "entry": "./dist/rules.js"
+}

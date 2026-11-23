@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="NCMI">
+        <Root>
+            <Item Type="FunctionDef" Library="NCMI" Id="2FE7927E"/>
+        </Root>
+        <Element Type="FunctionDef" Id="2FE7927E">
+            <Identifier>CampaignPlayerColor</Identifier>
+            <FlagCall/>
+            <ReturnType>
+                <Type Value="playercolor"/>
+            </ReturnType>
+            <FunctionCall Type="FunctionCall" Library="NCMI" Id="27C8C053"/>
+        </Element>
+        <Element Type="FunctionCall" Id="27C8C053">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000097"/>
+            <Parameter Type="Param" Library="NCMI" Id="2D29FA3C"/>
+        </Element>
+        <Element Type="Param" Id="2D29FA3C">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000488"/>
+            <ValueType Type="playercolor"/>
+            <ValueId Id="14"/>
+        </Element>
+    </Library>
+</TriggerData>

@@ -1,0 +1,1350 @@
+{
+  "mapStudyVersion": 1,
+  "exemplar": {
+    "id": "1-7",
+    "provenance": "edited"
+  },
+  "layers": {
+    "note": "Renders are 4 px per cell, north up. textures.png: dominant texture per cell; elevation.png: cliff levels (darker = cliff edge, blue = ramp); doodads.png: doodads by kind, manipulated ones ringed red; vertex-shading.png: t3VertCol kind-1 values (white untouched), cliff edges blue. Outside the playable bounds is dimmed.",
+    "texturesLegend": {
+      "Zerus3": "rgb(255,179,0)",
+      "BelShirGrassDark": "rgb(128,62,117)",
+      "Zerus7": "rgb(255,104,0)",
+      "HavenDirt": "rgb(166,189,215)",
+      "MonlythBricks": "rgb(193,0,32)",
+      "BelShirDirtDark": "rgb(206,162,98)",
+      "HavenGrassRocky": "rgb(129,112,102)",
+      "BelShirBricksSmall": "rgb(0,125,52)"
+    },
+    "doodadsLegend": {
+      "foliage": "rgb(166,189,215)",
+      "ruin": "rgb(193,0,32)",
+      "tree": "rgb(255,179,0)",
+      "unknown": "rgb(0,125,52)",
+      "other": "rgb(255,104,0)",
+      "manipulated (any)": "rgb(230,30,30) ring"
+    }
+  },
+  "texturing": {
+    "tileset": "AntiochOldAiur",
+    "textureSets": [
+      "AntiochOldAiur"
+    ],
+    "note": "Shares normalise each cell's 8 mask weights to sum to 1; 'present' means >= 10% of a cell's mix.",
+    "coverage": [
+      {
+        "name": "Zerus3",
+        "count": 10646.452,
+        "share": 0.433
+      },
+      {
+        "name": "BelShirGrassDark",
+        "count": 4060.01,
+        "share": 0.165
+      },
+      {
+        "name": "HavenDirt",
+        "count": 3439.329,
+        "share": 0.14
+      },
+      {
+        "name": "BelShirDirtDark",
+        "count": 2440.513,
+        "share": 0.099
+      },
+      {
+        "name": "Zerus7",
+        "count": 2005.499,
+        "share": 0.082
+      },
+      {
+        "name": "MonlythBricks",
+        "count": 999.89,
+        "share": 0.041
+      },
+      {
+        "name": "BelShirBricksSmall",
+        "count": 677.82,
+        "share": 0.028
+      },
+      {
+        "name": "HavenGrassRocky",
+        "count": 330.488,
+        "share": 0.013
+      }
+    ],
+    "dominant": [
+      {
+        "name": "Zerus3",
+        "count": 11036,
+        "share": 0.449
+      },
+      {
+        "name": "BelShirGrassDark",
+        "count": 4231,
+        "share": 0.172
+      },
+      {
+        "name": "HavenDirt",
+        "count": 3081,
+        "share": 0.125
+      },
+      {
+        "name": "BelShirDirtDark",
+        "count": 2330,
+        "share": 0.095
+      },
+      {
+        "name": "Zerus7",
+        "count": 1859,
+        "share": 0.076
+      },
+      {
+        "name": "MonlythBricks",
+        "count": 1052,
+        "share": 0.043
+      },
+      {
+        "name": "BelShirBricksSmall",
+        "count": 695,
+        "share": 0.028
+      },
+      {
+        "name": "HavenGrassRocky",
+        "count": 316,
+        "share": 0.013
+      }
+    ],
+    "texturesPresentPerCell": {
+      "1": 0.576,
+      "2": 0.301,
+      "3": 0.115,
+      "4": 0.008,
+      "5": 0
+    },
+    "transitions": [
+      {
+        "name": "HavenDirt | Zerus3",
+        "count": 1484
+      },
+      {
+        "name": "BelShirGrassDark | HavenDirt",
+        "count": 904
+      },
+      {
+        "name": "BelShirGrassDark | Zerus7",
+        "count": 714
+      },
+      {
+        "name": "BelShirGrassDark | Zerus3",
+        "count": 591
+      },
+      {
+        "name": "BelShirDirtDark | Zerus3",
+        "count": 536
+      },
+      {
+        "name": "HavenDirt | Zerus7",
+        "count": 525
+      },
+      {
+        "name": "BelShirDirtDark | HavenDirt",
+        "count": 512
+      },
+      {
+        "name": "BelShirDirtDark | BelShirGrassDark",
+        "count": 294
+      },
+      {
+        "name": "Zerus3 | Zerus7",
+        "count": 220
+      },
+      {
+        "name": "MonlythBricks | Zerus3",
+        "count": 217
+      },
+      {
+        "name": "BelShirBricksSmall | BelShirGrassDark",
+        "count": 209
+      },
+      {
+        "name": "HavenDirt | MonlythBricks",
+        "count": 192
+      },
+      {
+        "name": "BelShirDirtDark | Zerus7",
+        "count": 128
+      },
+      {
+        "name": "BelShirBricksSmall | Zerus7",
+        "count": 114
+      },
+      {
+        "name": "BelShirGrassDark | MonlythBricks",
+        "count": 107
+      },
+      {
+        "name": "BelShirDirtDark | HavenGrassRocky",
+        "count": 61
+      },
+      {
+        "name": "HavenDirt | HavenGrassRocky",
+        "count": 59
+      },
+      {
+        "name": "HavenGrassRocky | Zerus3",
+        "count": 59
+      },
+      {
+        "name": "MonlythBricks | Zerus7",
+        "count": 52
+      },
+      {
+        "name": "BelShirBricksSmall | MonlythBricks",
+        "count": 47
+      }
+    ],
+    "blendPlacement": {
+      "note": "mixedNearBorder: share of mixed cells within 2 cells of a dominant-texture border; cellsNearBorder: share of all playable cells that close.",
+      "mixedNearBorder": 0.975,
+      "cellsNearBorder": 0.833
+    },
+    "dominantByContext": {
+      "cliffEdge": [
+        {
+          "name": "Zerus3",
+          "count": 2022,
+          "share": 0.582
+        },
+        {
+          "name": "HavenDirt",
+          "count": 434,
+          "share": 0.125
+        },
+        {
+          "name": "Zerus7",
+          "count": 305,
+          "share": 0.088
+        },
+        {
+          "name": "BelShirGrassDark",
+          "count": 290,
+          "share": 0.083
+        },
+        {
+          "name": "MonlythBricks",
+          "count": 252,
+          "share": 0.072
+        }
+      ],
+      "nearEdge": [
+        {
+          "name": "Zerus3",
+          "count": 5383,
+          "share": 0.598
+        },
+        {
+          "name": "BelShirGrassDark",
+          "count": 1347,
+          "share": 0.15
+        },
+        {
+          "name": "Zerus7",
+          "count": 671,
+          "share": 0.075
+        },
+        {
+          "name": "HavenDirt",
+          "count": 627,
+          "share": 0.07
+        },
+        {
+          "name": "MonlythBricks",
+          "count": 609,
+          "share": 0.068
+        }
+      ],
+      "open": [
+        {
+          "name": "Zerus3",
+          "count": 3631,
+          "share": 0.301
+        },
+        {
+          "name": "BelShirGrassDark",
+          "count": 2590,
+          "share": 0.215
+        },
+        {
+          "name": "BelShirDirtDark",
+          "count": 2037,
+          "share": 0.169
+        },
+        {
+          "name": "HavenDirt",
+          "count": 2019,
+          "share": 0.167
+        },
+        {
+          "name": "Zerus7",
+          "count": 879,
+          "share": 0.073
+        }
+      ],
+      "ramp": [
+        {
+          "name": "MonlythBricks",
+          "count": 31,
+          "share": 0.689
+        },
+        {
+          "name": "BelShirBricksSmall",
+          "count": 5,
+          "share": 0.111
+        },
+        {
+          "name": "Zerus7",
+          "count": 4,
+          "share": 0.089
+        },
+        {
+          "name": "BelShirGrassDark",
+          "count": 4,
+          "share": 0.089
+        },
+        {
+          "name": "HavenDirt",
+          "count": 1,
+          "share": 0.022
+        }
+      ]
+    },
+    "dominantByLevel": {
+      "level0": [
+        {
+          "name": "Zerus3",
+          "count": 5296,
+          "share": 0.908
+        },
+        {
+          "name": "BelShirDirtDark",
+          "count": 219,
+          "share": 0.038
+        },
+        {
+          "name": "HavenDirt",
+          "count": 88,
+          "share": 0.015
+        },
+        {
+          "name": "BelShirBricksSmall",
+          "count": 86,
+          "share": 0.015
+        },
+        {
+          "name": "Zerus7",
+          "count": 54,
+          "share": 0.009
+        }
+      ],
+      "level1": [
+        {
+          "name": "Zerus3",
+          "count": 5740,
+          "share": 0.329
+        },
+        {
+          "name": "BelShirGrassDark",
+          "count": 4177,
+          "share": 0.24
+        },
+        {
+          "name": "HavenDirt",
+          "count": 2992,
+          "share": 0.172
+        },
+        {
+          "name": "BelShirDirtDark",
+          "count": 2111,
+          "share": 0.121
+        },
+        {
+          "name": "Zerus7",
+          "count": 1210,
+          "share": 0.069
+        }
+      ],
+      "level2": [
+        {
+          "name": "MonlythBricks",
+          "count": 700,
+          "share": 0.539
+        },
+        {
+          "name": "Zerus7",
+          "count": 591,
+          "share": 0.455
+        },
+        {
+          "name": "BelShirGrassDark",
+          "count": 7,
+          "share": 0.005
+        }
+      ]
+    }
+  },
+  "cliffs": {
+    "cliffSets": [
+      "BelShirEx1Cliff0",
+      "AiurEx1Cliff1"
+    ],
+    "cliffSetUse": [
+      {
+        "name": "BelShirEx1Cliff0",
+        "count": 1257,
+        "share": 0.634
+      },
+      {
+        "name": "AiurEx1Cliff1",
+        "count": 726,
+        "share": 0.366
+      }
+    ],
+    "levelShare": {
+      "level0": 0.237,
+      "level1": 0.708,
+      "level2": 0.053
+    },
+    "distinctLevels": 3,
+    "cliffEdgeCellShare": 0.141,
+    "rampCellShare": 0.002,
+    "ramps": {
+      "count": 3,
+      "width": {
+        "min": 1.414,
+        "p25": 1.414,
+        "p50": 1.414,
+        "p75": 1.414,
+        "p90": 1.414,
+        "max": 1.414,
+        "mean": 1.414
+      },
+      "directions": {
+        "diag7": 3
+      },
+      "levelPairs": {
+        "1->2": 3
+      }
+    },
+    "cliffDoodads": []
+  },
+  "doodads": {
+    "count": 213,
+    "perHundredCells": 0.866,
+    "distinctTypes": 14,
+    "kinds": [
+      {
+        "name": "tree",
+        "count": 100,
+        "share": 0.469
+      },
+      {
+        "name": "ruin",
+        "count": 46,
+        "share": 0.216
+      },
+      {
+        "name": "foliage",
+        "count": 25,
+        "share": 0.117
+      },
+      {
+        "name": "unknown",
+        "count": 25,
+        "share": 0.117
+      },
+      {
+        "name": "other",
+        "count": 17,
+        "share": 0.08
+      }
+    ],
+    "topTypes": [
+      {
+        "name": "AiurTree",
+        "count": 100,
+        "share": 0.469
+      },
+      {
+        "name": "Fish2",
+        "count": 25,
+        "share": 0.117
+      },
+      {
+        "name": "AiurFoliage",
+        "count": 21,
+        "share": 0.099
+      },
+      {
+        "name": "TempleBricks",
+        "count": 21,
+        "share": 0.099
+      },
+      {
+        "name": "Fish",
+        "count": 17,
+        "share": 0.08
+      },
+      {
+        "name": "TempleColumn",
+        "count": 8,
+        "share": 0.038
+      },
+      {
+        "name": "AiurTempleBuildings",
+        "count": 4,
+        "share": 0.019
+      },
+      {
+        "name": "Elsecaro_Bush1x1",
+        "count": 4,
+        "share": 0.019
+      },
+      {
+        "name": "TempleStatue",
+        "count": 3,
+        "share": 0.014
+      },
+      {
+        "name": "TempleBricksLarge",
+        "count": 3,
+        "share": 0.014
+      },
+      {
+        "name": "Aiur_Temple_Bricks",
+        "count": 3,
+        "share": 0.014
+      },
+      {
+        "name": "ShakurasArchonStatue",
+        "count": 2,
+        "share": 0.009
+      },
+      {
+        "name": "TempleBridgeBroken",
+        "count": 1,
+        "share": 0.005
+      },
+      {
+        "name": "Aiur_Temple_Pillars_Broken",
+        "count": 1,
+        "share": 0.005
+      }
+    ],
+    "blockDensity": {
+      "min": 0,
+      "p25": 0,
+      "p50": 0,
+      "p75": 1,
+      "p90": 1,
+      "max": 18,
+      "mean": 0.442,
+      "emptyShare": 0.749
+    },
+    "placement": [
+      {
+        "name": "open",
+        "count": 80,
+        "share": 0.376
+      },
+      {
+        "name": "nearEdge",
+        "count": 80,
+        "share": 0.376
+      },
+      {
+        "name": "cliffEdge",
+        "count": 34,
+        "share": 0.16
+      },
+      {
+        "name": "outsidePlayable",
+        "count": 19,
+        "share": 0.089
+      }
+    ],
+    "clusters": {
+      "count": 137,
+      "size": {
+        "min": 1,
+        "p25": 1,
+        "p50": 1,
+        "p75": 1,
+        "p90": 1,
+        "max": 32,
+        "mean": 1.555
+      },
+      "singletonShare": 0.934
+    },
+    "coOccurrence": [
+      {
+        "name": "AiurFoliage + AiurTree",
+        "count": 48
+      },
+      {
+        "name": "TempleBricks + TempleBricksLarge",
+        "count": 22
+      },
+      {
+        "name": "ShakurasArchonStatue + TempleBricks",
+        "count": 14
+      },
+      {
+        "name": "AiurTempleBuildings + TempleBricks",
+        "count": 9
+      },
+      {
+        "name": "AiurTree + Elsecaro_Bush1x1",
+        "count": 4
+      },
+      {
+        "name": "Fish + Fish2",
+        "count": 3
+      },
+      {
+        "name": "Aiur_Temple_Bricks + Aiur_Temple_Pillars_Broken",
+        "count": 3
+      },
+      {
+        "name": "ShakurasArchonStatue + TempleBricksLarge",
+        "count": 2
+      },
+      {
+        "name": "AiurTempleBuildings + TempleBricksLarge",
+        "count": 1
+      },
+      {
+        "name": "Fish + TempleColumn",
+        "count": 1
+      }
+    ],
+    "manipulation": {
+      "note": "tilted: |pitch| or |roll| > 0.05 rad; nonUniformScale: axis ratio > 1.15; sunk/raised: > 0.5 below/above terrain; extremeScale: >= 2 or <= 0.5.",
+      "counts": [
+        {
+          "name": "raised",
+          "count": 7,
+          "share": 0.033
+        },
+        {
+          "name": "tilted",
+          "count": 2,
+          "share": 0.009
+        },
+        {
+          "name": "sunk",
+          "count": 1,
+          "share": 0.005
+        }
+      ],
+      "flags": [
+        {
+          "name": "HeightAbsolute",
+          "count": 199,
+          "share": 0.934
+        },
+        {
+          "name": "ForcePlacement",
+          "count": 34,
+          "share": 0.16
+        },
+        {
+          "name": "HeightOffset",
+          "count": 24,
+          "share": 0.113
+        }
+      ],
+      "typeProfiles": [
+        {
+          "type": "AiurTree",
+          "kind": "tree",
+          "count": 100,
+          "scale": {
+            "min": 0.802,
+            "p25": 0.935,
+            "p50": 1.027,
+            "p75": 1.105,
+            "p90": 1.183,
+            "max": 1.837,
+            "mean": 1.059
+          },
+          "aboveTerrain": {
+            "min": -0.681,
+            "p25": -0.01,
+            "p50": 0.004,
+            "p75": 0.009,
+            "p90": 0.033,
+            "max": 0.831,
+            "mean": -0.001
+          },
+          "tiltedShare": 0.02,
+          "nonUniformShare": 0,
+          "yawSpread": 1.063
+        },
+        {
+          "type": "Fish2",
+          "kind": "unknown",
+          "count": 25,
+          "scale": {
+            "min": 0.801,
+            "p25": 0.929,
+            "p50": 1.062,
+            "p75": 1.103,
+            "p90": 1.148,
+            "max": 1.2,
+            "mean": 1.022
+          },
+          "aboveTerrain": {
+            "min": -0.095,
+            "p25": -0.008,
+            "p50": 0.012,
+            "p75": 0.038,
+            "p90": 4.987,
+            "max": 6.26,
+            "mean": 0.71
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.75
+        },
+        {
+          "type": "AiurFoliage",
+          "kind": "foliage",
+          "count": 21,
+          "scale": {
+            "min": 0.813,
+            "p25": 0.843,
+            "p50": 0.981,
+            "p75": 1.11,
+            "p90": 1.154,
+            "max": 1.193,
+            "mean": 0.996
+          },
+          "aboveTerrain": {
+            "min": -0.035,
+            "p25": 0.001,
+            "p50": 0.004,
+            "p75": 0.011,
+            "p90": 0.04,
+            "max": 0.048,
+            "mean": 0.007
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.688
+        },
+        {
+          "type": "TempleBricks",
+          "kind": "ruin",
+          "count": 21,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.005,
+            "p90": 0.005,
+            "max": 0.008,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.813
+        },
+        {
+          "type": "Fish",
+          "kind": "other",
+          "count": 17,
+          "scale": {
+            "min": 0.805,
+            "p25": 0.946,
+            "p50": 0.976,
+            "p75": 1.073,
+            "p90": 1.188,
+            "max": 1.199,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.173,
+            "p25": -0.006,
+            "p50": 0.005,
+            "p75": 0.042,
+            "p90": 3.553,
+            "max": 6.367,
+            "mean": 0.589
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.563
+        },
+        {
+          "type": "TempleColumn",
+          "kind": "ruin",
+          "count": 8,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.006,
+            "p25": 0.007,
+            "p50": 0.007,
+            "p75": 0.008,
+            "p90": 0.011,
+            "max": 0.011,
+            "mean": 0.007
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "AiurTempleBuildings",
+          "kind": "ruin",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.007,
+            "p90": 0.007,
+            "max": 0.007,
+            "mean": 0.005
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "Elsecaro_Bush1x1",
+          "kind": "foliage",
+          "count": 4,
+          "scale": {
+            "min": 1.047,
+            "p25": 1.066,
+            "p50": 1.067,
+            "p75": 1.07,
+            "p90": 1.07,
+            "max": 1.07,
+            "mean": 1.062
+          },
+          "aboveTerrain": {
+            "min": 0.002,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.024,
+            "p90": 0.024,
+            "max": 0.024,
+            "mean": 0.007
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "TempleStatue",
+          "kind": "ruin",
+          "count": 3,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1.391,
+            "p75": 1.391,
+            "p90": 1.391,
+            "max": 1.391,
+            "mean": 1.261
+          },
+          "aboveTerrain": {
+            "min": -0.005,
+            "p25": -0.005,
+            "p50": 0.024,
+            "p75": 0.044,
+            "p90": 0.044,
+            "max": 0.044,
+            "mean": 0.021
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "TempleBricksLarge",
+          "kind": "ruin",
+          "count": 3,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.004,
+            "p50": 0.005,
+            "p75": 0.005,
+            "p90": 0.005,
+            "max": 0.005,
+            "mean": 0.005
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "Aiur_Temple_Bricks",
+          "kind": "ruin",
+          "count": 3,
+          "scale": {
+            "min": 0.964,
+            "p25": 0.964,
+            "p50": 1.01,
+            "p75": 1.081,
+            "p90": 1.081,
+            "max": 1.081,
+            "mean": 1.018
+          },
+          "aboveTerrain": {
+            "min": 0.002,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": 0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "ShakurasArchonStatue",
+          "kind": "ruin",
+          "count": 2,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.004,
+            "p90": 0.004,
+            "max": 0.004,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "TempleBridgeBroken",
+          "kind": "ruin",
+          "count": 1,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 2.898,
+            "p25": 2.898,
+            "p50": 2.898,
+            "p75": 2.898,
+            "p90": 2.898,
+            "max": 2.898,
+            "mean": 2.898
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "Aiur_Temple_Pillars_Broken",
+          "kind": "ruin",
+          "count": 1,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.002,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": 0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        }
+      ]
+    },
+    "composites": {
+      "count": 1,
+      "top": [
+        {
+          "center": [
+            186.98,
+            76.31
+          ],
+          "bounds": [
+            185.24,
+            74.84,
+            188.65,
+            79.15
+          ],
+          "size": 6,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "Elsecaro_Bush1x1",
+              "count": 4
+            },
+            {
+              "name": "AiurTree",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "Elsecaro_Bush1x1",
+              "offset": [
+                -1.74,
+                -0.49,
+                0
+              ],
+              "yawPitchRoll": [
+                3.46,
+                0,
+                0
+              ],
+              "scale": [
+                1.07,
+                1.07,
+                1.07
+              ]
+            },
+            {
+              "type": "Elsecaro_Bush1x1",
+              "offset": [
+                -0.31,
+                -1.04,
+                0
+              ],
+              "yawPitchRoll": [
+                5.32,
+                0,
+                0
+              ],
+              "scale": [
+                1.07,
+                1.07,
+                1.07
+              ]
+            },
+            {
+              "type": "AiurTree",
+              "offset": [
+                -0.12,
+                0.59,
+                -0.11
+              ],
+              "yawPitchRoll": [
+                3.78,
+                6.25,
+                0.11
+              ],
+              "scale": [
+                1.32,
+                1.32,
+                1.32
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            },
+            {
+              "type": "Elsecaro_Bush1x1",
+              "offset": [
+                0.95,
+                -1.47,
+                0
+              ],
+              "yawPitchRoll": [
+                5.1,
+                0,
+                0
+              ],
+              "scale": [
+                1.05,
+                1.05,
+                1.05
+              ]
+            },
+            {
+              "type": "Elsecaro_Bush1x1",
+              "offset": [
+                1.67,
+                -0.43,
+                0.02
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                1.07,
+                1.07,
+                1.07
+              ]
+            },
+            {
+              "type": "AiurTree",
+              "offset": [
+                -0.45,
+                2.84,
+                -0.13
+              ],
+              "yawPitchRoll": [
+                3.78,
+                6.25,
+                0.11
+              ],
+              "scale": [
+                1.15,
+                1.15,
+                1.15
+              ],
+              "manipulations": [
+                "tilted"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "landmarks": [
+      {
+        "type": "AiurTree",
+        "position": [
+          233.11,
+          108.4
+        ],
+        "scale": 1.84
+      },
+      {
+        "type": "AiurTree",
+        "position": [
+          252.04,
+          105.7
+        ],
+        "scale": 1.81
+      },
+      {
+        "type": "AiurTree",
+        "position": [
+          250.88,
+          109.91
+        ],
+        "scale": 1.81
+      },
+      {
+        "type": "AiurTree",
+        "position": [
+          72.81,
+          42.92
+        ],
+        "scale": 1.78
+      },
+      {
+        "type": "AiurTree",
+        "position": [
+          248.52,
+          105.07
+        ],
+        "scale": 1.77
+      },
+      {
+        "type": "AiurTree",
+        "position": [
+          72.78,
+          30.9
+        ],
+        "scale": 1.51
+      },
+      {
+        "type": "AiurTree",
+        "position": [
+          71.83,
+          33.44
+        ],
+        "scale": 1.51
+      },
+      {
+        "type": "TempleStatue",
+        "position": [
+          231.8,
+          44.17
+        ],
+        "scale": 1.39
+      },
+      {
+        "type": "TempleStatue",
+        "position": [
+          217.18,
+          54.52
+        ],
+        "scale": 1.39
+      },
+      {
+        "type": "AiurTree",
+        "position": [
+          186.86,
+          76.9
+        ],
+        "scale": 1.32
+      },
+      {
+        "type": "Fish2",
+        "position": [
+          225.07,
+          69.34
+        ],
+        "scale": 1.2
+      },
+      {
+        "type": "Fish",
+        "position": [
+          241.97,
+          97.31
+        ],
+        "scale": 1.2
+      }
+    ],
+    "singletonTypes": [
+      "TempleBridgeBroken",
+      "Aiur_Temple_Pillars_Broken"
+    ]
+  },
+  "lighting": {
+    "note": "Lighting is switched by triggers per area or story beat; 'calls' lists every GameSetLighting and the function making it.",
+    "lightsUsed": [],
+    "calls": [],
+    "localLights": [],
+    "localTerrains": [
+      {
+        "id": "AntiochOldAiur",
+        "lighting": "MarSaraCampaignDay",
+        "blendTextures": [],
+        "cliffSets": [],
+        "fog": {}
+      }
+    ],
+    "fogType": "Black",
+    "waterBodies": 0
+  },
+  "composition": {
+    "size": [
+      256,
+      112
+    ],
+    "playableBounds": [
+      6,
+      6,
+      252,
+      106
+    ],
+    "playableShare": 0.858,
+    "vertexColour": {
+      "entries": 3310,
+      "entriesPerThousandCells": 115.444,
+      "note": "Entry layout undecoded; count only."
+    },
+    "vertexShading": {
+      "note": "t3VertCol kind-1 per-vertex values; a cell is darkened when its corner mean < 224. Painted or baked is unverified.",
+      "darkenedCellShare": 0.254,
+      "darkenedShareByContext": {
+        "cliffEdge": 0.374,
+        "nearEdge": 0.401,
+        "open": 0.11,
+        "ramp": 0.2
+      }
+    },
+    "fluffEntries": 12884,
+    "units": {
+      "count": 630,
+      "byPlayer": {
+        "0": 96,
+        "1": 17,
+        "2": 184,
+        "3": 209,
+        "4": 112,
+        "6": 12
+      },
+      "neutralTopTypes": [
+        {
+          "name": "MineralField",
+          "count": 93
+        },
+        {
+          "name": "VespeneGeyser",
+          "count": 3
+        }
+      ]
+    },
+    "points": 22
+  }
+}

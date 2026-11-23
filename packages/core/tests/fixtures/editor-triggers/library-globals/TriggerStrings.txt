@@ -1,0 +1,6 @@
+﻿FunctionDef/Name/70374748=Set Area
+FunctionDef/Name/D236F103=Difficulty Adjustments
+Trigger/Name/0F66A809=Opening
+Trigger/Name/9D207F5D=Cleanup
+Trigger/Name/C71847BE=Initialization
+Trigger/Name/F331BE89=Hero Opening

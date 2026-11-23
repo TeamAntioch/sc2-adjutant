@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="Trigger" Id="40E4B031"/>
+    </Root>
+    <Element Type="Trigger" Id="40E4B031">
+        <Event Type="FunctionCall" Id="AA2F608B"/>
+        <Action Type="FunctionCall" Id="F2B482DD"/>
+        <Action Type="FunctionCall" Id="D94030F2"/>
+    </Element>
+    <Element Type="FunctionCall" Id="AA2F608B">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
+    </Element>
+    <Element Type="FunctionCall" Id="F2B482DD">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000118"/>
+        <Parameter Type="Param" Id="A17EA09E"/>
+        <Parameter Type="Param" Id="B80C142C"/>
+        <Parameter Type="Param" Id="B24240A4"/>
+    </Element>
+    <Element Type="Param" Id="A17EA09E">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="C3CF50B0"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="AEB4446D"/>
+    </Element>
+    <Element Type="Param" Id="B80C142C">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000187"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="00000071"/>
+    </Element>
+    <Element Type="Param" Id="B24240A4">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000186"/>
+        <ValueType Type="text"/>
+    </Element>
+    <Element Type="FunctionCall" Id="D94030F2">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="1D6F1270"/>
+        <Parameter Type="Param" Id="D4945B67"/>
+        <Parameter Type="Param" Id="A56453FF"/>
+        <Parameter Type="Param" Id="1FC157E1"/>
+        <Parameter Type="Param" Id="1062A74A"/>
+    </Element>
+    <Element Type="Param" Id="D4945B67">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="064A402E"/>
+        <ValueType Type="text"/>
+    </Element>
+    <Element Type="Param" Id="A56453FF">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="BD92541B"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="24E7961A"/>
+    </Element>
+    <Element Type="Param" Id="1FC157E1">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="E2D11CC0"/>
+        <Preset Type="PresetValue" Library="Ntve" Id="0801604A"/>
+    </Element>
+    <Element Type="Param" Id="1062A74A">
+        <ParameterDef Type="ParamDef" Library="Ntve" Id="3D400D51"/>
+        <ValueType Type="text"/>
+    </Element>
+</TriggerData>

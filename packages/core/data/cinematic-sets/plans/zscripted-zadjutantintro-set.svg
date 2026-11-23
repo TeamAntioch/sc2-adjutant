@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>zScripted_ZAdjutantIntro set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">zScripted_ZAdjutantIntro set</text>
+<text x="24" y="54" font-size="10" fill="#666">zscripted-zadjutantintro-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="324.6" y="340.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1KerriganDezergedWithLight</title></rect>
+<rect x="351.5" y="124.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1ZergAdjutant</title></rect>
+<rect x="344.6" y="133.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1_LeviathanDockDoor</title></rect>
+<rect x="363.5" y="353" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX1_LeviathanDock, SMX1_DropShipT1</title></rect>
+<text x="371.5" y="359" font-size="8" fill="#6d6458">2</text>
+<polygon points="344,150.5 341.5,136.5 354.7,141.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="344" cy="150.5" r="2.5" fill="#7b4bd1"><title>Cam_ZergAdjutant_Medium</title></circle>
+<text x="348" y="147.5" font-size="8" fill="#5a3a9a">Cam_ZergAdjutant_Medium</text>
+<polygon points="343.9,150.5 341.3,136.1 354.8,140.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="343.9" cy="150.5" r="2.5" fill="#7b4bd1"><title>Cam_ZergAdjutant_Medium_Start</title></circle>
+<text x="347.9" y="147.5" font-size="8" fill="#5a3a9a">Cam_ZergAdjutant_Medium_Start</text>
+<polygon points="381.3,95.4 377.8,152.4 337,131.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="381.3" cy="95.4" r="2.5" fill="#7b4bd1"><title>Cam_Adj_Back</title></circle>
+<text x="385.3" y="92.4" font-size="8" fill="#5a3a9a">Cam_Adj_Back</text>
+<polygon points="316.8,233.8 324.9,256 305.9,254.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="316.8" cy="233.8" r="2.5" fill="#7b4bd1"><title>Cam_Kerrigan_Close</title></circle>
+<text x="320.8" y="230.8" font-size="8" fill="#5a3a9a">Cam_Kerrigan_Close</text>
+<polygon points="321.5,233.6 324.7,258.6 305.3,252.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="321.5" cy="233.6" r="2.5" fill="#7b4bd1"><title>Cam_Kerrigan_Med</title></circle>
+<text x="325.5" y="230.6" font-size="8" fill="#5a3a9a">Cam_Kerrigan_Med</text>
+<polygon points="323.5,280.2 309.2,267.8 333,263.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="323.5" cy="280.2" r="2.5" fill="#7b4bd1"><title>Cam_Kerrigan_Behind</title></circle>
+<text x="327.5" y="277.2" font-size="8" fill="#5a3a9a">Cam_Kerrigan_Behind</text>
+<polygon points="339.5,124.1 367,174.1 299.9,165.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="339.5" cy="124.1" r="2.5" fill="#7b4bd1"><title>Cam_DropShip_Med</title></circle>
+<text x="343.5" y="121.1" font-size="8" fill="#5a3a9a">Cam_DropShip_Med</text>
+<polygon points="365,131.5 377.6,187.2 332.5,178.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="365" cy="131.5" r="2.5" fill="#7b4bd1"><title>Cam_DropShip_Low</title></circle>
+<text x="369" y="128.5" font-size="8" fill="#5a3a9a">Cam_DropShip_Low</text>
+<polygon points="335,304.2 342.7,342.4 312,335.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="335" cy="304.2" r="2.5" fill="#7b4bd1"><title>Cam_DropShip_Inside</title></circle>
+<text x="339" y="301.2" font-size="8" fill="#5a3a9a">Cam_DropShip_Inside</text>
+<polygon points="366.2,178.6 369.6,235.6 326.5,219.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="366.2" cy="178.6" r="2.5" fill="#7b4bd1"><title>XXX_Cam_DropShipOpen</title></circle>
+<text x="370.2" y="175.6" font-size="8" fill="#5a3a9a">XXX_Cam_DropShipOpen</text>
+<polygon points="347.8,143.2 346.1,133.7 355,136.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="347.8" cy="143.2" r="2.5" fill="#7b4bd1"><title>XXX_Cam_ZergAdjutant_Close</title></circle>
+<text x="351.8" y="140.2" font-size="8" fill="#5a3a9a">XXX_Cam_ZergAdjutant_Close</text>
+<polygon points="340.5,120.3 352.8,176.1 307.8,167.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="340.5" cy="120.3" r="2.5" fill="#7b4bd1"><title>XXX_Cam_Surrounded</title></circle>
+<text x="344.5" y="117.3" font-size="8" fill="#5a3a9a">XXX_Cam_Surrounded</text>
+<polygon points="323.4,279.3 309.7,267.5 332.4,263.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="323.4" cy="279.3" r="2.5" fill="#7b4bd1"><title>xxx____Cam_Kerrigan_Behind</title></circle>
+<text x="327.4" y="276.3" font-size="8" fill="#5a3a9a">xxx____Cam_Kerrigan_Behind</text>
+<polygon points="341.2,275.3 352.2,331.3 307.4,321.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="341.2" cy="275.3" r="2.5" fill="#7b4bd1"><title>Cam_Scale</title></circle>
+<text x="345.2" y="272.3" font-size="8" fill="#5a3a9a">Cam_Scale</text>
+<line x1="316.1" y1="382.7" x2="315.1" y2="372.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="316.1" cy="382.7" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1_Dropship (SMX1_DropShipT1)</title></circle>
+<text x="322.1" y="394.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1_Dropship</text>
+<line x1="289.8" y1="226.3" x2="297.2" y2="233.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="289.8" cy="226.3" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Zeno (SMX1ZerglingT1)</title></circle>
+<text x="295.8" y="238.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Zeno</text>
+<line x1="305.9" y1="186.1" x2="307" y2="196" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="305.9" cy="186.1" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Zeno1 (SMX1ZerglingT1)</title></circle>
+<text x="311.9" y="198.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Zeno1</text>
+<line x1="329.1" y1="203.3" x2="327.2" y2="213.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="329.1" cy="203.3" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Zeno2 (SMX1ZerglingT1)</title></circle>
+<text x="335.1" y="215.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Zeno2</text>
+<line x1="351.5" y1="161.2" x2="347.4" y2="170.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="351.5" cy="161.2" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Zeno3 (SMX1ZerglingT1)</title></circle>
+<text x="357.5" y="173.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Zeno3</text>
+<line x1="261.6" y1="299.2" x2="270.2" y2="294" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="261.6" cy="299.2" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Brian (SMX1ZerglingT1)</title></circle>
+<text x="267.6" y="311.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Brian</text>
+<line x1="263.4" y1="254.1" x2="272.8" y2="257.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="263.4" cy="254.1" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Adam (SMX1ZerglingT1)</title></circle>
+<text x="269.4" y="266.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Adam</text>
+<line x1="364" y1="257.5" x2="355" y2="261.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="364" cy="257.5" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Carl (SMX1ZerglingT1)</title></circle>
+<text x="370" y="269.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Carl</text>
+<line x1="235.9" y1="305.8" x2="244.2" y2="300.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="235.9" cy="305.8" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_RunnerEric (SMX1ZerglingT1)</title></circle>
+<text x="241.9" y="317.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_RunnerEric</text>
+<line x1="227.2" y1="350.6" x2="235.3" y2="344.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="227.2" cy="350.6" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_RunnerDave (SMX1ZerglingT1)</title></circle>
+<text x="233.2" y="362.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_RunnerDave</text>
+<line x1="227.3" y1="347.5" x2="234.2" y2="340.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="227.3" cy="347.5" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Dean (SMX1ZerglingT1)</title></circle>
+<text x="233.3" y="359.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Dean</text>
+<line x1="201.5" y1="360.6" x2="207.7" y2="352.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="201.5" cy="360.6" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Ernie (SMX1ZerglingT1)</title></circle>
+<text x="207.5" y="372.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Ernie</text>
+<line x1="285.8" y1="314.4" x2="291.7" y2="306.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="285.8" cy="314.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Francis (SMX1ZerglingT1)</title></circle>
+<text x="291.8" y="326.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Francis</text>
+<line x1="204.2" y1="383.4" x2="199.8" y2="374.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="204.2" cy="383.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Apples (SMX1ZerglingT1)</title></circle>
+<text x="210.2" y="395.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Apples</text>
+<line x1="287" y1="522.5" x2="285.2" y2="512.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="287" cy="522.5" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Bananas (SMX1ZerglingT1)</title></circle>
+<text x="293" y="534.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Bananas</text>
+<line x1="365.3" y1="532.9" x2="360.9" y2="523.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="365.3" cy="532.9" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Carrots (SMX1ZerglingT1)</title></circle>
+<text x="371.3" y="544.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Carrots</text>
+<line x1="288.1" y1="255.6" x2="293.4" y2="264.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="288.1" cy="255.6" r="4" fill="#2f7de1" stroke="#fff"><title>SMX1ZerglingT1_Dates (SMX1ZerglingT1)</title></circle>
+<text x="294.1" y="267.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX1ZerglingT1_Dates</text>
+</g>
+<line x1="150.8" y1="571" x2="341" y2="571" stroke="#333" stroke-width="2"/>
+<line x1="150.8" y1="567" x2="150.8" y2="575" stroke="#333"/><line x1="188.8" y1="567" x2="188.8" y2="575" stroke="#333"/>
+<text x="150.8" y="565" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zScripted_ZAdjutantIntro.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: PlanetViewAiur,</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX1_CutSceneAdjutantIntro,</text>
+<text x="560" y="144" font-size="9" fill="#333">PlanetViewGalaxy</text>
+<text x="560" y="156" font-size="9" fill="#333">Marks: 17; cameras: 15 (14 aimed</text>
+<text x="560" y="168" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="180" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="192" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="204" font-size="9" fill="#333"></text>
+<text x="560" y="216" font-size="9" fill="#333">Models:</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX1_DropShipT1</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX1_LeviathanDock</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX1_LeviathanDockDoor</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX1KerriganDezergedWithLight</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX1ZergAdjutant</text>
+<text x="560" y="288" font-size="9" fill="#333"></text>
+<text x="560" y="300" font-size="9" fill="#333">Also in:</text>
+</svg>

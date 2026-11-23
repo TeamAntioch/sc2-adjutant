@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="Cmpn">
+        <Root>
+            <Item Type="FunctionDef" Library="Cmpn" Id="0D9A8FB1"/>
+            <Item Type="FunctionDef" Library="Cmpn" Id="B8B27D5C"/>
+            <Item Type="FunctionDef" Library="Cmpn" Id="BCF70417"/>
+            <Item Type="FunctionDef" Library="Cmpn" Id="8F0B8074"/>
+        </Root>
+
+        <Element Type="FunctionDef" Id="0D9A8FB1">
+            <Identifier>IfThen</Identifier>
+            <Label Type="Label" Library="Ntve" Id="00000002"/>
+            <FlagAction/>
+            <FlagSubFunctions/>
+            <FlagNoScriptPrefix/>
+            <SubFunctionType Type="SubFuncType" Library="Cmpn" Id="3F18199E"/>
+            <SubFunctionType Type="SubFuncType" Library="Cmpn" Id="ADF13909"/>
+            <ScriptCode>
+                if (#SUBFUNCS(if,&quot; &amp;&amp; &quot;)) {
+                    #SUBFUNCS(then)
+                }
+            </ScriptCode>
+        </Element>
+
+        <Element Type="SubFuncType" Id="3F18199E">
+            <Identifier>if</Identifier>
+            <Condition/>
+        </Element>
+
+        <Element Type="SubFuncType" Id="ADF13909">
+            <Identifier>then</Identifier>
+            <Action/>
+        </Element>
+
+        <Element Type="FunctionDef" Id="B8B27D5C">
+            <Identifier>SendTransmissionStory</Identifier>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="Cmpn" Id="30598D6A"/>
+            <Parameter Type="ParamDef" Library="Cmpn" Id="DD9E1F85"/>
+            <Parameter Type="ParamDef" Library="Cmpn" Id="D9698A59"/>
+            <Parameter Type="ParamDef" Library="Cmpn" Id="770B5643"/>
+            <Parameter Type="ParamDef" Library="Cmpn" Id="7AD92355"/>
+            <Variable Type="Variable" Library="Cmpn" Id="FE187E39"/>
+            <Variable Type="Variable" Library="Cmpn" Id="AF26AA69"/>
+            <Variable Type="Variable" Library="Cmpn" Id="9A8006F0"/>
+            <Variable Type="Variable" Library="Cmpn" Id="DAFF6153"/>
+            <Variable Type="Variable" Library="Cmpn" Id="BA87B03B"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="E3386143"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="6F987D2A"/>
+            <FunctionCall Type="Comment" Library="Cmpn" Id="D941CB7C"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A4D37ADF"/>
+        </Element>
+
+        <Element Type="ParamDef" Id="30598D6A">
+            <ParameterType>
+                <Type Value="convline"/>
+            </ParameterType>
+            <ParamFlagPreload/>
+        </Element>
+
+        <Element Type="ParamDef" Id="DD9E1F85">
+            <ParameterType>
+                <Type Value="unit"/>
+            </ParameterType>
+            <Default Type="Param" Library="Cmpn" Id="6A4BF223"/>
+            <Preset Type="Preset" Library="Ntve" Id="6B6323A7"/>
+        </Element>
+
+        <Element Type="Param" Id="6A4BF223">
+            <Preset Type="PresetValue" Library="Ntve" Id="D6EA4D09"/>
+        </Element>
+
+        <Element Type="ParamDef" Id="D9698A59">
+            <ParameterType>
+                <Type Value="preset"/>
+                <TypeElement Type="Preset" Library="Ntve" Id="00000020"/>
+            </ParameterType>
+            <Default Type="Param" Library="Cmpn" Id="7A09F448"/>
+        </Element>
+
+        <Element Type="Param" Id="7A09F448">
+            <Preset Type="PresetValue" Library="Ntve" Id="00000067"/>
+        </Element>
+
+        <Element Type="ParamDef" Id="770B5643">
+            <ParameterType>
+                <Type Value="modelanim"/>
+            </ParameterType>
+            <Default Type="Param" Library="Cmpn" Id="39188843"/>
+        </Element>
+
+        <Element Type="Param" Id="39188843">
+            <Value>&quot;Default&quot;</Value>
+            <ValueType Type="modelanim"/>
+        </Element>
+
+        <Element Type="ParamDef" Id="7AD92355">
+            <ParameterType>
+                <Type Value="portrait"/>
+            </ParameterType>
+            <Default Type="Param" Library="Cmpn" Id="75375054"/>
+            <Preset Type="Preset" Library="Ntve" Id="13125113"/>
+        </Element>
+
+        <Element Type="Param" Id="75375054">
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="2C825E79"/>
+        </Element>
+
+        <Element Type="FunctionCall" Id="2C825E79">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="B8AD02AA"/>
+            <Parameter Type="Param" Library="Cmpn" Id="45D30D8F"/>
+        </Element>
+
+        <Element Type="Param" Id="45D30D8F">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="064853AE"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="2D4517D5"/>
+        </Element>
+
+        <Element Type="FunctionDef" Id="BCF70417">
+            <FlagAction/>
+            <FunctionCall Type="Comment" Library="Cmpn" Id="2972A576"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="AF6DF40F"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="B41A71B9"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="F4DEB930"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="E85FD0DD"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="173984E2"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="545867B9"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A98102A0"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="1E4AEF66"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="F36D5B1A"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="3ACAA1DE"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="FBA3AEE6"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="D407C481"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="FE1E8E7D"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="2817511F"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="0EE5292C"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="BF8C48EF"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="F3BFF7C1"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="2AFEDBA3"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="F14E3A9D"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="B1323625"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A13BD68D"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="EF138618"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="65FB6A1E"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="CF64E94E"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="42806F7A"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="D9B7B99D"/>
+            <FunctionCall Type="Comment" Library="Cmpn" Id="20BBDF6D"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="6A96F17D"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="225B8CD3"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="BC70A528"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="222FBF26"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="3C4DCCB6"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="796601BA"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="B6DE3DAD"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="0090EC56"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="9F0DC093"/>
+        </Element>
+
+        <Element Type="FunctionDef" Id="8F0B8074">
+            <FlagAction/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A87E55DB"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="9F660749"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A104C1F8"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="44160BFA"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A81B6249"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="37D47F55"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="88240105"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="7A7680F7"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="FC05E915"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="5674D781"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A072C9C1"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="3594DC2A"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="7334ABA7"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="E4880CF8"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="88EDE942"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="21E3B581"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="213E02F7"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="35561DC6"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="5E74D25D"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="8B9D7296"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="C4C96762"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="F2845DE8"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="3CA143AD"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A16D61B3"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="EB086035"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="3028B7BA"/>
+            <FunctionCall Type="Comment" Library="Cmpn" Id="1ACC56B8"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="96A4A2BE"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="60BB7457"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="022B6CD3"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="A1BAD84C"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="4D7D9A3C"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="82D22114"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="04503DAE"/>
+            <FunctionCall Type="FunctionCall" Library="Cmpn" Id="18F096EF"/>
+        </Element>
+    </Library>
+</TriggerData>

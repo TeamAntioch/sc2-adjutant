@@ -1,0 +1,11 @@
+gs_GlobalVariablesandObjectives gv_gO;
+
+void gf_CreateHeroSurvivalObjectives () {
+    // Automatic Variable Declarations
+    // Implementation
+    ObjectiveCreate(StringExternal("Param/Value/454FF33A"), StringToText(""), c_objectiveStateActive, true);
+    gv_gO.lv_globalHeroDiesZeratul = ObjectiveLastCreated();
+    ObjectiveCreate(StringExternal("Param/Value/9236525F"), StringToText(""), c_objectiveStateActive, true);
+    gv_gO.lv_globalHeroDiesArtanis = ObjectiveLastCreated();
+}
+

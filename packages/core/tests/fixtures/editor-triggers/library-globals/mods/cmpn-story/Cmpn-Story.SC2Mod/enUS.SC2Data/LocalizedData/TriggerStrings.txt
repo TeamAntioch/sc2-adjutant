@@ -1,0 +1,6 @@
+﻿Structure/Name/lib_Cmpn_62EEFC1A=Player Stats Record
+Structure/Name/lib_Cmpn_EF280903=Hero Record
+Variable/Name/lib_Cmpn_111A5B24=Chosen Difficulty
+Variable/Name/lib_Cmpn_663B6404=Player Stats
+Variable/Name/lib_Cmpn_C8F0D280=Artanis
+Variable/Name/lib_Cmpn_E5539606=Hero Unit

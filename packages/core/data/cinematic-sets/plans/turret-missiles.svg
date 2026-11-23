@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>TURRET MISSILES: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">TURRET MISSILES</text>
+<text x="24" y="54" font-size="10" fill="#666">turret-missiles · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="272.9" y="331.7" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_KorhalArrival_Turret, SMX2_KorhalArrival_MissleExhaust, SMX2_KorhalArrival_BattlecruiserFiring, SMX2_KorhalArrival_MissleExhaust, SMX2_KorhalArrival_MissleExhaust, SMX2_KorhalArrival_MissleExhaust</title></rect>
+<text x="284.9" y="339.7" font-size="8" fill="#6d6458">6</text>
+<rect x="278.9" y="328.1" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX2_KorhalArrival_Turret, SMX2_KorhalArrival_BattlecruiserFiring</title></rect>
+<text x="286.9" y="334.1" font-size="8" fill="#6d6458">2</text>
+<rect x="280.5" y="331.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_KorhalArrival_BattlecruiserFiring</title></rect>
+<rect x="282.8" y="322.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_KorhalArrival_Turret</title></rect>
+<rect x="286.6" y="317.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_KorhalArrival_Turret</title></rect>
+<rect x="287.6" y="321.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_KorhalArrival_BattlecruiserFiring</title></rect>
+<polygon points="182.5,487 208.1,432 223.4,442.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="182.5" cy="487" r="2.5" fill="#7b4bd1"><title>s020a_CAM_BattleCruiserClose</title></circle>
+<text x="186.5" y="484" font-size="8" fill="#5a3a9a">s020a_CAM_BattleCruiserClose</text>
+<polygon points="332.7,286.1 315.9,339 281,306.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="332.7" cy="286.1" r="2.5" fill="#7b4bd1"><title>s030a_CAM_BattleCruiserClose_new</title></circle>
+<text x="336.7" y="283.1" font-size="8" fill="#5a3a9a">s030a_CAM_BattleCruiserClose_new</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_KorhalArrival.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMX2SetKorhalArrivalS01A,</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX2SetKorhalArrivalBridge</text>
+<text x="560" y="144" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX2_Bridge_Communicator</text>
+<text x="560" y="168" font-size="9" fill="#333">Marks: 0; cameras: 9 (2 aimed</text>
+<text x="560" y="180" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="192" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="204" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="216" font-size="9" fill="#333"></text>
+<text x="560" y="228" font-size="9" fill="#333">Models:</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX2_KorhalArrival_BattlecruiserFiring</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX2_KorhalArrival_MissleExhaust</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX2_KorhalArrival_Turret</text>
+<text x="560" y="276" font-size="9" fill="#333"></text>
+<text x="560" y="288" font-size="9" fill="#333">Also in:</text>
+</svg>

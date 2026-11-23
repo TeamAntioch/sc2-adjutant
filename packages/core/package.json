@@ -1,0 +1,60 @@
+{
+  "name": "@team-antioch/sc2-adjutant",
+  "version": "0.1.0",
+  "description": "Co-design and compile StarCraft II campaign missions from narrative inputs into unpacked map packages.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamAntioch/sc2-adjutant.git",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "exports": {
+    "./plugin-sdk": {
+      "types": "./dist/plugins/plugin-sdk.d.ts",
+      "default": "./dist/plugins/plugin-sdk.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "data/*.json",
+    "data/cinematic-sets/*.json",
+    "blender",
+    "examples",
+    "!examples/*/missions/*/output"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "update-golden": "vitest run tests/golden -u",
+    "lint": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.examples.json"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@resvg/resvg-js": "^2.6.2",
+    "@team-antioch/sc2-asset-catalog": "0.4.0",
+    "sharp": "^0.35.5",
+    "zod": "^4.0.0"
+  },
+  "optionalDependencies": {
+    "@team-antioch/sc2-adjutant-doodad-finder": "0.1.0",
+    "@team-antioch/sc2-adjutant-set-finder": "0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^5.9.0",
+    "vite-node": "^3.2.4",
+    "vitest": "^3.2.0"
+  },
+  "bin": {
+    "sc2-adjutant": "dist/cli/sc2-adjutant.js",
+    "sc2-adjutant-mcp": "dist/mcp/main.js"
+  }
+}

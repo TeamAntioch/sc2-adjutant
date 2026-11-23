@@ -1,0 +1,40 @@
+name: Missing feature
+description: Report something sc2-adjutant couldn't do, and what was done instead.
+title: "Missing: "
+labels: [missing-feature, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form when sc2-adjutant couldn't do something you needed and it had to be worked around. For example, a trigger the Blueprint can't declare, an Editor part no tool drives, a file the compile doesn't know about, or a request that could only be partly met.
+
+        This issue is public. Describe the gap in sc2-adjutant's own terms, and leave out your map's names, file paths and content. If an example helps, use placeholder names.
+  - type: textarea
+    id: missing
+    attributes:
+      label: What was missing
+      description: What you wanted sc2-adjutant to do and couldn't. This issue is public, so leave out your map's names, paths and content.
+    validations:
+      required: true
+  - type: textarea
+    id: workaround
+    attributes:
+      label: What was done instead
+      description: How the gap was worked around, for example a hand edit in the Map Package, a part left to the Editor, or a request only partly met. Leave out your map's names, paths and content.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: What support could look like (optional)
+      description: How sc2-adjutant might support this, if you have an idea. Leave out your map's names, paths and content.
+  - type: input
+    id: context
+    attributes:
+      label: Where it came up (Co-design Stage or tool)
+      description: The Co-design Stage or the tool you were using, for example "Stage 3" or "the compile_map tool". Leave out your map's names and paths.
+  - type: input
+    id: environment
+    attributes:
+      label: Environment (plugin and core versions, OS)
+      description: The versions of the sc2-adjutant Claude Code plugin and of core, and your OS, for example "plugin 0.1.0, core 0.1.0, macOS 15". Leave out usernames and machine names.

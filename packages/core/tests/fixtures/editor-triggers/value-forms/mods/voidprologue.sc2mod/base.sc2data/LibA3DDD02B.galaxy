@@ -1,0 +1,233 @@
+void libA3DDD02B_gf_DisplayCampaignMessage (playergroup lp_toPlayerGroup, int lp_messageType, text lp_message, int lp_formatOrNot) {
+    // Automatic Variable Declarations
+    int auto4C3F9166_val;
+
+    // Implementation
+    if ((lp_formatOrNot == libA3DDD02B_ge_CampaignMessageFormatNotFormat_FormatMessage)) {
+        auto4C3F9166_val = lp_messageType;
+        if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_Hint) {
+            TextExpressionSetToken("Param/Expression/lib_A3DDD02B_05E157D1", "A", lp_message);
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, TextExpressionAssemble("Param/Expression/lib_A3DDD02B_05E157D1"));
+            SoundPlay(SoundLink("UI_TerranHint", 0), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_SimpleHint) {
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, lp_message);
+            SoundPlay(SoundLink("UI_TerranHint", 0), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_Secret) {
+            TextExpressionSetToken("Param/Expression/lib_A3DDD02B_ED480A7B", "A", lp_message);
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, TextExpressionAssemble("Param/Expression/lib_A3DDD02B_ED480A7B"));
+            SoundPlay(SoundLink("TUISecret", 0), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_NewUnitAcquired) {
+            TextExpressionSetToken("Param/Expression/lib_A3DDD02B_A67804BB", "A", lp_message);
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, TextExpressionAssemble("Param/Expression/lib_A3DDD02B_A67804BB"));
+            SoundPlay(SoundLink("UI_TerranNewUnitAcquired", 0), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_NewUnitAvailable) {
+            TextExpressionSetToken("Param/Expression/lib_A3DDD02B_F1AA9791", "A", lp_message);
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, TextExpressionAssemble("Param/Expression/lib_A3DDD02B_F1AA9791"));
+            SoundPlay(SoundLink("UI_TerranNewUnitAvailable", 0), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_NewTechAvailable) {
+            TextExpressionSetToken("Param/Expression/lib_A3DDD02B_36788E6C", "A", lp_message);
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, TextExpressionAssemble("Param/Expression/lib_A3DDD02B_36788E6C"));
+            SoundPlay(SoundLink("UI_TerranNewTechAvailable", 0), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_NewUnitAvailable2) {
+            TextExpressionSetToken("Param/Expression/lib_A3DDD02B_A269CF22", "A", lp_message);
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, TextExpressionAssemble("Param/Expression/lib_A3DDD02B_A269CF22"));
+            SoundPlay(SoundLink("UI_TerranNewTechAvailable", 0), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_Warning) {
+            TextExpressionSetToken("Param/Expression/lib_A3DDD02B_E5BD385E", "A", lp_message);
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, TextExpressionAssemble("Param/Expression/lib_A3DDD02B_E5BD385E"));
+            SoundPlay(SoundLink("UI_ZergWarning", 0), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else if (auto4C3F9166_val == libA3DDD02B_ge_CampaignMessageType_MissionFailed) {
+            TextExpressionSetToken("Param/Expression/lib_A3DDD02B_D04E5B32", "A", lp_message);
+            UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, TextExpressionAssemble("Param/Expression/lib_A3DDD02B_D04E5B32"));
+            SoundPlay(SoundLink("UI_TerranMissionFailed", 1), lp_toPlayerGroup, 100.0, 0.0);
+        }
+        else {
+        }
+    }
+    else {
+        UIDisplayMessage(lp_toPlayerGroup, c_messageAreaSubtitle, lp_message);
+    }
+}
+
+void libA3DDD02B_gf__ZergDropPod (point lp_location, unitgroup lp_units, int lp_player) {
+    // Variable Declarations
+    unit lv_chosenUnit;
+    unit lv_dropPod;
+    point lv_dropPodLocation;
+    fixed lv_angle;
+    point lv_dropLocation;
+    unit lv_creep;
+
+    // Automatic Variable Declarations
+    unitgroup auto2D3B3E6A_g;
+    int auto2D3B3E6A_u;
+    unitgroup auto50A89478_g;
+    int auto50A89478_u;
+
+    // Variable Initialization
+
+    // Implementation
+    auto2D3B3E6A_g = lp_units;
+    auto2D3B3E6A_u = UnitGroupCount(auto2D3B3E6A_g, c_unitCountAll);
+    for (;; auto2D3B3E6A_u -= 1) {
+        lv_chosenUnit = UnitGroupUnitFromEnd(auto2D3B3E6A_g, auto2D3B3E6A_u);
+        if (lv_chosenUnit == null) { break; }
+        libNtve_gf_ShowHideUnit(lv_chosenUnit, false);
+        libNtve_gf_PauseUnit(lv_chosenUnit, true);
+    }
+    libNtve_gf_CreateUnitsAtPoint2(1, "ZergDropPod", c_unitCreateIgnorePlacement, lp_player, lp_location);
+    lv_dropPod = UnitLastCreated();
+    Wait(2.5, c_timeGame);
+    lv_dropPodLocation = UnitGetPosition(lv_dropPod);
+    libNtve_gf_CreateUnitsAtPoint2(1, "ZergDropPodCreep", c_unitCreateIgnorePlacement, lp_player, lv_dropPodLocation);
+    lv_creep = UnitLastCreated();
+    Wait(1.0, c_timeGame);
+    lv_angle = 0.0;
+    auto50A89478_g = lp_units;
+    auto50A89478_u = UnitGroupCount(auto50A89478_g, c_unitCountAll);
+    for (;; auto50A89478_u -= 1) {
+        lv_chosenUnit = UnitGroupUnitFromEnd(auto50A89478_g, auto50A89478_u);
+        if (lv_chosenUnit == null) { break; }
+        lv_dropLocation = PointWithOffsetPolar(lv_dropPodLocation, RandomFixed(0.5, 2.0), lv_angle);
+        UnitSetPosition(lv_chosenUnit, lv_dropLocation, false);
+        libNtve_gf_ShowHideUnit(lv_chosenUnit, true);
+        libNtve_gf_PauseUnit(lv_chosenUnit, false);
+        Wait(0.125, c_timeGame);
+        lv_angle = (lv_angle + 77.0);
+    }
+    libNtve_gf_PauseUnit(lv_creep, true);
+    Wait(3.0, c_timeGame);
+    UnitRemove(lv_creep);
+    Wait(4.0, c_timeGame);
+    UnitKill(lv_dropPod);
+}
+
+void libA3DDD02B_gf_CreateDropPodForZergBuilding (string lp_buildingType, point lp_landingPoint, int lp_player, bool lp_waitDontWait) {
+    // Automatic Variable Declarations
+    bool auto0E9D82BE_val;
+
+    // Implementation
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, lp_buildingType, c_unitCreateIgnorePlacement, lp_player, lp_landingPoint);
+    libA3DDD02B_gv__TP_ZergDropPod_Building = UnitLastCreated();
+    libNtve_gf_ShowHideUnit(UnitLastCreated(), false);
+    DataTableSetUnitGroup(false, libA3DDD02B_gf__LastDroppedUnitsDataTableName(), UnitLastCreatedGroup());
+    auto0E9D82BE_val = lp_waitDontWait;
+    if (auto0E9D82BE_val == true) {
+        libA3DDD02B_gf__CreateDropPodForBuildingWait(lp_buildingType, lp_landingPoint, lp_player);
+    }
+    else if (auto0E9D82BE_val == false) {
+        libA3DDD02B_gf__CreateDropPodForBuildingDontWait(lp_buildingType, lp_landingPoint, lp_player);
+    }
+    else {
+    }
+}
+
+void libA3DDD02B_gf_ZoomInPlanetPortrait () {
+    // Automatic Variable Declarations
+    // Implementation
+    SoundPlay(SoundLink("UI_Evolutions_PlanetaryZoom", -1), PlayerGroupAll(), 100.0, 0.0);
+    ActorSend(ActorFromPortrait(libA3DDD02B_gv_pP_PlanetPortrait), "AnimPlay Custom Spell PlayForever,NonLooping");
+    Wait(3.0, c_timeGame);
+    CameraSetValue(1, c_cameraValueDistance, CameraInfoGetValue(libA3DDD02B_gv_pP_PlanetPortraitPlayerCamera, c_cameraValueDistance), 2.0, 100.0, 10.0);
+    Wait(0.5, c_timeGame);
+    if ((libA3DDD02B_gv_pP_PlanetPortraitEvoMissionLight != null)) {
+        GameSetLighting(libA3DDD02B_gv_pP_PlanetPortraitEvoMissionLight, 1.0);
+    }
+
+    Wait(1.5, c_timeGame);
+}
+
+void libA3DDD02B_gf_DifficultySetting (int lp_difficulty) {
+    // Automatic Variable Declarations
+    int autoDEBA0DD7_val;
+
+    // Implementation
+    autoDEBA0DD7_val = lp_difficulty;
+    if (autoDEBA0DD7_val == 1) {
+        PlayerModifyPropertyInt(1, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, FixedToInt((UserDataGetFixed("DifficultySettings", "Casual", "DamageTakenRatio", 1) * 100.0)));
+    }
+    else if (autoDEBA0DD7_val == 2) {
+        PlayerModifyPropertyInt(1, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, FixedToInt((UserDataGetFixed("DifficultySettings", "Normal", "DamageTakenRatio", 1) * 100.0)));
+    }
+    else if (autoDEBA0DD7_val == 3) {
+        PlayerModifyPropertyInt(1, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, FixedToInt((UserDataGetFixed("DifficultySettings", "Hard", "DamageTakenRatio", 1) * 100.0)));
+    }
+    else if (autoDEBA0DD7_val == 4) {
+        PlayerModifyPropertyInt(1, c_playerPropDamageTakenPercent, c_playerPropOperSetTo, FixedToInt((UserDataGetFixed("DifficultySettings", "Brutal", "DamageTakenRatio", 1) * 100.0)));
+    }
+    else {
+    }
+}
+
+void libA3DDD02B_gf_SetHatcheryRallyPoint (unit lp_hatchery, point lp_rallyPoint) {
+    // Variable Declarations
+    unit lv_bestMineral;
+    point lv_rallyPoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_bestMineral = libA3DDD02B_gf_PP_HatcheryBestWorkerRallyMineral(lp_hatchery);
+    if ((lv_bestMineral != null)) {
+        UnitIssueOrder(lp_hatchery, OrderTargetingUnit(AbilityCommand("RallyHatchery", 1), lv_bestMineral), c_orderQueueReplace);
+    }
+
+    lv_rallyPoint = lp_rallyPoint;
+    if ((lv_rallyPoint == null)) {
+        if ((lv_bestMineral != null)) {
+            lv_rallyPoint = PointWithOffsetPolar(UnitGetPosition(lp_hatchery), 5.0, (AngleBetweenPoints(UnitGetPosition(lp_hatchery), UnitGetPosition(lv_bestMineral)) + 180.0));
+        }
+
+    }
+
+    if ((lv_rallyPoint != null)) {
+        UnitIssueOrder(lp_hatchery, OrderTargetingPoint(AbilityCommand("RallyHatchery", 0), lv_rallyPoint), c_orderQueueReplace);
+    }
+
+}
+
+int libA3DDD02B_gf_PP_DifficultyFromIndex (int lp_index) {
+    // Automatic Variable Declarations
+    int auto64EFB35F_val;
+
+    // Implementation
+    auto64EFB35F_val = lp_index;
+    if (auto64EFB35F_val == libA3DDD02B_gf_PP_DifficultyIndex(1)) {
+        return 1;
+    }
+    else if (auto64EFB35F_val == libA3DDD02B_gf_PP_DifficultyIndex(2)) {
+        return 2;
+    }
+    else if (auto64EFB35F_val == libA3DDD02B_gf_PP_DifficultyIndex(3)) {
+        return 3;
+    }
+    else if (auto64EFB35F_val == libA3DDD02B_gf_PP_DifficultyIndex(4)) {
+        return 4;
+    }
+    else {
+        return 2;
+    }
+}
+
+int libA3DDD02B_gf_MissionStatus (string lp_mission) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((libA3DDD02B_gf_MissionStatusAge(lp_mission, libA3DDD02B_ge_MissionStatus_Completed) > 0)) {
+        return libA3DDD02B_ge_MissionStatus_Completed;
+    }
+
+    if ((libA3DDD02B_gf_MissionStatusAge(lp_mission, libA3DDD02B_ge_MissionStatus_Available) > 0)) {
+        return libA3DDD02B_ge_MissionStatus_Available;
+    }
+
+    return libA3DDD02B_ge_MissionStatus_Locked;
+}

@@ -1,0 +1,5 @@
+﻿FunctionDef/Name/lib_281DEC45_0EEFA094=Play Cinematic Once
+FunctionDef/Name/lib_281DEC45_3DEB9AB0=Play Scripted Scene
+FunctionDef/Name/lib_281DEC45_E859A89C=ZSS_PlayStoryModeEntryScenes
+ParamDef/Name/lib_281DEC45_38FB73EF=Scene
+ParamDef/Name/lib_281DEC45_C07FE77C=scene

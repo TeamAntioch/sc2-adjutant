@@ -1,0 +1,6 @@
+{
+  "exemplars": [
+    { "id": "ridge", "map": "Ridge.SC2Map", "provenance": "made" },
+    { "id": "dunes", "map": "Dunes.SC2Map", "provenance": "approved", "note": "Not studied yet." }
+  ]
+}

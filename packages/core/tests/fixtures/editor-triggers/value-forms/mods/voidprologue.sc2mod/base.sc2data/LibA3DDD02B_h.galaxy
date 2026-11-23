@@ -1,0 +1,8 @@
+void libA3DDD02B_gf_DisplayCampaignMessage (playergroup lp_toPlayerGroup, int lp_messageType, text lp_message, int lp_formatOrNot);
+void libA3DDD02B_gf__ZergDropPod (point lp_location, unitgroup lp_units, int lp_player);
+void libA3DDD02B_gf_CreateDropPodForZergBuilding (string lp_buildingType, point lp_landingPoint, int lp_player, bool lp_waitDontWait);
+void libA3DDD02B_gf_ZoomInPlanetPortrait ();
+void libA3DDD02B_gf_DifficultySetting (int lp_difficulty);
+void libA3DDD02B_gf_SetHatcheryRallyPoint (unit lp_hatchery, point lp_rallyPoint);
+int libA3DDD02B_gf_PP_DifficultyFromIndex (int lp_index);
+int libA3DDD02B_gf_MissionStatus (string lp_mission);

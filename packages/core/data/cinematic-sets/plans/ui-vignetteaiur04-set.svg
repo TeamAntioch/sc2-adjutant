@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>UI_VignetteAiur04 set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">UI_VignetteAiur04 set</text>
+<text x="24" y="54" font-size="10" fill="#666">ui-vignetteaiur04-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="223.1" y="243.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Baneling</title></rect>
+<rect x="324.1" y="216.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Baneling</title></rect>
+<rect x="263.4" y="277.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Baneling</title></rect>
+<rect x="339.9" y="273.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Baneling</title></rect>
+<rect x="241.5" y="229.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Overseer</title></rect>
+<rect x="331.7" y="166.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Hydralisk</title></rect>
+<rect x="276" y="180" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Hydralisk</title></rect>
+<rect x="275.7" y="488.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>HybridBehemoth</title></rect>
+<rect x="276.3" y="205.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Aiur_Power_Point</title></rect>
+<polygon points="312.3,1306.2 298.8,1209.7 319.3,1209" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="312.3" cy="1306.2" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 1</title></circle>
+<text x="316.3" y="1303.2" font-size="8" fill="#5a3a9a">CAMERA - Section 1</text>
+<polygon points="288.2,587.8 246,499.9 324.5,497.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="288.2" cy="587.8" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 1 - copy</title></circle>
+<text x="292.2" y="584.8" font-size="8" fill="#5a3a9a">CAMERA - Section 1 - copy</text>
+<polygon points="279,1071.2 238.9,982.4 317.4,981.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="279" cy="1071.2" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 2</title></circle>
+<text x="283" y="1068.2" font-size="8" fill="#5a3a9a">CAMERA - Section 2</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_VignetteAiur04.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: DiamondbackPortrait</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 3 (3 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">Aiur_Power_Point</text>
+<text x="560" y="216" font-size="9" fill="#333">Baneling</text>
+<text x="560" y="228" font-size="9" fill="#333">HybridBehemoth</text>
+<text x="560" y="240" font-size="9" fill="#333">Hydralisk</text>
+<text x="560" y="252" font-size="9" fill="#333">Overseer</text>
+<text x="560" y="264" font-size="9" fill="#333"></text>
+<text x="560" y="276" font-size="9" fill="#333">Also in:</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>UI_VignetteUlnar03 set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">UI_VignetteUlnar03 set</text>
+<text x="24" y="54" font-size="10" fill="#666">ui-vignetteulnar03-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="277" y="125.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>HybridReaver</title></rect>
+<rect x="285.5" y="528.9" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Gateway_Taldarim, Barracks</title></rect>
+<text x="293.5" y="534.9" font-size="8" fill="#6d6458">2</text>
+<polygon points="291.7,576.2 266.6,523.9 313.3,522.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="291.7" cy="576.2" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 1</title></circle>
+<text x="295.7" y="573.2" font-size="8" fill="#5a3a9a">CAMERA - Section 1</text>
+<polygon points="286.2,864.2 262.3,811.3 309.1,810.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="286.2" cy="864.2" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 2</title></circle>
+<text x="290.2" y="861.2" font-size="8" fill="#5a3a9a">CAMERA - Section 2</text>
+</g>
+<line x1="148.5" y1="570.6" x2="342.1" y2="570.6" stroke="#333" stroke-width="2"/>
+<line x1="148.5" y1="566.6" x2="148.5" y2="574.6" stroke="#333"/><line x1="187.2" y1="566.6" x2="187.2" y2="574.6" stroke="#333"/>
+<text x="148.5" y="564.6" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_VignetteUlnar03.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: PlanetViewGalaxy</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 2 (2 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">Barracks</text>
+<text x="560" y="216" font-size="9" fill="#333">Gateway_Taldarim</text>
+<text x="560" y="228" font-size="9" fill="#333">HybridReaver</text>
+<text x="560" y="240" font-size="9" fill="#333"></text>
+<text x="560" y="252" font-size="9" fill="#333">Also in:</text>
+</svg>

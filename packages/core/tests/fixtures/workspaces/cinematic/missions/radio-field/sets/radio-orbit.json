@@ -1,0 +1,16 @@
+{
+  "name": "Radio Orbit",
+  "lights": [],
+  "pieces": [
+    { "model": "OrbitStars", "at": [0, 0, 0], "scale": 40 },
+    { "model": "OrbitPlanet", "at": [0, 120, -20], "rotation": [10, 0, 45], "scale": 12 },
+    { "model": "OrbitSun", "at": [-60, 200, 30], "scale": 8, "shots": ["Arrival"] },
+    { "model": "OrbitSun", "at": [60, -200, 30], "scale": 8, "shots": ["Departure"] }
+  ],
+  "marks": [],
+  "cameras": [
+    { "name": "Arrival", "target": [0, 10, 2], "distance": 30, "pitch": 5, "yaw": 200, "fov": 40 },
+    { "name": "Departure", "target": [0, 30, 0], "distance": 40, "pitch": -5, "yaw": 20, "fov": 40 }
+  ],
+  "lamps": [{ "name": "Sun Key", "type": "omni", "at": [-40, 60, 20], "color": [1, 0.8, 0.6], "strength": 2, "range": 200 }]
+}

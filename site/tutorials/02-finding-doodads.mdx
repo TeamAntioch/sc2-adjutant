@@ -1,0 +1,262 @@
+export const meta = {
+  title: "Finding doodads",
+  summary: "Break a set piece into Search Parts, narrow each by meaning and by name, judge the candidates from their pictures on a page of ranked cards, and browse many asks in a row in the Doodad Finder.",
+  minutes: 20,
+};
+
+You'll find the doodads to dress one set piece in *Ashfall Relay*: the relay at the Relay Station, which the Marine has come to restore. Finding them is a Doodad Search. The set piece is broken into Search Parts, each part gets a shortlist of doodads from the Asset Catalog, and Claude judges every candidate from its picture. You pick from a page of ranked cards. Then you'll browse a second set piece in the Doodad Finder, where you type the asks yourself and tick what you like.
+
+This carries on from [Your first Mission](/tutorials/first-mission/): a Workspace with *Ashfall Relay* in it. Doodads belong to Stage 3, palette and placement, but a Doodad Search can run at any Stage, or for no Mission at all. It stops at the page: turning the picks into a Doodad Composite and placing it is the [`exemplar-design`](/skills/exemplar-design/) skill's work.
+
+The turns below are written by hand. Claude's words will differ in your session, but the tool calls are the ones it makes.
+
+<Objective id="parts" title="Name the set piece and its Search Parts">
+
+Say what the object is, and which Mission it's for. The [`doodad-search`](/skills/doodad-search/) skill takes it from there.
+
+<You>I need doodads for the relay in ashfall-relay: the comms relay at the Relay Station that the Marine comes to restore.</You>
+
+<Claude>
+I'll break the relay into Search Parts. Each one says what it has to read as to the player, from the game camera, sized against a Marine. I judge every candidate against that line:
+
+1. **Mast:** a tall comms tower with a dish and antennas, as tall as a Command Center, that reads as a relay the Marine has come to restore.
+2. **Power feed:** a generator or heavy cables running into the base of the mast. A machine never stands alone: its supply makes it read as working.
+3. **Warning lamp:** a red lamp at the mast's foot that reads as "relay down" until the Marine gets there.
+
+Shall I search for these three?
+</Claude>
+
+<You>Yes, those three.</You>
+
+The lines are worth getting right: a vague one ("an antenna") brings back every aerial in the game. Claude suggests parts you missed, such as the power feed here. A Style Pack with interiors or dressing knowledge gives it more of these kits.
+
+</Objective>
+
+<Objective id="by-meaning" title="Narrow each part by meaning" needs="Doodad Finder">
+
+For each part, Claude asks the Doodad Finder's narrowing with the part's line. It finds doodads that share no word with the line, and its ranker, Jev, grades each from its text, from 0 (doesn't fit) to 3 (reads as exactly this).
+
+<Claude>
+<ToolCall
+  name="find_doodads"
+  args={{
+    ask: "relay mast: a tall comms tower with a dish and antennas, as tall as a Command Center, that reads as a relay the Marine has come to restore",
+    mission: "ashfall-relay",
+    count: 8,
+  }}
+>
+  narrows about 200 candidates by meaning, then ranks them
+</ToolCall>
+
+<ToolCall name="find_doodads" args={{ ask: "power feed: a generator or heavy cables running into the base of the mast", mission: "ashfall-relay", count: 8 }} />
+
+For the mast, Deadman's Port Tower comes first, with Snow Refinery Terran Antenna, the Purifier Communications Tower, Landing Tower, Antenna and Korhal Antenna close behind, all near level 2, "could work with dressing or scale". For the power feed: the Valhalla Generator first, then Power Cables Warfield and the Moebius Lab Armored Generator, with Space Platform Cables Large and the Korhal Generator Core further down. I'll shortlist those, and the mast's, for their pictures: the levels only order the shortlist. The pictures decide.
+</Claude>
+
+Jev reads text, never pictures: each ask sends only the ask, its tags and the candidates' text cards. Each ranked ask costs about a tenth of a cent. Without its key, `find_doodads` gives the narrowing's order and says why. [Ranked doodad and set search](/install/#optional-ranked-doodad-and-set-search) says how to give it one.
+
+Without the Doodad Finder package, the server doesn't list `find_doodads`. Claude then narrows every part with `search_doodads`, the next step's keyword search, running a few queries of a few words each.
+
+</Objective>
+
+<Objective id="by-name" title="Find the lamps by their names">
+
+Lights, and some other doodads with no description in the catalog, have only their id words: a search by meaning misses them. Claude finds those with a keyword search, and with no facets, since any facet drops a doodad with no description.
+
+<Claude>
+<ToolCall name="search_doodads" args={{ words: ["alarm", "beacon", "lamp"], mission: "ashfall-relay", limit: 8 }}>matches whole words in names, ids and looks</ToolCall>
+
+Three alarms: the Alarm Light, a caged red lamp with a hexagonal floor alarm as its other variation, the Umojan Lab Alarm, which hangs on a wall, and the Star Ship Adun Alarm, which is Protoss gold. The rest are walls and furniture that happen to have lamps.
+</Claude>
+
+Words match whole words and their plurals (`crate` finds crates, not crater). End one in `*` to match the start of words: `stamp*` finds stamper. Give `mission` and the doodads the Mission's dependencies already bring in sort first.
+
+</Objective>
+
+<Objective id="pictures" title="Look at the pictures">
+
+A doodad's name and catalog look only put it on the shortlist. Claude judges every candidate from a picture it has looked at: its turntable sheet, which shows variation 00 from four sides, else its gallery picture, one angle with a Marine beside it for scale.
+
+<Claude>
+<ToolCall
+  name="build_doodad_sheets"
+  args={{
+    ids: [
+      "LandingTower",
+      "Korhal_Antenna",
+      "SnowRefinery_Terran_Antenna",
+      "Antenna",
+      "PortZionTower",
+      "Purifier_Communications_Tower",
+      "ValhallaGenerator",
+      "PowerCablesWarfield",
+      "MoebiusLabArmoredGenerator",
+      "SpacePlatformCablesLarge",
+      "Korhal_Generator_Core",
+      "AlarmLight",
+      "UmojanLabAlarms",
+      "StarShipAdun_Alarm",
+    ],
+  }}
+>
+  builds the sheets that are missing, from this machine's renders
+</ToolCall>
+
+Thirteen sheets are here. The Alarm Light has no renders on this machine, so I'll judge it from its gallery picture, from one angle. From the sheets: Landing Tower is a dark tower with a saucer top and a tall antenna, the one that reads as a relay. Deadman's Port Tower's first variation is a thin aerial on a carved post, too slight to be what the Marine came for. The Valhalla Generator's coils glow cyan: it reads as live power at the mast's foot.
+</Claude>
+
+Sheets are built from renders, which `npm run thumbnails` makes in an sc2-adjutant checkout, on a machine whose Host Adapter can render models (`model.render`, which the macOS and Windows ones have). Building a sheet from them needs ImageMagick. Without renders, Claude judges from the gallery pictures and says so on each card ("judged from one angle"). A sheet frames each model to fill its tile, so it shows no scale: the gallery picture's Marine does.
+
+</Objective>
+
+<Objective id="page" title="Build the page of candidates">
+
+Claude ranks the candidates for each part, best first, with a note on how each fits or falls short, and lists the ones it ruled out, with why. Then it writes the Doodad Search's `search.json` and builds the page from it.
+
+<Claude>
+<ToolCall
+  name="build_doodad_search_page"
+  args={{
+    slug: "relay",
+    mission: "ashfall-relay",
+    search: {
+      title: "Comms relay",
+      mission: "ashfall-relay",
+      parts: [
+        {
+          name: "Mast",
+          readsAs: "relay mast: a tall comms tower with a dish and antennas, as tall as a Command Center, that reads as a relay the Marine has come to restore",
+          queries: [],
+          asks: [{ text: "relay mast: a tall comms tower with a dish and antennas, as tall as a Command Center, that reads as a relay the Marine has come to restore", tags: [], ranker: "jev" }],
+          candidates: [
+            { id: "LandingTower", note: "Dark tower on an armoured base with a saucer top and a tall antenna: reads as a relay from the game camera. Terran, fits the volcanic dark.", judgedFrom: "sheet" },
+            { id: "Korhal_Antenna", note: "Twin dark masts with red-tipped aerials on a small base. Good beside the tower; thin alone.", judgedFrom: "sheet" },
+            { id: "SnowRefinery_Terran_Antenna", note: "Tall mast with red tip lights on a squat housing. Pale panels; tint it darker for the ash.", judgedFrom: "sheet" },
+            { id: "Antenna", note: "Spiked dark spire with red lights. Reads as military rather than comms.", judgedFrom: "sheet" },
+          ],
+          alsoConsidered: [
+            { id: "PortZionTower", reason: "Variation 00 is a thin aerial on a carved post: too slight to be the relay." },
+            { id: "Purifier_Communications_Tower", reason: "Protoss white and gold." },
+          ],
+        },
+        {
+          name: "Power feed",
+          readsAs: "power feed: a generator or heavy cables running into the base of the mast",
+          queries: [],
+          asks: [{ text: "power feed: a generator or heavy cables running into the base of the mast", tags: [], ranker: "jev" }],
+          candidates: [
+            { id: "ValhallaGenerator", note: "Black generator block with glowing cyan coils: live power at the mast's foot.", judgedFrom: "sheet" },
+            { id: "PowerCablesWarfield", note: "Lattice towers carrying a sagging cable: runs power in from off the pad.", judgedFrom: "sheet" },
+            { id: "Korhal_Generator_Core", note: "Armoured block venting smoke with an orange glow: a generator that's failing.", judgedFrom: "sheet" },
+          ],
+          alsoConsidered: [
+            { id: "MoebiusLabArmoredGenerator", reason: "Lab generator under a pipe frame: reads as indoor machinery." },
+            { id: "SpacePlatformCablesLarge", reason: "Space-station cables that stand at a wall's foot; the relay stands in the open." },
+          ],
+        },
+        {
+          name: "Warning lamp",
+          readsAs: "warning lamp: a red lamp at the mast's foot that reads as 'relay down'",
+          queries: [{ words: ["alarm", "beacon", "lamp"] }],
+          candidates: [
+            { id: "AlarmLight", note: "A caged red lamp, small beside a Marine; its other variation is a red hexagonal floor alarm. Either reads as 'down' at the mast's foot.", judgedFrom: "image" },
+            { id: "UmojanLabAlarms", note: "Small round wall lamp, white casing, framed tiny on its sheet. Needs a wall: hang it on the generator.", judgedFrom: "sheet" },
+          ],
+          alsoConsidered: [{ id: "StarShipAdun_Alarm", reason: "Protoss gold." }],
+        },
+      ],
+    },
+  }}
+>
+  writes search.json and builds index.html beside it
+</ToolCall>
+
+The page is at `missions/ashfall-relay/output/doodad-search/relay/index.html`. Top picks: Landing Tower for the mast, the Valhalla Generator for the power feed, and the Alarm Light for the warning lamp. The lists are short: only these read right from the pictures, and a part may truly have fewer than six.
+</Claude>
+
+Open the page in your browser. Each part has its cards, best first: the picture, the doodad's size, the dependency it needs and whether the Mission has it, and the note. The ruled-out ones are folded at the end of each part. The page lives in the Mission's `output/` folder, which git ignores, so it isn't committed: game renders stay out of every repo.
+
+</Objective>
+
+<Objective id="accept" title="Accept the picks">
+
+Tell Claude what you're taking. It drafts a Doodad Use for each pick, a short, general phrase for what the doodad was accepted as, and shows it to you before it adds it. Later searches, yours or anyone's, find the doodad by it.
+
+<You>I'll take the Landing Tower, the Valhalla Generator and the Alarm Light.</You>
+
+<Claude>
+The Doodad Uses I'd add, in general words, with no Mission or story names:
+
+- Landing Tower: "comms relay mast"
+- Valhalla Generator: "generator feeding a machine"
+- Alarm Light: "warning lamp at a machine's foot"
+
+Shall I add them?
+</Claude>
+
+<You>Yes.</You>
+
+<Claude>
+<ToolCall name="add_doodad_note" args={{ id: "LandingTower", use: "comms relay mast", from: "relay search, 2026-11-22" }}>adds a Doodad Use to the Workspace's doodad notes</ToolCall>
+
+<ToolCall name="add_doodad_note" args={{ id: "ValhallaGenerator", use: "generator feeding a machine", from: "relay search, 2026-11-22" }} />
+
+<ToolCall name="add_doodad_note" args={{ id: "AlarmLight", use: "warning lamp at a machine's foot", from: "relay search, 2026-11-22" }} />
+
+Added, and I've recorded the picks in `missions/ashfall-relay/doodads.md`: each part's doodad and variation, the dependency it needs (none of the three needs one), and the search's folder. Would you like to contribute the uses to the public doodad catalog, sc2-asset-catalog?
+</Claude>
+
+<You>Show me what it would send.</You>
+
+<Claude>
+<ToolCall name="contribute_doodad_notes" args={{ dryRun: true }}>says what would go, and changes nothing</ToolCall>
+
+It would add the three uses to the doodads' files in sc2-asset-catalog, by pull request. Say the word and I'll run it for real.
+</Claude>
+
+A contribution needs `gh` and GitHub access. Without them, or while an earlier contribution's pull request is still open, the notes stay in your Workspace and nothing is lost. A note that names a Mission, the Campaign, a mod or a character is kept back, with why, for you to reword.
+
+</Objective>
+
+<Objective id="finder" title="Browse in the Doodad Finder" needs="Doodad Finder">
+
+The Doodad Finder is the quick way through the parts and the shortlists: a page on your own machine where you type asks and see ranked cards at once, then tick the ones worth a closer look. Use it when you want to browse many asks in a row. Try it on a second set piece, a supply drop on the Landing Pad.
+
+<You>Open the Doodad Finder.</You>
+
+<Claude>
+<ToolCall name="open_doodad_finder" args={{}}>checks what it needs, starts it, and opens the page</ToolCall>
+
+The Doodad Finder is open at `http://127.0.0.1:4634/`. Its embeddings model is cached, and Jev has its key, so the cards are ranked. It keeps running after this session ends: ask me to stop it when you're done.
+</Claude>
+
+In the Finder:
+
+1. Choose *ashfall-relay* as the Mission, so the cards its dependencies already provide come first.
+2. Name the object: **Object**, type `Supply drop`, then **Start**. The tray is now kept as that object's Doodad Search.
+3. Type an ask, `supply crates stacked two high on a landing pad`, and tick the cards you like. Then a second ask, `fuel drums`, and tick some of those. Each ask you tick from becomes a Search Part, and its ticks that part's shortlist.
+4. Click **Look closer**. It copies a prompt naming the search's `search.json`. Paste it to Claude.
+
+<You>Carry on the Doodad Search in /…/my-campaign/missions/ashfall-relay/output/doodad-search/supply-drop/search.json with the doodad-search skill. The Doodad Finder started it: judge each Search Part's shortlist from the pictures, then build the page.</You>
+
+<Claude>
+Two Search Parts came from your asks: the crates, with DOM Crate, Snow Refinery Terran Crates and Port City Cargo ticked, and the fuel drums, with Barrels and Port Zion Barrel Physics. Do the lines still say what each must read as?
+</Claude>
+
+<You>Yes.</You>
+
+<Claude>
+<ToolCall name="build_doodad_sheets" args={{ ids: ["DOM_Crate", "SnowRefinery_Terran_Crates", "PortCity_Cargo", "BraxisAlphaBarrels", "PortZionBarrelPhysics"] }} />
+
+I've judged every ticked card from its sheet. The Snow Refinery crates are a ready-made stack of three grey supply crates; DOM Crate is a single black crate that stacks. The Barrels are rusty orange and hazard-striped, and read as fuel from above. Each ticked card is now a ranked candidate or ruled out, with why, in `search.json`.
+
+<ToolCall name="build_doodad_search_page" args={{ slug: "supply-drop", mission: "ashfall-relay" }}>rebuilds the page from the judged search.json</ToolCall>
+
+The page is at `missions/ashfall-relay/output/doodad-search/supply-drop/index.html`. Top picks: the Snow Refinery crates for the stack, and the Barrels for the fuel.
+</Claude>
+
+From here the search goes as before: open the page, pick, and Claude adds a Doodad Use for each pick. The Finder never judges from pictures itself, so every shortlist still goes through Claude's look closer.
+
+Next, place the picks. Ask Claude to draft a Doodad Composite of the relay from them, with the [`exemplar-design`](/skills/exemplar-design/) skill, and to place a test copy for you to look at in the Editor.
+
+</Objective>

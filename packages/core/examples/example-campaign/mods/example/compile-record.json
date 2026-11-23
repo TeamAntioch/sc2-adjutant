@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "entries": [
+    {"kind":"catalog-entry","file":"Base.SC2Data/GameData/CharacterData.xml","id":"CCharacter:ExampleAdjutant","fingerprint":"aa54211b6cfcadba"},
+    {"kind":"catalog-entry","file":"Base.SC2Data/GameData/CharacterData.xml","id":"CCharacter:ExampleSergeant","fingerprint":"20d03cc3e0c5c98b"},
+    {"kind":"catalog-entry","file":"Base.SC2Data/GameData/CharacterData.xml","id":"CCharacter:ExampleForeman","fingerprint":"f8cc5d5b0e686739"},
+    {"kind":"file","path":"DocumentInfo","fingerprint":"c95f835bed1a76f1"},
+    {"kind":"file","path":"DocumentHeader","fingerprint":"b8471513df161359"},
+    {"kind":"file","path":"ComponentList.SC2Components","fingerprint":"ae11484f46486ddd"},
+    {"kind":"file","path":"GameData.version","fingerprint":"78a222d6be833aac"},
+    {"kind":"file","path":"DocumentInfo.version","fingerprint":"a8edc5fd5f79c285"}
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "example-pack",
+  "version": "2.3.0",
+  "pluginApi": 2,
+  "roles": ["campaign-pack", "style-pack"],
+  "contributions": {
+    "knowledge": [
+      { "id": "palette", "title": "Palette", "description": "Which textures the example pack likes.", "file": "knowledge/palette.md" }
+    ],
+    "exemplarMaps": "exemplars/exemplars.json",
+    "composites": "composites.json",
+    "skills": ["skills/dressing-review"],
+    "prompts": [
+      {
+        "name": "review-look",
+        "title": "Review a Mission's look",
+        "description": "Critiques a Mission against the example pack's lessons.",
+        "arguments": [
+          { "name": "mission", "description": "The Mission to review", "required": true },
+          { "name": "focus", "description": "One part of the look to review" }
+        ],
+        "file": "prompts/review-look.md"
+      }
+    ]
+  }
+}

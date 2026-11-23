@@ -1,0 +1,19 @@
+{
+  "name": "Radio Hall",
+  "lights": ["HallLight"],
+  "pieces": [
+    {"model":"HallFloor","at":[0,0,0]},
+    {"model":"HallDoor","at":[0,3,0],"shots":["Door"]}
+  ],
+  "marks": [
+    {"name":"Guard","model":"Guard","at":[0,1,0],"facing":180}
+  ],
+  "cameras": [
+    {"name":"Wide","target":[0,1,1],"distance":8,"pitch":5,"yaw":0,"fov":35,"heightOffset":-0.5},
+    {"name":"Door","target":[0,2,1],"distance":4,"pitch":5,"yaw":0,"fov":20,"heightOffset":-0.5},
+    {"name":"Low","target":[0,1,0.5],"distance":4,"pitch":0,"yaw":0,"fov":20}
+  ],
+  "lamps": [
+    {"name":"HallKey","type":"omni","at":[1,1,3],"color":[1,0.8,0.6],"strength":1.5,"range":5}
+  ]
+}

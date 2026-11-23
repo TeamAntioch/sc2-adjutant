@@ -1,0 +1,13 @@
+Trigger/Name/0F91CAB6=Achievement - Odin Health Below 30% (Hard)
+Trigger/Name/19FEE8E4=Start Game Escort
+Trigger/Name/4A13E0A0=Objective Destroy Dominion Bases Create Q
+Trigger/Name/5A69FA90=Create Odin Boss Bar
+Trigger/Name/7FE40F03=Battlecruiser Spawn / Attack Odin
+Trigger/Name/FD69F1D7=Campaign Tips Q
+Variable/Name/143F3AB1=Objective - TychusMustSurvive
+Variable/Name/3CB30D86=Objective - Destroy the Loki
+Variable/Name/484C648E=P01_USER
+Variable/Name/9AE84806=OdinAIPlayerTarget
+Variable/Name/D96AA8E7=Objective - StealTheOdin
+Variable/Name/ED3D57CB=OdinPing
+Variable/Name/F1CE4D69=P04_DOMINION_INFANTRY_A

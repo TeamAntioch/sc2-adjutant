@@ -1,0 +1,78 @@
+void gf_DifficultyAdjustments ();
+void gf_SetArea ();
+trigger gt_Initialization;
+trigger gt_Opening;
+trigger gt_HeroOpening;
+trigger gt_Cleanup;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Initialization
+//--------------------------------------------------------------------------------------------------
+bool gt_Initialization_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup auto2FFF868A_g;
+    int auto2FFF868A_u;
+    unit auto2FFF868A_var;
+    unitgroup auto77291F26_g;
+    int auto77291F26_u;
+    unit auto77291F26_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libCmpn_gv_playerStats.lv_chosenDifficulty = 3;
+    libNtve_gf_CinematicMode(true, PlayerGroupAll(), c_transitionDurationDefault);
+    FogSetEnabled(false);
+    FogSetDisableAtUltra(true);
+    SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryMusic, "Music_Silence", c_soundtrackCueAny, c_soundtrackIndexAny, true);
+    SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryAmbience, "Music_Silence", c_soundtrackCueAny, c_soundtrackIndexAny, true);
+    auto2FFF868A_g = UnitGroup(null, 2, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto2FFF868A_u = UnitGroupCount(auto2FFF868A_g, c_unitCountAll);
+    for (;; auto2FFF868A_u -= 1) {
+        auto2FFF868A_var = UnitGroupUnitFromEnd(auto2FFF868A_g, auto2FFF868A_u);
+        if (auto2FFF868A_var == null) { break; }
+        UnitSetState(auto2FFF868A_var, c_unitStateFidget, false);
+    }
+    auto77291F26_g = UnitGroup("Marine", 2, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto77291F26_u = UnitGroupCount(auto77291F26_g, c_unitCountAll);
+    for (;; auto77291F26_u -= 1) {
+        auto77291F26_var = UnitGroupUnitFromEnd(auto77291F26_g, auto77291F26_u);
+        if (auto77291F26_var == null) { break; }
+        UnitSetTeamColorIndex(auto77291F26_var, 2);
+    }
+    libNtve_gf_SetAlliance(1, 2, libNtve_ge_AllianceSetting_Neutral);
+    PlayerSetAlliance(0, c_allianceIdPushable, 1, false);
+    PlayerSetAlliance(1, c_allianceIdPushable, 0, false);
+    gf_DifficultyAdjustments();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Initialization_Init () {
+    gt_Initialization = TriggerCreate("gt_Initialization_Func");
+    TriggerAddEventMapInit(gt_Initialization);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Cleanup
+//--------------------------------------------------------------------------------------------------
+bool gt_Cleanup_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_SetArea();
+    libNtve_gf_MakeUnitUncommandable(libCmpn_gv_heroUnit.lv_artanis, false);
+    CameraLockInput(1, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Cleanup_Init () {
+    gt_Cleanup = TriggerCreate("gt_Cleanup_Func");
+}
+

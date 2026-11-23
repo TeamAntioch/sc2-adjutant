@@ -1,0 +1,64 @@
+bool gt_ClocksHeroMoment_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    while ((true == true)) {
+        while (!((libBel1_gf_HeroMomentIsPlaying() == true))) {
+            Wait(0.25, c_timeGame);
+        }
+        TriggerExecute(gt_ClocksHold, true, true);
+        while (!((libBel1_gf_HeroMomentIsPlaying() == false))) {
+            Wait(0.25, c_timeGame);
+        }
+        TriggerExecute(gt_ClocksRelease, true, true);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool gt_ClocksHold_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((gv_clocks_holders == 0)) {
+        if ((TimerIsPaused(gv_goal_timer_300) == false)) {
+            TimerPause(gv_goal_timer_300, true);
+            gv_clocks_goal_timer_300_held = true;
+        }
+
+    }
+
+    gv_clocks_holders = (gv_clocks_holders + 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool gt_ClocksRelease_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((gv_clocks_holders >= 1)) {
+        gv_clocks_holders = (gv_clocks_holders - 1);
+        if ((gv_clocks_holders == 0)) {
+            if ((gv_clocks_goal_timer_300_held == true)) {
+                TimerPause(gv_goal_timer_300, false);
+                gv_clocks_goal_timer_300_held = false;
+            }
+
+        }
+
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------

@@ -1,0 +1,28 @@
+void libNovC_gf_NC_DebugCampaignTechStoreStates () {
+    int autoAE49BCF5_ai;
+    int autoAE49BCF5_ae;
+    int autoD57CA587_ai;
+    int autoD57CA587_ae;
+
+    // Variable Declarations
+    string lv_indexEquipment;
+    string lv_indexTechItem;
+
+    // Variable Initialization
+
+    // Implementation
+    autoAE49BCF5_ai = 1;
+    autoAE49BCF5_ae = UserDataInstanceCount("CampaignTechItem")+1;
+    while (autoAE49BCF5_ai < autoAE49BCF5_ae) {
+        lv_indexTechItem = UserDataInstance("CampaignTechItem", autoAE49BCF5_ai);
+        autoAE49BCF5_ai = autoAE49BCF5_ai+1;
+        DataTableSetString(true, ("DebugTechSaveTechItem_" + (lv_indexTechItem)), (libNovC_gf_NC_ArmyTechItemAssignedUnit(lv_indexTechItem)));
+    }
+    autoD57CA587_ai = 1;
+    autoD57CA587_ae = UserDataInstanceCount("CampaignPerk")+1;
+    while (autoD57CA587_ai < autoD57CA587_ae) {
+        lv_indexEquipment = UserDataInstance("CampaignPerk", autoD57CA587_ai);
+        autoD57CA587_ai = autoD57CA587_ai+1;
+        DataTableSetInt(true, ("DebugTechSaveEquipment_" + (lv_indexEquipment)), (libComC_gf_CC_PerkState(lv_indexEquipment)));
+    }
+}

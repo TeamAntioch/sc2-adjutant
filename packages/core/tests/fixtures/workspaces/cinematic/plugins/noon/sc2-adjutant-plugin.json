@@ -1,0 +1,7 @@
+{
+  "name": "noon",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": [],
+  "contributions": { "lights": "lights.json" }
+}

@@ -1,0 +1,36 @@
+bool gv_gameOver;
+trigger gt_Init05Environment;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Main Objective - Save Colonists - Complete
+//--------------------------------------------------------------------------------------------------
+bool gt_MainObjectiveSaveColonistsComplete_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerExecute(gt_MainObjectiveSaveColonistsCreate, true, false);
+    ObjectiveSetState(gv_objective_SaveColonists, c_objectiveStateCompleted);
+    if ((libNtve_gf_DifficultyValueInt(0, 0, 1, 1) == 1)) {
+        ObjectiveSetState(gv_objective_DontLetColonistsDie, c_objectiveStateCompleted);
+    }
+
+    Wait(libCamp_gv_campaignObjectiveDelay, c_timeReal);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MainObjectiveSaveColonistsComplete_Init () {
+    gt_MainObjectiveSaveColonistsComplete = TriggerCreate("gt_MainObjectiveSaveColonistsComplete_Func");
+}
+

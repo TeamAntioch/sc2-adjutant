@@ -1,0 +1,33 @@
+{
+  "name": "@team-antioch/sc2-adjutant-set-finder",
+  "version": "0.1.0",
+  "description": "sc2-adjutant's Set Finder (#726, #802): the published @team-antioch/sc2-set-finder's page and finder, with the Workspace's own sets (its cinematic-sets folder, drawn in the machine's cache folder) laid over the published ones, and the find_sets MCP tool.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamAntioch/sc2-adjutant.git",
+    "directory": "packages/set-finder"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "!dist/.tsbuildinfo"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"require('node:fs').writeFileSync('dist/.built', '')\"",
+    "prepack": "npm run build",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && vitest run"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "peerDependencies": {
+    "@team-antioch/sc2-adjutant": "^0.1.0"
+  },
+  "dependencies": {
+    "@team-antioch/sc2-asset-catalog": "0.4.0",
+    "@team-antioch/sc2-finder-kit": "0.4.0",
+    "@team-antioch/sc2-set-finder": "0.4.0"
+  }
+}

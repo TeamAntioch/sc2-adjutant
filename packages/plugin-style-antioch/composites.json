@@ -1,0 +1,1593 @@
+{
+  "source": "Doodad Composite recipes (DL-07), captured from the Exemplar Maps' Objects by scripts/build-composites.mjs, then Blizzard's from blizzard-composites.json, then the author's from author-composites.json",
+  "composites": [
+    {
+      "id": "missile-tower",
+      "description": "A tall tower of stacked missiles: the Scout's missile model as a doodad, four columns four high (3-4).",
+      "kind": "landmark",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [
+        {
+          "id": "AntimatterMissileDoodad",
+          "model": "ScoutAirWeaponLeft",
+          "scale": 3,
+          "animate": false
+        }
+      ],
+      "members": [
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": 0.895,
+          "y": 0.965,
+          "height": 0.433,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": -0.245,
+          "y": -0.315,
+          "height": 1.133,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": 0.275,
+          "y": 0.285,
+          "height": 2.033,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": 0.945,
+          "y": 0.935,
+          "height": 1.133,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": -0.985,
+          "y": -0.935,
+          "height": 1.133,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": 0.205,
+          "y": 0.315,
+          "height": 1.133,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": 0.305,
+          "y": 0.085,
+          "height": 3.033,
+          "yaw": 3.9262,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": -0.255,
+          "y": -0.315,
+          "height": 3.033,
+          "yaw": 3.9262,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": 1.015,
+          "y": 0.905,
+          "height": 2.033,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": -0.995,
+          "y": -0.935,
+          "height": 3.033,
+          "yaw": 3.9262,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": -0.205,
+          "y": -0.345,
+          "height": 2.033,
+          "yaw": 3.9262,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": -1.035,
+          "y": -0.905,
+          "height": 0.433,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": 0.155,
+          "y": 0.345,
+          "height": 0.433,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": 1.035,
+          "y": 0.705,
+          "height": 3.033,
+          "yaw": 3.9257,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": -0.295,
+          "y": -0.285,
+          "height": 0.433,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        },
+        {
+          "type": "AntimatterMissileDoodad",
+          "x": -0.935,
+          "y": -0.965,
+          "height": 2.033,
+          "yaw": 3.9267,
+          "scale": 2,
+          "variation": 0
+        }
+      ]
+    },
+    {
+      "id": "conduit-ring",
+      "description": "A ring machine: 35 crates rolled onto their sides in a closed circle, blue pipes crossing it, pods and temple pieces at its quarters (3-4, Spaceship-148).",
+      "kind": "landmark",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.68,
+          "y": -1.131,
+          "height": 0.431,
+          "yaw": 4.901,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -1.131,
+          "y": -2.585,
+          "height": 0.431,
+          "yaw": 6.0917,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -0.676,
+          "y": 2.542,
+          "height": 0.427,
+          "yaw": 3.5917,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 1.314,
+          "y": 2.579,
+          "height": 0.426,
+          "yaw": 2.7082,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.82,
+          "y": -0.053,
+          "height": 0.431,
+          "yaw": 4.5344,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 2.808,
+          "y": 0.382,
+          "height": 0.424,
+          "yaw": 1.584,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "Aiur_CityBuilding_Floating_Temple",
+          "x": 2.133,
+          "y": 2.007,
+          "height": 0.725,
+          "yaw": 5.5363,
+          "scale": 0.34,
+          "variation": 4
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 2.82,
+          "y": 0.722,
+          "height": 0.424,
+          "yaw": 1.7487,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "GenericSpacePipes",
+          "x": 0.895,
+          "y": -0.568,
+          "height": 0.131,
+          "yaw": 2.3544,
+          "scale": 0.7,
+          "variation": 7
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 0.596,
+          "y": -2.542,
+          "height": 0.431,
+          "yaw": 0.448,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "StarShipAdun_StasisPods",
+          "x": 2.597,
+          "y": -0.793,
+          "height": 0.424,
+          "yaw": 5.4931,
+          "pitch": 1.5854,
+          "scale": [
+            0.65,
+            0.5,
+            0.85
+          ],
+          "variation": 0
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 2.479,
+          "y": 1.666,
+          "height": 0.424,
+          "yaw": 2.1901,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 0.625,
+          "y": 2.675,
+          "height": 0.428,
+          "yaw": 3.0051,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 1.051,
+          "y": 2.585,
+          "height": 0.427,
+          "yaw": 2.9526,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.75,
+          "y": 0.296,
+          "height": 0.431,
+          "yaw": 4.4082,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.808,
+          "y": -0.393,
+          "height": 0.431,
+          "yaw": 4.6987,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -0.393,
+          "y": -2.713,
+          "height": 0.431,
+          "yaw": 0.0112,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -0.971,
+          "y": 2.385,
+          "height": 0.428,
+          "yaw": 3.761,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 0.891,
+          "y": -2.385,
+          "height": 0.431,
+          "yaw": 0.617,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "GenericSpacePipes",
+          "x": -0.723,
+          "y": 0.985,
+          "height": 0.131,
+          "yaw": 5.496,
+          "scale": 0.7,
+          "variation": 7
+        },
+        {
+          "type": "GenericSpacePipes",
+          "x": -2.012,
+          "y": -1.842,
+          "height": 0.431,
+          "yaw": 0.779,
+          "roll": 1.5705,
+          "scale": 0.7,
+          "variation": 5
+        },
+        {
+          "type": "GenericSpacePipes",
+          "x": -2.752,
+          "y": -2.569,
+          "height": 0.031,
+          "yaw": 0.782,
+          "scale": 0.5,
+          "variation": 7
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -0.053,
+          "y": -2.725,
+          "height": 0.431,
+          "yaw": 0.1757,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.361,
+          "y": -1.734,
+          "height": 0.431,
+          "yaw": 5.3283,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -0.026,
+          "y": 2.725,
+          "height": 0.428,
+          "yaw": 3.3193,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -1.734,
+          "y": -2.266,
+          "height": 0.431,
+          "yaw": 5.6647,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 0.313,
+          "y": 2.713,
+          "height": 0.428,
+          "yaw": 3.1547,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.636,
+          "y": 0.596,
+          "height": 0.431,
+          "yaw": 4.262,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 2.518,
+          "y": -0.663,
+          "height": 0.423,
+          "yaw": 1.124,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 2.77,
+          "y": 0.07,
+          "height": 0.424,
+          "yaw": 1.4345,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 2.636,
+          "y": 1.371,
+          "height": 0.424,
+          "yaw": 2.021,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "StarShipAdun_StasisPods",
+          "x": -0.745,
+          "y": 2.612,
+          "height": 0.428,
+          "yaw": 5.493,
+          "pitch": 1.5854,
+          "scale": [
+            0.65,
+            0.5,
+            0.85
+          ],
+          "variation": 0
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -0.705,
+          "y": -2.675,
+          "height": 0.431,
+          "yaw": 6.1445,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 0.296,
+          "y": -2.655,
+          "height": 0.431,
+          "yaw": 0.3015,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "Aiur_CityBuilding_Floating_Temple",
+          "x": 0.033,
+          "y": 0.257,
+          "height": 1.331,
+          "yaw": 3.9655,
+          "scale": 0.34,
+          "variation": 4
+        },
+        {
+          "type": "GenericSpacePipes",
+          "x": 2.191,
+          "y": 2.306,
+          "height": 0.425,
+          "yaw": 3.9206,
+          "roll": 1.5705,
+          "scale": 0.7,
+          "variation": 5
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.77,
+          "y": -0.705,
+          "height": 0.431,
+          "yaw": 4.8483,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 2.75,
+          "y": 1.072,
+          "height": 0.424,
+          "yaw": 1.8747,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 2.68,
+          "y": -0.356,
+          "height": 0.423,
+          "yaw": 1.382,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": 1.102,
+          "y": -2.166,
+          "height": 0.431,
+          "yaw": 0.7795,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "Aiur_CityBuilding_Floating_Temple",
+          "x": -2.194,
+          "y": -1.923,
+          "height": 0.731,
+          "yaw": 5.5363,
+          "scale": 0.34,
+          "variation": 4
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.479,
+          "y": 0.891,
+          "height": 0.431,
+          "yaw": 4.0927,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -2.518,
+          "y": -1.439,
+          "height": 0.431,
+          "yaw": 5.159,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -0.376,
+          "y": 2.655,
+          "height": 0.428,
+          "yaw": 3.4453,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        },
+        {
+          "type": "ProtossCratesDoodad",
+          "x": -1.439,
+          "y": -2.423,
+          "height": 0.431,
+          "yaw": 5.834,
+          "roll": 4.6804,
+          "scale": 1.044,
+          "variation": "any"
+        }
+      ]
+    },
+    {
+      "id": "crowned-column",
+      "description": "A temple column crowned with four small columns raised 3.3 above it, facing out; used in pairs either side of a shrine (3-7).",
+      "kind": "landmark",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "TempleColumn",
+          "x": 0.75,
+          "y": 0,
+          "height": 3.348,
+          "yaw": 1.5705,
+          "scale": 0.4,
+          "variation": 17
+        },
+        {
+          "type": "TempleColumn",
+          "x": 0,
+          "y": 0,
+          "height": -0.252,
+          "yaw": 3.1413,
+          "scale": 0.9,
+          "variation": 15
+        },
+        {
+          "type": "TempleColumn",
+          "x": -0.75,
+          "y": 0,
+          "height": 3.348,
+          "yaw": 4.7121,
+          "scale": 0.4,
+          "variation": 17
+        },
+        {
+          "type": "TempleColumn",
+          "x": 0,
+          "y": -0.75,
+          "height": 3.348,
+          "yaw": 0,
+          "scale": 0.4,
+          "variation": 17
+        },
+        {
+          "type": "TempleColumn",
+          "x": 0,
+          "y": 0.75,
+          "height": 3.348,
+          "yaw": 3.1413,
+          "scale": 0.4,
+          "variation": 17
+        }
+      ]
+    },
+    {
+      "id": "sunk-tar",
+      "description": "Tar sludge sunk 0.27 below the ground and tinted blue-black, so it reads as a stain, not an object (3-11, 3-3).",
+      "kind": "detail",
+      "style": "natural",
+      "scale": [
+        0.2,
+        1.1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "TarSludge",
+          "x": 0,
+          "y": 0,
+          "height": -0.268,
+          "yaw": 0,
+          "scale": 1,
+          "tint": "47,187,255",
+          "variation": "any"
+        }
+      ]
+    },
+    {
+      "id": "console-bank",
+      "description": "A control desk set against a wall: a console with three half-scale monitors hung 2.6-3.0 above it on the wall, a wall screen and two small monitors beside it, two hoses running off across the floor, a yellow light and a stain (The Escape's research wing). Back it onto a wall; the hoses point into the room.",
+      "kind": "detail",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "front": 225,
+      "actors": [],
+      "members": [
+        {
+          "type": "DOM_BaseMonitors",
+          "x": -0.415,
+          "y": 2.56,
+          "height": 3.034,
+          "yaw": 5.51,
+          "scale": 0.5,
+          "variation": 3
+        },
+        {
+          "type": "DOM_BaseMonitors",
+          "x": 0.528,
+          "y": 1.846,
+          "height": 2.611,
+          "yaw": 5.51,
+          "scale": 0.5,
+          "variation": 2
+        },
+        {
+          "type": "DOM_BaseMonitors",
+          "x": 1.582,
+          "y": 0.322,
+          "height": 2.908,
+          "yaw": 5.503,
+          "scale": 0.5,
+          "variation": 7
+        },
+        {
+          "type": "DOM_LabConsoles",
+          "x": 1.472,
+          "y": 0.485,
+          "height": 0.851,
+          "yaw": 5.515,
+          "scale": [
+            1.0,
+            0.65,
+            1.0
+          ],
+          "variation": 2
+        },
+        {
+          "type": "DOM_LabWallScreens",
+          "x": -1.39,
+          "y": 2.093,
+          "height": 0.911,
+          "yaw": 2.354,
+          "scale": [
+            0.5,
+            0.3,
+            0.5
+          ],
+          "variation": 1
+        },
+        {
+          "type": "DOM_MonitorLabDestructible",
+          "x": -1.484,
+          "y": 0.237,
+          "height": 0.911,
+          "yaw": 3.119,
+          "scale": 0.5,
+          "variation": 1
+        },
+        {
+          "type": "DOM_MonitorLabDestructible",
+          "x": 0.199,
+          "y": -0.598,
+          "height": 0.0,
+          "yaw": 5.514,
+          "scale": 0.5,
+          "variation": 1
+        },
+        {
+          "type": "DOM_Decals",
+          "x": -1.184,
+          "y": -1.397,
+          "height": 0.0,
+          "yaw": 3.928,
+          "scale": 0.5,
+          "variation": "any"
+        },
+        {
+          "type": "LightOmniYellow",
+          "x": -0.122,
+          "y": -0.969,
+          "height": 0.0,
+          "yaw": 0.788,
+          "scale": 1.113,
+          "variation": 0
+        },
+        {
+          "type": "Korhal_SpacePort_Hose",
+          "x": -0.498,
+          "y": -2.273,
+          "height": 0.0,
+          "yaw": 2.701,
+          "scale": 1.2,
+          "variation": 1
+        },
+        {
+          "type": "Korhal_SpacePort_Hose",
+          "x": 1.31,
+          "y": -2.303,
+          "height": 0.0,
+          "yaw": 2.931,
+          "scale": 1.2,
+          "variation": 1
+        }
+      ]
+    },
+    {
+      "id": "supply-stack",
+      "description": "A palletised store: about forty colonist supply crates packed edge to edge 0.65 apart on the diagonal, in two layers 0.8 high with a few gaps on top, military supplies at its foot, a gun rack, a security camera on top and two white lights (Conviction's hold). Stands against a wall or fills a bay.",
+      "kind": "landmark",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "DecalSpace",
+          "x": -2.839,
+          "y": -1.14,
+          "height": 0.0,
+          "yaw": 3.925,
+          "scale": 0.77,
+          "variation": "any"
+        },
+        {
+          "type": "LightOmniWhite",
+          "x": -3.129,
+          "y": -1.139,
+          "height": 0.0,
+          "yaw": 0.956,
+          "scale": 1.089,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "LightOmniWhite",
+          "x": 0.786,
+          "y": 1.497,
+          "height": 0.0,
+          "yaw": 5.807,
+          "scale": 0.854,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "SpaceCamera",
+          "x": 2.018,
+          "y": 0.826,
+          "height": 0.536,
+          "yaw": 5.498,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "TIMAppendix",
+          "x": -2.874,
+          "y": -1.081,
+          "height": 0.111,
+          "yaw": 0.373,
+          "scale": 1.0,
+          "variation": 0
+        },
+        {
+          "type": "ElectricConduitPathSmall",
+          "x": -2.841,
+          "y": -1.137,
+          "height": 0.0,
+          "yaw": 2.356,
+          "scale": [
+            1.26,
+            1.26,
+            0.76
+          ],
+          "variation": 3
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -2.414,
+          "y": 2.024,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -2.378,
+          "y": 1.965,
+          "height": 0.845,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.973,
+          "y": 2.392,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.938,
+          "y": 2.333,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.766,
+          "y": 1.373,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.731,
+          "y": 1.314,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.17,
+          "y": 1.912,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.135,
+          "y": 1.852,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.129,
+          "y": 0.719,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -1.093,
+          "y": 0.662,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -0.533,
+          "y": 1.257,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -0.504,
+          "y": 0.109,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -0.496,
+          "y": 1.2,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": -0.469,
+          "y": 0.05,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.093,
+          "y": 0.647,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.128,
+          "y": 0.589,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.144,
+          "y": -0.541,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.179,
+          "y": -0.6,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.74,
+          "y": -0.003,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.775,
+          "y": -0.062,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.781,
+          "y": -1.195,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 0.816,
+          "y": -1.254,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.361,
+          "y": -1.765,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.377,
+          "y": -0.657,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.396,
+          "y": -1.824,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.412,
+          "y": -0.716,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.592,
+          "y": 1.852,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.627,
+          "y": 1.793,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.801,
+          "y": -1.397,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.908,
+          "y": -2.321,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.943,
+          "y": -2.38,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 1.992,
+          "y": -1.286,
+          "height": 0.832,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.239,
+          "y": 1.202,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.274,
+          "y": 1.143,
+          "height": 0.845,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.504,
+          "y": -1.783,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.54,
+          "y": -1.842,
+          "height": 0.833,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.876,
+          "y": 0.547,
+          "height": 0.0,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "x": 2.911,
+          "y": 0.488,
+          "height": 0.831,
+          "yaw": 0.785,
+          "scale": 1.0,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": -2.835,
+          "y": 0.914,
+          "height": 0.057,
+          "yaw": 2.396,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": -1.776,
+          "y": -0.075,
+          "height": 0.0,
+          "yaw": 2.396,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": -0.772,
+          "y": -1.044,
+          "height": 0.0,
+          "yaw": 2.321,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": 0.167,
+          "y": -2.077,
+          "height": 0.0,
+          "yaw": 2.321,
+          "scale": 1.0,
+          "variation": 3,
+          "noFootprint": true
+        },
+        {
+          "type": "MilitarySupplies",
+          "x": 1.154,
+          "y": -3.068,
+          "height": 0.0,
+          "yaw": 2.018,
+          "scale": 1.0,
+          "variation": 7,
+          "noFootprint": true
+        },
+        {
+          "type": "SpaceGunRack",
+          "x": -3.745,
+          "y": -0.297,
+          "height": 0.0,
+          "yaw": 5.498,
+          "scale": 0.64,
+          "variation": 2
+        }
+      ]
+    },
+    {
+      "id": "pipe-manifold",
+      "description": "Floor pipework on a one-cell grid: long, short and corner pipes joined into a manifold with a small pipe beside it, every piece at scale 1 and turned to 0/90/180/270 (Engine of Destruction's Valhalla works). Runs along a wall foot or between machines.",
+      "kind": "detail",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "PipesCorner",
+          "x": -2.355,
+          "y": 0.723,
+          "height": 0.0,
+          "yaw": 3.091,
+          "scale": 1.0,
+          "variation": 3
+        },
+        {
+          "type": "PipesCorner",
+          "x": -0.355,
+          "y": -1.277,
+          "height": 0.0,
+          "yaw": 3.09,
+          "scale": 1.0,
+          "variation": 3
+        },
+        {
+          "type": "PipesCorner",
+          "x": -0.355,
+          "y": 2.723,
+          "height": 0.0,
+          "yaw": 1.597,
+          "scale": 1.0,
+          "variation": 2
+        },
+        {
+          "type": "PipesCorner",
+          "x": 1.645,
+          "y": -1.277,
+          "height": 0.0,
+          "yaw": 0.035,
+          "scale": 1.0,
+          "variation": 3
+        },
+        {
+          "type": "PipesCorner",
+          "x": 1.645,
+          "y": 0.723,
+          "height": 0.0,
+          "yaw": 0.036,
+          "scale": 1.0,
+          "variation": 3
+        },
+        {
+          "type": "PipesLong",
+          "x": -0.355,
+          "y": -0.277,
+          "height": 0.0,
+          "yaw": 4.713,
+          "scale": 1.0,
+          "variation": 2
+        },
+        {
+          "type": "PipesLong",
+          "x": 1.645,
+          "y": -0.277,
+          "height": 0.0,
+          "yaw": 4.713,
+          "scale": 1.0,
+          "variation": 2
+        },
+        {
+          "type": "PipesShort",
+          "x": -1.355,
+          "y": -3.277,
+          "height": 0.0,
+          "yaw": 0.0,
+          "scale": 1.0,
+          "variation": 0
+        },
+        {
+          "type": "PipesShort",
+          "x": -1.355,
+          "y": 0.723,
+          "height": 0.0,
+          "yaw": 0.0,
+          "scale": 1.0,
+          "variation": 0
+        },
+        {
+          "type": "PipesSmallCorner",
+          "x": 0.585,
+          "y": 1.753,
+          "height": 0.0,
+          "yaw": 1.571,
+          "scale": 1.0,
+          "variation": 0
+        },
+        {
+          "type": "PipesSmallLong",
+          "x": 0.605,
+          "y": -0.257,
+          "height": 0.0,
+          "yaw": 1.571,
+          "scale": 1.0,
+          "variation": 0
+        }
+      ]
+    },
+    {
+      "id": "steam-hatch",
+      "description": "A floor hatch venting steam: the steam jet sunk 1.6 below the floor so only its plume shows, an alarm light and landing lights raised 0.5-0.7 on the hatch rim, a red light (Dark Whispers). Spaced through a hall, not in rows.",
+      "kind": "detail",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "SpaceSteamJet",
+          "x": -0.833,
+          "y": -0.355,
+          "height": -1.579,
+          "yaw": 2.039,
+          "scale": 1.0,
+          "variation": "any",
+          "noFootprint": true
+        },
+        {
+          "type": "AlarmLight",
+          "x": -1.396,
+          "y": -0.013,
+          "height": 0.515,
+          "yaw": 0.796,
+          "scale": 1.0,
+          "variation": "any",
+          "noFootprint": true
+        },
+        {
+          "type": "LandingLights",
+          "x": 1.498,
+          "y": 0.286,
+          "height": 0.827,
+          "yaw": 0.7,
+          "scale": 1.109,
+          "variation": "any"
+        },
+        {
+          "type": "LightOmniRedLarge",
+          "x": 1.397,
+          "y": 0.41,
+          "height": 0.886,
+          "yaw": 6.178,
+          "scale": 1.074,
+          "variation": 0,
+          "noFootprint": true
+        },
+        {
+          "type": "Korhal_Platform_Hatches",
+          "x": -0.664,
+          "y": -0.327,
+          "height": 0.0,
+          "yaw": 5.498,
+          "scale": 1.0,
+          "variation": 2
+        }
+      ]
+    },
+    {
+      "id": "crusher-press",
+      "description": "A crushing press over a conveyor belt, built and checked in the Editor by the author (2026-11-09): a ConveyorBeltBridge running along y, two SpaceDockArch gantries at scale 1 standing across it 2.75 either side of the head, a DOM_Crate double crate (variation 1) at 3x scale hung 3 above the belt as the press head, an AlarmLight centred on each of the four pillars (switch them to Stand Unpowered when the press is safe), and a DO NOT ENTER decal (Decal variation 27) past each end of the belt. For a crush-timing puzzle: the head's drop and the lights are the encounter's triggers, not the recipe's.",
+      "kind": "landmark",
+      "style": "built",
+      "scale": [
+        1,
+        1
+      ],
+      "actors": [],
+      "members": [
+        {
+          "type": "ConveyorBeltBridge",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "type": "SpaceDockArch",
+          "x": 0,
+          "y": -2.75
+        },
+        {
+          "type": "SpaceDockArch",
+          "x": 0,
+          "y": 2.75
+        },
+        {
+          "type": "DOM_Crate",
+          "x": 0,
+          "y": 0,
+          "height": 3,
+          "scale": 3,
+          "variation": 1,
+          "noFootprint": true
+        },
+        {
+          "type": "AlarmLight",
+          "x": -3.311,
+          "y": -3.976
+        },
+        {
+          "type": "AlarmLight",
+          "x": 3.277,
+          "y": -3.815
+        },
+        {
+          "type": "AlarmLight",
+          "x": -3.338,
+          "y": 1.653
+        },
+        {
+          "type": "AlarmLight",
+          "x": 3.263,
+          "y": 1.583
+        },
+        {
+          "type": "Decal",
+          "x": 0,
+          "y": -8.668,
+          "height": 0.52,
+          "variation": 27
+        },
+        {
+          "type": "Decal",
+          "x": 0,
+          "y": 8.515,
+          "height": 0.52,
+          "variation": 27
+        }
+      ]
+    }
+  ]
+}

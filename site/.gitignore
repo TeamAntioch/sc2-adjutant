@@ -1,0 +1,7 @@
+# What `next build` writes: its cache, the static export and its generated types.
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+# What scripts/reference.ts writes from the MCP server, before each build.
+.generated/

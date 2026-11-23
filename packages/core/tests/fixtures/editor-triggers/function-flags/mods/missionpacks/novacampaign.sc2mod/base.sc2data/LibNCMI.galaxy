@@ -1,0 +1,14 @@
+void libNCMI_gf_StartAIPersonalitiesForAllPlayersCampaign () {
+    // Variable Declarations
+    int lv_indexPlayer;
+
+    // Variable Initialization
+
+    // Deprecated
+    CampaignInitAI();
+}
+
+void libNCMI_gf_StartCampaignAIForAllPlayersVoid () {
+    // Deprecated
+    CampaignInitAI();
+}

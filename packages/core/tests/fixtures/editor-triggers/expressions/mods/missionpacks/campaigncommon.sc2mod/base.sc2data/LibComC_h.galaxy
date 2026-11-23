@@ -1,0 +1,3 @@
+string libComC_gf_CC_LocationDataString (string lp_planet);
+void libComC_gf_CC_MissionObjectiveArchiveProgressSet (string lp_objective, int lp_progress);
+void libComC_gf_NC_ClampProgressToMission (string lp_mission);

@@ -1,0 +1,121 @@
+{
+  "id": "lighting_preview",
+  "campaignId": "test_fields",
+  "title": "Lighting Preview",
+  "summary": "Cycles candidate flare lights against the BelShirEx2 baseline.",
+  "setting": "Bel'Shir test field",
+  "mapSize": {
+    "width": 128,
+    "height": 128
+  },
+  "tilesetId": "BelShirEx2",
+  "zones": [
+    {
+      "id": "field",
+      "name": "Field",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "base",
+      "polygon": [
+        {
+          "x": 10,
+          "y": 10
+        },
+        {
+          "x": 118,
+          "y": 10
+        },
+        {
+          "x": 118,
+          "y": 100
+        },
+        {
+          "x": 10,
+          "y": 100
+        }
+      ]
+    },
+    {
+      "id": "path",
+      "name": "Path",
+      "elevation": 1,
+      "landform": "transition",
+      "role": "path",
+      "polygon": [
+        {
+          "x": 56,
+          "y": 40
+        },
+        {
+          "x": 72,
+          "y": 40
+        },
+        {
+          "x": 72,
+          "y": 70
+        },
+        {
+          "x": 56,
+          "y": 70
+        }
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "hero_zeratul",
+      "name": "Zeratul",
+      "zoneId": "field",
+      "kind": "unit",
+      "position": {
+        "x": 60,
+        "y": 55,
+        "z": 0
+      },
+      "unitType": "Zeratul",
+      "player": 1
+    },
+    {
+      "id": "zealot",
+      "name": "Zealot",
+      "zoneId": "field",
+      "kind": "unit",
+      "position": {
+        "x": 68,
+        "y": 55,
+        "z": 0
+      },
+      "rotation": 3.1416,
+      "unitType": "Zealot",
+      "player": 1
+    }
+  ],
+  "beats": [
+    {
+      "id": "preview",
+      "title": "Preview",
+      "summary": "Watch the lights.",
+      "zoneIds": [
+        "field"
+      ],
+      "anchorIds": [
+        "hero_zeratul"
+      ]
+    }
+  ],
+  "screenplay": {
+    "title": "Lighting Preview",
+    "scenes": [
+      {
+        "id": "scene_none",
+        "lines": [
+          {
+            "id": "line_001",
+            "speaker": "Zeratul",
+            "text": "(no dialogue)"
+          }
+        ]
+      }
+    ]
+  }
+}

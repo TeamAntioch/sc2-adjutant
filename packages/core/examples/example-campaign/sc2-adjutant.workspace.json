@@ -1,0 +1,7 @@
+{
+  "campaign": { "id": "example", "name": "Example Campaign" },
+  "missions": "missions",
+  "campaignPack": "./plugins/campaign-example",
+  "plugins": ["bundled:hazard"],
+  "mods": ["example"]
+}

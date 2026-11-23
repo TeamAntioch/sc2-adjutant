@@ -1,0 +1,5 @@
+﻿FunctionDef/Name/2C61F43A=Create Secondary Objective (Salvage)
+Structure/Name/7DBA8F98=Objecitves
+Variable/Name/00686ECB=Salvage Protoss Equipment
+Variable/Name/1C115D7B=Scrap Found
+Variable/Name/458B75AE=Objectives

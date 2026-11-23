@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="720" viewBox="0 0 760 720" font-family="Helvetica, Arial, sans-serif">
+<title>Interior: cinematic set</title>
+<rect width="760" height="720" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Interior</text>
+<text x="24" y="54" font-size="10" fill="#666">interior · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="264.9" y="261.4" width="10" height="10" fill="#b5ab98" stroke="#6d6458"><title>SMX2_ArmyRoomSet00, SMX2_ArmyRoomSet01, SMX2_ArmyRoomSet03, SMX2_ArmyRoomSet04, SMX2_ArmyRoomSet04, SMX2_ArmyRoomSet05</title></rect>
+<text x="276.9" y="269.4" font-size="8" fill="#6d6458">6</text>
+<rect x="267.4" y="377.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_ArmyRoomSet03</title></rect>
+<rect x="267.4" y="220.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_ArmyRoomSet04</title></rect>
+<rect x="288.8" y="146.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="286.5" y="127.3" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox, SMShadowbox</title></rect>
+<text x="294.5" y="133.3" font-size="8" fill="#6d6458">2</text>
+<rect x="276" y="118.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<rect x="338.9" y="117.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMShadowbox</title></rect>
+<polygon points="247.5,309 269.9,335.9 237.4,342.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="247.5" cy="309" r="2.5" fill="#7b4bd1"><title>s010</title></circle>
+<polygon points="259.9,422.7 265.1,427.4 262.2,429.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="259.9" cy="422.7" r="2.5" fill="#7b4bd1"><title>s020</title></circle>
+<polygon points="254.3,292.8 251.3,257.9 283.5,273.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="254.3" cy="292.8" r="2.5" fill="#7b4bd1"><title>s030</title></circle>
+<polygon points="293.8,90 304.2,123.4 282,123" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="293.8" cy="90" r="2.5" fill="#7b4bd1"><title>s040</title></circle>
+<polygon points="267.4,145.9 284,163.6 268.4,170.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="267.4" cy="145.9" r="2.5" fill="#7b4bd1"><title>s050</title></circle>
+<polygon points="223.7,100.7 258.6,97.3 240.2,131.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="223.7" cy="100.7" r="2.5" fill="#7b4bd1"><title>s060</title></circle>
+<polygon points="290.6,114.6 306.1,146 273.3,145.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="290.6" cy="114.6" r="2.5" fill="#7b4bd1"><title>s070</title></circle>
+<polygon points="250,167.7 270.7,139.5 284.6,162.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="250" cy="167.7" r="2.5" fill="#7b4bd1"><title>s080</title></circle>
+<polygon points="285.7,134.9 299,118.5 304.9,126.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="285.7" cy="134.9" r="2.5" fill="#7b4bd1"><title>s090</title></circle>
+<polygon points="292.7,105.8 292.2,140.9 276.3,136.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="292.7" cy="105.8" r="2.5" fill="#7b4bd1"><title>s100</title></circle>
+<polygon points="219.1,200.7 233.8,168.9 253.1,192.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="219.1" cy="200.7" r="2.5" fill="#7b4bd1"><title>s110</title></circle>
+<polygon points="272.5,130.5 287.7,99 304.4,116" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="272.5" cy="130.5" r="2.5" fill="#7b4bd1"><title>s115</title></circle>
+<polygon points="287.9,101.1 301.2,133.5 271.4,132" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="287.9" cy="101.1" r="2.5" fill="#7b4bd1"><title>s120</title></circle>
+<polygon points="272.6,149 274.3,162.8 267,161.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="272.6" cy="149" r="2.5" fill="#7b4bd1"><title>s125</title></circle>
+<polygon points="252.3,166.6 277.8,142.6 287,161.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="252.3" cy="166.6" r="2.5" fill="#7b4bd1"><title>s130</title></circle>
+<polygon points="274.5,150.9 273.5,163.5 267.6,161.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="274.5" cy="150.9" r="2.5" fill="#7b4bd1"><title>s140</title></circle>
+<polygon points="276.2,142.5 287.6,137.9 288.2,145.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="276.2" cy="142.5" r="2.5" fill="#7b4bd1"><title>s150</title></circle>
+<polygon points="224.9,146 257,132 253.2,166.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="224.9" cy="146" r="2.5" fill="#7b4bd1"><title>s160</title></circle>
+<polygon points="260.3,172 261.9,146.3 277.2,152.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="260.3" cy="172" r="2.5" fill="#7b4bd1"><title>s170</title></circle>
+<polygon points="272.1,147.1 273.5,163.5 266.3,162.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="272.1" cy="147.1" r="2.5" fill="#7b4bd1"><title>s180</title></circle>
+<polygon points="246.5,175.1 270.7,149.8 278.8,161.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="246.5" cy="175.1" r="2.5" fill="#7b4bd1"><title>s190</title></circle>
+<polygon points="288.7,125.7 288.6,160.7 265.5,151.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="288.7" cy="125.7" r="2.5" fill="#7b4bd1"><title>s200</title></circle>
+<polygon points="276.4,144 274.9,162.3 261.1,154.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="276.4" cy="144" r="2.5" fill="#7b4bd1"><title>s210</title></circle>
+<polygon points="259,174.3 275.3,143.3 293,165.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="259" cy="174.3" r="2.5" fill="#7b4bd1"><title>s220</title></circle>
+<polygon points="271.7,155.1 280.7,144.3 285.2,151.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="271.7" cy="155.1" r="2.5" fill="#7b4bd1"><title>s230</title></circle>
+<polygon points="261.5,180.4 262,145.4 286.8,156.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="261.5" cy="180.4" r="2.5" fill="#7b4bd1"><title>s240</title></circle>
+<line x1="268.8" y1="163.8" x2="274" y2="155.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="268.8" cy="163.8" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis (SMX2ProtossArtanis)</title></circle>
+<text x="274.8" y="175.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis</text>
+<line x1="282.2" y1="555" x2="276.7" y2="546.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.2" cy="555" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s010 (SMX2ProtossArtanis)</title></circle>
+<text x="288.2" y="567" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s010</text>
+<line x1="282.2" y1="555" x2="276.7" y2="546.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.2" cy="555" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s020 (SMX2ProtossArtanis)</title></circle>
+<text x="288.2" y="567" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s020</text>
+<line x1="282.2" y1="555" x2="276.7" y2="546.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.2" cy="555" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s030 (SMX2ProtossArtanis)</title></circle>
+<text x="288.2" y="567" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s030</text>
+<line x1="282.2" y1="555" x2="276.7" y2="546.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.2" cy="555" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s040 (SMX2ProtossArtanis)</title></circle>
+<text x="288.2" y="567" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s040</text>
+<line x1="268.8" y1="163.8" x2="274" y2="155.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="268.8" cy="163.8" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s050 (SMX2ProtossArtanis)</title></circle>
+<text x="274.8" y="175.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s050</text>
+<line x1="270.4" y1="167.3" x2="275.4" y2="158.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="270.4" cy="167.3" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s070 (SMX2ProtossArtanis)</title></circle>
+<text x="276.4" y="179.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s070</text>
+<line x1="271.6" y1="158.4" x2="278" y2="150.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="271.6" cy="158.4" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s100 (SMX2ProtossArtanis)</title></circle>
+<text x="277.6" y="170.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s100</text>
+<line x1="261.4" y1="175.5" x2="266.6" y2="167" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="261.4" cy="175.5" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s110 (SMX2ProtossArtanis)</title></circle>
+<text x="267.4" y="187.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s110</text>
+<line x1="270.5" y1="169.4" x2="270.2" y2="159.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="270.5" cy="169.4" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s160 (SMX2ProtossArtanis)</title></circle>
+<text x="276.5" y="181.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s160</text>
+<line x1="268.7" y1="155.8" x2="275.9" y2="148.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="268.7" cy="155.8" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s200 (SMX2ProtossArtanis)</title></circle>
+<text x="274.7" y="167.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s200</text>
+<line x1="271.4" y1="172.4" x2="276.6" y2="163.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="271.4" cy="172.4" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s220 (SMX2ProtossArtanis)</title></circle>
+<text x="277.4" y="184.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s220</text>
+<line x1="272.3" y1="168.4" x2="274.9" y2="158.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="272.3" cy="168.4" r="4" fill="#2f7de1" stroke="#fff"><title>Artanis s230 (SMX2ProtossArtanis)</title></circle>
+<text x="278.3" y="180.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Artanis s230</text>
+<line x1="269.9" y1="266.4" x2="279.9" y2="266.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.9" cy="266.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX2_Artanis_PsyBlade_T1_070 (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="275.9" y="278.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX2_Artanis_PsyBlade_T1_070</text>
+<line x1="269.9" y1="266.4" x2="279.9" y2="266.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.9" cy="266.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX2_Artanis_PsyBlade_T1_100 (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="275.9" y="278.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX2_Artanis_PsyBlade_T1_100</text>
+<line x1="269.9" y1="266.4" x2="279.9" y2="266.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.9" cy="266.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX2_Artanis_PsyBlade_T1_110 (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="275.9" y="278.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX2_Artanis_PsyBlade_T1_110</text>
+<line x1="269.9" y1="266.4" x2="279.9" y2="266.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.9" cy="266.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX2_Artanis_PsyBlade_T1_120 (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="275.9" y="278.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX2_Artanis_PsyBlade_T1_120</text>
+<line x1="269.9" y1="266.4" x2="279.9" y2="266.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.9" cy="266.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX2_Artanis_PsyBlade_T1_160 (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="275.9" y="278.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX2_Artanis_PsyBlade_T1_160</text>
+<line x1="269.9" y1="266.4" x2="279.9" y2="266.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.9" cy="266.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX2_Artanis_PsyBlade_T1_200 (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="275.9" y="278.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX2_Artanis_PsyBlade_T1_200</text>
+<line x1="269.9" y1="266.4" x2="279.9" y2="266.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="269.9" cy="266.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX2_Artanis_PsyBlade_T1_220 (SMX2ProtossArtanisPsyBlade)</title></circle>
+<text x="275.9" y="278.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX2_Artanis_PsyBlade_T1_220</text>
+<line x1="280.4" y1="173.8" x2="282.5" y2="164" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="280.4" cy="173.8" r="4" fill="#2f7de1" stroke="#fff"><title>Karax (SMX2ProtossSmith)</title></circle>
+<text x="286.4" y="185.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax</text>
+<line x1="282.2" y1="555" x2="276.7" y2="546.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.2" cy="555" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s010 (SMX2ProtossSmith)</title></circle>
+<text x="288.2" y="567" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s010</text>
+<line x1="282.2" y1="555" x2="276.7" y2="546.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.2" cy="555" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s020 (SMX2ProtossSmith)</title></circle>
+<text x="288.2" y="567" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s020</text>
+<line x1="282.2" y1="555" x2="276.7" y2="546.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.2" cy="555" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s030 (SMX2ProtossSmith)</title></circle>
+<text x="288.2" y="567" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s030</text>
+<line x1="282.2" y1="555" x2="276.7" y2="546.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.2" cy="555" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s040 (SMX2ProtossSmith)</title></circle>
+<text x="288.2" y="567" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s040</text>
+<line x1="278.4" y1="162.3" x2="279.9" y2="152.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="278.4" cy="162.3" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s050 (SMX2ProtossSmith)</title></circle>
+<text x="284.4" y="174.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s050</text>
+<line x1="283.5" y1="169.7" x2="283.2" y2="159.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="283.5" cy="169.7" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s060 (SMX2ProtossSmith)</title></circle>
+<text x="289.5" y="181.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s060</text>
+<line x1="280.1" y1="176.8" x2="279.9" y2="166.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="280.1" cy="176.8" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s070 (SMX2ProtossSmith)</title></circle>
+<text x="286.1" y="188.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s070</text>
+<line x1="276.8" y1="169.4" x2="276.6" y2="159.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="276.8" cy="169.4" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s100 (SMX2ProtossSmith)</title></circle>
+<text x="282.8" y="181.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s100</text>
+<line x1="277" y1="173.8" x2="279.1" y2="164" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="277" cy="173.8" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s130 (SMX2ProtossSmith)</title></circle>
+<text x="283" y="185.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s130</text>
+<line x1="286.5" y1="165.8" x2="283.7" y2="156.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="286.5" cy="165.8" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s160 (SMX2ProtossSmith)</title></circle>
+<text x="292.5" y="177.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s160</text>
+<line x1="271.4" y1="166.3" x2="274.9" y2="156.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="271.4" cy="166.3" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s200 (SMX2ProtossSmith)</title></circle>
+<text x="277.4" y="178.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s200</text>
+<line x1="290.4" y1="176.3" x2="284.2" y2="168.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="290.4" cy="176.3" r="4" fill="#2f7de1" stroke="#fff"><title>Karax s230 (SMX2ProtossSmith)</title></circle>
+<text x="296.4" y="188.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Karax s230</text>
+<line x1="287.8" y1="142.3" x2="282.6" y2="150.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="287.8" cy="142.3" r="4" fill="#2f7de1" stroke="#fff"><title>Rohana (SMX2ProtossRohana)</title></circle>
+<text x="293.8" y="154.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Rohana</text>
+<line x1="300" y1="105" x2="296.8" y2="95.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="300" cy="105" r="4" fill="#2f7de1" stroke="#fff"><title>Rohana s040 (SMX2ProtossRohana)</title></circle>
+<text x="306" y="117" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Rohana s040</text>
+<line x1="281.7" y1="139.1" x2="277.9" y2="148.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="281.7" cy="139.1" r="4" fill="#2f7de1" stroke="#fff"><title>Rohana s080 (SMX2ProtossRohana)</title></circle>
+<text x="287.7" y="151.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Rohana s080</text>
+<line x1="281.4" y1="145.9" x2="276.4" y2="154.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="281.4" cy="145.9" r="4" fill="#2f7de1" stroke="#fff"><title>Rohana s190 (SMX2ProtossRohana)</title></circle>
+<text x="287.4" y="157.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Rohana s190</text>
+<line x1="280.9" y1="148.2" x2="276.6" y2="157.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="280.9" cy="148.2" r="4" fill="#2f7de1" stroke="#fff"><title>Rohana s220 (SMX2ProtossRohana)</title></circle>
+<text x="286.9" y="160.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Rohana s220</text>
+<line x1="284.8" y1="147.1" x2="285.1" y2="157.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="284.8" cy="147.1" r="4" fill="#2f7de1" stroke="#fff"><title>Rohana s240 (SMX2ProtossRohana)</title></circle>
+<text x="290.8" y="159.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Rohana s240</text>
+<line x1="310.3" y1="406.4" x2="305.5" y2="397.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="310.3" cy="406.4" r="4" fill="#2f7de1" stroke="#fff"><title>Zealot Guard (SMX2ProtossZealotUpgraded)</title></circle>
+<text x="316.3" y="418.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Zealot Guard</text>
+<line x1="226.6" y1="406.3" x2="228" y2="396.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="226.6" cy="406.3" r="4" fill="#2f7de1" stroke="#fff"><title>Zealot Guard (SMX2ProtossZealotUpgraded)</title></circle>
+<text x="232.6" y="418.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Zealot Guard</text>
+</g>
+<line x1="202.3" y1="578.3" x2="319.1" y2="578.3" stroke="#333" stroke-width="2"/>
+<line x1="202.3" y1="574.3" x2="202.3" y2="582.3" stroke="#333"/><line x1="225.7" y1="574.3" x2="225.7" y2="582.3" stroke="#333"/>
+<text x="202.3" y="572.3" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">26 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_RohanaIntro.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMX2SetArmyRoomRohanna</text>
+<text x="560" y="132" font-size="9" fill="#333">Screens: none known; not read:</text>
+<text x="560" y="144" font-size="9" fill="#333">SMShadowbox</text>
+<text x="560" y="156" font-size="9" fill="#333">Marks: 41; cameras: 26 (26 aimed</text>
+<text x="560" y="168" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="180" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="192" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="204" font-size="9" fill="#333"></text>
+<text x="560" y="216" font-size="9" fill="#333">Models:</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX2_ArmyRoomSet00 ×26</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX2_ArmyRoomSet01 ×26</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX2_ArmyRoomSet04 ×26</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX2_ArmyRoomSet03 ×25</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX2_ArmyRoomSet05 ×25</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX2_ArmyRoomSet02 ×22</text>
+<text x="560" y="300" font-size="9" fill="#333">SMX2_ArmyRoomSet06 ×4</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX2_ArmyRoomSet07 ×4</text>
+<text x="560" y="324" font-size="9" fill="#333">SMShadowbox ×3</text>
+<text x="560" y="336" font-size="9" fill="#333">Aiur_Power_Point ×1</text>
+<text x="560" y="348" font-size="9" fill="#333">Artifact ×1</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX2_Aiur_Hologram ×1</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX2_Possessed_StasisChamber ×1</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX2_Ulnar_Hologram ×1</text>
+<text x="560" y="396" font-size="9" fill="#333"></text>
+<text x="560" y="408" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="420" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="432" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_AiurUnlock.SC2Cutscene</text>
+<text x="560" y="444" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="456" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_Aiur04Briefing.SC2Cutscene</text>
+<text x="560" y="468" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="480" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_PurifierArc2Arrival.SC2Cutscene</text>
+<text x="560" y="492" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="504" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_PurifierArrival.SC2Cutscene</text>
+<text x="560" y="516" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="528" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_Epilogue01Arrival.SC2Cutscene</text>
+<text x="560" y="540" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="552" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Cutscene_UlnarComplete.SC2Cutscene</text>
+<text x="560" y="564" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="576" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Conversations_ArmyRoom.SC2Cutscene</text>
+<text x="560" y="588" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="600" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Ambient_ArmyRoom_Carrier.SC2Cutscene</text>
+<text x="560" y="612" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="624" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Ambient_ArmyRoom_Colossus.SC2Cutscene</text>
+<text x="560" y="636" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="648" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Ambient_ArmyRoom_Stalkers.SC2Cutscene</text>
+<text x="560" y="660" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="672" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/Ambient_ArmyRoom_VoidRays.SC2Cutscene</text>
+<text x="560" y="684" font-size="9" fill="#333">… and 14 more</text>
+</svg>

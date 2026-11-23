@@ -1,0 +1,3 @@
+void libNovC_gf_CampaignAwardAchievement (string lp_achievement, int lp_player);
+void libNovC_gf_ClearAnimationwithblendtime (string lp_identifier, unit lp_unit, fixed lp_blendTime);
+int libNovC_gf_NC_MissionRewardsBonusPossible (string lp_map);

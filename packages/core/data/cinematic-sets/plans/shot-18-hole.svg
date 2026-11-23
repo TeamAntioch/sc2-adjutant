@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Shot_18_Hole: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Shot_18_Hole</text>
+<text x="24" y="54" font-size="10" fill="#666">shot-18-hole · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="154.6" y="204.7" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03, Glue_GenericRocks06</title></rect>
+<text x="162.6" y="210.7" font-size="8" fill="#6d6458">2</text>
+<rect x="160.9" y="201.7" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks05, Glue_GenericRocks08</title></rect>
+<text x="168.9" y="207.7" font-size="8" fill="#6d6458">2</text>
+<rect x="144.7" y="222.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks11</title></rect>
+<rect x="144.3" y="241.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="179.7" y="205.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="147.6" y="216.6" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07, Glue_GenericRocks08</title></rect>
+<text x="155.6" y="222.6" font-size="8" fill="#6d6458">2</text>
+<rect x="153.1" y="221.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07</title></rect>
+<rect x="150.2" y="222.7" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks09, Glue_GenericRocks05, Glue_GenericRocks05</title></rect>
+<text x="159.2" y="229.2" font-size="8" fill="#6d6458">3</text>
+<rect x="152.1" y="217.6" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks06, Glue_GenericRocks04, Glue_GenericRocks08, Glue_GenericRocks08</title></rect>
+<text x="162.1" y="224.6" font-size="8" fill="#6d6458">4</text>
+<rect x="155.5" y="213.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08</title></rect>
+<rect x="159.3" y="211.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08</title></rect>
+<rect x="172.7" y="217.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08</title></rect>
+<rect x="150.6" y="212" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08</title></rect>
+<rect x="181.6" y="217.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks06</title></rect>
+<rect x="144.2" y="218.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks11</title></rect>
+<rect x="164.9" y="209.2" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks05, Glue_GenericRocks06, Glue_GenericRocks07</title></rect>
+<text x="173.9" y="215.7" font-size="8" fill="#6d6458">3</text>
+<rect x="324.7" y="376.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="289.5" y="443.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="224.6" y="452.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="418.8" y="272.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="389.3" y="340.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="285.1" y="339.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="342.2" y="307.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="333.1" y="241.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="240.9" y="305.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="262.3" y="325.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="318.5" y="246.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="353.9" y="279.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="277.2" y="238.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="379.6" y="287.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="292.2" y="309.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08</title></rect>
+<rect x="271.4" y="311.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks05</title></rect>
+<rect x="271.1" y="315.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08</title></rect>
+<rect x="257.6" y="322.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks09</title></rect>
+<rect x="284.1" y="348.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07</title></rect>
+<rect x="276.7" y="365.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07</title></rect>
+<rect x="253.2" y="388" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07</title></rect>
+<rect x="297.9" y="331" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07</title></rect>
+<rect x="338.5" y="311" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07</title></rect>
+<rect x="321.3" y="327" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07</title></rect>
+<rect x="240.2" y="334.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks04</title></rect>
+<rect x="339.2" y="277.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08</title></rect>
+<rect x="296.8" y="296.1" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08, SMX3_PsionMeter_Impact_a</title></rect>
+<text x="304.8" y="302.1" font-size="8" fill="#6d6458">2</text>
+<rect x="291.3" y="284.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks06</title></rect>
+<rect x="284" y="306.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks06</title></rect>
+<rect x="248.9" y="270" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks06, Glue_GenericRocks03</title></rect>
+<text x="256.9" y="276" font-size="8" fill="#6d6458">2</text>
+<rect x="275.4" y="249.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks06</title></rect>
+<rect x="283.6" y="232.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks06</title></rect>
+<rect x="233.5" y="294.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="220.6" y="312.9" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01, Glue_GenericRocks01</title></rect>
+<text x="228.6" y="318.9" font-size="8" fill="#6d6458">2</text>
+<rect x="248.1" y="359.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="290" y="304.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks09</title></rect>
+<rect x="250.6" y="240.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="223.5" y="392.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks07</title></rect>
+<rect x="250.1" y="284.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="259.4" y="247" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks05, SMX3_PsionMeter_Impact_b</title></rect>
+<text x="267.4" y="253" font-size="8" fill="#6d6458">2</text>
+<rect x="209.5" y="300.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="265.8" y="294.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks09</title></rect>
+<rect x="303.9" y="252.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="275.4" y="270.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact</title></rect>
+<rect x="301.5" y="269.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_a</title></rect>
+<rect x="306.5" y="276" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_b</title></rect>
+<rect x="286.6" y="247.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_b</title></rect>
+<rect x="298.2" y="263.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_b</title></rect>
+<rect x="264.9" y="240.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_a</title></rect>
+<rect x="243.3" y="263" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_a</title></rect>
+<rect x="245.9" y="272.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_b</title></rect>
+<rect x="230.9" y="314.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_b</title></rect>
+<rect x="219.1" y="309.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_a</title></rect>
+<rect x="200" y="307" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_PsionMeter_Impact_b</title></rect>
+<rect x="167.4" y="237.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP02_005_FallingDebris</title></rect>
+<polygon points="245.6,239.5 206.4,165.8 233.2,156.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="245.6" cy="239.5" r="2.5" fill="#7b4bd1"><title>Shot02_Fly_B_Close</title></circle>
+<polygon points="236.6,253.5 202.6,230.6 266.5,225.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="236.6" cy="253.5" r="2.5" fill="#7b4bd1"><title>Shot02_Fly_B_Far</title></circle>
+<polygon points="242.3,293 230.2,268.2 266.1,278.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="242.3" cy="293" r="2.5" fill="#7b4bd1"><title>Shot03</title></circle>
+<polygon points="243.3,295.6 240.7,268.7 258.2,273" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="243.3" cy="295.6" r="2.5" fill="#7b4bd1"><title>Shot04</title></circle>
+<polygon points="239.1,265.3 255.2,270.6 233.7,281.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="239.1" cy="265.3" r="2.5" fill="#7b4bd1"><title>Shot05</title></circle>
+<polygon points="242.3,295 228.8,268.7 267.4,279.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="242.3" cy="295" r="2.5" fill="#7b4bd1"><title>Shot06</title></circle>
+<polygon points="242.3,295 237.9,265.9 260.2,271.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="242.3" cy="295" r="2.5" fill="#7b4bd1"><title>Shot06 close</title></circle>
+<polygon points="250.8,2473.8 211.5,2384.6 290,2384.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="250.8" cy="2473.8" r="2.5" fill="#7b4bd1"><title>Shot08</title></circle>
+<polygon points="243.2,293.2 240.4,265.4 260.1,271" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="243.2" cy="293.2" r="2.5" fill="#7b4bd1"><title>Shot09</title></circle>
+<polygon points="225.7,263.2 244.1,255.6 229.8,282.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="225.7" cy="263.2" r="2.5" fill="#7b4bd1"><title>Shot10</title></circle>
+<polygon points="229.5,286.5 236.5,259.3 256.1,277.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="229.5" cy="286.5" r="2.5" fill="#7b4bd1"><title>Shot11</title></circle>
+<polygon points="235.5,261.5 248.3,270.9 234.5,277.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="235.5" cy="261.5" r="2.5" fill="#7b4bd1"><title>Shot12</title></circle>
+<polygon points="236,279.4 240.4,264.5 251.4,277.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="236" cy="279.4" r="2.5" fill="#7b4bd1"><title>Shot12.5</title></circle>
+<polygon points="245.8,269.5 245.6,265.1 250.2,269.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="245.8" cy="269.5" r="2.5" fill="#7b4bd1"><title>Shot13</title></circle>
+<polygon points="244.9,271.1 247.7,272.4 245.6,274.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="244.9" cy="271.1" r="2.5" fill="#7b4bd1"><title>Shot13_01</title></circle>
+<polygon points="244,306 228.8,269.2 271.1,276.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="244" cy="306" r="2.5" fill="#7b4bd1"><title>Shot15</title></circle>
+<polygon points="224.3,251.8 269.7,266.4 235.5,298.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="224.3" cy="251.8" r="2.5" fill="#7b4bd1"><title>Shot15_01</title></circle>
+<polygon points="242.5,306 225.8,270.1 269.1,276.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="242.5" cy="306" r="2.5" fill="#7b4bd1"><title>Shot15_02</title></circle>
+<polygon points="245.2,60.5 297.8,142.6 167.2,119.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="245.2" cy="60.5" r="2.5" fill="#7b4bd1"><title>Shot17</title></circle>
+<polygon points="133,195.7 219.7,192 143.1,281.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="133" cy="195.7" r="2.5" fill="#7b4bd1"><title>Shot18</title></circle>
+<polygon points="233.2,302.8 234.1,255.4 270.5,273.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="233.2" cy="302.8" r="2.5" fill="#7b4bd1"><title>Shot15 backup</title></circle>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP02_005.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Shot01,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Shot02,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Cockpit_shot03,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Cockpit_shot04,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Cockpit_shot05,</text>
+<text x="560" y="192" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Shot16,</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Cockpit_shot10,</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Shot13</text>
+<text x="560" y="228" font-size="9" fill="#333">Screens: SMX3_PsionMeter_Impact</text>
+<text x="560" y="240" font-size="9" fill="#333">(channel 0)</text>
+<text x="560" y="252" font-size="9" fill="#333">Marks: 0; cameras: 21 (21 aimed</text>
+<text x="560" y="264" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="276" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="288" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="300" font-size="9" fill="#333"></text>
+<text x="560" y="312" font-size="9" fill="#333">Models:</text>
+<text x="560" y="324" font-size="9" fill="#333">Glue_GenericRocks00</text>
+<text x="560" y="336" font-size="9" fill="#333">Glue_GenericRocks01</text>
+<text x="560" y="348" font-size="9" fill="#333">Glue_GenericRocks03</text>
+<text x="560" y="360" font-size="9" fill="#333">Glue_GenericRocks04</text>
+<text x="560" y="372" font-size="9" fill="#333">Glue_GenericRocks05</text>
+<text x="560" y="384" font-size="9" fill="#333">Glue_GenericRocks06</text>
+<text x="560" y="396" font-size="9" fill="#333">Glue_GenericRocks07</text>
+<text x="560" y="408" font-size="9" fill="#333">Glue_GenericRocks08</text>
+<text x="560" y="420" font-size="9" fill="#333">Glue_GenericRocks09</text>
+<text x="560" y="432" font-size="9" fill="#333">Glue_GenericRocks11</text>
+<text x="560" y="444" font-size="9" fill="#333">SMX3_MP02_005_FallingDebris</text>
+<text x="560" y="456" font-size="9" fill="#333">SMX3_PsionMeter_Impact</text>
+<text x="560" y="468" font-size="9" fill="#333">SMX3_PsionMeter_Impact_a</text>
+<text x="560" y="480" font-size="9" fill="#333">SMX3_PsionMeter_Impact_b</text>
+<text x="560" y="492" font-size="9" fill="#333"></text>
+<text x="560" y="504" font-size="9" fill="#333">Also in:</text>
+</svg>

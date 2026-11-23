@@ -1,0 +1,1 @@
+void libChal_gf_LoadChallengeData (int lp_type);

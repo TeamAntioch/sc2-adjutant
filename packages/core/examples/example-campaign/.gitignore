@@ -1,0 +1,8 @@
+# What `npm run tts` records about the voice files it wrote; regenerated with them.
+missions/*/audio/manifest.json
+
+# Compiled maps and Editor demos. A Workspace commits each Mission's package and its
+# compile-record.json; the example keeps them out, so trying it leaves the repo clean.
+missions/*/output/
+missions/*/*.SC2Map/
+missions/*/compile-record.json

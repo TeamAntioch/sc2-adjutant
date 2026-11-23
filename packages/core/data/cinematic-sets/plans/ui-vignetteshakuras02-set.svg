@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>UI_VignetteShakuras02 set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">UI_VignetteShakuras02 set</text>
+<text x="24" y="54" font-size="10" fill="#666">ui-vignetteshakuras02-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="225.5" y="498.2" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>Zergling, Zergling, Zergling, Roach, Roach, Zergling, Zergling, Zergling, Hydralisk, Zergling</title></rect>
+<text x="241.5" y="508.2" font-size="8" fill="#6d6458">10</text>
+<rect x="333" y="152.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>ZhakulDasTemple</title></rect>
+<rect x="330.8" y="346.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>ZenithStone</title></rect>
+<polygon points="326.8,1309.1 292,1231.9 360.2,1231.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="326.8" cy="1309.1" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 2</title></circle>
+<text x="330.8" y="1306.1" font-size="8" fill="#5a3a9a">CAMERA - Section 2</text>
+</g>
+<line x1="86.2" y1="561.7" x2="368.8" y2="561.7" stroke="#333" stroke-width="2"/>
+<line x1="86.2" y1="557.7" x2="86.2" y2="565.7" stroke="#333"/><line x1="142.7" y1="557.7" x2="142.7" y2="565.7" stroke="#333"/>
+<text x="86.2" y="555.7" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_VignetteShakuras02.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: PlanetViewGalaxy</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 2 (1 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">Hydralisk</text>
+<text x="560" y="216" font-size="9" fill="#333">Roach</text>
+<text x="560" y="228" font-size="9" fill="#333">ZenithStone</text>
+<text x="560" y="240" font-size="9" fill="#333">Zergling</text>
+<text x="560" y="252" font-size="9" fill="#333">ZhakulDasTemple</text>
+<text x="560" y="264" font-size="9" fill="#333"></text>
+<text x="560" y="276" font-size="9" fill="#333">Also in:</text>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "campaign": { "id": "fixtures", "name": "Fixture Campaign" },
+  "missions": "missions",
+  "campaignPack": "./plugins/bell-pack",
+  "mods": ["bell-story"]
+}

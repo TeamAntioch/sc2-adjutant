@@ -1,0 +1,8 @@
+void libA3DDD02B_gf_PP_ResetTech () {
+    // Automatic Variable Declarations
+}
+
+void libA3DDD02B_gf_PP_StoreTechBonusAtMissionBeginning () {
+    // Automatic Variable Declarations
+    // Implementation
+}

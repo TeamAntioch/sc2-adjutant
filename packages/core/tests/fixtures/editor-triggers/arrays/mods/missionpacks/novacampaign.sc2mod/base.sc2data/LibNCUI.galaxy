@@ -1,0 +1,102 @@
+string libNCUI_gf_NU_EquipmentInSlot (int lp_equipmentSlot, int lp_itemSlot) {
+    // Implementation
+    return libNCUI_gv_nU_EquipmentList[lp_equipmentSlot][lp_itemSlot];
+}
+
+void libNCUI_gf_NU_MissionSetRewards () {
+    int auto8EA8AC6E_ae;
+    int auto8EA8AC6E_ai;
+    int auto833E559F_ai;
+    int auto833E559F_ae;
+    int auto7D186AAC_ai;
+    int auto7D186AAC_ae;
+    int autoBA431F5A_val;
+    int autoEE87639B_ae;
+    int autoEE87639B_ai;
+
+    // Variable Declarations
+    int lv_rewardCount;
+    int lv_rewardIndex;
+    string[libNCUI_gv_nUC_MissionRewardsMaxCount + 1] lv_techItemRewards;
+    string[libNCUI_gv_nUC_MissionRewardsMaxCount + 1] lv_equipmentRewards;
+    string lv_indexObjective;
+    string lv_indexPerk;
+    string lv_indexTechItem;
+
+    // Variable Initialization
+
+    // Implementation
+    auto8EA8AC6E_ae = CatalogFieldValueCount(c_gameCatalogMap, libNCUI_gf_NU_NextAvailableMission(), "ObjectiveArray", 1);
+    auto8EA8AC6E_ai = 1;
+    while (auto8EA8AC6E_ai <= auto8EA8AC6E_ae) {
+        lv_indexObjective = CatalogFieldValueGet(c_gameCatalogMap, libNCUI_gf_NU_NextAvailableMission(), "ObjectiveArray["+IntToString(auto8EA8AC6E_ai-1)+"]", 1);
+        auto8EA8AC6E_ai = auto8EA8AC6E_ai + 1;
+        if ((libComC_gf_MissionObjectiveIsPrimary(lv_indexObjective) == false)) {
+            auto833E559F_ai = 1;
+            auto833E559F_ae = UserDataInstanceCount("CampaignPerk")+1;
+            while (auto833E559F_ai < auto833E559F_ae) {
+                lv_indexPerk = UserDataInstance("CampaignPerk", auto833E559F_ai);
+                auto833E559F_ai = auto833E559F_ai+1;
+                if ((libComC_gf_CC_PerkRequiredObjective(lv_indexPerk) == lv_indexObjective) && (libNovC_gf_NC_PerkIsSecret(lv_indexPerk) == false)) {
+                    lv_rewardCount += 1;
+                    lv_equipmentRewards[lv_rewardCount] = lv_indexPerk;
+                }
+
+            }
+            auto7D186AAC_ai = 1;
+            auto7D186AAC_ae = UserDataInstanceCount("CampaignTechItem")+1;
+            while (auto7D186AAC_ai < auto7D186AAC_ae) {
+                lv_indexTechItem = UserDataInstance("CampaignTechItem", auto7D186AAC_ai);
+                auto7D186AAC_ai = auto7D186AAC_ai+1;
+                if ((libNovC_gf_NC_ArmyTechItemRequiredObjective(lv_indexTechItem) == lv_indexObjective)) {
+                    lv_rewardCount += 1;
+                    lv_techItemRewards[lv_rewardCount] = lv_indexTechItem;
+                }
+
+            }
+        }
+
+    }
+    autoBA431F5A_val = lv_rewardCount;
+    if (autoBA431F5A_val == 1) {
+        DialogControlSetAnimationState(libNCUI_gv_nU_MissionRewardsModule, PlayerGroupAll(), "RewardsCountState", "Rewards1");
+        DialogControlSetVisible(libNCUI_gv_nU_MissionRewardsModule, PlayerGroupAll(), true);
+        libNCUI_gv_nU_MissionRewardsEnabled = true;
+    }
+    else if (autoBA431F5A_val == 2) {
+        DialogControlSetAnimationState(libNCUI_gv_nU_MissionRewardsModule, PlayerGroupAll(), "RewardsCountState", "Rewards2");
+        DialogControlSetVisible(libNCUI_gv_nU_MissionRewardsModule, PlayerGroupAll(), true);
+        libNCUI_gv_nU_MissionRewardsEnabled = true;
+    }
+    else {
+        DialogControlSetAnimationState(libNCUI_gv_nU_MissionRewardsModule, PlayerGroupAll(), "RewardsCountState", "Rewards0");
+        DialogControlSetVisible(libNCUI_gv_nU_MissionRewardsModule, PlayerGroupAll(), false);
+        libNCUI_gv_nU_MissionRewardsEnabled = false;
+        return ;
+    }
+    autoEE87639B_ae = lv_rewardCount;
+    autoEE87639B_ai = 1;
+    lv_rewardIndex = 1;
+    for ( ; ( (autoEE87639B_ai >= 0 && lv_rewardIndex <= autoEE87639B_ae) || (autoEE87639B_ai <= 0 && lv_rewardIndex >= autoEE87639B_ae) ) ; lv_rewardIndex += autoEE87639B_ai ) {
+        if ((lv_equipmentRewards[lv_rewardIndex] != null)) {
+            libNtve_gf_SetDialogItemImage(libNCUI_gv_nU_MissionRewardsIcons[lv_rewardIndex], libComC_gf_CC_PerkIcon(lv_equipmentRewards[lv_rewardIndex]), PlayerGroupAll());
+            libNtve_gf_SetDialogItemTooltip(libNCUI_gv_nU_MissionRewardsIcons[lv_rewardIndex], libNovC_gf_NC_PerkTooltipReward(lv_equipmentRewards[lv_rewardIndex]), PlayerGroupAll());
+            if ((libComC_gf_CC_StoryInSimulation() == true) && (libComC_gf_MissionObjectiveStateCheck(libComC_gf_CC_PerkRequiredObjective(lv_equipmentRewards[lv_rewardIndex]), libComC_ge_MissionObjectiveState_Completed) == true)) {
+                DialogControlSetAnimationState(libNCUI_gv_nU_MissionRewardsContainers[lv_rewardIndex], PlayerGroupAll(), "EarnedState", "Earned");
+            }
+            else {
+                DialogControlSetAnimationState(libNCUI_gv_nU_MissionRewardsContainers[lv_rewardIndex], PlayerGroupAll(), "EarnedState", "Unearned");
+            }
+        }
+        else if ((lv_techItemRewards[lv_rewardIndex] != null)) {
+            libNtve_gf_SetDialogItemImage(libNCUI_gv_nU_MissionRewardsIcons[lv_rewardIndex], libNovC_gf_NC_ArmyTechItemImage(lv_techItemRewards[lv_rewardIndex]), PlayerGroupAll());
+            libNtve_gf_SetDialogItemTooltip(libNCUI_gv_nU_MissionRewardsIcons[lv_rewardIndex], libNovC_gf_NC_ArmyTechItemTooltipReward(lv_techItemRewards[lv_rewardIndex]), PlayerGroupAll());
+            if ((libComC_gf_CC_StoryInSimulation() == true) && (libComC_gf_MissionObjectiveStateCheck(libNovC_gf_NC_ArmyTechItemRequiredObjective(lv_techItemRewards[lv_rewardIndex]), libComC_ge_MissionObjectiveState_Completed) == true)) {
+                DialogControlSetAnimationState(libNCUI_gv_nU_MissionRewardsContainers[lv_rewardIndex], PlayerGroupAll(), "EarnedState", "Earned");
+            }
+            else {
+                DialogControlSetAnimationState(libNCUI_gv_nU_MissionRewardsContainers[lv_rewardIndex], PlayerGroupAll(), "EarnedState", "Unearned");
+            }
+        }
+    }
+}

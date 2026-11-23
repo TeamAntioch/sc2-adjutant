@@ -1,0 +1,19 @@
+//--------------------------------------------------------------------------------------------------
+// Trigger: Stop Music Soundtrack
+//--------------------------------------------------------------------------------------------------
+bool gt_StopSoundtrackMultiple_Func (bool testConds, bool runActions) {
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    SoundtrackStop(PlayerGroupAll(), c_soundtrackCategoryMusic, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_StopSoundtrackMultiple_Init () {
+    gt_StopSoundtrackMultiple = TriggerCreate("gt_StopSoundtrackMultiple_Func");
+    TriggerEnable(gt_StopSoundtrackMultiple, false);
+}
+

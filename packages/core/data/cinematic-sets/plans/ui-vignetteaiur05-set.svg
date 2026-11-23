@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>UI_VignetteAiur05 set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">UI_VignetteAiur05 set</text>
+<text x="24" y="54" font-size="10" fill="#666">ui-vignetteaiur05-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="264.9" y="156.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Immortal</title></rect>
+<rect x="352.8" y="219.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Immortal</title></rect>
+<rect x="276.6" y="320.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Zealot</title></rect>
+<rect x="219.8" y="276.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Zealot</title></rect>
+<rect x="336.3" y="303.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Zealot</title></rect>
+<rect x="209.5" y="209.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Zealot</title></rect>
+<rect x="298" y="396.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>XelNaga_LargeCrate_Amon</title></rect>
+<rect x="308.7" y="443.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Ultralisk</title></rect>
+<rect x="353" y="446.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Hydralisk</title></rect>
+<rect x="264.9" y="422.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Hydralisk</title></rect>
+<rect x="324" y="498.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Zergling</title></rect>
+<rect x="353.5" y="484.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Zergling</title></rect>
+<rect x="274.2" y="372.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Zergling</title></rect>
+<rect x="338.6" y="490.9" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk, Mutalisk, Mutalisk</title></rect>
+<text x="347.6" y="497.4" font-size="8" fill="#6d6458">3</text>
+<polygon points="316.9,703.8 278.4,623.5 350.1,621.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="316.9" cy="703.8" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 1</title></circle>
+<text x="320.9" y="700.8" font-size="8" fill="#5a3a9a">CAMERA - Section 1</text>
+<polygon points="308.5,1145.6 271.8,1064.4 343.6,1063.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="308.5" cy="1145.6" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 2</title></circle>
+<text x="312.5" y="1142.6" font-size="8" fill="#5a3a9a">CAMERA - Section 2</text>
+</g>
+<line x1="76.1" y1="560.3" x2="373.1" y2="560.3" stroke="#333" stroke-width="2"/>
+<line x1="76.1" y1="556.3" x2="76.1" y2="564.3" stroke="#333"/><line x1="135.5" y1="556.3" x2="135.5" y2="564.3" stroke="#333"/>
+<text x="76.1" y="554.3" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_VignetteAiur05.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: DiamondbackPortrait</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 2 (2 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">Hydralisk</text>
+<text x="560" y="216" font-size="9" fill="#333">Immortal</text>
+<text x="560" y="228" font-size="9" fill="#333">Mutalisk</text>
+<text x="560" y="240" font-size="9" fill="#333">Ultralisk</text>
+<text x="560" y="252" font-size="9" fill="#333">XelNaga_LargeCrate_Amon</text>
+<text x="560" y="264" font-size="9" fill="#333">Zealot</text>
+<text x="560" y="276" font-size="9" fill="#333">Zergling</text>
+<text x="560" y="288" font-size="9" fill="#333"></text>
+<text x="560" y="300" font-size="9" fill="#333">Also in:</text>
+</svg>

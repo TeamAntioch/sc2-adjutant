@@ -1,0 +1,37 @@
+{
+  "id": "broken_field",
+  "campaignId": "fixtures",
+  "title": "Broken Field",
+  "setting": "A field whose hazard names the wrong zones.",
+  "mapSize": { "width": 64, "height": 64 },
+  "zones": [
+    {
+      "id": "field",
+      "name": "Field",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "path",
+      "polygon": [
+        { "x": 0, "y": 0 },
+        { "x": 64, "y": 0 },
+        { "x": 64, "y": 64 },
+        { "x": 0, "y": 64 }
+      ]
+    }
+  ],
+  "beats": [{ "id": "flood", "title": "Flood", "summary": "The field floods.", "zoneIds": ["cave"] }],
+  "mechanics": [
+    {
+      "id": "flood",
+      "type": "hazard",
+      "params": {
+        "affectedZoneIds": ["field"],
+        "safeZoneIds": ["cave"],
+        "firstSeconds": 30,
+        "deadlySeconds": 8,
+        "warningSeconds": -5
+      }
+    }
+  ],
+  "screenplay": { "title": "Broken Field" }
+}

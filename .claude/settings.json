@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh stack view *)",
+      "Bash(gh stack init *)",
+      "Bash(gh stack add *)",
+      "Bash(gh stack checkout *)",
+      "Bash(gh stack up)",
+      "Bash(gh stack down)",
+      "Bash(gh stack top)",
+      "Bash(gh stack bottom)",
+      "Bash(gh stack push)",
+      "Bash(gh stack push *)",
+      "Bash(gh stack submit *)",
+      "Bash(gh stack sync)",
+      "Bash(gh stack sync *)",
+      "Bash(gh stack rebase)",
+      "Bash(gh stack rebase *)"
+    ],
+    "deny": [
+      "Bash(gh stack merge *)",
+      "Bash(gh stack unstack *)",
+      "Bash(gh stack modify *)"
+    ]
+  }
+}

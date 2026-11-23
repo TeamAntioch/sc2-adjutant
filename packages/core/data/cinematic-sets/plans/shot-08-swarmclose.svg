@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Shot_08_SwarmClose: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Shot_08_SwarmClose</text>
+<text x="24" y="54" font-size="10" fill="#666">shot-08-swarmclose · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="230.8" y="553.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Leviathan</title></rect>
+<rect x="407" y="336.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Leviathan</title></rect>
+<rect x="208.5" y="101.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Leviathan</title></rect>
+<rect x="256.8" y="184.8" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk, Mutalisk, Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk, SMX3_Mutalisk</title></rect>
+<text x="272.8" y="194.8" font-size="8" fill="#6d6458">22</text>
+<rect x="254.7" y="188.8" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk, Mutalisk</title></rect>
+<text x="262.7" y="194.8" font-size="8" fill="#6d6458">2</text>
+<rect x="271" y="188.8" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk, Mutalisk</title></rect>
+<text x="279" y="194.8" font-size="8" fill="#6d6458">2</text>
+<rect x="277" y="188.8" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk, Mutalisk</title></rect>
+<text x="285" y="194.8" font-size="8" fill="#6d6458">2</text>
+<rect x="161.5" y="188.8" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk, Mutalisk</title></rect>
+<text x="169.5" y="194.8" font-size="8" fill="#6d6458">2</text>
+<rect x="156" y="189.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk</title></rect>
+<rect x="172.3" y="189.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk</title></rect>
+<rect x="178.2" y="189.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk</title></rect>
+<rect x="261.7" y="189.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Mutalisk</title></rect>
+<polygon points="305.1,462.7 291.3,436.7 300.7,433.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="305.1" cy="462.7" r="2.5" fill="#7b4bd1"><title>Shot02_Fly_B_Close</title></circle>
+<polygon points="301.9,467.6 289.9,459.6 312.4,457.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="301.9" cy="467.6" r="2.5" fill="#7b4bd1"><title>Shot02_Fly_B_Far</title></circle>
+<polygon points="303.9,481.6 299.6,472.8 312.3,476.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="303.9" cy="481.6" r="2.5" fill="#7b4bd1"><title>Shot03</title></circle>
+<polygon points="304.3,482.5 303.4,473 309.5,474.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="304.3" cy="482.5" r="2.5" fill="#7b4bd1"><title>Shot04</title></circle>
+<polygon points="302.8,471.8 308.5,473.7 300.9,477.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="302.8" cy="471.8" r="2.5" fill="#7b4bd1"><title>Shot05</title></circle>
+<polygon points="303.9,482.2 299.2,473 312.8,476.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="303.9" cy="482.2" r="2.5" fill="#7b4bd1"><title>Shot06</title></circle>
+<polygon points="303.9,482.2 302.4,472 310.2,474.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="303.9" cy="482.2" r="2.5" fill="#7b4bd1"><title>Shot06 close</title></circle>
+<polygon points="306.9,1250 293.1,1218.5 320.7,1218.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="306.9" cy="1250" r="2.5" fill="#7b4bd1"><title>Shot08</title></circle>
+<polygon points="304.2,481.6 303.2,471.8 310.2,473.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="304.2" cy="481.6" r="2.5" fill="#7b4bd1"><title>Shot09</title></circle>
+<polygon points="298.1,471 304.6,468.4 299.5,477.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="298.1" cy="471" r="2.5" fill="#7b4bd1"><title>Shot10</title></circle>
+<polygon points="299.4,479.3 301.9,469.7 308.8,476.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="299.4" cy="479.3" r="2.5" fill="#7b4bd1"><title>Shot11</title></circle>
+<polygon points="301.5,470.4 306,473.8 301.2,476" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="301.5" cy="470.4" r="2.5" fill="#7b4bd1"><title>Shot12</title></circle>
+<polygon points="301.7,476.8 303.2,471.5 307.1,476.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="301.7" cy="476.8" r="2.5" fill="#7b4bd1"><title>Shot12.5</title></circle>
+<polygon points="305.1,473.3 305.1,471.7 306.7,473.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="305.1" cy="473.3" r="2.5" fill="#7b4bd1"><title>Shot13</title></circle>
+<polygon points="304.8,473.8 305.8,474.3 305.1,474.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="304.8" cy="473.8" r="2.5" fill="#7b4bd1"><title>Shot13_01</title></circle>
+<polygon points="304.5,486.1 299.2,473.2 314.1,475.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="304.5" cy="486.1" r="2.5" fill="#7b4bd1"><title>Shot15</title></circle>
+<polygon points="297.6,467.1 313.6,472.2 301.5,483.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="297.6" cy="467.1" r="2.5" fill="#7b4bd1"><title>Shot15_01</title></circle>
+<polygon points="304,486.1 298.1,473.5 313.3,475.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="304" cy="486.1" r="2.5" fill="#7b4bd1"><title>Shot15_02</title></circle>
+<polygon points="304.9,399.6 323.5,428.6 277.5,420.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="304.9" cy="399.6" r="2.5" fill="#7b4bd1"><title>Shot17</title></circle>
+<polygon points="265.4,447.3 295.9,446 269,477.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="265.4" cy="447.3" r="2.5" fill="#7b4bd1"><title>Shot18</title></circle>
+<polygon points="300.7,485 301,468.3 313.9,474.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="300.7" cy="485" r="2.5" fill="#7b4bd1"><title>Shot15 backup</title></circle>
+</g>
+<line x1="135.6" y1="578.5" x2="250.1" y2="578.5" stroke="#333" stroke-width="2"/>
+<line x1="135.6" y1="574.5" x2="135.6" y2="582.5" stroke="#333"/><line x1="158.5" y1="574.5" x2="158.5" y2="582.5" stroke="#333"/>
+<text x="135.6" y="572.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP02_005.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Shot01,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Shot02,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Cockpit_shot03,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Cockpit_shot04,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Cockpit_shot05,</text>
+<text x="560" y="192" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Shot16,</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Cockpit_shot10,</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX3_Cutscene_MP02_005_Shot13</text>
+<text x="560" y="228" font-size="9" fill="#333">Marks: 0; cameras: 21 (21 aimed</text>
+<text x="560" y="240" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="252" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="264" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="276" font-size="9" fill="#333"></text>
+<text x="560" y="288" font-size="9" fill="#333">Models:</text>
+<text x="560" y="300" font-size="9" fill="#333">Mutalisk</text>
+<text x="560" y="312" font-size="9" fill="#333">SMX3_Leviathan</text>
+<text x="560" y="324" font-size="9" fill="#333">SMX3_Mutalisk</text>
+<text x="560" y="336" font-size="9" fill="#333"></text>
+<text x="560" y="348" font-size="9" fill="#333">Also in:</text>
+</svg>

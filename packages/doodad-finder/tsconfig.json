@@ -1,0 +1,7 @@
+{
+  // Built like a Plugin package, from src/ to dist/. transformers.js's own declarations don't check
+  // (they need the DOM's types and disagree with themselves), so declaration files go unchecked here;
+  // this package's code is checked against them all the same.
+  "extends": "../core/tsconfig.plugin.json",
+  "compilerOptions": { "rootDir": "src", "skipLibCheck": true }
+}

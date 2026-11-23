@@ -1,0 +1,1 @@
+void libA3DDD02B_gf_ClearAnimationwithblendtime (string lp_identifier, unit lp_unit, fixed lp_blendTime);

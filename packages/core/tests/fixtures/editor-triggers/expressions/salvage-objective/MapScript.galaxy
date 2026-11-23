@@ -1,0 +1,10 @@
+gs_Objecitves gv_objectives;
+
+void gf_CreateSecondaryObjectiveSalvage () {
+    // Automatic Variable Declarations
+    // Implementation
+    TextExpressionSetToken("Param/Expression/5F29F17B", "A", IntToText((3 - gv_objectives.lv_scrapFound)));
+    ObjectiveCreate(TextExpressionAssemble("Param/Expression/5F29F17B"), StringExternal("Param/Value/C53CEFD4"), c_objectiveStateActive, false);
+    gv_objectives.lv_salvageProtossEquipment = ObjectiveLastCreated();
+}
+

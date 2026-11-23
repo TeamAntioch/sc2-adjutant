@@ -1,0 +1,2 @@
+color libA3DDD02B_gf_ProgressColor (int lp_minValue, int lp_maxValue, int lp_progress, color lp_color1, color lp_color2, color lp_color3, int lp_steps);
+void libA3DDD02B_gf_CreateObjectiveCampaign (string lp_objectiveData);

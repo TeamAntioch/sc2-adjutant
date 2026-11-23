@@ -1,0 +1,307 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="636" viewBox="0 0 760 636" font-family="Helvetica, Arial, sans-serif">
+<title>WrangerSet: cinematic set</title>
+<rect width="760" height="636" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">WrangerSet</text>
+<text x="24" y="54" font-size="10" fill="#666">wrangerset · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="50.5" y="330.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_MainSet13</title></rect>
+<rect x="69.2" y="325.8" width="14" height="14" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom00, SMX3_Cutscene_MP01_010_WranglerRoom01, SMX3_Cutscene_MP01_010_WranglerRoom02, SMX3_Cutscene_MP01_010_WranglerRoom03, SMX3_Cutscene_MP01_010_WranglerRoom04, SMX3_Cutscene_MP01_010_WranglerRoom05, SMX3_Cutscene_MP01_010_WranglerRoom06, SMX3_Cutscene_MP01_010_WranglerRoom07, SMX3_Cutscene_MP01_010_WranglerRoom08, SMX3_Cutscene_MP01_010_WranglerRoom09, SMX3_Cutscene_MP01_010_WranglerRoom10, SMX3_Cutscene_MP01_010_WranglerRoom11, SMX3_Cutscene_MP01_010_WranglerRoom12, SMX3_Cutscene_MP01_010_WranglerRoom13, SMX3_Cutscene_MP01_010_WranglerRoom14, SMX3_Cutscene_MP01_010_WranglerRoom15, SMX3_Cutscene_MP01_010_WranglerRoom16, SMX3_Cutscene_MP01_010_WranglerRoom17, SMX3_Cutscene_MP01_010_WranglerRoom18</title></rect>
+<text x="85.2" y="335.8" font-size="8" fill="#6d6458">19</text>
+<rect x="100.9" y="329.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="80.1" y="320" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="100.9" y="304.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="58.9" y="343.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="69.1" y="325.2" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19, SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<text x="77.1" y="331.2" font-size="8" fill="#6d6458">2</text>
+<rect x="77.4" y="340.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="64.3" y="328.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="62.6" y="329.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="84.3" y="323.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="58.3" y="298.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="95" y="321.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="44.8" y="334.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="74.9" y="323.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="112.5" y="298.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="90.9" y="343.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="61.7" y="314.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="61.7" y="318.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="74" y="354.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="77.3" y="299.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="94.5" y="336" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="77.3" y="329.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="69.1" y="291.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="96.7" y="315.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="54.6" y="374.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="387.7" y="377.6" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19, SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<text x="395.7" y="383.6" font-size="8" fill="#6d6458">2</text>
+<rect x="68.6" y="330.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom17</title></rect>
+<rect x="363.3" y="291.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="351.5" y="343" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="375.3" y="349.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<rect x="339.5" y="276.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP01_010_WranglerRoom19</title></rect>
+<polygon points="372.6,341.5 368.8,340.2 370.4,338.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="372.6" cy="341.5" r="2.5" fill="#7b4bd1"><title>010</title></circle>
+<polygon points="426.9,385.7 407.2,373.3 411.9,368" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="426.9" cy="385.7" r="2.5" fill="#7b4bd1"><title>020</title></circle>
+<polygon points="423.6,390.3 403,379.5 411,370.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="423.6" cy="390.3" r="2.5" fill="#7b4bd1"><title>030</title></circle>
+<polygon points="423.6,390.3 400.4,391.9 421.8,367.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="423.6" cy="390.3" r="2.5" fill="#7b4bd1"><title>040</title></circle>
+<polygon points="89.7,335.3 94.1,327.4 97.6,339.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="89.7" cy="335.3" r="2.5" fill="#7b4bd1"><title>050</title></circle>
+<polygon points="368.4,341.2 363.4,335 368.1,333.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="368.4" cy="341.2" r="2.5" fill="#7b4bd1"><title>060</title></circle>
+<polygon points="357.9,375.5 336.5,366.4 360.4,352.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="357.9" cy="375.5" r="2.5" fill="#7b4bd1"><title>070</title></circle>
+<polygon points="376.8,325.7 377.6,348.9 353.7,328.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="376.8" cy="325.7" r="2.5" fill="#7b4bd1"><title>090</title></circle>
+<polygon points="373.4,348.6 360.6,335.6 369.8,330.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="373.4" cy="348.6" r="2.5" fill="#7b4bd1"><title>100</title></circle>
+<polygon points="373.7,348.1 363.3,334.9 368.6,332.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="373.7" cy="348.1" r="2.5" fill="#7b4bd1"><title>110</title></circle>
+<polygon points="372.2,329.3 370.1,336.8 364.5,330.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="372.2" cy="329.3" r="2.5" fill="#7b4bd1"><title>120</title></circle>
+<polygon points="419.7,281.1 415.6,304 397.8,289.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="419.7" cy="281.1" r="2.5" fill="#7b4bd1"><title>130</title></circle>
+<polygon points="367.4,339.4 363.3,333.6 367.6,332.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="367.4" cy="339.4" r="2.5" fill="#7b4bd1"><title>140</title></circle>
+<polygon points="371.2,351.4 364.3,341.1 375.7,339.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="371.2" cy="351.4" r="2.5" fill="#7b4bd1"><title>150</title></circle>
+<polygon points="87.9,336.7 93.8,327.8 98.2,339.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="87.9" cy="336.7" r="2.5" fill="#7b4bd1"><title>160</title></circle>
+<polygon points="373,342.1 369.9,339 373.3,337.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="373" cy="342.1" r="2.5" fill="#7b4bd1"><title>170</title></circle>
+<polygon points="373.3,344.6 364.3,334.5 368,332.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="373.3" cy="344.6" r="2.5" fill="#7b4bd1"><title>110_backup</title></circle>
+<polygon points="371.8,341.6 368.9,338.8 374.1,338.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="371.8" cy="341.6" r="2.5" fill="#7b4bd1"><title>200</title></circle>
+<polygon points="371,335.9 382.4,341.9 367.2,348.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="371" cy="335.9" r="2.5" fill="#7b4bd1"><title>210</title></circle>
+<polygon points="368.4,341.4 366.4,326.6 382.5,336.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="368.4" cy="341.4" r="2.5" fill="#7b4bd1"><title>220</title></circle>
+<polygon points="368.6,342.6 366,325.2 384.5,335.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="368.6" cy="342.6" r="2.5" fill="#7b4bd1"><title>230</title></circle>
+<polygon points="369.2,341 370.9,335.6 374.8,340.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="369.2" cy="341" r="2.5" fill="#7b4bd1"><title>250</title></circle>
+<polygon points="393.6,361.7 375.3,347.4 383.5,340.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="393.6" cy="361.7" r="2.5" fill="#7b4bd1"><title>260</title></circle>
+<polygon points="367.7,340.7 372.7,332.9 376.4,343.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="367.7" cy="340.7" r="2.5" fill="#7b4bd1"><title>270</title></circle>
+<polygon points="421.4,403 402.7,389.3 420.3,379.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="421.4" cy="403" r="2.5" fill="#7b4bd1"><title>280</title></circle>
+<polygon points="379.5,348.6 370.3,343 376.1,338.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="379.5" cy="348.6" r="2.5" fill="#7b4bd1"><title>290</title></circle>
+<polygon points="89,336.2 90.9,331.4 93.8,338" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="89" cy="336.2" r="2.5" fill="#7b4bd1"><title>300</title></circle>
+<polygon points="376.9,345 371,345 375.8,339.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="376.9" cy="345" r="2.5" fill="#7b4bd1"><title>310</title></circle>
+<polygon points="318,388 321.3,365 340.9,391.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="318" cy="388" r="2.5" fill="#7b4bd1"><title>320</title></circle>
+<polygon points="350.7,319 372.9,325.7 356.8,341.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="350.7" cy="319" r="2.5" fill="#7b4bd1"><title>330</title></circle>
+<polygon points="375.5,396.6 361.9,377.7 391.1,379.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="375.5" cy="396.6" r="2.5" fill="#7b4bd1"><title>331</title></circle>
+<polygon points="346.3,337.7 369.5,336.5 361.6,355.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="346.3" cy="337.7" r="2.5" fill="#7b4bd1"><title>332</title></circle>
+<polygon points="326.4,322.8 348,314 335.6,344.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="326.4" cy="322.8" r="2.5" fill="#7b4bd1"><title>350</title></circle>
+<polygon points="351.6,305 355.1,313.9 344.3,311.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="351.6" cy="305" r="2.5" fill="#7b4bd1"><title>370</title></circle>
+<polygon points="374.3,321.4 352.6,322.9 361.6,303.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="374.3" cy="321.4" r="2.5" fill="#7b4bd1"><title>375</title></circle>
+<polygon points="365.2,316.1 348.1,318.2 356.4,301.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="365.2" cy="316.1" r="2.5" fill="#7b4bd1"><title>380</title></circle>
+<polygon points="373.9,328.4 353.5,328.2 367.3,309.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="373.9" cy="328.4" r="2.5" fill="#7b4bd1"><title>390</title></circle>
+<polygon points="367.1,298.8 376.4,299.3 366,308" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="367.1" cy="298.8" r="2.5" fill="#7b4bd1"><title>400</title></circle>
+<polygon points="409.1,347.3 390.8,345.4 404.3,329.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="409.1" cy="347.3" r="2.5" fill="#7b4bd1"><title>405</title></circle>
+<polygon points="357.1,344.8 376.9,332.6 380.2,347.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="357.1" cy="344.8" r="2.5" fill="#7b4bd1"><title>407</title></circle>
+<polygon points="395.7,322.6 384.6,343 380.2,305.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="395.7" cy="322.6" r="2.5" fill="#7b4bd1"><title>410</title></circle>
+<polygon points="377,306.8 379.1,318.7 365.1,308.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="377" cy="306.8" r="2.5" fill="#7b4bd1"><title>410a</title></circle>
+<polygon points="374.7,316.5 369.5,315.5 373.3,311.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="374.7" cy="316.5" r="2.5" fill="#7b4bd1"><title>410b</title></circle>
+<polygon points="378.7,309.4 373,311.6 374.5,305" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="378.7" cy="309.4" r="2.5" fill="#7b4bd1"><title>410c</title></circle>
+<polygon points="364,337.4 358.6,331.1 363.7,329.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="364" cy="337.4" r="2.5" fill="#7b4bd1"><title>420</title></circle>
+<polygon points="415.3,343.5 392.1,344.8 399,327" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="415.3" cy="343.5" r="2.5" fill="#7b4bd1"><title>425</title></circle>
+<polygon points="85.9,342.3 84.3,332.5 92.2,334.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="85.9" cy="342.3" r="2.5" fill="#7b4bd1"><title>460</title></circle>
+<polygon points="85.1,343.9 87.1,327 102.1,344.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="85.1" cy="343.9" r="2.5" fill="#7b4bd1"><title>360</title></circle>
+<polygon points="361.8,311.1 360.6,318.8 354.5,313.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="361.8" cy="311.1" r="2.5" fill="#7b4bd1"><title>391</title></circle>
+<polygon points="368.7,298.6 377.2,301.2 366.9,307.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="368.7" cy="298.6" r="2.5" fill="#7b4bd1"><title>395</title></circle>
+<polygon points="356.3,358.4 355.7,335.2 372.4,341.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="356.3" cy="358.4" r="2.5" fill="#7b4bd1"><title>425a</title></circle>
+<polygon points="352.5,385.4 356.3,362.5 361,363.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="352.5" cy="385.4" r="2.5" fill="#7b4bd1"><title>425b</title></circle>
+<polygon points="411.6,344.7 388.7,348.7 403.4,323" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="411.6" cy="344.7" r="2.5" fill="#7b4bd1"><title>425c</title></circle>
+<polygon points="356.8,333.4 360.1,327.1 363.6,335.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="356.8" cy="333.4" r="2.5" fill="#7b4bd1"><title>421</title></circle>
+<polygon points="373.7,385.4 368.2,362.8 373.9,362.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="373.7" cy="385.4" r="2.5" fill="#7b4bd1"><title>426</title></circle>
+<polygon points="86.7,340.9 92.7,325.6 103.1,341.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="86.7" cy="340.9" r="2.5" fill="#7b4bd1"><title>367</title></circle>
+<polygon points="367.1,298.8 376.4,299.3 366,308" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="367.1" cy="298.8" r="2.5" fill="#7b4bd1"><title>400a</title></circle>
+<polygon points="91.4,335.5 93.6,328.9 98.2,337.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91.4" cy="335.5" r="2.5" fill="#7b4bd1"><title>360b</title></circle>
+<polygon points="31.6,333.5 49.2,318.4 49.7,348.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="31.6" cy="333.5" r="2.5" fill="#7b4bd1"><title>429</title></circle>
+<polygon points="107,349 90.3,337.3 99.2,330.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="107" cy="349" r="2.5" fill="#7b4bd1"><title>430</title></circle>
+<polygon points="95,356.4 86.8,335.9 99.3,334.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="95" cy="356.4" r="2.5" fill="#7b4bd1"><title>440</title></circle>
+<polygon points="93.2,344.9 85.7,336.5 97.8,334.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="93.2" cy="344.9" r="2.5" fill="#7b4bd1"><title>445</title></circle>
+<polygon points="86.7,339.4 83.8,333.2 88.6,332.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="86.7" cy="339.4" r="2.5" fill="#7b4bd1"><title>450</title></circle>
+<polygon points="81,335.2 84.1,330.7 86,337.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="81" cy="335.2" r="2.5" fill="#7b4bd1"><title>460</title></circle>
+<polygon points="90.7,337.1 84.1,334.1 86.4,331.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="90.7" cy="337.1" r="2.5" fill="#7b4bd1"><title>470</title></circle>
+<polygon points="73.2,343.5 78.4,327.1 90.3,341.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="73.2" cy="343.5" r="2.5" fill="#7b4bd1"><title>480</title></circle>
+<polygon points="100.3,341 88.8,339.2 94.5,330.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="100.3" cy="341" r="2.5" fill="#7b4bd1"><title>490</title></circle>
+<polygon points="80.3,337.6 84.2,332.9 86.3,339" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="80.3" cy="337.6" r="2.5" fill="#7b4bd1"><title>500</title></circle>
+<polygon points="81.9,338 90.4,331.4 92.5,336.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="81.9" cy="338" r="2.5" fill="#7b4bd1"><title>510</title></circle>
+<polygon points="83.1,340.1 83.3,334.3 88.7,338.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="83.1" cy="340.1" r="2.5" fill="#7b4bd1"><title>520</title></circle>
+<polygon points="58,333.2 78.3,321.9 78,345.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="58" cy="333.2" r="2.5" fill="#7b4bd1"><title>Nova Walk</title></circle>
+<polygon points="44.1,333.8 66.6,327.7 66.8,339" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="44.1" cy="333.8" r="2.5" fill="#7b4bd1"><title>Nova Walk 01</title></circle>
+<polygon points="58,333.2 78.3,321.9 78,345.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="58" cy="333.2" r="2.5" fill="#7b4bd1"><title>Nova Walk 02</title></circle>
+<polygon points="47,332.8 67.3,321.4 67.3,344.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="47" cy="332.8" r="2.5" fill="#7b4bd1"><title>Nova Walk 03</title></circle>
+<polygon points="56.8,338.2 73.2,321.7 78.2,347.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="56.8" cy="338.2" r="2.5" fill="#7b4bd1"><title>Nova Walk 04</title></circle>
+<polygon points="56.8,338.2 73.2,321.7 78.2,347.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="56.8" cy="338.2" r="2.5" fill="#7b4bd1"><title>Nova Walk 05</title></circle>
+<polygon points="92.3,338 84.7,339.2 88.3,331.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="92.3" cy="338" r="2.5" fill="#7b4bd1"><title>Nova Walk 06</title></circle>
+<polygon points="83.1,340.1 83.3,334.3 88.7,338.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="83.1" cy="340.1" r="2.5" fill="#7b4bd1"><title>BlackCamEnding</title></circle>
+<polygon points="520.7,324 523.4,332.4 518.1,332.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="520.7" cy="324" r="2.5" fill="#7b4bd1"><title>NOVA POV GOGGLES</title></circle>
+<line x1="365.7" y1="332.8" x2="375.7" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="365.7" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Robot (SMX3_Cutscene_MP01_010_Camera)</title></circle>
+<text x="371.7" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Robot</text>
+<line x1="365.7" y1="332.8" x2="375.7" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="365.7" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Robot Dead (SMX3_Cutscene_MP01_010_CameraDead)</title></circle>
+<text x="371.7" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Robot Dead</text>
+<line x1="92.7" y1="332.8" x2="102.7" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92.7" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Wrangler (SMX3_Wrangler)</title></circle>
+<text x="98.7" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Wrangler</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Wrangler Kill old (SMX3_Wrangler)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Wrangler Kill old</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Wrangler Kill (SMX3_Wrangler)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Wrangler Kill</text>
+<line x1="365.7" y1="332.8" x2="375.7" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="365.7" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova (SMX3_Nova)</title></circle>
+<text x="371.7" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova</text>
+<line x1="365.7" y1="332.8" x2="375.7" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="365.7" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Cloaked (SMX3_Nova_FullCloaked)</title></circle>
+<text x="371.7" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Cloaked</text>
+<line x1="373.1" y1="341.1" x2="370.9" y2="350.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="373.1" cy="341.1" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Cloak (SMX3_Nova_Cloak)</title></circle>
+<text x="379.1" y="353.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Cloak</text>
+<line x1="365.7" y1="332.8" x2="375.7" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="365.7" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Vent (SMX3_Nova_FullCloaked)</title></circle>
+<text x="371.7" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Vent</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Kill (SMX3_Nova)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Kill</text>
+<line x1="520.7" y1="332.8" x2="530.7" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="520.7" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>SMX3_Cutscene_MP01_010_NovaGoggles (SMX3_Cutscene_MP01_010_NovaGoggles)</title></circle>
+<text x="526.7" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX3_Cutscene_MP01_010_NovaGoggles</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Kill - Lighting Fix (SMX3_Nova)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Kill - Lighting Fix</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Walk01 (SMX3_Nova_Cloak)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Walk01</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Walk02Cloaked (SMX3_Nova_Cloak)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Walk02Cloaked</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Walk03 (SMX3_Nova)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Walk03</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Walk04 (SMX3_Nova)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Walk04</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Walk05Cloaked (SMX3_Nova_Cloak)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Walk05Cloaked</text>
+<line x1="92" y1="332.8" x2="102" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="92" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Nova Walk06Cloaked (SMX3_Nova_Cloak)</title></circle>
+<text x="98" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova Walk06Cloaked</text>
+<line x1="365.7" y1="332.8" x2="375.7" y2="332.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="365.7" cy="332.8" r="4" fill="#2f7de1" stroke="#fff"><title>Vent Fall Prop (SMX3_Cutscene_MP01_010_MainSet_Vent)</title></circle>
+<text x="371.7" y="344.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Vent Fall Prop</text>
+</g>
+<line x1="31.8" y1="396.1" x2="109.3" y2="396.1" stroke="#333" stroke-width="2"/>
+<line x1="31.8" y1="392.1" x2="31.8" y2="400.1" stroke="#333"/><line x1="47.3" y1="392.1" x2="47.3" y2="400.1" stroke="#333"/>
+<text x="31.8" y="390.1" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP01_010.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_MainRoom,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_NovaPOV,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_NovaPOV_Warning,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_MainRoom_Redlight,</text>
+<text x="560" y="192" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom_Danger</text>
+<text x="560" y="204" font-size="9" fill="#333">Screens:</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom00</text>
+<text x="560" y="228" font-size="9" fill="#333">(channel 6)</text>
+<text x="560" y="240" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="252" font-size="9" fill="#333">Robot</text>
+<text x="560" y="264" font-size="9" fill="#333">Marks: 19; cameras: 79 (79 aimed</text>
+<text x="560" y="276" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="288" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="300" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="312" font-size="9" fill="#333"></text>
+<text x="560" y="324" font-size="9" fill="#333">Models:</text>
+<text x="560" y="336" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_MainSet13</text>
+<text x="560" y="348" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom00</text>
+<text x="560" y="360" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom01</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom02</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom03</text>
+<text x="560" y="396" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom04</text>
+<text x="560" y="408" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom05</text>
+<text x="560" y="420" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom06</text>
+<text x="560" y="432" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom07</text>
+<text x="560" y="444" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom08</text>
+<text x="560" y="456" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom09</text>
+<text x="560" y="468" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom10</text>
+<text x="560" y="480" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom11</text>
+<text x="560" y="492" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom12</text>
+<text x="560" y="504" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom13</text>
+<text x="560" y="516" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom14</text>
+<text x="560" y="528" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom15</text>
+<text x="560" y="540" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom16</text>
+<text x="560" y="552" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom17</text>
+<text x="560" y="564" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom18</text>
+<text x="560" y="576" font-size="9" fill="#333">SMX3_Cutscene_MP01_010_WranglerRoom19</text>
+<text x="560" y="588" font-size="9" fill="#333"></text>
+<text x="560" y="600" font-size="9" fill="#333">Also in:</text>
+</svg>

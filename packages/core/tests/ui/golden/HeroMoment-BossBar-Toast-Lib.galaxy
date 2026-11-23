@@ -1,0 +1,608 @@
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: BossBar
+//--------------------------------------------------------------------------------------------------
+// The boss bar's state: its frames once hooked up, the unit it shows, the colour it was given,
+// the unit's life and shields at the last pass, whether it is greyed out, shown and refreshing.
+bool libHbr1_ui_bossBar_hooked;
+int libHbr1_ui_bossBar_panel;
+int libHbr1_ui_bossBar_health;
+int libHbr1_ui_bossBar_shield;
+int libHbr1_ui_bossBar_border;
+int libHbr1_ui_bossBar_title;
+int[4] libHbr1_ui_bossBar_marks;
+unit libHbr1_ui_bossBar_unit;
+color libHbr1_ui_bossBar_color;
+fixed libHbr1_ui_bossBar_last;
+bool libHbr1_ui_bossBar_grey;
+bool libHbr1_ui_bossBar_shown;
+bool libHbr1_ui_bossBar_running;
+trigger libHbr1_ui_bossBar_loop;
+
+// Hooks up the bar's frames, the first time.
+void libHbr1_ui_bossBar_Hookup () {
+    if (!libHbr1_ui_bossBar_hooked) {
+        libHbr1_ui_bossBar_panel = DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/BossBar");
+        libHbr1_ui_bossBar_health = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Health");
+        libHbr1_ui_bossBar_shield = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Shield");
+        libHbr1_ui_bossBar_border = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Border");
+        libHbr1_ui_bossBar_title = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeLabel, "Title");
+        libHbr1_ui_bossBar_marks[0] = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Mark1");
+        libHbr1_ui_bossBar_marks[1] = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Mark2");
+        libHbr1_ui_bossBar_marks[2] = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Mark3");
+        libHbr1_ui_bossBar_marks[3] = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Mark4");
+        libHbr1_ui_bossBar_hooked = true;
+    }
+}
+
+// Colours the fills: grey while the unit is invulnerable, else the bar's colour and the shields'.
+void libHbr1_ui_bossBar_Paint () {
+    if (libHbr1_ui_bossBar_grey) {
+        DialogControlSetPropertyAsColor(libHbr1_ui_bossBar_health, c_triggerControlPropertyColor, PlayerGroupAll(), Color(43.14, 43.14, 43.14));
+        DialogControlSetPropertyAsColor(libHbr1_ui_bossBar_shield, c_triggerControlPropertyColor, PlayerGroupAll(), Color(43.14, 43.14, 43.14));
+    }
+    else {
+        DialogControlSetPropertyAsColor(libHbr1_ui_bossBar_health, c_triggerControlPropertyColor, PlayerGroupAll(), libHbr1_ui_bossBar_color);
+        DialogControlSetPropertyAsColor(libHbr1_ui_bossBar_shield, c_triggerControlPropertyColor, PlayerGroupAll(), Color(0.00, 66.67, 100.00));
+    }
+    DialogControlSetPropertyAsBool(libHbr1_ui_bossBar_border, c_triggerControlPropertyDesaturated, PlayerGroupAll(), libHbr1_ui_bossBar_grey);
+}
+
+// Puts phase mark lp_index at lp_at of the bar (0.75 is three quarters along), or hides it for 0.
+void libHbr1_ui_bossBar_PlaceMark (int lp_index, fixed lp_at) {
+    if ((lp_at <= 0.0) || (lp_at >= 1.0)) {
+        DialogControlSetVisible(libHbr1_ui_bossBar_marks[lp_index], PlayerGroupAll(), false);
+        return;
+    }
+    DialogControlSetPositionRelative(libHbr1_ui_bossBar_marks[lp_index], PlayerGroupAll(), c_anchorTopLeft, libHbr1_ui_bossBar_border, c_anchorTopLeft, 14 + FixedToInt(288.0 * lp_at) - 1, 15);
+    DialogControlSetVisible(libHbr1_ui_bossBar_marks[lp_index], PlayerGroupAll(), true);
+}
+
+// One pass: sets the fills from the unit, flashes the bar when its life and shields fall and
+// greys it while the unit is invulnerable. False when the unit is dead.
+bool libHbr1_ui_bossBar_Refresh () {
+    fixed lv_now;
+    bool lv_invulnerable;
+
+    if (!UnitIsAlive(libHbr1_ui_bossBar_unit)) {
+        return false;
+    }
+    DialogControlSetSize(libHbr1_ui_bossBar_health, PlayerGroupAll(), MaxI(1, FixedToInt(288.0 * UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropLifePercent, c_unitPropCurrent) / 100.0)), 30);
+    if (UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropShieldsMax, c_unitPropCurrent) > 0.0) {
+        DialogControlSetSize(libHbr1_ui_bossBar_shield, PlayerGroupAll(), MaxI(1, FixedToInt(288.0 * UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropShieldsPercent, c_unitPropCurrent) / 100.0)), 8);
+        DialogControlSetVisible(libHbr1_ui_bossBar_shield, PlayerGroupAll(), (UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropShields, c_unitPropCurrent) > 0.0));
+    }
+    else {
+        DialogControlSetVisible(libHbr1_ui_bossBar_shield, PlayerGroupAll(), false);
+    }
+    lv_now = (UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropLife, c_unitPropCurrent) + UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropShields, c_unitPropCurrent));
+    lv_invulnerable = UnitTestState(libHbr1_ui_bossBar_unit, c_unitStateInvulnerable);
+    if (lv_invulnerable != libHbr1_ui_bossBar_grey) {
+        libHbr1_ui_bossBar_grey = lv_invulnerable;
+        libHbr1_ui_bossBar_Paint();
+    }
+    if (lv_now < libHbr1_ui_bossBar_last) {
+        libHbr1_gf_FlashBossBar();
+    }
+    libHbr1_ui_bossBar_last = lv_now;
+    return true;
+}
+
+// The refresh loop, every 0.25 s while the bar shows; it hides the bar when the unit dies,
+// and while a hero moment plays.
+bool libHbr1_ui_bossBar_LoopFunc (bool testConds, bool runActions) {
+    while (libHbr1_ui_bossBar_shown) {
+        DialogControlSetVisible(libHbr1_ui_bossBar_panel, PlayerGroupAll(), !libHbr1_gf_HeroMomentIsPlaying());
+        if (!libHbr1_ui_bossBar_Refresh()) {
+            libHbr1_gf_HideBossBar();
+            break;
+        }
+        Wait(0.25, c_timeGame);
+    }
+    libHbr1_ui_bossBar_running = false;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+// Custom Script: Toast
+//--------------------------------------------------------------------------------------------------
+// The toast's state: its frames once hooked up, the toasts waiting (a ring of
+// 8 from the head), and whether the loop that plays them is running.
+bool libHbr1_ui_toast_hooked;
+int libHbr1_ui_toast_panel;
+int libHbr1_ui_toast_icon;
+int libHbr1_ui_toast_title;
+int libHbr1_ui_toast_text;
+string[8] libHbr1_ui_toast_queueIcon;
+text[8] libHbr1_ui_toast_queueTitle;
+text[8] libHbr1_ui_toast_queueText;
+string[8] libHbr1_ui_toast_queueSound;
+int libHbr1_ui_toast_head;
+int libHbr1_ui_toast_count;
+bool libHbr1_ui_toast_running;
+trigger libHbr1_ui_toast_loop;
+
+// Hooks up the toast's frames, the first time.
+void libHbr1_ui_toast_Hookup () {
+    if (!libHbr1_ui_toast_hooked) {
+        libHbr1_ui_toast_panel = DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/Toast");
+        libHbr1_ui_toast_icon = DialogControlHookup(libHbr1_ui_toast_panel, c_triggerControlTypeImage, "Body/Icon");
+        libHbr1_ui_toast_title = DialogControlHookup(libHbr1_ui_toast_panel, c_triggerControlTypeLabel, "Body/Title");
+        libHbr1_ui_toast_text = DialogControlHookup(libHbr1_ui_toast_panel, c_triggerControlTypeLabel, "Body/Text");
+        libHbr1_ui_toast_hooked = true;
+    }
+}
+
+// True while any player is in cinematic mode, as NativeLib's Cinematic Mode records it.
+bool libHbr1_ui_toast_InCinematic () {
+    playergroup lv_players;
+    int lv_player;
+
+    lv_players = PlayerGroupActive();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(lv_players, lv_player);
+        if (lv_player < 0) {
+            return false;
+        }
+        if (libNtve_gf_PlayerInCinematicMode(lv_player)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Waits lp_seconds of game time, counting only the time outside cinematic mode and hero moments.
+void libHbr1_ui_toast_Hold (fixed lp_seconds) {
+    fixed lv_left;
+
+    lv_left = lp_seconds;
+    while (lv_left > 0.0) {
+        Wait(0.25, c_timeGame);
+        if (!(libHbr1_ui_toast_InCinematic() || libHbr1_gf_HeroMomentIsPlaying())) {
+            lv_left -= 0.25;
+        }
+    }
+}
+
+// Plays the toast at lp_index of the queue: it slides and fades in with its sound, stays, then
+// fades out. An empty icon or sound is the look's.
+void libHbr1_ui_toast_Play (int lp_index) {
+    string lv_icon;
+    string lv_sound;
+
+    lv_icon = libHbr1_ui_toast_queueIcon[lp_index];
+    if (lv_icon == "") {
+        lv_icon = "Assets\\Textures\\UI_Glues_HelpMenu_AchievementIcon.dds";
+    }
+    lv_sound = libHbr1_ui_toast_queueSound[lp_index];
+    if (lv_sound == "") {
+        lv_sound = "UI_Achievement";
+    }
+    DialogControlSetPropertyAsString(libHbr1_ui_toast_icon, c_triggerControlPropertyImage, PlayerGroupAll(), lv_icon);
+    DialogControlSetPropertyAsText(libHbr1_ui_toast_title, c_triggerControlPropertyText, PlayerGroupAll(), libHbr1_ui_toast_queueTitle[lp_index]);
+    DialogControlSetPropertyAsText(libHbr1_ui_toast_text, c_triggerControlPropertyText, PlayerGroupAll(), libHbr1_ui_toast_queueText[lp_index]);
+    DialogControlFadeTransparency(libHbr1_ui_toast_panel, PlayerGroupAll(), 0.0, 100.0);
+    DialogControlSetVisible(libHbr1_ui_toast_panel, PlayerGroupAll(), true);
+    DialogControlSendAnimationEvent(libHbr1_ui_toast_panel, PlayerGroupAll(), "SlideIn");
+    DialogControlFadeTransparency(libHbr1_ui_toast_panel, PlayerGroupAll(), 0.3, 0.0);
+    SoundPlayForPlayer(SoundLink(lv_sound, -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    libHbr1_ui_toast_Hold(3.5);
+    DialogControlFadeTransparency(libHbr1_ui_toast_panel, PlayerGroupAll(), 0.5, 100.0);
+    Wait(0.5, c_timeGame);
+    DialogControlSetVisible(libHbr1_ui_toast_panel, PlayerGroupAll(), false);
+}
+
+// The queue's loop: plays its toasts one at a time, each once no player is in cinematic mode
+// and no hero moment plays.
+bool libHbr1_ui_toast_LoopFunc (bool testConds, bool runActions) {
+    int lv_index;
+
+    libHbr1_ui_toast_Hookup();
+    while (libHbr1_ui_toast_count > 0) {
+        while ((libHbr1_ui_toast_InCinematic() || libHbr1_gf_HeroMomentIsPlaying())) {
+            Wait(0.25, c_timeGame);
+        }
+        lv_index = libHbr1_ui_toast_head;
+        libHbr1_ui_toast_head = (libHbr1_ui_toast_head + 1) % 8;
+        libHbr1_ui_toast_count -= 1;
+        libHbr1_ui_toast_Play(lv_index);
+        Wait(0.25, c_timeGame);
+    }
+    libHbr1_ui_toast_running = false;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+// Custom Script: HeroMoment
+//--------------------------------------------------------------------------------------------------
+// The hero moment's state: whether one plays, and how many in-play lines hold moments off,
+// which a moment waits for (Missions hold them while a line plays: #656); the hero and its owner;
+// the units frozen, whether the freeze holds and a count of freezes; whether the camera sways
+// and the yaw it sways about; the game UI's frames as they were; and the triggers
+// for the re-sweep and the sway.
+bool libHbr1_ui_heroMoment_playing;
+int libHbr1_ui_heroMoment_linesPlaying;
+unit libHbr1_ui_heroMoment_hero;
+int libHbr1_ui_heroMoment_player;
+unitgroup libHbr1_ui_heroMoment_frozen;
+bool libHbr1_ui_heroMoment_freezing;
+int libHbr1_ui_heroMoment_freezes;
+bool libHbr1_ui_heroMoment_swaying;
+fixed libHbr1_ui_heroMoment_baseYaw;
+bool[64] libHbr1_ui_heroMoment_uiWasVisible;
+trigger libHbr1_ui_heroMoment_sweep;
+trigger libHbr1_ui_heroMoment_sway;
+
+// True while any player is in cinematic mode, as NativeLib's Cinematic Mode records it.
+bool libHbr1_ui_heroMoment_InCinematic () {
+    playergroup lv_players;
+    int lv_player;
+
+    lv_players = PlayerGroupActive();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(lv_players, lv_player);
+        if (lv_player < 0) {
+            return false;
+        }
+        if (libNtve_gf_PlayerInCinematicMode(lv_player)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Freezes one unit: paused, with its animations paused, which holds a missile in flight.
+void libHbr1_ui_heroMoment_FreezeUnit (unit lp_unit) {
+    libNtve_gf_PauseUnit(lp_unit, true);
+    libNtve_gf_SendActorMessageToUnit(lp_unit, "AnimSetPausedAll");
+    UnitGroupAdd(libHbr1_ui_heroMoment_frozen, lp_unit);
+}
+
+// Freezes every live unit but the hero that isn't frozen yet, missiles with them.
+void libHbr1_ui_heroMoment_FreezeNew () {
+    unitgroup lv_units;
+    int lv_index;
+    unit lv_unit;
+
+    lv_units = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter(0, 0, 0, (1 << (c_targetFilterDead - 32))), 0);
+    lv_index = UnitGroupCount(lv_units, c_unitCountAll);
+    while (lv_index > 0) {
+        lv_unit = UnitGroupUnit(lv_units, lv_index);
+        if ((lv_unit != libHbr1_ui_heroMoment_hero) && !UnitGroupHasUnit(libHbr1_ui_heroMoment_frozen, lv_unit)) {
+            libHbr1_ui_heroMoment_FreezeUnit(lv_unit);
+        }
+        lv_index -= 1;
+    }
+}
+
+// Freezes the world but the hero, who is paused with no anim pause so as to keep animating, and
+// pauses AI and mission time; the re-sweep freezes units created while it holds.
+void libHbr1_ui_heroMoment_Freeze () {
+    libHbr1_ui_heroMoment_frozen = UnitGroupEmpty();
+    libHbr1_ui_heroMoment_FreezeNew();
+    libNtve_gf_PauseUnit(libHbr1_ui_heroMoment_hero, true);
+    AITimePause(true);
+    GameSetMissionTimePaused(true);
+    libHbr1_ui_heroMoment_freezing = true;
+    libHbr1_ui_heroMoment_freezes += 1;
+    if (libHbr1_ui_heroMoment_sweep == null) {
+        libHbr1_ui_heroMoment_sweep = TriggerCreate("libHbr1_ui_heroMoment_SweepFunc");
+    }
+    TriggerExecute(libHbr1_ui_heroMoment_sweep, false, false);
+}
+
+// The re-sweep, every 0.25 s of real time while the freeze that ran it holds: a re-sweep
+// still waiting when the next moment's freeze begins ends, leaving that freeze its own.
+bool libHbr1_ui_heroMoment_SweepFunc (bool testConds, bool runActions) {
+    int lv_freeze;
+
+    lv_freeze = libHbr1_ui_heroMoment_freezes;
+    while (libHbr1_ui_heroMoment_freezing && (lv_freeze == libHbr1_ui_heroMoment_freezes)) {
+        Wait(0.25, c_timeReal);
+        if (libHbr1_ui_heroMoment_freezing && (lv_freeze == libHbr1_ui_heroMoment_freezes)) {
+            libHbr1_ui_heroMoment_FreezeNew();
+        }
+    }
+    return true;
+}
+
+// Unfreezes the units the freeze froze and the hero, and resumes AI and mission time.
+void libHbr1_ui_heroMoment_Unfreeze () {
+    int lv_index;
+    unit lv_unit;
+
+    libHbr1_ui_heroMoment_freezing = false;
+    lv_index = UnitGroupCount(libHbr1_ui_heroMoment_frozen, c_unitCountAll);
+    while (lv_index > 0) {
+        lv_unit = UnitGroupUnit(libHbr1_ui_heroMoment_frozen, lv_index);
+        libNtve_gf_PauseUnit(lv_unit, false);
+        libNtve_gf_SendActorMessageToUnit(lv_unit, "AnimSetPausedAll 0");
+        lv_index -= 1;
+    }
+    libNtve_gf_PauseUnit(libHbr1_ui_heroMoment_hero, false);
+    AITimePause(false);
+    GameSetMissionTimePaused(false);
+}
+
+// Hides the game UI, as NativeLib's cinematic mode does but keeping BattleUI, remembering which
+// frames showed, and stores and clears the owner's selection.
+void libHbr1_ui_heroMoment_HideGameUI () {
+    int lv_frame;
+
+    libNtve_gf_StoreUnitSelection(libHbr1_ui_heroMoment_player, libNtve_ge_UnitSelectionStoreOption_ClearUnitSelection);
+    UISetDragSelectEnabled(PlayerGroupAll(), false);
+    lv_frame = c_syncFrameTypeFirst;
+    while (lv_frame <= c_syncFrameTypeLast) {
+        libHbr1_ui_heroMoment_uiWasVisible[lv_frame] = UIFrameVisible(libHbr1_ui_heroMoment_player, lv_frame);
+        if (lv_frame != c_syncFrameTypeBattleUI) {
+            UISetFrameVisible(PlayerGroupAll(), lv_frame, false);
+        }
+        lv_frame += 1;
+    }
+    UIClearMessages(PlayerGroupAll(), c_messageAreaAll);
+    UISetMode(PlayerGroupAll(), c_uiModeFullscreen, 0.5);
+}
+
+// Shows the game UI as it was, and restores the owner's selection.
+void libHbr1_ui_heroMoment_RestoreGameUI () {
+    int lv_frame;
+
+    UISetMode(PlayerGroupAll(), c_uiModeConsole, 0.5);
+    lv_frame = c_syncFrameTypeFirst;
+    while (lv_frame <= c_syncFrameTypeLast) {
+        if (lv_frame != c_syncFrameTypeBattleUI) {
+            UISetFrameVisible(PlayerGroupAll(), lv_frame, libHbr1_ui_heroMoment_uiWasVisible[lv_frame]);
+        }
+        lv_frame += 1;
+    }
+    UISetDragSelectEnabled(PlayerGroupAll(), true);
+    libNtve_gf_RestoreUnitSelection(libHbr1_ui_heroMoment_player);
+}
+
+// Saves and locks the owner's camera, pans and zooms it to the hero, then starts the sway.
+void libHbr1_ui_heroMoment_CameraIn () {
+    CameraSave(libHbr1_ui_heroMoment_player);
+    CameraLockInput(libHbr1_ui_heroMoment_player, true);
+    libHbr1_ui_heroMoment_baseYaw = (CameraGetYaw(libHbr1_ui_heroMoment_player) + 15.0);
+    CameraPan(libHbr1_ui_heroMoment_player, UnitGetPosition(libHbr1_ui_heroMoment_hero), 0.8, -1.0, 10.0, false);
+    CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueDistance, 13.0, 0.8, -1.0, 10.0);
+    CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValuePitch, 22.0, 0.8, -1.0, 10.0);
+    CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueYaw, libHbr1_ui_heroMoment_baseYaw, 0.8, -1.0, 10.0);
+    CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueHeightOffset, 1.2, 0.8, -1.0, 10.0);
+    libHbr1_ui_heroMoment_swaying = true;
+    if (libHbr1_ui_heroMoment_sway == null) {
+        libHbr1_ui_heroMoment_sway = TriggerCreate("libHbr1_ui_heroMoment_SwayFunc");
+    }
+    TriggerExecute(libHbr1_ui_heroMoment_sway, false, false);
+}
+
+// The sway, in real time once the zoom is done: yaw ±5 every 4 s and height ±0.25
+// every 5 s, each leg eased into the next, until the moment ends it.
+bool libHbr1_ui_heroMoment_SwayFunc (bool testConds, bool runActions) {
+    fixed lv_yawLeft;
+    fixed lv_heightLeft;
+    fixed lv_yawWay;
+    fixed lv_heightWay;
+
+    lv_yawLeft = 0.0;
+    lv_heightLeft = 0.0;
+    lv_yawWay = 1.0;
+    lv_heightWay = 1.0;
+    Wait(0.8, c_timeReal);
+    while (libHbr1_ui_heroMoment_swaying) {
+        if (lv_yawLeft <= 0.0) {
+            CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueYaw, (libHbr1_ui_heroMoment_baseYaw + 5.0 * lv_yawWay), 4.0, -1.0, 10.0);
+            lv_yawWay = -lv_yawWay;
+            lv_yawLeft = 4.0;
+        }
+        if (lv_heightLeft <= 0.0) {
+            CameraSetValue(libHbr1_ui_heroMoment_player, c_cameraValueHeightOffset, (1.2 + 0.25 * lv_heightWay), 5.0, -1.0, 10.0);
+            lv_heightWay = -lv_heightWay;
+            lv_heightLeft = 5.0;
+        }
+        Wait(0.25, c_timeReal);
+        lv_yawLeft -= 0.25;
+        lv_heightLeft -= 0.25;
+    }
+    return true;
+}
+
+// Stops the sway and returns the owner's camera to exactly where it was, then unlocks it.
+void libHbr1_ui_heroMoment_CameraOut () {
+    libHbr1_ui_heroMoment_swaying = false;
+    CameraRestore(libHbr1_ui_heroMoment_player, 1.0, -1.0, 10.0);
+    Wait(1.0, c_timeReal);
+    CameraLockInput(libHbr1_ui_heroMoment_player, false);
+}
+
+// Puts the glow on the hero: the burst at the hero's feet for 1.5 s.
+void libHbr1_ui_heroMoment_GlowOn () {
+    actor lv_burst;
+
+    lv_burst = libNtve_gf_AttachModelToUnit(libHbr1_ui_heroMoment_hero, "ShadowManifestationModel", "Ref_Origin");
+    Wait(1.5, c_timeReal);
+    ActorSend(lv_burst, "Destroy Immediate");
+}
+
+// Begin Hero Moment: waits its turn, then plays the moment's start on lp_hero; false, doing
+// nothing, if lp_hero is dead by then.
+bool libHbr1_ui_heroMoment_Begin (unit lp_hero) {
+    while (libHbr1_ui_heroMoment_InCinematic() || libHbr1_ui_heroMoment_playing || (libHbr1_ui_heroMoment_linesPlaying > 0)) {
+        Wait(0.25, c_timeGame);
+    }
+    if (!UnitIsAlive(lp_hero)) {
+        return false;
+    }
+    libHbr1_ui_heroMoment_playing = true;
+    libHbr1_ui_heroMoment_hero = lp_hero;
+    libHbr1_ui_heroMoment_player = UnitGetOwner(lp_hero);
+    SoundPlayForPlayer(SoundLink("UI_AC_Zeratul_BladeOn", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    SoundPlayForPlayer(SoundLink("Protoss_PowerUpLarge", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    libHbr1_ui_heroMoment_Freeze();
+    libHbr1_ui_heroMoment_HideGameUI();
+    libHbr1_ui_heroMoment_CameraIn();
+    libHbr1_ui_heroMoment_GlowOn();
+    return true;
+}
+
+// End Hero Moment: returns the camera, then after the hand-back resumes play and fades the glow.
+void libHbr1_ui_heroMoment_End () {
+    if (!libHbr1_ui_heroMoment_playing) {
+        return;
+    }
+    libHbr1_ui_heroMoment_CameraOut();
+    Wait(0.4, c_timeReal);
+    libHbr1_ui_heroMoment_Unfreeze();
+    libHbr1_ui_heroMoment_RestoreGameUI();
+    libHbr1_ui_heroMoment_playing = false;
+}
+
+// Flash Hero: the flash model on lp_hero, scaled, with its sound; it pauses nothing.
+void libHbr1_ui_heroMoment_Flash (unit lp_hero) {
+    actor lv_flash;
+
+    if (!UnitIsAlive(lp_hero)) {
+        return;
+    }
+    lv_flash = libNtve_gf_AttachModelToUnit(lp_hero, "HeroicAuraImpact", "Ref_Center");
+    ActorSend(lv_flash, libNtve_gf_SetScale(2.25, 2.25, 2.25, 0.0));
+    SoundPlayForPlayer(SoundLink("Protoss_PowerUpSmall", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
+    Wait(1.8, c_timeReal);
+    ActorSend(lv_flash, "Destroy Immediate");
+}
+
+void libHbr1_InitCustomScript () {
+}
+
+void libHbr1_gf_ShowBossBar (unit lp_unit, text lp_title, color lp_colour, fixed lp_mark1, fixed lp_mark2, fixed lp_mark3, fixed lp_mark4) {
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_bossBar_Hookup();
+    libHbr1_ui_bossBar_unit = lp_unit;
+    libHbr1_ui_bossBar_color = lp_colour;
+    libHbr1_ui_bossBar_grey = false;
+    libHbr1_ui_bossBar_last = (UnitGetPropertyFixed(lp_unit, c_unitPropLife, c_unitPropCurrent) + UnitGetPropertyFixed(lp_unit, c_unitPropShields, c_unitPropCurrent));
+    DialogControlSetPropertyAsText(libHbr1_ui_bossBar_title, c_triggerControlPropertyText, PlayerGroupAll(), lp_title);
+    libHbr1_ui_bossBar_PlaceMark(0, lp_mark1);
+    libHbr1_ui_bossBar_PlaceMark(1, lp_mark2);
+    libHbr1_ui_bossBar_PlaceMark(2, lp_mark3);
+    libHbr1_ui_bossBar_PlaceMark(3, lp_mark4);
+    libHbr1_ui_bossBar_Paint();
+    libHbr1_ui_bossBar_Refresh();
+    DialogControlSetVisible(libHbr1_ui_bossBar_panel, PlayerGroupAll(), !libHbr1_gf_HeroMomentIsPlaying());
+    libHbr1_ui_bossBar_shown = true;
+    if (!libHbr1_ui_bossBar_running) {
+        libHbr1_ui_bossBar_running = true;
+        if (libHbr1_ui_bossBar_loop == null) {
+            libHbr1_ui_bossBar_loop = TriggerCreate("libHbr1_ui_bossBar_LoopFunc");
+        }
+        TriggerExecute(libHbr1_ui_bossBar_loop, false, false);
+    }
+}
+
+void libHbr1_gf_HideBossBar () {
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_bossBar_shown = false;
+    if (libHbr1_ui_bossBar_hooked) {
+        DialogControlSetVisible(libHbr1_ui_bossBar_panel, PlayerGroupAll(), false);
+    }
+}
+
+void libHbr1_gf_FlashBossBar () {
+    // Automatic Variable Declarations
+    // Implementation
+    if (libHbr1_ui_bossBar_hooked && !libHbr1_ui_bossBar_grey) {
+        DialogControlSendAnimationEvent(libHbr1_ui_bossBar_panel, PlayerGroupAll(), "Flash");
+    }
+}
+
+void libHbr1_gf_ShowToast (string lp_icon, text lp_title, text lp_text, string lp_sound) {
+    // Automatic Variable Declarations
+    // Implementation
+    if (libHbr1_ui_toast_count >= 8) {
+        return;
+    }
+    libHbr1_ui_toast_queueIcon[(libHbr1_ui_toast_head + libHbr1_ui_toast_count) % 8] = lp_icon;
+    libHbr1_ui_toast_queueTitle[(libHbr1_ui_toast_head + libHbr1_ui_toast_count) % 8] = lp_title;
+    libHbr1_ui_toast_queueText[(libHbr1_ui_toast_head + libHbr1_ui_toast_count) % 8] = lp_text;
+    libHbr1_ui_toast_queueSound[(libHbr1_ui_toast_head + libHbr1_ui_toast_count) % 8] = lp_sound;
+    libHbr1_ui_toast_count += 1;
+    if (!libHbr1_ui_toast_running) {
+        libHbr1_ui_toast_running = true;
+        if (libHbr1_ui_toast_loop == null) {
+            libHbr1_ui_toast_loop = TriggerCreate("libHbr1_ui_toast_LoopFunc");
+        }
+        TriggerExecute(libHbr1_ui_toast_loop, false, false);
+    }
+}
+
+bool libHbr1_gf_BeginHeroMoment (unit lp_hero) {
+    // Automatic Variable Declarations
+    // Implementation
+    return libHbr1_ui_heroMoment_Begin(lp_hero);
+}
+
+void libHbr1_gf_EndHeroMoment () {
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_heroMoment_End();
+}
+
+bool libHbr1_gf_HeroMomentIsPlaying () {
+    // Automatic Variable Declarations
+    // Implementation
+    return libHbr1_ui_heroMoment_playing;
+}
+
+void libHbr1_gf_HoldHeroMomentsForLine () {
+    // Automatic Variable Declarations
+    // Implementation
+    while (libHbr1_ui_heroMoment_playing) {
+        Wait(0.25, c_timeGame);
+    }
+    libHbr1_ui_heroMoment_linesPlaying += 1;
+}
+
+void libHbr1_gf_ReleaseHeroMomentsAfterLine () {
+    // Automatic Variable Declarations
+    // Implementation
+    if (libHbr1_ui_heroMoment_linesPlaying > 0) {
+        libHbr1_ui_heroMoment_linesPlaying -= 1;
+    }
+}
+
+trigger auto_libHbr1_gf_FlashHero_Trigger = null;
+unit auto_libHbr1_gf_FlashHero_lp_hero;
+
+void libHbr1_gf_FlashHero (unit lp_hero) {
+    auto_libHbr1_gf_FlashHero_lp_hero = lp_hero;
+
+    if (auto_libHbr1_gf_FlashHero_Trigger == null) {
+        auto_libHbr1_gf_FlashHero_Trigger = TriggerCreate("auto_libHbr1_gf_FlashHero_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libHbr1_gf_FlashHero_Trigger, false, false);
+}
+
+bool auto_libHbr1_gf_FlashHero_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_hero = auto_libHbr1_gf_FlashHero_lp_hero;
+
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_heroMoment_Flash(lp_hero);
+    return true;
+}
+
+void libHbr1_gf_ShowBossBar (unit lp_unit, text lp_title, color lp_colour, fixed lp_mark1, fixed lp_mark2, fixed lp_mark3, fixed lp_mark4);
+void libHbr1_gf_HideBossBar ();
+void libHbr1_gf_FlashBossBar ();
+void libHbr1_gf_ShowToast (string lp_icon, text lp_title, text lp_text, string lp_sound);
+bool libHbr1_gf_BeginHeroMoment (unit lp_hero);
+void libHbr1_gf_EndHeroMoment ();
+bool libHbr1_gf_HeroMomentIsPlaying ();
+void libHbr1_gf_HoldHeroMomentsForLine ();
+void libHbr1_gf_ReleaseHeroMomentsAfterLine ();
+void libHbr1_gf_FlashHero (unit lp_hero);

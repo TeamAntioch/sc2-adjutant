@@ -1,0 +1,36 @@
+# The Doodad Finder Is Open-Sourced as sc2-asset-catalog, Shipping Descriptions but No Extracted Data
+
+Mappers in the SC2 community want the Doodad Finder (ADR-0020), but it lives in this private repo, it leans on about a quarter of core's source through the Workspace loader, and it reads a catalog that mixes our own descriptions with fields extracted from Blizzard's game data. The author wants it in mappers' hands without losing their tuned version: Mission badges, Campaign Mod doodads and look closer. So a public repo, **TeamAntioch/sc2-asset-catalog**, takes over the doodad pipeline and the Finder (spec #674, decided by the author in a grilling on 2026-11-11):
+
+- **The public repo owns the code.** It publishes the library (extracting from SC2GameData, the descriptions and Doodad Uses, the keyword search and the narrowing) and the Finder (the page, the Jev ranker and its CLI) as two npm packages. sc2-adjutant depends on the published versions, and its own Finder shrinks to a thin wrapper that starts the public one with extra options: the Workspace's Campaign Mod doodads, Mission badges and a tray action that hands ticked cards to a Doodad Search. Doodad Search, Search Parts and look closer stay here.
+- **Only what we wrote ships.** The hand-written doodad descriptions (look, kind, size, role, story, biome, state) and the Doodad Uses ship as text keyed by doodad id, under CC BY 4.0. Nothing extracted from the game ships: names from ObjectStrings, packages, categories and gallery file names are extracted into each user's cache on first start and joined to the descriptions by id. Pictures are linked from sc2-mapping-reference by URL, and rendered sheets stay a local, optional step.
+- **The catalog is split here first.** Core's `doodad-catalog.json` becomes `doodad-descriptions.json`, which we write, and `doodad-extracted.json`, which `build-doodad-catalog.mjs` writes. Core joins them by id wherever it read the catalog (#675). A described id that wasn't extracted is reported and left out. An extracted id with no description still matches by its name and id words. The joined entries are the ones the single file held.
+- **Contributions go to the public repo.** `contribute_doodad_notes` opens its pull request on sc2-asset-catalog. Until a release carries them, sc2-adjutant lays the Workspace's uncontributed Doodad Uses over the package's.
+
+## Considered Options
+
+- **Copy the code once into a public repo.** Rejected. Two copies of the search and the narrowing would drift, and every fix would be made twice or lost in one. The author's version would fall behind the one mappers use, or the other way round.
+- **An export script that builds the public repo from this one.** Rejected. It keeps one source, but the public repo would have no history of its own to review or take pull requests against, and an outside contributor's change would have nowhere to land but a hand-copied patch. The script would also have to know which files are clean, a rule that breaks quietly whenever core changes.
+- **Ship the full catalog, extracted fields and all.** Rejected. Names, packages, categories and gallery names are Blizzard's data. Shipping only our own text keeps the licence question to what we wrote. Every mapper running the Finder can extract the same fields from SC2GameData, so they lose nothing.
+
+## Consequences
+
+- `packages/core/data/doodad-descriptions.json` holds no field extracted from the game, and a test checks it. Looks contributed from a Workspace go into it.
+- `build-doodad-catalog.mjs` and `build-catalog-sheets.mjs` write only `doodad-extracted.json`. Its `sharesPicture` and `rendered` stay there, since they're about the pictures, not the words. `rendered` is worked out (a thumbnail and a description), but `sharesPicture` is still carried over from the previous file, so the public repo's extractor has to work it out from the gallery names.
+- `doodads.json` was committed once with no generator. Core's `extract-doodads.ts` now extracts it from SC2GameData (#676, `npm run extract-doodads`), and that extractor is what moves to the public repo.
+- The code that moves is listed in one place, `PUBLIC_CATALOG_MODULES` in `scripts/check-catalog-imports.mjs`, and `npm run lint` and `npm test` fail if any of it imports core outside that list (#677). Doodad Search takes the Campaign Mod's doodads as a layer of described mod doodads (`modDoodads`), which `modSearchDoodads` builds from the Workspace's Catalog. A note for a mod doodad goes through `mod-doodad-notes.ts`. Neither is part of the list, and neither is `catalog-layer.ts`: the search no longer reads a Catalog, and `doodads.ts` takes a structural `DoodadLayer` that a Catalog satisfies.
+- Once the switch-over lands, sc2-adjutant's CI will run its wrapper against each new public version before adopting it, and `npm run link-catalog` will link a sibling checkout for work across the two repos.
+- ADR-0020's reasoning is rewritten into the public repo's own records. This one stays here.
+- The Finder is a library with a start function (`startFinder` in `packages/doodad-finder/src/start.ts`, #678). Its own CLI runs it with the public defaults and no Workspace. sc2-adjutant's CLI (`src/adjutant/`) passes the Workspace's sources, Mission badges, its Doodad Searches as the tray's objects, look closer as a tray action and a tick log per Mission, as options documented "for sc2-adjutant, may change". `scripts/check-catalog-imports.mjs` keeps the Finder's to-be-public files off sc2-adjutant's own.
+
+## Since the switch-over (#679)
+
+The moved code is gone from sc2-adjutant. Core and `packages/doodad-finder` depend on `@team-antioch/sc2-asset-catalog` and `@team-antioch/sc2-doodad-finder` at an exact pinned version, and `scripts/check-catalog-moved.mjs` takes over from `check-catalog-imports.mjs`: it fails if a moved module comes back or a pin isn't exact. Core keeps its own committed copy of the extracted fields, regenerated with the package's extractor, and binds the package to its data in `src/catalog/stock-catalog.ts`. The extracted fields no longer carry `sheet` or `thumbnail` paths: the search finds a sheet where the sheet builder puts it. How the two repos work together is in `docs/agents/asset-catalog.md`.
+
+## Since contributions moved (#680)
+
+Core no longer keeps the descriptions and Doodad Uses: it reads them from the installed package, so `packages/core/data/doodad-descriptions.json` and `data/doodad-uses/` are gone. `contribute_doodad_notes` opens its pull request on sc2-asset-catalog, with a changeset, and a Workspace's notes are laid over the package's until a release holds them. The repo holds doodads only, so a terrain object's notes stay in the Workspace. A note naming one of the Workspace's Missions or its story is kept back, and the pull request is refused if it would name one.
+
+## Core's own copy (#848)
+
+"Nothing extracted ships" holds for the catalog package, not for core. Core's package ships its copy of the extracted doodad fields and its other game data, because a compile reads them and must read the same files on every machine, and some can only be rebuilt with the install's CASC storage or a Host Adapter. Why each file ships is recorded in `packages/core/data/README.md`, and `check-packs` fails a data file with no reason there.

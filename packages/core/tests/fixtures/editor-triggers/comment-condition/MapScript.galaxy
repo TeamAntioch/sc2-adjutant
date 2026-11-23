@@ -1,0 +1,42 @@
+const int gv_pLAYER_07_VOID_EAST = 7;
+const int gv_pLAYER_08_VOID_SOUTH = 8;
+const int gv_pLAYER_09_VOID_WEST = 9;
+const int gv_pLAYER_10_VOID_NORTH = 10;
+void gf_ApplyShadowManifestationFX (unit lp_cHOSEN_UNIT);
+trigger gt_WaveShadowFX;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Wave Shadow FX
+//--------------------------------------------------------------------------------------------------
+bool gt_WaveShadowFX_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!(((UnitGetOwner(EventUnit()) == gv_pLAYER_07_VOID_EAST) || (UnitGetOwner(EventUnit()) == gv_pLAYER_08_VOID_SOUTH) || (UnitGetOwner(EventUnit()) == gv_pLAYER_09_VOID_WEST) || (UnitGetOwner(EventUnit()) == gv_pLAYER_10_VOID_NORTH)))) {
+            return false;
+        }
+
+        if (!((UnitFilterMatch(EventUnit(), EventPlayer(), UnitFilter((1 << c_targetFilterMissile), 0, 0, 0)) == false))) {
+            return false;
+        }
+
+        if (!((UnitGetType(EventUnit()) != "VoidRiftUnselectable"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_ApplyShadowManifestationFX(EventUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_WaveShadowFX_Init () {
+    gt_WaveShadowFX = TriggerCreate("gt_WaveShadowFX_Func");
+    TriggerAddEventUnitRegion(gt_WaveShadowFX, null, RegionPlayableMap(), true);
+}
+

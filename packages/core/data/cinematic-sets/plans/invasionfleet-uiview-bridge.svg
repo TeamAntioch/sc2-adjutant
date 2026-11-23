@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>invasionFleet (UIView_Bridge): cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">invasionFleet (UIView_Bridge)</text>
+<text x="24" y="54" font-size="10" fill="#666">invasionfleet-uiview-bridge · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="471.4" y="429.8" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>InterceptorTaldarim, DarkInterceptor, InterceptorTaldarim</title></rect>
+<text x="480.4" y="436.3" font-size="8" fill="#6d6458">3</text>
+<rect x="446" y="452.3" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>InterceptorTaldarim, DarkInterceptor, InterceptorTaldarim</title></rect>
+<text x="455" y="458.8" font-size="8" fill="#6d6458">3</text>
+<rect x="483.6" y="473.1" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>InterceptorTaldarim, DarkInterceptor, InterceptorTaldarim</title></rect>
+<text x="492.6" y="479.6" font-size="8" fill="#6d6458">3</text>
+<rect x="473.2" y="429.8" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>InterceptorTaldarim, DarkInterceptor, InterceptorTaldarim</title></rect>
+<text x="482.2" y="436.3" font-size="8" fill="#6d6458">3</text>
+<rect x="447.3" y="452.3" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>InterceptorTaldarim, DarkInterceptor, InterceptorTaldarim</title></rect>
+<text x="456.3" y="458.8" font-size="8" fill="#6d6458">3</text>
+<rect x="480.5" y="473.1" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>InterceptorTaldarim, DarkInterceptor, InterceptorTaldarim</title></rect>
+<text x="489.5" y="479.6" font-size="8" fill="#6d6458">3</text>
+<rect x="393.7" y="473.4" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>InterceptorTaldarim, DarkInterceptor, InterceptorTaldarim</title></rect>
+<text x="402.7" y="479.9" font-size="8" fill="#6d6458">3</text>
+<rect x="514.1" y="453.5" width="7" height="7" fill="#b5ab98" stroke="#6d6458"><title>InterceptorTaldarim, DarkInterceptor, InterceptorTaldarim</title></rect>
+<text x="523.1" y="460" font-size="8" fill="#6d6458">3</text>
+<rect x="47.9" y="317.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Background_Ulnar_Clouds</title></rect>
+<rect x="401.1" y="468" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Ulnar</title></rect>
+<rect x="206.4" y="259.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Shakuras_Bridge_Shield</title></rect>
+<rect x="144.9" y="180.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Shakuras_Bridge_Shield</title></rect>
+<rect x="415.6" y="259.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX2_Shakuras_Bridge_Shield</title></rect>
+</g>
+<line x1="32.8" y1="494.5" x2="120.9" y2="494.5" stroke="#333" stroke-width="2"/>
+<line x1="32.8" y1="490.5" x2="32.8" y2="498.5" stroke="#333"/><line x1="50.4" y1="490.5" x2="50.4" y2="498.5" stroke="#333"/>
+<text x="32.8" y="488.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UIView_Bridge.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMX2SetBridgeRoomShakuras,</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX2SetBridgeRoomKorhal,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX2SetBridgeRoomShadow,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX2SetBridgeRoomPurifierA,</text>
+<text x="560" y="168" font-size="9" fill="#333">SMX2SetBridgeRoomUlnar,</text>
+<text x="560" y="180" font-size="9" fill="#333">SMX2SetBridgeRoomAiur04,</text>
+<text x="560" y="192" font-size="9" fill="#333">SMX2SetBridgeRoomAiur05,</text>
+<text x="560" y="204" font-size="9" fill="#333">SMX2SetBridgeRoomAiur06,</text>
+<text x="560" y="216" font-size="9" fill="#333">SMX2SetBridgeRoomTalDarim,</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX2SetBridgeRoomMoebius,</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX2SetBridgeRoomPurifierB</text>
+<text x="560" y="252" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX2_Bridge_Communicator</text>
+<text x="560" y="276" font-size="9" fill="#333">Marks: 0; cameras: 0 (0 aimed</text>
+<text x="560" y="288" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="300" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="312" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="324" font-size="9" fill="#333"></text>
+<text x="560" y="336" font-size="9" fill="#333">Models:</text>
+<text x="560" y="348" font-size="9" fill="#333">DarkInterceptor</text>
+<text x="560" y="360" font-size="9" fill="#333">InterceptorTaldarim</text>
+<text x="560" y="372" font-size="9" fill="#333">SMX2_Shakuras_Bridge_Shield</text>
+<text x="560" y="384" font-size="9" fill="#333">SMX2_Ulnar</text>
+<text x="560" y="396" font-size="9" fill="#333"></text>
+<text x="560" y="408" font-size="9" fill="#333">Also in:</text>
+</svg>

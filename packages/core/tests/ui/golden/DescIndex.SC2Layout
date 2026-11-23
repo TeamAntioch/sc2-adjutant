@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Include path="UI/Layout/Quay.SC2Layout"/>
+    <Include path="UI/Layout/Harbour.SC2Layout"/>
+    <Include path="UI/Overrides.SC2Layout"/>
+</Desc>

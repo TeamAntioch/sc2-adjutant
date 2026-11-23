@@ -1,0 +1,12 @@
+{
+  "name": "reference-pack",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["campaign-pack"],
+  "contributions": {
+    "mechanics": ["storm", "relay"],
+    "naming": ["reference"],
+    "campaignMod": "Reference-Story"
+  },
+  "entry": "./index.ts"
+}

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Courtyard (MainMenuNova_04): cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Courtyard (MainMenuNova_04)</text>
+<text x="24" y="54" font-size="10" fill="#666">courtyard-mainmenunova-04 · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="319.8" y="90.6" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP03_020_MarineStatue, SMX3_Cutscene_MP03_020_MarineStatue</title></rect>
+<text x="327.8" y="96.6" font-size="8" fill="#6d6458">2</text>
+<rect x="320.3" y="563.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_MP03_020_Courtyard_Splash</title></rect>
+<line x1="322.8" y1="566.4" x2="332.8" y2="566.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="322.8" cy="566.4" r="4" fill="#2f7de1" stroke="#fff"><title>Crowd Full (SMX3_MP03_020_Crowd_Full)</title></circle>
+<text x="328.8" y="578.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Crowd Full</text>
+<line x1="254.6" y1="438.1" x2="255.6" y2="448.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="254.6" cy="438.1" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen02 (SMX3_BGPeople_02)</title></circle>
+<text x="260.6" y="450.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen02</text>
+<line x1="250.8" y1="441" x2="252" y2="450.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="250.8" cy="441" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen03 (SMX3_BGPeople_03)</title></circle>
+<text x="256.8" y="453" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen03</text>
+<line x1="254" y1="457" x2="255.1" y2="466.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="254" cy="457" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen04 (SMX3_BGPeople_04)</title></circle>
+<text x="260" y="469" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen04</text>
+<line x1="252.5" y1="432.6" x2="253.6" y2="442.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="252.5" cy="432.6" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen05 (SMX3_BGPeople_05)</title></circle>
+<text x="258.5" y="444.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen05</text>
+<line x1="256.6" y1="434.7" x2="257.7" y2="444.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="256.6" cy="434.7" r="4" fill="#2f7de1" stroke="#fff"><title>MCitizen07 (SMX3_BGPeople_07)</title></circle>
+<text x="262.6" y="446.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">MCitizen07</text>
+<line x1="256.8" y1="425.6" x2="257.9" y2="435.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="256.8" cy="425.6" r="4" fill="#2f7de1" stroke="#fff"><title>MCitizen08 (SMX3_BGPeople_08)</title></circle>
+<text x="262.8" y="437.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">MCitizen08</text>
+<line x1="262.9" y1="477.3" x2="260.4" y2="487" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="262.9" cy="477.3" r="4" fill="#2f7de1" stroke="#fff"><title>MCitizen07 (SMX3_BGPeople_07)</title></circle>
+<text x="268.9" y="489.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">MCitizen07</text>
+<line x1="250.7" y1="445.8" x2="251.8" y2="455.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="250.7" cy="445.8" r="4" fill="#2f7de1" stroke="#fff"><title>MCitizen07 (SMX3_BGPeople_07)</title></circle>
+<text x="256.7" y="457.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">MCitizen07</text>
+<line x1="253.5" y1="440.4" x2="254.6" y2="450.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="253.5" cy="440.4" r="4" fill="#2f7de1" stroke="#fff"><title>MCitizen07 (SMX3_BGPeople_07)</title></circle>
+<text x="259.5" y="452.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">MCitizen07</text>
+<line x1="247.2" y1="455.6" x2="251" y2="464.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="247.2" cy="455.6" r="4" fill="#2f7de1" stroke="#fff"><title>MCitizen07 (SMX3_BGPeople_07)</title></circle>
+<text x="253.2" y="467.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">MCitizen07</text>
+<line x1="245.2" y1="448.6" x2="246.3" y2="458.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="245.2" cy="448.6" r="4" fill="#2f7de1" stroke="#fff"><title>MCitizen07 (SMX3_BGPeople_07)</title></circle>
+<text x="251.2" y="460.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">MCitizen07</text>
+<line x1="249.2" y1="435.7" x2="250.3" y2="445.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="249.2" cy="435.7" r="4" fill="#2f7de1" stroke="#fff"><title>MCitizen07 (SMX3_BGPeople_10)</title></circle>
+<text x="255.2" y="447.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">MCitizen07</text>
+<line x1="250.6" y1="445.7" x2="251.7" y2="455.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="250.6" cy="445.7" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen05 (SMX3_BGPeople_05)</title></circle>
+<text x="256.6" y="457.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen05</text>
+<line x1="252.8" y1="466.6" x2="253.9" y2="476.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="252.8" cy="466.6" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen05 (SMX3_BGPeople_09)</title></circle>
+<text x="258.8" y="478.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen05</text>
+<line x1="251.8" y1="454.6" x2="251.3" y2="464.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="251.8" cy="454.6" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen01 (SMX3_BGPeople_01)</title></circle>
+<text x="257.8" y="466.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen01</text>
+<line x1="247.1" y1="458.2" x2="248.1" y2="468.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="247.1" cy="458.2" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen02 (SMX3_BGPeople_02)</title></circle>
+<text x="253.1" y="470.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen02</text>
+<line x1="246.2" y1="469.9" x2="247.4" y2="479.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="246.2" cy="469.9" r="4" fill="#2f7de1" stroke="#fff"><title>FCitizen03 (SMX3_BGPeople_03)</title></circle>
+<text x="252.2" y="481.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FCitizen03</text>
+</g>
+<line x1="229" y1="582.1" x2="307.6" y2="582.1" stroke="#333" stroke-width="2"/>
+<line x1="229" y1="578.1" x2="229" y2="586.1" stroke="#333"/><line x1="244.7" y1="578.1" x2="244.7" y2="586.1" stroke="#333"/>
+<text x="229" y="576.1" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: MainMenuNova_04</text>
+<text x="560" y="132" font-size="9" fill="#333">Its file feeds displays from: RTT</text>
+<text x="560" y="144" font-size="9" fill="#333">Screens</text>
+<text x="560" y="156" font-size="9" fill="#333">Marks: 18; cameras: 0 (0 aimed</text>
+<text x="560" y="168" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="180" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="192" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="204" font-size="9" fill="#333"></text>
+<text x="560" y="216" font-size="9" fill="#333">Models:</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX3_Cutscene_MP03_020_MarineStatue</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX3_MP03_020_Courtyard_Splash</text>
+<text x="560" y="252" font-size="9" fill="#333"></text>
+<text x="560" y="264" font-size="9" fill="#333">Also in:</text>
+</svg>

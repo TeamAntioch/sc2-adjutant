@@ -1,0 +1,8 @@
+{
+  "name": "searchlight",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": [],
+  "contributions": { "mechanics": ["searchlight"] },
+  "entry": "./index.ts"
+}

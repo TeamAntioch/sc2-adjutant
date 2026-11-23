@@ -1,0 +1,297 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>ENDING STUFF: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">ENDING STUFF</text>
+<text x="24" y="54" font-size="10" fill="#666">ending-stuff · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="101.9" y="225.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Nova</title></rect>
+<rect x="143.6" y="232.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_FirstOfficer</title></rect>
+<rect x="130.7" y="222.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Marine</title></rect>
+<rect x="161" y="245.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Marine</title></rect>
+<polygon points="114.2,271.7 123.3,283.7 111.7,286.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="114.2" cy="271.7" r="2.5" fill="#7b4bd1"><title>cc_s010</title></circle>
+<polygon points="114.1,288.2 117,271.4 126.9,276.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="114.1" cy="288.2" r="2.5" fill="#7b4bd1"><title>cc_s020</title></circle>
+<polygon points="122.6,286.8 117.9,274.1 126.7,273.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="122.6" cy="286.8" r="2.5" fill="#7b4bd1"><title>cc_s030</title></circle>
+<polygon points="116.7,259.2 123,271.7 113.1,272.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="116.7" cy="259.2" r="2.5" fill="#7b4bd1"><title>cc_s050</title></circle>
+<polygon points="91,209.6 144.2,205.9 129.5,246.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="91" cy="209.6" r="2.5" fill="#7b4bd1"><title>cc_s130</title></circle>
+<polygon points="303.1,248.4 249.8,250.1 253.3,229.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="303.1" cy="248.4" r="2.5" fill="#7b4bd1"><title>cc_s160</title></circle>
+<polygon points="117,263.8 123.9,272.7 115,274.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="117" cy="263.8" r="2.5" fill="#7b4bd1"><title>s040</title></circle>
+<polygon points="73.6,202.7 125.1,196.5 109.3,240.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="73.6" cy="202.7" r="2.5" fill="#7b4bd1"><title>cc_s290</title></circle>
+<polygon points="59.7,159.9 90.6,172.8 64.4,193.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="59.7" cy="159.9" r="2.5" fill="#7b4bd1"><title>cc_s220</title></circle>
+<polygon points="134.1,306.9 144.5,313.1 136.6,318.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="134.1" cy="306.9" r="2.5" fill="#7b4bd1"><title>s060</title></circle>
+<polygon points="59.4,204 112,195.3 101.2,237.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="59.4" cy="204" r="2.5" fill="#7b4bd1"><title>cc_s070</title></circle>
+<polygon points="411.9,237.5 461.4,217.6 461.7,256.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="411.9" cy="237.5" r="2.5" fill="#7b4bd1"><title>s080</title></circle>
+<polygon points="420.2,237.2 440.3,228.1 440.5,246" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="420.2" cy="237.2" r="2.5" fill="#7b4bd1"><title>cc_s090</title></circle>
+<polygon points="382.2,201.8 423.8,235.2 389.9,254.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="382.2" cy="201.8" r="2.5" fill="#7b4bd1"><title>cc_s095</title></circle>
+<polygon points="88.8,205 80.7,213.3 77.2,205.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="88.8" cy="205" r="2.5" fill="#7b4bd1"><title>cc_s100</title></circle>
+<polygon points="88.8,207 79.9,213 78.2,205" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="88.8" cy="207" r="2.5" fill="#7b4bd1"><title>cc_s105</title></circle>
+<polygon points="124.5,210.3 71.9,219.3 71.8,201.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="124.5" cy="210.3" r="2.5" fill="#7b4bd1"><title>cc_s110</title></circle>
+<polygon points="90.7,207.9 79.9,214.6 78.2,205.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="90.7" cy="207.9" r="2.5" fill="#7b4bd1"><title>cc_s120</title></circle>
+<polygon points="99.3,213.5 151.7,203.5 141.9,245.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="99.3" cy="213.5" r="2.5" fill="#7b4bd1"><title>cc_s135</title></circle>
+<polygon points="50.8,176 101.9,191.2 73.9,224.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="50.8" cy="176" r="2.5" fill="#7b4bd1"><title>cc_s140</title></circle>
+<polygon points="74.4,199.5 83.3,204.4 76.2,209.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="74.4" cy="199.5" r="2.5" fill="#7b4bd1"><title>cc_s150</title></circle>
+<polygon points="138.1,222.6 108.7,215.2 111.7,207.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="138.1" cy="222.6" r="2.5" fill="#7b4bd1"><title>cc_s165</title></circle>
+<polygon points="97,208.5 110.6,209.6 106.1,218.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="97" cy="208.5" r="2.5" fill="#7b4bd1"><title>cc_s170</title></circle>
+<polygon points="72.5,202.9 125.8,204.1 112.7,237.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="72.5" cy="202.9" r="2.5" fill="#7b4bd1"><title>cc_s180</title></circle>
+<polygon points="90.9,210.6 110.9,210.5 105.7,224" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="90.9" cy="210.6" r="2.5" fill="#7b4bd1"><title>cc_s190</title></circle>
+<polygon points="175.6,230.1 125.9,249.4 127.8,206.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="175.6" cy="230.1" r="2.5" fill="#7b4bd1"><title>s210</title></circle>
+<polygon points="68.1,205.2 99,177.6 108.8,197.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="68.1" cy="205.2" r="2.5" fill="#7b4bd1"><title>cc_s230</title></circle>
+<polygon points="84.8,198.2 125.9,232.3 113.6,243.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="84.8" cy="198.2" r="2.5" fill="#7b4bd1"><title>s240</title></circle>
+<polygon points="51.4,158.8 104.3,166.1 81.5,202.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="51.4" cy="158.8" r="2.5" fill="#7b4bd1"><title>s280</title></circle>
+<polygon points="119.7,278.6 129.4,288.7 118.8,292.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="119.7" cy="278.6" r="2.5" fill="#7b4bd1"><title>s010</title></circle>
+<polygon points="111.9,285.5 115.9,275.8 121.8,282" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="111.9" cy="285.5" r="2.5" fill="#7b4bd1"><title>s020</title></circle>
+<polygon points="123.2,283.8 119.1,274.2 127.5,274.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="123.2" cy="283.8" r="2.5" fill="#7b4bd1"><title>s030</title></circle>
+<polygon points="117,263.8 123.9,272.7 115,274.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="117" cy="263.8" r="2.5" fill="#7b4bd1"><title>s050</title></circle>
+<polygon points="59.4,204.8 112,195.7 101.5,237.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="59.4" cy="204.8" r="2.5" fill="#7b4bd1"><title>s070</title></circle>
+<polygon points="73.3,204.3 126.5,199.5 101.8,249.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="73.3" cy="204.3" r="2.5" fill="#7b4bd1"><title>s290</title></circle>
+<polygon points="98,211.9 150.7,204.2 139.1,245.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="98" cy="211.9" r="2.5" fill="#7b4bd1"><title>s170</title></circle>
+<polygon points="119.1,209.4 73.4,236.9 68,194" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="119.1" cy="209.4" r="2.5" fill="#7b4bd1"><title>s110</title></circle>
+<polygon points="59,158.5 106,183.6 74.8,209.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="59" cy="158.5" r="2.5" fill="#7b4bd1"><title>s220</title></circle>
+<polygon points="98,211.9 150.7,204.2 139.1,245.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="98" cy="211.9" r="2.5" fill="#7b4bd1"><title>s130</title></circle>
+<polygon points="283.3,240.1 334,223.4 329.7,266.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="283.3" cy="240.1" r="2.5" fill="#7b4bd1"><title>s300</title></circle>
+<polygon points="50.8,176 101.9,191.2 73.9,224.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="50.8" cy="176" r="2.5" fill="#7b4bd1"><title>s140</title></circle>
+<polygon points="74.4,199.5 119.5,228 83.5,252.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="74.4" cy="199.5" r="2.5" fill="#7b4bd1"><title>s150</title></circle>
+<polygon points="200.7,254.7 149.2,240.9 155.8,225.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="200.7" cy="254.7" r="2.5" fill="#7b4bd1"><title>s160</title></circle>
+<polygon points="72.5,202.9 125.8,204.1 112.7,237.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="72.5" cy="202.9" r="2.5" fill="#7b4bd1"><title>s180</title></circle>
+<polygon points="97.8,213.5 150.1,203.3 140.5,245.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="97.8" cy="213.5" r="2.5" fill="#7b4bd1"><title>s135</title></circle>
+<polygon points="95.9,211.8 148.7,204 137.1,245.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="95.9" cy="211.8" r="2.5" fill="#7b4bd1"><title>s190</title></circle>
+<polygon points="382.2,201.8 423.8,235.2 389.9,254.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="382.2" cy="201.8" r="2.5" fill="#7b4bd1"><title>s095</title></circle>
+<polygon points="191.7,233.9 144,257.8 143.7,210.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="191.7" cy="233.9" r="2.5" fill="#7b4bd1"><title>cc_s260</title></circle>
+<polygon points="123,225.3 105.4,234.5 103.2,223.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="123" cy="225.3" r="2.5" fill="#7b4bd1"><title>cc_s270</title></circle>
+<polygon points="123.8,218.7 106.9,232.8 102.3,223.2" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="123.8" cy="218.7" r="2.5" fill="#7b4bd1"><title>cc_s280</title></circle>
+<line x1="121.4" y1="273.5" x2="131.4" y2="273.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="121.4" cy="273.5" r="4" fill="#2f7de1" stroke="#fff"><title>Nova_Ship (SMX3_Nova)</title></circle>
+<text x="127.4" y="285.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova_Ship</text>
+<line x1="77.4" y1="208.1" x2="74.3" y2="217.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="77.4" cy="208.1" r="4" fill="#2f7de1" stroke="#fff"><title>Nova_room (SMX3_Nova)</title></circle>
+<text x="83.4" y="220.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova_room</text>
+<line x1="273.2" y1="271" x2="273.2" y2="261" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="273.2" cy="271" r="4" fill="#2f7de1" stroke="#fff"><title>Marine01 (SMX3_Marine)</title></circle>
+<text x="279.2" y="283" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine01</text>
+<line x1="274.7" y1="207.3" x2="274.7" y2="197.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="274.7" cy="207.3" r="4" fill="#2f7de1" stroke="#fff"><title>Marine02 (SMX3_Marine)</title></circle>
+<text x="280.7" y="219.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine02</text>
+<line x1="393.3" y1="209.7" x2="391.7" y2="219.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="393.3" cy="209.7" r="4" fill="#2f7de1" stroke="#fff"><title>Marine08 (SMX3_Marine)</title></circle>
+<text x="399.3" y="221.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine08</text>
+<line x1="170.7" y1="201.7" x2="170.3" y2="191.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="170.7" cy="201.7" r="4" fill="#2f7de1" stroke="#fff"><title>Marine03 (SMX3_Marine)</title></circle>
+<text x="176.7" y="213.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine03</text>
+<line x1="163.2" y1="265" x2="171.1" y2="258.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="163.2" cy="265" r="4" fill="#2f7de1" stroke="#fff"><title>Marine04 (SMX3_Marine)</title></circle>
+<text x="169.2" y="277" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Marine04</text>
+<line x1="344" y1="342.1" x2="335.7" y2="336.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="344" cy="342.1" r="4" fill="#2f7de1" stroke="#fff"><title>s070_STAND_Marine01 (SMX3_Marine)</title></circle>
+<text x="350" y="354.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s070_STAND_Marine01</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s070_WALK_Marine_01 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s070_WALK_Marine_01</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s070_WALK_Marine_02 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s070_WALK_Marine_02</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s070_WALK_Marine_03 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s070_WALK_Marine_03</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s070_WALK_Marine_04 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s070_WALK_Marine_04</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s090_WALK_Marine_01 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s090_WALK_Marine_01</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s090_WALK_Marine_02 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s090_WALK_Marine_02</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s095_WALK_Marine_02 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s095_WALK_Marine_02</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s095_WALK_Marine_01 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s095_WALK_Marine_01</text>
+<line x1="279.2" y1="243" x2="279.4" y2="253" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="279.2" cy="243" r="4" fill="#2f7de1" stroke="#fff"><title>TurnRUN_Marine_02 (SMX3_Marine)</title></circle>
+<text x="285.2" y="255" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">TurnRUN_Marine_02</text>
+<line x1="372.8" y1="279.3" x2="373" y2="289.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="372.8" cy="279.3" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_01 (SMX3_Marine)</title></circle>
+<text x="378.8" y="291.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_01</text>
+<line x1="372.8" y1="208.7" x2="373" y2="218.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="372.8" cy="208.7" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_02 (SMX3_Marine)</title></circle>
+<text x="378.8" y="220.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_02</text>
+<line x1="195.8" y1="300.3" x2="196" y2="310.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="195.8" cy="300.3" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_03 (SMX3_Marine)</title></circle>
+<text x="201.8" y="312.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_03</text>
+<line x1="284.9" y1="137.9" x2="275.5" y2="141.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="284.9" cy="137.9" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_05 (SMX3_Marine)</title></circle>
+<text x="290.9" y="149.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_05</text>
+<line x1="161.1" y1="186.7" x2="158.3" y2="196.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="161.1" cy="186.7" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_04 (SMX3_Marine)</title></circle>
+<text x="167.1" y="198.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_04</text>
+<line x1="426" y1="262.1" x2="426.4" y2="272.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="426" cy="262.1" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_02 (SMX3_Marine)</title></circle>
+<text x="432" y="274.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_02</text>
+<line x1="490.6" y1="232.9" x2="500.6" y2="232.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="490.6" cy="232.9" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_03 (SMX3_Marine)</title></circle>
+<text x="496.6" y="244.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_03</text>
+<line x1="418.9" y1="289.1" x2="428.9" y2="289.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="418.9" cy="289.1" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_04 (SMX3_Marine)</title></circle>
+<text x="424.9" y="301.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_04</text>
+<line x1="430.3" y1="219.5" x2="440.3" y2="219.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="430.3" cy="219.5" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_05 (SMX3_Marine)</title></circle>
+<text x="436.3" y="231.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_05</text>
+<line x1="414.5" y1="238.2" x2="424.5" y2="238.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="414.5" cy="238.2" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_06 (SMX3_Marine)</title></circle>
+<text x="420.5" y="250.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_06</text>
+<line x1="221.2" y1="498.4" x2="230.8" y2="495.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="221.2" cy="498.4" r="4" fill="#2f7de1" stroke="#fff"><title>FALL_Marine_03 (SMX3_Marine)</title></circle>
+<text x="227.2" y="510.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FALL_Marine_03</text>
+<line x1="286.3" y1="475.8" x2="285.3" y2="465.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="286.3" cy="475.8" r="4" fill="#2f7de1" stroke="#fff"><title>FALL_Marine_01 (SMX3_Marine)</title></circle>
+<text x="292.3" y="487.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FALL_Marine_01</text>
+<line x1="289" y1="304.7" x2="293.5" y2="295.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="289" cy="304.7" r="4" fill="#2f7de1" stroke="#fff"><title>FALL_Marine_02 (SMX3_Marine)</title></circle>
+<text x="295" y="316.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FALL_Marine_02</text>
+<line x1="304.7" y1="398.3" x2="314.7" y2="398.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="304.7" cy="398.3" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_01 (SMX3_Marine)</title></circle>
+<text x="310.7" y="410.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_01</text>
+<line x1="329.2" y1="452.6" x2="339.2" y2="452.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="329.2" cy="452.6" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_02 (SMX3_Marine)</title></circle>
+<text x="335.2" y="464.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_02</text>
+<line x1="277.8" y1="500.7" x2="287.8" y2="500.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="277.8" cy="500.7" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_03 (SMX3_Marine)</title></circle>
+<text x="283.8" y="512.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_03</text>
+<line x1="116.4" y1="522.1" x2="123.4" y2="529.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="116.4" cy="522.1" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_04 (SMX3_Marine)</title></circle>
+<text x="122.4" y="534.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_04</text>
+<line x1="178.1" y1="351" x2="187.5" y2="354.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="178.1" cy="351" r="4" fill="#2f7de1" stroke="#fff"><title>FALL_Marine_01 (SMX3_Marine)</title></circle>
+<text x="184.1" y="363" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FALL_Marine_01</text>
+<line x1="304.7" y1="334.2" x2="314.7" y2="334.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="304.7" cy="334.2" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_01 (SMX3_Marine)</title></circle>
+<text x="310.7" y="346.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_01</text>
+<line x1="319.5" y1="368.8" x2="329.5" y2="369.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="319.5" cy="368.8" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_02 (SMX3_Marine)</title></circle>
+<text x="325.5" y="380.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_02</text>
+<line x1="338.4" y1="292.6" x2="348.4" y2="292.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="338.4" cy="292.6" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_04 (SMX3_Marine)</title></circle>
+<text x="344.4" y="304.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_04</text>
+<line x1="212.4" y1="366.4" x2="221.1" y2="361.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="212.4" cy="366.4" r="4" fill="#2f7de1" stroke="#fff"><title>FALL_Marine_01 (SMX3_Marine)</title></circle>
+<text x="218.4" y="378.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">FALL_Marine_01</text>
+<line x1="274.2" y1="284.1" x2="284.2" y2="284.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="274.2" cy="284.1" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_01 (SMX3_Marine)</title></circle>
+<text x="280.2" y="296.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_01</text>
+<line x1="191.3" y1="213.8" x2="191" y2="223.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="191.3" cy="213.8" r="4" fill="#2f7de1" stroke="#fff"><title>RUN_Marine_03 (SMX3_Marine)</title></circle>
+<text x="197.3" y="225.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">RUN_Marine_03</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s220_WALK_Marine_01 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s220_WALK_Marine_01</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s220_WALK_Marine_02 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s220_WALK_Marine_02</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s220_WALK_Marine_03 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s220_WALK_Marine_03</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s220_WALK_Marine_04 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s220_WALK_Marine_04</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s230_WALK_Marine_01 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s230_WALK_Marine_01</text>
+<line x1="155.7" y1="261.6" x2="165.7" y2="261.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="261.6" r="4" fill="#2f7de1" stroke="#fff"><title>s230_WALK_Marine_02 (SMX3_Marine)</title></circle>
+<text x="161.7" y="273.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s230_WALK_Marine_02</text>
+<line x1="155.7" y1="426.5" x2="165.7" y2="426.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="426.5" r="4" fill="#2f7de1" stroke="#fff"><title>s290_WALK_Marine_01 (SMX3_Marine)</title></circle>
+<text x="161.7" y="438.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s290_WALK_Marine_01</text>
+<line x1="155.7" y1="426.5" x2="165.7" y2="426.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="155.7" cy="426.5" r="4" fill="#2f7de1" stroke="#fff"><title>s290_WALK_Marine_02 (SMX3_Marine)</title></circle>
+<text x="161.7" y="438.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s290_WALK_Marine_02</text>
+<line x1="394.8" y1="227.8" x2="387.7" y2="220.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="394.8" cy="227.8" r="4" fill="#2f7de1" stroke="#fff"><title>s095_Horner (SMX3_FirstOfficer)</title></circle>
+<text x="400.8" y="239.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s095_Horner</text>
+<line x1="109" y1="213.4" x2="99" y2="213.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="109" cy="213.4" r="4" fill="#2f7de1" stroke="#fff"><title>s110_Horner (SMX3_FirstOfficer)</title></circle>
+<text x="115" y="225.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s110_Horner</text>
+<line x1="468.5" y1="238.4" x2="458.5" y2="238.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="468.5" cy="238.4" r="4" fill="#2f7de1" stroke="#fff"><title>s090_Horner (SMX3_FirstOfficer)</title></circle>
+<text x="474.5" y="250.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">s090_Horner</text>
+<line x1="389.9" y1="346" x2="399.9" y2="346" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="389.9" cy="346" r="4" fill="#2f7de1" stroke="#fff"><title>SMX3 Nova Gun (SMX3_NovaGun)</title></circle>
+<text x="395.9" y="358" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX3 Nova Gun</text>
+<line x1="122.3" y1="416.1" x2="132.3" y2="416.3" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="122.3" cy="416.1" r="4" fill="#2f7de1" stroke="#fff"><title>SMHyperion Exterior Low (SMHyperionExteriorLow)</title></circle>
+<text x="128.3" y="428.1" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMHyperion Exterior Low</text>
+</g>
+<line x1="41.8" y1="557.7" x2="219.6" y2="557.7" stroke="#333" stroke-width="2"/>
+<line x1="41.8" y1="553.7" x2="41.8" y2="561.7" stroke="#333"/><line x1="77.4" y1="553.7" x2="77.4" y2="561.7" stroke="#333"/>
+<text x="41.8" y="551.7" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP01_020.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP01_020_Shuttle,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP01_020_Planet,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP01_020_MainRoom</text>
+<text x="560" y="168" font-size="9" fill="#333">Marks: 54; cameras: 62 (50 aimed</text>
+<text x="560" y="180" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="192" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="204" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="216" font-size="9" fill="#333"></text>
+<text x="560" y="228" font-size="9" fill="#333">Models:</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX3_FirstOfficer</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX3_Marine</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX3_Nova</text>
+<text x="560" y="276" font-size="9" fill="#333"></text>
+<text x="560" y="288" font-size="9" fill="#333">Also in:</text>
+</svg>

@@ -1,0 +1,82 @@
+{
+  "kind": "trigger",
+  "id": "7611B84F",
+  "name": "Hyperion Fighter Acquire Target",
+  "initiallyOff": true,
+  "variables": [
+    {
+      "id": "1874A127",
+      "name": "TargetGroup",
+      "type": { "type": "unitgroup" },
+      "value": { "id": "F85B4BC8", "call": { "id": "FDE53734", "function": "Ntve/00000104" } }
+    }
+  ],
+  "events": [
+    { "id": "3C30F180", "function": "Ntve/20830338", "params": [{ "id": "87C15DCC", "def": "Ntve/D6EC806A", "preset": "Ntve/C84C7A78" }] }
+  ],
+  "conditions": [
+    {
+      "id": "95C8B5C3",
+      "function": "Ntve/C439C375",
+      "params": [
+        {
+          "id": "F30C3F46",
+          "def": "Ntve/ABB380C4",
+          "call": {
+            "id": "7E98D6D9",
+            "function": "Ntve/00000110",
+            "params": [
+              { "id": "BAA3C247", "def": "Ntve/00000371", "call": { "id": "863BD1A3", "function": "Ntve/00000092" } },
+              { "id": "69D3789D", "def": "Ntve/00000175", "variable": "863AD0ED" }
+            ]
+          }
+        },
+        { "id": "6020DF02", "def": "Ntve/51567265", "preset": "Ntve/1E7A4625" },
+        { "id": "B487A403", "def": "Ntve/4A15EC5F", "type": "bool", "value": "true" }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "F7968464",
+      "function": "Ntve/00000136",
+      "params": [
+        { "id": "722702A4", "def": "Ntve/00000219", "variable": "1874A127" },
+        { "id": "3A9972B9", "def": "Ntve/00000220", "call": { "id": "694661CF", "function": "EDA10F5E" } }
+      ]
+    },
+    {
+      "id": "7A302437",
+      "function": "Ntve/00000137",
+      "body": [
+        {
+          "id": "34774031",
+          "function": "82A32553",
+          "sub": "Ntve/00000004",
+          "params": [{ "id": "62104504", "def": "23A2DB1A", "call": { "id": "64DF1665", "function": "Ntve/00000092" } }]
+        },
+        {
+          "id": "C212ECF3",
+          "function": "Ntve/C439C375",
+          "sub": "Ntve/00000003",
+          "params": [
+            {
+              "id": "CDAC3340",
+              "def": "Ntve/ABB380C4",
+              "call": {
+                "id": "D856F4E4",
+                "function": "Ntve/00000110",
+                "params": [
+                  { "id": "C0E7C827", "def": "Ntve/00000371", "call": { "id": "A5A5BC9D", "function": "Ntve/E0DF688F" } },
+                  { "id": "B0A5C706", "def": "Ntve/00000175", "variable": "1874A127" }
+                ]
+              }
+            },
+            { "id": "4DDFDF0F", "def": "Ntve/51567265", "preset": "Ntve/1E7A4625" },
+            { "id": "FF133C60", "def": "Ntve/4A15EC5F", "type": "bool", "value": "false" }
+          ]
+        }
+      ]
+    }
+  ]
+}

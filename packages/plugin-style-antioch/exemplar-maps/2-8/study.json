@@ -1,0 +1,5122 @@
+{
+  "mapStudyVersion": 1,
+  "exemplar": {
+    "id": "2-8",
+    "provenance": "edited"
+  },
+  "layers": {
+    "note": "Renders are 4 px per cell, north up. textures.png: dominant texture per cell; elevation.png: cliff levels (darker = cliff edge, blue = ramp); doodads.png: doodads by kind, manipulated ones ringed red; vertex-shading.png: t3VertCol kind-1 values (white untouched), cliff edges blue. Outside the playable bounds is dimmed.",
+    "texturesLegend": {
+      "BraxisAlphaWreckedPlatesEx2": "rgb(255,179,0)",
+      "IceWorldEx2_3": "rgb(128,62,117)",
+      "SnowRefinery4": "rgb(255,104,0)",
+      "IceWorldEx2_5": "rgb(166,189,215)",
+      "KorhalCityEx2_8": "rgb(193,0,32)",
+      "AiurTempleJungle6": "rgb(206,162,98)",
+      "BelShirGrassDarkEx2": "rgb(129,112,102)"
+    },
+    "doodadsLegend": {
+      "rock": "rgb(129,112,102)",
+      "light": "rgb(193,0,32)",
+      "other": "rgb(128,62,117)",
+      "tree": "rgb(206,162,98)",
+      "manipulated (any)": "rgb(230,30,30) ring"
+    }
+  },
+  "texturing": {
+    "tileset": "TornodHighlands",
+    "textureSets": [
+      "TornodHighlands"
+    ],
+    "note": "Shares normalise each cell's 8 mask weights to sum to 1; 'present' means >= 10% of a cell's mix.",
+    "coverage": [
+      {
+        "name": "SnowRefinery4",
+        "count": 12329.822,
+        "share": 0.459
+      },
+      {
+        "name": "IceWorldEx2_3",
+        "count": 8170.445,
+        "share": 0.304
+      },
+      {
+        "name": "BraxisAlphaWreckedPlatesEx2",
+        "count": 1840.777,
+        "share": 0.068
+      },
+      {
+        "name": "IceWorldEx2_5",
+        "count": 1523.349,
+        "share": 0.057
+      },
+      {
+        "name": "BelShirGrassDarkEx2",
+        "count": 1238.345,
+        "share": 0.046
+      },
+      {
+        "name": "KorhalCityEx2_8",
+        "count": 900.267,
+        "share": 0.033
+      },
+      {
+        "name": "AiurTempleJungle6",
+        "count": 841.78,
+        "share": 0.031
+      },
+      {
+        "name": "SnowRefinery2",
+        "count": 35.216,
+        "share": 0.001
+      }
+    ],
+    "dominant": [
+      {
+        "name": "SnowRefinery4",
+        "count": 12457,
+        "share": 0.463
+      },
+      {
+        "name": "IceWorldEx2_3",
+        "count": 9106,
+        "share": 0.339
+      },
+      {
+        "name": "BraxisAlphaWreckedPlatesEx2",
+        "count": 1988,
+        "share": 0.074
+      },
+      {
+        "name": "IceWorldEx2_5",
+        "count": 1404,
+        "share": 0.052
+      },
+      {
+        "name": "BelShirGrassDarkEx2",
+        "count": 1138,
+        "share": 0.042
+      },
+      {
+        "name": "KorhalCityEx2_8",
+        "count": 633,
+        "share": 0.024
+      },
+      {
+        "name": "AiurTempleJungle6",
+        "count": 154,
+        "share": 0.006
+      }
+    ],
+    "texturesPresentPerCell": {
+      "1": 0.373,
+      "2": 0.434,
+      "3": 0.167,
+      "4": 0.025,
+      "5": 0.001
+    },
+    "transitions": [
+      {
+        "name": "IceWorldEx2_3 | SnowRefinery4",
+        "count": 2519
+      },
+      {
+        "name": "IceWorldEx2_5 | SnowRefinery4",
+        "count": 1929
+      },
+      {
+        "name": "BraxisAlphaWreckedPlatesEx2 | IceWorldEx2_3",
+        "count": 722
+      },
+      {
+        "name": "BelShirGrassDarkEx2 | IceWorldEx2_3",
+        "count": 709
+      },
+      {
+        "name": "BraxisAlphaWreckedPlatesEx2 | SnowRefinery4",
+        "count": 444
+      },
+      {
+        "name": "KorhalCityEx2_8 | SnowRefinery4",
+        "count": 408
+      },
+      {
+        "name": "BelShirGrassDarkEx2 | SnowRefinery4",
+        "count": 346
+      },
+      {
+        "name": "IceWorldEx2_3 | IceWorldEx2_5",
+        "count": 239
+      },
+      {
+        "name": "IceWorldEx2_5 | KorhalCityEx2_8",
+        "count": 178
+      },
+      {
+        "name": "IceWorldEx2_3 | KorhalCityEx2_8",
+        "count": 158
+      },
+      {
+        "name": "AiurTempleJungle6 | IceWorldEx2_3",
+        "count": 104
+      },
+      {
+        "name": "AiurTempleJungle6 | SnowRefinery4",
+        "count": 97
+      },
+      {
+        "name": "BelShirGrassDarkEx2 | IceWorldEx2_5",
+        "count": 30
+      },
+      {
+        "name": "AiurTempleJungle6 | KorhalCityEx2_8",
+        "count": 30
+      },
+      {
+        "name": "BelShirGrassDarkEx2 | BraxisAlphaWreckedPlatesEx2",
+        "count": 27
+      },
+      {
+        "name": "AiurTempleJungle6 | BelShirGrassDarkEx2",
+        "count": 24
+      },
+      {
+        "name": "BelShirGrassDarkEx2 | KorhalCityEx2_8",
+        "count": 24
+      },
+      {
+        "name": "AiurTempleJungle6 | IceWorldEx2_5",
+        "count": 20
+      },
+      {
+        "name": "BraxisAlphaWreckedPlatesEx2 | IceWorldEx2_5",
+        "count": 12
+      },
+      {
+        "name": "AiurTempleJungle6 | BraxisAlphaWreckedPlatesEx2",
+        "count": 9
+      }
+    ],
+    "blendPlacement": {
+      "note": "mixedNearBorder: share of mixed cells within 2 cells of a dominant-texture border; cellsNearBorder: share of all playable cells that close.",
+      "mixedNearBorder": 0.924,
+      "cellsNearBorder": 0.81
+    },
+    "dominantByContext": {
+      "cliffEdge": [
+        {
+          "name": "SnowRefinery4",
+          "count": 2141,
+          "share": 0.421
+        },
+        {
+          "name": "IceWorldEx2_3",
+          "count": 1646,
+          "share": 0.323
+        },
+        {
+          "name": "BraxisAlphaWreckedPlatesEx2",
+          "count": 635,
+          "share": 0.125
+        },
+        {
+          "name": "IceWorldEx2_5",
+          "count": 549,
+          "share": 0.108
+        },
+        {
+          "name": "KorhalCityEx2_8",
+          "count": 56,
+          "share": 0.011
+        }
+      ],
+      "nearEdge": [
+        {
+          "name": "SnowRefinery4",
+          "count": 5486,
+          "share": 0.45
+        },
+        {
+          "name": "IceWorldEx2_3",
+          "count": 4540,
+          "share": 0.372
+        },
+        {
+          "name": "BraxisAlphaWreckedPlatesEx2",
+          "count": 966,
+          "share": 0.079
+        },
+        {
+          "name": "IceWorldEx2_5",
+          "count": 609,
+          "share": 0.05
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 291,
+          "share": 0.024
+        }
+      ],
+      "open": [
+        {
+          "name": "SnowRefinery4",
+          "count": 4631,
+          "share": 0.499
+        },
+        {
+          "name": "IceWorldEx2_3",
+          "count": 2871,
+          "share": 0.309
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 820,
+          "share": 0.088
+        },
+        {
+          "name": "KorhalCityEx2_8",
+          "count": 359,
+          "share": 0.039
+        },
+        {
+          "name": "BraxisAlphaWreckedPlatesEx2",
+          "count": 358,
+          "share": 0.039
+        }
+      ],
+      "ramp": [
+        {
+          "name": "SnowRefinery4",
+          "count": 199,
+          "share": 0.657
+        },
+        {
+          "name": "IceWorldEx2_3",
+          "count": 49,
+          "share": 0.162
+        },
+        {
+          "name": "BraxisAlphaWreckedPlatesEx2",
+          "count": 29,
+          "share": 0.096
+        },
+        {
+          "name": "IceWorldEx2_5",
+          "count": 21,
+          "share": 0.069
+        },
+        {
+          "name": "KorhalCityEx2_8",
+          "count": 5,
+          "share": 0.017
+        }
+      ]
+    },
+    "dominantByLevel": {
+      "level0": [
+        {
+          "name": "IceWorldEx2_3",
+          "count": 1978,
+          "share": 0.816
+        },
+        {
+          "name": "BraxisAlphaWreckedPlatesEx2",
+          "count": 175,
+          "share": 0.072
+        },
+        {
+          "name": "SnowRefinery4",
+          "count": 163,
+          "share": 0.067
+        },
+        {
+          "name": "KorhalCityEx2_8",
+          "count": 48,
+          "share": 0.02
+        },
+        {
+          "name": "IceWorldEx2_5",
+          "count": 40,
+          "share": 0.016
+        }
+      ],
+      "level1": [
+        {
+          "name": "SnowRefinery4",
+          "count": 3319,
+          "share": 0.498
+        },
+        {
+          "name": "IceWorldEx2_3",
+          "count": 1426,
+          "share": 0.214
+        },
+        {
+          "name": "IceWorldEx2_5",
+          "count": 1208,
+          "share": 0.181
+        },
+        {
+          "name": "KorhalCityEx2_8",
+          "count": 547,
+          "share": 0.082
+        },
+        {
+          "name": "BraxisAlphaWreckedPlatesEx2",
+          "count": 80,
+          "share": 0.012
+        }
+      ],
+      "level2": [
+        {
+          "name": "SnowRefinery4",
+          "count": 8487,
+          "share": 0.544
+        },
+        {
+          "name": "IceWorldEx2_3",
+          "count": 5647,
+          "share": 0.362
+        },
+        {
+          "name": "BelShirGrassDarkEx2",
+          "count": 1126,
+          "share": 0.072
+        },
+        {
+          "name": "IceWorldEx2_5",
+          "count": 134,
+          "share": 0.009
+        },
+        {
+          "name": "BraxisAlphaWreckedPlatesEx2",
+          "count": 126,
+          "share": 0.008
+        }
+      ],
+      "level3": [
+        {
+          "name": "BraxisAlphaWreckedPlatesEx2",
+          "count": 1578,
+          "share": 0.842
+        },
+        {
+          "name": "SnowRefinery4",
+          "count": 289,
+          "share": 0.154
+        },
+        {
+          "name": "IceWorldEx2_3",
+          "count": 6,
+          "share": 0.003
+        },
+        {
+          "name": "IceWorldEx2_5",
+          "count": 1,
+          "share": 0.001
+        },
+        {
+          "name": "AiurTempleJungle6",
+          "count": 1,
+          "share": 0.001
+        }
+      ]
+    }
+  },
+  "cliffs": {
+    "cliffSets": [
+      "MeinhoffEx1Cliff1",
+      "IceWorldCliff1",
+      "TyphonEx1Cliff0"
+    ],
+    "cliffSetUse": [
+      {
+        "name": "TyphonEx1Cliff0",
+        "count": 5381,
+        "share": 0.819
+      },
+      {
+        "name": "MeinhoffEx1Cliff1",
+        "count": 599,
+        "share": 0.091
+      },
+      {
+        "name": "IceWorldCliff1",
+        "count": 592,
+        "share": 0.09
+      }
+    ],
+    "levelShare": {
+      "level0": 0.09,
+      "level1": 0.248,
+      "level2": 0.581,
+      "level3": 0.07
+    },
+    "distinctLevels": 4,
+    "cliffEdgeCellShare": 0.189,
+    "rampCellShare": 0.011,
+    "ramps": {
+      "count": 18,
+      "width": {
+        "min": 1.414,
+        "p25": 1.414,
+        "p50": 2,
+        "p75": 2.828,
+        "p90": 3,
+        "max": 4.243,
+        "mean": 2.136
+      },
+      "directions": {
+        "diag7": 5,
+        "east": 1,
+        "west": 1,
+        "north": 3,
+        "diag6": 4,
+        "diag5": 2,
+        "diag4": 2
+      },
+      "levelPairs": {
+        "1->2": 15,
+        "2->3": 3
+      }
+    },
+    "cliffDoodads": []
+  },
+  "doodads": {
+    "count": 803,
+    "perHundredCells": 2.987,
+    "distinctTypes": 18,
+    "kinds": [
+      {
+        "name": "rock",
+        "count": 514,
+        "share": 0.64
+      },
+      {
+        "name": "other",
+        "count": 178,
+        "share": 0.222
+      },
+      {
+        "name": "tree",
+        "count": 85,
+        "share": 0.106
+      },
+      {
+        "name": "light",
+        "count": 26,
+        "share": 0.032
+      }
+    ],
+    "topTypes": [
+      {
+        "name": "RockSmall",
+        "count": 430,
+        "share": 0.535
+      },
+      {
+        "name": "SnowDrifts",
+        "count": 159,
+        "share": 0.198
+      },
+      {
+        "name": "HavenTree",
+        "count": 85,
+        "share": 0.106
+      },
+      {
+        "name": "ChiseledRock",
+        "count": 43,
+        "share": 0.054
+      },
+      {
+        "name": "SnowLight",
+        "count": 14,
+        "share": 0.017
+      },
+      {
+        "name": "IceWorldRock",
+        "count": 12,
+        "share": 0.015
+      },
+      {
+        "name": "LightOmniBlue",
+        "count": 10,
+        "share": 0.012
+      },
+      {
+        "name": "SnowRefinery_RockRampSmall",
+        "count": 10,
+        "share": 0.012
+      },
+      {
+        "name": "TerranCliffGapFiller",
+        "count": 8,
+        "share": 0.01
+      },
+      {
+        "name": "IceWorldRockLarge",
+        "count": 7,
+        "share": 0.009
+      },
+      {
+        "name": "IceRockGiant",
+        "count": 7,
+        "share": 0.009
+      },
+      {
+        "name": "WindRough",
+        "count": 5,
+        "share": 0.006
+      },
+      {
+        "name": "SnowRefinery_RockRamps_Medium",
+        "count": 4,
+        "share": 0.005
+      },
+      {
+        "name": "BrokenGroundEdgingWide",
+        "count": 3,
+        "share": 0.004
+      },
+      {
+        "name": "LightOmniWhite",
+        "count": 2,
+        "share": 0.002
+      },
+      {
+        "name": "CliffGlacier",
+        "count": 2,
+        "share": 0.002
+      },
+      {
+        "name": "Rock",
+        "count": 1,
+        "share": 0.001
+      },
+      {
+        "name": "KorhalDestroyedBuilding",
+        "count": 1,
+        "share": 0.001
+      }
+    ],
+    "blockDensity": {
+      "min": 0,
+      "p25": 0,
+      "p50": 1,
+      "p75": 3,
+      "p90": 5,
+      "max": 15,
+      "mean": 1.795,
+      "emptyShare": 0.36
+    },
+    "placement": [
+      {
+        "name": "nearEdge",
+        "count": 319,
+        "share": 0.397
+      },
+      {
+        "name": "cliffEdge",
+        "count": 279,
+        "share": 0.347
+      },
+      {
+        "name": "open",
+        "count": 129,
+        "share": 0.161
+      },
+      {
+        "name": "outsidePlayable",
+        "count": 49,
+        "share": 0.061
+      },
+      {
+        "name": "ramp",
+        "count": 27,
+        "share": 0.034
+      }
+    ],
+    "clusters": {
+      "count": 457,
+      "size": {
+        "min": 1,
+        "p25": 1,
+        "p50": 1,
+        "p75": 2,
+        "p90": 3,
+        "max": 22,
+        "mean": 1.757
+      },
+      "singletonShare": 0.718
+    },
+    "coOccurrence": [
+      {
+        "name": "RockSmall + SnowDrifts",
+        "count": 81
+      },
+      {
+        "name": "HavenTree + RockSmall",
+        "count": 60
+      },
+      {
+        "name": "SnowDrifts + SnowRefinery_RockRampSmall",
+        "count": 22
+      },
+      {
+        "name": "ChiseledRock + RockSmall",
+        "count": 20
+      },
+      {
+        "name": "RockSmall + SnowLight",
+        "count": 9
+      },
+      {
+        "name": "IceWorldRock + RockSmall",
+        "count": 8
+      },
+      {
+        "name": "LightOmniBlue + RockSmall",
+        "count": 7
+      },
+      {
+        "name": "IceWorldRock + LightOmniBlue",
+        "count": 6
+      },
+      {
+        "name": "ChiseledRock + SnowDrifts",
+        "count": 6
+      },
+      {
+        "name": "ChiseledRock + HavenTree",
+        "count": 6
+      },
+      {
+        "name": "HavenTree + SnowDrifts",
+        "count": 5
+      },
+      {
+        "name": "RockSmall + WindRough",
+        "count": 4
+      },
+      {
+        "name": "Rock + RockSmall",
+        "count": 4
+      },
+      {
+        "name": "IceWorldRock + SnowDrifts",
+        "count": 4
+      },
+      {
+        "name": "LightOmniBlue + SnowDrifts",
+        "count": 3
+      },
+      {
+        "name": "IceWorldRockLarge + LightOmniBlue",
+        "count": 3
+      },
+      {
+        "name": "CliffGlacier + LightOmniWhite",
+        "count": 3
+      },
+      {
+        "name": "LightOmniWhite + RockSmall",
+        "count": 2
+      },
+      {
+        "name": "CliffGlacier + RockSmall",
+        "count": 2
+      },
+      {
+        "name": "IceWorldRockLarge + RockSmall",
+        "count": 2
+      },
+      {
+        "name": "IceWorldRock + IceWorldRockLarge",
+        "count": 2
+      },
+      {
+        "name": "HavenTree + SnowLight",
+        "count": 1
+      },
+      {
+        "name": "HavenTree + Rock",
+        "count": 1
+      },
+      {
+        "name": "IceWorldRockLarge + SnowDrifts",
+        "count": 1
+      },
+      {
+        "name": "RockSmall + TerranCliffGapFiller",
+        "count": 1
+      },
+      {
+        "name": "IceWorldRock + SnowRefinery_RockRampSmall",
+        "count": 1
+      },
+      {
+        "name": "HavenTree + LightOmniBlue",
+        "count": 1
+      },
+      {
+        "name": "ChiseledRock + LightOmniBlue",
+        "count": 1
+      }
+    ],
+    "manipulation": {
+      "note": "tilted: |pitch| or |roll| > 0.05 rad; nonUniformScale: axis ratio > 1.15; sunk/raised: > 0.5 below/above terrain; extremeScale: >= 2 or <= 0.5.",
+      "counts": [
+        {
+          "name": "tinted",
+          "count": 153,
+          "share": 0.191
+        },
+        {
+          "name": "extremeScale",
+          "count": 120,
+          "share": 0.149
+        },
+        {
+          "name": "sunk",
+          "count": 53,
+          "share": 0.066
+        },
+        {
+          "name": "tilted",
+          "count": 20,
+          "share": 0.025
+        },
+        {
+          "name": "raised",
+          "count": 20,
+          "share": 0.025
+        }
+      ],
+      "flags": [
+        {
+          "name": "HeightAbsolute",
+          "count": 803,
+          "share": 1
+        },
+        {
+          "name": "ForcePlacement",
+          "count": 245,
+          "share": 0.305
+        },
+        {
+          "name": "CameraHidden",
+          "count": 123,
+          "share": 0.153
+        },
+        {
+          "name": "HeightOffset",
+          "count": 47,
+          "share": 0.059
+        }
+      ],
+      "typeProfiles": [
+        {
+          "type": "RockSmall",
+          "kind": "rock",
+          "count": 430,
+          "scale": {
+            "min": 0.8,
+            "p25": 0.865,
+            "p50": 0.919,
+            "p75": 0.978,
+            "p90": 1.025,
+            "max": 1.049,
+            "mean": 0.922
+          },
+          "aboveTerrain": {
+            "min": -0.592,
+            "p25": -0.01,
+            "p50": 0.001,
+            "p75": 0.007,
+            "p90": 0.063,
+            "max": 5.354,
+            "mean": 0.022
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 1.063
+        },
+        {
+          "type": "SnowDrifts",
+          "kind": "other",
+          "count": 159,
+          "scale": {
+            "min": 0.817,
+            "p25": 2.98,
+            "p50": 2.98,
+            "p75": 2.98,
+            "p90": 2.98,
+            "max": 2.98,
+            "mean": 2.49
+          },
+          "aboveTerrain": {
+            "min": -6.245,
+            "p25": -0.06,
+            "p50": 0.001,
+            "p75": 0.013,
+            "p90": 0.071,
+            "max": 3.583,
+            "mean": -0.203
+          },
+          "tiltedShare": 0.006,
+          "nonUniformShare": 0,
+          "yawSpread": 0.938
+        },
+        {
+          "type": "HavenTree",
+          "kind": "tree",
+          "count": 85,
+          "scale": {
+            "min": 0.795,
+            "p25": 0.929,
+            "p50": 1.035,
+            "p75": 1.139,
+            "p90": 1.175,
+            "max": 1.195,
+            "mean": 1.024
+          },
+          "aboveTerrain": {
+            "min": -0.485,
+            "p25": -0.021,
+            "p50": 0.001,
+            "p75": 0.012,
+            "p90": 0.032,
+            "max": 0.116,
+            "mean": -0.02
+          },
+          "tiltedShare": 0.082,
+          "nonUniformShare": 0,
+          "yawSpread": 1.063
+        },
+        {
+          "type": "ChiseledRock",
+          "kind": "rock",
+          "count": 43,
+          "scale": {
+            "min": 0.815,
+            "p25": 0.889,
+            "p50": 0.932,
+            "p75": 0.985,
+            "p90": 1.025,
+            "max": 1.049,
+            "mean": 0.936
+          },
+          "aboveTerrain": {
+            "min": -0.57,
+            "p25": -0.003,
+            "p50": 0.001,
+            "p75": 0.011,
+            "p90": 0.05,
+            "max": 0.272,
+            "mean": -0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.813
+        },
+        {
+          "type": "SnowLight",
+          "kind": "light",
+          "count": 14,
+          "scale": {
+            "min": 0.882,
+            "p25": 0.999,
+            "p50": 0.999,
+            "p75": 0.999,
+            "p90": 0.999,
+            "max": 1.039,
+            "mean": 0.993
+          },
+          "aboveTerrain": {
+            "min": -0.782,
+            "p25": -0.143,
+            "p50": 0.001,
+            "p75": 0.009,
+            "p90": 0.011,
+            "max": 0.507,
+            "mean": -0.096
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "IceWorldRock",
+          "kind": "rock",
+          "count": 12,
+          "scale": {
+            "min": 0.794,
+            "p25": 0.887,
+            "p50": 1.08,
+            "p75": 1.127,
+            "p90": 1.141,
+            "max": 1.146,
+            "mean": 0.999
+          },
+          "aboveTerrain": {
+            "min": -0.325,
+            "p25": -0.009,
+            "p50": 0.004,
+            "p75": 0.01,
+            "p90": 0.013,
+            "max": 0.024,
+            "mean": -0.027
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.563
+        },
+        {
+          "type": "LightOmniBlue",
+          "kind": "light",
+          "count": 10,
+          "scale": {
+            "min": 0.812,
+            "p25": 0.893,
+            "p50": 0.95,
+            "p75": 1.046,
+            "p90": 1.15,
+            "max": 1.15,
+            "mean": 0.965
+          },
+          "aboveTerrain": {
+            "min": -1.02,
+            "p25": -0.003,
+            "p50": 0.002,
+            "p75": 0.012,
+            "p90": 0.023,
+            "max": 0.023,
+            "mean": -0.103
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.5
+        },
+        {
+          "type": "SnowRefinery_RockRampSmall",
+          "kind": "rock",
+          "count": 10,
+          "scale": {
+            "min": 0.625,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1.143,
+            "max": 1.143,
+            "mean": 0.96
+          },
+          "aboveTerrain": {
+            "min": -1.352,
+            "p25": -1.199,
+            "p50": -1.042,
+            "p75": -0.89,
+            "p90": -0.385,
+            "max": -0.385,
+            "mean": -0.996
+          },
+          "tiltedShare": 0.9,
+          "nonUniformShare": 0,
+          "yawSpread": 0.438
+        },
+        {
+          "type": "TerranCliffGapFiller",
+          "kind": "other",
+          "count": 8,
+          "scale": {
+            "min": 0.98,
+            "p25": 0.98,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 0.99
+          },
+          "aboveTerrain": {
+            "min": -7.934,
+            "p25": -7.109,
+            "p50": -4.346,
+            "p75": -0.881,
+            "p90": -0.04,
+            "max": -0.04,
+            "mean": -4.688
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "IceWorldRockLarge",
+          "kind": "rock",
+          "count": 7,
+          "scale": {
+            "min": 0.812,
+            "p25": 0.876,
+            "p50": 0.882,
+            "p75": 1.037,
+            "p90": 1.065,
+            "max": 1.065,
+            "mean": 0.923
+          },
+          "aboveTerrain": {
+            "min": -1.209,
+            "p25": -0.015,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": -0.174
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.375
+        },
+        {
+          "type": "IceRockGiant",
+          "kind": "rock",
+          "count": 7,
+          "scale": {
+            "min": 0.859,
+            "p25": 1.029,
+            "p50": 1.229,
+            "p75": 1.229,
+            "p90": 1.659,
+            "max": 1.659,
+            "mean": 1.202
+          },
+          "aboveTerrain": {
+            "min": -1.799,
+            "p25": -1.201,
+            "p50": 0.704,
+            "p75": 2.102,
+            "p90": 2.601,
+            "max": 2.601,
+            "mean": 0.574
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "WindRough",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.022,
+            "p25": -0.008,
+            "p50": 0.001,
+            "p75": 0.018,
+            "p90": 0.019,
+            "max": 0.019,
+            "mean": 0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "SnowRefinery_RockRamps_Medium",
+          "kind": "rock",
+          "count": 4,
+          "scale": {
+            "min": 0.846,
+            "p25": 0.856,
+            "p50": 1,
+            "p75": 1.224,
+            "p90": 1.224,
+            "max": 1.224,
+            "mean": 0.981
+          },
+          "aboveTerrain": {
+            "min": -0.296,
+            "p25": -0.109,
+            "p50": 0,
+            "p75": 0.001,
+            "p90": 0.001,
+            "max": 0.001,
+            "mean": -0.101
+          },
+          "tiltedShare": 0.5,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "BrokenGroundEdgingWide",
+          "kind": "other",
+          "count": 3,
+          "scale": {
+            "min": 0.98,
+            "p25": 0.98,
+            "p50": 0.98,
+            "p75": 0.98,
+            "p90": 0.98,
+            "max": 0.98,
+            "mean": 0.98
+          },
+          "aboveTerrain": {
+            "min": -5.896,
+            "p25": -5.896,
+            "p50": -4.257,
+            "p75": -4.201,
+            "p90": -4.201,
+            "max": -4.201,
+            "mean": -4.785
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "LightOmniWhite",
+          "kind": "light",
+          "count": 2,
+          "scale": {
+            "min": 0.859,
+            "p25": 0.859,
+            "p50": 1.178,
+            "p75": 1.178,
+            "p90": 1.178,
+            "max": 1.178,
+            "mean": 1.019
+          },
+          "aboveTerrain": {
+            "min": -0.598,
+            "p25": -0.598,
+            "p50": -0.47,
+            "p75": -0.47,
+            "p90": -0.47,
+            "max": -0.47,
+            "mean": -0.534
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "CliffGlacier",
+          "kind": "other",
+          "count": 2,
+          "scale": {
+            "min": 0.887,
+            "p25": 0.887,
+            "p50": 1.025,
+            "p75": 1.025,
+            "p90": 1.025,
+            "max": 1.025,
+            "mean": 0.956
+          },
+          "aboveTerrain": {
+            "min": -0.692,
+            "p25": -0.692,
+            "p50": 0.985,
+            "p75": 0.985,
+            "p90": 0.985,
+            "max": 0.985,
+            "mean": 0.146
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "Rock",
+          "kind": "rock",
+          "count": 1,
+          "scale": {
+            "min": 0.921,
+            "p25": 0.921,
+            "p50": 0.921,
+            "p75": 0.921,
+            "p90": 0.921,
+            "max": 0.921,
+            "mean": 0.921
+          },
+          "aboveTerrain": {
+            "min": 0.002,
+            "p25": 0.002,
+            "p50": 0.002,
+            "p75": 0.002,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": 0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "KorhalDestroyedBuilding",
+          "kind": "other",
+          "count": 1,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.584,
+            "p25": -0.584,
+            "p50": -0.584,
+            "p75": -0.584,
+            "p90": -0.584,
+            "max": -0.584,
+            "mean": -0.584
+          },
+          "tiltedShare": 1,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        }
+      ]
+    },
+    "composites": {
+      "count": 33,
+      "top": [
+        {
+          "center": [
+            72.42,
+            37.93
+          ],
+          "bounds": [
+            70.23,
+            36.69,
+            74.74,
+            39.52
+          ],
+          "size": 6,
+          "manipulated": 5,
+          "types": [
+            {
+              "name": "SnowDrifts",
+              "count": 3
+            },
+            {
+              "name": "SnowRefinery_RockRampSmall",
+              "count": 1
+            },
+            {
+              "name": "IceWorldRock",
+              "count": 1
+            },
+            {
+              "name": "LightOmniBlue",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "SnowRefinery_RockRampSmall",
+              "offset": [
+                -0.88,
+                -0.55,
+                -0.55
+              ],
+              "yawPitchRoll": [
+                0.09,
+                0.08,
+                0.16
+              ],
+              "scale": [
+                0.74,
+                0.74,
+                0.74
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -0.29,
+                -0.65,
+                0.06
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -0.7,
+                1.58,
+                0.09
+              ],
+              "yawPitchRoll": [
+                1.23,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -2.19,
+                1.54,
+                0.91
+              ],
+              "yawPitchRoll": [
+                2.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.83,
+                0.83,
+                0.83
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "IceWorldRock",
+              "offset": [
+                1.74,
+                -0.68,
+                -0.33
+              ],
+              "yawPitchRoll": [
+                3.03,
+                0,
+                0
+              ],
+              "scale": [
+                1.08,
+                1.08,
+                1.08
+              ],
+              "tint": "166,170,174 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "LightOmniBlue",
+              "offset": [
+                2.31,
+                -1.24,
+                -1.02
+              ],
+              "yawPitchRoll": [
+                3.42,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            89.22,
+            95.66
+          ],
+          "bounds": [
+            86.88,
+            93.09,
+            91.92,
+            98.17
+          ],
+          "size": 7,
+          "manipulated": 4,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 2
+            },
+            {
+              "name": "LightOmniWhite",
+              "count": 2
+            },
+            {
+              "name": "CliffGlacier",
+              "count": 2
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2.31,
+                -0.4,
+                0
+              ],
+              "yawPitchRoll": [
+                4.51,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -2.34,
+                -2.57,
+                0.56
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.41,
+                -1.64,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                2.26,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ]
+            },
+            {
+              "type": "LightOmniWhite",
+              "offset": [
+                0.44,
+                0.22,
+                -0.6
+              ],
+              "yawPitchRoll": [
+                1.77,
+                0,
+                0
+              ],
+              "scale": [
+                0.86,
+                0.86,
+                0.86
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "CliffGlacier",
+              "offset": [
+                0.12,
+                0.22,
+                -0.69
+              ],
+              "yawPitchRoll": [
+                3.16,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "CliffGlacier",
+              "offset": [
+                1.79,
+                1.66,
+                0.98
+              ],
+              "yawPitchRoll": [
+                2.54,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniWhite",
+              "offset": [
+                2.71,
+                2.51,
+                -0.47
+              ],
+              "yawPitchRoll": [
+                3.17,
+                0,
+                0
+              ],
+              "scale": [
+                1.18,
+                1.18,
+                1.18
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            132.57,
+            117.32
+          ],
+          "bounds": [
+            127.91,
+            113.01,
+            138.9,
+            122.03
+          ],
+          "size": 22,
+          "manipulated": 4,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 18
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 2
+            },
+            {
+              "name": "HavenTree",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.18,
+                -1.96,
+                -0.27
+              ],
+              "yawPitchRoll": [
+                5.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.96,
+                0.96,
+                0.96
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -1.93,
+                -1.12,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.64,
+                0,
+                0
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.19,
+                -3.35,
+                0
+              ],
+              "yawPitchRoll": [
+                2.1,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                1.58,
+                -3.37,
+                -0.29
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.98,
+                -1.34,
+                0.03
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.28,
+                0.25,
+                0
+              ],
+              "yawPitchRoll": [
+                4.21,
+                0,
+                0
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -3.15,
+                0.03,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.83,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -1.11,
+                0.85,
+                0
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.75,
+                -4.31,
+                0
+              ],
+              "yawPitchRoll": [
+                1.62,
+                0,
+                0
+              ],
+              "scale": [
+                1.04,
+                1.04,
+                1.04
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                2.46,
+                -2.49,
+                0.04
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                3.93,
+                -2.82,
+                0
+              ],
+              "yawPitchRoll": [
+                5.02,
+                0,
+                0
+              ],
+              "scale": [
+                1.18,
+                1.18,
+                1.18
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                3.01,
+                -1.42,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                1.93,
+                0.18,
+                -0.04
+              ],
+              "yawPitchRoll": [
+                0.25,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -3.32,
+                2.35,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -4.66,
+                1.89,
+                0
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.93,
+                2.59,
+                0
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                4.35,
+                -1.28,
+                0
+              ],
+              "yawPitchRoll": [
+                6.1,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                6.33,
+                -2.67,
+                0
+              ],
+              "yawPitchRoll": [
+                1.2,
+                0,
+                0
+              ],
+              "scale": [
+                1.04,
+                1.04,
+                1.04
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -3.47,
+                4.62,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.5,
+                4.01,
+                0.02
+              ],
+              "yawPitchRoll": [
+                2.4,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2,
+                4.7,
+                0
+              ],
+              "yawPitchRoll": [
+                5.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -4.53,
+                4.65,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                3.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            218.55,
+            49.46
+          ],
+          "bounds": [
+            216.5,
+            47.5,
+            219.71,
+            50.5
+          ],
+          "size": 4,
+          "manipulated": 4,
+          "types": [
+            {
+              "name": "HavenTree",
+              "count": 3
+            },
+            {
+              "name": "ChiseledRock",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "HavenTree",
+              "offset": [
+                0.95,
+                -1.96,
+                0
+              ],
+              "yawPitchRoll": [
+                0.23,
+                0,
+                0
+              ],
+              "scale": [
+                0.84,
+                0.84,
+                0.84
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                1.16,
+                -0.13,
+                0
+              ],
+              "yawPitchRoll": [
+                3.63,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                -0.05,
+                1.04,
+                0
+              ],
+              "yawPitchRoll": [
+                4.9,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                -2.05,
+                1.04,
+                0
+              ],
+              "yawPitchRoll": [
+                0.02,
+                0,
+                0
+              ],
+              "scale": [
+                1.14,
+                1.14,
+                1.14
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            220.17,
+            81.27
+          ],
+          "bounds": [
+            216,
+            80.46,
+            224.5,
+            82.75
+          ],
+          "size": 9,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 6
+            },
+            {
+              "name": "HavenTree",
+              "count": 2
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.13,
+                -0.03,
+                0
+              ],
+              "yawPitchRoll": [
+                0.7,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2.41,
+                0.37,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.47,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -1.9,
+                1.48,
+                -0.12
+              ],
+              "yawPitchRoll": [
+                6.16,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.96,
+                -0.81,
+                0
+              ],
+              "yawPitchRoll": [
+                1.11,
+                0,
+                0
+              ],
+              "scale": [
+                0.84,
+                0.84,
+                0.84
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -3.54,
+                0.39,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -4.17,
+                -0.43,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                2.53,
+                -0.43,
+                0
+              ],
+              "yawPitchRoll": [
+                1.58,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                4.33,
+                -0.77,
+                0.06
+              ],
+              "yawPitchRoll": [
+                3.26,
+                0,
+                0
+              ],
+              "scale": [
+                1.13,
+                1.13,
+                1.13
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                4.33,
+                0.23,
+                0.03
+              ],
+              "yawPitchRoll": [
+                3.24,
+                0,
+                0
+              ],
+              "scale": [
+                1.17,
+                1.17,
+                1.17
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            69,
+            29.61
+          ],
+          "bounds": [
+            66.88,
+            27.95,
+            70.54,
+            31.24
+          ],
+          "size": 6,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 3
+            },
+            {
+              "name": "ChiseledRock",
+              "count": 2
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2.12,
+                1.62,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.13,
+                0,
+                0
+              ],
+              "scale": [
+                0.91,
+                0.91,
+                0.91
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -1.36,
+                -0.55,
+                0
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.21,
+                -0.97,
+                0
+              ],
+              "yawPitchRoll": [
+                4.56,
+                0,
+                0
+              ],
+              "scale": [
+                0.85,
+                0.85,
+                0.85
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                0.65,
+                1.25,
+                0
+              ],
+              "yawPitchRoll": [
+                2.19,
+                0,
+                0
+              ],
+              "scale": [
+                0.85,
+                0.85,
+                0.85
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                1.55,
+                -1.66,
+                0
+              ],
+              "yawPitchRoll": [
+                2.86,
+                0,
+                0
+              ],
+              "scale": [
+                0.85,
+                0.85,
+                0.85
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                1.49,
+                0.3,
+                0
+              ],
+              "yawPitchRoll": [
+                5.44,
+                0,
+                0
+              ],
+              "scale": [
+                0.84,
+                0.84,
+                0.84
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            232.98,
+            95.03
+          ],
+          "bounds": [
+            230.04,
+            91.97,
+            235.78,
+            97.35
+          ],
+          "size": 9,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 6
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 2
+            },
+            {
+              "name": "HavenTree",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                1.22,
+                -1.3,
+                0.02
+              ],
+              "yawPitchRoll": [
+                2.1,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.57,
+                -0.99,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                5.74,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                2.16,
+                -3.06,
+                0
+              ],
+              "yawPitchRoll": [
+                1.59,
+                0,
+                0
+              ],
+              "scale": [
+                0.96,
+                0.96,
+                0.96
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                2.8,
+                -2.03,
+                0
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                -1.48,
+                -0.53,
+                0.02
+              ],
+              "yawPitchRoll": [
+                1.9,
+                0,
+                0
+              ],
+              "scale": [
+                1.06,
+                1.06,
+                1.06
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2.95,
+                1.36,
+                0.03
+              ],
+              "yawPitchRoll": [
+                1.6,
+                0,
+                0
+              ],
+              "scale": [
+                0.95,
+                0.95,
+                0.95
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -2.58,
+                2.32,
+                -0.38
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.38,
+                1.96,
+                -0.08
+              ],
+              "yawPitchRoll": [
+                4.69,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                1.78,
+                2.26,
+                0
+              ],
+              "yawPitchRoll": [
+                4.38,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            223.59,
+            46.54
+          ],
+          "bounds": [
+            222.47,
+            45.93,
+            224.17,
+            47.75
+          ],
+          "size": 3,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "ChiseledRock",
+              "count": 3
+            }
+          ],
+          "members": [
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                0.58,
+                -0.61,
+                0
+              ],
+              "yawPitchRoll": [
+                1.64,
+                0,
+                0
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                -1.12,
+                1.21,
+                0
+              ],
+              "yawPitchRoll": [
+                0.31,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                0.54,
+                -0.6,
+                0
+              ],
+              "yawPitchRoll": [
+                2.53,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            131.19,
+            52.74
+          ],
+          "bounds": [
+            129.71,
+            50.66,
+            132.72,
+            55.77
+          ],
+          "size": 8,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 6
+            },
+            {
+              "name": "WindRough",
+              "count": 1
+            },
+            {
+              "name": "ChiseledRock",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.69,
+                -1.98,
+                0
+              ],
+              "yawPitchRoll": [
+                3.26,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            },
+            {
+              "type": "WindRough",
+              "offset": [
+                -1.48,
+                -2.07,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                4.5,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "tint": "255,255,255",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -1.46,
+                -0.73,
+                0
+              ],
+              "yawPitchRoll": [
+                1.47,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.08,
+                -0.11,
+                -0.03
+              ],
+              "yawPitchRoll": [
+                4.94,
+                0,
+                0
+              ],
+              "scale": [
+                1.04,
+                1.04,
+                1.04
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.28,
+                1.04,
+                0.02
+              ],
+              "yawPitchRoll": [
+                4.49,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                1.54,
+                0.54,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0.77,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                1.51,
+                0.28,
+                0
+              ],
+              "yawPitchRoll": [
+                3.12,
+                0,
+                0
+              ],
+              "scale": [
+                0.85,
+                0.85,
+                0.85
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.78,
+                3.03,
+                0
+              ],
+              "yawPitchRoll": [
+                3.74,
+                0,
+                0
+              ],
+              "scale": [
+                0.95,
+                0.95,
+                0.95
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            83.17,
+            40.56
+          ],
+          "bounds": [
+            81.1,
+            38.27,
+            84.57,
+            41.73
+          ],
+          "size": 6,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 3
+            },
+            {
+              "name": "LightOmniBlue",
+              "count": 1
+            },
+            {
+              "name": "IceWorldRock",
+              "count": 1
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "LightOmniBlue",
+              "offset": [
+                0.4,
+                1.18,
+                0.02
+              ],
+              "yawPitchRoll": [
+                4.58,
+                0,
+                0
+              ],
+              "scale": [
+                1.05,
+                1.05,
+                1.05
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.08,
+                -0.42,
+                0.02
+              ],
+              "yawPitchRoll": [
+                1.98,
+                0,
+                0
+              ],
+              "scale": [
+                1.02,
+                1.02,
+                1.02
+              ]
+            },
+            {
+              "type": "IceWorldRock",
+              "offset": [
+                0.33,
+                0.94,
+                0.02
+              ],
+              "yawPitchRoll": [
+                4.4,
+                0,
+                0
+              ],
+              "scale": [
+                1.15,
+                1.15,
+                1.15
+              ],
+              "tint": "166,170,174 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                1.4,
+                0.13,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2.07,
+                0.46,
+                0
+              ],
+              "yawPitchRoll": [
+                0.47,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.02,
+                -2.29,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                2.49,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            207.8,
+            105.56
+          ],
+          "bounds": [
+            205.67,
+            103.42,
+            211.05,
+            107.5
+          ],
+          "size": 9,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 7
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            },
+            {
+              "name": "IceWorldRock",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                3.25,
+                0.68,
+                0.03
+              ],
+              "yawPitchRoll": [
+                3.27,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                2.4,
+                -0.58,
+                0
+              ],
+              "yawPitchRoll": [
+                3.23,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.45,
+                0.18,
+                0
+              ],
+              "yawPitchRoll": [
+                2.43,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -1.56,
+                -0.96,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.54,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -0.96,
+                -0.01,
+                0
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.28,
+                0.93,
+                0.02
+              ],
+              "yawPitchRoll": [
+                3.75,
+                0,
+                0
+              ],
+              "scale": [
+                0.8,
+                0.8,
+                0.8
+              ]
+            },
+            {
+              "type": "IceWorldRock",
+              "offset": [
+                -0.3,
+                1.94,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.16,
+                0,
+                0
+              ],
+              "scale": [
+                1.09,
+                1.09,
+                1.09
+              ],
+              "tint": "166,170,174 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.87,
+                -2.13,
+                0
+              ],
+              "yawPitchRoll": [
+                5.96,
+                0,
+                0
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2.14,
+                -0.04,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.87,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            141.19,
+            105.44
+          ],
+          "bounds": [
+            139.5,
+            102.83,
+            142.54,
+            107.5
+          ],
+          "size": 5,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 3
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            },
+            {
+              "name": "IceWorldRock",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.95,
+                0.36,
+                0
+              ],
+              "yawPitchRoll": [
+                1.19,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.22,
+                -0.84,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                4.13,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -0.83,
+                1.03,
+                -0.38
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                1.35,
+                -2.61,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                2.54,
+                0,
+                0
+              ],
+              "scale": [
+                0.86,
+                0.86,
+                0.86
+              ]
+            },
+            {
+              "type": "IceWorldRock",
+              "offset": [
+                -1.69,
+                2.06,
+                0.01
+              ],
+              "yawPitchRoll": [
+                1.33,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ],
+              "tint": "166,170,174 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            97.5,
+            104.22
+          ],
+          "bounds": [
+            96.65,
+            103.14,
+            98.65,
+            105.19
+          ],
+          "size": 3,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 2
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.3,
+                0.98,
+                0.06
+              ],
+              "yawPitchRoll": [
+                0.69,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -0.85,
+                0.1,
+                0.89
+              ],
+              "yawPitchRoll": [
+                5.35,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                1.15,
+                -1.07,
+                1.13
+              ],
+              "yawPitchRoll": [
+                3.92,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            181.75,
+            89.66
+          ],
+          "bounds": [
+            178.49,
+            86.99,
+            184.02,
+            91.5
+          ],
+          "size": 7,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 5
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            },
+            {
+              "name": "HavenTree",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                -1.2,
+                0.42,
+                0
+              ],
+              "yawPitchRoll": [
+                0.81,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -3.26,
+                0.76,
+                0
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.55,
+                -1.08,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                1.35,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.86,
+                0.5,
+                0
+              ],
+              "yawPitchRoll": [
+                3.21,
+                0,
+                0
+              ],
+              "scale": [
+                0.84,
+                0.84,
+                0.84
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.14,
+                -2.67,
+                -0.16
+              ],
+              "yawPitchRoll": [
+                5.82,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                2.27,
+                0.23,
+                0
+              ],
+              "yawPitchRoll": [
+                4.64,
+                0,
+                0
+              ],
+              "scale": [
+                0.84,
+                0.84,
+                0.84
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                1.75,
+                1.84,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.05,
+                0,
+                0
+              ],
+              "scale": [
+                1.11,
+                1.11,
+                1.11
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            37.75,
+            71.16
+          ],
+          "bounds": [
+            36.13,
+            69.84,
+            39.9,
+            72.27
+          ],
+          "size": 5,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "SnowDrifts",
+              "count": 4
+            },
+            {
+              "name": "SnowRefinery_RockRampSmall",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "SnowRefinery_RockRampSmall",
+              "offset": [
+                0.59,
+                -1.32,
+                -1.08
+              ],
+              "yawPitchRoll": [
+                0,
+                0.09,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -1.63,
+                -1.17,
+                -0.05
+              ],
+              "yawPitchRoll": [
+                5.72,
+                0,
+                0
+              ],
+              "scale": [
+                0.96,
+                0.96,
+                0.96
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                0.2,
+                1.12,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.66,
+                0,
+                0
+              ],
+              "scale": [
+                1.17,
+                1.17,
+                1.17
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -1.31,
+                0.55,
+                -0.73
+              ],
+              "yawPitchRoll": [
+                3.46,
+                0,
+                0
+              ],
+              "scale": [
+                1.08,
+                1.08,
+                1.08
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                2.15,
+                0.82,
+                0
+              ],
+              "yawPitchRoll": [
+                5.54,
+                0,
+                0
+              ],
+              "scale": [
+                1.09,
+                1.09,
+                1.09
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            67.74,
+            77.81
+          ],
+          "bounds": [
+            66.54,
+            76.62,
+            68.65,
+            79.21
+          ],
+          "size": 4,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "SnowDrifts",
+              "count": 3
+            },
+            {
+              "name": "SnowRefinery_RockRampSmall",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                0.63,
+                -0.09,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.62,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ]
+            },
+            {
+              "type": "SnowRefinery_RockRampSmall",
+              "offset": [
+                -1.2,
+                -1.19,
+                -1.17
+              ],
+              "yawPitchRoll": [
+                5.47,
+                0.15,
+                0.02
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "tilted",
+                "sunk"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -0.34,
+                1.4,
+                0.31
+              ],
+              "yawPitchRoll": [
+                4.76,
+                0,
+                0
+              ],
+              "scale": [
+                1.02,
+                1.02,
+                1.02
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                0.91,
+                -0.12,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            120.58,
+            36.18
+          ],
+          "bounds": [
+            119.9,
+            36.08,
+            121.26,
+            36.28
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "ChiseledRock",
+              "count": 1
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                -0.68,
+                0.1,
+                -0.57
+              ],
+              "yawPitchRoll": [
+                4.03,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "sunk",
+                "tinted"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                0.68,
+                -0.1,
+                -0.16
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            206.31,
+            38.73
+          ],
+          "bounds": [
+            203.8,
+            35.67,
+            208.5,
+            41.5
+          ],
+          "size": 7,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 5
+            },
+            {
+              "name": "HavenTree",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.53,
+                0.68,
+                0.15
+              ],
+              "yawPitchRoll": [
+                3.37,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2.52,
+                0.01,
+                0.1
+              ],
+              "yawPitchRoll": [
+                1.83,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -1.12,
+                -0.32,
+                0.11
+              ],
+              "yawPitchRoll": [
+                1.72,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                1.19,
+                1.77,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4,
+                0,
+                0
+              ],
+              "scale": [
+                0.86,
+                0.86,
+                0.86
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.13,
+                -1.86,
+                0
+              ],
+              "yawPitchRoll": [
+                2.68,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                2.19,
+                2.77,
+                0.02
+              ],
+              "yawPitchRoll": [
+                2.09,
+                0,
+                0
+              ],
+              "scale": [
+                0.93,
+                0.93,
+                0.93
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.67,
+                -3.05,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                3.19,
+                0,
+                0
+              ],
+              "scale": [
+                0.81,
+                0.81,
+                0.81
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            193.21,
+            32.95
+          ],
+          "bounds": [
+            190.53,
+            29.18,
+            195.5,
+            35.5
+          ],
+          "size": 9,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 6
+            },
+            {
+              "name": "HavenTree",
+              "count": 2
+            },
+            {
+              "name": "Rock",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.86,
+                -2.41,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                3.49,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.75,
+                -3.76,
+                -0.05
+              ],
+              "yawPitchRoll": [
+                2.59,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.56,
+                -1.45,
+                0
+              ],
+              "yawPitchRoll": [
+                5.6,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -2.68,
+                -0.88,
+                0
+              ],
+              "yawPitchRoll": [
+                1.58,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ]
+            },
+            {
+              "type": "Rock",
+              "offset": [
+                -1.71,
+                0.55,
+                0
+              ],
+              "yawPitchRoll": [
+                1.09,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.18,
+                1.99,
+                0
+              ],
+              "yawPitchRoll": [
+                4.27,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.94,
+                1.84,
+                0
+              ],
+              "yawPitchRoll": [
+                4.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                0.29,
+                2.55,
+                0
+              ],
+              "yawPitchRoll": [
+                4.7,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "HavenTree",
+              "offset": [
+                2.29,
+                1.55,
+                -0.35
+              ],
+              "yawPitchRoll": [
+                3.78,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ],
+              "tint": "255,255,255 2.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            68.49,
+            42.01
+          ],
+          "bounds": [
+            68.02,
+            41.93,
+            68.95,
+            42.09
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "ChiseledRock",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                -0.46,
+                -0.08,
+                0.27
+              ],
+              "yawPitchRoll": [
+                5.42,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                0.46,
+                0.08,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.11,
+                0,
+                0
+              ],
+              "scale": [
+                0.85,
+                0.85,
+                0.85
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            187.55,
+            7.99
+          ],
+          "bounds": [
+            186.52,
+            7.58,
+            188.58,
+            8.39
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "ChiseledRock",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                -1.03,
+                0.4,
+                -0.03
+              ],
+              "yawPitchRoll": [
+                6.02,
+                0,
+                0
+              ],
+              "scale": [
+                0.85,
+                0.85,
+                0.85
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                1.03,
+                -0.4,
+                0.05
+              ],
+              "yawPitchRoll": [
+                1.12,
+                0,
+                0
+              ],
+              "scale": [
+                1.03,
+                1.03,
+                1.03
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            211.63,
+            29.08
+          ],
+          "bounds": [
+            210.99,
+            27.37,
+            212.25,
+            30.25
+          ],
+          "size": 4,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "RockSmall",
+              "count": 2
+            },
+            {
+              "name": "ChiseledRock",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "RockSmall",
+              "offset": [
+                0.62,
+                -0.62,
+                0
+              ],
+              "yawPitchRoll": [
+                5.77,
+                0,
+                0
+              ],
+              "scale": [
+                0.89,
+                0.89,
+                0.89
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -0.63,
+                -1.71,
+                0
+              ],
+              "yawPitchRoll": [
+                5.94,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                0.14,
+                1.17,
+                0
+              ],
+              "yawPitchRoll": [
+                5.53,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                -0.13,
+                1.17,
+                0
+              ],
+              "yawPitchRoll": [
+                5.33,
+                0,
+                0
+              ],
+              "scale": [
+                1.02,
+                1.02,
+                1.02
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            224.17,
+            120.26
+          ],
+          "bounds": [
+            222.93,
+            119.92,
+            224.8,
+            120.76
+          ],
+          "size": 3,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "IceWorldRockLarge",
+              "count": 1
+            },
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            },
+            {
+              "name": "LightOmniBlue",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "IceWorldRockLarge",
+              "offset": [
+                0.6,
+                0.5,
+                -1.21
+              ],
+              "yawPitchRoll": [
+                2.95,
+                0,
+                0
+              ],
+              "scale": [
+                1.04,
+                1.04,
+                1.04
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                -1.24,
+                -0.34,
+                1.48
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "raised",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "LightOmniBlue",
+              "offset": [
+                0.64,
+                -0.16,
+                0.02
+              ],
+              "yawPitchRoll": [
+                4.65,
+                0,
+                0
+              ],
+              "scale": [
+                1.06,
+                1.06,
+                1.06
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            156.5,
+            50
+          ],
+          "bounds": [
+            155.5,
+            49.5,
+            157.5,
+            50.5
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "ChiseledRock",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                -1,
+                0.5,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.91,
+                0,
+                0
+              ],
+              "scale": [
+                0.97,
+                0.97,
+                0.97
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                1,
+                -0.5,
+                0.01
+              ],
+              "yawPitchRoll": [
+                1.4,
+                0,
+                0
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            215.84,
+            107.88
+          ],
+          "bounds": [
+            214.6,
+            106.02,
+            217.16,
+            109.81
+          ],
+          "size": 3,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "SnowDrifts",
+              "count": 1
+            },
+            {
+              "name": "ChiseledRock",
+              "count": 1
+            },
+            {
+              "name": "RockSmall",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "SnowDrifts",
+              "offset": [
+                1.31,
+                -1.86,
+                -0.03
+              ],
+              "yawPitchRoll": [
+                3.73,
+                0,
+                0
+              ],
+              "scale": [
+                2.98,
+                2.98,
+                2.98
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "ChiseledRock",
+              "offset": [
+                -0.07,
+                -0.07,
+                0.01
+              ],
+              "yawPitchRoll": [
+                1.37,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "tint": "193,223,236 3.000000",
+              "manipulations": [
+                "tinted"
+              ]
+            },
+            {
+              "type": "RockSmall",
+              "offset": [
+                -1.24,
+                1.93,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                2.09,
+                0,
+                0
+              ],
+              "scale": [
+                0.92,
+                0.92,
+                0.92
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "landmarks": [
+      {
+        "type": "SnowDrifts",
+        "position": [
+          151.89,
+          81.35
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          215.72,
+          37.07
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          36.29,
+          97.39
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          178.11,
+          103.01
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          207.44,
+          130.06
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          217.16,
+          106.02
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          75.01,
+          91.81
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          234.14,
+          79.38
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          59.48,
+          87.23
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          220.92,
+          131.5
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          152.68,
+          110.29
+        ],
+        "scale": 2.98
+      },
+      {
+        "type": "SnowDrifts",
+        "position": [
+          169.13,
+          83.53
+        ],
+        "scale": 2.98
+      }
+    ],
+    "singletonTypes": [
+      "Rock",
+      "KorhalDestroyedBuilding"
+    ]
+  },
+  "lighting": {
+    "note": "Lighting is switched by triggers per area or story beat; 'calls' lists every GameSetLighting and the function making it.",
+    "lightsUsed": [
+      "IceWorld"
+    ],
+    "calls": [
+      {
+        "light": "IceWorld",
+        "blendSeconds": 0,
+        "inFunction": "gt_Mapstart2_Func"
+      }
+    ],
+    "localLights": [
+      {
+        "id": "28",
+        "parent": "default",
+        "hdrExposure": "2.425000",
+        "colorization": {
+          "hue": "0.001000",
+          "brightness": "1.122000",
+          "blend": "0.300000"
+        },
+        "key": {
+          "color": "0.384314,0.517647,0.682353",
+          "multiplier": 1.148,
+          "direction": "0.635192,-0.281213,-0.719340"
+        },
+        "fill": {
+          "color": "0.058824,0.156863,0.266667",
+          "multiplier": 2,
+          "direction": "-0.600908,-0.561534,0.568849"
+        },
+        "back": {
+          "color": "0.176471,0.266667,0.439216",
+          "multiplier": 1.496,
+          "direction": "-0.616853,0.370057,0.694658"
+        }
+      },
+      {
+        "id": "SnowRefinery",
+        "ambientColor": "0.282353,0.282353,0.282353",
+        "hdrExposure": "1.500000",
+        "colorization": {
+          "hue": "0.001000",
+          "saturation": "0.000000",
+          "brightness": "1.316000",
+          "blend": "0.300000"
+        },
+        "key": {
+          "color": "0.839216,0.831373,0.827451",
+          "multiplier": 0.977,
+          "direction": "0.555854,-0.356578,-0.750918"
+        },
+        "fill": {
+          "color": "0.317647,0.396078,0.400000",
+          "multiplier": 2.985,
+          "direction": "-0.499113,-0.618999,0.606405"
+        },
+        "back": {
+          "color": "0.239216,0.278431,0.337255",
+          "multiplier": 3.236,
+          "direction": "-0.709236,0.246704,0.660395"
+        }
+      }
+    ],
+    "localTerrains": [
+      {
+        "id": "TornodHighlands",
+        "lighting": "SnowRefinery",
+        "blendTextures": [
+          "SnowRefinery2",
+          "SnowRefinery4",
+          "IceWorldEx2_3",
+          "AiurTempleJungle6",
+          "KorhalCityEx2_8",
+          "BelShirGrassDarkEx2",
+          "BraxisAlphaWreckedPlatesEx2",
+          "IceWorldEx2_5"
+        ],
+        "cliffSets": [
+          "IceWorldCliff1",
+          "TyphonEx1Cliff0"
+        ],
+        "fog": {}
+      }
+    ],
+    "fogType": "Black",
+    "waterBodies": 0
+  },
+  "composition": {
+    "size": [
+      240,
+      136
+    ],
+    "playableBounds": [
+      8,
+      8,
+      232,
+      128
+    ],
+    "playableShare": 0.824,
+    "vertexColour": {
+      "entries": 4341,
+      "entriesPerThousandCells": 132.996,
+      "note": "Entry layout undecoded; count only."
+    },
+    "vertexShading": {
+      "note": "t3VertCol kind-1 per-vertex values; a cell is darkened when its corner mean < 224. Painted or baked is unverified.",
+      "darkenedCellShare": 0.274,
+      "darkenedShareByContext": {
+        "cliffEdge": 0.476,
+        "nearEdge": 0.37,
+        "open": 0.046,
+        "ramp": 0
+      }
+    },
+    "fluffEntries": 0,
+    "units": {
+      "count": 496,
+      "byPlayer": {
+        "0": 39,
+        "2": 60,
+        "3": 210,
+        "6": 112,
+        "7": 75
+      },
+      "neutralTopTypes": [
+        {
+          "name": "MineralField",
+          "count": 36
+        },
+        {
+          "name": "HighTemplar2",
+          "count": 1
+        },
+        {
+          "name": "Tosh",
+          "count": 1
+        },
+        {
+          "name": "VespeneGeyser",
+          "count": 1
+        }
+      ]
+    },
+    "points": 88
+  }
+}

@@ -1,0 +1,2 @@
+﻿FunctionDef/Name/lib_A3DDD02B_09EFB9A3=PP_ResetTech
+FunctionDef/Name/lib_A3DDD02B_56D89176=PP_StoreTechBonusAtMissionBeginning

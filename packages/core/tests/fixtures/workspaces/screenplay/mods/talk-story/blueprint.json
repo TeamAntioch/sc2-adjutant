@@ -1,0 +1,18 @@
+{
+  "id": "talk-story",
+  "kind": "campaign",
+  "dependencies": [],
+  "characters": [
+    {
+      "speaker": "RAYNOR",
+      "id": "StockRaynor",
+      "unit": "Raynor"
+    },
+    {
+      "speaker": "MATT HORNER",
+      "id": "StockHorner",
+      "name": "Horner",
+      "model": "HornerPortrait"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "sc2-adjutant",
+  "version": "0.1.0",
+  "description": "Co-design StarCraft II campaign Missions with sc2-adjutant: its MCP server for the Workspace you have open, the level-design, hero-mission-design, encounter-design, ally-design, exemplar-design, texture-sets, doodad-search, custom-doodads, cinematography, boss-design and boss-build skills, the melee-design skill for 1v1 melee maps, the report-missing-feature skill for reporting what sc2-adjutant can't do yet, and commands for the co-design session.",
+  "author": { "name": "TeamAntioch", "url": "https://github.com/TeamAntioch" },
+  "homepage": "https://github.com/TeamAntioch/sc2-adjutant",
+  "repository": "https://github.com/TeamAntioch/sc2-adjutant",
+  "license": "MIT",
+  "keywords": ["starcraft-ii", "sc2", "map-making", "level-design", "mcp"],
+  "mcpServers": {
+    "sc2-adjutant": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/server/start.mjs", "${CLAUDE_PROJECT_DIR}"],
+      "env": { "SC2_ADJUTANT_CORE": "${user_config.core_path}" }
+    }
+  },
+  "userConfig": {
+    "core_path": {
+      "type": "directory",
+      "title": "sc2-adjutant checkout",
+      "description": "Where sc2-adjutant is cloned and built (npm install). Leave it empty when the plugin runs from that checkout, or when your Workspace installs sc2-adjutant itself.",
+      "default": ""
+    }
+  }
+}

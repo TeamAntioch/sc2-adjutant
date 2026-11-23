@@ -1,0 +1,6359 @@
+{
+  "tilesets": {
+    "Agria": [
+      "AgriaDirt",
+      "AgriaDirtRough",
+      "AgriaRock",
+      "AgriaGrassYellow",
+      "AgriaGrassGreen",
+      "AgriaFoliage",
+      "AgriaCrops",
+      "AgriaConcrete"
+    ],
+    "AgriaEx1": [
+      "AgriaDirt",
+      "AgriaDirtRough",
+      "AgriaRock",
+      "AgriaGrassYellow",
+      "AgriaGrassGreen",
+      "AgriaFoliage",
+      "AgriaCrops",
+      "AgriaConcrete"
+    ],
+    "Aiur": [
+      "AiurDirt",
+      "AiurGrass",
+      "AiurRock",
+      "AiurTiles",
+      "AiurSmallBricks",
+      "AiurLargeBricks",
+      "AiurGrunge",
+      "AiurCreepHoles"
+    ],
+    "Aiur4City": [
+      "Aiur4City1",
+      "Aiur4City2",
+      "Aiur4City3",
+      "Aiur4City4",
+      "Aiur4City5",
+      "Aiur4City6",
+      "Aiur4City7",
+      "Aiur4City8"
+    ],
+    "Aiur4Temple": [
+      "Aiur4Temple1",
+      "Aiur4Temple2",
+      "Aiur4Temple3",
+      "Aiur4Temple4",
+      "Aiur4Temple5",
+      "Aiur4Temple6",
+      "Aiur4Temple7",
+      "Aiur4Temple8"
+    ],
+    "AiurCity": [
+      "AiurCity1",
+      "AiurCity2",
+      "AiurCity3",
+      "AiurCity4",
+      "AiurCity5",
+      "AiurCity6",
+      "AiurCity7",
+      "AiurCity8"
+    ],
+    "AiurCityNight": [
+      "AiurTemple1",
+      "AiurCity2",
+      "AiurTemple4",
+      "AiurCity4",
+      "AiurCity5",
+      "AiurCity6",
+      "AiurCity7",
+      "AiurCity8"
+    ],
+    "AiurEx1": [
+      "AiurDirt",
+      "AiurGrass",
+      "AiurRock",
+      "AiurTiles",
+      "AiurSmallBricks",
+      "AiurLargeBricks",
+      "AiurGrunge",
+      "AiurCreepHoles"
+    ],
+    "AiurTemple": [
+      "AiurTemple1",
+      "AiurTemple2",
+      "AiurTemple3",
+      "AiurTemple4",
+      "AiurTemple5",
+      "AiurTemple6",
+      "AiurTemple7",
+      "AiurTemple8"
+    ],
+    "AiurTempleJungle": [
+      "AiurTempleJungle1",
+      "AiurTempleJungle2",
+      "AiurTempleJungle3",
+      "AiurTempleJungle4",
+      "AiurTempleJungle5",
+      "AiurTempleJungle6",
+      "AiurTempleJungle7",
+      "AiurTempleJungle8"
+    ],
+    "Avernus": [
+      "AvernusMetal",
+      "AvernusSmallTiles",
+      "AvernusLargeTiles",
+      "AvernusMesh",
+      "AvernusPlates",
+      "AvernusPanels",
+      "AvernusDirt",
+      "AvernusRock"
+    ],
+    "AvernusEx1": [
+      "AvernusMetal",
+      "AvernusSmallTiles",
+      "AvernusLargeTiles",
+      "AvernusMesh",
+      "AvernusPlates",
+      "AvernusPanels",
+      "AvernusDirt",
+      "AvernusRock"
+    ],
+    "BattleStation": [
+      "BattleStation_1",
+      "BattleStation_2",
+      "BattleStation_3",
+      "BattleStation_4",
+      "BattleStation_5",
+      "BattleStation_6",
+      "BattleStation_7",
+      "BattleStation_8"
+    ],
+    "BelShir": [
+      "BelShirDirtLight",
+      "BelShirDirtDark",
+      "BelShirBrush",
+      "BelShirGrassLight",
+      "BelShirGrassDark",
+      "BelShirSmallTiles",
+      "BelShirBricksSmall",
+      "BelShirBricksLarge"
+    ],
+    "BelShirEx1": [
+      "BelShirDirtLight",
+      "BelShirDirtDark",
+      "BelShirBrush",
+      "BelShirGrassLight",
+      "BelShirGrassDark",
+      "BelShirSmallTiles",
+      "BelShirBricksSmall",
+      "BelShirBricksLarge"
+    ],
+    "BelShirEx2": [
+      "BelShirDirtLightEx2",
+      "BelShirDirtDarkEx2",
+      "BelShirBrushEx2",
+      "BelShirGrassLightEx2",
+      "BelShirGrassDarkEx2",
+      "BelShirSmallTilesEx2",
+      "BelShirBricksSmallEx2",
+      "BelShirBricksLargeEx2"
+    ],
+    "BlackopsLab_A": [
+      "BlackOpsLabA1",
+      "BlackOpsLabA2",
+      "BlackOpsLabA3",
+      "BlackOpsLabA4",
+      "BlackOpsLabA5",
+      "BlackOpsLabA6",
+      "BlackOpsLabA7",
+      "BlackOpsLabA8"
+    ],
+    "BlackopsLab_B": [
+      "BlackOpsLabB1",
+      "BlackOpsLabB2",
+      "BlackOpsLabB3",
+      "BlackOpsLabB4",
+      "BlackOpsLabB5",
+      "BlackOpsLabB6",
+      "BlackOpsLabB7",
+      "BlackOpsLabB8"
+    ],
+    "BraxisAlpha": [
+      "BraxisAlphaMetal",
+      "BraxisAlphaMetalDetail",
+      "BraxisAlphaPlates",
+      "BraxisAlphaDarkPlates",
+      "BraxisAlphaWreckedPlates",
+      "BraxisAlphaMesh",
+      "BraxisAlphaRust",
+      "BraxisAlphaRock"
+    ],
+    "BraxisAlphaEx1": [
+      "BraxisAlphaMetal",
+      "BraxisAlphaMetalDetail",
+      "BraxisAlphaPlates",
+      "BraxisAlphaDarkPlates",
+      "BraxisAlphaWreckedPlates",
+      "BraxisAlphaMesh",
+      "BraxisAlphaRust",
+      "BraxisAlphaRock"
+    ],
+    "BraxisAlphaEx2": [
+      "BraxisAlphaMetalEx2",
+      "BraxisAlphaMetalDetailEx2",
+      "BraxisAlphaPlatesEx2",
+      "BraxisAlphaDarkPlatesEx2",
+      "BraxisAlphaWreckedPlatesEx2",
+      "BraxisAlphaMeshEx2",
+      "BraxisAlphaRustEx2",
+      "BraxisAlphaRockEx2"
+    ],
+    "Castanar": [
+      "CastanarPanels",
+      "CastanarTiles",
+      "CastanarSmallTiles",
+      "CastanarGrid",
+      "CastanarRock",
+      "CastanarMetal",
+      "CastanarMesh",
+      "CastanarGrating"
+    ],
+    "CastanarEx1": [
+      "CastanarPanels",
+      "CastanarTiles",
+      "CastanarSmallTiles",
+      "CastanarGrid",
+      "CastanarRock",
+      "CastanarMetal",
+      "CastanarMesh",
+      "CastanarGrating"
+    ],
+    "CastanarEx2": [
+      "CastanarPanelsEx2",
+      "CastanarTilesEx2",
+      "CastanarSmallTilesEx2",
+      "CastanarGridEx2",
+      "CastanarRockEx2",
+      "CastanarMetalEx2",
+      "CastanarMeshEx2",
+      "CastanarGratingEx2"
+    ],
+    "Char": [
+      "CharDirtLight",
+      "CharDirt",
+      "CharDirtCracked",
+      "CharSponge",
+      "CharMud",
+      "CharRock",
+      "CharRedCracks",
+      "CharLavaCracks"
+    ],
+    "Char2": [
+      "Char2_1",
+      "Char2_2",
+      "Char2_3",
+      "Char2_4",
+      "Char2_5",
+      "Char2_6",
+      "Char2_7",
+      "Char2_8"
+    ],
+    "CharDunes": [
+      "CharDunes_1",
+      "CharDunes_2",
+      "CharDunes_3",
+      "CharDunes_4",
+      "CharDunes_5",
+      "CharDunes_6",
+      "CharDunes_7",
+      "CharDunes_8"
+    ],
+    "CharEx1": [
+      "CharDirtLight",
+      "CharDirt",
+      "CharDirtCracked",
+      "CharSponge",
+      "CharMud",
+      "CharRock",
+      "CharRedCracks",
+      "CharLavaCracks"
+    ],
+    "CharEx2": [
+      "CharDirtLightEx2",
+      "CharDirtEx2",
+      "CharDirtCrackedEx2",
+      "CharSpongeEx2",
+      "CharMudEx2",
+      "CharRockEx2",
+      "CharRedCracksEx2",
+      "CharLavaCracksEx2"
+    ],
+    "CharEx2_Fortress": [
+      "CharDirtLightEx2",
+      "CharDirtEx2",
+      "CharDirtCrackedEx2",
+      "CharSpongeEx2",
+      "CharMudEx2",
+      "CharRockEx2",
+      "CharRedCracksEx2",
+      "CharLavaCracksEx2"
+    ],
+    "CompoundMansion": [
+      "CompoundMansion_1",
+      "CompoundMansion_2",
+      "CompoundMansion_3",
+      "CompoundMansion_4",
+      "CompoundMansion_5",
+      "CompoundMansion_6",
+      "CompoundMansion_7",
+      "CompoundMansion_8"
+    ],
+    "CompoundSewer": [
+      "CompoundSewer_1",
+      "CompoundSewer_2",
+      "CompoundSewer_3",
+      "CompoundSewer_4",
+      "CompoundSewer_5",
+      "CompoundSewer_6",
+      "CompoundSewer_7",
+      "CompoundSewer_8"
+    ],
+    "Cybros": [
+      "Cybros1",
+      "Cybros2",
+      "Cybros3",
+      "Cybros4",
+      "Cybros5",
+      "Cybros6",
+      "Cybros7",
+      "Cybros8"
+    ],
+    "DefendersCity": [
+      "DefendersCity_1",
+      "DefendersCity_2",
+      "DefendersCity_3",
+      "DefendersCity_4",
+      "DefendersCity_5",
+      "DefendersCity_6",
+      "DefendersCity_7",
+      "DefendersCity_8"
+    ],
+    "DesertWorld": [
+      "DesertWorld1",
+      "DesertWorld2",
+      "DesertWorld3",
+      "DesertWorld4",
+      "DesertWorld5",
+      "DesertWorld6",
+      "DesertWorld7",
+      "DesertWorld8"
+    ],
+    "DominionLab": [
+      "DominionLab1",
+      "DominionLab2",
+      "DominionLab3",
+      "DominionLab4",
+      "DominionLab5",
+      "DominionLab6",
+      "DominionLab7",
+      "DominionLab8"
+    ],
+    "Elsecaro": [
+      "Elsecaro_1",
+      "Elsecaro_2",
+      "Elsecaro_3",
+      "Elsecaro_4",
+      "Elsecaro_5",
+      "Elsecaro_6",
+      "Elsecaro_7",
+      "Elsecaro_8"
+    ],
+    "ElsecaroCity": [
+      "ElsecaroCity_1",
+      "ElsecaroCity_2",
+      "ElsecaroCity_3",
+      "ElsecaroCity_4",
+      "ElsecaroCity_5",
+      "ElsecaroCity_6",
+      "ElsecaroCity_7",
+      "ElsecaroCity_8"
+    ],
+    "Endion": [
+      "Endion1",
+      "Endion2",
+      "Endion3",
+      "Endion4",
+      "Endion5",
+      "Endion6",
+      "Endion7",
+      "Endion8"
+    ],
+    "EndionAiurProtoss": [
+      "Endion1",
+      "Endion2",
+      "Endion3",
+      "Endion4",
+      "EndionAiurProtoss1",
+      "Endion6",
+      "Endion7",
+      "EndionAiurProtoss2"
+    ],
+    "Generic": [
+      "Generic_1",
+      "Generic_2",
+      "Generic_3",
+      "Generic_4",
+      "Generic_5",
+      "Generic_6",
+      "Generic_7",
+      "Generic_8"
+    ],
+    "GenericTerrainEx3": [
+      "GenericTerrainEx3_1",
+      "GenericTerrainEx3_2",
+      "GenericTerrainEx3_3",
+      "GenericTerrainEx3_4",
+      "GenericTerrainEx3_5",
+      "GenericTerrainEx3_6",
+      "GenericTerrainEx3_7",
+      "GenericTerrainEx3_8"
+    ],
+    "Haven": [
+      "HavenDirt",
+      "HavenLeaves",
+      "HavenGrassDark",
+      "HavenGrass",
+      "HavenGrassLight",
+      "HavenGrassRocky",
+      "HavenRockSmooth",
+      "HavenRockRough"
+    ],
+    "HavenEx1": [
+      "HavenDirt",
+      "HavenLeaves",
+      "HavenGrassDark",
+      "HavenGrass",
+      "HavenGrassLight",
+      "HavenGrassRocky",
+      "HavenRockSmooth",
+      "HavenRockRough"
+    ],
+    "HybridLabInner": [
+      "HybridLabInner1",
+      "HybridLabInner2",
+      "HybridLabInner3",
+      "HybridLabInner4",
+      "HybridLabInner5",
+      "HybridLabInner6",
+      "HybridLabInner7",
+      "HybridLabInner8"
+    ],
+    "HybridLabOuter": [
+      "HybridLabOuter1",
+      "HybridLabOuter2",
+      "HybridLabOuter3",
+      "HybridLabOuter4",
+      "HybridLabOuter5",
+      "HybridLabOuter6",
+      "HybridLabOuter7",
+      "HybridLabOuter8"
+    ],
+    "HybridLabXelNaga": [
+      "HybridLabXelNaga1",
+      "HybridLabXelNaga2",
+      "HybridLabXelNaga3",
+      "HybridLabXelNaga4",
+      "HybridLabXelNaga5",
+      "HybridLabXelNaga6",
+      "HybridLabXelNaga7",
+      "HybridLabXelNaga8"
+    ],
+    "IceWorld": [
+      "IceWorld1",
+      "IceWorld2",
+      "IceWorld3",
+      "IceWorld4",
+      "IceWorld5",
+      "IceWorld6",
+      "IceWorld7",
+      "IceWorld8"
+    ],
+    "IceWorldEx2": [
+      "IceWorldEx2_1",
+      "IceWorldEx2_2",
+      "IceWorldEx2_3",
+      "IceWorldEx2_4",
+      "IceWorldEx2_5",
+      "IceWorldEx2_6",
+      "IceWorldEx2_7",
+      "IceWorldEx2_8"
+    ],
+    "IceWorldEx2_Fortress": [
+      "IceWorldEx2_1",
+      "IceWorldEx2_2",
+      "IceWorldEx2_3",
+      "IceWorldEx2_4",
+      "IceWorldEx2_5",
+      "IceWorldEx2_6",
+      "IceWorldEx2_7",
+      "IceWorldEx2_8"
+    ],
+    "JarbanMinor_Jungle": [
+      "JarbanMinor_Jungle_1",
+      "JarbanMinor_Jungle_2",
+      "JarbanMinor_Jungle_3",
+      "JarbanMinor_Jungle_4",
+      "JarbanMinor_Jungle_5",
+      "JarbanMinor_Jungle_6",
+      "JarbanMinor_Jungle_7",
+      "JarbanMinor_Jungle_8"
+    ],
+    "Korhal": [
+      "Korhal1",
+      "Korhal2",
+      "Korhal3",
+      "Korhal4",
+      "Korhal5",
+      "Korhal6",
+      "Korhal7",
+      "Korhal8"
+    ],
+    "KorhalCity": [
+      "KorhalCity1",
+      "KorhalCity2",
+      "KorhalCity3",
+      "KorhalCity4",
+      "KorhalCity5",
+      "KorhalCity6",
+      "KorhalCity7",
+      "KorhalCity8"
+    ],
+    "KorhalCityEx2": [
+      "KorhalCityEx2_1",
+      "KorhalCityEx2_2",
+      "KorhalCityEx2_3",
+      "KorhalCityEx2_4",
+      "KorhalCityEx2_5",
+      "KorhalCityEx2_6",
+      "KorhalCityEx2_7",
+      "KorhalCityEx2_8"
+    ],
+    "KorhalEx1": [
+      "Korhal1",
+      "Korhal2",
+      "Korhal3",
+      "Korhal4",
+      "Korhal5",
+      "Korhal6",
+      "Korhal7",
+      "Korhal8"
+    ],
+    "KorhalOutskirts": [
+      "KorhalOutskirts1",
+      "KorhalOutskirts2",
+      "KorhalOutskirts3",
+      "KorhalOutskirts4",
+      "KorhalOutskirts5",
+      "KorhalOutskirts6",
+      "KorhalOutskirts7",
+      "KorhalOutskirts8"
+    ],
+    "KorhalPlatform": [
+      "KorhalPlatform1",
+      "KorhalPlatform2",
+      "KorhalPlatform3",
+      "KorhalPlatform4",
+      "KorhalPlatform5",
+      "KorhalPlatform6",
+      "KorhalPlatform7",
+      "KorhalPlatform8"
+    ],
+    "KorhalPlatformEx2": [
+      "KorhalPlatformEx2_1",
+      "KorhalPlatformEx2_2",
+      "KorhalPlatformEx2_3",
+      "KorhalPlatformEx2_4",
+      "KorhalPlatformEx2_5",
+      "KorhalPlatformEx2_6",
+      "KorhalPlatformEx2_7",
+      "KorhalPlatformEx2_8"
+    ],
+    "KorhalWastes": [
+      "KorhalWastes_1",
+      "KorhalWastes_2",
+      "KorhalWastes_3",
+      "KorhalWastes_4",
+      "KorhalWastes_5",
+      "KorhalWastes_6",
+      "KorhalWastes_7",
+      "KorhalWastes_8"
+    ],
+    "MarSara": [
+      "MarSaraDirt",
+      "MarSaraSand",
+      "MarSaraRocky",
+      "MarSaraDirtCracked",
+      "MarSaraDarkSand",
+      "MarSaraBlackenedRock",
+      "MarSaraConcrete",
+      "MarSaraPanels"
+    ],
+    "MarSaraEx1": [
+      "MarSaraDirt",
+      "MarSaraSand",
+      "MarSaraRocky",
+      "MarSaraDirtCracked",
+      "MarSaraDarkSand",
+      "MarSaraBlackenedRock",
+      "MarSaraConcrete",
+      "MarSaraPanels"
+    ],
+    "MarSaraEx2": [
+      "MarSaraDirtEx2",
+      "MarSaraSandEx2",
+      "MarSaraRockyEx2",
+      "MarSaraDirtCrackedEx2",
+      "MarSaraDarkSandEx2",
+      "MarSaraBlackenedRockEx2",
+      "MarSaraConcreteEx2",
+      "MarSaraPanelsEx2"
+    ],
+    "Meinhoff": [
+      "MeinhoffSandDunes",
+      "MeinhoffWhiteSand",
+      "MeinhoffRoughSand",
+      "MeinhoffCraters",
+      "MeinhoffRock",
+      "MeinhoffConcrete",
+      "MeinhoffPanels",
+      "MeinhoffGrating"
+    ],
+    "MeinhoffEx1": [
+      "MeinhoffSandDunes",
+      "MeinhoffWhiteSand",
+      "MeinhoffRoughSand",
+      "MeinhoffCraters",
+      "MeinhoffRock",
+      "MeinhoffConcrete",
+      "MeinhoffPanels",
+      "MeinhoffGrating"
+    ],
+    "MeinhoffEx3": [
+      "MeinhoffEx3_1",
+      "MeinhoffEx3_2",
+      "MeinhoffEx3_3",
+      "MeinhoffEx3_4",
+      "MeinhoffEx3_5",
+      "MeinhoffEx3_6",
+      "MeinhoffEx3_7",
+      "MeinhoffEx3_8"
+    ],
+    "MoebiusLab": [
+      "MoebiusLab1",
+      "MoebiusLab2",
+      "MoebiusLab3",
+      "MoebiusLab4",
+      "MoebiusLab5",
+      "MoebiusLab6",
+      "MoebiusLab7",
+      "MoebiusLab8"
+    ],
+    "Monlyth": [
+      "MonlythDirt",
+      "MonlythDunes",
+      "MonlythSand",
+      "MonlythCracked",
+      "MonlythRock",
+      "MonlythTiles",
+      "MonlythBricks",
+      "MonlythPlates"
+    ],
+    "MonlythEx1": [
+      "MonlythDirt",
+      "MonlythDunes",
+      "MonlythSand",
+      "MonlythCracked",
+      "MonlythRock",
+      "MonlythTiles",
+      "MonlythBricks",
+      "MonlythPlates"
+    ],
+    "NewFolsom": [
+      "NewFolsomDirt",
+      "NewFolsomSand",
+      "NewFolsomDirtCracked",
+      "NewFolsomRock",
+      "NewFolsomConcrete",
+      "NewFolsomTiles",
+      "NewFolsomGrating",
+      "NewFolsomMesh"
+    ],
+    "NewFolsomEx1": [
+      "NewFolsomDirt",
+      "NewFolsomSand",
+      "NewFolsomDirtCracked",
+      "NewFolsomRock",
+      "NewFolsomConcrete",
+      "NewFolsomTiles",
+      "NewFolsomGrating",
+      "NewFolsomMesh"
+    ],
+    "PortCity": [
+      "PortCity1",
+      "PortCity2",
+      "PortCity3",
+      "PortCity4",
+      "PortCity5",
+      "PortCity6",
+      "PortCity7",
+      "PortCity8"
+    ],
+    "PortCityB": [
+      "PortCityB1",
+      "PortCityB2",
+      "PortCityB3",
+      "PortCityB4",
+      "PortCityB5",
+      "PortCityB6",
+      "PortCityB7",
+      "PortCityB8"
+    ],
+    "PortZion": [
+      "PortZionDirt",
+      "PortZionDirtCracked",
+      "PortZionRock",
+      "PortZionTiles",
+      "PortZionJunk",
+      "PortZionGrating",
+      "PortZionMesh",
+      "PortZionConveyorBelt"
+    ],
+    "PortZionEx1": [
+      "PortZionDirt",
+      "PortZionDirtCracked",
+      "PortZionRock",
+      "PortZionTiles",
+      "PortZionJunk",
+      "PortZionGrating",
+      "PortZionMesh",
+      "PortZionConveyorBelt"
+    ],
+    "PrisonShip": [
+      "PrisonShip1",
+      "PrisonShip2",
+      "PrisonShip3",
+      "PrisonShip4",
+      "PrisonShip5",
+      "PrisonShip6",
+      "PrisonShip7",
+      "PrisonShip8"
+    ],
+    "ProtossBase": [
+      "ProtossBase1",
+      "ProtossBase2",
+      "ProtossBase3",
+      "ProtossBase4",
+      "ProtossBase5",
+      "ProtossBase6",
+      "ProtossBase7",
+      "ProtossBase8"
+    ],
+    "PurificationDesert": [
+      "Purification_Desert_1",
+      "Purification_Desert_2",
+      "Purification_Desert_3",
+      "Purification_Desert_4",
+      "Purification_Desert_5",
+      "Purification_Desert_6",
+      "Purification_Desert_7",
+      "Purification_Desert_8"
+    ],
+    "PurifierJungle": [
+      "HavenDirt",
+      "HavenLeaves",
+      "HavenGrassDark",
+      "HavenGrass",
+      "HavenGrassLight",
+      "HavenGrassRocky",
+      "HavenRockSmooth",
+      "HavenRockRough"
+    ],
+    "Redstone": [
+      "RedstoneDirt",
+      "RedstoneRockyDirt",
+      "RedstoneRough",
+      "RedstoneFossils",
+      "RedstoneMud",
+      "RedstonePanels",
+      "RedstoneRock",
+      "RedstoneLavaCracks"
+    ],
+    "RedstoneEx1": [
+      "RedstoneDirt",
+      "RedstoneRockyDirt",
+      "RedstoneRough",
+      "RedstoneFossils",
+      "RedstoneMud",
+      "RedstonePanels",
+      "RedstoneRock",
+      "RedstoneLavaCracks"
+    ],
+    "Redstorm": [
+      "Redstorm_1",
+      "Redstorm_2",
+      "Redstorm_3",
+      "Redstorm_4",
+      "Redstorm_5",
+      "Redstorm_6",
+      "Redstorm_7",
+      "Redstorm_8"
+    ],
+    "ShadowCorpsPlatform": [
+      "ShadowCorps1",
+      "ShadowCorps2",
+      "ShadowCorps3",
+      "ShadowCorps4",
+      "ShadowCorps5",
+      "ShadowCorps6",
+      "ShadowCorps7",
+      "ShadowCorps8"
+    ],
+    "Shakuras": [
+      "ShakurasSand",
+      "ShakurasSandDark",
+      "ShakurasDirtCracked",
+      "ShakurasStone",
+      "ShakurasRockCracked",
+      "ShakurasRockRough",
+      "ShakurasBricks",
+      "ShakurasHextiles"
+    ],
+    "ShakurasCity": [
+      "ShakurasCity1",
+      "ShakurasCity2",
+      "ShakurasCity3",
+      "ShakurasCity4",
+      "ShakurasCity5",
+      "ShakurasCity6",
+      "ShakurasCity7",
+      "ShakurasCity8"
+    ],
+    "ShakurasEx1": [
+      "ShakurasSand",
+      "ShakurasSandDark",
+      "ShakurasDirtCracked",
+      "ShakurasStone",
+      "ShakurasRockCracked",
+      "ShakurasRockRough",
+      "ShakurasBricks",
+      "ShakurasHextiles"
+    ],
+    "ShakurasTemple": [
+      "ShakurasTemple1",
+      "ShakurasTemple2",
+      "ShakurasTemple3",
+      "ShakurasTemple4",
+      "ShakurasTemple5",
+      "ShakurasTemple6",
+      "ShakurasTemple7",
+      "ShakurasTemple8"
+    ],
+    "Slayn": [
+      "Slayn1",
+      "Slayn2",
+      "Slayn3",
+      "Slayn4",
+      "Slayn5",
+      "Slayn6",
+      "Slayn7",
+      "Slayn8"
+    ],
+    "SlaynGrass": [
+      "SlaynGrass7",
+      "SlaynGrass2",
+      "SlaynGrass5",
+      "SlaynGrass1",
+      "SlaynGrass8",
+      "SlaynGrass6",
+      "SlaynGrass3",
+      "SlaynGrass4"
+    ],
+    "SlaynTemple": [
+      "Slayn1",
+      "Slayn2",
+      "Slayn3",
+      "Slayn4",
+      "Slayn5",
+      "Slayn6",
+      "Slayn7",
+      "Slayn8"
+    ],
+    "SnowRefinery": [
+      "SnowRefinery_1",
+      "SnowRefinery_2",
+      "SnowRefinery_3",
+      "SnowRefinery_4",
+      "SnowRefinery_5",
+      "SnowRefinery_6",
+      "SnowRefinery_7",
+      "SnowRefinery_8"
+    ],
+    "SpearOfAdun": [
+      "SpearOfAdun1",
+      "SpearOfAdun2",
+      "SpearOfAdun3",
+      "SpearOfAdun4",
+      "SpearOfAdun5",
+      "SpearOfAdun6",
+      "SpearOfAdun7",
+      "SpearOfAdun8"
+    ],
+    "Starship": [
+      "Starship1",
+      "Starship2",
+      "Starship3",
+      "Starship4",
+      "Starship5",
+      "Starship6",
+      "Starship7",
+      "Starship8"
+    ],
+    "Tarsonis": [
+      "TarsonisDirt",
+      "TarsonisDirtRough",
+      "TarsonisGrass",
+      "TarsonisCracks",
+      "TarsonisRubble",
+      "TarsonisConcrete",
+      "TarsonisDetail",
+      "TarsonisPlating"
+    ],
+    "TarsonisCity": [
+      "TarsonisCity1",
+      "TarsonisCity2",
+      "TarsonisCity3",
+      "TarsonisCity4",
+      "TarsonisCity5",
+      "TarsonisCity6",
+      "TarsonisCity7",
+      "TarsonisCity8"
+    ],
+    "TarsonisEx1": [
+      "TarsonisDirt",
+      "TarsonisDirtRough",
+      "TarsonisGrass",
+      "TarsonisCracks",
+      "TarsonisRubble",
+      "TarsonisConcrete",
+      "TarsonisDetail",
+      "TarsonisPlating"
+    ],
+    "TarsonisInterior": [
+      "TarsonisInterior_1",
+      "TarsonisInterior_2",
+      "TarsonisInterior_3",
+      "TarsonisInterior_4",
+      "TarsonisInterior_5",
+      "TarsonisInterior_6",
+      "TarsonisInterior_7",
+      "TarsonisInterior_8"
+    ],
+    "TheVoid": [
+      "Void1",
+      "Void2",
+      "Void3",
+      "Void4",
+      "Void5",
+      "Void6",
+      "Void7",
+      "Void8"
+    ],
+    "Typhon": [
+      "Typhon1",
+      "Typhon2",
+      "Typhon3",
+      "Typhon4",
+      "Typhon5",
+      "Typhon6",
+      "Typhon7",
+      "Typhon8"
+    ],
+    "TyphonEx1": [
+      "Typhon1",
+      "Typhon2",
+      "Typhon3",
+      "Typhon4",
+      "Typhon5",
+      "Typhon6",
+      "Typhon7",
+      "Typhon8"
+    ],
+    "Tyrador": [
+      "TyradorConcrete",
+      "TyradorConcreteCracked",
+      "TyradorRubble",
+      "TyradorGrass",
+      "TyradorMarbleTiles",
+      "TyradorBricks",
+      "TyradorBigBricks",
+      "TyradorSquareBricks"
+    ],
+    "TyradorEx1": [
+      "TyradorConcrete",
+      "TyradorConcreteCracked",
+      "TyradorRubble",
+      "TyradorGrass",
+      "TyradorMarbleTiles",
+      "TyradorBricks",
+      "TyradorBigBricks",
+      "TyradorSquareBricks"
+    ],
+    "Ulaan": [
+      "UlaanDirt",
+      "UlaanDirtCracked",
+      "UlaanSand",
+      "UlaanPebbles",
+      "UlaanRocky",
+      "UlaanStone",
+      "UlaanGrunge",
+      "UlaanRoughRock"
+    ],
+    "UlaanEx1": [
+      "UlaanDirt",
+      "UlaanDirtCracked",
+      "UlaanSand",
+      "UlaanPebbles",
+      "UlaanRocky",
+      "UlaanStone",
+      "UlaanGrunge",
+      "UlaanRoughRock"
+    ],
+    "Ulnar": [
+      "UlnarDirt",
+      "UlnarCracks",
+      "UlnarRubble",
+      "UlnarRock",
+      "UlnarJunk",
+      "UlnarHull1",
+      "UlnarHull2",
+      "UlnarHull3"
+    ],
+    "UlnarEx1": [
+      "UlnarDirt",
+      "UlnarCracks",
+      "UlnarRubble",
+      "UlnarRock",
+      "UlnarJunk",
+      "UlnarHull1",
+      "UlnarHull2",
+      "UlnarHull3"
+    ],
+    "UlnarInner": [
+      "UlnarInner1",
+      "UlnarInner2",
+      "UlnarInner3",
+      "UlnarInner4",
+      "UlnarInner5",
+      "UlnarInner6",
+      "UlnarInner7",
+      "UlnarInner8"
+    ],
+    "UlnarOuter": [
+      "UlnarOuter1",
+      "UlnarOuter2",
+      "UlnarOuter3",
+      "UlnarOuter4",
+      "UlnarOuter5",
+      "UlnarOuter6",
+      "UlnarOuter7",
+      "UlnarOuter8"
+    ],
+    "UlnarPortal": [
+      "UlnarPortal1",
+      "UlnarPortal2",
+      "UlnarPortal3",
+      "UlnarPortal4",
+      "UlnarPortal5",
+      "UlnarPortal6",
+      "UlnarPortal7",
+      "UlnarPortal8"
+    ],
+    "UmojaEx3": [
+      "UmojaEx3_1",
+      "UmojaEx3_2",
+      "UmojaEx3_3",
+      "UmojaEx3_4",
+      "UmojaEx3_5",
+      "UmojaEx3_6",
+      "UmojaEx3_7",
+      "UmojaEx3_8"
+    ],
+    "Valhalla": [
+      "Valhalla1",
+      "Valhalla2",
+      "Valhalla3",
+      "Valhalla4",
+      "Valhalla5",
+      "Valhalla6",
+      "Valhalla7",
+      "Valhalla8"
+    ],
+    "ValhallaEx1": [
+      "Valhalla1",
+      "Valhalla2",
+      "Valhalla3",
+      "Valhalla4",
+      "Valhalla5",
+      "Valhalla6",
+      "Valhalla7",
+      "Valhalla8"
+    ],
+    "VolcanoIsle": [
+      "VolcanoIsle_1",
+      "VolcanoIsle_2",
+      "VolcanoIsle_3",
+      "VolcanoIsle_4",
+      "VolcanoIsle_5",
+      "VolcanoIsle_6",
+      "VolcanoIsle_7",
+      "VolcanoIsle_8"
+    ],
+    "XelNagaCavern": [
+      "XelNagaCavern1",
+      "XelNagaCavern2",
+      "XelNagaCavern3",
+      "XelNagaCavern4",
+      "XelNagaCavern5",
+      "XelNagaCavern6",
+      "XelNagaCavern7",
+      "XelNagaCavern8"
+    ],
+    "Xil": [
+      "XilDirt",
+      "XilDirtCracked",
+      "XilSand",
+      "XilSandCracked",
+      "XilRockCracked",
+      "XilDirtRocky",
+      "XilGrass",
+      "XilRockDark"
+    ],
+    "XilEx1": [
+      "XilDirt",
+      "XilDirtCracked",
+      "XilSand",
+      "XilSandCracked",
+      "XilRockCracked",
+      "XilDirtRocky",
+      "XilGrass",
+      "XilRockDark"
+    ],
+    "Zerus": [
+      "Zerus1",
+      "Zerus2",
+      "Zerus3",
+      "Zerus4",
+      "Zerus5",
+      "Zerus6",
+      "Zerus7",
+      "Zerus8"
+    ],
+    "ZhakulDas": [
+      "ZhakulDasGrass",
+      "ZhakulDasDirtCracked",
+      "ZhakulDasDirtRough",
+      "ZhakulDasDarkRock",
+      "ZhakulDasLightRock",
+      "ZhakulDasMercuryCracks",
+      "ZhakulDasTiles",
+      "ZhakulDasBricks"
+    ],
+    "ZhakulDasEx1": [
+      "ZhakulDasGrass",
+      "ZhakulDasDirtCracked",
+      "ZhakulDasDirtRough",
+      "ZhakulDasDarkRock",
+      "ZhakulDasLightRock",
+      "ZhakulDasMercuryCracks",
+      "ZhakulDasTiles",
+      "ZhakulDasBricks"
+    ]
+  },
+  "textures": {
+    "AgriaConcrete": {
+      "tilesets": [
+        "Agria",
+        "AgriaEx1"
+      ],
+      "file": "Agria_Concrete",
+      "image": "Agria_Concrete.jpg"
+    },
+    "AgriaCrops": {
+      "tilesets": [
+        "Agria",
+        "AgriaEx1"
+      ],
+      "file": "Agria_Crops",
+      "image": "Agria_Crops.jpg"
+    },
+    "AgriaDirt": {
+      "tilesets": [
+        "Agria",
+        "AgriaEx1"
+      ],
+      "file": "Agria_Dirt",
+      "image": "Agria_Dirt.jpg"
+    },
+    "AgriaDirtRough": {
+      "tilesets": [
+        "Agria",
+        "AgriaEx1"
+      ],
+      "file": "Agria_Dirt_Rough",
+      "image": "Agria_Dirt_Rough.jpg"
+    },
+    "AgriaFoliage": {
+      "tilesets": [
+        "Agria",
+        "AgriaEx1"
+      ],
+      "file": "Agria_Foliage",
+      "image": "Agria_Foliage.jpg"
+    },
+    "AgriaGrassGreen": {
+      "tilesets": [
+        "Agria",
+        "AgriaEx1"
+      ],
+      "file": "Agria_Grass_Green",
+      "image": "Agria_Grass_Green.jpg"
+    },
+    "AgriaGrassYellow": {
+      "tilesets": [
+        "Agria",
+        "AgriaEx1"
+      ],
+      "file": "Agria_Grass_Yellow",
+      "image": "Agria_Grass_Yellow.jpg"
+    },
+    "AgriaRock": {
+      "tilesets": [
+        "Agria",
+        "AgriaEx1"
+      ],
+      "file": "Agria_Rock",
+      "image": "Agria_Rock.jpg"
+    },
+    "Aiur4City1": {
+      "tilesets": [
+        "Aiur4City"
+      ],
+      "file": "Aiur4A_1",
+      "image": "(Void)_Aiur4_City1.jpg"
+    },
+    "Aiur4City2": {
+      "tilesets": [
+        "Aiur4City"
+      ],
+      "file": "Aiur4A_2",
+      "image": "(Void)_Aiur4_City2.jpg"
+    },
+    "Aiur4City3": {
+      "tilesets": [
+        "Aiur4City"
+      ],
+      "file": "Aiur4A_3",
+      "image": "(Void)_Aiur4_City3.jpg"
+    },
+    "Aiur4City4": {
+      "tilesets": [
+        "Aiur4City"
+      ],
+      "file": "Aiur4A_4",
+      "image": "(Void)_Aiur4_City4.jpg"
+    },
+    "Aiur4City5": {
+      "tilesets": [
+        "Aiur4City"
+      ],
+      "file": "Aiur4A_5",
+      "image": "(Void)_Aiur4_City5.jpg"
+    },
+    "Aiur4City6": {
+      "tilesets": [
+        "Aiur4City"
+      ],
+      "file": "Aiur4A_6",
+      "image": "(Void)_Aiur4_City6.jpg"
+    },
+    "Aiur4City7": {
+      "tilesets": [
+        "Aiur4City"
+      ],
+      "file": "Aiur4A_7",
+      "image": "(Void)_Aiur4_City7.jpg"
+    },
+    "Aiur4City8": {
+      "tilesets": [
+        "Aiur4City"
+      ],
+      "file": "Aiur4A_8",
+      "image": "(Void)_Aiur4_City8.jpg"
+    },
+    "Aiur4Temple1": {
+      "tilesets": [
+        "Aiur4Temple"
+      ],
+      "file": "Aiur4B_1",
+      "image": "(Void)_Aiur4_Temple1.jpg"
+    },
+    "Aiur4Temple2": {
+      "tilesets": [
+        "Aiur4Temple"
+      ],
+      "file": "Aiur4B_2",
+      "image": "(Void)_Aiur4_Temple2.jpg"
+    },
+    "Aiur4Temple3": {
+      "tilesets": [
+        "Aiur4Temple"
+      ],
+      "file": "Aiur4B_3",
+      "image": "(Void)_Aiur4_Temple3.jpg"
+    },
+    "Aiur4Temple4": {
+      "tilesets": [
+        "Aiur4Temple"
+      ],
+      "file": "Aiur4B_4",
+      "image": "(Void)_Aiur4_Temple4.jpg"
+    },
+    "Aiur4Temple5": {
+      "tilesets": [
+        "Aiur4Temple"
+      ],
+      "file": "Aiur4B_5",
+      "image": "(Void)_Aiur4_Temple5.jpg"
+    },
+    "Aiur4Temple6": {
+      "tilesets": [
+        "Aiur4Temple"
+      ],
+      "file": "Aiur4B_6",
+      "image": "(Void)_Aiur4_Temple6.jpg"
+    },
+    "Aiur4Temple7": {
+      "tilesets": [
+        "Aiur4Temple"
+      ],
+      "file": "Aiur4B_7",
+      "image": "(Void)_Aiur4_Temple7.jpg"
+    },
+    "Aiur4Temple8": {
+      "tilesets": [
+        "Aiur4Temple"
+      ],
+      "file": "Aiur4B_8",
+      "image": "(Void)_Aiur4_Temple8.jpg"
+    },
+    "AiurCity1": {
+      "tilesets": [
+        "AiurCity"
+      ],
+      "file": "AiurCity_1",
+      "image": "(Void)_AiurCity1.jpg"
+    },
+    "AiurCity2": {
+      "tilesets": [
+        "AiurCity",
+        "AiurCityNight"
+      ],
+      "file": "AiurCity_2",
+      "image": "(Void)_AiurCity2.jpg"
+    },
+    "AiurCity3": {
+      "tilesets": [
+        "AiurCity"
+      ],
+      "file": "AiurCity_3",
+      "image": "(Void)_AiurCity3.jpg"
+    },
+    "AiurCity4": {
+      "tilesets": [
+        "AiurCity",
+        "AiurCityNight"
+      ],
+      "file": "AiurCity_4",
+      "image": "(Void)_AiurCity4.jpg"
+    },
+    "AiurCity5": {
+      "tilesets": [
+        "AiurCity",
+        "AiurCityNight"
+      ],
+      "file": "AiurCity_5",
+      "image": "(Void)_AiurCity5.jpg"
+    },
+    "AiurCity6": {
+      "tilesets": [
+        "AiurCity",
+        "AiurCityNight"
+      ],
+      "file": "AiurCity_6",
+      "image": "(Void)_AiurCity6.jpg"
+    },
+    "AiurCity7": {
+      "tilesets": [
+        "AiurCity",
+        "AiurCityNight"
+      ],
+      "file": "AiurCity_7",
+      "image": "(Void)_AiurCity7.jpg"
+    },
+    "AiurCity8": {
+      "tilesets": [
+        "AiurCity",
+        "AiurCityNight"
+      ],
+      "file": "AiurCity_8",
+      "image": "(Void)_AiurCity8.jpg"
+    },
+    "AiurCreepHoles": {
+      "tilesets": [
+        "Aiur",
+        "AiurEx1"
+      ],
+      "file": "Aiur_Creep_Holes",
+      "image": "Aiur_Creep_Holes.jpg"
+    },
+    "AiurDirt": {
+      "tilesets": [
+        "Aiur",
+        "AiurEx1"
+      ],
+      "file": "Aiur_Dirt",
+      "image": "Aiur_Dirt.jpg"
+    },
+    "AiurGrass": {
+      "tilesets": [
+        "Aiur",
+        "AiurEx1"
+      ],
+      "file": "Aiur_Grass",
+      "image": "Aiur_Grass.jpg"
+    },
+    "AiurGrunge": {
+      "tilesets": [
+        "Aiur",
+        "AiurEx1"
+      ],
+      "file": "Aiur_Grunge",
+      "image": "Aiur_Grunge.jpg"
+    },
+    "AiurLargeBricks": {
+      "tilesets": [
+        "Aiur",
+        "AiurEx1"
+      ],
+      "file": "Aiur_Large_Bricks",
+      "image": "Aiur_Large_Bricks.jpg"
+    },
+    "AiurRock": {
+      "tilesets": [
+        "Aiur",
+        "AiurEx1"
+      ],
+      "file": "Aiur_Rock",
+      "image": "Aiur_Rock.jpg"
+    },
+    "AiurSmallBricks": {
+      "tilesets": [
+        "Aiur",
+        "AiurEx1"
+      ],
+      "file": "Aiur_Small_Bricks",
+      "image": "Aiur_Small_Bricks.jpg"
+    },
+    "AiurTemple1": {
+      "tilesets": [
+        "AiurCityNight",
+        "AiurTemple"
+      ],
+      "file": "AiurTemple_1",
+      "image": "(Void)_AiurTemple1.jpg"
+    },
+    "AiurTemple2": {
+      "tilesets": [
+        "AiurTemple"
+      ],
+      "file": "AiurTemple_2",
+      "image": "(Void)_AiurTemple2.jpg"
+    },
+    "AiurTemple3": {
+      "tilesets": [
+        "AiurTemple"
+      ],
+      "file": "AiurTemple_3",
+      "image": "(Void)_AiurTemple3.jpg"
+    },
+    "AiurTemple4": {
+      "tilesets": [
+        "AiurCityNight",
+        "AiurTemple"
+      ],
+      "file": "AiurTemple_4",
+      "image": "(Void)_AiurTemple4.jpg"
+    },
+    "AiurTemple5": {
+      "tilesets": [
+        "AiurTemple"
+      ],
+      "file": "AiurTemple_5",
+      "image": "(Void)_AiurTemple5.jpg"
+    },
+    "AiurTemple6": {
+      "tilesets": [
+        "AiurTemple"
+      ],
+      "file": "AiurTemple_6",
+      "image": "(Void)_AiurTemple6.jpg"
+    },
+    "AiurTemple7": {
+      "tilesets": [
+        "AiurTemple"
+      ],
+      "file": "AiurTemple_7",
+      "image": "(Void)_AiurTemple7.jpg"
+    },
+    "AiurTemple8": {
+      "tilesets": [
+        "AiurTemple"
+      ],
+      "file": "AiurTemple_8",
+      "image": "(Void)_AiurTemple8.jpg"
+    },
+    "AiurTempleJungle1": {
+      "tilesets": [
+        "AiurTempleJungle"
+      ],
+      "file": "AiurTempleJungle_1",
+      "image": "(Void)_AiurTempleJungle1.jpg"
+    },
+    "AiurTempleJungle2": {
+      "tilesets": [
+        "AiurTempleJungle"
+      ],
+      "file": "AiurTempleJungle_2",
+      "image": "(Void)_AiurTempleJungle2.jpg"
+    },
+    "AiurTempleJungle3": {
+      "tilesets": [
+        "AiurTempleJungle"
+      ],
+      "file": "AiurTempleJungle_3",
+      "image": "(Void)_AiurTempleJungle3.jpg"
+    },
+    "AiurTempleJungle4": {
+      "tilesets": [
+        "AiurTempleJungle"
+      ],
+      "file": "AiurTempleJungle_4",
+      "image": "(Void)_AiurTempleJungle4.jpg"
+    },
+    "AiurTempleJungle5": {
+      "tilesets": [
+        "AiurTempleJungle"
+      ],
+      "file": "AiurTempleJungle_5",
+      "image": "(Void)_AiurTempleJungle5.jpg"
+    },
+    "AiurTempleJungle6": {
+      "tilesets": [
+        "AiurTempleJungle"
+      ],
+      "file": "AiurTempleJungle_6",
+      "image": "(Void)_AiurTempleJungle6.jpg"
+    },
+    "AiurTempleJungle7": {
+      "tilesets": [
+        "AiurTempleJungle"
+      ],
+      "file": "AiurTempleJungle_7",
+      "image": "(Void)_AiurTempleJungle7.jpg"
+    },
+    "AiurTempleJungle8": {
+      "tilesets": [
+        "AiurTempleJungle"
+      ],
+      "file": "AiurTempleJungle_8",
+      "image": "(Void)_AiurTempleJungle8.jpg"
+    },
+    "AiurTiles": {
+      "tilesets": [
+        "Aiur",
+        "AiurEx1"
+      ],
+      "file": "Aiur_Tiles",
+      "image": "Aiur_Tiles.jpg"
+    },
+    "AvernusDirt": {
+      "tilesets": [
+        "Avernus",
+        "AvernusEx1"
+      ],
+      "file": "Avernus_Dirt",
+      "image": "Avernus_Dirt.jpg"
+    },
+    "AvernusLargeTiles": {
+      "tilesets": [
+        "Avernus",
+        "AvernusEx1"
+      ],
+      "file": "Avernus_LargeTiles",
+      "image": "Avernus_Large_Tiles.jpg"
+    },
+    "AvernusMesh": {
+      "tilesets": [
+        "Avernus",
+        "AvernusEx1"
+      ],
+      "file": "Avernus_Mesh",
+      "image": "Avernus_Mesh.jpg"
+    },
+    "AvernusMetal": {
+      "tilesets": [
+        "Avernus",
+        "AvernusEx1"
+      ],
+      "file": "Avernus_Metal",
+      "image": "Avernus_Metal.jpg"
+    },
+    "AvernusPanels": {
+      "tilesets": [
+        "Avernus",
+        "AvernusEx1"
+      ],
+      "file": "Avernus_Panels",
+      "image": "Avernus_Panels.jpg"
+    },
+    "AvernusPlates": {
+      "tilesets": [
+        "Avernus",
+        "AvernusEx1"
+      ],
+      "file": "Avernus_Plates",
+      "image": "Avernus_Plates.jpg"
+    },
+    "AvernusRock": {
+      "tilesets": [
+        "Avernus",
+        "AvernusEx1"
+      ],
+      "file": "Avernus_Rock",
+      "image": "Avernus_Rock.jpg"
+    },
+    "AvernusSmallTiles": {
+      "tilesets": [
+        "Avernus",
+        "AvernusEx1"
+      ],
+      "file": "Avernus_SmallTiles",
+      "image": "Avernus_Small_Tiles.jpg"
+    },
+    "BattleStation_1": {
+      "tilesets": [
+        "BattleStation"
+      ],
+      "file": "battlestationex2_1",
+      "image": "BattleStation1.jpg"
+    },
+    "BattleStation_2": {
+      "tilesets": [
+        "BattleStation"
+      ],
+      "file": "battlestationex2_2",
+      "image": "BattleStation2.jpg"
+    },
+    "BattleStation_3": {
+      "tilesets": [
+        "BattleStation"
+      ],
+      "file": "battlestationex2_3",
+      "image": "BattleStation3.jpg"
+    },
+    "BattleStation_4": {
+      "tilesets": [
+        "BattleStation"
+      ],
+      "file": "battlestationex2_4",
+      "image": "BattleStation4.jpg"
+    },
+    "BattleStation_5": {
+      "tilesets": [
+        "BattleStation"
+      ],
+      "file": "battlestationex2_5",
+      "image": "BattleStation5.jpg"
+    },
+    "BattleStation_6": {
+      "tilesets": [
+        "BattleStation"
+      ],
+      "file": "battlestationex2_6",
+      "image": "BattleStation6.jpg"
+    },
+    "BattleStation_7": {
+      "tilesets": [
+        "BattleStation"
+      ],
+      "file": "battlestationex2_7",
+      "image": "BattleStation7.jpg"
+    },
+    "BattleStation_8": {
+      "tilesets": [
+        "BattleStation"
+      ],
+      "file": "battlestationex2_8",
+      "image": "BattleStation8.jpg"
+    },
+    "BelShirBricksLarge": {
+      "tilesets": [
+        "BelShir",
+        "BelShirEx1"
+      ],
+      "file": "Bel_Shir_Bricks_Large",
+      "image": "BelShir_Bricks_Large.jpg"
+    },
+    "BelShirBricksLargeEx2": {
+      "tilesets": [
+        "BelShirEx2"
+      ],
+      "file": "BelShirEx2_8",
+      "image": "BelShir_BricksLarge_Ex2.jpg"
+    },
+    "BelShirBricksSmall": {
+      "tilesets": [
+        "BelShir",
+        "BelShirEx1"
+      ],
+      "file": "Bel_Shir_Bricks_Small",
+      "image": "BelShir_Bricks_Small.jpg"
+    },
+    "BelShirBricksSmallEx2": {
+      "tilesets": [
+        "BelShirEx2"
+      ],
+      "file": "BelShirEx2_7",
+      "image": "BelShir_BricksSmall_Ex2.jpg"
+    },
+    "BelShirBrush": {
+      "tilesets": [
+        "BelShir",
+        "BelShirEx1"
+      ],
+      "file": "Bel_Shir_Brush",
+      "image": "BelShir_Brush.jpg"
+    },
+    "BelShirBrushEx2": {
+      "tilesets": [
+        "BelShirEx2"
+      ],
+      "file": "BelShirEx2_3",
+      "image": "BelShir_Brush_Ex2.jpg"
+    },
+    "BelShirDirtDark": {
+      "tilesets": [
+        "BelShir",
+        "BelShirEx1"
+      ],
+      "file": "Bel_Shir_Dirt_Dark",
+      "image": "BelShir_Dirt_Dark.jpg"
+    },
+    "BelShirDirtDarkEx2": {
+      "tilesets": [
+        "BelShirEx2"
+      ],
+      "file": "BelShirEx2_2",
+      "image": "BelShir_DirtDark_Ex2.jpg"
+    },
+    "BelShirDirtLight": {
+      "tilesets": [
+        "BelShir",
+        "BelShirEx1"
+      ],
+      "file": "Bel_Shir_Dirt_Light",
+      "image": "BelShir_Dirt_Light.jpg"
+    },
+    "BelShirDirtLightEx2": {
+      "tilesets": [
+        "BelShirEx2"
+      ],
+      "file": "BelShirEx2_1",
+      "image": "BelShir_DirtLight_Ex2.jpg"
+    },
+    "BelShirGrassDark": {
+      "tilesets": [
+        "BelShir",
+        "BelShirEx1"
+      ],
+      "file": "Bel_Shir_Grass_Dark",
+      "image": "BelShir_Grass_Dark.jpg"
+    },
+    "BelShirGrassDarkEx2": {
+      "tilesets": [
+        "BelShirEx2"
+      ],
+      "file": "BelShirEx2_5",
+      "image": "BelShir_GrassDark_Ex2.jpg"
+    },
+    "BelShirGrassLight": {
+      "tilesets": [
+        "BelShir",
+        "BelShirEx1"
+      ],
+      "file": "Bel_Shir_Grass_Light",
+      "image": "BelShir_Grass_Light.jpg"
+    },
+    "BelShirGrassLightEx2": {
+      "tilesets": [
+        "BelShirEx2"
+      ],
+      "file": "BelShirEx2_4",
+      "image": "BelShir_GrassLight_Ex2.jpg"
+    },
+    "BelShirSmallTiles": {
+      "tilesets": [
+        "BelShir",
+        "BelShirEx1"
+      ],
+      "file": "Bel_Shir_SmallTiles",
+      "image": "BelShir_Small_Tiles.jpg"
+    },
+    "BelShirSmallTilesEx2": {
+      "tilesets": [
+        "BelShirEx2"
+      ],
+      "file": "BelShirEx2_6",
+      "image": "BelShir_SmallTiles_Ex2.jpg"
+    },
+    "BlackOpsLabA1": {
+      "tilesets": [
+        "BlackopsLab_A"
+      ],
+      "file": "blackops_lab_a1",
+      "image": "Black_Ops_Lab_A1.jpg"
+    },
+    "BlackOpsLabA2": {
+      "tilesets": [
+        "BlackopsLab_A"
+      ],
+      "file": "blackops_lab_a2",
+      "image": "Black_Ops_Lab_A2.jpg"
+    },
+    "BlackOpsLabA3": {
+      "tilesets": [
+        "BlackopsLab_A"
+      ],
+      "file": "blackops_lab_a3",
+      "image": "Black_Ops_Lab_A3.jpg"
+    },
+    "BlackOpsLabA4": {
+      "tilesets": [
+        "BlackopsLab_A"
+      ],
+      "file": "blackops_lab_a4",
+      "image": "Black_Ops_Lab_A4.jpg"
+    },
+    "BlackOpsLabA5": {
+      "tilesets": [
+        "BlackopsLab_A"
+      ],
+      "file": "blackops_lab_a5",
+      "image": "Black_Ops_Lab_A5.jpg"
+    },
+    "BlackOpsLabA6": {
+      "tilesets": [
+        "BlackopsLab_A"
+      ],
+      "file": "blackops_lab_a6",
+      "image": "Black_Ops_Lab_A6.jpg"
+    },
+    "BlackOpsLabA7": {
+      "tilesets": [
+        "BlackopsLab_A"
+      ],
+      "file": "blackops_lab_a7",
+      "image": "Black_Ops_Lab_A7.jpg"
+    },
+    "BlackOpsLabA8": {
+      "tilesets": [
+        "BlackopsLab_A"
+      ],
+      "file": "blackops_lab_a8",
+      "image": "Black_Ops_Lab_A8.jpg"
+    },
+    "BlackOpsLabB1": {
+      "tilesets": [
+        "BlackopsLab_B"
+      ],
+      "file": "blackops_lab_b1"
+    },
+    "BlackOpsLabB2": {
+      "tilesets": [
+        "BlackopsLab_B"
+      ],
+      "file": "blackops_lab_b2"
+    },
+    "BlackOpsLabB3": {
+      "tilesets": [
+        "BlackopsLab_B"
+      ],
+      "file": "blackops_lab_b3"
+    },
+    "BlackOpsLabB4": {
+      "tilesets": [
+        "BlackopsLab_B"
+      ],
+      "file": "blackops_lab_b4"
+    },
+    "BlackOpsLabB5": {
+      "tilesets": [
+        "BlackopsLab_B"
+      ],
+      "file": "blackops_lab_b5"
+    },
+    "BlackOpsLabB6": {
+      "tilesets": [
+        "BlackopsLab_B"
+      ],
+      "file": "blackops_lab_b6"
+    },
+    "BlackOpsLabB7": {
+      "tilesets": [
+        "BlackopsLab_B"
+      ],
+      "file": "blackops_lab_b7"
+    },
+    "BlackOpsLabB8": {
+      "tilesets": [
+        "BlackopsLab_B"
+      ],
+      "file": "blackops_lab_b8"
+    },
+    "BraxisAlphaDarkPlates": {
+      "tilesets": [
+        "BraxisAlpha",
+        "BraxisAlphaEx1"
+      ],
+      "file": "Braxis_DarkPlates",
+      "image": "Braxis_Alpha_Dark_Plates.jpg"
+    },
+    "BraxisAlphaDarkPlatesEx2": {
+      "tilesets": [
+        "BraxisAlphaEx2"
+      ],
+      "file": "BraxisAlphaEx2_4",
+      "image": "Braxis_Alpha_Dark_Plates_Ex2.jpg"
+    },
+    "BraxisAlphaMesh": {
+      "tilesets": [
+        "BraxisAlpha",
+        "BraxisAlphaEx1"
+      ],
+      "file": "Braxis_Mesh",
+      "image": "Braxis_Alpha_Mesh.jpg"
+    },
+    "BraxisAlphaMeshEx2": {
+      "tilesets": [
+        "BraxisAlphaEx2"
+      ],
+      "file": "BraxisAlphaEx2_6",
+      "image": "Braxis_Alpha_Mesh_Ex2.jpg"
+    },
+    "BraxisAlphaMetal": {
+      "tilesets": [
+        "BraxisAlpha",
+        "BraxisAlphaEx1"
+      ],
+      "file": "Braxis_Metal",
+      "image": "Braxis_Alpha_Metal.jpg"
+    },
+    "BraxisAlphaMetalDetail": {
+      "tilesets": [
+        "BraxisAlpha",
+        "BraxisAlphaEx1"
+      ],
+      "file": "Braxis_MetalDetail",
+      "image": "Braxis_Alpha_Metal_Detail.jpg"
+    },
+    "BraxisAlphaMetalDetailEx2": {
+      "tilesets": [
+        "BraxisAlphaEx2"
+      ],
+      "file": "BraxisAlphaEx2_2",
+      "image": "Braxis_Alpha_Metal_Detail_Ex2.jpg"
+    },
+    "BraxisAlphaMetalEx2": {
+      "tilesets": [
+        "BraxisAlphaEx2"
+      ],
+      "file": "BraxisAlphaEx2_1",
+      "image": "Braxis_Alpha_Metal_Ex2.jpg"
+    },
+    "BraxisAlphaPlates": {
+      "tilesets": [
+        "BraxisAlpha",
+        "BraxisAlphaEx1"
+      ],
+      "file": "Braxis_Plates",
+      "image": "Braxis_Alpha_Plates.jpg"
+    },
+    "BraxisAlphaPlatesEx2": {
+      "tilesets": [
+        "BraxisAlphaEx2"
+      ],
+      "file": "BraxisAlphaEx2_3",
+      "image": "Braxis_Alpha_Plates_Ex2.jpg"
+    },
+    "BraxisAlphaRock": {
+      "tilesets": [
+        "BraxisAlpha",
+        "BraxisAlphaEx1"
+      ],
+      "file": "Braxis_Rock",
+      "image": "Braxis_Alpha_Rock.jpg"
+    },
+    "BraxisAlphaRockEx2": {
+      "tilesets": [
+        "BraxisAlphaEx2"
+      ],
+      "file": "BraxisAlphaEx2_8",
+      "image": "Braxis_Alpha_Rock_Ex2.jpg"
+    },
+    "BraxisAlphaRust": {
+      "tilesets": [
+        "BraxisAlpha",
+        "BraxisAlphaEx1"
+      ],
+      "file": "Braxis_Rust",
+      "image": "Braxis_Alpha_Rust.jpg"
+    },
+    "BraxisAlphaRustEx2": {
+      "tilesets": [
+        "BraxisAlphaEx2"
+      ],
+      "file": "BraxisAlphaEx2_7",
+      "image": "Braxis_Alpha_Rust_Ex2.jpg"
+    },
+    "BraxisAlphaWreckedPlates": {
+      "tilesets": [
+        "BraxisAlpha",
+        "BraxisAlphaEx1"
+      ],
+      "file": "Braxis_WreckedPlates",
+      "image": "Braxis_Alpha_Wrecked_Plates.jpg"
+    },
+    "BraxisAlphaWreckedPlatesEx2": {
+      "tilesets": [
+        "BraxisAlphaEx2"
+      ],
+      "file": "BraxisAlphaEx2_5",
+      "image": "Braxis_Alpha_Wrecked_Plates_Ex2.jpg"
+    },
+    "CastanarGrating": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx1"
+      ],
+      "file": "Castanar_Grating",
+      "image": "Castanar_Grating.jpg"
+    },
+    "CastanarGratingEx2": {
+      "tilesets": [
+        "CastanarEx2"
+      ],
+      "file": "castanarex2_grating",
+      "image": "(Void)_Castanar_Grating_Ex2.jpg"
+    },
+    "CastanarGrid": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx1"
+      ],
+      "file": "Castanar_Grid",
+      "image": "Castanar_Grid.jpg"
+    },
+    "CastanarGridEx2": {
+      "tilesets": [
+        "CastanarEx2"
+      ],
+      "file": "castanarex2_grid",
+      "image": "(Void)_Castanar_Grid_Ex2.jpg"
+    },
+    "CastanarMesh": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx1"
+      ],
+      "file": "Castanar_Mesh",
+      "image": "Castanar_Mesh.jpg"
+    },
+    "CastanarMeshEx2": {
+      "tilesets": [
+        "CastanarEx2"
+      ],
+      "file": "Castanarex2_Mesh",
+      "image": "(Void)_Castanar_Mesh_Ex2.jpg"
+    },
+    "CastanarMetal": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx1"
+      ],
+      "file": "Castanar_Metal",
+      "image": "Castanar_Metal.jpg"
+    },
+    "CastanarMetalEx2": {
+      "tilesets": [
+        "CastanarEx2"
+      ],
+      "file": "Castanarex2_Metal",
+      "image": "(Void)_Castanar_Metal_Ex2.jpg"
+    },
+    "CastanarPanels": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx1"
+      ],
+      "file": "Castanar_Panels",
+      "image": "Castanar_Panels.jpg"
+    },
+    "CastanarPanelsEx2": {
+      "tilesets": [
+        "CastanarEx2"
+      ],
+      "file": "Castanarex2_Panels",
+      "image": "(Void)_Castanar_Panels_Ex2.jpg"
+    },
+    "CastanarRock": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx1"
+      ],
+      "file": "Castanar_Rock",
+      "image": "Castanar_Rock.jpg"
+    },
+    "CastanarRockEx2": {
+      "tilesets": [
+        "CastanarEx2"
+      ],
+      "file": "Castanarex2_Rock",
+      "image": "(Void)_Castanar_Rock_Ex2.jpg"
+    },
+    "CastanarSmallTiles": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx1"
+      ],
+      "file": "Castanar_SmallTiles",
+      "image": "Castanar_Small_Tiles.jpg"
+    },
+    "CastanarSmallTilesEx2": {
+      "tilesets": [
+        "CastanarEx2"
+      ],
+      "file": "Castanarex2_SmallTiles",
+      "image": "(Void)_Castanar_Small_Tiles_Ex2.jpg"
+    },
+    "CastanarTiles": {
+      "tilesets": [
+        "Castanar",
+        "CastanarEx1"
+      ],
+      "file": "Castanar_Tiles",
+      "image": "Castanar_Tiles.jpg"
+    },
+    "CastanarTilesEx2": {
+      "tilesets": [
+        "CastanarEx2"
+      ],
+      "file": "Castanarex2_Tiles",
+      "image": "(Void)_Castanar_Tiles_Ex2.jpg"
+    },
+    "Char2_1": {
+      "tilesets": [
+        "Char2"
+      ],
+      "file": "Char2_1",
+      "name": "Char Fortress Dirt",
+      "image": "(HotS)_Char_Fortress_Dirt.jpg"
+    },
+    "Char2_2": {
+      "tilesets": [
+        "Char2"
+      ],
+      "file": "Char2_2",
+      "name": "Char Fortress Dirt Cracked",
+      "image": "(HotS)_Char_Fortress_Dirt_Cracked.jpg"
+    },
+    "Char2_3": {
+      "tilesets": [
+        "Char2"
+      ],
+      "file": "Char2_3",
+      "name": "Char Fortress Ash",
+      "image": "(HotS)_Char_Fortress_Ash.jpg"
+    },
+    "Char2_4": {
+      "tilesets": [
+        "Char2"
+      ],
+      "file": "Char2_4",
+      "name": "Char Fortress Lava Flows",
+      "image": "(HotS)_Char_Fortress_Lava_Flows.jpg"
+    },
+    "Char2_5": {
+      "tilesets": [
+        "Char2"
+      ],
+      "file": "Char2_5",
+      "name": "Char Fortress Rock",
+      "image": "(HotS)_Char_Fortress_Rock.jpg"
+    },
+    "Char2_6": {
+      "tilesets": [
+        "Char2"
+      ],
+      "file": "Char2_6",
+      "name": "Char Fortress Cracked Lava",
+      "image": "(HotS)_Char_Fortress_Cracked_Lava.jpg"
+    },
+    "Char2_7": {
+      "tilesets": [
+        "Char2"
+      ],
+      "file": "Char2_7",
+      "name": "Char Fortress Panels",
+      "image": "(HotS)_Char_Fortress_Panels.jpg"
+    },
+    "Char2_8": {
+      "tilesets": [
+        "Char2"
+      ],
+      "file": "Char2_8",
+      "name": "Char Fortress Panel Details",
+      "image": "(HotS)_Char_Fortress_Panel_Details.jpg"
+    },
+    "CharDirt": {
+      "tilesets": [
+        "Char",
+        "CharEx1"
+      ],
+      "file": "Char_Dirt",
+      "image": "Char_Dirt.jpg"
+    },
+    "CharDirtCracked": {
+      "tilesets": [
+        "Char",
+        "CharEx1"
+      ],
+      "file": "Char_Dirt_Cracked"
+    },
+    "CharDirtCrackedEx2": {
+      "tilesets": [
+        "CharEx2",
+        "CharEx2_Fortress"
+      ],
+      "file": "CharEx2_3",
+      "image": "CharDirtCrackedEx2.jpg"
+    },
+    "CharDirtEx2": {
+      "tilesets": [
+        "CharEx2",
+        "CharEx2_Fortress"
+      ],
+      "file": "CharEx2_2",
+      "image": "CharDirtEx2.jpg"
+    },
+    "CharDirtLight": {
+      "tilesets": [
+        "Char",
+        "CharEx1"
+      ],
+      "file": "Char_Dirt_Light",
+      "image": "Char_Dirt_Light.jpg"
+    },
+    "CharDirtLightEx2": {
+      "tilesets": [
+        "CharEx2",
+        "CharEx2_Fortress"
+      ],
+      "file": "CharEx2_1",
+      "image": "CharDirtLightEx2.jpg"
+    },
+    "CharDunes_1": {
+      "tilesets": [
+        "CharDunes"
+      ],
+      "file": "CharDunes_1",
+      "name": "Char Marsh Dirt",
+      "image": "(HotS)_Char_Marsh_Dirt.jpg"
+    },
+    "CharDunes_2": {
+      "tilesets": [
+        "CharDunes"
+      ],
+      "file": "CharDunes_2",
+      "name": "Char Marsh Sediment",
+      "image": "(HotS)_Char_Marsh_Sediment.jpg"
+    },
+    "CharDunes_3": {
+      "tilesets": [
+        "CharDunes"
+      ],
+      "file": "CharDunes_3",
+      "name": "Char Marsh Lava Flows",
+      "image": "(HotS)_Char_Marsh_Lava_Flows.jpg"
+    },
+    "CharDunes_4": {
+      "tilesets": [
+        "CharDunes"
+      ],
+      "file": "CharDunes_4",
+      "name": "Char Marsh Sponge",
+      "image": "(HotS)_Char_Marsh_Sponge.jpg"
+    },
+    "CharDunes_5": {
+      "tilesets": [
+        "CharDunes"
+      ],
+      "file": "CharDunes_5",
+      "name": "Char Marsh Dirt Cracked",
+      "image": "(HotS)_Char_Marsh_Dirt_Cracked.jpg"
+    },
+    "CharDunes_6": {
+      "tilesets": [
+        "CharDunes"
+      ],
+      "file": "CharDunes_6",
+      "name": "Char Marsh Dirt Gradient",
+      "image": "(HotS)_Char_Marsh_DIrt_Gradient.jpg"
+    },
+    "CharDunes_7": {
+      "tilesets": [
+        "CharDunes"
+      ],
+      "file": "CharDunes_7",
+      "name": "Char Marsh Lava Rock",
+      "image": "(HotS)_Char_Marsh_Lava_Rock.jpg"
+    },
+    "CharDunes_8": {
+      "tilesets": [
+        "CharDunes"
+      ],
+      "file": "CharDunes_8",
+      "name": "Char Marsh Barnacles",
+      "image": "(HotS)_Char_Marsh_Barnacles.jpg"
+    },
+    "CharLavaCracks": {
+      "tilesets": [
+        "Char",
+        "CharEx1"
+      ],
+      "file": "Char_Lava_Cracks",
+      "image": "Char_Lava_Cracks.jpg"
+    },
+    "CharLavaCracksEx2": {
+      "tilesets": [
+        "CharEx2",
+        "CharEx2_Fortress"
+      ],
+      "file": "CharEx2_8",
+      "image": "CharLavaCracksEx2.jpg"
+    },
+    "CharMud": {
+      "tilesets": [
+        "Char",
+        "CharEx1"
+      ],
+      "file": "Char_Mud",
+      "image": "Char_Mud.jpg"
+    },
+    "CharMudEx2": {
+      "tilesets": [
+        "CharEx2",
+        "CharEx2_Fortress"
+      ],
+      "file": "CharEx2_4",
+      "image": "CharMudEx2.jpg"
+    },
+    "CharRedCracks": {
+      "tilesets": [
+        "Char",
+        "CharEx1"
+      ],
+      "file": "Char_RedCracks",
+      "image": "Char_Red_Cracks.jpg"
+    },
+    "CharRedCracksEx2": {
+      "tilesets": [
+        "CharEx2",
+        "CharEx2_Fortress"
+      ],
+      "file": "CharEx2_7",
+      "image": "CharRedCracksEx2.jpg"
+    },
+    "CharRock": {
+      "tilesets": [
+        "Char",
+        "CharEx1"
+      ],
+      "file": "Char_Rock",
+      "image": "Char_Rock.jpg"
+    },
+    "CharRockEx2": {
+      "tilesets": [
+        "CharEx2",
+        "CharEx2_Fortress"
+      ],
+      "file": "CharEx2_5",
+      "image": "CharRockEx2.jpg"
+    },
+    "CharSponge": {
+      "tilesets": [
+        "Char",
+        "CharEx1"
+      ],
+      "file": "Char_Sponge",
+      "image": "Char_Sponge.jpg"
+    },
+    "CharSpongeEx2": {
+      "tilesets": [
+        "CharEx2",
+        "CharEx2_Fortress"
+      ],
+      "file": "CharEx2_6",
+      "image": "CharSpongeEx2.jpg"
+    },
+    "CompoundMansion_1": {
+      "tilesets": [
+        "CompoundMansion"
+      ],
+      "file": "CompoundMansion_1",
+      "image": "Compound_Mansion_1.jpg"
+    },
+    "CompoundMansion_2": {
+      "tilesets": [
+        "CompoundMansion"
+      ],
+      "file": "CompoundMansion_2",
+      "image": "Compound_Mansion_2.jpg"
+    },
+    "CompoundMansion_3": {
+      "tilesets": [
+        "CompoundMansion"
+      ],
+      "file": "CompoundMansion_3",
+      "image": "Compound_Mansion_3.jpg"
+    },
+    "CompoundMansion_4": {
+      "tilesets": [
+        "CompoundMansion"
+      ],
+      "file": "CompoundMansion_4",
+      "image": "Compound_Mansion_4.jpg"
+    },
+    "CompoundMansion_5": {
+      "tilesets": [
+        "CompoundMansion"
+      ],
+      "file": "CompoundMansion_5",
+      "image": "Compound_Mansion_5.jpg"
+    },
+    "CompoundMansion_6": {
+      "tilesets": [
+        "CompoundMansion"
+      ],
+      "file": "CompoundMansion_6",
+      "image": "Compound_Mansion_6.jpg"
+    },
+    "CompoundMansion_7": {
+      "tilesets": [
+        "CompoundMansion"
+      ],
+      "file": "CompoundMansion_7",
+      "image": "Compound_Mansion_7.jpg"
+    },
+    "CompoundMansion_8": {
+      "tilesets": [
+        "CompoundMansion"
+      ],
+      "file": "CompoundMansion_8",
+      "image": "Compound_Mansion_8.jpg"
+    },
+    "CompoundSewer_1": {
+      "tilesets": [
+        "CompoundSewer"
+      ],
+      "file": "CompoundSewer_1",
+      "image": "Compound_Sewer_1.jpg"
+    },
+    "CompoundSewer_2": {
+      "tilesets": [
+        "CompoundSewer"
+      ],
+      "file": "CompoundSewer_2",
+      "image": "Compound_Sewer_2.jpg"
+    },
+    "CompoundSewer_3": {
+      "tilesets": [
+        "CompoundSewer"
+      ],
+      "file": "CompoundSewer_3",
+      "image": "Compound_Sewer_3.jpg"
+    },
+    "CompoundSewer_4": {
+      "tilesets": [
+        "CompoundSewer"
+      ],
+      "file": "CompoundSewer_4",
+      "image": "Compound_Sewer_4.jpg"
+    },
+    "CompoundSewer_5": {
+      "tilesets": [
+        "CompoundSewer"
+      ],
+      "file": "CompoundSewer_5",
+      "image": "Compound_Sewer_5.jpg"
+    },
+    "CompoundSewer_6": {
+      "tilesets": [
+        "CompoundSewer"
+      ],
+      "file": "CompoundSewer_6",
+      "image": "Compound_Sewer_6.jpg"
+    },
+    "CompoundSewer_7": {
+      "tilesets": [
+        "CompoundSewer"
+      ],
+      "file": "CompoundSewer_7",
+      "image": "Compound_Sewer_7.jpg"
+    },
+    "CompoundSewer_8": {
+      "tilesets": [
+        "CompoundSewer"
+      ],
+      "file": "CompoundSewer_8",
+      "image": "Compound_Sewer_8.jpg"
+    },
+    "Cybros1": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "file": "Cybross_1",
+      "image": "(Void)_Cybros1.jpg"
+    },
+    "Cybros2": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "file": "Cybross_2",
+      "image": "(Void)_Cybros2.jpg"
+    },
+    "Cybros3": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "file": "Cybross_3",
+      "image": "(Void)_Cybros3.jpg"
+    },
+    "Cybros4": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "file": "Cybross_4",
+      "image": "(Void)_Cybros4.jpg"
+    },
+    "Cybros5": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "file": "Cybross_5",
+      "image": "(Void)_Cybros5.jpg"
+    },
+    "Cybros6": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "file": "Cybross_6",
+      "image": "(Void)_Cybros6.jpg"
+    },
+    "Cybros7": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "file": "Cybross_7",
+      "image": "(Void)_Cybros7.jpg"
+    },
+    "Cybros8": {
+      "tilesets": [
+        "Cybros"
+      ],
+      "file": "Cybross_8",
+      "image": "(Void)_Cybros8.jpg"
+    },
+    "DefendersCity_1": {
+      "tilesets": [
+        "DefendersCity"
+      ],
+      "file": "DefendersCity_1",
+      "image": "Defenders_City_1.jpg"
+    },
+    "DefendersCity_2": {
+      "tilesets": [
+        "DefendersCity"
+      ],
+      "file": "DefendersCity_2",
+      "image": "Defenders_City_2.jpg"
+    },
+    "DefendersCity_3": {
+      "tilesets": [
+        "DefendersCity"
+      ],
+      "file": "DefendersCity_3",
+      "image": "Defenders_City_3.jpg"
+    },
+    "DefendersCity_4": {
+      "tilesets": [
+        "DefendersCity"
+      ],
+      "file": "DefendersCity_4",
+      "image": "Defenders_City_4.jpg"
+    },
+    "DefendersCity_5": {
+      "tilesets": [
+        "DefendersCity"
+      ],
+      "file": "DefendersCity_5",
+      "image": "Defenders_City_5.jpg"
+    },
+    "DefendersCity_6": {
+      "tilesets": [
+        "DefendersCity"
+      ],
+      "file": "DefendersCity_6",
+      "image": "Defenders_City_6.jpg"
+    },
+    "DefendersCity_7": {
+      "tilesets": [
+        "DefendersCity"
+      ],
+      "file": "DefendersCity_7",
+      "image": "Defenders_City_7.jpg"
+    },
+    "DefendersCity_8": {
+      "tilesets": [
+        "DefendersCity"
+      ],
+      "file": "DefendersCity_8",
+      "image": "Defenders_City_8.jpg"
+    },
+    "DesertWorld1": {
+      "tilesets": [
+        "DesertWorld"
+      ],
+      "file": "DesertWorld_1",
+      "name": "Phaethon Dirt Light"
+    },
+    "DesertWorld2": {
+      "tilesets": [
+        "DesertWorld"
+      ],
+      "file": "DesertWorld_2",
+      "name": "Phaethon Rock Cracked"
+    },
+    "DesertWorld3": {
+      "tilesets": [
+        "DesertWorld"
+      ],
+      "file": "DesertWorld_3",
+      "name": "Phaethon Rock Rough"
+    },
+    "DesertWorld4": {
+      "tilesets": [
+        "DesertWorld"
+      ],
+      "file": "DesertWorld_4",
+      "name": "Phaethon Shale"
+    },
+    "DesertWorld5": {
+      "tilesets": [
+        "DesertWorld"
+      ],
+      "file": "DesertWorld_5",
+      "name": "Phaethon Dirt Dark"
+    },
+    "DesertWorld6": {
+      "tilesets": [
+        "DesertWorld"
+      ],
+      "file": "DesertWorld_6",
+      "name": "Phaethon Sand Dark"
+    },
+    "DesertWorld7": {
+      "tilesets": [
+        "DesertWorld"
+      ],
+      "file": "DesertWorld_7",
+      "name": "Phaethon Dunes"
+    },
+    "DesertWorld8": {
+      "tilesets": [
+        "DesertWorld"
+      ],
+      "file": "DesertWorld_8",
+      "name": "Phaethon Sand Light"
+    },
+    "DominionLab1": {
+      "tilesets": [
+        "DominionLab"
+      ],
+      "file": "Lab_1",
+      "name": "Umoja Panels Medium Light",
+      "image": "(HotS)_Umoja_Panels_Medium_Light.jpg"
+    },
+    "DominionLab2": {
+      "tilesets": [
+        "DominionLab"
+      ],
+      "file": "Lab_2",
+      "name": "Umoja Panels Small Dark",
+      "image": "(HotS)_Umoja_Panels_Small_Dark.jpg"
+    },
+    "DominionLab3": {
+      "tilesets": [
+        "DominionLab"
+      ],
+      "file": "Lab_3",
+      "name": "Umoja Panels Small Light",
+      "image": "(HotS)_Umoja_Panels_Small_Light.jpg"
+    },
+    "DominionLab4": {
+      "tilesets": [
+        "DominionLab"
+      ],
+      "file": "Lab_4",
+      "name": "Umoja Grid Small",
+      "image": "(HotS)_Umoja_Grid_Small.jpg"
+    },
+    "DominionLab5": {
+      "tilesets": [
+        "DominionLab"
+      ],
+      "file": "Lab_5",
+      "name": "Umoja Panels Large Dark",
+      "image": "(HotS)_Umoja_Panels_Large_Dark.jpg"
+    },
+    "DominionLab6": {
+      "tilesets": [
+        "DominionLab"
+      ],
+      "file": "Lab_6",
+      "name": "Umoja Panels Medium Dark",
+      "image": "(HotS)_Umoja_Panels_Medium_Dark.jpg"
+    },
+    "DominionLab7": {
+      "tilesets": [
+        "DominionLab"
+      ],
+      "file": "Lab_7",
+      "name": "Umoja Dirt",
+      "image": "(HotS)_Umoja_Dirt.jpg"
+    },
+    "DominionLab8": {
+      "tilesets": [
+        "DominionLab"
+      ],
+      "file": "Lab_8",
+      "name": "Umoja Rock",
+      "image": "(HotS)_Umoja_Rock.jpg"
+    },
+    "Elsecaro_1": {
+      "tilesets": [
+        "Elsecaro"
+      ],
+      "image": "Elsecaro1.jpg"
+    },
+    "Elsecaro_2": {
+      "tilesets": [
+        "Elsecaro"
+      ],
+      "image": "Elsecaro2.jpg"
+    },
+    "Elsecaro_3": {
+      "tilesets": [
+        "Elsecaro"
+      ],
+      "image": "Elsecaro3.jpg"
+    },
+    "Elsecaro_4": {
+      "tilesets": [
+        "Elsecaro"
+      ],
+      "image": "Elsecaro4.jpg"
+    },
+    "Elsecaro_5": {
+      "tilesets": [
+        "Elsecaro"
+      ],
+      "image": "Elsecaro5.jpg"
+    },
+    "Elsecaro_6": {
+      "tilesets": [
+        "Elsecaro"
+      ],
+      "image": "Elsecaro6.jpg"
+    },
+    "Elsecaro_7": {
+      "tilesets": [
+        "Elsecaro"
+      ],
+      "image": "Elsecaro7.jpg"
+    },
+    "Elsecaro_8": {
+      "tilesets": [
+        "Elsecaro"
+      ],
+      "image": "Elsecaro8.jpg"
+    },
+    "ElsecaroCity_1": {
+      "tilesets": [
+        "ElsecaroCity"
+      ],
+      "image": "ElsecaroCity1.jpg"
+    },
+    "ElsecaroCity_2": {
+      "tilesets": [
+        "ElsecaroCity"
+      ],
+      "image": "ElsecaroCity2.jpg"
+    },
+    "ElsecaroCity_3": {
+      "tilesets": [
+        "ElsecaroCity"
+      ],
+      "image": "ElsecaroCity3.jpg"
+    },
+    "ElsecaroCity_4": {
+      "tilesets": [
+        "ElsecaroCity"
+      ],
+      "image": "ElsecaroCity4.jpg"
+    },
+    "ElsecaroCity_5": {
+      "tilesets": [
+        "ElsecaroCity"
+      ],
+      "image": "ElsecaroCity5.jpg"
+    },
+    "ElsecaroCity_6": {
+      "tilesets": [
+        "ElsecaroCity"
+      ],
+      "image": "ElsecaroCity6.jpg"
+    },
+    "ElsecaroCity_7": {
+      "tilesets": [
+        "ElsecaroCity"
+      ],
+      "image": "ElsecaroCity7.jpg"
+    },
+    "ElsecaroCity_8": {
+      "tilesets": [
+        "ElsecaroCity"
+      ],
+      "image": "ElsecaroCity8.jpg"
+    },
+    "Endion1": {
+      "tilesets": [
+        "Endion",
+        "EndionAiurProtoss"
+      ],
+      "file": "Endion_1",
+      "image": "(Void)_Endion1.jpg"
+    },
+    "Endion2": {
+      "tilesets": [
+        "Endion",
+        "EndionAiurProtoss"
+      ],
+      "file": "Endion_2",
+      "image": "(Void)_Endion2.jpg"
+    },
+    "Endion3": {
+      "tilesets": [
+        "Endion",
+        "EndionAiurProtoss"
+      ],
+      "file": "Endion_3",
+      "image": "(Void)_Endion3.jpg"
+    },
+    "Endion4": {
+      "tilesets": [
+        "Endion",
+        "EndionAiurProtoss"
+      ],
+      "file": "Endion_4",
+      "image": "(Void)_Endion4.jpg"
+    },
+    "Endion5": {
+      "tilesets": [
+        "Endion"
+      ],
+      "file": "Endion_5",
+      "image": "(Void)_Endion5.jpg"
+    },
+    "Endion6": {
+      "tilesets": [
+        "Endion",
+        "EndionAiurProtoss"
+      ],
+      "file": "Endion_6",
+      "image": "(Void)_Endion6.jpg"
+    },
+    "Endion7": {
+      "tilesets": [
+        "Endion",
+        "EndionAiurProtoss"
+      ],
+      "file": "Endion_7",
+      "image": "(Void)_Endion7.jpg"
+    },
+    "Endion8": {
+      "tilesets": [
+        "Endion"
+      ],
+      "file": "Endion_8",
+      "image": "(Void)_Endion8.jpg"
+    },
+    "EndionAiurProtoss1": {
+      "tilesets": [
+        "EndionAiurProtoss"
+      ],
+      "file": "Endion_AiurProtoss_1"
+    },
+    "EndionAiurProtoss2": {
+      "tilesets": [
+        "EndionAiurProtoss"
+      ],
+      "file": "Endion_AiurProtoss_2"
+    },
+    "Generic_1": {
+      "tilesets": [
+        "Generic"
+      ],
+      "file": "Generic_1",
+      "image": "(Void)_Generic1.jpg"
+    },
+    "Generic_2": {
+      "tilesets": [
+        "Generic"
+      ],
+      "file": "Generic_2",
+      "image": "(Void)_Generic2.jpg"
+    },
+    "Generic_3": {
+      "tilesets": [
+        "Generic"
+      ],
+      "file": "Generic_3",
+      "image": "(Void)_Generic3.jpg"
+    },
+    "Generic_4": {
+      "tilesets": [
+        "Generic"
+      ],
+      "file": "Generic_4"
+    },
+    "Generic_5": {
+      "tilesets": [
+        "Generic"
+      ],
+      "file": "Generic_5"
+    },
+    "Generic_6": {
+      "tilesets": [
+        "Generic"
+      ],
+      "file": "Generic_6"
+    },
+    "Generic_7": {
+      "tilesets": [
+        "Generic"
+      ],
+      "file": "Generic_7"
+    },
+    "Generic_8": {
+      "tilesets": [
+        "Generic"
+      ],
+      "file": "Generic_8"
+    },
+    "GenericTerrainEx3_1": {
+      "tilesets": [
+        "GenericTerrainEx3"
+      ]
+    },
+    "GenericTerrainEx3_2": {
+      "tilesets": [
+        "GenericTerrainEx3"
+      ]
+    },
+    "GenericTerrainEx3_3": {
+      "tilesets": [
+        "GenericTerrainEx3"
+      ]
+    },
+    "GenericTerrainEx3_4": {
+      "tilesets": [
+        "GenericTerrainEx3"
+      ]
+    },
+    "GenericTerrainEx3_5": {
+      "tilesets": [
+        "GenericTerrainEx3"
+      ]
+    },
+    "GenericTerrainEx3_6": {
+      "tilesets": [
+        "GenericTerrainEx3"
+      ]
+    },
+    "GenericTerrainEx3_7": {
+      "tilesets": [
+        "GenericTerrainEx3"
+      ]
+    },
+    "GenericTerrainEx3_8": {
+      "tilesets": [
+        "GenericTerrainEx3"
+      ]
+    },
+    "HavenDirt": {
+      "tilesets": [
+        "Haven",
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "file": "Haven_Dirt",
+      "image": "Haven_Dirt.jpg"
+    },
+    "HavenGrass": {
+      "tilesets": [
+        "Haven",
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "file": "Haven_Grass",
+      "image": "Haven_Grass.jpg"
+    },
+    "HavenGrassDark": {
+      "tilesets": [
+        "Haven",
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "file": "Haven_Grass_Dark",
+      "image": "Haven_Grass_Dark.jpg"
+    },
+    "HavenGrassLight": {
+      "tilesets": [
+        "Haven",
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "file": "Haven_Grass_Light",
+      "image": "Haven_Grass_Light.jpg"
+    },
+    "HavenGrassRocky": {
+      "tilesets": [
+        "Haven",
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "file": "Haven_Grass_Rocky",
+      "image": "Haven_Grass_Rocky.jpg"
+    },
+    "HavenLeaves": {
+      "tilesets": [
+        "Haven",
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "file": "Haven_Leaves",
+      "image": "Haven_Leaves.jpg"
+    },
+    "HavenRockRough": {
+      "tilesets": [
+        "Haven",
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "file": "Haven_Rock_Rough",
+      "image": "Haven_Rock_Rough.jpg"
+    },
+    "HavenRockSmooth": {
+      "tilesets": [
+        "Haven",
+        "HavenEx1",
+        "PurifierJungle"
+      ],
+      "file": "Haven_Rock_Smooth"
+    },
+    "HybridLabInner1": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "file": "HybridLabInner_1",
+      "name": "Skygeirr Lab Dirt",
+      "image": "(HotS)_Skygeirr_Lab_Inner_Dirt.jpg",
+      "imageMatch": "fuzzy"
+    },
+    "HybridLabInner2": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "file": "HybridLabInner_2",
+      "name": "Skygeirr Lab Inner Rock Cracked",
+      "image": "(HotS)_Skygeirr_Lab_Inner_Rock_Cracked.jpg"
+    },
+    "HybridLabInner3": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "file": "HybridLabInner_3",
+      "name": "Skygeirr Lab Inner Panel Details",
+      "image": "(HotS)_Skygeirr_Lab_Inner_Panel_Details.jpg"
+    },
+    "HybridLabInner4": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "file": "HybridLabInner_4",
+      "name": "Skygeirr Lab Inner Panels",
+      "image": "(HotS)_Skygeirr_Lab_Inner_Panels.jpg"
+    },
+    "HybridLabInner5": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "file": "HybridLabInner_5",
+      "name": "Skygeirr Lab Inner Plates",
+      "image": "(HotS)_Skygeirr_Lab_Inner_Plates.jpg"
+    },
+    "HybridLabInner6": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "file": "HybridLabInner_6",
+      "name": "Skygeirr Lab Inner Grid Small",
+      "image": "(HotS)_Skygeirr_Lab_Inner_Grid_Small.jpg"
+    },
+    "HybridLabInner7": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "file": "HybridLabInner_7",
+      "name": "Skygeirr Lab Inner Panels Dark",
+      "image": "(HotS)_Skygeirr_Lab_Inner_Panels_Dark.jpg"
+    },
+    "HybridLabInner8": {
+      "tilesets": [
+        "HybridLabInner"
+      ],
+      "file": "HybridLabInner_8",
+      "name": "Skygeirr Lab Inner Grid Medium",
+      "image": "(HotS)_Skygeirr_Lab_Inner_Grid_Medium.jpg"
+    },
+    "HybridLabOuter1": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "file": "HybridLabOuter_1",
+      "name": "Skygeirr Platform Panels",
+      "image": "(HotS)_Skygeirr_Platform_Panels.jpg"
+    },
+    "HybridLabOuter2": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "file": "HybridLabOuter_2",
+      "name": "Skygeirr Platform Panels Large",
+      "image": "(HotS)_Skygeirr_Platform_Panels_Large.jpg"
+    },
+    "HybridLabOuter3": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "file": "HybridLabOuter_3",
+      "name": "Skygeirr Platform Panels Medium",
+      "image": "(HotS)_Skygeirr_Platform_Panels_Medium.jpg"
+    },
+    "HybridLabOuter4": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "file": "HybridLabOuter_4",
+      "name": "Skygeirr Platform Panels Worn",
+      "image": "(HotS)_Skygeirr_Platform_Panels_Worn.jpg"
+    },
+    "HybridLabOuter5": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "file": "HybridLabOuter_5",
+      "name": "Skygeirr Platform Panels Clean",
+      "image": "(HotS)_Skygeirr_Platform_Panels_Clean.jpg"
+    },
+    "HybridLabOuter6": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "file": "HybridLabOuter_6",
+      "name": "Skygeirr Platform Panels Detailed",
+      "image": "(HotS)_Skygeirr_Platform_Panels_Detailed.jpg"
+    },
+    "HybridLabOuter7": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "file": "HybridLabOuter_7",
+      "name": "Skygeirr Platform Panels Dark",
+      "image": "(HotS)_Skygeirr_Platform_Panels_Dark.jpg"
+    },
+    "HybridLabOuter8": {
+      "tilesets": [
+        "HybridLabOuter"
+      ],
+      "file": "HybridLabOuter_8",
+      "name": "Skygeirr Platform Grid Medium",
+      "image": "(HotS)_Skygeirr_Platform_Grid_Medium.jpg"
+    },
+    "HybridLabXelNaga1": {
+      "tilesets": [
+        "HybridLabXelNaga"
+      ],
+      "file": "HybridLabXelNaga_1",
+      "name": "Immortal Forge Grid Small",
+      "image": "(HotS)_Immortal_Forge_Grid_Small.jpg"
+    },
+    "HybridLabXelNaga2": {
+      "tilesets": [
+        "HybridLabXelNaga"
+      ],
+      "file": "HybridLabXelNaga_2",
+      "name": "Immortal Forge Panels Thick",
+      "image": "(HotS)_Immortal_Forge_Panels_Thick.jpg"
+    },
+    "HybridLabXelNaga3": {
+      "tilesets": [
+        "HybridLabXelNaga"
+      ],
+      "file": "HybridLabXelNaga_3",
+      "name": "Immortal Forge Grid Medium",
+      "image": "(HotS)_Immortal_Forge_Grid_Medium.jpg"
+    },
+    "HybridLabXelNaga4": {
+      "tilesets": [
+        "HybridLabXelNaga"
+      ],
+      "file": "HybridLabXelNaga_4",
+      "name": "Immortal Forge Panels Dark",
+      "image": "(HotS)_Immortal_Forge_Panels_Dark.jpg"
+    },
+    "HybridLabXelNaga5": {
+      "tilesets": [
+        "HybridLabXelNaga"
+      ],
+      "file": "HybridLabXelNaga_5",
+      "name": "Immortal Forge Gravel",
+      "image": "(HotS)_Immortal_Forge_Gravel.jpg"
+    },
+    "HybridLabXelNaga6": {
+      "tilesets": [
+        "HybridLabXelNaga"
+      ],
+      "file": "HybridLabXelNaga_6",
+      "name": "Immortal Forge Concrete Cracked",
+      "image": "(HotS)_Immortal_Forge_Concrete_Cracked.jpg"
+    },
+    "HybridLabXelNaga7": {
+      "tilesets": [
+        "HybridLabXelNaga"
+      ],
+      "file": "HybridLabXelNaga_7",
+      "name": "Immortal Forge Concrete",
+      "image": "(HotS)_Immortal_Forge_Concrete.jpg"
+    },
+    "HybridLabXelNaga8": {
+      "tilesets": [
+        "HybridLabXelNaga"
+      ],
+      "file": "HybridLabXelNaga_8",
+      "name": "Immortal Forge Rock",
+      "image": "(HotS)_Immortal_Forge_Rock.jpg"
+    },
+    "IceWorld1": {
+      "tilesets": [
+        "IceWorld"
+      ],
+      "file": "IceWorld_1",
+      "name": "Kaldir Ice Light",
+      "image": "(HotS)_Kaldir_Ice_Light.jpg"
+    },
+    "IceWorld2": {
+      "tilesets": [
+        "IceWorld"
+      ],
+      "file": "IceWorld_2",
+      "name": "Kaldir Ice Cracked",
+      "image": "(HotS)_Kaldir_Ice_Cracked.jpg"
+    },
+    "IceWorld3": {
+      "tilesets": [
+        "IceWorld"
+      ],
+      "file": "IceWorld_3",
+      "name": "Kaldir Snow Powdered",
+      "image": "(HotS)_Kaldir_Snow_Powdered.jpg"
+    },
+    "IceWorld4": {
+      "tilesets": [
+        "IceWorld"
+      ],
+      "file": "IceWorld_4",
+      "name": "Kaldir Snow Icy",
+      "image": "(HotS)_Kaldir_Snow_Icy.jpg"
+    },
+    "IceWorld5": {
+      "tilesets": [
+        "IceWorld"
+      ],
+      "file": "IceWorld_5",
+      "name": "Kaldir Sponge",
+      "image": "(HotS)_Kaldir_Sponge.jpg"
+    },
+    "IceWorld6": {
+      "tilesets": [
+        "IceWorld"
+      ],
+      "file": "IceWorld_6",
+      "name": "Kaldir Rock",
+      "image": "(HotS)_Kaldir_Rock.jpg"
+    },
+    "IceWorld7": {
+      "tilesets": [
+        "IceWorld"
+      ],
+      "file": "IceWorld_7",
+      "name": "Kaldir Ice Dark",
+      "image": "(HotS)_Kaldir_Ice_Dark.jpg"
+    },
+    "IceWorld8": {
+      "tilesets": [
+        "IceWorld"
+      ],
+      "file": "IceWorld_8",
+      "name": "Kaldir Ice Crumbled",
+      "image": "(HotS)_Kaldir_Ice_Crumbled.jpg"
+    },
+    "IceWorldEx2_1": {
+      "tilesets": [
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "file": "IceWorldEx2_01",
+      "image": "IceWorldEx2_1.jpg"
+    },
+    "IceWorldEx2_2": {
+      "tilesets": [
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "file": "IceWorldEx2_02",
+      "image": "IceWorldEx2_2.jpg"
+    },
+    "IceWorldEx2_3": {
+      "tilesets": [
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "file": "IceWorldEx2_03",
+      "image": "IceWorldEx2_3.jpg"
+    },
+    "IceWorldEx2_4": {
+      "tilesets": [
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "file": "IceWorldEx2_04",
+      "image": "IceWorldEx2_4.jpg"
+    },
+    "IceWorldEx2_5": {
+      "tilesets": [
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "file": "IceWorldEx2_05",
+      "image": "IceWorldEx2_5.jpg"
+    },
+    "IceWorldEx2_6": {
+      "tilesets": [
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "file": "IceWorldEx2_06",
+      "image": "IceWorldEx2_6.jpg"
+    },
+    "IceWorldEx2_7": {
+      "tilesets": [
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "file": "IceWorldEx2_07",
+      "image": "IceWorldEx2_7.jpg"
+    },
+    "IceWorldEx2_8": {
+      "tilesets": [
+        "IceWorldEx2",
+        "IceWorldEx2_Fortress"
+      ],
+      "file": "IceWorldEx2_08",
+      "image": "IceWorldEx2_8.jpg"
+    },
+    "JarbanMinor_Jungle_1": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_1.jpg"
+    },
+    "JarbanMinor_Jungle_2": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_2.jpg"
+    },
+    "JarbanMinor_Jungle_3": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_3.jpg"
+    },
+    "JarbanMinor_Jungle_4": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_4.jpg"
+    },
+    "JarbanMinor_Jungle_5": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_5.jpg"
+    },
+    "JarbanMinor_Jungle_6": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_6.jpg"
+    },
+    "JarbanMinor_Jungle_7": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_7.jpg"
+    },
+    "JarbanMinor_Jungle_8": {
+      "tilesets": [
+        "JarbanMinor_Jungle"
+      ],
+      "image": "Jarban_Minor_Jungle_8.jpg"
+    },
+    "Korhal1": {
+      "tilesets": [
+        "Korhal",
+        "KorhalEx1"
+      ],
+      "file": "Korhal1"
+    },
+    "Korhal2": {
+      "tilesets": [
+        "Korhal",
+        "KorhalEx1"
+      ],
+      "file": "Korhal2"
+    },
+    "Korhal3": {
+      "tilesets": [
+        "Korhal",
+        "KorhalEx1"
+      ],
+      "file": "Korhal3"
+    },
+    "Korhal4": {
+      "tilesets": [
+        "Korhal",
+        "KorhalEx1"
+      ],
+      "file": "Korhal4"
+    },
+    "Korhal5": {
+      "tilesets": [
+        "Korhal",
+        "KorhalEx1"
+      ],
+      "file": "Korhal5"
+    },
+    "Korhal6": {
+      "tilesets": [
+        "Korhal",
+        "KorhalEx1"
+      ],
+      "file": "Korhal6"
+    },
+    "Korhal7": {
+      "tilesets": [
+        "Korhal",
+        "KorhalEx1"
+      ],
+      "file": "Korhal7"
+    },
+    "Korhal8": {
+      "tilesets": [
+        "Korhal",
+        "KorhalEx1"
+      ],
+      "file": "Korhal8"
+    },
+    "KorhalCity1": {
+      "tilesets": [
+        "KorhalCity"
+      ],
+      "file": "KorhalCity_1",
+      "name": "Korhal City Dirt Light",
+      "image": "(HotS)_Korhal_City_Dirt_Light.jpg"
+    },
+    "KorhalCity2": {
+      "tilesets": [
+        "KorhalCity"
+      ],
+      "file": "KorhalCity_2",
+      "name": "Korhal City Tiles Large",
+      "image": "(HotS)_Korhal_City_Tiles_Large.jpg"
+    },
+    "KorhalCity3": {
+      "tilesets": [
+        "KorhalCity"
+      ],
+      "file": "KorhalCity_3",
+      "name": "Korhal City Tiles Medium",
+      "image": "(HotS)_Korhal_City_Tiles_Medium.jpg"
+    },
+    "KorhalCity4": {
+      "tilesets": [
+        "KorhalCity"
+      ],
+      "file": "KorhalCity_4",
+      "name": "Korhal City Tiles Small",
+      "image": "(HotS)_Korhal_City_Tiles_Small.jpg"
+    },
+    "KorhalCity5": {
+      "tilesets": [
+        "KorhalCity"
+      ],
+      "file": "KorhalCity_5",
+      "name": "Korhal City Dirt Dark",
+      "image": "(HotS)_Korhal_City_Dirt_Dark.jpg"
+    },
+    "KorhalCity6": {
+      "tilesets": [
+        "KorhalCity"
+      ],
+      "file": "KorhalCity_6",
+      "name": "Korhal City Concrete Cracked",
+      "image": "(HotS)_Korhal_City_Concrete_Cracked.jpg"
+    },
+    "KorhalCity7": {
+      "tilesets": [
+        "KorhalCity"
+      ],
+      "file": "KorhalCity_7",
+      "name": "Korhal City Grass",
+      "image": "(HotS)_Korhal_City_Grass.jpg"
+    },
+    "KorhalCity8": {
+      "tilesets": [
+        "KorhalCity"
+      ],
+      "file": "KorhalCity_8",
+      "name": "Korhal City Rock Rough",
+      "image": "(HotS)_Korhal_City_Rock_Rough.jpg"
+    },
+    "KorhalCityEx2_1": {
+      "tilesets": [
+        "KorhalCityEx2"
+      ],
+      "file": "korhalcityex2_1",
+      "image": "(Void)_Korhal_City_Ex2_1.jpg"
+    },
+    "KorhalCityEx2_2": {
+      "tilesets": [
+        "KorhalCityEx2"
+      ],
+      "file": "KorhalCityex2_2",
+      "image": "(Void)_Korhal_City_Ex2_2.jpg"
+    },
+    "KorhalCityEx2_3": {
+      "tilesets": [
+        "KorhalCityEx2"
+      ],
+      "file": "KorhalCityex2_3",
+      "image": "(Void)_Korhal_City_Ex2_3.jpg"
+    },
+    "KorhalCityEx2_4": {
+      "tilesets": [
+        "KorhalCityEx2"
+      ],
+      "file": "KorhalCityex2_4",
+      "image": "(Void)_Korhal_City_Ex2_4.jpg"
+    },
+    "KorhalCityEx2_5": {
+      "tilesets": [
+        "KorhalCityEx2"
+      ],
+      "file": "KorhalCityex2_5",
+      "image": "(Void)_Korhal_City_Ex2_5.jpg"
+    },
+    "KorhalCityEx2_6": {
+      "tilesets": [
+        "KorhalCityEx2"
+      ],
+      "file": "KorhalCityex2_6",
+      "image": "(Void)_Korhal_City_Ex2_6.jpg"
+    },
+    "KorhalCityEx2_7": {
+      "tilesets": [
+        "KorhalCityEx2"
+      ],
+      "file": "KorhalCityex2_7",
+      "image": "(Void)_Korhal_City_Ex2_7.jpg"
+    },
+    "KorhalCityEx2_8": {
+      "tilesets": [
+        "KorhalCityEx2"
+      ],
+      "file": "KorhalCityex2_8",
+      "image": "(Void)_Korhal_City_Ex2_8.jpg"
+    },
+    "KorhalOutskirts1": {
+      "tilesets": [
+        "KorhalOutskirts"
+      ],
+      "file": "KorhalOutskirts_1",
+      "name": "Korhal Wastes Dirt Light"
+    },
+    "KorhalOutskirts2": {
+      "tilesets": [
+        "KorhalOutskirts"
+      ],
+      "file": "KorhalOutskirts_2",
+      "name": "Korhal Wastes Rock Rough",
+      "image": "(HotS)_Korhal_Wastes_Rock_Rough.jpg"
+    },
+    "KorhalOutskirts3": {
+      "tilesets": [
+        "KorhalOutskirts"
+      ],
+      "file": "KorhalOutskirts_3",
+      "name": "Korhal Wastes Rock Cracked",
+      "image": "(HotS)_Korhal_Wastes_Rock_Cracked.jpg"
+    },
+    "KorhalOutskirts4": {
+      "tilesets": [
+        "KorhalOutskirts"
+      ],
+      "file": "KorhalOutskirts_4",
+      "name": "Korhal Wastes Dirt Dark",
+      "image": "(HotS)_Korhal_Wastes_Dirt_Dark.jpg"
+    },
+    "KorhalOutskirts5": {
+      "tilesets": [
+        "KorhalOutskirts"
+      ],
+      "file": "KorhalOutskirts_5",
+      "name": "Korhal Wastes Sand",
+      "image": "(HotS)_Korhal_Wastes_Sand.jpg"
+    },
+    "KorhalOutskirts6": {
+      "tilesets": [
+        "KorhalOutskirts"
+      ],
+      "file": "KorhalOutskirts_6",
+      "name": "Korhal Wastes Concrete Cracked",
+      "image": "(HotS)_Korhal_Wastes_Concrete_Cracked.jpg"
+    },
+    "KorhalOutskirts7": {
+      "tilesets": [
+        "KorhalOutskirts"
+      ],
+      "file": "KorhalOutskirts_7",
+      "name": "Korhal Wastes Grass",
+      "image": "(HotS)_Korhal_Wastes_Grass.jpg"
+    },
+    "KorhalOutskirts8": {
+      "tilesets": [
+        "KorhalOutskirts"
+      ],
+      "file": "KorhalOutskirts_8",
+      "name": "Korhal Wastes Tiles Large",
+      "image": "(HotS)_Korhal_Wastes_Tiles_Large.jpg"
+    },
+    "KorhalPlatform1": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "file": "KorhalPlatform_1",
+      "name": "Korhal Platform Panels Small Light",
+      "image": "(HotS)_Korhal_Platform_Small_Light.jpg",
+      "imageMatch": "fuzzy"
+    },
+    "KorhalPlatform2": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "file": "KorhalPlatform_2",
+      "name": "Korhal Platform Panels Large Dark",
+      "image": "(HotS)_Korhal_Platform_Panel_Large_Dark.jpg",
+      "imageMatch": "fuzzy"
+    },
+    "KorhalPlatform3": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "file": "KorhalPlatform_3",
+      "name": "Korhal Platform Panel Details",
+      "image": "(HotS)_Korhal_Platform_Panel_Details.jpg"
+    },
+    "KorhalPlatform4": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "file": "KorhalPlatform_4",
+      "name": "Korhal Platform Panels Large Light",
+      "image": "(HotS)_Korhal_Platform_Panels_Large_Light.jpg"
+    },
+    "KorhalPlatform5": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "file": "KorhalPlatform_5",
+      "name": "Korhal Platform Panels Small Dark",
+      "image": "(HotS)_Korhal_Platform_Panels_Small_Dark.jpg"
+    },
+    "KorhalPlatform6": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "file": "KorhalPlatform_6",
+      "name": "Korhal Platform Panels Medium",
+      "image": "(HotS)_Korhal_Platform_Panels_Medium.jpg"
+    },
+    "KorhalPlatform7": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "file": "KorhalPlatform_7",
+      "name": "Korhal Platform Tiles",
+      "image": "(HotS)_Korhal_Platform_Tiles.jpg"
+    },
+    "KorhalPlatform8": {
+      "tilesets": [
+        "KorhalPlatform"
+      ],
+      "file": "KorhalPlatform_8",
+      "name": "Korhal Platform Grating",
+      "image": "(HotS)_Korhal_Platform_Grating.jpg"
+    },
+    "KorhalPlatformEx2_1": {
+      "tilesets": [
+        "KorhalPlatformEx2"
+      ],
+      "file": "korhalplatformex2_1",
+      "image": "(Void)_KorhalPlatformEx2_1.jpg"
+    },
+    "KorhalPlatformEx2_2": {
+      "tilesets": [
+        "KorhalPlatformEx2"
+      ],
+      "file": "korhalplatformex2_2",
+      "image": "(Void)_KorhalPlatformEx2_2.jpg"
+    },
+    "KorhalPlatformEx2_3": {
+      "tilesets": [
+        "KorhalPlatformEx2"
+      ],
+      "file": "korhalplatformex2_3",
+      "image": "(Void)_KorhalPlatformEx2_3.jpg"
+    },
+    "KorhalPlatformEx2_4": {
+      "tilesets": [
+        "KorhalPlatformEx2"
+      ],
+      "file": "korhalplatformex2_4",
+      "image": "(Void)_KorhalPlatformEx2_4.jpg"
+    },
+    "KorhalPlatformEx2_5": {
+      "tilesets": [
+        "KorhalPlatformEx2"
+      ],
+      "file": "korhalplatformex2_5",
+      "image": "(Void)_KorhalPlatformEx2_5.jpg"
+    },
+    "KorhalPlatformEx2_6": {
+      "tilesets": [
+        "KorhalPlatformEx2"
+      ],
+      "file": "korhalplatformex2_6",
+      "image": "(Void)_KorhalPlatformEx2_6.jpg"
+    },
+    "KorhalPlatformEx2_7": {
+      "tilesets": [
+        "KorhalPlatformEx2"
+      ],
+      "file": "korhalplatformex2_7",
+      "image": "(Void)_KorhalPlatformEx2_7.jpg"
+    },
+    "KorhalPlatformEx2_8": {
+      "tilesets": [
+        "KorhalPlatformEx2"
+      ],
+      "file": "korhalplatformex2_8",
+      "image": "(Void)_KorhalPlatformEx2_8.jpg"
+    },
+    "KorhalWastes_1": {
+      "tilesets": [
+        "KorhalWastes"
+      ],
+      "file": "KorhalWastes_1",
+      "image": "(Void)_KorhalWastes_1.jpg"
+    },
+    "KorhalWastes_2": {
+      "tilesets": [
+        "KorhalWastes"
+      ],
+      "file": "KorhalWastes_2",
+      "image": "(Void)_KorhalWastes_2.jpg"
+    },
+    "KorhalWastes_3": {
+      "tilesets": [
+        "KorhalWastes"
+      ],
+      "file": "KorhalWastes_3",
+      "image": "(Void)_KorhalWastes_3.jpg"
+    },
+    "KorhalWastes_4": {
+      "tilesets": [
+        "KorhalWastes"
+      ],
+      "file": "KorhalWastes_4",
+      "image": "(Void)_KorhalWastes_4.jpg"
+    },
+    "KorhalWastes_5": {
+      "tilesets": [
+        "KorhalWastes"
+      ],
+      "file": "KorhalWastes_5",
+      "image": "(Void)_KorhalWastes_5.jpg"
+    },
+    "KorhalWastes_6": {
+      "tilesets": [
+        "KorhalWastes"
+      ],
+      "file": "KorhalWastes_6",
+      "image": "(Void)_KorhalWastes_6.jpg"
+    },
+    "KorhalWastes_7": {
+      "tilesets": [
+        "KorhalWastes"
+      ],
+      "file": "KorhalWastes_7",
+      "image": "(Void)_KorhalWastes_7.jpg"
+    },
+    "KorhalWastes_8": {
+      "tilesets": [
+        "KorhalWastes"
+      ],
+      "file": "KorhalWastes_8",
+      "image": "(Void)_KorhalWastes_8.jpg"
+    },
+    "MarSaraBlackenedRock": {
+      "tilesets": [
+        "MarSara",
+        "MarSaraEx1"
+      ],
+      "file": "MarSara_Blackened_Rock",
+      "image": "Mar_Sara_Blackened_Rock.jpg"
+    },
+    "MarSaraBlackenedRockEx2": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "file": "MarSaraEx2_6",
+      "image": "Mar_Sara_Blackened_Rock_Ex2.jpg"
+    },
+    "MarSaraConcrete": {
+      "tilesets": [
+        "MarSara",
+        "MarSaraEx1"
+      ],
+      "file": "MarSara_Concrete",
+      "image": "Mar_Sara_Concrete.jpg"
+    },
+    "MarSaraConcreteEx2": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "file": "MarSaraEx2_7",
+      "image": "Mar_Sara_Concrete_Ex2.jpg"
+    },
+    "MarSaraDarkSand": {
+      "tilesets": [
+        "MarSara",
+        "MarSaraEx1"
+      ],
+      "file": "MarSara_Dark_Sand",
+      "image": "Mar_Sara_Dark_Sand.jpg"
+    },
+    "MarSaraDarkSandEx2": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "file": "MarSaraEx2_5",
+      "image": "Mar_Sara_Dark_Sand_Ex2.jpg"
+    },
+    "MarSaraDirt": {
+      "tilesets": [
+        "MarSara",
+        "MarSaraEx1"
+      ],
+      "file": "MarSara_Dirt",
+      "image": "Mar_Sara_Dirt.jpg"
+    },
+    "MarSaraDirtCracked": {
+      "tilesets": [
+        "MarSara",
+        "MarSaraEx1"
+      ],
+      "file": "MarSara_Dirt_Cracked",
+      "image": "Mar_Sara_Dirt_Cracked.jpg"
+    },
+    "MarSaraDirtCrackedEx2": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "file": "MarSaraEx2_4",
+      "image": "Mar_Sara_Dirt_Cracked_Ex2.jpg"
+    },
+    "MarSaraDirtEx2": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "file": "MarSaraEx2_1",
+      "image": "Mar_Sara_Dirt_Ex2.jpg"
+    },
+    "MarSaraPanels": {
+      "tilesets": [
+        "MarSara",
+        "MarSaraEx1"
+      ],
+      "file": "MarSara_Panels",
+      "image": "Mar_Sara_Panels.jpg"
+    },
+    "MarSaraPanelsEx2": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "file": "MarSaraEx2_8",
+      "image": "Mar_Sara_Panels_Ex2.jpg"
+    },
+    "MarSaraRocky": {
+      "tilesets": [
+        "MarSara",
+        "MarSaraEx1"
+      ],
+      "file": "MarSara_Rocky",
+      "image": "Mar_Sara_Rocky.jpg"
+    },
+    "MarSaraRockyEx2": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "file": "MarSaraEx2_3",
+      "image": "Mar_Sara_Rocky_Ex2.jpg"
+    },
+    "MarSaraSand": {
+      "tilesets": [
+        "MarSara",
+        "MarSaraEx1"
+      ],
+      "file": "MarSara_Sand",
+      "image": "Mar_Sara_Sand.jpg"
+    },
+    "MarSaraSandEx2": {
+      "tilesets": [
+        "MarSaraEx2"
+      ],
+      "file": "MarSaraEx2_2",
+      "image": "Mar_Sara_Sand_Ex2.jpg"
+    },
+    "MeinhoffConcrete": {
+      "tilesets": [
+        "Meinhoff",
+        "MeinhoffEx1"
+      ],
+      "file": "Meinhoff_Concrete",
+      "image": "Meinhoff_Concrete.jpg"
+    },
+    "MeinhoffCraters": {
+      "tilesets": [
+        "Meinhoff",
+        "MeinhoffEx1"
+      ],
+      "file": "Meinhoff_Craters",
+      "image": "Meinhoff_Craters.jpg"
+    },
+    "MeinhoffEx3_1": {
+      "tilesets": [
+        "MeinhoffEx3"
+      ],
+      "file": "MeinhoffEx3_1",
+      "image": "MeinhoffEx3_1.jpg"
+    },
+    "MeinhoffEx3_2": {
+      "tilesets": [
+        "MeinhoffEx3"
+      ],
+      "file": "MeinhoffEx3_2",
+      "image": "MeinhoffEx3_2.jpg"
+    },
+    "MeinhoffEx3_3": {
+      "tilesets": [
+        "MeinhoffEx3"
+      ],
+      "file": "MeinhoffEx3_3",
+      "image": "MeinhoffEx3_3.jpg"
+    },
+    "MeinhoffEx3_4": {
+      "tilesets": [
+        "MeinhoffEx3"
+      ],
+      "file": "MeinhoffEx3_4",
+      "image": "MeinhoffEx3_4.jpg"
+    },
+    "MeinhoffEx3_5": {
+      "tilesets": [
+        "MeinhoffEx3"
+      ],
+      "file": "MeinhoffEx3_5",
+      "image": "MeinhoffEx3_5.jpg"
+    },
+    "MeinhoffEx3_6": {
+      "tilesets": [
+        "MeinhoffEx3"
+      ],
+      "file": "MeinhoffEx3_6",
+      "image": "MeinhoffEx3_6.jpg"
+    },
+    "MeinhoffEx3_7": {
+      "tilesets": [
+        "MeinhoffEx3"
+      ],
+      "file": "MeinhoffEx3_7",
+      "image": "MeinhoffEx3_7.jpg"
+    },
+    "MeinhoffEx3_8": {
+      "tilesets": [
+        "MeinhoffEx3"
+      ],
+      "file": "MeinhoffEx3_8",
+      "image": "MeinhoffEx3_8.jpg"
+    },
+    "MeinhoffGrating": {
+      "tilesets": [
+        "Meinhoff",
+        "MeinhoffEx1"
+      ],
+      "file": "Meinhoff_Grating",
+      "image": "Meinhoff_Grating.jpg"
+    },
+    "MeinhoffPanels": {
+      "tilesets": [
+        "Meinhoff",
+        "MeinhoffEx1"
+      ],
+      "file": "Meinhoff_Panels",
+      "image": "Meinhoff_Panels.jpg"
+    },
+    "MeinhoffRock": {
+      "tilesets": [
+        "Meinhoff",
+        "MeinhoffEx1"
+      ],
+      "file": "Meinhoff_Rock",
+      "image": "Meinhoff_Rock.jpg"
+    },
+    "MeinhoffRoughSand": {
+      "tilesets": [
+        "Meinhoff",
+        "MeinhoffEx1"
+      ],
+      "file": "Meinhoff_Rough_Sand",
+      "image": "Meinhoff_Rough_Sand.jpg"
+    },
+    "MeinhoffSandDunes": {
+      "tilesets": [
+        "Meinhoff",
+        "MeinhoffEx1"
+      ],
+      "file": "Meinhoff_Sand_Dunes",
+      "image": "Meinhoff_Sand_Dunes.jpg"
+    },
+    "MeinhoffWhiteSand": {
+      "tilesets": [
+        "Meinhoff",
+        "MeinhoffEx1"
+      ],
+      "file": "Meinhoff_White_Sand",
+      "image": "Meinhoff_White_Sand.jpg"
+    },
+    "MoebiusLab1": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "file": "MoebiusLab1",
+      "image": "(Void)_Moebius_Lab_1.jpg"
+    },
+    "MoebiusLab2": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "file": "MoebiusLab2",
+      "image": "(Void)_Moebius_Lab_2.jpg"
+    },
+    "MoebiusLab3": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "file": "MoebiusLab3",
+      "image": "(Void)_Moebius_Lab_3.jpg"
+    },
+    "MoebiusLab4": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "file": "MoebiusLab4",
+      "image": "(Void)_Moebius_Lab_4.jpg"
+    },
+    "MoebiusLab5": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "file": "MoebiusLab5",
+      "image": "(Void)_Moebius_Lab_5.jpg"
+    },
+    "MoebiusLab6": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "file": "MoebiusLab6",
+      "image": "(Void)_Moebius_Lab_6.jpg"
+    },
+    "MoebiusLab7": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "file": "MoebiusLab7",
+      "image": "(Void)_Moebius_Lab_7.jpg"
+    },
+    "MoebiusLab8": {
+      "tilesets": [
+        "MoebiusLab"
+      ],
+      "file": "MoebiusLab8",
+      "image": "(Void)_Moebius_Lab_8.jpg"
+    },
+    "MonlythBricks": {
+      "tilesets": [
+        "Monlyth",
+        "MonlythEx1"
+      ],
+      "file": "Monlyth_Bricks",
+      "image": "Monlyth_Bricks.jpg"
+    },
+    "MonlythCracked": {
+      "tilesets": [
+        "Monlyth",
+        "MonlythEx1"
+      ],
+      "file": "Monlyth_Cracked",
+      "image": "Monlyth_Cracked.jpg"
+    },
+    "MonlythDirt": {
+      "tilesets": [
+        "Monlyth",
+        "MonlythEx1"
+      ],
+      "file": "Monlyth_Dirt",
+      "image": "Monlyth_Dirt.jpg"
+    },
+    "MonlythDunes": {
+      "tilesets": [
+        "Monlyth",
+        "MonlythEx1"
+      ],
+      "file": "Monlyth_Dunes",
+      "image": "Monlyth_Dunes.jpg"
+    },
+    "MonlythPlates": {
+      "tilesets": [
+        "Monlyth",
+        "MonlythEx1"
+      ],
+      "file": "Monlyth_Plates",
+      "image": "Monlyth_Plates.jpg"
+    },
+    "MonlythRock": {
+      "tilesets": [
+        "Monlyth",
+        "MonlythEx1"
+      ],
+      "file": "Monlyth_Rock",
+      "image": "Monlyth_Rock.jpg"
+    },
+    "MonlythSand": {
+      "tilesets": [
+        "Monlyth",
+        "MonlythEx1"
+      ],
+      "file": "Monlyth_Sand",
+      "image": "Monlyth_Sand.jpg"
+    },
+    "MonlythTiles": {
+      "tilesets": [
+        "Monlyth",
+        "MonlythEx1"
+      ],
+      "file": "Monlyth_Tiles",
+      "image": "Monlyth_Tiles.jpg"
+    },
+    "NewFolsomConcrete": {
+      "tilesets": [
+        "NewFolsom",
+        "NewFolsomEx1"
+      ],
+      "file": "NewFolsom_Concrete",
+      "image": "New_Folsom_Concrete.jpg"
+    },
+    "NewFolsomDirt": {
+      "tilesets": [
+        "NewFolsom",
+        "NewFolsomEx1"
+      ],
+      "file": "NewFolsom_Dirt",
+      "image": "New_Folsom_Dirt.jpg"
+    },
+    "NewFolsomDirtCracked": {
+      "tilesets": [
+        "NewFolsom",
+        "NewFolsomEx1"
+      ],
+      "file": "NewFolsom_Dirt_Cracked",
+      "image": "New_Folsom_Dirt_Cracked.jpg"
+    },
+    "NewFolsomGrating": {
+      "tilesets": [
+        "NewFolsom",
+        "NewFolsomEx1"
+      ],
+      "file": "NewFolsom_Grating",
+      "image": "New_Folsom_Grating.jpg"
+    },
+    "NewFolsomMesh": {
+      "tilesets": [
+        "NewFolsom",
+        "NewFolsomEx1"
+      ],
+      "file": "NewFolsom_Mesh",
+      "image": "New_Folsom_Mesh.jpg"
+    },
+    "NewFolsomRock": {
+      "tilesets": [
+        "NewFolsom",
+        "NewFolsomEx1"
+      ],
+      "file": "NewFolsom_Rock",
+      "image": "New_Folsom_Rock.jpg"
+    },
+    "NewFolsomSand": {
+      "tilesets": [
+        "NewFolsom",
+        "NewFolsomEx1"
+      ],
+      "file": "NewFolsom_Sand",
+      "image": "New_Folsom_Sand.jpg"
+    },
+    "NewFolsomTiles": {
+      "tilesets": [
+        "NewFolsom",
+        "NewFolsomEx1"
+      ],
+      "file": "NewFolsom_Tiles",
+      "image": "New_Folsom_Tiles.jpg"
+    },
+    "PortCity1": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "file": "PortCity_1",
+      "image": "PortCity1.jpg"
+    },
+    "PortCity2": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "file": "PortCity_2",
+      "image": "PortCity2.jpg"
+    },
+    "PortCity3": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "file": "PortCity_3",
+      "image": "PortCity3.jpg"
+    },
+    "PortCity4": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "file": "PortCity_4",
+      "image": "PortCity4.jpg"
+    },
+    "PortCity5": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "file": "PortCity_5",
+      "image": "PortCity5.jpg"
+    },
+    "PortCity6": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "file": "PortCity_6",
+      "image": "PortCity6.jpg"
+    },
+    "PortCity7": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "file": "PortCity_7",
+      "image": "PortCity7.jpg"
+    },
+    "PortCity8": {
+      "tilesets": [
+        "PortCity"
+      ],
+      "file": "PortCity_8",
+      "image": "PortCity8.jpg"
+    },
+    "PortCityB1": {
+      "tilesets": [
+        "PortCityB"
+      ],
+      "file": "PortCityB_1",
+      "image": "PortCityB1.jpg"
+    },
+    "PortCityB2": {
+      "tilesets": [
+        "PortCityB"
+      ],
+      "file": "PortCityB_2",
+      "image": "PortCityB2.jpg"
+    },
+    "PortCityB3": {
+      "tilesets": [
+        "PortCityB"
+      ],
+      "file": "PortCityB_3",
+      "image": "PortCityB3.jpg"
+    },
+    "PortCityB4": {
+      "tilesets": [
+        "PortCityB"
+      ],
+      "file": "PortCityB_4",
+      "image": "PortCityB4.jpg"
+    },
+    "PortCityB5": {
+      "tilesets": [
+        "PortCityB"
+      ],
+      "file": "PortCityB_5",
+      "image": "PortCityB5.jpg"
+    },
+    "PortCityB6": {
+      "tilesets": [
+        "PortCityB"
+      ],
+      "file": "PortCityB_6",
+      "image": "PortCityB6.jpg"
+    },
+    "PortCityB7": {
+      "tilesets": [
+        "PortCityB"
+      ],
+      "file": "PortCityB_7",
+      "image": "PortCityB7.jpg"
+    },
+    "PortCityB8": {
+      "tilesets": [
+        "PortCityB"
+      ],
+      "file": "PortCityB_8",
+      "image": "PortCityB8.jpg"
+    },
+    "PortZionConveyorBelt": {
+      "tilesets": [
+        "PortZion",
+        "PortZionEx1"
+      ],
+      "file": "portzion_grass",
+      "image": "Port_Zion_Grass.jpg"
+    },
+    "PortZionDirt": {
+      "tilesets": [
+        "PortZion",
+        "PortZionEx1"
+      ],
+      "file": "PortZion_Dirt",
+      "image": "Port_Zion_Dirt.jpg"
+    },
+    "PortZionDirtCracked": {
+      "tilesets": [
+        "PortZion",
+        "PortZionEx1"
+      ],
+      "file": "PortZion_Dirt_Cracked",
+      "image": "Port_Zion_Dirt_Cracked.jpg"
+    },
+    "PortZionGrating": {
+      "tilesets": [
+        "PortZion",
+        "PortZionEx1"
+      ],
+      "file": "PortZion_Grating",
+      "image": "Port_Zion_Grating.jpg"
+    },
+    "PortZionJunk": {
+      "tilesets": [
+        "PortZion",
+        "PortZionEx1"
+      ],
+      "file": "PortZion_Junk",
+      "image": "Port_Zion_Junk.jpg"
+    },
+    "PortZionMesh": {
+      "tilesets": [
+        "PortZion",
+        "PortZionEx1"
+      ],
+      "file": "PortZion_Mesh",
+      "image": "Port_Zion_Mesh.jpg"
+    },
+    "PortZionRock": {
+      "tilesets": [
+        "PortZion",
+        "PortZionEx1"
+      ],
+      "file": "PortZion_Rock",
+      "image": "Port_Zion_Rock.jpg"
+    },
+    "PortZionTiles": {
+      "tilesets": [
+        "PortZion",
+        "PortZionEx1"
+      ],
+      "file": "PortZion_Tiles",
+      "image": "Port_Zion_Tiles.jpg"
+    },
+    "PrisonShip1": {
+      "tilesets": [
+        "PrisonShip"
+      ],
+      "file": "PrisonShip_1",
+      "name": "Moros Tiles Large",
+      "image": "(HotS)_Moros_Tiles_Large.jpg"
+    },
+    "PrisonShip2": {
+      "tilesets": [
+        "PrisonShip"
+      ],
+      "file": "PrisonShip_2",
+      "name": "Moros Panels Medium",
+      "image": "(HotS)_Moros_Panels_Medium.jpg"
+    },
+    "PrisonShip3": {
+      "tilesets": [
+        "PrisonShip"
+      ],
+      "file": "PrisonShip_3",
+      "name": "Moros Panels Small",
+      "image": "(HotS)_Moros_Panels_Small.jpg"
+    },
+    "PrisonShip4": {
+      "tilesets": [
+        "PrisonShip"
+      ],
+      "file": "PrisonShip_4",
+      "name": "Moros Panels Large",
+      "image": "(HotS)_Moros_Panels_Large.jpg"
+    },
+    "PrisonShip5": {
+      "tilesets": [
+        "PrisonShip"
+      ],
+      "file": "PrisonShip_5",
+      "name": "Moros Metal",
+      "image": "(HotS)_Moros_Metal.jpg"
+    },
+    "PrisonShip6": {
+      "tilesets": [
+        "PrisonShip"
+      ],
+      "file": "PrisonShip_6",
+      "name": "Moros Grating Dark",
+      "image": "(HotS)_Moros_Grating_Dark.jpg"
+    },
+    "PrisonShip7": {
+      "tilesets": [
+        "PrisonShip"
+      ],
+      "file": "PrisonShip_7",
+      "name": "Moros Tiles Small",
+      "image": "(HotS)_Moros_Tiles_Small.jpg"
+    },
+    "PrisonShip8": {
+      "tilesets": [
+        "PrisonShip"
+      ],
+      "file": "PrisonShip_8",
+      "name": "Moros Dirt",
+      "image": "(HotS)_Moros_Dirt.jpg"
+    },
+    "ProtossBase1": {
+      "tilesets": [
+        "ProtossBase"
+      ],
+      "file": "ProtossBase_1",
+      "image": "(Void)_ProtossBase1.jpg"
+    },
+    "ProtossBase2": {
+      "tilesets": [
+        "ProtossBase"
+      ],
+      "file": "ProtossBase_2",
+      "image": "(Void)_ProtossBase2.jpg"
+    },
+    "ProtossBase3": {
+      "tilesets": [
+        "ProtossBase"
+      ],
+      "file": "ProtossBase_3",
+      "image": "(Void)_ProtossBase3.jpg"
+    },
+    "ProtossBase4": {
+      "tilesets": [
+        "ProtossBase"
+      ],
+      "file": "ProtossBase_4",
+      "image": "(Void)_ProtossBase4.jpg"
+    },
+    "ProtossBase5": {
+      "tilesets": [
+        "ProtossBase"
+      ],
+      "file": "ProtossBase_5",
+      "image": "(Void)_ProtossBase5.jpg"
+    },
+    "ProtossBase6": {
+      "tilesets": [
+        "ProtossBase"
+      ],
+      "file": "ProtossBase_6",
+      "image": "(Void)_ProtossBase6.jpg"
+    },
+    "ProtossBase7": {
+      "tilesets": [
+        "ProtossBase"
+      ],
+      "file": "ProtossBase_7",
+      "image": "(Void)_ProtossBase7.jpg"
+    },
+    "ProtossBase8": {
+      "tilesets": [
+        "ProtossBase"
+      ],
+      "file": "ProtossBase_8",
+      "image": "(Void)_ProtossBase8.jpg"
+    },
+    "Purification_Desert_1": {
+      "tilesets": [
+        "PurificationDesert"
+      ],
+      "file": "Purification_Desert_1",
+      "image": "(Void)_Purification_Desert_1.jpg"
+    },
+    "Purification_Desert_2": {
+      "tilesets": [
+        "PurificationDesert"
+      ],
+      "file": "Purification_Desert_2",
+      "image": "(Void)_Purification_Desert_2.jpg"
+    },
+    "Purification_Desert_3": {
+      "tilesets": [
+        "PurificationDesert"
+      ],
+      "file": "Purification_Desert_3",
+      "image": "(Void)_Purification_Desert_3.jpg"
+    },
+    "Purification_Desert_4": {
+      "tilesets": [
+        "PurificationDesert"
+      ],
+      "file": "Purification_Desert_4",
+      "image": "(Void)_Purification_Desert_4.jpg"
+    },
+    "Purification_Desert_5": {
+      "tilesets": [
+        "PurificationDesert"
+      ],
+      "file": "Purification_Desert_5",
+      "image": "(Void)_Purification_Desert_5.jpg"
+    },
+    "Purification_Desert_6": {
+      "tilesets": [
+        "PurificationDesert"
+      ],
+      "file": "Purification_Desert_6",
+      "image": "(Void)_Purification_Desert_6.jpg"
+    },
+    "Purification_Desert_7": {
+      "tilesets": [
+        "PurificationDesert"
+      ],
+      "file": "Purification_Desert_7",
+      "image": "(Void)_Purification_Desert_7.jpg"
+    },
+    "Purification_Desert_8": {
+      "tilesets": [
+        "PurificationDesert"
+      ],
+      "file": "Purification_Desert_8",
+      "image": "(Void)_Purification_Desert_8.jpg"
+    },
+    "RedstoneDirt": {
+      "tilesets": [
+        "Redstone",
+        "RedstoneEx1"
+      ],
+      "file": "Redstone_Dirt",
+      "image": "Redstone_Dirt.jpg"
+    },
+    "RedstoneFossils": {
+      "tilesets": [
+        "Redstone",
+        "RedstoneEx1"
+      ],
+      "file": "Redstone_Fossils",
+      "image": "Redstone_Fossils.jpg"
+    },
+    "RedstoneLavaCracks": {
+      "tilesets": [
+        "Redstone",
+        "RedstoneEx1"
+      ],
+      "file": "Redstone_Lava_Cracks",
+      "image": "Redstone_Lava_Cracks.jpg"
+    },
+    "RedstoneMud": {
+      "tilesets": [
+        "Redstone",
+        "RedstoneEx1"
+      ],
+      "file": "Redstone_Mud",
+      "image": "Redstone_Mud.jpg"
+    },
+    "RedstonePanels": {
+      "tilesets": [
+        "Redstone",
+        "RedstoneEx1"
+      ],
+      "file": "Redstone_Panels",
+      "image": "Redstone_Panels.jpg"
+    },
+    "RedstoneRock": {
+      "tilesets": [
+        "Redstone",
+        "RedstoneEx1"
+      ],
+      "file": "Redstone_Rock",
+      "image": "Redstone_Rock.jpg"
+    },
+    "RedstoneRockyDirt": {
+      "tilesets": [
+        "Redstone",
+        "RedstoneEx1"
+      ],
+      "file": "Redstone_Rocky_Dirt",
+      "image": "Redstone_Rocky_Dirt.jpg"
+    },
+    "RedstoneRough": {
+      "tilesets": [
+        "Redstone",
+        "RedstoneEx1"
+      ],
+      "file": "Redstone_Rough",
+      "image": "Redstone_Rough.jpg"
+    },
+    "Redstorm_1": {
+      "tilesets": [
+        "Redstorm"
+      ],
+      "file": "Redstorm_1"
+    },
+    "Redstorm_2": {
+      "tilesets": [
+        "Redstorm"
+      ],
+      "file": "Redstorm_2"
+    },
+    "Redstorm_3": {
+      "tilesets": [
+        "Redstorm"
+      ],
+      "file": "Redstorm_3"
+    },
+    "Redstorm_4": {
+      "tilesets": [
+        "Redstorm"
+      ],
+      "file": "Redstorm_4"
+    },
+    "Redstorm_5": {
+      "tilesets": [
+        "Redstorm"
+      ],
+      "file": "Redstorm_5"
+    },
+    "Redstorm_6": {
+      "tilesets": [
+        "Redstorm"
+      ],
+      "file": "Redstorm_6"
+    },
+    "Redstorm_7": {
+      "tilesets": [
+        "Redstorm"
+      ],
+      "file": "Redstorm_7"
+    },
+    "Redstorm_8": {
+      "tilesets": [
+        "Redstorm"
+      ],
+      "file": "Redstorm_8"
+    },
+    "ShadowCorps1": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "file": "ShadowCorps1",
+      "image": "(Void)_Shadow_Corps_1.jpg"
+    },
+    "ShadowCorps2": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "file": "ShadowCorps2",
+      "image": "(Void)_Shadow_Corps_2.jpg"
+    },
+    "ShadowCorps3": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "file": "ShadowCorps3",
+      "image": "(Void)_Shadow_Corps_3.jpg"
+    },
+    "ShadowCorps4": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "file": "ShadowCorps4",
+      "image": "(Void)_Shadow_Corps_4.jpg"
+    },
+    "ShadowCorps5": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "file": "ShadowCorps5",
+      "image": "(Void)_Shadow_Corps_5.jpg"
+    },
+    "ShadowCorps6": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "file": "ShadowCorps6",
+      "image": "(Void)_Shadow_Corps_6.jpg"
+    },
+    "ShadowCorps7": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "file": "ShadowCorps7",
+      "image": "(Void)_Shadow_Corps_7.jpg"
+    },
+    "ShadowCorps8": {
+      "tilesets": [
+        "ShadowCorpsPlatform"
+      ],
+      "file": "ShadowCorps8",
+      "image": "(Void)_Shadow_Corps_8.jpg"
+    },
+    "ShakurasBricks": {
+      "tilesets": [
+        "Shakuras",
+        "ShakurasEx1"
+      ],
+      "file": "Shakuras_Bricks",
+      "image": "Shakuras_Bricks.jpg"
+    },
+    "ShakurasCity1": {
+      "tilesets": [
+        "ShakurasCity"
+      ],
+      "file": "ShakurasCity_1",
+      "image": "(Void)_Shakuras_City1.jpg"
+    },
+    "ShakurasCity2": {
+      "tilesets": [
+        "ShakurasCity"
+      ],
+      "file": "ShakurasCity_2",
+      "image": "(Void)_Shakuras_City2.jpg"
+    },
+    "ShakurasCity3": {
+      "tilesets": [
+        "ShakurasCity"
+      ],
+      "file": "ShakurasCity_3",
+      "image": "(Void)_Shakuras_City3.jpg"
+    },
+    "ShakurasCity4": {
+      "tilesets": [
+        "ShakurasCity"
+      ],
+      "file": "ShakurasCity_4",
+      "image": "(Void)_Shakuras_City4.jpg"
+    },
+    "ShakurasCity5": {
+      "tilesets": [
+        "ShakurasCity"
+      ],
+      "file": "ShakurasCity_5",
+      "image": "(Void)_Shakuras_City5.jpg"
+    },
+    "ShakurasCity6": {
+      "tilesets": [
+        "ShakurasCity"
+      ],
+      "file": "ShakurasCity_6",
+      "image": "(Void)_Shakuras_City6.jpg"
+    },
+    "ShakurasCity7": {
+      "tilesets": [
+        "ShakurasCity"
+      ],
+      "file": "ShakurasCity_7",
+      "image": "(Void)_Shakuras_City7.jpg"
+    },
+    "ShakurasCity8": {
+      "tilesets": [
+        "ShakurasCity"
+      ],
+      "file": "ShakurasCity_8",
+      "image": "(Void)_Shakuras_City8.jpg"
+    },
+    "ShakurasDirtCracked": {
+      "tilesets": [
+        "Shakuras",
+        "ShakurasEx1"
+      ],
+      "file": "Shakuras_Dirt_Cracked",
+      "image": "Shakuras_Dirt_Cracked.jpg"
+    },
+    "ShakurasHextiles": {
+      "tilesets": [
+        "Shakuras",
+        "ShakurasEx1"
+      ],
+      "file": "Shakuras_Hextiles",
+      "image": "Shakuras_Hextiles.jpg"
+    },
+    "ShakurasRockCracked": {
+      "tilesets": [
+        "Shakuras",
+        "ShakurasEx1"
+      ],
+      "file": "Shakuras_Rock_Cracked",
+      "image": "Shakuras_Rock_Cracked.jpg"
+    },
+    "ShakurasRockRough": {
+      "tilesets": [
+        "Shakuras",
+        "ShakurasEx1"
+      ],
+      "file": "Shakuras_Rock_Rough",
+      "image": "Shakuras_Rock_Rough.jpg"
+    },
+    "ShakurasSand": {
+      "tilesets": [
+        "Shakuras",
+        "ShakurasEx1"
+      ],
+      "file": "Shakuras_Sand",
+      "image": "Shakuras_Sand.jpg"
+    },
+    "ShakurasSandDark": {
+      "tilesets": [
+        "Shakuras",
+        "ShakurasEx1"
+      ],
+      "file": "Shakuras_Sand_Dark",
+      "image": "Shakuras_Sand_Dark.jpg"
+    },
+    "ShakurasStone": {
+      "tilesets": [
+        "Shakuras",
+        "ShakurasEx1"
+      ],
+      "file": "Shakuras_Stone",
+      "image": "Shakuras_Stone.jpg"
+    },
+    "ShakurasTemple1": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "file": "ShakurasTemple_1",
+      "image": "(Void)_Shakuras_Temple1.jpg"
+    },
+    "ShakurasTemple2": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "file": "ShakurasTemple_2",
+      "image": "(Void)_Shakuras_Temple2.jpg"
+    },
+    "ShakurasTemple3": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "file": "ShakurasTemple_3",
+      "image": "(Void)_Shakuras_Temple3.jpg"
+    },
+    "ShakurasTemple4": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "file": "ShakurasTemple_4",
+      "image": "(Void)_Shakuras_Temple4.jpg"
+    },
+    "ShakurasTemple5": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "file": "ShakurasTemple_5",
+      "image": "(Void)_Shakuras_Temple5.jpg"
+    },
+    "ShakurasTemple6": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "file": "ShakurasTemple_6",
+      "image": "(Void)_Shakuras_Temple6.jpg"
+    },
+    "ShakurasTemple7": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "file": "ShakurasTemple_7",
+      "image": "(Void)_Shakuras_Temple7.jpg"
+    },
+    "ShakurasTemple8": {
+      "tilesets": [
+        "ShakurasTemple"
+      ],
+      "file": "ShakurasTemple_8",
+      "image": "(Void)_Shakuras_Temple8.jpg"
+    },
+    "Slayn1": {
+      "tilesets": [
+        "Slayn",
+        "SlaynTemple"
+      ],
+      "file": "Slayn_1",
+      "image": "(Void)_Slayn1.jpg"
+    },
+    "Slayn2": {
+      "tilesets": [
+        "Slayn",
+        "SlaynTemple"
+      ],
+      "file": "Slayn_2",
+      "image": "(Void)_Slayn2.jpg"
+    },
+    "Slayn3": {
+      "tilesets": [
+        "Slayn",
+        "SlaynTemple"
+      ],
+      "file": "Slayn_3",
+      "image": "(Void)_Slayn3.jpg"
+    },
+    "Slayn4": {
+      "tilesets": [
+        "Slayn",
+        "SlaynTemple"
+      ],
+      "file": "Slayn_4",
+      "image": "(Void)_Slayn4.jpg"
+    },
+    "Slayn5": {
+      "tilesets": [
+        "Slayn",
+        "SlaynTemple"
+      ],
+      "file": "Slayn_5",
+      "image": "(Void)_Slayn5.jpg"
+    },
+    "Slayn6": {
+      "tilesets": [
+        "Slayn",
+        "SlaynTemple"
+      ],
+      "file": "Slayn_6",
+      "image": "(Void)_Slayn6.jpg"
+    },
+    "Slayn7": {
+      "tilesets": [
+        "Slayn",
+        "SlaynTemple"
+      ],
+      "file": "Slayn_7",
+      "image": "(Void)_Slayn7.jpg"
+    },
+    "Slayn8": {
+      "tilesets": [
+        "Slayn",
+        "SlaynTemple"
+      ],
+      "file": "Slayn_8",
+      "image": "(Void)_Slayn8.jpg"
+    },
+    "SlaynGrass1": {
+      "tilesets": [
+        "SlaynGrass"
+      ],
+      "file": "Slayn_1",
+      "image": "(Void)_Slayn1.jpg"
+    },
+    "SlaynGrass2": {
+      "tilesets": [
+        "SlaynGrass"
+      ],
+      "file": "Slayn_2",
+      "image": "(Void)_Slayn2.jpg"
+    },
+    "SlaynGrass3": {
+      "tilesets": [
+        "SlaynGrass"
+      ],
+      "file": "SlaynGrass_1",
+      "image": "(Void)_Slayn_Grass1.jpg"
+    },
+    "SlaynGrass4": {
+      "tilesets": [
+        "SlaynGrass"
+      ],
+      "file": "SlaynGrass_2",
+      "image": "(Void)_Slayn_Grass2.jpg"
+    },
+    "SlaynGrass5": {
+      "tilesets": [
+        "SlaynGrass"
+      ],
+      "file": "Slayn_5",
+      "image": "(Void)_Slayn5.jpg"
+    },
+    "SlaynGrass6": {
+      "tilesets": [
+        "SlaynGrass"
+      ],
+      "file": "Slayn_6",
+      "image": "(Void)_Slayn6.jpg"
+    },
+    "SlaynGrass7": {
+      "tilesets": [
+        "SlaynGrass"
+      ],
+      "file": "Slayn_7",
+      "image": "(Void)_Slayn7.jpg"
+    },
+    "SlaynGrass8": {
+      "tilesets": [
+        "SlaynGrass"
+      ],
+      "file": "Slayn_8",
+      "image": "(Void)_Slayn8.jpg"
+    },
+    "SnowRefinery_1": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "Snow_Refinery1.jpg"
+    },
+    "SnowRefinery_2": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "Snow_Refinery2.jpg"
+    },
+    "SnowRefinery_3": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "Snow_Refinery3.jpg"
+    },
+    "SnowRefinery_4": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "Snow_Refinery4.jpg"
+    },
+    "SnowRefinery_5": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "Snow_Refinery5.jpg"
+    },
+    "SnowRefinery_6": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "Snow_Refinery6.jpg"
+    },
+    "SnowRefinery_7": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "Snow_Refinery7.jpg"
+    },
+    "SnowRefinery_8": {
+      "tilesets": [
+        "SnowRefinery"
+      ],
+      "image": "Snow_Refinery8.jpg"
+    },
+    "SpearOfAdun1": {
+      "tilesets": [
+        "SpearOfAdun"
+      ],
+      "file": "Starshipadun_01",
+      "image": "(Void)_Spear_of_Adun1.jpg"
+    },
+    "SpearOfAdun2": {
+      "tilesets": [
+        "SpearOfAdun"
+      ],
+      "file": "Starshipadun_02",
+      "image": "(Void)_Spear_of_Adun2.jpg"
+    },
+    "SpearOfAdun3": {
+      "tilesets": [
+        "SpearOfAdun"
+      ],
+      "file": "Starshipadun_03",
+      "image": "(Void)_Spear_of_Adun3.jpg"
+    },
+    "SpearOfAdun4": {
+      "tilesets": [
+        "SpearOfAdun"
+      ],
+      "file": "Starshipadun_04",
+      "image": "(Void)_Spear_of_Adun4.jpg"
+    },
+    "SpearOfAdun5": {
+      "tilesets": [
+        "SpearOfAdun"
+      ],
+      "file": "Starshipadun_05",
+      "image": "(Void)_Spear_of_Adun5.jpg"
+    },
+    "SpearOfAdun6": {
+      "tilesets": [
+        "SpearOfAdun"
+      ],
+      "file": "Starship_4",
+      "image": "(Void)_Spear_of_Adun6.jpg"
+    },
+    "SpearOfAdun7": {
+      "tilesets": [
+        "SpearOfAdun"
+      ],
+      "file": "Starship_3",
+      "image": "(Void)_Spear_of_Adun7.jpg"
+    },
+    "SpearOfAdun8": {
+      "tilesets": [
+        "SpearOfAdun"
+      ],
+      "file": "AiurCity_2",
+      "image": "(Void)_AiurCity2.jpg"
+    },
+    "Starship1": {
+      "tilesets": [
+        "Starship"
+      ],
+      "file": "Starship_1",
+      "name": "Daelaam Ark Metal Dark",
+      "image": "(HotS)_Daelaam_Ark_Metal_Dark.jpg"
+    },
+    "Starship2": {
+      "tilesets": [
+        "Starship"
+      ],
+      "file": "Starship_2",
+      "name": "Daelaam Ark Panels Light",
+      "image": "(HotS)_Daelaam_Ark_Panels_Light.jpg"
+    },
+    "Starship3": {
+      "tilesets": [
+        "Starship"
+      ],
+      "file": "Starship_3",
+      "name": "Daelaam Ark Hex Grid Large",
+      "image": "(HotS)_Daelaam_Ark_Hex_Grid_Large.jpg"
+    },
+    "Starship4": {
+      "tilesets": [
+        "Starship"
+      ],
+      "file": "Starship_4",
+      "name": "Daelaam Ark Hex Grid Medium",
+      "image": "(HotS)_Daelaam_Ark_Hex_Grid_Medium.jpg"
+    },
+    "Starship5": {
+      "tilesets": [
+        "Starship"
+      ],
+      "file": "Starship_5",
+      "name": "Daelaam Ark Metal Light",
+      "image": "(HotS)_Daelaam_Ark_Metal_Light.jpg"
+    },
+    "Starship6": {
+      "tilesets": [
+        "Starship"
+      ],
+      "file": "Starship_6",
+      "name": "Daelaam Ark Plates",
+      "image": "(HotS)_Daelaam_Ark_Plates.jpg"
+    },
+    "Starship7": {
+      "tilesets": [
+        "Starship"
+      ],
+      "file": "Starship_7",
+      "name": "Daelaam Ark Hex Grid Small",
+      "image": "(HotS)_Daelaam_Ark_Hex_Grid_Small.jpg"
+    },
+    "Starship8": {
+      "tilesets": [
+        "Starship"
+      ],
+      "file": "Starship_8",
+      "name": "Daelaam Ark Panels Dark",
+      "image": "(HotS)_Daelaam_Ark_Panels_Dark.jpg"
+    },
+    "TarsonisCity1": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "file": "TarsonisCity_1",
+      "image": "TarsonisCity1.jpg"
+    },
+    "TarsonisCity2": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "file": "TarsonisCity_2",
+      "image": "TarsonisCity2.jpg"
+    },
+    "TarsonisCity3": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "file": "TarsonisCity_3",
+      "image": "TarsonisCity3.jpg"
+    },
+    "TarsonisCity4": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "file": "TarsonisCity_4",
+      "image": "TarsonisCity4.jpg"
+    },
+    "TarsonisCity5": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "file": "TarsonisCity_5",
+      "image": "TarsonisCity5.jpg"
+    },
+    "TarsonisCity6": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "file": "TarsonisCity_6",
+      "image": "TarsonisCity6.jpg"
+    },
+    "TarsonisCity7": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "file": "TarsonisCity_7",
+      "image": "TarsonisCity7.jpg"
+    },
+    "TarsonisCity8": {
+      "tilesets": [
+        "TarsonisCity"
+      ],
+      "file": "TarsonisCity_8",
+      "image": "TarsonisCity8.jpg"
+    },
+    "TarsonisConcrete": {
+      "tilesets": [
+        "Tarsonis",
+        "TarsonisEx1"
+      ],
+      "file": "Tarsonis_Concrete",
+      "image": "Tarsonis_Concrete.jpg"
+    },
+    "TarsonisCracks": {
+      "tilesets": [
+        "Tarsonis",
+        "TarsonisEx1"
+      ],
+      "file": "Tarsonis_Cracks",
+      "image": "Tarsonis_Cracks.jpg"
+    },
+    "TarsonisDetail": {
+      "tilesets": [
+        "Tarsonis",
+        "TarsonisEx1"
+      ],
+      "file": "Tarsonis_Detail",
+      "image": "Tarsonis_Detail.jpg"
+    },
+    "TarsonisDirt": {
+      "tilesets": [
+        "Tarsonis",
+        "TarsonisEx1"
+      ],
+      "file": "Tarsonis_Dirt",
+      "image": "Tarsonis_Dirt.jpg"
+    },
+    "TarsonisDirtRough": {
+      "tilesets": [
+        "Tarsonis",
+        "TarsonisEx1"
+      ],
+      "file": "Tarsonis_Dirt_Rough",
+      "image": "Tarsonis_Dirt_Rough.jpg"
+    },
+    "TarsonisGrass": {
+      "tilesets": [
+        "Tarsonis",
+        "TarsonisEx1"
+      ],
+      "file": "Tarsonis_Grass",
+      "image": "Tarsonis_Grass.jpg"
+    },
+    "TarsonisInterior_1": {
+      "tilesets": [
+        "TarsonisInterior"
+      ],
+      "image": "TarsonisInterior1.jpg"
+    },
+    "TarsonisInterior_2": {
+      "tilesets": [
+        "TarsonisInterior"
+      ],
+      "image": "TarsonisInterior2.jpg"
+    },
+    "TarsonisInterior_3": {
+      "tilesets": [
+        "TarsonisInterior"
+      ],
+      "image": "TarsonisInterior3.jpg"
+    },
+    "TarsonisInterior_4": {
+      "tilesets": [
+        "TarsonisInterior"
+      ],
+      "image": "TarsonisInterior4.jpg"
+    },
+    "TarsonisInterior_5": {
+      "tilesets": [
+        "TarsonisInterior"
+      ],
+      "image": "TarsonisInterior5.jpg"
+    },
+    "TarsonisInterior_6": {
+      "tilesets": [
+        "TarsonisInterior"
+      ],
+      "image": "TarsonisInterior6.jpg"
+    },
+    "TarsonisInterior_7": {
+      "tilesets": [
+        "TarsonisInterior"
+      ],
+      "image": "TarsonisInterior7.jpg"
+    },
+    "TarsonisInterior_8": {
+      "tilesets": [
+        "TarsonisInterior"
+      ],
+      "image": "TarsonisInterior8.jpg"
+    },
+    "TarsonisPlating": {
+      "tilesets": [
+        "Tarsonis",
+        "TarsonisEx1"
+      ],
+      "file": "Tarsonis_Plating",
+      "image": "Tarsonis_Plating.jpg"
+    },
+    "TarsonisRubble": {
+      "tilesets": [
+        "Tarsonis",
+        "TarsonisEx1"
+      ],
+      "file": "Tarsonis_Rubble",
+      "image": "Tarsonis_Rubble.jpg"
+    },
+    "Typhon1": {
+      "tilesets": [
+        "Typhon",
+        "TyphonEx1"
+      ],
+      "file": "Typhon1"
+    },
+    "Typhon2": {
+      "tilesets": [
+        "Typhon",
+        "TyphonEx1"
+      ],
+      "file": "Typhon2"
+    },
+    "Typhon3": {
+      "tilesets": [
+        "Typhon",
+        "TyphonEx1"
+      ],
+      "file": "Typhon3"
+    },
+    "Typhon4": {
+      "tilesets": [
+        "Typhon",
+        "TyphonEx1"
+      ],
+      "file": "Typhon4"
+    },
+    "Typhon5": {
+      "tilesets": [
+        "Typhon",
+        "TyphonEx1"
+      ],
+      "file": "Typhon5"
+    },
+    "Typhon6": {
+      "tilesets": [
+        "Typhon",
+        "TyphonEx1"
+      ],
+      "file": "Typhon6"
+    },
+    "Typhon7": {
+      "tilesets": [
+        "Typhon",
+        "TyphonEx1"
+      ],
+      "file": "Typhon7"
+    },
+    "Typhon8": {
+      "tilesets": [
+        "Typhon",
+        "TyphonEx1"
+      ],
+      "file": "Typhon8"
+    },
+    "TyradorBigBricks": {
+      "tilesets": [
+        "Tyrador",
+        "TyradorEx1"
+      ],
+      "file": "Tyrador_Big_Bricks",
+      "image": "Tyrador_Big_Bricks.jpg"
+    },
+    "TyradorBricks": {
+      "tilesets": [
+        "Tyrador",
+        "TyradorEx1"
+      ],
+      "file": "Tyrador_Bricks",
+      "image": "Tyrador_Bricks.jpg"
+    },
+    "TyradorConcrete": {
+      "tilesets": [
+        "Tyrador",
+        "TyradorEx1"
+      ],
+      "file": "Tyrador_Concrete",
+      "image": "Tyrador_Concrete.jpg"
+    },
+    "TyradorConcreteCracked": {
+      "tilesets": [
+        "Tyrador",
+        "TyradorEx1"
+      ],
+      "file": "Tyrador_Concrete_Cracked",
+      "image": "Tyrador_Concrete_Cracked.jpg"
+    },
+    "TyradorGrass": {
+      "tilesets": [
+        "Tyrador",
+        "TyradorEx1"
+      ],
+      "file": "Tyrador_Grass",
+      "image": "Tyrador_Grass.jpg"
+    },
+    "TyradorMarbleTiles": {
+      "tilesets": [
+        "Tyrador",
+        "TyradorEx1"
+      ],
+      "file": "Tyrador_Marble_Tiles",
+      "image": "Tyrador_Marble_Tiles.jpg"
+    },
+    "TyradorRubble": {
+      "tilesets": [
+        "Tyrador",
+        "TyradorEx1"
+      ],
+      "file": "Tyrador_Rubble",
+      "image": "Tyrador_Rubble.jpg"
+    },
+    "TyradorSquareBricks": {
+      "tilesets": [
+        "Tyrador",
+        "TyradorEx1"
+      ],
+      "file": "Tyrador_Square_Bricks",
+      "image": "Tyrador_Square_Bricks.jpg"
+    },
+    "UlaanDirt": {
+      "tilesets": [
+        "Ulaan",
+        "UlaanEx1"
+      ],
+      "file": "Ulaan_Dirt",
+      "image": "Ulaan_Dirt.jpg"
+    },
+    "UlaanDirtCracked": {
+      "tilesets": [
+        "Ulaan",
+        "UlaanEx1"
+      ],
+      "file": "Ulaan_Dirt_Cracked",
+      "image": "Ulaan_Dirt_Cracked.jpg"
+    },
+    "UlaanGrunge": {
+      "tilesets": [
+        "Ulaan",
+        "UlaanEx1"
+      ],
+      "file": "Ulaan_Grunge",
+      "image": "Ulaan_Grunge.jpg"
+    },
+    "UlaanPebbles": {
+      "tilesets": [
+        "Ulaan",
+        "UlaanEx1"
+      ],
+      "file": "Ulaan_Pebbles",
+      "image": "Ulaan_Pebbles.jpg"
+    },
+    "UlaanRocky": {
+      "tilesets": [
+        "Ulaan",
+        "UlaanEx1"
+      ],
+      "file": "Ulaan_Rocky",
+      "image": "Ulaan_Rocky.jpg"
+    },
+    "UlaanRoughRock": {
+      "tilesets": [
+        "Ulaan",
+        "UlaanEx1"
+      ],
+      "file": "Ulaan_Rough_Rock",
+      "image": "Ulaan_Rough_Rock.jpg"
+    },
+    "UlaanSand": {
+      "tilesets": [
+        "Ulaan",
+        "UlaanEx1"
+      ],
+      "file": "Ulaan_Sand",
+      "image": "Ulaan_Sand.jpg"
+    },
+    "UlaanStone": {
+      "tilesets": [
+        "Ulaan",
+        "UlaanEx1"
+      ],
+      "file": "Ulaan_Stone",
+      "image": "Ulaan_Stone.jpg"
+    },
+    "UlnarCracks": {
+      "tilesets": [
+        "Ulnar",
+        "UlnarEx1"
+      ],
+      "file": "Ulnar_Cracks",
+      "image": "Ulnar_Cracks.jpg"
+    },
+    "UlnarDirt": {
+      "tilesets": [
+        "Ulnar",
+        "UlnarEx1"
+      ],
+      "file": "Ulnar_Dirt",
+      "image": "Ulnar_Dirt.jpg"
+    },
+    "UlnarHull1": {
+      "tilesets": [
+        "Ulnar",
+        "UlnarEx1"
+      ],
+      "file": "Ulnar_Hull1",
+      "image": "Ulnar_Hull_1.jpg"
+    },
+    "UlnarHull2": {
+      "tilesets": [
+        "Ulnar",
+        "UlnarEx1"
+      ],
+      "file": "Ulnar_Hull2",
+      "image": "Ulnar_Hull_2.jpg"
+    },
+    "UlnarHull3": {
+      "tilesets": [
+        "Ulnar",
+        "UlnarEx1"
+      ],
+      "file": "Ulnar_Hull3",
+      "image": "Ulnar_Hull_3.jpg"
+    },
+    "UlnarInner1": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "file": "UlnarInner_1",
+      "image": "(Void)_UlnarInner1.jpg"
+    },
+    "UlnarInner2": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "file": "UlnarInner_2",
+      "image": "(Void)_UlnarInner2.jpg"
+    },
+    "UlnarInner3": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "file": "UlnarInner_3",
+      "image": "(Void)_UlnarInner3.jpg"
+    },
+    "UlnarInner4": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "file": "UlnarInner_4",
+      "image": "(Void)_UlnarInner4.jpg"
+    },
+    "UlnarInner5": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "file": "UlnarInner_5",
+      "image": "(Void)_UlnarInner5.jpg"
+    },
+    "UlnarInner6": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "file": "UlnarInner_6",
+      "image": "(Void)_UlnarInner6.jpg"
+    },
+    "UlnarInner7": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "file": "UlnarInner_7",
+      "image": "(Void)_UlnarInner7.jpg"
+    },
+    "UlnarInner8": {
+      "tilesets": [
+        "UlnarInner"
+      ],
+      "file": "UlnarInner_8",
+      "image": "(Void)_UlnarInner8.jpg"
+    },
+    "UlnarJunk": {
+      "tilesets": [
+        "Ulnar",
+        "UlnarEx1"
+      ],
+      "file": "Ulnar_Junk",
+      "image": "Ulnar_Junk.jpg"
+    },
+    "UlnarOuter1": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "file": "UlnarOuter_1",
+      "image": "(Void)_UlnarOuter1.jpg"
+    },
+    "UlnarOuter2": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "file": "UlnarOuter_2",
+      "image": "(Void)_UlnarOuter2.jpg"
+    },
+    "UlnarOuter3": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "file": "UlnarOuter_3",
+      "image": "(Void)_UlnarOuter3.jpg"
+    },
+    "UlnarOuter4": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "file": "UlnarOuter_4",
+      "image": "(Void)_UlnarOuter4.jpg"
+    },
+    "UlnarOuter5": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "file": "UlnarOuter_5",
+      "image": "(Void)_UlnarOuter5.jpg"
+    },
+    "UlnarOuter6": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "file": "UlnarOuter_6",
+      "image": "(Void)_UlnarOuter6.jpg"
+    },
+    "UlnarOuter7": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "file": "UlnarOuter_7",
+      "image": "(Void)_UlnarOuter7.jpg"
+    },
+    "UlnarOuter8": {
+      "tilesets": [
+        "UlnarOuter"
+      ],
+      "file": "UlnarOuter_8",
+      "image": "(Void)_UlnarOuter8.jpg"
+    },
+    "UlnarPortal1": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "file": "UlnarInner_1",
+      "image": "(Void)_UlnarInner1.jpg"
+    },
+    "UlnarPortal2": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "file": "UlnarInner_2",
+      "image": "(Void)_UlnarInner2.jpg"
+    },
+    "UlnarPortal3": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "file": "UlnarInner_3",
+      "image": "(Void)_UlnarInner3.jpg"
+    },
+    "UlnarPortal4": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "file": "UlnarInner_4",
+      "image": "(Void)_UlnarInner4.jpg"
+    },
+    "UlnarPortal5": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "file": "UlnarInner_5",
+      "image": "(Void)_UlnarInner5.jpg"
+    },
+    "UlnarPortal6": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "file": "UlnarInner_6",
+      "image": "(Void)_UlnarInner6.jpg"
+    },
+    "UlnarPortal7": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "file": "UlnarInner_7",
+      "image": "(Void)_UlnarInner7.jpg"
+    },
+    "UlnarPortal8": {
+      "tilesets": [
+        "UlnarPortal"
+      ],
+      "file": "UlnarInner_8",
+      "image": "(Void)_UlnarInner8.jpg"
+    },
+    "UlnarRock": {
+      "tilesets": [
+        "Ulnar",
+        "UlnarEx1"
+      ],
+      "file": "Ulnar_Rock",
+      "image": "Ulnar_Rock.jpg"
+    },
+    "UlnarRubble": {
+      "tilesets": [
+        "Ulnar",
+        "UlnarEx1"
+      ],
+      "file": "Ulnar_Rubble",
+      "image": "Ulnar_Rubble.jpg"
+    },
+    "UmojaEx3_1": {
+      "tilesets": [
+        "UmojaEx3"
+      ],
+      "file": "UmojaEx3_1",
+      "image": "UmojaEx3_1.jpg"
+    },
+    "UmojaEx3_2": {
+      "tilesets": [
+        "UmojaEx3"
+      ],
+      "file": "UmojaEx3_2",
+      "image": "UmojaEx3_2.jpg"
+    },
+    "UmojaEx3_3": {
+      "tilesets": [
+        "UmojaEx3"
+      ],
+      "file": "UmojaEx3_3",
+      "image": "UmojaEx3_3.jpg"
+    },
+    "UmojaEx3_4": {
+      "tilesets": [
+        "UmojaEx3"
+      ],
+      "file": "UmojaEx3_4",
+      "image": "UmojaEx3_4.jpg"
+    },
+    "UmojaEx3_5": {
+      "tilesets": [
+        "UmojaEx3"
+      ],
+      "file": "UmojaEx3_5",
+      "image": "UmojaEx3_5.jpg"
+    },
+    "UmojaEx3_6": {
+      "tilesets": [
+        "UmojaEx3"
+      ],
+      "file": "UmojaEx3_6",
+      "image": "UmojaEx3_6.jpg"
+    },
+    "UmojaEx3_7": {
+      "tilesets": [
+        "UmojaEx3"
+      ],
+      "file": "UmojaEx3_7",
+      "image": "UmojaEx3_7.jpg"
+    },
+    "UmojaEx3_8": {
+      "tilesets": [
+        "UmojaEx3"
+      ],
+      "file": "UmojaEx3_8",
+      "image": "UmojaEx3_8.jpg"
+    },
+    "Valhalla1": {
+      "tilesets": [
+        "Valhalla",
+        "ValhallaEx1"
+      ],
+      "file": "Valhalla1"
+    },
+    "Valhalla2": {
+      "tilesets": [
+        "Valhalla",
+        "ValhallaEx1"
+      ],
+      "file": "Valhalla2"
+    },
+    "Valhalla3": {
+      "tilesets": [
+        "Valhalla",
+        "ValhallaEx1"
+      ],
+      "file": "Valhalla3"
+    },
+    "Valhalla4": {
+      "tilesets": [
+        "Valhalla",
+        "ValhallaEx1"
+      ],
+      "file": "Valhalla4"
+    },
+    "Valhalla5": {
+      "tilesets": [
+        "Valhalla",
+        "ValhallaEx1"
+      ],
+      "file": "Valhalla5"
+    },
+    "Valhalla6": {
+      "tilesets": [
+        "Valhalla",
+        "ValhallaEx1"
+      ],
+      "file": "Valhalla6"
+    },
+    "Valhalla7": {
+      "tilesets": [
+        "Valhalla",
+        "ValhallaEx1"
+      ],
+      "file": "Valhalla7"
+    },
+    "Valhalla8": {
+      "tilesets": [
+        "Valhalla",
+        "ValhallaEx1"
+      ],
+      "file": "Valhalla8"
+    },
+    "Void1": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "file": "Void_1",
+      "image": "(Void)_Void_1.jpg"
+    },
+    "Void2": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "file": "Void_2",
+      "image": "(Void)_Void_2.jpg"
+    },
+    "Void3": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "file": "Void_3",
+      "image": "(Void)_Void_3.jpg"
+    },
+    "Void4": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "file": "Void_4",
+      "image": "(Void)_Void_4.jpg"
+    },
+    "Void5": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "file": "Void_5",
+      "image": "(Void)_Void_5.jpg"
+    },
+    "Void6": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "file": "Void_6",
+      "image": "(Void)_Void_6.jpg"
+    },
+    "Void7": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "file": "Void_7",
+      "image": "(Void)_Void_7.jpg"
+    },
+    "Void8": {
+      "tilesets": [
+        "TheVoid"
+      ],
+      "file": "Void_8",
+      "image": "(Void)_Void_8.jpg"
+    },
+    "VolcanoIsle_1": {
+      "tilesets": [
+        "VolcanoIsle"
+      ],
+      "file": "VolcanoIsle_1",
+      "image": "VolcanoIsle_1.jpg"
+    },
+    "VolcanoIsle_2": {
+      "tilesets": [
+        "VolcanoIsle"
+      ],
+      "file": "VolcanoIsle_2",
+      "image": "VolcanoIsle_2.jpg"
+    },
+    "VolcanoIsle_3": {
+      "tilesets": [
+        "VolcanoIsle"
+      ],
+      "file": "VolcanoIsle_3",
+      "image": "VolcanoIsle_3.jpg"
+    },
+    "VolcanoIsle_4": {
+      "tilesets": [
+        "VolcanoIsle"
+      ],
+      "file": "VolcanoIsle_4",
+      "image": "VolcanoIsle_4.jpg"
+    },
+    "VolcanoIsle_5": {
+      "tilesets": [
+        "VolcanoIsle"
+      ],
+      "file": "VolcanoIsle_5",
+      "image": "VolcanoIsle_5.jpg"
+    },
+    "VolcanoIsle_6": {
+      "tilesets": [
+        "VolcanoIsle"
+      ],
+      "file": "VolcanoIsle_6",
+      "image": "VolcanoIsle_6.jpg"
+    },
+    "VolcanoIsle_7": {
+      "tilesets": [
+        "VolcanoIsle"
+      ],
+      "file": "VolcanoIsle_7",
+      "image": "VolcanoIsle_7.jpg"
+    },
+    "VolcanoIsle_8": {
+      "tilesets": [
+        "VolcanoIsle"
+      ],
+      "file": "VolcanoIsle_8",
+      "image": "VolcanoIsle_8.jpg"
+    },
+    "XelNagaCavern1": {
+      "tilesets": [
+        "XelNagaCavern"
+      ],
+      "file": "XelNagaCavern_1"
+    },
+    "XelNagaCavern2": {
+      "tilesets": [
+        "XelNagaCavern"
+      ],
+      "file": "XelNagaCavern_2"
+    },
+    "XelNagaCavern3": {
+      "tilesets": [
+        "XelNagaCavern"
+      ],
+      "file": "XelNagaCavern_3"
+    },
+    "XelNagaCavern4": {
+      "tilesets": [
+        "XelNagaCavern"
+      ],
+      "file": "XelNagaCavern_4"
+    },
+    "XelNagaCavern5": {
+      "tilesets": [
+        "XelNagaCavern"
+      ],
+      "file": "XelNagaCavern_5"
+    },
+    "XelNagaCavern6": {
+      "tilesets": [
+        "XelNagaCavern"
+      ],
+      "file": "XelNagaCavern_6"
+    },
+    "XelNagaCavern7": {
+      "tilesets": [
+        "XelNagaCavern"
+      ],
+      "file": "XelNagaCavern_7"
+    },
+    "XelNagaCavern8": {
+      "tilesets": [
+        "XelNagaCavern"
+      ],
+      "file": "XelNagaCavern_8"
+    },
+    "XilDirt": {
+      "tilesets": [
+        "Xil",
+        "XilEx1"
+      ],
+      "file": "Xil_Dirt",
+      "image": "Xil_Dirt.jpg"
+    },
+    "XilDirtCracked": {
+      "tilesets": [
+        "Xil",
+        "XilEx1"
+      ],
+      "file": "Xil_Dirt_Cracked",
+      "image": "Xil_Dirt_Cracked.jpg"
+    },
+    "XilDirtRocky": {
+      "tilesets": [
+        "Xil",
+        "XilEx1"
+      ],
+      "file": "Xil_Dirt_Rocky",
+      "image": "Xil_Dirt_Rocky.jpg"
+    },
+    "XilGrass": {
+      "tilesets": [
+        "Xil",
+        "XilEx1"
+      ],
+      "file": "xil_grass",
+      "image": "Xil_Grass.jpg"
+    },
+    "XilRockCracked": {
+      "tilesets": [
+        "Xil",
+        "XilEx1"
+      ],
+      "file": "Xil_Rock_Cracked",
+      "image": "Xil_Rock_Cracked.jpg"
+    },
+    "XilRockDark": {
+      "tilesets": [
+        "Xil",
+        "XilEx1"
+      ],
+      "file": "Xil_Rock_Dark",
+      "image": "Xil_Rock_Dark.jpg"
+    },
+    "XilSand": {
+      "tilesets": [
+        "Xil",
+        "XilEx1"
+      ],
+      "file": "Xil_Sand",
+      "image": "Xil_Sand.jpg"
+    },
+    "XilSandCracked": {
+      "tilesets": [
+        "Xil",
+        "XilEx1"
+      ],
+      "file": "Xil_Sand_Cracked",
+      "image": "Xil_Sand_Cracked.jpg"
+    },
+    "Zerus1": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "file": "Zerus_1",
+      "name": "Zerus Dirt Medium",
+      "image": "(HotS)_Zerus_Dirt_Medium.jpg"
+    },
+    "Zerus2": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "file": "Zerus_2",
+      "name": "Zerus Dirt Dark",
+      "image": "(HotS)_Zerus_Dirt_Dark.jpg"
+    },
+    "Zerus3": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "file": "Zerus_3",
+      "name": "Zerus Algae",
+      "image": "(HotS)_Zerus_Algae.jpg"
+    },
+    "Zerus4": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "file": "Zerus_4",
+      "name": "Zerus Rock",
+      "image": "(HotS)_Zerus_Rock.jpg"
+    },
+    "Zerus5": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "file": "Zerus_5",
+      "name": "Zerus Roots",
+      "image": "(HotS)_Zerus_Roots.jpg"
+    },
+    "Zerus6": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "file": "Zerus_6",
+      "name": "Zerus Pebbles",
+      "image": "(HotS)_Zerus_Pebbles.jpg"
+    },
+    "Zerus7": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "file": "Zerus_7",
+      "name": "Zerus Grass",
+      "image": "(HotS)_Zerus_Grass.jpg"
+    },
+    "Zerus8": {
+      "tilesets": [
+        "Zerus"
+      ],
+      "file": "Zerus_8",
+      "name": "Zerus Slime",
+      "image": "(HotS)_Zerus_Slime.jpg"
+    },
+    "ZhakulDasBricks": {
+      "tilesets": [
+        "ZhakulDas",
+        "ZhakulDasEx1"
+      ],
+      "file": "ZhakulDas_Bricks",
+      "image": "ZhakulDas_Bricks.jpg"
+    },
+    "ZhakulDasDarkRock": {
+      "tilesets": [
+        "ZhakulDas",
+        "ZhakulDasEx1"
+      ],
+      "file": "ZhakulDas_Dark_Rock",
+      "image": "ZhakulDas_Dark_Rock.jpg"
+    },
+    "ZhakulDasDirtCracked": {
+      "tilesets": [
+        "ZhakulDas",
+        "ZhakulDasEx1"
+      ],
+      "file": "ZhakulDas_Dirt_Cracked",
+      "image": "ZhakulDas_Dirt_Cracked.jpg"
+    },
+    "ZhakulDasDirtRough": {
+      "tilesets": [
+        "ZhakulDas",
+        "ZhakulDasEx1"
+      ],
+      "file": "ZhakulDas_Dirt_Rough",
+      "image": "ZhakulDas_Dirt_Rough.jpg"
+    },
+    "ZhakulDasGrass": {
+      "tilesets": [
+        "ZhakulDas",
+        "ZhakulDasEx1"
+      ],
+      "file": "zhakuldas_grass",
+      "image": "ZhakulDas_Grass.jpg"
+    },
+    "ZhakulDasLightRock": {
+      "tilesets": [
+        "ZhakulDas",
+        "ZhakulDasEx1"
+      ],
+      "file": "ZhakulDas_Light_Rock",
+      "image": "ZhakulDas_Light_Rock.jpg"
+    },
+    "ZhakulDasMercuryCracks": {
+      "tilesets": [
+        "ZhakulDas",
+        "ZhakulDasEx1"
+      ],
+      "file": "ZhakulDas_Mercury_Cracks",
+      "image": "ZhakulDas_Mercury_Cracks.jpg"
+    },
+    "ZhakulDasTiles": {
+      "tilesets": [
+        "ZhakulDas",
+        "ZhakulDasEx1"
+      ],
+      "file": "zhakuldas_tiles",
+      "image": "ZhakulDas_Tiles.jpg"
+    }
+  }
+}

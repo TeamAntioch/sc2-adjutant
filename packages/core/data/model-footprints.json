@@ -1,0 +1,1149 @@
+{
+  "BrokenRocks": {
+    "file": "Assets/Doodads/BrokenRocks/BrokenRocks_00.m3",
+    "min": [
+      -1.4,
+      -1.629,
+      -0.52
+    ],
+    "max": [
+      1.423,
+      1.134,
+      0.796
+    ],
+    "materials": [
+      "opaque",
+      "opaque",
+      "blend",
+      "blend"
+    ]
+  },
+  "Elsecaro_Small_Rock_Group": {
+    "file": "Assets/Doodads/Elsecaro_Small_Rock_Group/Elsecaro_Small_Rock_Group_00.m3",
+    "min": [
+      -2.999,
+      -3.011,
+      -1.232
+    ],
+    "max": [
+      2.999,
+      3.011,
+      1.232
+    ],
+    "materials": [
+      "opaque",
+      "splatTerrainBake"
+    ]
+  },
+  "Fog_Hazy": {
+    "file": "Assets/Doodads/Fog_Hazy/Fog_Hazy.m3",
+    "min": [
+      -7.581,
+      -7.602,
+      -7.76
+    ],
+    "max": [
+      7.624,
+      7.602,
+      7.445
+    ],
+    "materials": [
+      "blend"
+    ]
+  },
+  "GenericProtossFire_Shakuras_Large_Long": {
+    "file": "Assets/Doodads/GenericProtossFire_Shakuras_Large_Long/GenericProtossFire_Shakuras_Large_Long.m3",
+    "min": [
+      -3.408,
+      -3.408,
+      -2.473
+    ],
+    "max": [
+      3.408,
+      3.408,
+      4.343
+    ],
+    "materials": [
+      "blend",
+      "addAlpha",
+      "add",
+      "blend"
+    ]
+  },
+  "GenericProtossFire_Shakuras_Medium": {
+    "file": "Assets/Doodads/GenericProtossFire_Shakuras_Medium/GenericProtossFire_Shakuras_Medium.m3",
+    "min": [
+      -1.678,
+      -1.678,
+      -0.743
+    ],
+    "max": [
+      1.678,
+      1.678,
+      2.613
+    ],
+    "materials": [
+      "blend",
+      "addAlpha",
+      "add",
+      "blend"
+    ]
+  },
+  "GroundCracks": {
+    "file": "Assets/Doodads/GroundCracks/GroundCracks_00.m3",
+    "min": [
+      -5.095,
+      -1.653,
+      -0.589
+    ],
+    "max": [
+      5.101,
+      1.629,
+      0.638
+    ],
+    "materials": [
+      "terrain"
+    ]
+  },
+  "GuardianShield": {
+    "file": "Assets/Effects/Protoss/SentryShieldBubble_Ex2/SentryShieldBubble_Ex2.m3",
+    "min": [
+      -6.075,
+      -6.054,
+      -4.261
+    ],
+    "max": [
+      6.07,
+      6.053,
+      4.839
+    ],
+    "materials": [
+      "displacement",
+      "add",
+      "add"
+    ]
+  },
+  "LavaFlare": {
+    "file": "Assets/Doodads/LavaFlare/LavaFlare.m3",
+    "min": [
+      -1.441,
+      -1.42,
+      -0.363
+    ],
+    "max": [
+      1.402,
+      1.393,
+      0.667
+    ],
+    "materials": [
+      "displacement",
+      "opaque",
+      "composite",
+      "add",
+      "blend",
+      "addAlpha"
+    ]
+  },
+  "LensFlareSunAiurCity": {
+    "file": "Assets/Effects/LensFlares/LensFlare_MaterialSet_AiurCity/LensFlare_MaterialSet_AiurCity_00.m3",
+    "min": [
+      -0.25,
+      -0.25,
+      -0.005
+    ],
+    "max": [
+      0.25,
+      0.25,
+      0.495
+    ],
+    "materials": [
+      "lensFlare"
+    ]
+  },
+  "NewFolsomRockLarge": {
+    "file": "Assets/Doodads/NewFolsomRockLarge/NewFolsomRockLarge_00.m3",
+    "min": [
+      -1.624,
+      -1.476,
+      -1.679
+    ],
+    "max": [
+      1.509,
+      1.451,
+      2.254
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "NewFolsomRockSmall": {
+    "file": "Assets/Doodads/NewFolsomRockSmall/NewFolsomRockSmall_00.m3",
+    "min": [
+      -0.544,
+      -0.529,
+      -0.345
+    ],
+    "max": [
+      0.755,
+      0.613,
+      2.07
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "PurificationDesert_SandDrift": {
+    "file": "Assets/Doodads/PurificationDesert_SandDrift/PurificationDesert_SandDrift_00.m3",
+    "min": [
+      -3.342,
+      -2.843,
+      -0.049
+    ],
+    "max": [
+      3.423,
+      2.609,
+      0.988
+    ],
+    "materials": [
+      "blend"
+    ]
+  },
+  "Purifier_Communications_Tower": {
+    "file": "Assets/Doodads/Purifier_Communications_Tower/Purifier_Communications_Tower.m3",
+    "min": [
+      -5.75,
+      -2.665,
+      -0.002
+    ],
+    "max": [
+      2.364,
+      2.665,
+      9.346
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Purifier_Containers": {
+    "file": "Assets/Doodads/Purifier_Containers/Purifier_Containers_00.m3",
+    "min": [
+      -2.571,
+      -2.572,
+      -0.005
+    ],
+    "max": [
+      2.571,
+      2.572,
+      2.313
+    ],
+    "materials": [
+      "blend",
+      "addAlpha",
+      "composite",
+      "opaque"
+    ]
+  },
+  "Purifier_Energy_Generator": {
+    "file": "Assets/Doodads/Purifier_Energy_Generator/Purifier_Energy_Generator.m3",
+    "min": [
+      -4.602,
+      -4.602,
+      -0.828
+    ],
+    "max": [
+      4.602,
+      4.602,
+      16.435
+    ],
+    "materials": [
+      "opaque",
+      "add",
+      "add",
+      "opaque",
+      "add",
+      "blend",
+      "add",
+      "blend",
+      "lensFlare",
+      "add"
+    ]
+  },
+  "Purifier_Energy_Pipes": {
+    "file": "Assets/Doodads/Purifier_Energy_Pipes/Purifier_Energy_Pipes_00.m3",
+    "min": [
+      -0.429,
+      -0.312,
+      0
+    ],
+    "max": [
+      0.429,
+      0.312,
+      0.102
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Purifier_Force_Field_Pillar": {
+    "file": "Assets/Doodads/Purifier_Force_Field_Pillar/Purifier_Force_Field_Pillar_00.m3",
+    "min": [
+      -0.524,
+      -1.135,
+      0
+    ],
+    "max": [
+      0.524,
+      1.923,
+      4.574
+    ],
+    "materials": [
+      "opaque",
+      "add"
+    ]
+  },
+  "Purifier_GroundTrim": {
+    "file": "Assets/Doodads/Purifier_GroundTrim/Purifier_GroundTrim_00.m3",
+    "min": [
+      0,
+      -0.377,
+      -0.001
+    ],
+    "max": [
+      8,
+      0.465,
+      0.082
+    ],
+    "materials": [
+      "opaque",
+      "opaque"
+    ]
+  },
+  "Purifier_Hexgrid_EnergyLine": {
+    "file": "Assets/Doodads/Purifier_Hexgrid_EnergyLine/Purifier_Hexgrid_EnergyLine.m3",
+    "min": [
+      -2.999,
+      -2.999,
+      0.001
+    ],
+    "max": [
+      2.999,
+      2.999,
+      0.001
+    ],
+    "materials": [
+      "addAlpha"
+    ]
+  },
+  "Purifier_Platform": {
+    "file": "Assets/Doodads/Purifier_Platform/Purifier_Platform.m3",
+    "min": [
+      -5.819,
+      -5.424,
+      -1.696
+    ],
+    "max": [
+      5.819,
+      5.969,
+      0.936
+    ],
+    "materials": [
+      "opaque",
+      "add"
+    ]
+  },
+  "Purifier_Protoss_Turret_Med": {
+    "file": "Assets/Doodads/Purifier_Protoss_Turret_Med/Purifier_Protoss_Turret_Med.m3",
+    "min": [
+      -3.409,
+      -6.119,
+      -2.864
+    ],
+    "max": [
+      3.807,
+      3.551,
+      7.285
+    ],
+    "materials": [
+      "opaque",
+      "add",
+      "blend",
+      "add",
+      "add",
+      "lensFlare",
+      "add"
+    ]
+  },
+  "Purifier_Tarmac": {
+    "file": "Assets/Doodads/Purifier_Tarmac/Purifier_Tarmac_00.m3",
+    "min": [
+      -2.483,
+      -2.854,
+      0
+    ],
+    "max": [
+      2.495,
+      2.839,
+      0.02
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Purifier_Terminals": {
+    "file": "Assets/Doodads/Purifier_Terminals/Purifier_Terminals_00.m3",
+    "min": [
+      -3.293,
+      -2.105,
+      -0.433
+    ],
+    "max": [
+      3.32,
+      2.335,
+      4.007
+    ],
+    "materials": [
+      "opaque",
+      "add",
+      "addAlpha",
+      "add",
+      "addAlpha"
+    ]
+  },
+  "Purifier_Warp_In_Pad": {
+    "file": "Assets/Doodads/Purifier_Warp_In_Pad/Purifier_Warp_In_Pad.m3",
+    "min": [
+      -2,
+      -2,
+      -2.707
+    ],
+    "max": [
+      2,
+      2,
+      3.431
+    ],
+    "materials": [
+      "addAlpha",
+      "opaque",
+      "addAlpha",
+      "add",
+      "addAlpha",
+      "add"
+    ]
+  },
+  "Reentry_Heat": {
+    "file": "Assets/Effects/Neutral/Reentry_Heat/Reentry_Heat_00.m3",
+    "min": [
+      -6.032,
+      -5.285,
+      -6.956
+    ],
+    "max": [
+      6.032,
+      0.749,
+      12.23
+    ],
+    "materials": [
+      "addAlpha",
+      "displacement"
+    ]
+  },
+  "Sentry_Purifier": {
+    "file": "Assets/Units/Protoss/Sentry_Purifier/Sentry_Purifier.m3",
+    "min": [
+      -1.201,
+      -2.012,
+      -0.773
+    ],
+    "max": [
+      1.201,
+      0.928,
+      2.296
+    ],
+    "materials": [
+      "blend",
+      "add",
+      "add",
+      "add",
+      "opaque",
+      "add",
+      "displacement"
+    ]
+  },
+  "Shakuras_City_Building_Cathedral": {
+    "file": "Assets/Doodads/Shakuras_City_Building_Cathedral/Shakuras_City_Building_Cathedral_00.m3",
+    "min": [
+      -3.376,
+      -3.099,
+      0
+    ],
+    "max": [
+      3.376,
+      4,
+      11.687
+    ],
+    "materials": [
+      "add",
+      "blend",
+      "lensFlare",
+      "opaque",
+      "opaque"
+    ]
+  },
+  "Shakuras_City_Building_Cathedral_Destroyed": {
+    "file": "Assets/Doodads/Shakuras_City_Building_Cathedral_Destroyed/Shakuras_City_Building_Cathedral_Destroyed_00.m3",
+    "min": [
+      -4.942,
+      -5.588,
+      -0.475
+    ],
+    "max": [
+      6.459,
+      5.811,
+      9.645
+    ],
+    "materials": [
+      "splatTerrainBake",
+      "opaque",
+      "opaque",
+      "blend",
+      "opaque",
+      "opaque",
+      "lensFlare"
+    ]
+  },
+  "Shakuras_City_Debris_Pile": {
+    "file": "Assets/Doodads/Shakuras_City_Debris_Pile/Shakuras_City_Debris_Pile_00.m3",
+    "min": [
+      -2.564,
+      -2.642,
+      -0.176
+    ],
+    "max": [
+      2.564,
+      2.642,
+      1.211
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Shakuras_CityBuilding_HighRise_Destroyed": {
+    "file": "Assets/Doodads/Shakuras_CityBuilding_HighRise_Destroyed/Shakuras_CityBuilding_HighRise_Destroyed_00.m3",
+    "min": [
+      -2.735,
+      -4.088,
+      -0.079
+    ],
+    "max": [
+      3.237,
+      4.134,
+      11.46
+    ],
+    "materials": [
+      "opaque",
+      "opaque",
+      "splatTerrainBake"
+    ]
+  },
+  "Shakuras_CityBuilding_Large_Temple": {
+    "file": "Assets/Doodads/Shakuras_CityBuilding_Large_Temple/Shakuras_CityBuilding_Large_Temple.m3",
+    "min": [
+      -3.137,
+      -4.402,
+      -0.01
+    ],
+    "max": [
+      3.437,
+      4.515,
+      12.167
+    ],
+    "materials": [
+      "opaque",
+      "opaque"
+    ]
+  },
+  "Shakuras_CityBuilding_Large_Temple_Destroyed": {
+    "file": "Assets/Doodads/Shakuras_CityBuilding_Large_Temple_Destroyed/Shakuras_CityBuilding_Large_Temple_Destroyed_00.m3",
+    "min": [
+      -3.921,
+      -5.476,
+      -0.444
+    ],
+    "max": [
+      3.208,
+      5.184,
+      9.666
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Shakuras_CityBuilding_Spire": {
+    "file": "Assets/Doodads/Shakuras_CityBuilding_Spire/Shakuras_CityBuilding_Spire.m3",
+    "min": [
+      -6,
+      -7.69,
+      -0.5
+    ],
+    "max": [
+      6,
+      4.31,
+      10.278
+    ],
+    "materials": [
+      "blend",
+      "opaque",
+      "splatTerrainBake"
+    ]
+  },
+  "Shakuras_CityBuilding_Spire_Destroyed": {
+    "file": "Assets/Doodads/Shakuras_CityBuilding_Spire_Destroyed/Shakuras_CityBuilding_Spire_Destroyed_00.m3",
+    "min": [
+      -6,
+      -7.707,
+      -0.5
+    ],
+    "max": [
+      6,
+      4.293,
+      9.58
+    ],
+    "materials": [
+      "blend",
+      "opaque",
+      "splatTerrainBake"
+    ]
+  },
+  "Shakuras_CityBuilding_Tower_Destroyed": {
+    "file": "Assets/Doodads/Shakuras_CityBuilding_Tower_Destroyed/Shakuras_CityBuilding_Tower_Destroyed_00.m3",
+    "min": [
+      -4.024,
+      -5.596,
+      -1.012
+    ],
+    "max": [
+      6.194,
+      5.596,
+      10.634
+    ],
+    "materials": [
+      "opaque",
+      "opaque",
+      "opaque",
+      "addAlpha",
+      "blend",
+      "add"
+    ]
+  },
+  "Shakuras_CityCurb": {
+    "file": "Assets/Doodads/Shakuras_CityCurb/Shakuras_CityCurb_00.m3",
+    "min": [
+      -0.341,
+      -0.292,
+      0
+    ],
+    "max": [
+      0.341,
+      0.443,
+      0.04
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Shakuras_Destroyed_Hole": {
+    "file": "Assets/Doodads/Shakuras_Destroyed_Hole/Shakuras_Destroyed_Hole.m3",
+    "min": [
+      -3.004,
+      -4.626,
+      -6.119
+    ],
+    "max": [
+      3.272,
+      4.99,
+      0.408
+    ],
+    "materials": [
+      "terrain",
+      "blend",
+      "composite",
+      "opaque",
+      "addAlpha"
+    ]
+  },
+  "Shakuras_Pyramid_Tower_Large": {
+    "file": "Assets/Doodads/Shakuras_Pyramid_Tower_Large/Shakuras_Pyramid_Tower_Large_00.m3",
+    "min": [
+      -5.457,
+      -4.932,
+      -0.077
+    ],
+    "max": [
+      5.457,
+      4.935,
+      17.69
+    ],
+    "materials": [
+      "opaque",
+      "opaque",
+      "add"
+    ]
+  },
+  "Shakuras_Pyramid_Tower_Large_Destroyed": {
+    "file": "Assets/Doodads/Shakuras_Pyramid_Tower_Large_Destroyed/Shakuras_Pyramid_Tower_Large_Destroyed_00.m3",
+    "min": [
+      -7.504,
+      -7.629,
+      -0.742
+    ],
+    "max": [
+      6.626,
+      7.331,
+      12.573
+    ],
+    "materials": [
+      "opaque",
+      "opaque",
+      "blend",
+      "splatTerrainBake",
+      "addAlpha",
+      "add",
+      "blend",
+      "blend"
+    ]
+  },
+  "Shakuras_Rock_Chunk_Small": {
+    "file": "Assets/Doodads/Shakuras_Rock_Chunk_Small/Shakuras_Rock_Chunk_Small_00.m3",
+    "min": [
+      -1.41,
+      -1.744,
+      -0.188
+    ],
+    "max": [
+      1.515,
+      2.279,
+      0.478
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Shakuras_SandDriftsLarge": {
+    "file": "Assets/Doodads/Shakuras_SandDriftsLarge/Shakuras_SandDriftsLarge_00.m3",
+    "min": [
+      -3.342,
+      -2.843,
+      -0.049
+    ],
+    "max": [
+      3.423,
+      2.609,
+      0.988
+    ],
+    "materials": [
+      "blend"
+    ]
+  },
+  "Shakuras_Stone_Temple_Rubble": {
+    "file": "Assets/Doodads/Shakuras_Stone_Temple_Rubble/Shakuras_Stone_Temple_Rubble_00.m3",
+    "min": [
+      -3.207,
+      -1.654,
+      -0.132
+    ],
+    "max": [
+      3.207,
+      1.654,
+      0.817
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Shakuras_Stone_Temple_Shrine": {
+    "file": "Assets/Doodads/Shakuras_Stone_Temple_Shrine/Shakuras_Stone_Temple_Shrine_00.m3",
+    "min": [
+      -5.373,
+      -3.527,
+      -2.077
+    ],
+    "max": [
+      5.373,
+      4.328,
+      9.999
+    ],
+    "materials": [
+      "opaque",
+      "opaque",
+      "splatTerrainBake",
+      "opaque"
+    ]
+  },
+  "Shakuras_Tall_Rock_Chunk": {
+    "file": "Assets/Doodads/Shakuras_Tall_Rock_Chunk/Shakuras_Tall_Rock_Chunk_00.m3",
+    "min": [
+      -5.991,
+      -4.054,
+      -0.538
+    ],
+    "max": [
+      5.022,
+      7.488,
+      8.422
+    ],
+    "materials": [
+      "opaque",
+      "blend",
+      "opaque",
+      "opaque",
+      "opaque",
+      "blend"
+    ]
+  },
+  "Shakuras_Temple_BigWalls": {
+    "file": "Assets/Doodads/Shakuras_Temple_BigWalls/Shakuras_Temple_BigWalls_00.m3",
+    "min": [
+      -2.04,
+      -4.403,
+      0.002
+    ],
+    "max": [
+      2.118,
+      -0.206,
+      16.263
+    ],
+    "materials": [
+      "opaque",
+      "opaque"
+    ]
+  },
+  "Shakuras_Temple_Pillar_Small": {
+    "file": "Assets/Doodads/Shakuras_Temple_Pillar_Small/Shakuras_Temple_Pillar_Small_00.m3",
+    "min": [
+      -3.044,
+      -1.552,
+      -0.609
+    ],
+    "max": [
+      3.044,
+      1.552,
+      5.766
+    ],
+    "materials": [
+      "opaque",
+      "opaque",
+      "add",
+      "opaque",
+      "opaque"
+    ]
+  },
+  "Shakuras_Temple_PlatesGiant": {
+    "file": "Assets/Doodads/Shakuras_Temple_PlatesGiant/Shakuras_Temple_PlatesGiant_00.m3",
+    "min": [
+      -5.09,
+      -6.735,
+      -0.5
+    ],
+    "max": [
+      5.09,
+      6.735,
+      0.5
+    ],
+    "materials": [
+      "splatTerrainBake",
+      "opaque"
+    ]
+  },
+  "Shakuras_Temple_Statue": {
+    "file": "Assets/Doodads/Shakuras_Temple_Statue/Shakuras_Temple_Statue_00.m3",
+    "min": [
+      -2.7,
+      -2.545,
+      -0.5
+    ],
+    "max": [
+      2.7,
+      2.545,
+      9.901
+    ],
+    "materials": [
+      "splatTerrainBake",
+      "opaque"
+    ]
+  },
+  "Shakuras_TempleArchway": {
+    "file": "Assets/Doodads/Shakuras_TempleArchway/Shakuras_TempleArchway_00.m3",
+    "min": [
+      -3.697,
+      -9.248,
+      -0.5
+    ],
+    "max": [
+      3.709,
+      2.9,
+      9.756
+    ],
+    "materials": [
+      "blend",
+      "opaque",
+      "splatTerrainBake"
+    ]
+  },
+  "ShakurasHexColumns": {
+    "file": "Assets/Doodads/ShakurasHexColumns/ShakurasHexColumns_00.m3",
+    "min": [
+      -0.421,
+      -0.442,
+      -0.008
+    ],
+    "max": [
+      0.399,
+      0.419,
+      0.299
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "ShakurasRockColumn": {
+    "file": "Assets/Doodads/ShakurasRockColumn/ShakurasRockColumn_00.m3",
+    "min": [
+      -0.95,
+      -0.861,
+      -0.007
+    ],
+    "max": [
+      0.807,
+      1.115,
+      4.101
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "ShakurasRuinDebris": {
+    "file": "Assets/Doodads/ShakurasRuinDebris/ShakurasRuinDebris_00.m3",
+    "min": [
+      -2.131,
+      -1.791,
+      -0.134
+    ],
+    "max": [
+      2.131,
+      1.791,
+      3.027
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "ShakurasTempleWallDebris": {
+    "file": "Assets/Doodads/ShakurasTempleWallDebris/ShakurasTempleWallDebris_00.m3",
+    "min": [
+      -2.536,
+      -1.842,
+      -0.29
+    ],
+    "max": [
+      2.234,
+      1.842,
+      3.753
+    ],
+    "materials": [
+      "opaque",
+      "opaque"
+    ]
+  },
+  "SmokeEmbersMedium": {
+    "file": "Assets/Doodads/SmokeEmbersMedium/SmokeEmbersMedium.m3",
+    "min": [
+      0,
+      0,
+      0
+    ],
+    "max": [
+      0,
+      0,
+      0
+    ],
+    "materials": [
+      "add",
+      "blend"
+    ]
+  },
+  "SmokePillar_Tall_Protoss": {
+    "file": "Assets/Doodads/SmokePillar_Tall_Protoss/SmokePillar_Tall_Protoss.m3",
+    "min": [
+      0,
+      0,
+      0
+    ],
+    "max": [
+      0,
+      0,
+      0
+    ],
+    "materials": [
+      "add",
+      "blend"
+    ]
+  },
+  "SMX2_Aiur1_Debrief_MountainFog": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Aiur1_Debrief_MountainFog/SMX2_Aiur1_Debrief_MountainFog.m3",
+    "min": [
+      -88.856,
+      0.936,
+      -60.916
+    ],
+    "max": [
+      88.494,
+      0.936,
+      60.916
+    ],
+    "materials": [
+      "blend"
+    ]
+  },
+  "SMX2_Aiur1_Debrief_Skybox": {
+    "file": "Assets/StoryModeSets/Protoss/SMX2_Aiur1_Debrief_Skybox/SMX2_Aiur1_Debrief_Skybox.m3",
+    "min": [
+      -245.913,
+      -227.194,
+      0
+    ],
+    "max": [
+      -94.107,
+      227.194,
+      173.887
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "SMX3_Background_Sun": {
+    "file": "Assets/StoryModeSets/Terran/SMX3_Background_Sun/SMX3_Background_Sun.m3",
+    "min": [
+      -0.399,
+      -0.399,
+      -0.402
+    ],
+    "max": [
+      0.399,
+      0.399,
+      0.402
+    ],
+    "materials": [
+      "opaque",
+      "add",
+      "addAlpha",
+      "composite"
+    ]
+  },
+  "SMX3_MP02_005_PlanetBG": {
+    "file": "Assets/StoryModeScenes/SMX3_MP02_005_PlanetBG/SMX3_MP02_005_PlanetBG.m3",
+    "min": [
+      -1,
+      0,
+      -0.5
+    ],
+    "max": [
+      1,
+      0,
+      0.5
+    ],
+    "materials": [
+      "opaque",
+      "opaque"
+    ]
+  },
+  "Stalker_Purifier": {
+    "file": "Assets/Units/Protoss/Stalker_Purifier/Stalker_Purifier.m3",
+    "min": [
+      -1.798,
+      -3.001,
+      -0.114
+    ],
+    "max": [
+      1.772,
+      1.977,
+      4.186
+    ],
+    "materials": [
+      "opaque",
+      "add"
+    ]
+  },
+  "TheVoid_RubblePile": {
+    "file": "Assets/Doodads/TheVoid_RubblePile/TheVoid_RubblePile_00.m3",
+    "min": [
+      -3.011,
+      -2.999,
+      -1.232
+    ],
+    "max": [
+      3.011,
+      2.999,
+      1.232
+    ],
+    "materials": [
+      "opaque",
+      "splatTerrainBake"
+    ]
+  },
+  "TyphonRock": {
+    "file": "Assets/Doodads/TyphonRock/TyphonRock_00.m3",
+    "min": [
+      -0.704,
+      -0.735,
+      -0.1
+    ],
+    "max": [
+      1.523,
+      0.72,
+      3.334
+    ],
+    "materials": [
+      "opaque"
+    ]
+  },
+  "Zealot_Purifier": {
+    "file": "Assets/Units/Protoss/Zealot_Purifier/Zealot_Purifier.m3",
+    "min": [
+      -0.771,
+      -0.794,
+      -0.231
+    ],
+    "max": [
+      0.816,
+      0.793,
+      1.355
+    ],
+    "materials": [
+      "opaque",
+      "addAlpha",
+      "add",
+      "add",
+      "add"
+    ]
+  },
+  "ZerusLavaGroundCrack": {
+    "file": "Assets/Doodads/ZerusLavaGroundCrack/ZerusLavaGroundCrack_00.m3",
+    "min": [
+      -4.087,
+      -4.242,
+      -3.211
+    ],
+    "max": [
+      4.304,
+      4.149,
+      5.18
+    ],
+    "materials": [
+      "opaque",
+      "add",
+      "blend",
+      "blend",
+      "terrain"
+    ]
+  }
+}

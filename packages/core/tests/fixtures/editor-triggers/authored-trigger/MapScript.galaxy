@@ -1,0 +1,51 @@
+//--------------------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------------------
+unitgroup gv_hyperionFighterGroup;
+
+void InitGlobals () {
+    gv_hyperionFighterGroup = UnitGroupEmpty();
+}
+
+void gf_HyperionFighterLeashing (unit lp_fighter);
+unitgroup gf_HyperionFighterTargetGroup ();
+trigger gt_HyperionFighterAcquireTarget;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Hyperion Fighter Acquire Target
+//--------------------------------------------------------------------------------------------------
+bool gt_HyperionFighterAcquireTarget_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unitgroup lv_targetGroup;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_targetGroup = UnitGroupEmpty();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGroupHasUnit(gv_hyperionFighterGroup, EventUnit()) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_targetGroup = gf_HyperionFighterTargetGroup();
+    if ((UnitGroupHasUnit(lv_targetGroup, libNtve_gf_AcquiredTarget()) == false)) {
+        gf_HyperionFighterLeashing(EventUnit());
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_HyperionFighterAcquireTarget_Init () {
+    gt_HyperionFighterAcquireTarget = TriggerCreate("gt_HyperionFighterAcquireTarget_Func");
+    TriggerEnable(gt_HyperionFighterAcquireTarget, false);
+    TriggerAddEventUnitAcquiredTarget(gt_HyperionFighterAcquireTarget, null);
+}
+

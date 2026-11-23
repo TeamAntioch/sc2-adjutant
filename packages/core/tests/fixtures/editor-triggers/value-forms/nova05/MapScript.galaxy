@@ -1,0 +1,73 @@
+trigger auto_gf_CreateTerrazineCanisterandAnimateTank_Trigger = null;
+point auto_gf_CreateTerrazineCanisterandAnimateTank_lp_targetedPoint;
+int auto_gf_CreateTerrazineCanisterandAnimateTank_lp_terrazineIndex;
+
+void gf_CreateTerrazineCanisterandAnimateTank (point lp_targetedPoint, int lp_terrazineIndex) {
+    auto_gf_CreateTerrazineCanisterandAnimateTank_lp_targetedPoint = lp_targetedPoint;
+    auto_gf_CreateTerrazineCanisterandAnimateTank_lp_terrazineIndex = lp_terrazineIndex;
+
+    if (auto_gf_CreateTerrazineCanisterandAnimateTank_Trigger == null) {
+        auto_gf_CreateTerrazineCanisterandAnimateTank_Trigger = TriggerCreate("auto_gf_CreateTerrazineCanisterandAnimateTank_TriggerFunc");
+    }
+
+    TriggerExecute(auto_gf_CreateTerrazineCanisterandAnimateTank_Trigger, false, false);
+}
+
+bool auto_gf_CreateTerrazineCanisterandAnimateTank_TriggerFunc (bool testConds, bool runActions) {
+    point lp_targetedPoint = auto_gf_CreateTerrazineCanisterandAnimateTank_lp_targetedPoint;
+    int lp_terrazineIndex = auto_gf_CreateTerrazineCanisterandAnimateTank_lp_terrazineIndex;
+
+    // Variable Declarations
+    unit lv_canister;
+    unit lv_griffin;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    libNtve_gf_SendActorMessageToUnit(gv_terrazineTankLocations[lp_terrazineIndex].lv_terrazineTankUnit, "Signal WorkEnd");
+    SoundPlayForPlayer(SoundLink("Tal01_FogRollIn", -1), c_maxPlayers, PlayerGroupAll(), 200.0, 0.0);
+    SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryAmbience, gv_mapMusicTrack2, c_soundtrackCueAny, c_soundtrackIndexAny, true);
+    SoundtrackStop(PlayerGroupAll(), c_soundtrackCategoryMusic, true);
+    SoundtrackPlay(PlayerGroupAll(), c_soundtrackCategoryMusic, gv_mapMusicTrack, c_soundtrackCueAny, c_soundtrackIndexAny, true);
+    Wait(14.0, c_timeGame);
+    libNtve_gf_CreateUnitsAtPoint2(1, "NovaTerrazineCanister", c_unitCreateIgnorePlacement, gv_pLAYER_06_TERRAZINE, gv_terrazineTankLocations[lp_terrazineIndex].lv_canisterSpawn);
+    lv_canister = UnitLastCreated();
+    UnitSetHeight(UnitLastCreated(), 9.0, 3.0);
+    libNtve_gf_ShareVisionofUnit(lv_canister, true, gv_pLAYER_01_USER);
+    libNtve_gf_SendActorMessageToUnit(UnitLastCreated(), "SetOpacity");
+    libNtve_gf_SendActorMessageToUnit(UnitLastCreated(), "SetOpacity 1.000000 1.000000");
+    Wait(4.0, c_timeGame);
+    while (!((gv_terrazineCanisterRetrievalActive == false))) {
+        Wait(0.25, c_timeGame);
+    }
+    gv_terrazineCanisterRetrievalActive = true;
+    ActorSend(ActorFromDoodad(gv_terrazineTankLocations[lp_terrazineIndex].lv_griffinActor), "SetVisibility 1");
+    libNtve_gf_PlayAnimation(ActorFromDoodad(gv_terrazineTankLocations[lp_terrazineIndex].lv_griffinActor), c_animNameDefault, "Stand Work 01", c_animFlagPlayForever | c_animFlagNonLooping, c_animTimeDefault);
+    Wait(3.0, c_timeGame);
+    UnitKill(lv_canister);
+    Wait(2.0, c_timeGame);
+    libNtve_gf_ShowHideDoodadsInRegion(false, RegionEntireMap(), "Griffin_Pickup_Flyby");
+    gv_terrazineCanisterRetrievalActive = false;
+    return true;
+}
+
+void gf_AddInfestedUnitsToRageWave (int lp_terrazineTankIndex, string lp_infestedUnitType, int lp_count, region lp_spawnRegion) {
+    // Automatic Variable Declarations
+    int auto07296E11_n;
+    int auto07296E11_i;
+
+    // Implementation
+    auto07296E11_n = lp_count;
+    for (auto07296E11_i = 1; auto07296E11_i <= auto07296E11_n; auto07296E11_i += 1) {
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, lp_infestedUnitType, 0, gv_pLAYER_03_INFESTED_NOFIGHTPROTOSS, RegionRandomPoint(lp_spawnRegion));
+        UnitGroupAdd(gv_infestedRageWaveUnits, UnitLastCreated());
+        UnitSetCustomValue(UnitLastCreated(), 0, lp_terrazineTankIndex);
+        UnitIssueOrder(UnitLastCreated(), Order(AbilityCommand("BurrowInfestedAbominationUp", 0)), c_orderQueueReplace);
+        UnitIssueOrder(UnitLastCreated(), Order(AbilityCommand("NovaInfestedBansheeLand", 1)), c_orderQueueReplace);
+        Wait(0.0625, c_timeGame);
+        AISetUnitScriptControlled(UnitLastCreated(), false);
+        AIAttackWaveUseUnit(gv_pLAYER_03_INFESTED_NOFIGHTPROTOSS, UnitLastCreated());
+    }
+}
+

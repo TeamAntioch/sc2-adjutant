@@ -1,0 +1,258 @@
+{
+  "id": "trigger_test",
+  "campaignId": "fixtures",
+  "title": "Trigger Test",
+  "summary": "Kill the Zealot to win; lose if Zeratul dies.",
+  "setting": "Test arena for generated triggers",
+  "mapSize": {
+    "width": 128,
+    "height": 128
+  },
+  "tilesetId": "BelShirEx2",
+  "zones": [
+    {
+      "id": "arena",
+      "name": "Arena",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "base",
+      "polygon": [
+        {
+          "x": 10,
+          "y": 10
+        },
+        {
+          "x": 40,
+          "y": 10
+        },
+        {
+          "x": 40,
+          "y": 40
+        },
+        {
+          "x": 10,
+          "y": 40
+        }
+      ]
+    },
+    {
+      "id": "crossing",
+      "name": "Crossing",
+      "elevation": 1,
+      "landform": "transition",
+      "role": "path",
+      "polygon": [
+        {
+          "x": 50,
+          "y": 10
+        },
+        {
+          "x": 70,
+          "y": 10
+        },
+        {
+          "x": 70,
+          "y": 40
+        },
+        {
+          "x": 50,
+          "y": 40
+        }
+      ]
+    },
+    {
+      "id": "outpost",
+      "name": "Outpost",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "base",
+      "polygon": [
+        {
+          "x": 90,
+          "y": 10
+        },
+        {
+          "x": 118,
+          "y": 10
+        },
+        {
+          "x": 118,
+          "y": 40
+        },
+        {
+          "x": 90,
+          "y": 40
+        }
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "id": "hero_zeratul",
+      "name": "Zeratul",
+      "zoneId": "arena",
+      "kind": "unit",
+      "position": {
+        "x": 20,
+        "y": 20,
+        "z": 0
+      },
+      "unitType": "Zeratul",
+      "player": 1
+    },
+    {
+      "id": "enemy_target",
+      "name": "Zealot",
+      "zoneId": "arena",
+      "kind": "unit",
+      "position": {
+        "x": 28,
+        "y": 20,
+        "z": 0
+      },
+      "rotation": 3.1416,
+      "unitType": "Zealot",
+      "player": 15
+    },
+    {
+      "id": "ambush_zealot_1",
+      "name": "Ambush Zealot 1",
+      "zoneId": "outpost",
+      "kind": "unit",
+      "position": {
+        "x": 105,
+        "y": 22,
+        "z": 0
+      },
+      "rotation": 3.1416,
+      "unitType": "Zealot",
+      "player": 15
+    },
+    {
+      "id": "ambush_zealot_2",
+      "name": "Ambush Zealot 2",
+      "zoneId": "outpost",
+      "kind": "unit",
+      "position": {
+        "x": 105,
+        "y": 28,
+        "z": 0
+      },
+      "rotation": 3.1416,
+      "unitType": "Zealot",
+      "player": 15
+    }
+  ],
+  "beats": [
+    {
+      "id": "fight",
+      "title": "Fight",
+      "summary": "Zeratul confronts a lone Zealot.",
+      "zoneIds": [
+        "arena",
+        "crossing",
+        "outpost"
+      ],
+      "anchorIds": [
+        "hero_zeratul",
+        "enemy_target"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "kill_zealot",
+      "title": "Kill the Zealot",
+      "description": "Defeat the Zealot guarding the arena.",
+      "type": "primary",
+      "beatId": "fight",
+      "completeWhen": {
+        "type": "anchorDies",
+        "anchorId": "enemy_target"
+      }
+    }
+  ],
+  "encounters": [
+    {
+      "id": "crossing_ambush",
+      "triggerZoneId": "crossing",
+      "attackerAnchorIds": [
+        "ambush_zealot_1",
+        "ambush_zealot_2"
+      ]
+    }
+  ],
+  "outcomes": {
+    "victory": [
+      {
+        "type": "anchorDies",
+        "anchorId": "enemy_target"
+      }
+    ],
+    "defeat": [
+      {
+        "type": "anchorDies",
+        "anchorId": "hero_zeratul"
+      }
+    ]
+  },
+  "screenplay": {
+    "title": "Trigger Test",
+    "scenes": [
+      {
+        "id": "scene_opening",
+        "beatId": "fight",
+        "cue": {
+          "type": "missionStart"
+        },
+        "lines": [
+          {
+            "id": "line_001",
+            "speaker": "Zeratul",
+            "speakerAnchorId": "hero_zeratul",
+            "text": "A lone Zealot guards this arena."
+          },
+          {
+            "id": "line_002",
+            "speaker": "Zeratul",
+            "speakerAnchorId": "hero_zeratul",
+            "text": "Let's test this.",
+            "durationSeconds": 3
+          }
+        ]
+      },
+      {
+        "id": "scene_ambush",
+        "beatId": "fight",
+        "cue": {
+          "type": "encounter",
+          "encounterId": "crossing_ambush"
+        },
+        "lines": [
+          {
+            "id": "line_004",
+            "speaker": "Zeratul",
+            "speakerAnchorId": "hero_zeratul",
+            "text": "Zealots, charging from the east!"
+          }
+        ]
+      },
+      {
+        "id": "scene_victory",
+        "beatId": "fight",
+        "cue": {
+          "type": "anchorDies",
+          "anchorId": "enemy_target"
+        },
+        "lines": [
+          {
+            "id": "line_003",
+            "speaker": "Zeratul",
+            "speakerAnchorId": "hero_zeratul",
+            "text": "The arena is ours."
+          }
+        ]
+      }
+    ]
+  }
+}

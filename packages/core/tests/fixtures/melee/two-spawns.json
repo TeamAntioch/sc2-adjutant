@@ -1,0 +1,196 @@
+{
+  "id": "two-spawns",
+  "title": "Two Spawns",
+  "summary": "Half a map: a main whose diagonal ramp comes down at its corner into an L-shaped natural, and a third on a middle that's symmetric about the centre.",
+  "category": "standard",
+  "spawns": 2,
+  "symmetry": "rot180",
+  "mapSize": {
+    "width": 160,
+    "height": 160
+  },
+  "playableSize": {
+    "width": 136,
+    "height": 136
+  },
+  "tilesetId": "KorhalCityEx2",
+  "zones": [
+    {
+      "id": "middle",
+      "name": "Middle",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "path",
+      "polygon": [
+        {
+          "x": 12,
+          "y": 8
+        },
+        {
+          "x": 148,
+          "y": 8
+        },
+        {
+          "x": 148,
+          "y": 144
+        },
+        {
+          "x": 12,
+          "y": 144
+        }
+      ]
+    },
+    {
+      "id": "natural",
+      "name": "Natural",
+      "elevation": 2,
+      "landform": "flat",
+      "role": "base",
+      "polygon": [
+        {
+          "x": 14,
+          "y": 30
+        },
+        {
+          "x": 70,
+          "y": 30
+        },
+        {
+          "x": 70,
+          "y": 72
+        },
+        {
+          "x": 14,
+          "y": 72
+        }
+      ],
+      "connections": [
+        {
+          "toZoneId": "middle",
+          "type": "ramp",
+          "at": {
+            "x": 70,
+            "y": 60
+          }
+        }
+      ]
+    },
+    {
+      "id": "main-rim",
+      "name": "Main Rim",
+      "elevation": 2,
+      "landform": "flat",
+      "role": "path",
+      "backdrop": true,
+      "polygon": [
+        {
+          "x": 10,
+          "y": 6
+        },
+        {
+          "x": 60,
+          "y": 6
+        },
+        {
+          "x": 60,
+          "y": 30
+        },
+        {
+          "x": 54,
+          "y": 30
+        },
+        {
+          "x": 54,
+          "y": 10
+        },
+        {
+          "x": 14,
+          "y": 10
+        },
+        {
+          "x": 14,
+          "y": 44
+        },
+        {
+          "x": 10,
+          "y": 44
+        }
+      ]
+    },
+    {
+      "id": "main",
+      "name": "Main",
+      "elevation": 3,
+      "landform": "flat",
+      "role": "base",
+      "polygon": [
+        {
+          "x": 14,
+          "y": 10
+        },
+        {
+          "x": 54,
+          "y": 10
+        },
+        {
+          "x": 54,
+          "y": 44
+        },
+        {
+          "x": 14,
+          "y": 44
+        }
+      ],
+      "connections": [
+        {
+          "toZoneId": "natural",
+          "type": "ramp",
+          "at": {
+            "x": 52,
+            "y": 42
+          }
+        }
+      ]
+    }
+  ],
+  "placements": [
+    {
+      "id": "main-base",
+      "zoneId": "main",
+      "kind": "resource-base",
+      "params": {
+        "at": {
+          "x": 34,
+          "y": 27
+        }
+      }
+    },
+    {
+      "id": "natural-base",
+      "zoneId": "natural",
+      "kind": "resource-base",
+      "params": {
+        "at": {
+          "x": 28,
+          "y": 58
+        },
+        "facing": "north-west"
+      }
+    },
+    {
+      "id": "third-base",
+      "zoneId": "middle",
+      "kind": "resource-base",
+      "params": {
+        "at": {
+          "x": 84,
+          "y": 24
+        },
+        "facing": "south-east"
+      }
+    }
+  ],
+  "starts": [
+    "main-base"
+  ]
+}

@@ -1,0 +1,121 @@
+int gv_p2_ZERG_ORANGE_NW;
+int gv_p4_COLONISTS;
+int gv_inCombatIndicator;
+trigger gt_PlayerIsInCombat;
+trigger gt_VictoryQ;
+trigger gt_VictorySetup;
+trigger gt_VictoryCinematic;
+trigger gt_VictoryAction;
+trigger gt_VictoryCinematicEnd;
+trigger gt_VictoryCleanup;
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Victory Q
+//--------------------------------------------------------------------------------------------------
+bool gt_VictoryQ_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerQueueEnter();
+    TriggerExecute(gt_VictorySetup, true, true);
+    TriggerExecute(gt_VictoryCinematic, true, true);
+    TriggerExecute(gt_VictoryCinematicEnd, true, true);
+    TriggerExecute(gt_VictoryCleanup, true, true);
+    TriggerQueueExit();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_VictoryQ_Init () {
+    gt_VictoryQ = TriggerCreate("gt_VictoryQ_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Player Is In Combat
+//--------------------------------------------------------------------------------------------------
+bool gt_PlayerIsInCombat_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!(((UnitGetOwner(EventUnit()) == gv_p4_COLONISTS) || (UnitGetOwner(EventUnitTarget()) == gv_p4_COLONISTS)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_inCombatIndicator = 1;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PlayerIsInCombat_Init () {
+    gt_PlayerIsInCombat = TriggerCreate("gt_PlayerIsInCombat_Func");
+    TriggerAddEventUnitStartedAttack(gt_PlayerIsInCombat, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Victory Action
+//--------------------------------------------------------------------------------------------------
+bool gt_VictoryAction_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    const int autoC6444FA3_n = 30;
+    int autoC6444FA3_i;
+    const int autoB8B4D139_n = 5;
+    int autoB8B4D139_i;
+    const int autoA68CDDAA_n = 2;
+    int autoA68CDDAA_i;
+    const int autoFFFD46C7_n = 5;
+    int autoFFFD46C7_i;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    for (autoC6444FA3_i = 1; autoC6444FA3_i <= autoC6444FA3_n; autoC6444FA3_i += 1) {
+        libNtve_gf_CreateUnitsAtPoint2(1, "Zergling", 0, gv_p2_ZERG_ORANGE_NW, RegionRandomPoint(RegionFromId(19)));
+        UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("attack", 0), PointFromId(2613)), c_orderQueueReplace);
+        UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("attack", 0), PointFromId(2841)), c_orderQueueAddToEnd);
+        UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("attack", 0), PointFromId(2842)), c_orderQueueAddToEnd);
+    }
+    for (autoB8B4D139_i = 1; autoB8B4D139_i <= autoB8B4D139_n; autoB8B4D139_i += 1) {
+        libNtve_gf_CreateUnitsAtPoint2(1, "Mutalisk", 0, gv_p2_ZERG_ORANGE_NW, RegionRandomPoint(RegionFromId(26)));
+        UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("attack", 0), RegionRandomPoint(RegionCircle(PointFromId(1328), 8.0))), c_orderQueueReplace);
+    }
+    gf_SpoogeAreawithTumor(PointFromId(1455));
+    Wait(0.5, c_timeGame);
+    gf_SpoogeAreawithTumor(PointFromId(1456));
+    Wait(1.0, c_timeGame);
+    gf_SpoogeAreawithTumor(PointFromId(1457));
+    Wait(1.0, c_timeGame);
+    for (autoA68CDDAA_i = 1; autoA68CDDAA_i <= autoA68CDDAA_n; autoA68CDDAA_i += 1) {
+        libNtve_gf_CreateUnitsAtPoint2(1, "Corruptor", 0, gv_p2_ZERG_ORANGE_NW, RegionRandomPoint(RegionFromId(26)));
+        UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), RegionRandomPoint(RegionCircle(PointFromId(2840), 8.0))), c_orderQueueReplace);
+    }
+    Wait(1.0, c_timeGame);
+    for (autoFFFD46C7_i = 1; autoFFFD46C7_i <= autoFFFD46C7_n; autoFFFD46C7_i += 1) {
+        libNtve_gf_CreateUnitsAtPoint2(1, "Mutalisk", 0, gv_p2_ZERG_ORANGE_NW, RegionRandomPoint(RegionFromId(26)));
+        UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), RegionRandomPoint(RegionCircle(PointFromId(2840), 8.0))), c_orderQueueReplace);
+    }
+    Wait(3.5, c_timeGame);
+    gf_SpoogeAreawithTumor(PointFromId(3219));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_VictoryAction_Init () {
+    gt_VictoryAction = TriggerCreate("gt_VictoryAction_Func");
+}
+

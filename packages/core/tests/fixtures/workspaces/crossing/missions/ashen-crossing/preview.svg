@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="824" height="936" viewBox="0 0 824 936" font-family="Helvetica, Arial, sans-serif">
+  <title>Ashen Crossing: layout preview</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+    <marker id="attack" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d23b3b"/></marker>
+  </defs>
+  <rect width="824" height="936" fill="#ffffff"/>
+  <rect x="28" y="28" width="768" height="768" fill="#d9d2bd" stroke="#444"/>
+  <g id="zones">
+    <polygon id="zone-surface" points="28,796 796,796 796,28 28,28" fill="#d9d2bd" stroke="#5a5040" stroke-width="1"/>
+    <polygon id="zone-landing_zone" points="88,736 208,736 208,616 88,616" fill="#d9d2bd" stroke="#5a5040" stroke-width="1"/>
+    <polygon id="zone-overhang_crag" points="256,628 364,628 364,556 256,556" fill="#937a57" stroke="#5a5040" stroke-width="1"/>
+    <polygon id="zone-overhang" points="268,724 340,724 340,640 268,640" fill="#d9d2bd" stroke="#5a5040" stroke-width="1"/>
+    <polygon id="zone-rock_arch" points="496,556 568,556 568,472 496,472" fill="#d9d2bd" stroke="#5a5040" stroke-width="1"/>
+    <polygon id="zone-temple_gate" points="628,316 724,316 724,220 628,220" fill="#b9a37d" stroke="#5a5040" stroke-width="1"/>
+  </g>
+  <g id="grid" stroke="#000" stroke-opacity="0.08" font-size="9" fill="#666">
+    <line x1="28" y1="28" x2="28" y2="796"/>
+    <text x="28" y="808" text-anchor="middle" stroke="none">0</text>
+    <line x1="124" y1="28" x2="124" y2="796"/>
+    <text x="124" y="808" text-anchor="middle" stroke="none">16</text>
+    <line x1="220" y1="28" x2="220" y2="796"/>
+    <text x="220" y="808" text-anchor="middle" stroke="none">32</text>
+    <line x1="316" y1="28" x2="316" y2="796"/>
+    <text x="316" y="808" text-anchor="middle" stroke="none">48</text>
+    <line x1="412" y1="28" x2="412" y2="796"/>
+    <text x="412" y="808" text-anchor="middle" stroke="none">64</text>
+    <line x1="508" y1="28" x2="508" y2="796"/>
+    <text x="508" y="808" text-anchor="middle" stroke="none">80</text>
+    <line x1="604" y1="28" x2="604" y2="796"/>
+    <text x="604" y="808" text-anchor="middle" stroke="none">96</text>
+    <line x1="700" y1="28" x2="700" y2="796"/>
+    <text x="700" y="808" text-anchor="middle" stroke="none">112</text>
+    <line x1="796" y1="28" x2="796" y2="796"/>
+    <text x="796" y="808" text-anchor="middle" stroke="none">128</text>
+    <line x1="28" y1="796" x2="796" y2="796"/>
+    <text x="24" y="799" text-anchor="end" stroke="none">0</text>
+    <line x1="28" y1="700" x2="796" y2="700"/>
+    <text x="24" y="703" text-anchor="end" stroke="none">16</text>
+    <line x1="28" y1="604" x2="796" y2="604"/>
+    <text x="24" y="607" text-anchor="end" stroke="none">32</text>
+    <line x1="28" y1="508" x2="796" y2="508"/>
+    <text x="24" y="511" text-anchor="end" stroke="none">48</text>
+    <line x1="28" y1="412" x2="796" y2="412"/>
+    <text x="24" y="415" text-anchor="end" stroke="none">64</text>
+    <line x1="28" y1="316" x2="796" y2="316"/>
+    <text x="24" y="319" text-anchor="end" stroke="none">80</text>
+    <line x1="28" y1="220" x2="796" y2="220"/>
+    <text x="24" y="223" text-anchor="end" stroke="none">96</text>
+    <line x1="28" y1="124" x2="796" y2="124"/>
+    <text x="24" y="127" text-anchor="end" stroke="none">112</text>
+    <line x1="28" y1="28" x2="796" y2="28"/>
+    <text x="24" y="31" text-anchor="end" stroke="none">128</text>
+  </g>
+  <rect id="camera-bounds" x="88" y="148" width="648" height="600" fill="none" stroke="#333" stroke-dasharray="8 6" stroke-opacity="0.5"/>
+  <g id="connections" stroke-width="1.5" fill="none" stroke-opacity="0.7" font-size="9">
+    <line x1="148" y1="676" x2="304" y2="682" stroke="#222" stroke-dasharray="6 4"><title>open</title></line>
+    <line x1="304" y1="682" x2="532" y2="514" stroke="#222" stroke-dasharray="6 4"><title>open</title></line>
+    <line x1="532" y1="514" x2="676" y2="268" stroke="#222" stroke-dasharray=""><title>ramp</title></line>
+    <text x="604" y="388" text-anchor="middle" fill="#222" stroke="#fff" stroke-width="3" paint-order="stroke">ramp</text>
+  </g>
+  <g id="ramps">
+    <polygon id="ramp-temple_ramp" points="652,340 652,316 700,316 700,340" fill="#f2e3b3" stroke="#7a6230" stroke-width="1.5"/>
+    <line x1="676" y1="340" x2="676" y2="310" stroke="#222" stroke-width="2" marker-end="url(#arrow)"/>
+  </g>
+  <g id="highlights" fill="none">
+    <polygon points="628,316 724,316 724,220 628,220" stroke="#d4a017" stroke-width="3"><title>victory</title></polygon>
+  </g>
+  <g id="encounters">
+  </g>
+  <g id="zone-labels" font-size="11" fill="#222" stroke="#fff" stroke-width="3" paint-order="stroke">
+    <text x="32" y="41" font-weight="bold">Surface</text>
+    <text x="32" y="52" font-size="9">level 1 · MeinhoffCraters</text>
+    <text x="92" y="629" font-weight="bold">Landing Zone</text>
+    <text x="92" y="640" font-size="9">level 1 · MeinhoffWhiteSand</text>
+    <text x="260" y="569" font-weight="bold">Overhang Crag</text>
+    <text x="260" y="580" font-size="9">level 3 · MeinhoffRock</text>
+    <text x="272" y="653" font-weight="bold">Overhang</text>
+    <text x="272" y="664" font-size="9">level 1 · MeinhoffRoughSand</text>
+    <text x="500" y="485" font-weight="bold">Rock Arch</text>
+    <text x="500" y="496" font-size="9">level 1 · MeinhoffRoughSand</text>
+    <text x="632" y="233" font-weight="bold">Temple Gate</text>
+    <text x="632" y="244" font-size="9">level 2 · MeinhoffConcrete · goal</text>
+  </g>
+  <g id="anchors" font-size="10" stroke-width="1">
+    <circle id="anchor-hero_zeratul" cx="148" cy="676" r="5" fill="#2f7de1" stroke="#fff"><title>unit hero_zeratul (Zeratul)</title></circle>
+    <text x="155" y="679" fill="#111" stroke="#fff" stroke-width="3" paint-order="stroke">Zeratul</text>
+    <circle id="anchor-overhang_rock_w" cx="274" cy="652" r="2" fill="#6d6458"><title>doodad overhang_rock_w (RockGiant)</title></circle>
+    <circle id="anchor-overhang_rock_e" cx="334" cy="652" r="2" fill="#6d6458"><title>doodad overhang_rock_e (RockGiant)</title></circle>
+    <rect id="anchor-overhang_rock_n" x="307.5" y="589.5" width="5" height="5" fill="#4a3f33"><title>doodad overhang_rock_n (RockTower)</title></rect>
+    <circle id="anchor-rock_arch_arch" cx="532" cy="514" r="2" fill="#6d6458"><title>doodad rock_arch_arch (RockArch)</title></circle>
+    <circle id="anchor-rock_arch_w" cx="502" cy="496" r="2" fill="#6d6458"><title>doodad rock_arch_w (RockGiant)</title></circle>
+    <circle id="anchor-rock_arch_e" cx="562" cy="532" r="2" fill="#6d6458"><title>doodad rock_arch_e (RockGiant)</title></circle>
+    <rect id="anchor-temple_gate_doodad" x="673.5" y="235.5" width="5" height="5" fill="#4a3f33"><title>doodad temple_gate_doodad (TempleGate)</title></rect>
+    <rect id="anchor-temple_columns_w" x="637.5" y="253.5" width="5" height="5" fill="#4a3f33"><title>doodad temple_columns_w (TempleColumnSet)</title></rect>
+    <rect id="anchor-temple_columns_e" x="709.5" y="253.5" width="5" height="5" fill="#4a3f33"><title>doodad temple_columns_e (TempleColumnSet)</title></rect>
+    <rect id="anchor-temple_statue_w" x="643.5" y="289.5" width="5" height="5" fill="#4a3f33"><title>doodad temple_statue_w (TempleStatue)</title></rect>
+    <rect id="anchor-temple_statue_e" x="703.5" y="289.5" width="5" height="5" fill="#4a3f33"><title>doodad temple_statue_e (TempleStatue)</title></rect>
+    <rect id="anchor-temple_debris_w" x="631.5" y="349.5" width="5" height="5" fill="#4a3f33"><title>doodad temple_debris_w (TempleDebris)</title></rect>
+    <rect id="anchor-temple_debris_e" x="715.5" y="349.5" width="5" height="5" fill="#4a3f33"><title>doodad temple_debris_e (TempleDebris)</title></rect>
+    <rect id="anchor-crater_1" x="169.5" y="505.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_1 (MeinhoffCraterLarge)</title></rect>
+    <rect id="anchor-crater_2" x="397.5" y="397.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_2 (MeinhoffCraterLarge)</title></rect>
+    <rect id="anchor-crater_3" x="265.5" y="265.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_3 (MeinhoffCraterLarge)</title></rect>
+    <rect id="anchor-crater_4" x="445.5" y="685.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_4 (MeinhoffCrater)</title></rect>
+    <rect id="anchor-crater_5" x="625.5" y="613.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_5 (MeinhoffCrater)</title></rect>
+    <rect id="anchor-crater_6" x="529.5" y="217.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_6 (MeinhoffCrater)</title></rect>
+    <rect id="anchor-crater_7" x="241.5" y="409.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_7 (MeinhoffCraterSmall)</title></rect>
+    <rect id="anchor-crater_8" x="373.5" y="517.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_8 (MeinhoffCraterSmall)</title></rect>
+    <rect id="anchor-crater_9" x="685.5" y="457.5" width="5" height="5" fill="#4a3f33"><title>doodad crater_9 (MeinhoffCraterSmall)</title></rect>
+    <rect id="anchor-rock_1" x="217.5" y="709.5" width="5" height="5" fill="#4a3f33"><title>doodad rock_1 (RockLarge)</title></rect>
+    <circle id="anchor-rock_2" cx="424" cy="556" r="2" fill="#6d6458"><title>doodad rock_2 (RockSmall)</title></circle>
+    <circle id="anchor-rock_3" cx="604" cy="412" r="2" fill="#6d6458"><title>doodad rock_3 (RockSmall)</title></circle>
+    <rect id="anchor-rock_4" x="121.5" y="373.5" width="5" height="5" fill="#4a3f33"><title>doodad rock_4 (RockLarge)</title></rect>
+    <rect id="anchor-rock_5" x="469.5" y="313.5" width="5" height="5" fill="#4a3f33"><title>doodad rock_5 (Rock)</title></rect>
+  </g>
+  <g id="legend" font-size="10" fill="#222">
+    <text x="28" y="828" font-weight="bold" font-size="13">Ashen Crossing<tspan font-weight="normal" font-size="10" fill="#555"> · 128×128 · MonlythEx1</tspan></text>
+    <g transform="translate(28,840)"><rect width="16" height="12" fill="#5b4a6b" stroke="#5a5040"/><text x="22" y="9">pit (level 0)</text></g>
+    <g transform="translate(28,858)"><rect width="16" height="12" fill="#d9d2bd" stroke="#5a5040"/><text x="22" y="9">ground (level 1)</text></g>
+    <g transform="translate(28,876)"><rect width="16" height="12" fill="#b9a37d" stroke="#5a5040"/><text x="22" y="9">raised (level 2)</text></g>
+    <g transform="translate(28,894)"><rect width="16" height="12" fill="#937a57" stroke="#5a5040"/><text x="22" y="9">high (level 3)</text></g>
+    <g transform="translate(28,912)"><rect width="16" height="12" fill="#f2e3b3" stroke="#7a6230"/><text x="22" y="9">ramp (arrow uphill)</text></g>
+    <g transform="translate(208,840)"><rect width="16" height="12" fill="none" stroke="#1f9e6b" stroke-width="2" stroke-dasharray="4 2"/><text x="22" y="9">shelter</text></g>
+    <g transform="translate(208,858)"><rect width="16" height="12" fill="none" stroke="#d4a017" stroke-width="2"/><text x="22" y="9">goal</text></g>
+    <g transform="translate(208,876)"><rect width="16" height="12" fill="none" stroke="#d23b3b" stroke-dasharray="3 3"/><text x="22" y="9">encounter trigger</text></g>
+    <g transform="translate(208,894)"><line x1="0" y1="6" x2="16" y2="6" stroke="#222" stroke-dasharray="6 4"/><text x="22" y="9">connection (labelled by type)</text></g>
+    <g transform="translate(208,912)"><circle cx="8" cy="6" r="5" fill="#2f7de1"/><text x="22" y="9">player unit</text></g>
+    <g transform="translate(388,840)"><circle cx="8" cy="6" r="5" fill="#d23b3b"/><text x="22" y="9">hostile unit</text></g>
+    <g transform="translate(388,858)"><rect x="5" y="3" width="6" height="6" fill="#4a3f33"/><text x="22" y="9">doodad (blocks ground)</text></g>
+    <g transform="translate(388,876)"><circle cx="8" cy="6" r="2" fill="#6d6458"/><text x="22" y="9">doodad</text></g>
+    <g transform="translate(388,894)"><polygon points="8,0 13,10 3,10" fill="#7b4bd1"/><text x="22" y="9">camera</text></g>
+    <g transform="translate(388,912)"><polygon points="8,1 13,6 8,11 3,6" fill="#e08a1e"/><text x="22" y="9">point</text></g>
+  </g>
+</svg>

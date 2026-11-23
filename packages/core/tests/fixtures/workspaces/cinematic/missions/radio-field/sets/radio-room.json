@@ -1,0 +1,24 @@
+{
+  "name": "Radio Room",
+  "lights": ["RoomLight", "RoomAlarm"],
+  "pieces": [
+    {"model":"RoomFloor","at":[0,0,0]},
+    {"model":"RadioDesk","at":[1,2,0],"rotation":90,"scale":[1,-1,1],"variation":2,"tint":[0.5,0.5,1]},
+    {"model":"RadioScreen","at":[0,4,1],"shots":["Close"]},
+    {"model":"RoomShelf","at":[3,3,0],"shots":["Unused"]},
+    {"model":"RoomCrate","at":[2,-2,0],"hidden":true}
+  ],
+  "marks": [
+    {"name":"Operator","model":"Operator","at":[1,1,0],"facing":90,"shots":["Wide","Drift"]},
+    {"name":"Visitor","model":"Visitor","at":[-1,1,0],"facing":-90}
+  ],
+  "cameras": [
+    {"name":"Wide","target":[0,1,1.5],"distance":10,"pitch":10,"yaw":180,"fov":40,"heightOffset":-0.5},
+    {"name":"Close","target":[1,1,1.6],"distance":3,"pitch":5,"yaw":90,"fov":18,"verticalFov":false,"roll":2,"blur":0.2,"focalDepth":2.5,"falloff":{"far":1,"near":0}},
+    {"name":"Drift","target":[0,0,1],"distance":5,"pitch":5,"yaw":0,"fov":30,"moves":true}
+  ],
+  "lamps": [
+    {"name":"Key","type":"omni","at":[1,0,3],"color":[1,0.9,0.8],"strength":2,"range":6,"shots":["Close"]},
+    {"name":"Fill","type":"spot","at":[-1,0,3],"rotation":[0,-30,90],"color":[0.6,0.7,1],"strength":1,"hotspot":0.5,"falloff":1,"shadows":false}
+  ]
+}

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Clean: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Clean</text>
+<text x="24" y="54" font-size="10" fill="#666">clean · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="393" y="275.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_00</title></rect>
+<rect x="393" y="327.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_01</title></rect>
+<rect x="393" y="379.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_02</title></rect>
+<rect x="393" y="76" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_00</title></rect>
+<rect x="393" y="127.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_01</title></rect>
+<rect x="393" y="179.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_02</title></rect>
+<rect x="393" y="475.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_00</title></rect>
+<rect x="393" y="526.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_01</title></rect>
+<rect x="393" y="579" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_02</title></rect>
+<rect x="170" y="275.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_03</title></rect>
+<rect x="170" y="327.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_04</title></rect>
+<rect x="170" y="378.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_05</title></rect>
+<rect x="170" y="76" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_03</title></rect>
+<rect x="170" y="127.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_04</title></rect>
+<rect x="170" y="179.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_05</title></rect>
+<rect x="170" y="474.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_03</title></rect>
+<rect x="170" y="526.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_04</title></rect>
+<rect x="170" y="578.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_DominionFlag_Vertical_05</title></rect>
+</g>
+<line x1="166.8" y1="587.2" x2="195.3" y2="587.2" stroke="#333" stroke-width="2"/>
+<line x1="166.8" y1="583.2" x2="166.8" y2="591.2" stroke="#333"/><line x1="172.5" y1="583.2" x2="172.5" y2="591.2" stroke="#333"/>
+<text x="166.8" y="581.2" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuNova_04.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: MainMenuNova_04</text>
+<text x="560" y="132" font-size="9" fill="#333">Its file feeds displays from: RTT</text>
+<text x="560" y="144" font-size="9" fill="#333">Screens</text>
+<text x="560" y="156" font-size="9" fill="#333">Marks: 0; cameras: 0 (0 aimed</text>
+<text x="560" y="168" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="180" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="192" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="204" font-size="9" fill="#333"></text>
+<text x="560" y="216" font-size="9" fill="#333">Models:</text>
+<text x="560" y="228" font-size="9" fill="#333">SMX3_DominionFlag_Vertical_00</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX3_DominionFlag_Vertical_01</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX3_DominionFlag_Vertical_02</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX3_DominionFlag_Vertical_03</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX3_DominionFlag_Vertical_04</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX3_DominionFlag_Vertical_05</text>
+<text x="560" y="300" font-size="9" fill="#333"></text>
+<text x="560" y="312" font-size="9" fill="#333">Also in:</text>
+</svg>

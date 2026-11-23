@@ -1,0 +1,5114 @@
+{
+  "mapStudyVersion": 1,
+  "exemplar": {
+    "id": "1-6",
+    "provenance": "edited"
+  },
+  "layers": {
+    "note": "Renders are 4 px per cell, north up. textures.png: dominant texture per cell; elevation.png: cliff levels (darker = cliff edge, blue = ramp); doodads.png: doodads by kind, manipulated ones ringed red; vertex-shading.png: t3VertCol kind-1 values (white untouched), cliff edges blue. Outside the playable bounds is dimmed.",
+    "texturesLegend": {
+      "Char2_1": "rgb(255,179,0)",
+      "Char2_5": "rgb(128,62,117)",
+      "Char2_4": "rgb(255,104,0)",
+      "Char2_3": "rgb(166,189,215)",
+      "Char2_6": "rgb(193,0,32)",
+      "Char2_7": "rgb(206,162,98)",
+      "Char2_2": "rgb(129,112,102)",
+      "Char2_8": "rgb(0,125,52)"
+    },
+    "doodadsLegend": {
+      "other": "rgb(255,104,0)",
+      "decal": "rgb(246,118,142)",
+      "ruin": "rgb(193,0,32)",
+      "light": "rgb(128,62,117)",
+      "rock": "rgb(206,162,98)",
+      "water/fx": "rgb(129,112,102)",
+      "unknown": "rgb(0,125,52)",
+      "foliage": "rgb(166,189,215)",
+      "tree": "rgb(255,179,0)",
+      "manipulated (any)": "rgb(230,30,30) ring"
+    }
+  },
+  "texturing": {
+    "tileset": "Char2",
+    "textureSets": [
+      "Char2"
+    ],
+    "note": "Shares normalise each cell's 8 mask weights to sum to 1; 'present' means >= 10% of a cell's mix.",
+    "coverage": [
+      {
+        "name": "Char2_1",
+        "count": 26192.885,
+        "share": 0.741
+      },
+      {
+        "name": "Char2_5",
+        "count": 4473.179,
+        "share": 0.127
+      },
+      {
+        "name": "Char2_7",
+        "count": 3213.569,
+        "share": 0.091
+      },
+      {
+        "name": "Char2_3",
+        "count": 521.472,
+        "share": 0.015
+      },
+      {
+        "name": "Char2_8",
+        "count": 395.627,
+        "share": 0.011
+      },
+      {
+        "name": "Char2_2",
+        "count": 270.371,
+        "share": 0.008
+      },
+      {
+        "name": "Char2_4",
+        "count": 202.27,
+        "share": 0.006
+      },
+      {
+        "name": "Char2_6",
+        "count": 58.627,
+        "share": 0.002
+      }
+    ],
+    "dominant": [
+      {
+        "name": "Char2_1",
+        "count": 26705,
+        "share": 0.756
+      },
+      {
+        "name": "Char2_5",
+        "count": 4301,
+        "share": 0.122
+      },
+      {
+        "name": "Char2_7",
+        "count": 3319,
+        "share": 0.094
+      },
+      {
+        "name": "Char2_3",
+        "count": 385,
+        "share": 0.011
+      },
+      {
+        "name": "Char2_8",
+        "count": 352,
+        "share": 0.01
+      },
+      {
+        "name": "Char2_2",
+        "count": 155,
+        "share": 0.004
+      },
+      {
+        "name": "Char2_4",
+        "count": 90,
+        "share": 0.003
+      },
+      {
+        "name": "Char2_6",
+        "count": 21,
+        "share": 0.001
+      }
+    ],
+    "texturesPresentPerCell": {
+      "1": 0.863,
+      "2": 0.111,
+      "3": 0.025,
+      "4": 0.002,
+      "5": 0
+    },
+    "transitions": [
+      {
+        "name": "Char2_1 | Char2_5",
+        "count": 1125
+      },
+      {
+        "name": "Char2_1 | Char2_7",
+        "count": 612
+      },
+      {
+        "name": "Char2_1 | Char2_3",
+        "count": 392
+      },
+      {
+        "name": "Char2_1 | Char2_2",
+        "count": 218
+      },
+      {
+        "name": "Char2_5 | Char2_7",
+        "count": 195
+      },
+      {
+        "name": "Char2_7 | Char2_8",
+        "count": 190
+      },
+      {
+        "name": "Char2_3 | Char2_7",
+        "count": 142
+      },
+      {
+        "name": "Char2_1 | Char2_4",
+        "count": 125
+      },
+      {
+        "name": "Char2_1 | Char2_8",
+        "count": 95
+      },
+      {
+        "name": "Char2_5 | Char2_8",
+        "count": 76
+      },
+      {
+        "name": "Char2_2 | Char2_3",
+        "count": 41
+      },
+      {
+        "name": "Char2_4 | Char2_5",
+        "count": 38
+      },
+      {
+        "name": "Char2_1 | Char2_6",
+        "count": 33
+      },
+      {
+        "name": "Char2_3 | Char2_8",
+        "count": 26
+      },
+      {
+        "name": "Char2_2 | Char2_5",
+        "count": 24
+      },
+      {
+        "name": "Char2_3 | Char2_5",
+        "count": 16
+      },
+      {
+        "name": "Char2_2 | Char2_7",
+        "count": 8
+      },
+      {
+        "name": "Char2_4 | Char2_7",
+        "count": 6
+      },
+      {
+        "name": "Char2_2 | Char2_6",
+        "count": 5
+      },
+      {
+        "name": "Char2_2 | Char2_4",
+        "count": 3
+      }
+    ],
+    "blendPlacement": {
+      "note": "mixedNearBorder: share of mixed cells within 2 cells of a dominant-texture border; cellsNearBorder: share of all playable cells that close.",
+      "mixedNearBorder": 0.949,
+      "cellsNearBorder": 0.315
+    },
+    "dominantByContext": {
+      "cliffEdge": [
+        {
+          "name": "Char2_1",
+          "count": 3929,
+          "share": 0.726
+        },
+        {
+          "name": "Char2_5",
+          "count": 782,
+          "share": 0.144
+        },
+        {
+          "name": "Char2_7",
+          "count": 534,
+          "share": 0.099
+        },
+        {
+          "name": "Char2_8",
+          "count": 88,
+          "share": 0.016
+        },
+        {
+          "name": "Char2_3",
+          "count": 36,
+          "share": 0.007
+        }
+      ],
+      "nearEdge": [
+        {
+          "name": "Char2_1",
+          "count": 8397,
+          "share": 0.707
+        },
+        {
+          "name": "Char2_5",
+          "count": 1707,
+          "share": 0.144
+        },
+        {
+          "name": "Char2_7",
+          "count": 1351,
+          "share": 0.114
+        },
+        {
+          "name": "Char2_3",
+          "count": 138,
+          "share": 0.012
+        },
+        {
+          "name": "Char2_8",
+          "count": 114,
+          "share": 0.01
+        }
+      ],
+      "open": [
+        {
+          "name": "Char2_1",
+          "count": 14229,
+          "share": 0.8
+        },
+        {
+          "name": "Char2_5",
+          "count": 1788,
+          "share": 0.1
+        },
+        {
+          "name": "Char2_7",
+          "count": 1394,
+          "share": 0.078
+        },
+        {
+          "name": "Char2_3",
+          "count": 192,
+          "share": 0.011
+        },
+        {
+          "name": "Char2_8",
+          "count": 150,
+          "share": 0.008
+        }
+      ],
+      "ramp": [
+        {
+          "name": "Char2_1",
+          "count": 150,
+          "share": 0.636
+        },
+        {
+          "name": "Char2_7",
+          "count": 40,
+          "share": 0.169
+        },
+        {
+          "name": "Char2_5",
+          "count": 24,
+          "share": 0.102
+        },
+        {
+          "name": "Char2_3",
+          "count": 19,
+          "share": 0.081
+        },
+        {
+          "name": "Char2_2",
+          "count": 3,
+          "share": 0.013
+        }
+      ]
+    },
+    "dominantByLevel": {
+      "level0": [
+        {
+          "name": "Char2_1",
+          "count": 17911,
+          "share": 0.993
+        },
+        {
+          "name": "Char2_7",
+          "count": 88,
+          "share": 0.005
+        },
+        {
+          "name": "Char2_8",
+          "count": 28,
+          "share": 0.002
+        },
+        {
+          "name": "Char2_5",
+          "count": 7,
+          "share": 0
+        },
+        {
+          "name": "Char2_3",
+          "count": 4,
+          "share": 0
+        }
+      ],
+      "level1": [
+        {
+          "name": "Char2_1",
+          "count": 3375,
+          "share": 0.591
+        },
+        {
+          "name": "Char2_7",
+          "count": 1696,
+          "share": 0.297
+        },
+        {
+          "name": "Char2_5",
+          "count": 204,
+          "share": 0.036
+        },
+        {
+          "name": "Char2_3",
+          "count": 195,
+          "share": 0.034
+        },
+        {
+          "name": "Char2_8",
+          "count": 124,
+          "share": 0.022
+        }
+      ],
+      "level2": [
+        {
+          "name": "Char2_1",
+          "count": 2821,
+          "share": 0.701
+        },
+        {
+          "name": "Char2_7",
+          "count": 604,
+          "share": 0.15
+        },
+        {
+          "name": "Char2_5",
+          "count": 335,
+          "share": 0.083
+        },
+        {
+          "name": "Char2_8",
+          "count": 149,
+          "share": 0.037
+        },
+        {
+          "name": "Char2_3",
+          "count": 58,
+          "share": 0.014
+        }
+      ],
+      "level3": [
+        {
+          "name": "Char2_5",
+          "count": 3731,
+          "share": 0.51
+        },
+        {
+          "name": "Char2_1",
+          "count": 2448,
+          "share": 0.334
+        },
+        {
+          "name": "Char2_7",
+          "count": 891,
+          "share": 0.122
+        },
+        {
+          "name": "Char2_3",
+          "count": 109,
+          "share": 0.015
+        },
+        {
+          "name": "Char2_2",
+          "count": 69,
+          "share": 0.009
+        }
+      ]
+    }
+  },
+  "cliffs": {
+    "cliffSets": [
+      "Char2Cliff0",
+      "Char2Cliff1"
+    ],
+    "cliffSetUse": [
+      {
+        "name": "Char2Cliff0",
+        "count": 1884,
+        "share": 0.519
+      },
+      {
+        "name": "Char2Cliff1",
+        "count": 1743,
+        "share": 0.481
+      }
+    ],
+    "levelShare": {
+      "level0": 0.511,
+      "level1": 0.162,
+      "level2": 0.114,
+      "level3": 0.207
+    },
+    "distinctLevels": 4,
+    "cliffEdgeCellShare": 0.153,
+    "rampCellShare": 0.007,
+    "ramps": {
+      "count": 16,
+      "width": {
+        "min": 1.414,
+        "p25": 2,
+        "p50": 2.828,
+        "p75": 3,
+        "p90": 3,
+        "max": 4,
+        "mean": 2.587
+      },
+      "directions": {
+        "diag4": 2,
+        "diag7": 1,
+        "west": 3,
+        "north": 2,
+        "diag6": 3,
+        "east": 2,
+        "diag5": 2,
+        "south": 1
+      },
+      "levelPairs": {
+        "1->2": 7,
+        "2->3": 9
+      }
+    },
+    "cliffDoodads": [
+      {
+        "name": "KorhalHole",
+        "count": 3
+      },
+      {
+        "name": "TerrainObjectCoolantPipes1_1",
+        "count": 2
+      },
+      {
+        "name": "TerrainObjectBraxisAlphaZergHoleLarge2",
+        "count": 1
+      },
+      {
+        "name": "TerrainObjectBlastCraters11",
+        "count": 1
+      },
+      {
+        "name": "TOSpacePlatformDestSmall1",
+        "count": 1
+      },
+      {
+        "name": "PortZionScrapElevatorLeftTO1",
+        "count": 1
+      },
+      {
+        "name": "PortZionGridFloorCircleTO1",
+        "count": 1
+      },
+      {
+        "name": "TerrainObjectCharNydusNestEmpty1",
+        "count": 1
+      },
+      {
+        "name": "TerrainObjectFallenAsteroids3",
+        "count": 1
+      }
+    ]
+  },
+  "doodads": {
+    "count": 634,
+    "perHundredCells": 1.795,
+    "distinctTypes": 145,
+    "kinds": [
+      {
+        "name": "other",
+        "count": 290,
+        "share": 0.457
+      },
+      {
+        "name": "rock",
+        "count": 152,
+        "share": 0.24
+      },
+      {
+        "name": "light",
+        "count": 64,
+        "share": 0.101
+      },
+      {
+        "name": "decal",
+        "count": 49,
+        "share": 0.077
+      },
+      {
+        "name": "ruin",
+        "count": 43,
+        "share": 0.068
+      },
+      {
+        "name": "foliage",
+        "count": 15,
+        "share": 0.024
+      },
+      {
+        "name": "unknown",
+        "count": 10,
+        "share": 0.016
+      },
+      {
+        "name": "tree",
+        "count": 7,
+        "share": 0.011
+      },
+      {
+        "name": "water/fx",
+        "count": 4,
+        "share": 0.006
+      }
+    ],
+    "topTypes": [
+      {
+        "name": "MarSaraCrack",
+        "count": 42,
+        "share": 0.066
+      },
+      {
+        "name": "Rock",
+        "count": 33,
+        "share": 0.052
+      },
+      {
+        "name": "LandingLights",
+        "count": 31,
+        "share": 0.049
+      },
+      {
+        "name": "DecalSpace",
+        "count": 30,
+        "share": 0.047
+      },
+      {
+        "name": "TTosh01RockSpires",
+        "count": 29,
+        "share": 0.046
+      },
+      {
+        "name": "RockTower",
+        "count": 27,
+        "share": 0.043
+      },
+      {
+        "name": "InvisibleCurtain",
+        "count": 23,
+        "share": 0.036
+      },
+      {
+        "name": "RockSmall",
+        "count": 20,
+        "share": 0.032
+      },
+      {
+        "name": "KorhalBuildingDebris",
+        "count": 20,
+        "share": 0.032
+      },
+      {
+        "name": "BloodSplats",
+        "count": 17,
+        "share": 0.027
+      },
+      {
+        "name": "RockLarge",
+        "count": 15,
+        "share": 0.024
+      },
+      {
+        "name": "CharFoliage",
+        "count": 14,
+        "share": 0.022
+      },
+      {
+        "name": "CharRock",
+        "count": 12,
+        "share": 0.019
+      },
+      {
+        "name": "SpacePlatformGroundDecals",
+        "count": 11,
+        "share": 0.017
+      },
+      {
+        "name": "NewFolsomSandbags",
+        "count": 11,
+        "share": 0.017
+      },
+      {
+        "name": "AgriaDebris",
+        "count": 10,
+        "share": 0.016
+      },
+      {
+        "name": "Decal",
+        "count": 8,
+        "share": 0.013
+      },
+      {
+        "name": "LightOmniOrangeLarge",
+        "count": 8,
+        "share": 0.013
+      },
+      {
+        "name": "ColonistSupplyCrate",
+        "count": 7,
+        "share": 0.011
+      },
+      {
+        "name": "LightOmniOrange",
+        "count": 6,
+        "share": 0.009
+      },
+      {
+        "name": "ZerglingRagdollDoodad",
+        "count": 6,
+        "share": 0.009
+      },
+      {
+        "name": "CharGlowingPods",
+        "count": 6,
+        "share": 0.009
+      },
+      {
+        "name": "CharHorn",
+        "count": 6,
+        "share": 0.009
+      },
+      {
+        "name": "PipesSmallCorner",
+        "count": 5,
+        "share": 0.008
+      },
+      {
+        "name": "Crate",
+        "count": 5,
+        "share": 0.008
+      }
+    ],
+    "blockDensity": {
+      "min": 0,
+      "p25": 0,
+      "p50": 0,
+      "p75": 1,
+      "p90": 4,
+      "max": 21,
+      "mean": 1.149,
+      "emptyShare": 0.726
+    },
+    "placement": [
+      {
+        "name": "cliffEdge",
+        "count": 266,
+        "share": 0.42
+      },
+      {
+        "name": "nearEdge",
+        "count": 234,
+        "share": 0.369
+      },
+      {
+        "name": "open",
+        "count": 125,
+        "share": 0.197
+      },
+      {
+        "name": "ramp",
+        "count": 9,
+        "share": 0.014
+      }
+    ],
+    "clusters": {
+      "count": 220,
+      "size": {
+        "min": 1,
+        "p25": 1,
+        "p50": 1,
+        "p75": 2,
+        "p90": 6,
+        "max": 40,
+        "mean": 2.882
+      },
+      "singletonShare": 0.636
+    },
+    "coOccurrence": [
+      {
+        "name": "MarSaraCrack + Rock",
+        "count": 26
+      },
+      {
+        "name": "ColonistSupplyCrate + Crate",
+        "count": 17
+      },
+      {
+        "name": "Rock + RockLarge",
+        "count": 17
+      },
+      {
+        "name": "InvisibleCurtain + TTosh01RockSpires",
+        "count": 16
+      },
+      {
+        "name": "ChiseledRockEx1Large + InvisibleCurtain",
+        "count": 16
+      },
+      {
+        "name": "MarSaraCrack + RockSmall",
+        "count": 15
+      },
+      {
+        "name": "AgriaDebris + LandingLights",
+        "count": 13
+      },
+      {
+        "name": "BloodSplats + ZergCarcasses",
+        "count": 12
+      },
+      {
+        "name": "BloodSplats + ZerglingRagdollDoodad",
+        "count": 12
+      },
+      {
+        "name": "BlastCratersDoodad + InvisibleCurtain",
+        "count": 12
+      },
+      {
+        "name": "CharRock + Rock",
+        "count": 11
+      },
+      {
+        "name": "LandingLights + MarSaraCrack",
+        "count": 11
+      },
+      {
+        "name": "CreepWebbing + KorhalBuildingDebris",
+        "count": 11
+      },
+      {
+        "name": "Rock + TOFallenAsteroids",
+        "count": 11
+      },
+      {
+        "name": "LightOmniOrangeLarge + RockLarge",
+        "count": 10
+      },
+      {
+        "name": "LandingLights + SpacePlatformGroundDecals",
+        "count": 9
+      },
+      {
+        "name": "Rock + TTosh01RockSpires",
+        "count": 9
+      },
+      {
+        "name": "CharDuneRock + CharRock",
+        "count": 9
+      },
+      {
+        "name": "AgriaDebris + CreepWebbing",
+        "count": 8
+      },
+      {
+        "name": "AgriaDebris + CreepSporeEmitter",
+        "count": 8
+      },
+      {
+        "name": "AgriaDebris + CharRibs",
+        "count": 8
+      },
+      {
+        "name": "AgriaDebris + CharClaws",
+        "count": 8
+      },
+      {
+        "name": "ColonistSupplyCrate + ZergCarcasses",
+        "count": 8
+      },
+      {
+        "name": "BloodSplats + NewFolsomSandbags",
+        "count": 8
+      },
+      {
+        "name": "Rock + SmokeMedium",
+        "count": 8
+      },
+      {
+        "name": "CharClaws + RockSmall",
+        "count": 8
+      },
+      {
+        "name": "CharRock + RockLarge",
+        "count": 8
+      },
+      {
+        "name": "BloodSplats + ColonistSupplyCrate",
+        "count": 7
+      },
+      {
+        "name": "BloodSplats + LandingLights",
+        "count": 7
+      },
+      {
+        "name": "RockLarge + SmokeEmbersMedium",
+        "count": 7
+      }
+    ],
+    "manipulation": {
+      "note": "tilted: |pitch| or |roll| > 0.05 rad; nonUniformScale: axis ratio > 1.15; sunk/raised: > 0.5 below/above terrain; extremeScale: >= 2 or <= 0.5.",
+      "counts": [
+        {
+          "name": "extremeScale",
+          "count": 44,
+          "share": 0.069
+        },
+        {
+          "name": "raised",
+          "count": 30,
+          "share": 0.047
+        },
+        {
+          "name": "sunk",
+          "count": 21,
+          "share": 0.033
+        },
+        {
+          "name": "nonUniformScale",
+          "count": 15,
+          "share": 0.024
+        },
+        {
+          "name": "tinted",
+          "count": 4,
+          "share": 0.006
+        },
+        {
+          "name": "noFootprint",
+          "count": 1,
+          "share": 0.002
+        },
+        {
+          "name": "tilted",
+          "count": 1,
+          "share": 0.002
+        }
+      ],
+      "flags": [
+        {
+          "name": "HeightAbsolute",
+          "count": 617,
+          "share": 0.973
+        },
+        {
+          "name": "ForcePlacement",
+          "count": 214,
+          "share": 0.338
+        },
+        {
+          "name": "HeightOffset",
+          "count": 53,
+          "share": 0.084
+        },
+        {
+          "name": "NoDoodadFootprint",
+          "count": 1,
+          "share": 0.002
+        }
+      ],
+      "typeProfiles": [
+        {
+          "type": "MarSaraCrack",
+          "kind": "other",
+          "count": 42,
+          "scale": {
+            "min": 0.79,
+            "p25": 1.016,
+            "p50": 1.611,
+            "p75": 1.611,
+            "p90": 1.611,
+            "max": 1.611,
+            "mean": 1.313
+          },
+          "aboveTerrain": {
+            "min": -1.951,
+            "p25": 0.003,
+            "p50": 0.006,
+            "p75": 0.009,
+            "p90": 0.018,
+            "max": 5.61,
+            "mean": 0.125
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.75
+        },
+        {
+          "type": "Rock",
+          "kind": "rock",
+          "count": 33,
+          "scale": {
+            "min": 0.81,
+            "p25": 0.952,
+            "p50": 0.996,
+            "p75": 1.126,
+            "p90": 1.167,
+            "max": 1.181,
+            "mean": 1.013
+          },
+          "aboveTerrain": {
+            "min": -0.155,
+            "p25": 0.003,
+            "p50": 0.005,
+            "p75": 0.008,
+            "p90": 0.027,
+            "max": 0.114,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.688
+        },
+        {
+          "type": "LandingLights",
+          "kind": "light",
+          "count": 31,
+          "scale": {
+            "min": 0.9,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1.014,
+            "max": 1.014,
+            "mean": 0.986
+          },
+          "aboveTerrain": {
+            "min": 0.003,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.009,
+            "p90": 0.033,
+            "max": 0.526,
+            "mean": 0.057
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "DecalSpace",
+          "kind": "decal",
+          "count": 30,
+          "scale": {
+            "min": 2.8,
+            "p25": 2.8,
+            "p50": 2.8,
+            "p75": 2.8,
+            "p90": 2.8,
+            "max": 2.8,
+            "mean": 2.8
+          },
+          "aboveTerrain": {
+            "min": -0.001,
+            "p25": 0.005,
+            "p50": 0.005,
+            "p75": 0.006,
+            "p90": 0.008,
+            "max": 0.018,
+            "mean": 0.006
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.233,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "TTosh01RockSpires",
+          "kind": "rock",
+          "count": 29,
+          "scale": {
+            "min": 0.823,
+            "p25": 0.891,
+            "p50": 1.008,
+            "p75": 1.087,
+            "p90": 1.184,
+            "max": 1.375,
+            "mean": 1.007
+          },
+          "aboveTerrain": {
+            "min": -0.007,
+            "p25": 0.004,
+            "p50": 0.007,
+            "p75": 0.008,
+            "p90": 0.021,
+            "max": 0.03,
+            "mean": 0.008
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.875
+        },
+        {
+          "type": "RockTower",
+          "kind": "rock",
+          "count": 27,
+          "scale": {
+            "min": 0.806,
+            "p25": 0.92,
+            "p50": 1.02,
+            "p75": 1.153,
+            "p90": 1.182,
+            "max": 1.199,
+            "mean": 1.02
+          },
+          "aboveTerrain": {
+            "min": -1.507,
+            "p25": 0.007,
+            "p50": 0.007,
+            "p75": 0.007,
+            "p90": 0.012,
+            "max": 0.025,
+            "mean": -0.048
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.688
+        },
+        {
+          "type": "InvisibleCurtain",
+          "kind": "other",
+          "count": 23,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": -0.972,
+            "p25": 0.005,
+            "p50": 0.006,
+            "p75": 0.006,
+            "p90": 0.006,
+            "max": 0.021,
+            "mean": -0.036
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "RockSmall",
+          "kind": "rock",
+          "count": 20,
+          "scale": {
+            "min": 0.816,
+            "p25": 0.865,
+            "p50": 0.898,
+            "p75": 0.945,
+            "p90": 0.971,
+            "max": 1.014,
+            "mean": 0.901
+          },
+          "aboveTerrain": {
+            "min": -0.294,
+            "p25": 0.007,
+            "p50": 0.007,
+            "p75": 0.007,
+            "p90": 0.008,
+            "max": 0.008,
+            "mean": -0.021
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.625
+        },
+        {
+          "type": "KorhalBuildingDebris",
+          "kind": "ruin",
+          "count": 20,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0.004,
+            "p50": 0.005,
+            "p75": 0.006,
+            "p90": 0.016,
+            "max": 0.029,
+            "mean": 0.007
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.813
+        },
+        {
+          "type": "BloodSplats",
+          "kind": "other",
+          "count": 17,
+          "scale": {
+            "min": 0.804,
+            "p25": 0.901,
+            "p50": 0.953,
+            "p75": 1.052,
+            "p90": 1.154,
+            "max": 1.171,
+            "mean": 0.971
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0.003,
+            "p75": 0.004,
+            "p90": 0.007,
+            "max": 0.029,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.75
+        },
+        {
+          "type": "RockLarge",
+          "kind": "rock",
+          "count": 15,
+          "scale": {
+            "min": 0.805,
+            "p25": 0.94,
+            "p50": 1.008,
+            "p75": 1.085,
+            "p90": 1.142,
+            "max": 1.152,
+            "mean": 1.001
+          },
+          "aboveTerrain": {
+            "min": -4.816,
+            "p25": 0.003,
+            "p50": 0.005,
+            "p75": 0.021,
+            "p90": 0.634,
+            "max": 0.654,
+            "mean": -0.501
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.625
+        },
+        {
+          "type": "CharFoliage",
+          "kind": "foliage",
+          "count": 14,
+          "scale": {
+            "min": 0.833,
+            "p25": 0.907,
+            "p50": 1.087,
+            "p75": 1.127,
+            "p90": 1.169,
+            "max": 1.193,
+            "mean": 1.024
+          },
+          "aboveTerrain": {
+            "min": 0.005,
+            "p25": 0.007,
+            "p50": 0.009,
+            "p75": 0.016,
+            "p90": 0.022,
+            "max": 0.028,
+            "mean": 0.011
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.563
+        },
+        {
+          "type": "CharRock",
+          "kind": "rock",
+          "count": 12,
+          "scale": {
+            "min": 0.725,
+            "p25": 0.785,
+            "p50": 0.802,
+            "p75": 0.821,
+            "p90": 0.835,
+            "max": 0.842,
+            "mean": 0.792
+          },
+          "aboveTerrain": {
+            "min": -0.336,
+            "p25": 0.003,
+            "p50": 0.005,
+            "p75": 0.012,
+            "p90": 0.016,
+            "max": 0.042,
+            "mean": -0.021
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.563
+        },
+        {
+          "type": "SpacePlatformGroundDecals",
+          "kind": "decal",
+          "count": 11,
+          "scale": {
+            "min": 0.55,
+            "p25": 0.9,
+            "p50": 1.13,
+            "p75": 1.6,
+            "p90": 1.82,
+            "max": 2.22,
+            "mean": 1.204
+          },
+          "aboveTerrain": {
+            "min": -0.12,
+            "p25": 0.002,
+            "p50": 0.005,
+            "p75": 0.017,
+            "p90": 0.024,
+            "max": 0.03,
+            "mean": -0.002
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.182,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "NewFolsomSandbags",
+          "kind": "other",
+          "count": 11,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.004,
+            "p50": 0.009,
+            "p75": 0.009,
+            "p90": 0.009,
+            "max": 0.031,
+            "mean": 0.009
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "AgriaDebris",
+          "kind": "ruin",
+          "count": 10,
+          "scale": {
+            "min": 0.857,
+            "p25": 1.003,
+            "p50": 1.064,
+            "p75": 1.156,
+            "p90": 1.182,
+            "max": 1.182,
+            "mean": 1.059
+          },
+          "aboveTerrain": {
+            "min": 0.003,
+            "p25": 0.003,
+            "p50": 0.003,
+            "p75": 0.003,
+            "p90": 0.005,
+            "max": 0.005,
+            "mean": 0.003
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.5
+        },
+        {
+          "type": "Decal",
+          "kind": "decal",
+          "count": 8,
+          "scale": {
+            "min": 2,
+            "p25": 2.5,
+            "p50": 3,
+            "p75": 3,
+            "p90": 3,
+            "max": 3,
+            "mean": 2.675
+          },
+          "aboveTerrain": {
+            "min": 0.006,
+            "p25": 0.008,
+            "p50": 0.013,
+            "p75": 0.607,
+            "p90": 0.607,
+            "max": 0.607,
+            "mean": 0.16
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.375,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "LightOmniOrangeLarge",
+          "kind": "light",
+          "count": 8,
+          "scale": {
+            "min": 0.879,
+            "p25": 0.969,
+            "p50": 1.015,
+            "p75": 1.135,
+            "p90": 5,
+            "max": 5,
+            "mean": 1.493
+          },
+          "aboveTerrain": {
+            "min": -8.795,
+            "p25": -0.38,
+            "p50": 0.005,
+            "p75": 3.167,
+            "p90": 3.199,
+            "max": 3.199,
+            "mean": -0.779
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.438
+        },
+        {
+          "type": "ColonistSupplyCrate",
+          "kind": "other",
+          "count": 7,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.004,
+            "p90": 0.008,
+            "max": 0.008,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "LightOmniOrange",
+          "kind": "light",
+          "count": 6,
+          "scale": {
+            "min": 0.831,
+            "p25": 0.837,
+            "p50": 0.922,
+            "p75": 0.99,
+            "p90": 1.102,
+            "max": 1.102,
+            "mean": 0.922
+          },
+          "aboveTerrain": {
+            "min": -1.897,
+            "p25": 0.003,
+            "p50": 0.006,
+            "p75": 0.016,
+            "p90": 0.033,
+            "max": 0.033,
+            "mean": -0.306
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.375
+        },
+        {
+          "type": "ZerglingRagdollDoodad",
+          "kind": "unknown",
+          "count": 6,
+          "scale": {
+            "min": 0.945,
+            "p25": 0.994,
+            "p50": 1.105,
+            "p75": 1.118,
+            "p90": 1.17,
+            "max": 1.17,
+            "mean": 1.071
+          },
+          "aboveTerrain": {
+            "min": 0,
+            "p25": 0,
+            "p50": 0,
+            "p75": 0,
+            "p90": 0.002,
+            "max": 0.002,
+            "mean": 0.001
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "CharGlowingPods",
+          "kind": "other",
+          "count": 6,
+          "scale": {
+            "min": 0.836,
+            "p25": 0.839,
+            "p50": 0.93,
+            "p75": 1.124,
+            "p90": 1.165,
+            "max": 1.165,
+            "mean": 0.963
+          },
+          "aboveTerrain": {
+            "min": 0.003,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.004,
+            "p90": 0.007,
+            "max": 0.007,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "CharHorn",
+          "kind": "other",
+          "count": 6,
+          "scale": {
+            "min": 0.995,
+            "p25": 0.998,
+            "p50": 1.091,
+            "p75": 1.104,
+            "p90": 1.176,
+            "max": 1.176,
+            "mean": 1.068
+          },
+          "aboveTerrain": {
+            "min": 0.003,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.007,
+            "p90": 0.028,
+            "max": 0.028,
+            "mean": 0.008
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "PipesSmallCorner",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.003,
+            "p25": 0.003,
+            "p50": 0.003,
+            "p75": 0.003,
+            "p90": 0.003,
+            "max": 0.003,
+            "mean": 0.003
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "Crate",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.029,
+            "p90": 0.029,
+            "max": 0.029,
+            "mean": 0.014
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "SmokeEmbersMedium",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.005,
+            "p25": 0.006,
+            "p50": 0.011,
+            "p75": 0.013,
+            "p90": 0.027,
+            "max": 0.027,
+            "mean": 0.012
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "CharRibs",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 0.905,
+            "p25": 0.957,
+            "p50": 1.065,
+            "p75": 1.179,
+            "p90": 2.09,
+            "max": 2.09,
+            "mean": 1.239
+          },
+          "aboveTerrain": {
+            "min": -3.797,
+            "p25": 0.003,
+            "p50": 0.004,
+            "p75": 0.007,
+            "p90": 0.016,
+            "max": 0.016,
+            "mean": -0.753
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0.2,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "SmokePillarsTall",
+          "kind": "ruin",
+          "count": 5,
+          "scale": {
+            "min": 0.81,
+            "p25": 0.976,
+            "p50": 1.146,
+            "p75": 1.512,
+            "p90": 1.523,
+            "max": 1.523,
+            "mean": 1.193
+          },
+          "aboveTerrain": {
+            "min": -3.697,
+            "p25": -2.595,
+            "p50": 0.003,
+            "p75": 0.003,
+            "p90": 0.005,
+            "max": 0.005,
+            "mean": -1.256
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "CharTree",
+          "kind": "tree",
+          "count": 5,
+          "scale": {
+            "min": 0.813,
+            "p25": 0.876,
+            "p50": 0.966,
+            "p75": 1.09,
+            "p90": 1.168,
+            "max": 1.168,
+            "mean": 0.983
+          },
+          "aboveTerrain": {
+            "min": -0.013,
+            "p25": 0.002,
+            "p50": 0.004,
+            "p75": 0.008,
+            "p90": 0.014,
+            "max": 0.014,
+            "mean": 0.003
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.313
+        },
+        {
+          "type": "CharClaws",
+          "kind": "other",
+          "count": 5,
+          "scale": {
+            "min": 0.85,
+            "p25": 0.915,
+            "p50": 1.061,
+            "p75": 1.09,
+            "p90": 1.093,
+            "max": 1.093,
+            "mean": 1.002
+          },
+          "aboveTerrain": {
+            "min": 0.003,
+            "p25": 0.007,
+            "p50": 0.007,
+            "p75": 0.007,
+            "p90": 0.009,
+            "max": 0.009,
+            "mean": 0.007
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "ZergCurbs",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 0.825,
+            "p25": 0.851,
+            "p50": 1.004,
+            "p75": 1.135,
+            "p90": 1.135,
+            "max": 1.135,
+            "mean": 0.954
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.004,
+            "p90": 0.004,
+            "max": 0.004,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "ZergCarcasses",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.004,
+            "p50": 0.004,
+            "p75": 0.004,
+            "p90": 0.004,
+            "max": 0.004,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "SmokeMedium",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 0.801,
+            "p25": 0.972,
+            "p50": 1.094,
+            "p75": 1.106,
+            "p90": 1.106,
+            "max": 1.106,
+            "mean": 0.994
+          },
+          "aboveTerrain": {
+            "min": -0.116,
+            "p25": 0.003,
+            "p50": 0.003,
+            "p75": 0.016,
+            "p90": 0.016,
+            "max": 0.016,
+            "mean": -0.023
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "ElectricalArcs",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.006,
+            "p25": 5.97,
+            "p50": 5.988,
+            "p75": 7.527,
+            "p90": 7.527,
+            "max": 7.527,
+            "mean": 4.872
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.063
+        },
+        {
+          "type": "RoadMetalDiagonal",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.004,
+            "p25": 0.005,
+            "p50": 0.005,
+            "p75": 0.006,
+            "p90": 0.006,
+            "max": 0.006,
+            "mean": 0.005
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "CreepWebbing",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 0.976,
+            "p25": 1.103,
+            "p50": 1.109,
+            "p75": 1.131,
+            "p90": 1.131,
+            "max": 1.131,
+            "mean": 1.08
+          },
+          "aboveTerrain": {
+            "min": 0.003,
+            "p25": 0.004,
+            "p50": 0.011,
+            "p75": 0.305,
+            "p90": 0.305,
+            "max": 0.305,
+            "mean": 0.081
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "LightOmniGreenLarge",
+          "kind": "light",
+          "count": 4,
+          "scale": {
+            "min": 0.858,
+            "p25": 0.995,
+            "p50": 1.023,
+            "p75": 1.099,
+            "p90": 1.099,
+            "max": 1.099,
+            "mean": 0.994
+          },
+          "aboveTerrain": {
+            "min": 0.855,
+            "p25": 2.618,
+            "p50": 4.021,
+            "p75": 4.063,
+            "p90": 4.063,
+            "max": 4.063,
+            "mean": 2.889
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.25
+        },
+        {
+          "type": "MarSaraSkeletonSmall",
+          "kind": "other",
+          "count": 4,
+          "scale": {
+            "min": 0.816,
+            "p25": 0.829,
+            "p50": 0.885,
+            "p75": 1.001,
+            "p90": 1.001,
+            "max": 1.001,
+            "mean": 0.883
+          },
+          "aboveTerrain": {
+            "min": -0.023,
+            "p25": 0.007,
+            "p50": 0.015,
+            "p75": 0.016,
+            "p90": 0.016,
+            "max": 0.016,
+            "mean": 0.004
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        },
+        {
+          "type": "Searchlight",
+          "kind": "ruin",
+          "count": 4,
+          "scale": {
+            "min": 1,
+            "p25": 1,
+            "p50": 1,
+            "p75": 1,
+            "p90": 1,
+            "max": 1,
+            "mean": 1
+          },
+          "aboveTerrain": {
+            "min": 0.007,
+            "p25": 0.008,
+            "p50": 0.03,
+            "p75": 0.03,
+            "p90": 0.03,
+            "max": 0.03,
+            "mean": 0.019
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.125
+        },
+        {
+          "type": "CharDuneRock",
+          "kind": "rock",
+          "count": 4,
+          "scale": {
+            "min": 0.81,
+            "p25": 1.01,
+            "p50": 1.078,
+            "p75": 1.121,
+            "p90": 1.121,
+            "max": 1.121,
+            "mean": 1.005
+          },
+          "aboveTerrain": {
+            "min": 0.003,
+            "p25": 0.003,
+            "p50": 0.003,
+            "p75": 0.003,
+            "p90": 0.003,
+            "max": 0.003,
+            "mean": 0.003
+          },
+          "tiltedShare": 0,
+          "nonUniformShare": 0,
+          "yawSpread": 0.188
+        }
+      ]
+    },
+    "composites": {
+      "count": 15,
+      "top": [
+        {
+          "center": [
+            50.67,
+            125.18
+          ],
+          "bounds": [
+            47.5,
+            123,
+            53,
+            127.5
+          ],
+          "size": 13,
+          "manipulated": 9,
+          "types": [
+            {
+              "name": "ElectricalArcs",
+              "count": 3
+            },
+            {
+              "name": "LightOmniRedLarge",
+              "count": 2
+            },
+            {
+              "name": "PipesCorner",
+              "count": 2
+            },
+            {
+              "name": "PipesLong45",
+              "count": 1
+            },
+            {
+              "name": "LightOmniOrangeLarge",
+              "count": 1
+            },
+            {
+              "name": "FanVentCliff",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "PipesLong45",
+              "offset": [
+                0.83,
+                2.32,
+                0.03
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                0.49,
+                0.16,
+                -3.43
+              ],
+              "yawPitchRoll": [
+                5.91,
+                0,
+                0
+              ],
+              "scale": [
+                1.06,
+                1.06,
+                1.06
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "LightOmniRedLarge",
+              "offset": [
+                1,
+                0.79,
+                6.99
+              ],
+              "yawPitchRoll": [
+                5.24,
+                0,
+                0
+              ],
+              "scale": [
+                1.04,
+                1.04,
+                1.04
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "FanVentCliff",
+              "offset": [
+                1.53,
+                0.94,
+                6.72
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "ElectricalArcs",
+              "offset": [
+                2.33,
+                0.32,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "PipesCorner",
+              "offset": [
+                -1.17,
+                0.32,
+                -0.01
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "AvernusGasRefineryDoodad",
+              "offset": [
+                1.33,
+                -2.18,
+                6.81
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1.11,
+                1.11,
+                1.11
+              ],
+              "tint": "37,31,29",
+              "manipulations": [
+                "raised",
+                "tinted"
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -0.05,
+                -0.28,
+                4.02
+              ],
+              "yawPitchRoll": [
+                1.27,
+                0,
+                0
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniRedLarge",
+              "offset": [
+                -0.04,
+                -0.46,
+                -3.26
+              ],
+              "yawPitchRoll": [
+                2.89,
+                0,
+                0
+              ],
+              "scale": [
+                0.93,
+                0.93,
+                0.93
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "THorner05SStrobeLight",
+              "offset": [
+                1.33,
+                -0.18,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ElectricalArcs",
+              "offset": [
+                -2.22,
+                -1.03,
+                5.97
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "ElectricalArcs",
+              "offset": [
+                -2.2,
+                -1.04,
+                5.99
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "PipesCorner",
+              "offset": [
+                -3.17,
+                0.32,
+                3.01
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            84.08,
+            146.82
+          ],
+          "bounds": [
+            83.25,
+            145.5,
+            84.67,
+            148.46
+          ],
+          "size": 9,
+          "manipulated": 5,
+          "types": [
+            {
+              "name": "RockLarge",
+              "count": 5
+            },
+            {
+              "name": "LightOmniOrangeLarge",
+              "count": 2
+            },
+            {
+              "name": "SmokeEmbersMedium",
+              "count": 1
+            },
+            {
+              "name": "MarSaraCrack",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "SmokeEmbersMedium",
+              "offset": [
+                -0.08,
+                -1.32,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.05,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                -0.27,
+                -0.07,
+                -0.38
+              ],
+              "yawPitchRoll": [
+                2.93,
+                0,
+                0
+              ],
+              "scale": [
+                1.02,
+                1.02,
+                1.02
+              ]
+            },
+            {
+              "type": "RockLarge",
+              "offset": [
+                0.59,
+                -1.3,
+                0.65
+              ],
+              "yawPitchRoll": [
+                5.7,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                -0.08,
+                -0.32,
+                0.01
+              ],
+              "yawPitchRoll": [
+                6.09,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ]
+            },
+            {
+              "type": "RockLarge",
+              "offset": [
+                0.59,
+                -1.28,
+                0.63
+              ],
+              "yawPitchRoll": [
+                1.47,
+                0,
+                0
+              ],
+              "scale": [
+                0.81,
+                0.81,
+                0.81
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockLarge",
+              "offset": [
+                0.16,
+                0.27,
+                -4.23
+              ],
+              "yawPitchRoll": [
+                3.42,
+                0,
+                0
+              ],
+              "scale": [
+                0.81,
+                0.81,
+                0.81
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "RockLarge",
+              "offset": [
+                -0.83,
+                1.22,
+                0.17
+              ],
+              "yawPitchRoll": [
+                0.94,
+                0,
+                0
+              ],
+              "scale": [
+                1.12,
+                1.12,
+                1.12
+              ]
+            },
+            {
+              "type": "MarSaraCrack",
+              "offset": [
+                0.42,
+                1.18,
+                5.61
+              ],
+              "yawPitchRoll": [
+                0.13,
+                0,
+                0
+              ],
+              "scale": [
+                1.61,
+                1.61,
+                1.61
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "RockLarge",
+              "offset": [
+                -0.51,
+                1.64,
+                -4.82
+              ],
+              "yawPitchRoll": [
+                1.19,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            56.61,
+            125.79
+          ],
+          "bounds": [
+            55.5,
+            123.5,
+            58.5,
+            129.45
+          ],
+          "size": 8,
+          "manipulated": 5,
+          "types": [
+            {
+              "name": "LightOmniGreenLarge",
+              "count": 2
+            },
+            {
+              "name": "LightOmniOrangeLarge",
+              "count": 2
+            },
+            {
+              "name": "CastanarFloodlight",
+              "count": 1
+            },
+            {
+              "name": "ElectricalArcs",
+              "count": 1
+            },
+            {
+              "name": "KorhalBuildingDebris",
+              "count": 1
+            },
+            {
+              "name": "SignsWarning",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "CastanarFloodlight",
+              "offset": [
+                -0.11,
+                1.71,
+                0.03
+              ],
+              "yawPitchRoll": [
+                5.53,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ElectricalArcs",
+              "offset": [
+                -0.61,
+                0.21,
+                7.53
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -1.11,
+                1.71,
+                2.62
+              ],
+              "yawPitchRoll": [
+                5.14,
+                0,
+                0
+              ],
+              "scale": [
+                0.86,
+                0.86,
+                0.86
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "KorhalBuildingDebris",
+              "offset": [
+                -0.33,
+                3.66,
+                0
+              ],
+              "yawPitchRoll": [
+                0.43,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                -0.06,
+                -1.43,
+                3.17
+              ],
+              "yawPitchRoll": [
+                1.74,
+                0,
+                0
+              ],
+              "scale": [
+                0.97,
+                0.97,
+                0.97
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                0.29,
+                -2.11,
+                4.06
+              ],
+              "yawPitchRoll": [
+                0.17,
+                0,
+                0
+              ],
+              "scale": [
+                1.02,
+                1.02,
+                1.02
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                0.02,
+                -1.47,
+                3.2
+              ],
+              "yawPitchRoll": [
+                4.9,
+                0,
+                0
+              ],
+              "scale": [
+                1.14,
+                1.14,
+                1.14
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "SignsWarning",
+              "offset": [
+                1.89,
+                -2.29,
+                0.03
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            134.22,
+            42.77
+          ],
+          "bounds": [
+            129.5,
+            37,
+            139,
+            47.5
+          ],
+          "size": 31,
+          "manipulated": 4,
+          "types": [
+            {
+              "name": "ColonistSupplyCrate",
+              "count": 6
+            },
+            {
+              "name": "NewFolsomSandbags",
+              "count": 5
+            },
+            {
+              "name": "ZergCarcasses",
+              "count": 4
+            },
+            {
+              "name": "DecalSpace",
+              "count": 4
+            },
+            {
+              "name": "BloodSplats",
+              "count": 3
+            },
+            {
+              "name": "Crate",
+              "count": 3
+            }
+          ],
+          "members": [
+            {
+              "type": "BloodSplats",
+              "offset": [
+                2.59,
+                0.63,
+                0
+              ],
+              "yawPitchRoll": [
+                2.48,
+                0,
+                0
+              ],
+              "scale": [
+                1.02,
+                1.02,
+                1.02
+              ]
+            },
+            {
+              "type": "Crate",
+              "offset": [
+                2.28,
+                -1.27,
+                0
+              ],
+              "yawPitchRoll": [
+                4.84,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                3.05,
+                -0.71,
+                0
+              ],
+              "yawPitchRoll": [
+                1.22,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ]
+            },
+            {
+              "type": "ColonistSupplyCrate",
+              "offset": [
+                1.28,
+                -1.27,
+                0
+              ],
+              "yawPitchRoll": [
+                0.24,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ZergCarcasses",
+              "offset": [
+                2.78,
+                0.23,
+                0
+              ],
+              "yawPitchRoll": [
+                3.4,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ZergCarcasses",
+              "offset": [
+                1.21,
+                1.09,
+                0
+              ],
+              "yawPitchRoll": [
+                3.38,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ZergCarcasses",
+              "offset": [
+                0.78,
+                0.23,
+                0
+              ],
+              "yawPitchRoll": [
+                1.56,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ZergCarcasses",
+              "offset": [
+                2.24,
+                1.74,
+                0
+              ],
+              "yawPitchRoll": [
+                4.98,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                0.78,
+                2.23,
+                0
+              ],
+              "yawPitchRoll": [
+                3.93,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                3.71,
+                0.15,
+                0
+              ],
+              "yawPitchRoll": [
+                3.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.94,
+                0.94,
+                0.94
+              ]
+            },
+            {
+              "type": "Crate",
+              "offset": [
+                0.28,
+                -2.27,
+                0
+              ],
+              "yawPitchRoll": [
+                6.23,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ColonistSupplyCrate",
+              "offset": [
+                1.28,
+                -2.27,
+                0
+              ],
+              "yawPitchRoll": [
+                4.21,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ColonistSupplyCrate",
+              "offset": [
+                3.28,
+                -2.27,
+                0
+              ],
+              "yawPitchRoll": [
+                5.4,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                4.78,
+                -1.77,
+                0
+              ],
+              "yawPitchRoll": [
+                3.93,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "RoadMetalDiagonal",
+              "offset": [
+                -0.22,
+                -2.77,
+                0
+              ],
+              "yawPitchRoll": [
+                1.57,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ColonistSupplyCrate",
+              "offset": [
+                -0.72,
+                -1.27,
+                0
+              ],
+              "yawPitchRoll": [
+                4.36,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "Crate",
+              "offset": [
+                -0.72,
+                -0.27,
+                0
+              ],
+              "yawPitchRoll": [
+                3.19,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "NewFolsomSandbags",
+              "offset": [
+                -0.72,
+                1.73,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "KorhalBuildingDebris",
+              "offset": [
+                0.28,
+                -4.27,
+                0
+              ],
+              "yawPitchRoll": [
+                5.73,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ColonistSupplyCrate",
+              "offset": [
+                2.28,
+                -4.27,
+                0
+              ],
+              "yawPitchRoll": [
+                5.88,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "ColonistSupplyCrate",
+              "offset": [
+                -1.72,
+                -0.27,
+                0
+              ],
+              "yawPitchRoll": [
+                5.95,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "MarSaraMineCart",
+              "offset": [
+                -2.22,
+                2.23,
+                0
+              ],
+              "yawPitchRoll": [
+                3.4,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "BillboardScrollingTextBroken",
+              "offset": [
+                -1.72,
+                3.73,
+                0
+              ],
+              "yawPitchRoll": [
+                5.5,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                0.78,
+                -5.77,
+                0
+              ],
+              "yawPitchRoll": [
+                3.93,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                -3.22,
+                -1.77,
+                0
+              ],
+              "yawPitchRoll": [
+                3.93,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "MarSaraMineCart",
+              "offset": [
+                -3.22,
+                0.23,
+                0
+              ],
+              "yawPitchRoll": [
+                2.55,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "NewFolsomSandbags",
+              "offset": [
+                -2.72,
+                3.73,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "HighYieldMineralCart",
+              "offset": [
+                -4.22,
+                2.23,
+                0
+              ],
+              "yawPitchRoll": [
+                2.66,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "NewFolsomSandbags",
+              "offset": [
+                -3.72,
+                3.73,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "NewFolsomSandbags",
+              "offset": [
+                -3.72,
+                4.73,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "NewFolsomSandbags",
+              "offset": [
+                -4.72,
+                3.73,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            114.4,
+            39.66
+          ],
+          "bounds": [
+            110,
+            36,
+            118.5,
+            44
+          ],
+          "size": 18,
+          "manipulated": 4,
+          "types": [
+            {
+              "name": "KorhalBuildingDebris",
+              "count": 6
+            },
+            {
+              "name": "DecalSpace",
+              "count": 4
+            },
+            {
+              "name": "CreepWebbing",
+              "count": 3
+            },
+            {
+              "name": "LightOmniYellow",
+              "count": 1
+            },
+            {
+              "name": "SmokeEmbersMedium",
+              "count": 1
+            },
+            {
+              "name": "LightOmniRed",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "LightOmniYellow",
+              "offset": [
+                -0.08,
+                -0.18,
+                0.03
+              ],
+              "yawPitchRoll": [
+                1.99,
+                0,
+                0
+              ],
+              "scale": [
+                1.01,
+                1.01,
+                1.01
+              ]
+            },
+            {
+              "type": "KorhalBuildingDebris",
+              "offset": [
+                -1.9,
+                -1.16,
+                0.03
+              ],
+              "yawPitchRoll": [
+                4.31,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "CreepWebbing",
+              "offset": [
+                0.08,
+                -2.13,
+                0.31
+              ],
+              "yawPitchRoll": [
+                0.76,
+                0,
+                0
+              ],
+              "scale": [
+                0.98,
+                0.98,
+                0.98
+              ]
+            },
+            {
+              "type": "SmokeEmbersMedium",
+              "offset": [
+                0.1,
+                -0.16,
+                0.03
+              ],
+              "yawPitchRoll": [
+                1.42,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniRed",
+              "offset": [
+                -0.38,
+                -0.46,
+                0.11
+              ],
+              "yawPitchRoll": [
+                0.02,
+                0,
+                0
+              ],
+              "scale": [
+                0.91,
+                0.91,
+                0.91
+              ]
+            },
+            {
+              "type": "KorhalBuildingDebris",
+              "offset": [
+                -0.9,
+                0.34,
+                0
+              ],
+              "yawPitchRoll": [
+                0.95,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "KorhalBuildingDebris",
+              "offset": [
+                2.1,
+                -0.16,
+                0
+              ],
+              "yawPitchRoll": [
+                1.37,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "CreepWebbing",
+              "offset": [
+                1.1,
+                -0.16,
+                0
+              ],
+              "yawPitchRoll": [
+                0.25,
+                0,
+                0
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ]
+            },
+            {
+              "type": "KorhalBuildingDebris",
+              "offset": [
+                0.61,
+                0.61,
+                0
+              ],
+              "yawPitchRoll": [
+                5.04,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "KorhalBuildingDebris",
+              "offset": [
+                -3.15,
+                -1.43,
+                0
+              ],
+              "yawPitchRoll": [
+                5.52,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "CreepWebbing",
+              "offset": [
+                -1.9,
+                -2.16,
+                0.01
+              ],
+              "yawPitchRoll": [
+                5.92,
+                0,
+                0
+              ],
+              "scale": [
+                1.11,
+                1.11,
+                1.11
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                -0.4,
+                -3.66,
+                0
+              ],
+              "yawPitchRoll": [
+                2.36,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                2.6,
+                1.34,
+                0
+              ],
+              "yawPitchRoll": [
+                2.36,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "SpacePlatformRadarZerged",
+              "offset": [
+                4.1,
+                0.34,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.32,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                -4.4,
+                -1.66,
+                0.02
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "KorhalBuildingDebris",
+              "offset": [
+                2.28,
+                2.56,
+                0.01
+              ],
+              "yawPitchRoll": [
+                1.88,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "TrucksDestroyed",
+              "offset": [
+                0.6,
+                3.84,
+                0
+              ],
+              "yawPitchRoll": [
+                3.69,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                -0.4,
+                4.34,
+                0.02
+              ],
+              "yawPitchRoll": [
+                5.5,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            155.92,
+            49.92
+          ],
+          "bounds": [
+            153.5,
+            49.5,
+            158,
+            50.5
+          ],
+          "size": 9,
+          "manipulated": 4,
+          "types": [
+            {
+              "name": "LightOmniRed",
+              "count": 1
+            },
+            {
+              "name": "LandingLights",
+              "count": 1
+            },
+            {
+              "name": "LightOmniOrange",
+              "count": 1
+            },
+            {
+              "name": "SmokePillarsTall",
+              "count": 1
+            },
+            {
+              "name": "CreepCloud",
+              "count": 1
+            },
+            {
+              "name": "RoadMetalRoundAbout",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "LightOmniRed",
+              "offset": [
+                -0.92,
+                -0.42,
+                0
+              ],
+              "yawPitchRoll": [
+                0.68,
+                0,
+                0
+              ],
+              "scale": [
+                1.13,
+                1.13,
+                1.13
+              ]
+            },
+            {
+              "type": "LandingLights",
+              "offset": [
+                -2.42,
+                0.58,
+                0
+              ],
+              "yawPitchRoll": [
+                0.24,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LightOmniOrange",
+              "offset": [
+                -0.42,
+                -0.42,
+                -1.9
+              ],
+              "yawPitchRoll": [
+                0.06,
+                0,
+                0
+              ],
+              "scale": [
+                0.84,
+                0.84,
+                0.84
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "SmokePillarsTall",
+              "offset": [
+                -0.42,
+                0.58,
+                -3.7
+              ],
+              "yawPitchRoll": [
+                1.72,
+                0,
+                0
+              ],
+              "scale": [
+                1.51,
+                1.51,
+                1.51
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "CreepCloud",
+              "offset": [
+                -0.17,
+                0.34,
+                0
+              ],
+              "yawPitchRoll": [
+                5.19,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "RoadMetalRoundAbout",
+              "offset": [
+                0.08,
+                0.08,
+                0.8
+              ],
+              "yawPitchRoll": [
+                3.14,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "CreepSporeEmitter",
+              "offset": [
+                0.58,
+                0.08,
+                0
+              ],
+              "yawPitchRoll": [
+                1.85,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "CharRibs",
+              "offset": [
+                1.58,
+                -0.42,
+                -3.8
+              ],
+              "yawPitchRoll": [
+                4.08,
+                0,
+                0
+              ],
+              "scale": [
+                1.59,
+                1.59,
+                2.09
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "sunk",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "AvernusMiningChamberDoodadDeath",
+              "offset": [
+                2.08,
+                -0.42,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            72.14,
+            117.86
+          ],
+          "bounds": [
+            69.5,
+            116,
+            74,
+            120.5
+          ],
+          "size": 7,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "Decal",
+              "count": 3
+            },
+            {
+              "name": "SpacePlatformSignTowerLarge",
+              "count": 2
+            },
+            {
+              "name": "WreckedCargoTruck",
+              "count": 1
+            },
+            {
+              "name": "CargoTruck",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "Decal",
+              "offset": [
+                0.36,
+                -0.36,
+                0.03
+              ],
+              "yawPitchRoll": [
+                3.93,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                2.4,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "Decal",
+              "offset": [
+                -1.14,
+                -1.86,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                2.5,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "WreckedCargoTruck",
+              "offset": [
+                -0.64,
+                -0.86,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.97,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ]
+            },
+            {
+              "type": "CargoTruck",
+              "offset": [
+                0.86,
+                0.64,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.93,
+                0,
+                0
+              ],
+              "scale": [
+                0.87,
+                0.87,
+                0.87
+              ]
+            },
+            {
+              "type": "Decal",
+              "offset": [
+                1.86,
+                1.14,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.93,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                2.5,
+                1
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "SpacePlatformSignTowerLarge",
+              "offset": [
+                -2.64,
+                -1.36,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "SpacePlatformSignTowerLarge",
+              "offset": [
+                1.36,
+                2.64,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            124.36,
+            52.88
+          ],
+          "bounds": [
+            123.82,
+            50.5,
+            125,
+            54
+          ],
+          "size": 5,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "THorner05SStrobeLight",
+              "count": 1
+            },
+            {
+              "name": "MarineCorpse",
+              "count": 1
+            },
+            {
+              "name": "PortZionScrapElevatorLeft",
+              "count": 1
+            },
+            {
+              "name": "FogMist",
+              "count": 1
+            },
+            {
+              "name": "BloodSplats",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "THorner05SStrobeLight",
+              "offset": [
+                0.64,
+                -0.88,
+                0
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "MarineCorpse",
+              "offset": [
+                -0.54,
+                1.01,
+                -1.44
+              ],
+              "yawPitchRoll": [
+                5.34,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "PortZionScrapElevatorLeft",
+              "offset": [
+                -0.36,
+                1.12,
+                -1.44
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "FogMist",
+              "offset": [
+                -0.36,
+                1.12,
+                -1.34
+              ],
+              "yawPitchRoll": [
+                0.44,
+                0,
+                0
+              ],
+              "scale": [
+                0.34,
+                0.34,
+                0.34
+              ],
+              "manipulations": [
+                "sunk",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "BloodSplats",
+              "offset": [
+                0.64,
+                -2.38,
+                0
+              ],
+              "yawPitchRoll": [
+                2.08,
+                0,
+                0
+              ],
+              "scale": [
+                1.08,
+                1.08,
+                1.08
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            66.63,
+            136.63
+          ],
+          "bounds": [
+            65.5,
+            135.5,
+            68.5,
+            138.5
+          ],
+          "size": 4,
+          "manipulated": 3,
+          "types": [
+            {
+              "name": "LandingLights",
+              "count": 3
+            },
+            {
+              "name": "SpacePlatformGroundDecals",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "LandingLights",
+              "offset": [
+                1.88,
+                1.88,
+                0.53
+              ],
+              "yawPitchRoll": [
+                4.32,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "SpacePlatformGroundDecals",
+              "offset": [
+                0.38,
+                0.38,
+                -0.12
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "type": "LandingLights",
+              "offset": [
+                -1.12,
+                -1.12,
+                0.53
+              ],
+              "yawPitchRoll": [
+                4.32,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LandingLights",
+              "offset": [
+                -1.12,
+                -1.12,
+                0.53
+              ],
+              "yawPitchRoll": [
+                4.32,
+                0,
+                0
+              ],
+              "scale": [
+                0.9,
+                0.9,
+                0.9
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            65.67,
+            120.66
+          ],
+          "bounds": [
+            64,
+            117.86,
+            66.61,
+            124.5
+          ],
+          "size": 7,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "MarSaraCrack",
+              "count": 3
+            },
+            {
+              "name": "Decal",
+              "count": 2
+            },
+            {
+              "name": "LightOmniOrange",
+              "count": 1
+            },
+            {
+              "name": "LightOmniYellow",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "LightOmniOrange",
+              "offset": [
+                0.94,
+                -2.4,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.12,
+                0,
+                0
+              ],
+              "scale": [
+                1.1,
+                1.1,
+                1.1
+              ]
+            },
+            {
+              "type": "LightOmniYellow",
+              "offset": [
+                -0.07,
+                -2.8,
+                0.01
+              ],
+              "yawPitchRoll": [
+                4.13,
+                0,
+                0
+              ],
+              "scale": [
+                1.09,
+                1.09,
+                1.09
+              ]
+            },
+            {
+              "type": "MarSaraCrack",
+              "offset": [
+                0.33,
+                -2.16,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.13,
+                0,
+                0
+              ],
+              "scale": [
+                1.61,
+                1.61,
+                1.61
+              ]
+            },
+            {
+              "type": "MarSaraCrack",
+              "offset": [
+                0.83,
+                -0.16,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.13,
+                0,
+                0
+              ],
+              "scale": [
+                1.61,
+                1.61,
+                1.61
+              ]
+            },
+            {
+              "type": "Decal",
+              "offset": [
+                0.83,
+                1.34,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.36,
+                0,
+                0
+              ],
+              "scale": [
+                3,
+                3,
+                3
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "MarSaraCrack",
+              "offset": [
+                -1.17,
+                2.34,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.13,
+                0,
+                0
+              ],
+              "scale": [
+                1.61,
+                1.61,
+                1.61
+              ]
+            },
+            {
+              "type": "Decal",
+              "offset": [
+                -1.67,
+                3.84,
+                0.01
+              ],
+              "yawPitchRoll": [
+                0.79,
+                0,
+                0
+              ],
+              "scale": [
+                3,
+                3,
+                3
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            43.04,
+            109.4
+          ],
+          "bounds": [
+            43,
+            109,
+            43.13,
+            110
+          ],
+          "size": 3,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "LightOmniOrangeLarge",
+              "count": 1
+            },
+            {
+              "name": "BlastCratersDoodad",
+              "count": 1
+            },
+            {
+              "name": "SmokePillarsTall",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                -0.04,
+                -0.4,
+                0.01
+              ],
+              "yawPitchRoll": [
+                3.22,
+                0,
+                0
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ]
+            },
+            {
+              "type": "BlastCratersDoodad",
+              "offset": [
+                0.09,
+                -0.2,
+                1.5
+              ],
+              "yawPitchRoll": [
+                1.03,
+                0,
+                0
+              ],
+              "scale": [
+                1.47,
+                1.47,
+                1.3
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "SmokePillarsTall",
+              "offset": [
+                -0.04,
+                0.6,
+                -2.59
+              ],
+              "yawPitchRoll": [
+                2.02,
+                0,
+                0
+              ],
+              "scale": [
+                1.52,
+                1.52,
+                1.52
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            66.55,
+            104.53
+          ],
+          "bounds": [
+            66.5,
+            104.5,
+            66.6,
+            104.55
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "MarSaraCrack",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "MarSaraCrack",
+              "offset": [
+                0.05,
+                0.03,
+                -0.64
+              ],
+              "yawPitchRoll": [
+                4.85,
+                0,
+                0
+              ],
+              "scale": [
+                0.82,
+                0.82,
+                0.82
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "MarSaraCrack",
+              "offset": [
+                -0.05,
+                -0.03,
+                -1.95
+              ],
+              "yawPitchRoll": [
+                5.47,
+                0,
+                0
+              ],
+              "scale": [
+                1.18,
+                1.18,
+                1.18
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            101.75,
+            48.25
+          ],
+          "bounds": [
+            101,
+            47.5,
+            102.5,
+            49
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "DecalSpace",
+              "count": 2
+            }
+          ],
+          "members": [
+            {
+              "type": "DecalSpace",
+              "offset": [
+                0.75,
+                -0.75,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.36,
+                0,
+                0
+              ],
+              "scale": [
+                2.2,
+                2.8,
+                2.2
+              ],
+              "manipulations": [
+                "nonUniformScale",
+                "extremeScale"
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                -0.75,
+                0.75,
+                0.01
+              ],
+              "yawPitchRoll": [
+                2.36,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            141.5,
+            45
+          ],
+          "bounds": [
+            141,
+            44,
+            142,
+            46
+          ],
+          "size": 2,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "AvernusMiningChamberDoodad",
+              "count": 1
+            },
+            {
+              "name": "DecalSpace",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "AvernusMiningChamberDoodad",
+              "offset": [
+                -0.5,
+                1,
+                -1.4
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1.65,
+                1.65,
+                1.65
+              ],
+              "manipulations": [
+                "sunk"
+              ]
+            },
+            {
+              "type": "DecalSpace",
+              "offset": [
+                0.5,
+                -1,
+                0
+              ],
+              "yawPitchRoll": [
+                3.93,
+                0,
+                0
+              ],
+              "scale": [
+                2.8,
+                2.8,
+                2.8
+              ],
+              "manipulations": [
+                "extremeScale"
+              ]
+            }
+          ]
+        },
+        {
+          "center": [
+            55.03,
+            119.5
+          ],
+          "bounds": [
+            54.62,
+            118.73,
+            55.5,
+            120.5
+          ],
+          "size": 3,
+          "manipulated": 2,
+          "types": [
+            {
+              "name": "LightOmniGreenLarge",
+              "count": 1
+            },
+            {
+              "name": "LightOmniOrangeLarge",
+              "count": 1
+            },
+            {
+              "name": "THorner05SStrobeLight",
+              "count": 1
+            }
+          ],
+          "members": [
+            {
+              "type": "LightOmniGreenLarge",
+              "offset": [
+                -0.41,
+                -0.22,
+                0.85
+              ],
+              "yawPitchRoll": [
+                4.89,
+                0,
+                0
+              ],
+              "scale": [
+                0.99,
+                0.99,
+                0.99
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            },
+            {
+              "type": "LightOmniOrangeLarge",
+              "offset": [
+                -0.06,
+                -0.77,
+                -0.02
+              ],
+              "yawPitchRoll": [
+                4,
+                0,
+                0
+              ],
+              "scale": [
+                0.88,
+                0.88,
+                0.88
+              ]
+            },
+            {
+              "type": "THorner05SStrobeLight",
+              "offset": [
+                0.47,
+                1,
+                2
+              ],
+              "yawPitchRoll": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "manipulations": [
+                "raised"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "landmarks": [
+      {
+        "type": "LightOmniOrangeLarge",
+        "position": [
+          150,
+          56.5
+        ],
+        "scale": 5
+      },
+      {
+        "type": "Decal",
+        "position": [
+          69,
+          124.5
+        ],
+        "scale": 3
+      },
+      {
+        "type": "Decal",
+        "position": [
+          66.5,
+          122
+        ],
+        "scale": 3
+      },
+      {
+        "type": "Decal",
+        "position": [
+          64,
+          124.5
+        ],
+        "scale": 3
+      },
+      {
+        "type": "Decal",
+        "position": [
+          66.5,
+          127
+        ],
+        "scale": 3
+      },
+      {
+        "type": "DecalSpace",
+        "position": [
+          131,
+          41
+        ],
+        "scale": 2.8
+      },
+      {
+        "type": "DecalSpace",
+        "position": [
+          107.67,
+          50.37
+        ],
+        "scale": 2.8
+      },
+      {
+        "type": "DecalSpace",
+        "position": [
+          117,
+          33
+        ],
+        "scale": 2.8
+      },
+      {
+        "type": "DecalSpace",
+        "position": [
+          110,
+          38
+        ],
+        "scale": 2.8
+      },
+      {
+        "type": "DecalSpace",
+        "position": [
+          139,
+          41
+        ],
+        "scale": 2.8
+      },
+      {
+        "type": "DecalSpace",
+        "position": [
+          127.5,
+          37.5
+        ],
+        "scale": 2.8
+      },
+      {
+        "type": "DecalSpace",
+        "position": [
+          101,
+          57
+        ],
+        "scale": 2.8
+      }
+    ],
+    "singletonTypes": [
+      "ZerusLavaGroundSpire",
+      "CliffSpikes",
+      "CastanarFloodlight",
+      "SpacePlatformFan",
+      "AvernusGasRefineryDoodad",
+      "ZergBonePileSmall",
+      "MeinhoffCraterSmall",
+      "SignsWarning",
+      "HalfStructure",
+      "PipesSmallShort45",
+      "PortZionStorage",
+      "CoolantTowerDoodad",
+      "AgriaDebrisLarge",
+      "BraxisAlphaBarrels",
+      "WreckedCargoTruckCorpse",
+      "PipesShort45",
+      "CargoTruck",
+      "HighYieldMineralCart",
+      "CharBlisterEgg",
+      "SpacePrisonPlatformFanLarge",
+      "ZergedCombs",
+      "TerrainObjectBraxisAlphaZergHoleLargeDoodad",
+      "CharCrashingBattlecruiser",
+      "Floodlight",
+      "SpacePrisonPlatformHose",
+      "TerrainObjectCharNydusNestEmptyDoodad",
+      "CloudsChar",
+      "AvernusMiningChamberDoodad",
+      "ZergRoots",
+      "TrucksDestroyed",
+      "ZergThornSpire",
+      "CharArchway45Degrees",
+      "CableLight",
+      "ZergCliffWebbingOneHigh",
+      "CharFlowerSmall",
+      "ChiseledRockEx1",
+      "ZhakulDasTree",
+      "CharIntestines",
+      "Spires",
+      "ZergWallDecorTwoHighSmall",
+      "RedstoneTree",
+      "TerranButcherPropLarge",
+      "TerrainObjectCoolantPipesDoodad",
+      "CaveEntrance",
+      "SpacePlatformRadarZerged",
+      "CharTendrilsCliff",
+      "SmokeEruption",
+      "AvernusMiningChamberDoodadDeath",
+      "WallDockingBay",
+      "MarSaraSkeletonLarge",
+      "PortZionScrapElevatorLeft",
+      "SpacePlatformTower",
+      "CliffScaffolding",
+      "TRaynor01RadarDish",
+      "TerrainObjectSpacePlatformDestructibleLargeCliffDoodad",
+      "HavenDoodadsCrates",
+      "ColonistHutDoodad",
+      "WreckedCargoTruck",
+      "FanVentCliff"
+    ]
+  },
+  "lighting": {
+    "note": "Lighting is switched by triggers per area or story beat; 'calls' lists every GameSetLighting and the function making it.",
+    "lightsUsed": [
+      "Char2"
+    ],
+    "calls": [
+      {
+        "light": "Char2",
+        "blendSeconds": 0,
+        "inFunction": "gt_Mapstart2_Func"
+      }
+    ],
+    "localLights": [
+      {
+        "id": "Char2",
+        "ambientColor": "0.392157,0.239216,0.290196",
+        "hdrExposure": "1.500000",
+        "colorization": {
+          "hue": "0.001000",
+          "blend": "0.300000"
+        }
+      }
+    ],
+    "localTerrains": [
+      {
+        "id": "Char2",
+        "blendTextures": [],
+        "cliffSets": [],
+        "fog": {}
+      }
+    ],
+    "fogType": "Black",
+    "waterBodies": 0
+  },
+  "composition": {
+    "size": [
+      192,
+      184
+    ],
+    "playableBounds": [
+      0,
+      0,
+      192,
+      184
+    ],
+    "playableShare": 1,
+    "vertexColour": {
+      "entries": 4153,
+      "entriesPerThousandCells": 117.555,
+      "note": "Entry layout undecoded; count only."
+    },
+    "vertexShading": {
+      "note": "t3VertCol kind-1 per-vertex values; a cell is darkened when its corner mean < 224. Painted or baked is unverified.",
+      "darkenedCellShare": 0,
+      "darkenedShareByContext": {
+        "cliffEdge": 0,
+        "nearEdge": 0,
+        "open": 0,
+        "ramp": 0
+      }
+    },
+    "fluffEntries": 3470,
+    "units": {
+      "count": 204,
+      "byPlayer": {
+        "0": 16,
+        "1": 54,
+        "3": 65,
+        "4": 69
+      },
+      "neutralTopTypes": [
+        {
+          "name": "MineralField",
+          "count": 12
+        },
+        {
+          "name": "BattleStationMineralField750",
+          "count": 3
+        },
+        {
+          "name": "HybridDoorsWideRightLowered",
+          "count": 1
+        }
+      ]
+    },
+    "points": 77
+  }
+}

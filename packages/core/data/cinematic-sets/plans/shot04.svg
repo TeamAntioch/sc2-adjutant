@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="636" viewBox="0 0 760 636" font-family="Helvetica, Arial, sans-serif">
+<title>Shot04: cinematic set</title>
+<rect width="760" height="636" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Shot04</text>
+<text x="24" y="54" font-size="10" fill="#666">shot04 · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="272.4" y="504.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>UI_Screens_Void_Landing_ImpactCrater</title></rect>
+<rect x="325" y="408.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="396.5" y="436.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="412.2" y="502.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="336" y="512.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="355.3" y="551.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="353.7" y="449.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="387.3" y="430.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks09</title></rect>
+<rect x="327.4" y="439" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="294.7" y="409.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="300.3" y="433.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks12</title></rect>
+<rect x="298.5" y="442.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks14</title></rect>
+<rect x="402.5" y="319.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks02</title></rect>
+<rect x="393.3" y="362.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="350.2" y="393.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks13</title></rect>
+<rect x="268.1" y="501.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks15</title></rect>
+<rect x="280.2" y="509.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks08</title></rect>
+<rect x="278.8" y="528.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks05</title></rect>
+<rect x="271.1" y="529.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="280.4" y="530.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks06</title></rect>
+<rect x="271.9" y="499.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="259.2" y="515.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="265.7" y="478.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="260.7" y="490.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks09</title></rect>
+<rect x="265.6" y="492.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks12</title></rect>
+<rect x="288" y="491.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="282.3" y="534.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks13</title></rect>
+<rect x="276.8" y="533.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks13</title></rect>
+<rect x="273.9" y="500.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks13</title></rect>
+<rect x="240.4" y="446.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="252.7" y="443.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="295.6" y="411.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="297.8" y="370.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="286.7" y="411.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="348.1" y="381.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks13</title></rect>
+<rect x="256.8" y="446.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks13</title></rect>
+<rect x="263" y="504.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks12</title></rect>
+<rect x="284.1" y="506.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="290.1" y="489.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="218.1" y="459.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks02</title></rect>
+<rect x="342.9" y="436.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks13</title></rect>
+<rect x="321.9" y="152.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="254.5" y="170.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="163.6" y="295.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="385.2" y="126.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="418.3" y="126.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="470.9" y="103.7" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="208.9" y="184.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks00</title></rect>
+<rect x="324.4" y="167" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="378.3" y="179" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="314" y="207.6" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks02</title></rect>
+<rect x="406.9" y="131.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="392.7" y="170.3" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks03</title></rect>
+<rect x="464.6" y="129.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="248.3" y="197.1" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="444.3" y="137.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="478.8" y="147.8" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="84.2" y="354.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="146.4" y="306.2" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<rect x="101.8" y="369.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>Glue_GenericRocks01</title></rect>
+<polygon points="396,559.1 365.1,540.4 408.7,525.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="396" cy="559.1" r="2.5" fill="#7b4bd1"><title>CAMERA 02</title></circle>
+<text x="400" y="556.1" font-size="8" fill="#5a3a9a">CAMERA 02</text>
+<line x1="276" y1="522" x2="286" y2="522" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="276" cy="522" r="4" fill="#2f7de1" stroke="#fff"><title>ArtanisOne (GlueMainMenuVoidArtanisWithBraids)</title></circle>
+<text x="282" y="534" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">ArtanisOne</text>
+<line x1="275.9" y1="358.2" x2="275.9" y2="368.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="275.9" cy="358.2" r="4" fill="#2f7de1" stroke="#fff"><title>BlueBladeLeft (GlueMainMenuVoidArtanisPsyBlade)</title></circle>
+<text x="281.9" y="370.2" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">BlueBladeLeft</text>
+<line x1="275.5" y1="358.4" x2="275.5" y2="368.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="275.5" cy="358.4" r="4" fill="#2f7de1" stroke="#fff"><title>BlueBladeRight (GlueMainMenuVoidArtanisPsyBlade)</title></circle>
+<text x="281.5" y="370.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">BlueBladeRight</text>
+<line x1="276" y1="522" x2="286" y2="522" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="276" cy="522" r="4" fill="#2f7de1" stroke="#fff"><title>ArtanisTwo (GlueMainMenuVoidArtanisWithGauntlet)</title></circle>
+<text x="282" y="534" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">ArtanisTwo</text>
+<line x1="275.8" y1="503.8" x2="274.5" y2="513.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="275.8" cy="503.8" r="4" fill="#2f7de1" stroke="#fff"><title>BlueBladeRight (GlueMainMenuVoidArtanisPsyBlade)</title></circle>
+<text x="281.8" y="515.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">BlueBladeRight</text>
+<line x1="273.9" y1="502.5" x2="273.9" y2="512.5" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="273.9" cy="502.5" r="4" fill="#2f7de1" stroke="#fff"><title>BlueBladeLeft (GlueMainMenuVoidArtanisPsyBlade)</title></circle>
+<text x="279.9" y="514.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">BlueBladeLeft</text>
+<line x1="276" y1="522" x2="286" y2="522" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="276" cy="522" r="4" fill="#2f7de1" stroke="#fff"><title>ArtanisThree (GlueMainMenuVoidArtanis)</title></circle>
+<text x="282" y="534" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">ArtanisThree</text>
+<line x1="275.8" y1="503.8" x2="274.5" y2="513.7" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="275.8" cy="503.8" r="4" fill="#2f7de1" stroke="#fff"><title>GreenBladeRight (GlueMainMenuVoidDarkTemplarPsyBlade)</title></circle>
+<text x="281.8" y="515.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">GreenBladeRight</text>
+<line x1="367.6" y1="470.4" x2="365.6" y2="480.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="367.6" cy="470.4" r="4" fill="#2f7de1" stroke="#fff"><title>start_Zerg (GlueMainMenuVoidZergling)</title></circle>
+<text x="373.6" y="482.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">start_Zerg</text>
+<line x1="370.3" y1="539.9" x2="380.2" y2="541.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="370.3" cy="539.9" r="4" fill="#2f7de1" stroke="#fff"><title>start_Zerg (GlueMainMenuVoidZergling)</title></circle>
+<text x="376.3" y="551.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">start_Zerg</text>
+<line x1="276" y1="522" x2="286" y2="522" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="276" cy="522" r="4" fill="#2f7de1" stroke="#fff"><title>end_Zerg (GlueMainMenuVoidZergling)</title></circle>
+<text x="282" y="534" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">end_Zerg</text>
+<line x1="293.6" y1="507.9" x2="288.7" y2="516.6" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="293.6" cy="507.9" r="4" fill="#2f7de1" stroke="#fff"><title>end_Zerg (GlueMainMenuVoidZergling)</title></circle>
+<text x="299.6" y="519.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">end_Zerg</text>
+<line x1="250.8" y1="481.3" x2="240.9" y2="480.2" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="250.8" cy="481.3" r="4" fill="#2f7de1" stroke="#fff"><title>end_Zerg (GlueMainMenuVoidZergling)</title></circle>
+<text x="256.8" y="493.3" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">end_Zerg</text>
+<line x1="282.7" y1="494.6" x2="275.1" y2="501.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="282.7" cy="494.6" r="4" fill="#2f7de1" stroke="#fff"><title>end_Zerg (GlueMainMenuVoidZergling)</title></circle>
+<text x="288.7" y="506.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">end_Zerg</text>
+<line x1="279.8" y1="461.6" x2="282.9" y2="471.1" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="279.8" cy="461.6" r="4" fill="#2f7de1" stroke="#fff"><title>end_Zerg (GlueMainMenuVoidZergling)</title></circle>
+<text x="285.8" y="473.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">end_Zerg</text>
+</g>
+<line x1="62.6" y1="577.9" x2="183.1" y2="577.9" stroke="#333" stroke-width="2"/>
+<line x1="62.6" y1="573.9" x2="62.6" y2="581.9" stroke="#333"/><line x1="86.7" y1="573.9" x2="86.7" y2="581.9" stroke="#333"/>
+<text x="62.6" y="571.9" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">2 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuVoid.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: MainMenuArtanisJump</text>
+<text x="560" y="132" font-size="9" fill="#333">Screens: none known; not read:</text>
+<text x="560" y="144" font-size="9" fill="#333">Glue_GenericRocks00,</text>
+<text x="560" y="156" font-size="9" fill="#333">Glue_GenericRocks01,</text>
+<text x="560" y="168" font-size="9" fill="#333">Glue_GenericRocks03,</text>
+<text x="560" y="180" font-size="9" fill="#333">Glue_GenericRocks12,</text>
+<text x="560" y="192" font-size="9" fill="#333">Glue_GenericRocks13,</text>
+<text x="560" y="204" font-size="9" fill="#333">Glue_GenericRocks14,</text>
+<text x="560" y="216" font-size="9" fill="#333">Glue_GenericRocks15,</text>
+<text x="560" y="228" font-size="9" fill="#333">Glue_GenericRocks02,</text>
+<text x="560" y="240" font-size="9" fill="#333">Glue_GenericRocks05,</text>
+<text x="560" y="252" font-size="9" fill="#333">Glue_GenericRocks06,</text>
+<text x="560" y="264" font-size="9" fill="#333">Glue_GenericRocks07,</text>
+<text x="560" y="276" font-size="9" fill="#333">Glue_GenericRocks08,</text>
+<text x="560" y="288" font-size="9" fill="#333">Glue_GenericRocks09</text>
+<text x="560" y="300" font-size="9" fill="#333">Marks: 15; cameras: 1 (1 aimed</text>
+<text x="560" y="312" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="324" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="336" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="348" font-size="9" fill="#333"></text>
+<text x="560" y="360" font-size="9" fill="#333">Models:</text>
+<text x="560" y="372" font-size="9" fill="#333">Glue_GenericRocks00 ×2</text>
+<text x="560" y="384" font-size="9" fill="#333">Glue_GenericRocks01 ×2</text>
+<text x="560" y="396" font-size="9" fill="#333">Glue_GenericRocks03 ×2</text>
+<text x="560" y="408" font-size="9" fill="#333">Glue_GenericRocks12 ×2</text>
+<text x="560" y="420" font-size="9" fill="#333">Glue_GenericRocks13 ×2</text>
+<text x="560" y="432" font-size="9" fill="#333">Glue_GenericRocks14 ×2</text>
+<text x="560" y="444" font-size="9" fill="#333">Glue_GenericRocks15 ×2</text>
+<text x="560" y="456" font-size="9" fill="#333">UI_Screens_Void_Landing_ImpactCrater</text>
+<text x="560" y="468" font-size="9" fill="#333">×2</text>
+<text x="560" y="480" font-size="9" fill="#333">Glue_GenericRocks02 ×1</text>
+<text x="560" y="492" font-size="9" fill="#333">Glue_GenericRocks05 ×1</text>
+<text x="560" y="504" font-size="9" fill="#333">Glue_GenericRocks06 ×1</text>
+<text x="560" y="516" font-size="9" fill="#333">Glue_GenericRocks07 ×1</text>
+<text x="560" y="528" font-size="9" fill="#333">Glue_GenericRocks08 ×1</text>
+<text x="560" y="540" font-size="9" fill="#333">Glue_GenericRocks09 ×1</text>
+<text x="560" y="552" font-size="9" fill="#333">UI_Screen_MainMenuReBrand ×1</text>
+<text x="560" y="564" font-size="9" fill="#333"></text>
+<text x="560" y="576" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="588" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="600" font-size="9" fill="#333">mods/liberty.sc2mod/base.sc2data/Cutscenes/MainMenuReBrand.SC2Cutscene</text>
+</svg>

@@ -1,0 +1,61 @@
+color libA3DDD02B_gf_ProgressColor (int lp_minValue, int lp_maxValue, int lp_progress, color lp_color1, color lp_color2, color lp_color3, int lp_steps) {
+    // Variable Declarations
+    int lv_middle;
+    fixed lv_r;
+    fixed lv_g;
+    fixed lv_b;
+
+    // Automatic Variable Declarations
+    int auto6CC7C496_val;
+
+    // Variable Initialization
+
+    // Implementation
+    auto6CC7C496_val = lp_steps;
+    if (auto6CC7C496_val == 1) {
+        return lp_color1;
+    }
+    else if (auto6CC7C496_val == 2) {
+        lv_r = (ColorGetComponent(lp_color1, c_colorComponentRed)+(ColorGetComponent(lp_color2, c_colorComponentRed)-ColorGetComponent(lp_color1, c_colorComponentRed))*(lp_progress - lp_minValue)/(lp_maxValue - lp_minValue));
+        lv_g = (ColorGetComponent(lp_color1, c_colorComponentGreen)+(ColorGetComponent(lp_color2, c_colorComponentGreen)-ColorGetComponent(lp_color1, c_colorComponentGreen))*(lp_progress - lp_minValue)/(lp_maxValue - lp_minValue));
+        lv_b = (ColorGetComponent(lp_color1, c_colorComponentBlue)+(ColorGetComponent(lp_color2, c_colorComponentBlue)-ColorGetComponent(lp_color1, c_colorComponentBlue))*(lp_progress - lp_minValue)/(lp_maxValue - lp_minValue));
+        return Color(lv_r, lv_g, lv_b);
+    }
+    else if (auto6CC7C496_val == 3) {
+        lv_middle = ((lp_minValue+lp_maxValue)/2);
+        if ((lp_progress < lv_middle)) {
+            return libA3DDD02B_gf_ProgressColor(lp_minValue, lv_middle, lp_progress, lp_color1, lp_color2, Color(0,0,0), 2);
+        }
+        else if ((lp_progress == lv_middle)) {
+            return lp_color2;
+        }
+        else if ((lp_progress > lv_middle)) {
+            return libA3DDD02B_gf_ProgressColor(lv_middle, lp_maxValue, lp_progress, lp_color2, lp_color3, Color(0,0,0), 2);
+        }
+    }
+    else {
+    }
+    return lp_color1;
+}
+
+void libA3DDD02B_gf_CreateObjectiveCampaign (string lp_objectiveData) {
+    // Variable Declarations
+    bool lv_isPrimary;
+    text lv_name;
+    text lv_bonusText;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_name = libA3DDD02B_gf_MissionObjectiveName(lp_objectiveData);
+    lv_bonusText = libA3DDD02B_gf_PP_CampaignObjectiveBonusText(lp_objectiveData);
+    if (((lv_bonusText != null) == true)) {
+        TextExpressionSetToken("Param/Expression/lib_A3DDD02B_7C1B795A", "A", lv_name);
+        lv_name = TextExpressionAssemble("Param/Expression/lib_A3DDD02B_7C1B795A");
+    }
+
+    ObjectiveCreate(lv_name, libA3DDD02B_gf_MissionObjectiveDescription(lp_objectiveData), c_objectiveStateActive, libA3DDD02B_gf_PP_GetObjectiveTypeBoolean(lp_objectiveData));
+    DataTableSetObjective(true, libA3DDD02B_gf_PP_ObjectiveTableString(lp_objectiveData), ObjectiveLastCreated());
+    libA3DDD02B_gf_PP_MissionObjectiveProgressDataSet(lp_objectiveData, 0, false);
+}

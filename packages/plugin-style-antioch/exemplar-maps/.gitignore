@@ -1,0 +1,5 @@
+# Generated screenshots never enter the repo: full-size captures, their 1000px frames and the
+# frames lessons cite live in the research archive ($SC2_RESEARCH_DIR/docs/research/exemplar-maps).
+*/captures/
+*/frames/
+*/evidence/

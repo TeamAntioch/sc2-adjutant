@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>zSM_Valerian set: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">zSM_Valerian set</text>
+<text x="24" y="54" font-size="10" fill="#666">zsm-valerian-set · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="280" y="330" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX1KerriganStatic</title></rect>
+<rect x="279.3" y="329.3" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX1TVEffect, SMX1TVEffect</title></rect>
+<text x="287.3" y="335.3" font-size="8" fill="#6d6458">2</text>
+<rect x="283.2" y="326" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>KerriganPrimalPortrait</title></rect>
+<polygon points="276.5,346.2 275.4,314.7 297.1,322.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="276.5" cy="346.2" r="2.5" fill="#7b4bd1"><title>Kerrigan Closeup</title></circle>
+<text x="280.5" y="343.2" font-size="8" fill="#5a3a9a">Kerrigan Closeup</text>
+<line x1="285.5" y1="327.5" x2="282" y2="336.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="285.5" cy="327.5" r="4" fill="#2f7de1" stroke="#fff"><title>Kerrigan (SMX1KerriganInfestedWithLight)</title></circle>
+<text x="291.5" y="339.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Kerrigan</text>
+</g>
+<line x1="56.5" y1="557.5" x2="381.5" y2="557.5" stroke="#333" stroke-width="2"/>
+<line x1="56.5" y1="553.5" x2="56.5" y2="561.5" stroke="#333"/><line x1="121.5" y1="553.5" x2="121.5" y2="561.5" stroke="#333"/>
+<text x="56.5" y="551.5" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">3 files; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zSM_Valerian.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: SMHyperionBridgeEX1</text>
+<text x="560" y="132" font-size="9" fill="#333">Its file feeds displays from:</text>
+<text x="560" y="144" font-size="9" fill="#333">KerriganPrimalPortraitAddition</text>
+<text x="560" y="156" font-size="9" fill="#333">Marks: 1; cameras: 1 (1 aimed</text>
+<text x="560" y="168" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="180" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="192" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="204" font-size="9" fill="#333"></text>
+<text x="560" y="216" font-size="9" fill="#333">Models:</text>
+<text x="560" y="228" font-size="9" fill="#333">KerriganPrimalPortrait ×3</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX1KerriganStatic ×3</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX1TVEffect ×3</text>
+<text x="560" y="264" font-size="9" fill="#333"></text>
+<text x="560" y="276" font-size="9" fill="#333">Also in:</text>
+<text x="560" y="288" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="300" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zSMBriefing_Korhal03.SC2Cutscene</text>
+<text x="560" y="312" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="324" font-size="9" fill="#333">campaigns/swarmstory.sc2campaign/base.sc2data/Cutscenes/zScripted_Space01Travel.SC2Cutscene</text>
+</svg>

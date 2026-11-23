@@ -1,0 +1,206 @@
+{
+  "id": "terrain_objects",
+  "campaignId": "fixtures",
+  "title": "Terrain Objects Test",
+  "summary": "Castanar test field for placing terrain objects in the Editor: level-1 ground, a level-0 chasm east-west and another north-south for bridges, and a level-2 plateau for Height 2 copies.",
+  "setting": "Castanar test field",
+  "mapSize": {
+    "width": 128,
+    "height": 128
+  },
+  "tilesetId": "Castanar",
+  "zones": [
+    {
+      "id": "field",
+      "name": "Field",
+      "elevation": 1,
+      "landform": "flat",
+      "role": "base",
+      "polygon": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 128,
+          "y": 0
+        },
+        {
+          "x": 128,
+          "y": 128
+        },
+        {
+          "x": 0,
+          "y": 128
+        }
+      ],
+      "connections": []
+    },
+    {
+      "id": "chasm_ew",
+      "name": "East-West Chasm",
+      "elevation": 0,
+      "landform": "canyon",
+      "role": "path",
+      "polygon": [
+        {
+          "x": 0,
+          "y": 60
+        },
+        {
+          "x": 128,
+          "y": 60
+        },
+        {
+          "x": 128,
+          "y": 69
+        },
+        {
+          "x": 0,
+          "y": 69
+        }
+      ],
+      "connections": []
+    },
+    {
+      "id": "chasm_ns",
+      "name": "North-South Chasm",
+      "elevation": 0,
+      "landform": "canyon",
+      "role": "path",
+      "polygon": [
+        {
+          "x": 90,
+          "y": 69
+        },
+        {
+          "x": 99,
+          "y": 69
+        },
+        {
+          "x": 99,
+          "y": 128
+        },
+        {
+          "x": 90,
+          "y": 128
+        }
+      ],
+      "connections": []
+    },
+    {
+      "id": "plateau",
+      "name": "Plateau",
+      "elevation": 2,
+      "landform": "ridge",
+      "role": "path",
+      "polygon": [
+        {
+          "x": 12,
+          "y": 88
+        },
+        {
+          "x": 44,
+          "y": 88
+        },
+        {
+          "x": 44,
+          "y": 120
+        },
+        {
+          "x": 12,
+          "y": 120
+        }
+      ],
+      "connections": []
+    }
+  ],
+  "anchors": [
+    {
+      "id": "marine",
+      "name": "Marine",
+      "zoneId": "field",
+      "kind": "unit",
+      "position": {
+        "x": 64,
+        "y": 40,
+        "z": 0
+      },
+      "unitType": "Marine",
+      "player": 1
+    }
+  ],
+  "beats": [
+    {
+      "id": "look",
+      "title": "Look",
+      "summary": "Place terrain objects.",
+      "zoneIds": [
+        "field"
+      ],
+      "anchorIds": [
+        "marine"
+      ]
+    }
+  ],
+  "screenplay": {
+    "title": "Terrain Objects Test",
+    "scenes": [
+      {
+        "id": "scene_none",
+        "lines": [
+          {
+            "id": "line_001",
+            "speaker": "Marine",
+            "text": "(no dialogue)"
+          }
+        ]
+      }
+    ]
+  },
+  "ramps": [
+    {
+      "id": "plateau_east",
+      "zoneId": "plateau",
+      "edge": "east"
+    }
+  ],
+  "terrainObjects": [
+    {
+      "id": "cliff_0",
+      "type": "TOSpacePlatformDestructibleCliffLarge",
+      "at": {
+        "x": 18,
+        "y": 26
+      },
+      "rotation": 0
+    },
+    {
+      "id": "cliff_1",
+      "type": "TOSpacePlatformDestructibleCliffLarge",
+      "at": {
+        "x": 34,
+        "y": 24
+      },
+      "rotation": 1
+    },
+    {
+      "id": "cliff_2",
+      "type": "TOSpacePlatformDestructibleCliffLarge",
+      "at": {
+        "x": 54,
+        "y": 24
+      },
+      "rotation": 2
+    },
+    {
+      "id": "cliff_3",
+      "type": "TOSpacePlatformDestructibleCliffLarge",
+      "at": {
+        "x": 78,
+        "y": 24
+      },
+      "rotation": 3
+    }
+  ]
+}

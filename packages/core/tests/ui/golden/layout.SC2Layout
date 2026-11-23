@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="HarbourPanel">
+        <Anchor side="Top" relative="$parent" pos="Min" offset="20"/>
+        <Visible val="false"/>
+        <Frame type="Label" name="Title">
+            <Text val="Quay &amp; &lt;Dock&gt; &quot;North&quot;"/>
+        </Frame>
+    </Frame>
+    <Frame type="Image" name="HarbourIcon"/>
+</Desc>

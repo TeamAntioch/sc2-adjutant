@@ -1,0 +1,1 @@
+void libChal_gf_ChallengeReadyButton (int lp_screenButtonID, int lp_player, trigger lp_runTrigger);

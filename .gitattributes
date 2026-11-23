@@ -1,0 +1,7 @@
+# Every checkout has LF line endings, as the code writes and npm packs, on Windows too.
+* text=auto eol=lf
+
+packages/core/tests/fixtures/editor-triggers/** -text
+packages/core/tests/fixtures/editor-terrain/** -text
+packages/core/tests/ui/golden/** -text
+packages/core/tests/fixtures/workspaces/reference/** -text

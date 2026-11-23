@@ -1,0 +1,32 @@
+{
+  "name": "@team-antioch/sc2-adjutant-doodad-finder",
+  "version": "0.1.0",
+  "description": "sc2-adjutant's Doodad Finder (ADR-0020, ADR-0022): a thin CLI over the published @team-antioch/sc2-doodad-finder's startFinder, adding the Workspace's Campaign Mod doodads, Mission badges, Doodad Searches and look closer (src/adjutant/), and the find_doodads and open_doodad_finder MCP tools.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamAntioch/sc2-adjutant.git",
+    "directory": "packages/doodad-finder"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "!dist/.tsbuildinfo"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"require('node:fs').writeFileSync('dist/.built', '')\"",
+    "prepack": "npm run build",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && vitest run"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "peerDependencies": {
+    "@team-antioch/sc2-adjutant": "^0.1.0"
+  },
+  "dependencies": {
+    "@team-antioch/sc2-asset-catalog": "0.4.0",
+    "@team-antioch/sc2-doodad-finder": "0.4.0"
+  }
+}

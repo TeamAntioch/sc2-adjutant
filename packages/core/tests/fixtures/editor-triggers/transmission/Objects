@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlacedObjects Version="27">
+  <ObjectUnit Id="1379696451" Position="20,20,0" Rotation="0" Scale="1,1,1" UnitType="Zeratul" Player="1"/>
+  <ObjectUnit Id="1621849861" Position="28,20,0" Rotation="3.1416" Scale="1,1,1" UnitType="Zealot" Player="15"/>
+</PlacedObjects>

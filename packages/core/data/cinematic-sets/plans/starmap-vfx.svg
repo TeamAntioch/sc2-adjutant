@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>Starmap_VFX: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">Starmap_VFX</text>
+<text x="24" y="54" font-size="10" fill="#666">starmap-vfx · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="278.2" y="403.9" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP03_040_UI_Elements_03</title></rect>
+<rect x="283.1" y="392.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP03_040_UI_Elements_02</title></rect>
+<rect x="282.7" y="404.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP03_040_UI_Elements_03</title></rect>
+<rect x="290.4" y="380.7" width="8" height="8" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP03_040_UI_Elements_00, SMX3_Cutscene_MP03_040_UI_Elements_00, SMX3_Cutscene_MP03_040_UI_Elements_01, SMX3_Cutscene_MP03_040_UI_Elements_05</title></rect>
+<text x="300.4" y="387.7" font-size="8" fill="#6d6458">4</text>
+<rect x="285" y="393.4" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP03_040_UI_Elements_03</title></rect>
+<rect x="288.1" y="397.6" width="6" height="6" fill="#b5ab98" stroke="#6d6458"><title>SMX3_Cutscene_MP03_040_UI_Elements_02, SMX3_Cutscene_MP03_040_UI_Elements_03</title></rect>
+<text x="296.1" y="403.6" font-size="8" fill="#6d6458">2</text>
+<polygon points="270.7,175.8 274.7,135.8 307.5,159.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="270.7" cy="175.8" r="2.5" fill="#7b4bd1"><title>B_s010</title></circle>
+<text x="274.7" y="172.8" font-size="8" fill="#5a3a9a">B_s010</text>
+<polygon points="284.1,346.1 238,268.1 331.3,268.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="284.1" cy="346.1" r="2.5" fill="#7b4bd1"><title>B_s020</title></circle>
+<text x="288.1" y="343.1" font-size="8" fill="#5a3a9a">B_s020</text>
+<polygon points="226.5,-22.3 293.1,39.2 214,67.5" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="226.5" cy="-22.3" r="2.5" fill="#7b4bd1"><title>B_s025</title></circle>
+<text x="230.5" y="-25.3" font-size="8" fill="#5a3a9a">B_s025</text>
+<polygon points="325.4,159 292.7,185.9 283.3,163.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="325.4" cy="159" r="2.5" fill="#7b4bd1"><title>B_s030</title></circle>
+<text x="329.4" y="156" font-size="8" fill="#5a3a9a">B_s030</text>
+<polygon points="247.4,173 296.4,164.9 294.5,188.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="247.4" cy="173" r="2.5" fill="#7b4bd1"><title>B_s040</title></circle>
+<text x="251.4" y="170" font-size="8" fill="#5a3a9a">B_s040</text>
+<polygon points="284.1,352.5 237.9,274.5 331.2,275" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="284.1" cy="352.5" r="2.5" fill="#7b4bd1"><title>B_s050</title></circle>
+<text x="288.1" y="349.5" font-size="8" fill="#5a3a9a">B_s050</text>
+<polygon points="262.5,402.2 297.9,374.6 302.2,423.3" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="262.5" cy="402.2" r="2.5" fill="#7b4bd1"><title>C_s010</title></circle>
+<text x="266.5" y="399.2" font-size="8" fill="#5a3a9a">C_s010</text>
+<polygon points="283.8,428.4 236,411.5 257.4,385.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="283.8" cy="428.4" r="2.5" fill="#7b4bd1"><title>C_s020</title></circle>
+<text x="287.8" y="425.4" font-size="8" fill="#5a3a9a">C_s020</text>
+<polygon points="237,411.1 288.8,415.9 275.9,445.6" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="237" cy="411.1" r="2.5" fill="#7b4bd1"><title>C_s030</title></circle>
+<text x="241" y="408.1" font-size="8" fill="#5a3a9a">C_s030</text>
+<polygon points="249.5,542.6 214.5,459 308.9,474.1" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="249.5" cy="542.6" r="2.5" fill="#7b4bd1"><title>C_s040</title></circle>
+<text x="253.5" y="539.6" font-size="8" fill="#5a3a9a">C_s040</text>
+<polygon points="264.8,405.3 268.4,403.5 268.4,406.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="264.8" cy="405.3" r="2.5" fill="#7b4bd1"><title>C_s050</title></circle>
+<text x="268.8" y="402.3" font-size="8" fill="#5a3a9a">C_s050</text>
+<polygon points="283.8,428.4 237.5,407.6 253.9,387.4" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="283.8" cy="428.4" r="2.5" fill="#7b4bd1"><title>C_s060</title></circle>
+<text x="287.8" y="425.4" font-size="8" fill="#5a3a9a">C_s060</text>
+<polygon points="281.1,463.8 236.5,414.4 305.5,401.9" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="281.1" cy="463.8" r="2.5" fill="#7b4bd1"><title>C_s070</title></circle>
+<text x="285.1" y="460.8" font-size="8" fill="#5a3a9a">C_s070</text>
+<line x1="272.7" y1="177" x2="277.1" y2="168" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="272.7" cy="177" r="4" fill="#2f7de1" stroke="#fff"><title>Nova B (SMX3_NovaMP03)</title></circle>
+<text x="278.7" y="189" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Nova B</text>
+<line x1="298.1" y1="160.6" x2="295.9" y2="150.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="298.1" cy="160.6" r="4" fill="#2f7de1" stroke="#fff"><title>Reigel B (SMX3_ReigelMP03)</title></circle>
+<text x="304.1" y="172.6" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Reigel B</text>
+<line x1="314.9" y1="398.7" x2="304.9" y2="399" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="314.9" cy="398.7" r="4" fill="#2f7de1" stroke="#fff"><title>Lockwell (LockwellPortrait)</title></circle>
+<text x="320.9" y="410.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Lockwell</text>
+<line x1="285.2" y1="433.5" x2="278.8" y2="425.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="285.2" cy="433.5" r="4" fill="#2f7de1" stroke="#fff"><title>Horner (SMX3_FirstOfficer)</title></circle>
+<text x="291.2" y="445.5" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Horner</text>
+<line x1="241.2" y1="395.7" x2="251.2" y2="396" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="241.2" cy="395.7" r="4" fill="#2f7de1" stroke="#fff"><title>Valerian_MAIN (SMX3_ValerianMP03)</title></circle>
+<text x="247.2" y="407.7" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">Valerian_MAIN</text>
+<line x1="234.5" y1="433.8" x2="244.5" y2="433.8" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="234.5" cy="433.8" r="4" fill="#2f7de1" stroke="#fff"><title>SMX3_BridgeSoldierB (SMX3_BridgeSoldierB)</title></circle>
+<text x="240.5" y="445.8" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX3_BridgeSoldierB</text>
+<line x1="324.8" y1="434.4" x2="314.8" y2="434.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="324.8" cy="434.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX3_BridgeSoldierB (SMX3_BridgeSoldierB)</title></circle>
+<text x="330.8" y="446.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX3_BridgeSoldierB</text>
+<line x1="333.5" y1="491.9" x2="323.5" y2="491.9" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="333.5" cy="491.9" r="4" fill="#2f7de1" stroke="#fff"><title>SMX3_BridgeSoldierB (SMX3_BridgeSoldierB)</title></circle>
+<text x="339.5" y="503.9" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX3_BridgeSoldierB</text>
+<line x1="234.6" y1="499.4" x2="244.6" y2="499.4" stroke="#2f7de1" stroke-width="1.5"/>
+<circle cx="234.6" cy="499.4" r="4" fill="#2f7de1" stroke="#fff"><title>SMX3_BridgeSoldierB (SMX3_BridgeSoldierB)</title></circle>
+<text x="240.6" y="511.4" font-size="10" fill="#111" stroke="#fff" stroke-width="2.5" paint-order="stroke">SMX3_BridgeSoldierB</text>
+</g>
+<line x1="72.6" y1="559.8" x2="374.7" y2="559.8" stroke="#333" stroke-width="2"/>
+<line x1="72.6" y1="555.8" x2="72.6" y2="563.8" stroke="#333"/><line x1="133" y1="555.8" x2="133" y2="563.8" stroke="#333"/>
+<text x="72.6" y="553.8" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">mods/novastoryassets.sc2mod/base.sc2data/Cutscenes/SMX3_Cutscene_MP03_040.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light:</text>
+<text x="560" y="132" font-size="9" fill="#333">SMX3_Cutscene_MP03_040_CargoRoom,</text>
+<text x="560" y="144" font-size="9" fill="#333">SMX3_Cutscene_MP03_040_ValerianRoom,</text>
+<text x="560" y="156" font-size="9" fill="#333">SMX3_Cutscene_MP04_Credits</text>
+<text x="560" y="168" font-size="9" fill="#333">Marks: 9; cameras: 18 (13 aimed</text>
+<text x="560" y="180" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="192" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="204" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="216" font-size="9" fill="#333"></text>
+<text x="560" y="228" font-size="9" fill="#333">Models:</text>
+<text x="560" y="240" font-size="9" fill="#333">SMX3_Cutscene_MP03_040_UI_Elements_00</text>
+<text x="560" y="252" font-size="9" fill="#333">SMX3_Cutscene_MP03_040_UI_Elements_01</text>
+<text x="560" y="264" font-size="9" fill="#333">SMX3_Cutscene_MP03_040_UI_Elements_02</text>
+<text x="560" y="276" font-size="9" fill="#333">SMX3_Cutscene_MP03_040_UI_Elements_03</text>
+<text x="560" y="288" font-size="9" fill="#333">SMX3_Cutscene_MP03_040_UI_Elements_05</text>
+<text x="560" y="300" font-size="9" fill="#333"></text>
+<text x="560" y="312" font-size="9" fill="#333">Also in:</text>
+</svg>

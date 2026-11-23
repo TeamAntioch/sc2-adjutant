@@ -1,0 +1,4 @@
+﻿FunctionDef/Name/2F6EE379=Power Area - Move Units Away
+ParamDef/Name/FC0DCBA1=Y
+ParamDef/Name/FD3E030B=X
+Variable/Name/7C7E27C7=Player Group

@@ -1,0 +1,8 @@
+{
+  "name": "studio-host",
+  "version": "1.0.0",
+  "pluginApi": 2,
+  "roles": ["host-adapter"],
+  "contributions": { "capabilities": ["model.render", "model.export", "editor.captureTour"] },
+  "entry": "./index.ts"
+}

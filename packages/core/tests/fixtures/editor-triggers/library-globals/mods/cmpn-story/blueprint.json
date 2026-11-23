@@ -1,0 +1,10 @@
+{
+  "id": "cmpn-story",
+  "kind": "campaign",
+  "dependencies": [],
+  "library": {
+    "id": "Cmpn",
+    "name": "Story Tools",
+    "functions": []
+  }
+}

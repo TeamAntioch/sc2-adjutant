@@ -1,0 +1,189 @@
+{
+  "exemplars": [
+    {
+      "id": "1-1",
+      "map": "Maps/Episode 1/Antioch 1-01/Antioch 1-1.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "1-2",
+      "map": "Maps/Episode 1/Antioch 1-02/Antioch 1-2.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "1-3",
+      "map": "Maps/Episode 1/Antioch 1-03/Antioch 1-3.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "1-4",
+      "map": "Maps/Episode 1/Antioch 1-04/Antioch 1-4.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "1-5",
+      "map": "Maps/Episode 1/Antioch 1-05/Antioch 1-5.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "1-6",
+      "map": "Maps/Episode 1/Antioch 1-06/Antioch 1-6.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "1-7",
+      "map": "Maps/Episode 1/Antioch 1-07/Antioch 1-7.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "1-8",
+      "map": "Maps/Episode 1/Antioch 1-08/Antioch 1-8.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "1-9",
+      "map": "Maps/Episode 1/Antioch 1-09/Antioch 1-9.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-0",
+      "map": "Maps/Episode 2/Antioch 2-00/Antioch 2-0.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-1",
+      "map": "Maps/Episode 2/Antioch 2-01/Antioch 2-1.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-2",
+      "map": "Maps/Episode 2/Antioch 2-02/Antioch 2-2.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-3",
+      "map": "Maps/Episode 2/Antioch 2-03/Antioch 2-3.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-4",
+      "map": "Maps/Episode 2/Antioch 2-04/Antioch 2-4.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-5",
+      "map": "Maps/Episode 2/Antioch 2-05/Antioch 2-5.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-6",
+      "map": "Maps/Episode 2/Antioch 2-06/Antioch 2-6.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-7",
+      "map": "Maps/Episode 2/Antioch 2-07/Antioch 2-7.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-8",
+      "map": "Maps/Episode 2/Antioch 2-08/Antioch 2-8.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-9",
+      "map": "Maps/Episode 2/Antioch 2-09/Antioch 2-9.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "2-9.5",
+      "map": "Maps/Episode 2/Antioch 2-09.5/Antioch 2-9-5.SC2Map",
+      "provenance": "edited",
+      "note": "Not a campaign map; two of its ten lightings are enough.",
+      "captureLights": [
+        "NTPrison",
+        "NT21"
+      ]
+    },
+    {
+      "id": "3-0",
+      "map": "Maps/Episode 3/Antioch 3-00/Antioch 3-0.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-1",
+      "map": "Maps/Episode 3/Antioch 3-01/Antioch 3-1.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-2",
+      "map": "Maps/Episode 3/Antioch 3-02/Antioch 3-2.SC2Map",
+      "provenance": "edited",
+      "placeLight": "Starship",
+      "placeZones": [
+        { "light": "MeinhoffCampaignNight", "rect": [126, 0, 256, 84], "note": "Outside Area, the opening and ending scenes" }
+      ]
+    },
+    {
+      "id": "3-3",
+      "map": "Maps/Episode 3/Antioch 3-03/Antioch 3-3.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-4",
+      "map": "Maps/Episode 3/Antioch 3-04/Antioch 3-4.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-5",
+      "map": "Maps/Episode 3/Antioch 3-05/Antioch 3-5.SC2Map",
+      "provenance": "edited",
+      "placeLight": "HybridLabInner",
+      "placeZones": [
+        { "light": "DesertWorld", "rect": [25, 90, 83, 102], "note": "Camera Bounds - Outside, before the hall" },
+        { "light": "BrokersOffice", "rect": [0, 0, 30, 30], "note": "opening cutscene office" },
+        { "light": "AiurFlashback", "rect": [0, 30, 35, 75], "note": "opening cutscene jungle flashback" }
+      ]
+    },
+    {
+      "id": "3-6",
+      "map": "Maps/Episode 3/Antioch 3-06/Antioch 3-6.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-7",
+      "map": "Maps/Episode 3/Antioch 3-07/Antioch 3-7.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-8",
+      "map": "Maps/Episode 3/Antioch 3-08/Antioch 3-8.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-9",
+      "map": "Maps/Episode 3/Antioch 3-09/Antioch 3-9.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-10",
+      "map": "Maps/Episode 3/Antioch 3-10/Antioch 3-10.SC2Map",
+      "provenance": "edited"
+    },
+    {
+      "id": "3-11",
+      "map": "Maps/Episode 3/Antioch 3-11/Antioch 3-11.SC2Map",
+      "provenance": "made",
+      "placeLight": "Temple",
+      "placeZones": [
+        { "light": "Nightmare", "rect": [105, 10, 135, 65], "note": "opening cutscene" },
+        { "light": "TheVoid2", "rect": [37, 144, 105, 200], "note": "N/T fight arena" }
+      ]
+    },
+    {
+      "id": "3-12",
+      "map": "Maps/Episode 3/Antioch 3-12/Antioch 3-12.SC2Map",
+      "provenance": "edited"
+    }
+  ]
+}

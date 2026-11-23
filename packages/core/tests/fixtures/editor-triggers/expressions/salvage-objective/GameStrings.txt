@@ -1,0 +1,2 @@
+﻿Param/Expression/5F29F17B=Salvage Protoss Technology (~A~ Remaining)
+Param/Value/C53CEFD4=Recover Protoss technology from the temple ruins.

@@ -1,0 +1,15 @@
+﻿FunctionDef/Grammar/lib_Cmpn_0D9A8FB1=If Then
+FunctionDef/Grammar/lib_Cmpn_B8B27D5C=Send (~conversationLine~) from (~unit~) using portrait (~portrait~), (~waitUntilDone~). Play (~animationName~) animation on unit.
+FunctionDef/Hint/lib_Cmpn_B8B27D5C=Send a transmission with chat bubble and optionally an animation from the transmitting unit.<n/>Set to NoUnit to se
+FunctionDef/Name/lib_Cmpn_0D9A8FB1=If Then
+FunctionDef/Name/lib_Cmpn_8F0B8074=Sound Channel Volume - Gameplay
+FunctionDef/Name/lib_Cmpn_B8B27D5C=Send Transmission (Story)
+FunctionDef/Name/lib_Cmpn_BCF70417=Sound Channel Volume - Speech
+Library/Name/Cmpn=Story Tools
+ParamDef/Name/lib_Cmpn_30598D6A=Conversation Line
+ParamDef/Name/lib_Cmpn_770B5643=Animation Name
+ParamDef/Name/lib_Cmpn_7AD92355=Portrait
+ParamDef/Name/lib_Cmpn_D9698A59=WaitUntilDone
+ParamDef/Name/lib_Cmpn_DD9E1F85=Unit
+SubFuncType/Name/lib_Cmpn_3F18199E=If
+SubFuncType/Name/lib_Cmpn_ADF13909=Then

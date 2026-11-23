@@ -1,0 +1,4 @@
+# Compiled maps and Editor demos: build them again with npm run compile-map.
+missions/*/output/
+missions/*/*.SC2Map/
+missions/*/compile-record.json

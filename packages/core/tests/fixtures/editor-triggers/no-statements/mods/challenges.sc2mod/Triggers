@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="Chal">
+        <Root>
+            <Item Type="FunctionDef" Library="Chal" Id="C130BC3B"/>
+        </Root>
+        <Element Type="Label" Id="CE4780F8">
+            <Icon>EditorData\Images\TriggerLabels\Melee.tga</Icon>
+        </Element>
+        <Element Type="Preset" Id="E2E8015A">
+            <Label Type="Label" Library="Chal" Id="CE4780F8"/>
+            <PresetInteger/>
+            <BaseType Value="int"/>
+            <Item Type="PresetValue" Library="Chal" Id="EED93B65"/>
+            <Item Type="Comment" Library="Chal" Id="8A884D4C"/>
+            <Item Type="PresetValue" Library="Chal" Id="2267753F"/>
+            <Item Type="PresetValue" Library="Chal" Id="B0E64498"/>
+            <Item Type="Comment" Library="Chal" Id="9FDD624B"/>
+            <Item Type="PresetValue" Library="Chal" Id="46DB59CE"/>
+            <Item Type="PresetValue" Library="Chal" Id="35B6483C"/>
+            <Item Type="PresetValue" Library="Chal" Id="48BB62BE"/>
+            <Item Type="Comment" Library="Chal" Id="FE0444F5"/>
+            <Item Type="PresetValue" Library="Chal" Id="3A5FD012"/>
+            <Item Type="PresetValue" Library="Chal" Id="0405A84A"/>
+            <Item Type="Comment" Library="Chal" Id="365EC28E"/>
+            <Item Type="PresetValue" Library="Chal" Id="D8CE8562"/>
+            <Item Type="PresetValue" Library="Chal" Id="94EBBD08"/>
+        </Element>
+        <Element Type="PresetValue" Id="48BB62BE">
+        </Element>
+        <Element Type="Variable" Id="E82DFB50">
+            <Label Type="Label" Library="Chal" Id="CE4780F8"/>
+            <Internal/>
+            <VariableType>
+                <Type Value="preset"/>
+                <TypeElement Type="Preset" Library="Chal" Id="E2E8015A"/>
+            </VariableType>
+            <Value Type="Param" Library="Chal" Id="176F8A49"/>
+        </Element>
+        <Element Type="FunctionDef" Id="C130BC3B">
+            <Label Type="Label" Library="Chal" Id="CE4780F8"/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="Chal" Id="AA7FD5E2"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="9C9396EA"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="B7F5F266"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="65260D39"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="68D26C73"/>
+        </Element>
+        <Element Type="ParamDef" Id="AA7FD5E2">
+            <ParameterType>
+                <Type Value="preset"/>
+                <TypeElement Type="Preset" Library="Chal" Id="E2E8015A"/>
+            </ParameterType>
+            <Default Type="Param" Library="Chal" Id="E1089D48"/>
+        </Element>
+        <Element Type="Param" Id="E1089D48">
+            <Preset Type="PresetValue" Library="Chal" Id="48BB62BE"/>
+        </Element>
+        <Element Type="FunctionCall" Id="9C9396EA">
+            <FunctionDef Type="FunctionDef" Library="Chal" Id="B7E0EFE2"/>
+        </Element>
+        <Element Type="FunctionCall" Id="B7F5F266">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="7D278C76"/>
+            <Parameter Type="Param" Library="Chal" Id="F5092FDA"/>
+            <Parameter Type="Param" Library="Chal" Id="088AE535"/>
+        </Element>
+        <Element Type="Param" Id="F5092FDA">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="6B3940B7"/>
+            <Value>1</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="Param" Id="088AE535">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="437A2BAF"/>
+            <Value>Challenge</Value>
+            <ValueType Type="string"/>
+        </Element>
+        <Element Type="FunctionCall" Id="65260D39">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="8874BA0C"/>
+            <Parameter Type="Param" Library="Chal" Id="F02DEF94"/>
+            <Parameter Type="Param" Library="Chal" Id="D87CE204"/>
+        </Element>
+        <Element Type="Param" Id="F02DEF94">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="2A4EFC75"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="A1B5F594"/>
+        </Element>
+        <Element Type="FunctionCall" Id="A1B5F594">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+        </Element>
+        <Element Type="Param" Id="D87CE204">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9DAC7098"/>
+            <Value>Challenge_TerranCombat_Basic</Value>
+            <ValueType Type="gamelink"/>
+            <ValueGameType Type="Achievement"/>
+        </Element>
+        <Element Type="FunctionCall" Id="68D26C73">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000136"/>
+            <Parameter Type="Param" Library="Chal" Id="55DBF94F"/>
+            <Parameter Type="Param" Library="Chal" Id="AFB0977A"/>
+        </Element>
+        <Element Type="Param" Id="55DBF94F">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000220"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="AA7FD5E2"/>
+        </Element>
+        <Element Type="Param" Id="AFB0977A">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000219"/>
+            <Variable Type="Variable" Library="Chal" Id="E82DFB50"/>
+        </Element>
+        <Element Type="FunctionDef" Id="B7E0EFE2">
+            <Internal/>
+            <FlagAction/>
+        </Element>
+    </Library>
+</TriggerData>

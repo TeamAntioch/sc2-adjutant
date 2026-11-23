@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="A3DDD02B">
+        <Root>
+            <Item Type="FunctionDef" Library="A3DDD02B" Id="5010B489"/>
+        </Root>
+        <Element Type="FunctionDef" Id="5010B489">
+            <Identifier>ClearAnimationwithblendtime</Identifier>
+            <Section Value="Shared"/>
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="A3DDD02B" Id="10A427C4"/>
+            <Parameter Type="ParamDef" Library="A3DDD02B" Id="CD15B906"/>
+            <Parameter Type="ParamDef" Library="A3DDD02B" Id="AC7832F1"/>
+            <FunctionCall Type="FunctionCall" Library="A3DDD02B" Id="5E43AF82"/>
+        </Element>
+        <Element Type="ParamDef" Id="10A427C4">
+            <Identifier>identifier</Identifier>
+            <ParameterType>
+                <Type Value="string"/>
+            </ParameterType>
+            <Default Type="Param" Library="A3DDD02B" Id="BD9D1D32"/>
+            <Preset Type="Preset" Library="Ntve" Id="33A08D7D"/>
+        </Element>
+        <Element Type="Param" Id="BD9D1D32">
+            <Preset Type="PresetValue" Library="Ntve" Id="22006C37"/>
+        </Element>
+        <Element Type="ParamDef" Id="CD15B906">
+            <Identifier>unit</Identifier>
+            <ParameterType>
+                <Type Value="unit"/>
+            </ParameterType>
+            <Default Type="Param" Library="A3DDD02B" Id="4532BBA6"/>
+        </Element>
+        <Element Type="Param" Id="4532BBA6">
+            <FunctionCall Type="FunctionCall" Library="A3DDD02B" Id="7AD196AD"/>
+        </Element>
+        <Element Type="FunctionCall" Id="7AD196AD">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000076"/>
+        </Element>
+        <Element Type="ParamDef" Id="AC7832F1">
+            <Identifier>blendTime</Identifier>
+            <ParameterType>
+                <Type Value="fixed"/>
+            </ParameterType>
+            <Default Type="Param" Library="A3DDD02B" Id="D42C6529"/>
+            <Preset Type="Preset" Library="Ntve" Id="00000076"/>
+        </Element>
+        <Element Type="Param" Id="D42C6529">
+            <Preset Type="PresetValue" Library="Ntve" Id="00000474"/>
+        </Element>
+        <Element Type="FunctionCall" Id="5E43AF82">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="E1552C18"/>
+            <Parameter Type="Param" Library="A3DDD02B" Id="82692BFB"/>
+            <Parameter Type="Param" Library="A3DDD02B" Id="1A8F9E9F"/>
+        </Element>
+        <Element Type="Param" Id="82692BFB">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5A8D5B9F"/>
+            <Parameter Type="ParamDef" Library="A3DDD02B" Id="CD15B906"/>
+        </Element>
+        <Element Type="Param" Id="1A8F9E9F">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8FF77F87"/>
+            <FunctionCall Type="FunctionCall" Library="A3DDD02B" Id="357C401F"/>
+        </Element>
+        <Element Type="FunctionCall" Id="357C401F">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="9E701E85"/>
+            <Parameter Type="Param" Library="A3DDD02B" Id="6782CF9C"/>
+            <Parameter Type="Param" Library="A3DDD02B" Id="4AC07D21"/>
+        </Element>
+        <Element Type="Param" Id="6782CF9C">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="0DDEF730"/>
+            <Parameter Type="ParamDef" Library="A3DDD02B" Id="AC7832F1"/>
+        </Element>
+        <Element Type="Param" Id="4AC07D21">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="932C70BB"/>
+            <Parameter Type="ParamDef" Library="A3DDD02B" Id="10A427C4"/>
+        </Element>
+    </Library>
+</TriggerData>

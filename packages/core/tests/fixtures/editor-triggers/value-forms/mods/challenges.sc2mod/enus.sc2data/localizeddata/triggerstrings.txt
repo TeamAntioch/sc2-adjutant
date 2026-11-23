@@ -1,0 +1,4 @@
+﻿FunctionDef/Name/lib_Chal_89F3EBE7=Challenge Ready Button
+ParamDef/Name/lib_Chal_0338B64C=ScreenButtonID
+ParamDef/Name/lib_Chal_186C5067=Player
+ParamDef/Name/lib_Chal_28DC3442=Run Trigger

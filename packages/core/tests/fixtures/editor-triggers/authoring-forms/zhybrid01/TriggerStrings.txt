@@ -1,0 +1,14 @@
+Preset/Name/7EF20B39=PRESET_IsGasOn
+PresetValue/Name/5CC06850=GasOn
+PresetValue/Name/84ABB8B0=GasOff
+Trigger/Name/1C198870=Achievement: Dominated Terran Added
+Trigger/Name/B2623B11=Ghost Nuke Base Entrance
+Trigger/Name/B5B872E1=Gas Animation Handler
+Trigger/Name/DEE97437=Expansion Clear - Spawn Gas Pallets
+Variable/Name/00AE4760=GameOver
+Variable/Name/1FDC92F0=GasStatus
+Variable/Name/6FC4B0C9=AchievementMaxDomiantedTerran
+Variable/Name/9E2F3DF4=InCinematic
+Variable/Name/A2A8B760=PLAYER_01_USER
+Variable/Name/DA114069=Ghost_BaseEntrance
+Variable/Name/FC7134B8=AchievementDominatedTerranUnits

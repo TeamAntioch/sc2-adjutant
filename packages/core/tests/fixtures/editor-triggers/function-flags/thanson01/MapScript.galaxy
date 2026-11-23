@@ -1,0 +1,77 @@
+bool gf_PlayerIsInCombat (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((gv_inCombatIndicator > 0)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void gf_SpoogeAreawithOverlord (point lp_param_Spawn, point lp_param_SpoogeTarget) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((UnitGroupCount(UnitGroup("Overlord", c_playerAny, RegionCircle(lp_param_SpoogeTarget, 3.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 0)) {
+        libNtve_gf_CreateUnitsAtPoint2(1, "Overlord", 0, gv_p5_ZERG_TACTICALPHASE, lp_param_Spawn);
+        UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("move", 0), lp_param_SpoogeTarget), c_orderQueueReplace);
+        UnitIssueOrder(UnitLastCreated(), Order(AbilityCommand("GenerateCreep", 0)), c_orderQueueAddToEnd);
+        if ((libNtve_gf_DifficultyValueInt(1, 1, 0, 0) == 1)) {
+            UnitIssueOrder(UnitLastCreated(), Order(AbilityCommand("move", 2)), c_orderQueueAddToEnd);
+        }
+
+    }
+
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Chrysalis Ping
+//--------------------------------------------------------------------------------------------------
+bool gt_ChrysalisPing_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    const int auto9777FDD0_n = 7;
+    int auto9777FDD0_i;
+
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((gv_inCinematic == false))) {
+            return false;
+        }
+
+        if (!((gv_gameOver == false))) {
+            return false;
+        }
+
+        if (!((TriggerGetExecCount(TriggerGetCurrent()) == 0))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_unit = gv_chrysalisPingUnit;
+    libNtve_gf_CreateModelAtPoint("BriefingUnitSelect", UnitGetPosition(gv_chrysalisPingUnit));
+    for (auto9777FDD0_i = 1; auto9777FDD0_i <= auto9777FDD0_n; auto9777FDD0_i += 1) {
+        Wait(1.0, c_timeGame);
+        if ((UnitIsAlive(gv_chrysalisPingUnit) == false)) {
+            break;
+        }
+
+    }
+    libNtve_gf_KillModel(libNtve_gf_ActorLastCreated());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ChrysalisPing_Init () {
+    gt_ChrysalisPing = TriggerCreate("gt_ChrysalisPing_Func");
+}
+

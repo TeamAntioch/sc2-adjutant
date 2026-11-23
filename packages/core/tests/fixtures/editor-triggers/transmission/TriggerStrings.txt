@@ -1,0 +1,6 @@
+﻿Trigger/Name/85BAC6B1=Defeat - Zeratul Dies
+Trigger/Name/C5935702=Victory - Zealot Dies
+Trigger/Name/C8093D15=Objective
+Trigger/Name/EB028222=Opening Transmission
+Trigger/Name/FD28B43B=Mission Start
+Variable/Name/C7C0764E=objective

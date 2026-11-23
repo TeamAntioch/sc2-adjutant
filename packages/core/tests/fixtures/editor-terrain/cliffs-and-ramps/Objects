@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlacedObjects Version="27">
+    <ObjectDoodad Id="782791149" Variation="4" Position="13.3325,17.7617,8.0017" Rotation="4.7087" Scale="0.8532,0.8532,0.8532" Type="BelShirFlowers"/>
+    <ObjectDoodad Id="743172109" Variation="2" Position="27.5,35.5,8.2207" Rotation="0.1765" Scale="0.9765,0.9765,0.9765" Type="BelShirTree"/>
+    <ObjectDoodad Id="459143102" Variation="9" Position="12.575,16.14,7.909" Rotation="5.4077" Scale="0.8947,0.8947,0.8947" Type="BelShirFlowers"/>
+    <ObjectDoodad Id="2120019333" Variation="3" Position="13.7651,16.073,8.0146" Rotation="6.2431" Scale="0.851,0.851,0.851" Type="BelShirFlowers"/>
+    <ObjectDoodad Id="418125151" Position="49.2155,38.7148,8.091" Rotation="2.4333" Scale="0.877,0.877,0.877" Type="BelShirCanopyTreeIsland"/>
+    <ObjectDoodad Id="1316352555" Position="11.7663,11.4072,8.0737" Rotation="4.042" Scale="1.0605,1.0605,1.0605" Type="BelShirAlienPlant"/>
+    <ObjectDoodad Id="2137711516" Variation="9" Position="13.7512,18.9882,7.9968" Rotation="5.2817" Scale="0.9504,0.9504,0.9504" Type="BelShirFlowers"/>
+    <ObjectDoodad Id="1418162447" Variation="7" Position="13.814,20.2924,7.8305" Rotation="1.4648" Scale="1.1196,1.1196,1.1196" Type="BelShirFlowers"/>
+    <ObjectDoodad Id="1852101290" Variation="5" Position="15.4042,16.2893,7.962" Rotation="3.1181" Scale="0.9226,0.9226,0.9226" Type="BelShirFlowers"/>
+    <ObjectUnit Id="1379696451" Position="20,20,0" Scale="1,1,1" UnitType="Zeratul" Player="1"/>
+    <ObjectUnit Id="1621849861" Position="22.1362,23.6794,0" Rotation="3.1416" Scale="1,1,1" UnitType="Zealot" Player="15"/>
+</PlacedObjects>

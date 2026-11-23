@@ -1,0 +1,127 @@
+{
+  "id": "cmpn-story",
+  "kind": "campaign",
+  "dependencies": [],
+  "library": {
+    "id": "Cmpn",
+    "name": "Story Tools",
+    "functions": [
+      {
+        "id": "0D9A8FB1",
+        "name": "If Then",
+        "identifier": "IfThen",
+        "kind": "action",
+        "flags": [
+          "subFunctions",
+          "noScriptPrefix"
+        ],
+        "grammar": "If Then",
+        "label": "Ntve/00000002",
+        "subFunctions": [
+          {
+            "id": "3F18199E",
+            "name": "If",
+            "identifier": "if",
+            "holds": "condition"
+          },
+          {
+            "id": "ADF13909",
+            "name": "Then",
+            "identifier": "then",
+            "holds": "action"
+          }
+        ],
+        "script": "if (#SUBFUNCS(if,\" && \")) {\n    #SUBFUNCS(then)\n}"
+      },
+      {
+        "id": "B8B27D5C",
+        "name": "Send Transmission (Story)",
+        "identifier": "SendTransmissionStory",
+        "kind": "action",
+        "grammar": "Send (~conversationLine~) from (~unit~) using portrait (~portrait~), (~waitUntilDone~). Play (~animationName~) animation on unit.",
+        "hint": "Send a transmission with chat bubble and optionally an animation from the transmitting unit.<n/>Set to NoUnit to se",
+        "parameters": [
+          {
+            "id": "30598D6A",
+            "name": "Conversation Line",
+            "type": {
+              "type": "convline"
+            },
+            "preload": true
+          },
+          {
+            "id": "DD9E1F85",
+            "name": "Unit",
+            "type": {
+              "type": "unit"
+            },
+            "default": {
+              "id": "6A4BF223",
+              "preset": "Ntve/D6EA4D09"
+            },
+            "preset": "Ntve/6B6323A7"
+          },
+          {
+            "id": "D9698A59",
+            "name": "WaitUntilDone",
+            "type": {
+              "type": "preset",
+              "element": "Ntve/00000020"
+            },
+            "default": {
+              "id": "7A09F448",
+              "preset": "Ntve/00000067"
+            }
+          },
+          {
+            "id": "770B5643",
+            "name": "Animation Name",
+            "type": {
+              "type": "modelanim"
+            },
+            "default": {
+              "id": "39188843",
+              "type": "modelanim",
+              "value": "\"Default\""
+            }
+          },
+          {
+            "id": "7AD92355",
+            "name": "Portrait",
+            "type": {
+              "type": "portrait"
+            },
+            "default": {
+              "id": "75375054",
+              "call": {
+                "id": "2C825E79",
+                "function": "Ntve/B8AD02AA",
+                "params": [
+                  {
+                    "id": "45D30D8F",
+                    "def": "Ntve/064853AE",
+                    "preset": "Ntve/2D4517D5"
+                  }
+                ]
+              }
+            },
+            "preset": "Ntve/13125113"
+          }
+        ],
+        "gui": "library/SendTransmissionStory.json"
+      },
+      {
+        "id": "BCF70417",
+        "name": "Sound Channel Volume - Speech",
+        "kind": "action",
+        "gui": "library/SoundChannelVolumeSpeech.json"
+      },
+      {
+        "id": "8F0B8074",
+        "name": "Sound Channel Volume - Gameplay",
+        "kind": "action",
+        "gui": "library/SoundChannelVolumeGameplay.json"
+      }
+    ]
+  }
+}

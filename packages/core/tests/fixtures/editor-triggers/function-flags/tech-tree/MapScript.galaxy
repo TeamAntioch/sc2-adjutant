@@ -1,0 +1,56 @@
+void gf_AdvanceZergTechTree () {
+    // Automatic Variable Declarations
+    int auto33147C8E_val;
+
+    // Implementation
+    gv_aITechTreeLevel += 1;
+    auto33147C8E_val = gv_aITechTreeLevel;
+    if (auto33147C8E_val == 1) {
+        gf_UpgradeZergGroundAttack();
+        gf_UpgradeZergGroundArmor();
+
+    }
+    else if (auto33147C8E_val == 2) {
+        gf_UpgradeZergMissileAttack();
+        gf_UpgradeZerglingMoveSpeed();
+
+    }
+    else if (auto33147C8E_val == 3) {
+        gf_UpgradeZergGroundArmor();
+        gf_UpgradeZergMissileAttack();
+
+    }
+    else if (auto33147C8E_val == 4) {
+        gf_UpgradeHydraliskAttackRange();
+        gf_UpgradeRoachMoveSpeed();
+
+    }
+    else if (auto33147C8E_val == 5) {
+        gf_UpgradeHydraliskMoveSpeed();
+        gf_UpgradeZergGroundAttack();
+
+    }
+    else if (auto33147C8E_val == 6) {
+        gf_UpgradeZergMissileAttack();
+        gf_UpgradeRoachBurrowMove();
+
+    }
+    else if (auto33147C8E_val == 7) {
+        gf_UpgradeZerglingAttackSpeed();
+        gf_UpgradeZergGroundArmor();
+
+    }
+    else if (auto33147C8E_val == 8) {
+        gf_UpgradeZergGroundAttack();
+        gf_UpgradeUltraliskArmor();
+
+    }
+    else if (auto33147C8E_val == 9) {
+        gf_UpgradeUltraliskMoveSpeed();
+
+    }
+    else {
+        gf_DispatchAIAttack();
+    }
+}
+

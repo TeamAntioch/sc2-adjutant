@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="614" viewBox="0 0 760 614" font-family="Helvetica, Arial, sans-serif">
+<title>XelNaga: cinematic set</title>
+<rect width="760" height="614" fill="#fff"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#111">XelNaga</text>
+<text x="24" y="54" font-size="10" fill="#666">xelnaga · top-down, +y up · squares: piece origins (count) · blue: marks with facing · purple: cameras</text>
+<clipPath id="plan"><rect x="24" y="70" width="520" height="520"/></clipPath>
+<rect x="24" y="70" width="520" height="520" fill="#f4f2ee" stroke="#999"/>
+<g clip-path="url(#plan)">
+<rect x="284.5" y="522.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>XelNagaConstruct</title></rect>
+<rect x="278.5" y="132.5" width="5" height="5" fill="#b5ab98" stroke="#6d6458"><title>XelNaga_HugeGate</title></rect>
+<polygon points="291.6,658.2 263.5,599.6 315.8,597.8" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="291.6" cy="658.2" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 1</title></circle>
+<text x="295.6" y="655.2" font-size="8" fill="#5a3a9a">CAMERA - Section 1</text>
+<polygon points="285.5,980.4 258.7,921.2 311,920.7" fill="#7b4bd1" fill-opacity="0.12" stroke="#7b4bd1" stroke-width="0.8"/>
+<circle cx="285.5" cy="980.4" r="2.5" fill="#7b4bd1"><title>CAMERA - Section 2</title></circle>
+<text x="289.5" y="977.4" font-size="8" fill="#5a3a9a">CAMERA - Section 2</text>
+</g>
+<line x1="132.4" y1="568.3" x2="349" y2="568.3" stroke="#333" stroke-width="2"/>
+<line x1="132.4" y1="564.3" x2="132.4" y2="572.3" stroke="#333"/><line x1="175.7" y1="564.3" x2="175.7" y2="572.3" stroke="#333"/>
+<text x="132.4" y="562.3" font-size="9" fill="#333">5 units (tick: 1)</text>
+<text x="560" y="84" font-size="9" fill="#333">1 file; drawn from:</text>
+<text x="560" y="96" font-size="9" fill="#333">Blizzard:</text>
+<text x="560" y="108" font-size="9" fill="#333">campaigns/voidstory.sc2campaign/base.sc2data/Cutscenes/UI_VignetteUlnar02.SC2Cutscene</text>
+<text x="560" y="120" font-size="9" fill="#333">Light: DiamondbackPortrait</text>
+<text x="560" y="132" font-size="9" fill="#333">Marks: 0; cameras: 2 (2 aimed</text>
+<text x="560" y="144" font-size="9" fill="#333">inside the plan; a camera on a rig</text>
+<text x="560" y="156" font-size="9" fill="#333">is drawn where its node sits,</text>
+<text x="560" y="168" font-size="9" fill="#333">which may not be where it films)</text>
+<text x="560" y="180" font-size="9" fill="#333"></text>
+<text x="560" y="192" font-size="9" fill="#333">Models:</text>
+<text x="560" y="204" font-size="9" fill="#333">XelNaga_HugeGate</text>
+<text x="560" y="216" font-size="9" fill="#333">XelNagaConstruct</text>
+<text x="560" y="228" font-size="9" fill="#333"></text>
+<text x="560" y="240" font-size="9" fill="#333">Also in:</text>
+</svg>

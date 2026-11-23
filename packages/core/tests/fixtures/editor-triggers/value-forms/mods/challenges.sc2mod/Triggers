@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Library Id="Chal">
+        <Root>
+            <Item Type="FunctionDef" Library="Chal" Id="89F3EBE7"/>
+        </Root>
+        <Element Type="FunctionDef" Id="89F3EBE7">
+            <FlagAction/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="186C5067"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="28DC3442"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="9998E642"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="B3A9F369"/>
+        </Element>
+        <Element Type="ParamDef" Id="0338B64C">
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+            <Default Type="Param" Library="Chal" Id="14E57457"/>
+        </Element>
+        <Element Type="Param" Id="14E57457">
+            <Value>0</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="ParamDef" Id="186C5067">
+            <ParameterType>
+                <Type Value="int"/>
+            </ParameterType>
+            <Default Type="Param" Library="Chal" Id="68CAD754"/>
+        </Element>
+        <Element Type="Param" Id="68CAD754">
+            <Value>0</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="ParamDef" Id="28DC3442">
+            <ParameterType>
+                <Type Value="trigger"/>
+            </ParameterType>
+            <Default Type="Param" Library="Chal" Id="5BACC284"/>
+        </Element>
+        <Element Type="Param" Id="5BACC284">
+            <Preset Type="PresetValue" Library="Ntve" Id="00000542"/>
+        </Element>
+        <Element Type="FunctionCall" Id="9998E642">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="83263181"/>
+            <Parameter Type="Param" Library="Chal" Id="AA85BF6E"/>
+            <Parameter Type="Param" Library="Chal" Id="5F45199D"/>
+            <Parameter Type="Param" Library="Chal" Id="91D104CA"/>
+            <Parameter Type="Param" Library="Chal" Id="592BA8C9"/>
+            <Parameter Type="Param" Library="Chal" Id="1D7DB1DC"/>
+            <Parameter Type="Param" Library="Chal" Id="577A6474"/>
+            <Parameter Type="Param" Library="Chal" Id="C9A74EB1"/>
+            <Parameter Type="Param" Library="Chal" Id="5F37B763"/>
+        </Element>
+        <Element Type="Param" Id="AA85BF6E">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="93DB0C8E"/>
+            <Value>350</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="Param" Id="5F45199D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5CB3A030"/>
+            <Value>114</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="Param" Id="91D104CA">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="F393C029"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="A528F711"/>
+        </Element>
+        <Element Type="Param" Id="592BA8C9">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="B4BAD30B"/>
+            <Value>10</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="Param" Id="1D7DB1DC">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="603FD068"/>
+            <Value>-280</Value>
+            <ValueType Type="int"/>
+        </Element>
+        <Element Type="Param" Id="577A6474">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="FE50FFBF"/>
+            <ValueType Type="text"/>
+        </Element>
+        <Element Type="Param" Id="C9A74EB1">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="146D65E1"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="Param" Id="5F37B763">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9266E056"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="28DC3442"/>
+        </Element>
+        <Element Type="FunctionCall" Id="B3A9F369">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="91C49196"/>
+            <Parameter Type="Param" Library="Chal" Id="B6E77AF4"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="8ECF4EFC"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="57784179"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="6B45CE7F"/>
+        </Element>
+        <Element Type="Param" Id="B6E77AF4">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="B4ACF12A"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="30D2C1ED"/>
+        </Element>
+        <Element Type="FunctionCall" Id="30D2C1ED">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000155"/>
+            <Parameter Type="Param" Library="Chal" Id="3B6F9F90"/>
+        </Element>
+        <Element Type="Param" Id="3B6F9F90">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="00000248"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="186C5067"/>
+        </Element>
+        <Element Type="FunctionCall" Id="8ECF4EFC">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="3A1227AB"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="AD43BC93"/>
+            <Parameter Type="Param" Library="Chal" Id="DF5B79AA"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="734CD45E"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="03DC8FCC"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="A4893890"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="0189B975"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="DD464922"/>
+        </Element>
+        <Element Type="Param" Id="DF5B79AA">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9A8F1093"/>
+            <Value>Prot</Value>
+            <ValueType Type="gamelink"/>
+            <ValueGameType Type="Race"/>
+        </Element>
+        <Element Type="FunctionCall" Id="734CD45E">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="D5F9189A"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="9BC374F5"/>
+            <Parameter Type="Param" Library="Chal" Id="D6058497"/>
+            <Parameter Type="Param" Library="Chal" Id="64309D3E"/>
+        </Element>
+        <Element Type="Param" Id="9BC374F5">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9735F524"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="564D4471"/>
+        </Element>
+        <Element Type="FunctionCall" Id="564D4471">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="64C8AB22"/>
+            <Parameter Type="Param" Library="Chal" Id="CDB54572"/>
+        </Element>
+        <Element Type="Param" Id="CDB54572">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5AA0B508"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="Param" Id="D6058497">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="E9EB3E48"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normalpressed_protoss.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="64309D3E">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="24AFC666"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="DE187D06"/>
+        </Element>
+        <Element Type="FunctionCall" Id="DE187D06">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+        </Element>
+        <Element Type="FunctionCall" Id="03DC8FCC">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="3C8304BE"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="B7DDD72D"/>
+            <Parameter Type="Param" Library="Chal" Id="86E98AAF"/>
+            <Parameter Type="Param" Library="Chal" Id="6D3D3668"/>
+        </Element>
+        <Element Type="Param" Id="B7DDD72D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="20A35B0E"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="C1FFBD20"/>
+        </Element>
+        <Element Type="FunctionCall" Id="C1FFBD20">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="64C8AB22"/>
+            <Parameter Type="Param" Library="Chal" Id="6CC3AC0D"/>
+        </Element>
+        <Element Type="Param" Id="6CC3AC0D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5AA0B508"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="Param" Id="86E98AAF">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="284CB1C1"/>
+            <Value>ChallengeReadyButtonProtoss</Value>
+            <ValueType Type="string"/>
+        </Element>
+        <Element Type="Param" Id="6D3D3668">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="A65F9E6D"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="DA46A288"/>
+        </Element>
+        <Element Type="FunctionCall" Id="DA46A288">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+        </Element>
+        <Element Type="FunctionCall" Id="A4893890">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="D3FB8606"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="BE192466"/>
+            <Parameter Type="Param" Library="Chal" Id="5456BA03"/>
+            <Parameter Type="Param" Library="Chal" Id="67F778E2"/>
+            <Parameter Type="Param" Library="Chal" Id="B4FECC07"/>
+        </Element>
+        <Element Type="Param" Id="BE192466">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5EFD8AFE"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normalpressed_protoss.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="5456BA03">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="BB73410A"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normaloverpressedover_protoss.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="67F778E2">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="D650F36B"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="4849D113"/>
+        </Element>
+        <Element Type="Param" Id="B4FECC07">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9D34B988"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="0189B975">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="E5CABD27"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="D2D253ED"/>
+            <Parameter Type="Param" Library="Chal" Id="C08E1745"/>
+            <Parameter Type="Param" Library="Chal" Id="4673B726"/>
+            <Parameter Type="Param" Library="Chal" Id="490FA401"/>
+        </Element>
+        <Element Type="Param" Id="D2D253ED">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="C31FE060"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_animr_protoss.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="C08E1745">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9DAB52FE"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normaloverpressedover_protoss.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="4673B726">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8DB285F3"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="4849D113"/>
+        </Element>
+        <Element Type="Param" Id="490FA401">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="7B4F9FE4"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="DD464922">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="0531A785"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="90668D7E"/>
+            <Parameter Type="Param" Library="Chal" Id="E2274015"/>
+            <Parameter Type="Param" Library="Chal" Id="EB9BA188"/>
+            <Parameter Type="Param" Library="Chal" Id="65825D94"/>
+        </Element>
+        <Element Type="Param" Id="90668D7E">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="38E9ECA2"/>
+            <Value>3.0</Value>
+            <ValueType Type="fixed"/>
+        </Element>
+        <Element Type="Param" Id="E2274015">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="68EAFADB"/>
+            <Value>191,41,41,254</Value>
+            <ValueType Type="color"/>
+        </Element>
+        <Element Type="Param" Id="EB9BA188">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="FA2D8417"/>
+            <Value>0,0,0,0</Value>
+            <ValueType Type="color"/>
+        </Element>
+        <Element Type="Param" Id="65825D94">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8E5D954F"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="57784179">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="3A1227AB"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="AD43BC93"/>
+            <Parameter Type="Param" Library="Chal" Id="35B0B369"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="A504B046"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="29891DB4"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="BC3AAA61"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="A2E909FA"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="967B9284"/>
+        </Element>
+        <Element Type="Param" Id="35B0B369">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9A8F1093"/>
+            <Value>Terr</Value>
+            <ValueType Type="gamelink"/>
+            <ValueGameType Type="Race"/>
+        </Element>
+        <Element Type="FunctionCall" Id="A504B046">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="D5F9189A"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="52066CDE"/>
+            <Parameter Type="Param" Library="Chal" Id="89434959"/>
+            <Parameter Type="Param" Library="Chal" Id="53B71EA7"/>
+        </Element>
+        <Element Type="Param" Id="52066CDE">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9735F524"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="ABB88535"/>
+        </Element>
+        <Element Type="FunctionCall" Id="ABB88535">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="64C8AB22"/>
+            <Parameter Type="Param" Library="Chal" Id="D5D4FB90"/>
+        </Element>
+        <Element Type="Param" Id="D5D4FB90">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5AA0B508"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="Param" Id="89434959">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="E9EB3E48"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normalpressed.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="53B71EA7">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="24AFC666"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="B7DD6729"/>
+        </Element>
+        <Element Type="FunctionCall" Id="B7DD6729">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+        </Element>
+        <Element Type="FunctionCall" Id="29891DB4">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="3C8304BE"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="D1FB0847"/>
+            <Parameter Type="Param" Library="Chal" Id="4C5AA96A"/>
+            <Parameter Type="Param" Library="Chal" Id="BB6C5F54"/>
+        </Element>
+        <Element Type="Param" Id="D1FB0847">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="20A35B0E"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="52CCFB18"/>
+        </Element>
+        <Element Type="FunctionCall" Id="52CCFB18">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="64C8AB22"/>
+            <Parameter Type="Param" Library="Chal" Id="CA0D4C5C"/>
+        </Element>
+        <Element Type="Param" Id="CA0D4C5C">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5AA0B508"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="Param" Id="4C5AA96A">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="284CB1C1"/>
+            <Value>ChallengeReadyButtonTerran</Value>
+            <ValueType Type="string"/>
+        </Element>
+        <Element Type="Param" Id="BB6C5F54">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="A65F9E6D"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="832ED259"/>
+        </Element>
+        <Element Type="FunctionCall" Id="832ED259">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+        </Element>
+        <Element Type="FunctionCall" Id="BC3AAA61">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="D3FB8606"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="E646E79D"/>
+            <Parameter Type="Param" Library="Chal" Id="EE170D59"/>
+            <Parameter Type="Param" Library="Chal" Id="54204E58"/>
+            <Parameter Type="Param" Library="Chal" Id="7D94D2A3"/>
+        </Element>
+        <Element Type="Param" Id="E646E79D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5EFD8AFE"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normalpressed.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="EE170D59">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="BB73410A"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normaloverpressedover.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="54204E58">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="D650F36B"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="4849D113"/>
+        </Element>
+        <Element Type="Param" Id="7D94D2A3">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9D34B988"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="A2E909FA">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="E5CABD27"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="83CA9322"/>
+            <Parameter Type="Param" Library="Chal" Id="A933E2AA"/>
+            <Parameter Type="Param" Library="Chal" Id="C537AC9F"/>
+            <Parameter Type="Param" Library="Chal" Id="CDC0436F"/>
+        </Element>
+        <Element Type="Param" Id="83CA9322">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="C31FE060"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_anim.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="A933E2AA">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9DAB52FE"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normaloverpressedover.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="C537AC9F">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8DB285F3"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="4849D113"/>
+        </Element>
+        <Element Type="Param" Id="CDC0436F">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="7B4F9FE4"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="967B9284">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="0531A785"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="3FEEA358"/>
+            <Parameter Type="Param" Library="Chal" Id="B31D966B"/>
+            <Parameter Type="Param" Library="Chal" Id="2DCD691D"/>
+            <Parameter Type="Param" Library="Chal" Id="C04E4C79"/>
+        </Element>
+        <Element Type="Param" Id="3FEEA358">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="38E9ECA2"/>
+            <Value>3.0</Value>
+            <ValueType Type="fixed"/>
+        </Element>
+        <Element Type="Param" Id="B31D966B">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="68EAFADB"/>
+            <Value>190,0,174,0</Value>
+            <ValueType Type="color"/>
+        </Element>
+        <Element Type="Param" Id="2DCD691D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="FA2D8417"/>
+            <Value>0,0,0,0</Value>
+            <ValueType Type="color"/>
+        </Element>
+        <Element Type="Param" Id="C04E4C79">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8E5D954F"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="6B45CE7F">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="3A1227AB"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="AD43BC93"/>
+            <Parameter Type="Param" Library="Chal" Id="56D5BBEC"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="5D9D4DBD"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="6E70A15F"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="3F1FDE87"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="4299D9BE"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="BBF9D18E"/>
+        </Element>
+        <Element Type="Param" Id="56D5BBEC">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9A8F1093"/>
+            <Value>Zerg</Value>
+            <ValueType Type="gamelink"/>
+            <ValueGameType Type="Race"/>
+        </Element>
+        <Element Type="FunctionCall" Id="5D9D4DBD">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="D5F9189A"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="36D54B37"/>
+            <Parameter Type="Param" Library="Chal" Id="A0F7B970"/>
+            <Parameter Type="Param" Library="Chal" Id="FF28A450"/>
+        </Element>
+        <Element Type="Param" Id="36D54B37">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9735F524"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="F0FE4DA4"/>
+        </Element>
+        <Element Type="FunctionCall" Id="F0FE4DA4">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="64C8AB22"/>
+            <Parameter Type="Param" Library="Chal" Id="C5FC689D"/>
+        </Element>
+        <Element Type="Param" Id="C5FC689D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5AA0B508"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="Param" Id="A0F7B970">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="E9EB3E48"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normalpressed_zerg.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="FF28A450">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="24AFC666"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="9B5980C3"/>
+        </Element>
+        <Element Type="FunctionCall" Id="9B5980C3">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+        </Element>
+        <Element Type="FunctionCall" Id="6E70A15F">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="3C8304BE"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="B76E124B"/>
+            <Parameter Type="Param" Library="Chal" Id="73BA1C5B"/>
+            <Parameter Type="Param" Library="Chal" Id="FF2D4A7B"/>
+        </Element>
+        <Element Type="Param" Id="B76E124B">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="20A35B0E"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="3CDC6FE7"/>
+        </Element>
+        <Element Type="FunctionCall" Id="3CDC6FE7">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="64C8AB22"/>
+            <Parameter Type="Param" Library="Chal" Id="C1D9980D"/>
+        </Element>
+        <Element Type="Param" Id="C1D9980D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5AA0B508"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="Param" Id="73BA1C5B">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="284CB1C1"/>
+            <Value>ChallengeReadyButtonZerg</Value>
+            <ValueType Type="string"/>
+        </Element>
+        <Element Type="Param" Id="FF2D4A7B">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="A65F9E6D"/>
+            <FunctionCall Type="FunctionCall" Library="Chal" Id="71188D0E"/>
+        </Element>
+        <Element Type="FunctionCall" Id="71188D0E">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000192"/>
+        </Element>
+        <Element Type="FunctionCall" Id="3F1FDE87">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="D3FB8606"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="D16A6704"/>
+            <Parameter Type="Param" Library="Chal" Id="F11EB530"/>
+            <Parameter Type="Param" Library="Chal" Id="D51E8A57"/>
+            <Parameter Type="Param" Library="Chal" Id="7F8AC2E3"/>
+        </Element>
+        <Element Type="Param" Id="D16A6704">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="5EFD8AFE"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normalpressed_zerg.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="F11EB530">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="BB73410A"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normaloverpressedover_zerg.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="D51E8A57">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="D650F36B"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="4849D113"/>
+        </Element>
+        <Element Type="Param" Id="7F8AC2E3">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9D34B988"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="4299D9BE">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="E5CABD27"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="A6FEA13C"/>
+            <Parameter Type="Param" Library="Chal" Id="EEC3FC84"/>
+            <Parameter Type="Param" Library="Chal" Id="1F3F1028"/>
+            <Parameter Type="Param" Library="Chal" Id="59878B2D"/>
+        </Element>
+        <Element Type="Param" Id="A6FEA13C">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="C31FE060"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_anim_zerg.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="EEC3FC84">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="9DAB52FE"/>
+            <Value>Assets\Textures\ui_mission_hackingbuttonglow_normaloverpressedover_zerg.dds</Value>
+            <ValueType Type="filepath"/>
+            <ValueTypeInfo Value="3"/>
+        </Element>
+        <Element Type="Param" Id="1F3F1028">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8DB285F3"/>
+            <Preset Type="PresetValue" Library="Ntve" Id="4849D113"/>
+        </Element>
+        <Element Type="Param" Id="59878B2D">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="7B4F9FE4"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+        <Element Type="FunctionCall" Id="BBF9D18E">
+            <FunctionDef Type="FunctionDef" Library="Ntve" Id="0531A785"/>
+            <SubFunctionType Type="SubFuncType" Library="Ntve" Id="363CE97C"/>
+            <Parameter Type="Param" Library="Chal" Id="2181B83F"/>
+            <Parameter Type="Param" Library="Chal" Id="DF4AB9CF"/>
+            <Parameter Type="Param" Library="Chal" Id="4B1F4810"/>
+            <Parameter Type="Param" Library="Chal" Id="788EBAB5"/>
+        </Element>
+        <Element Type="Param" Id="2181B83F">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="38E9ECA2"/>
+            <Value>3.0</Value>
+            <ValueType Type="fixed"/>
+        </Element>
+        <Element Type="Param" Id="DF4AB9CF">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="68EAFADB"/>
+            <Value>190,253,134,2</Value>
+            <ValueType Type="color"/>
+        </Element>
+        <Element Type="Param" Id="4B1F4810">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="FA2D8417"/>
+            <Value>0,0,0,0</Value>
+            <ValueType Type="color"/>
+        </Element>
+        <Element Type="Param" Id="788EBAB5">
+            <ParameterDef Type="ParamDef" Library="Ntve" Id="8E5D954F"/>
+            <Parameter Type="ParamDef" Library="Chal" Id="0338B64C"/>
+        </Element>
+    </Library>
+</TriggerData>

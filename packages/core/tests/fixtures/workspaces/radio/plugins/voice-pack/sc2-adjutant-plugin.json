@@ -1,0 +1,8 @@
+{
+  "name": "voice-pack",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["campaign-pack"],
+  "contributions": { "campaignMod": "Radio-Story" },
+  "entry": "./index.ts"
+}

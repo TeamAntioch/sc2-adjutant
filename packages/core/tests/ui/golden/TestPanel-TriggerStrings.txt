@@ -1,0 +1,6 @@
+FunctionDef/Name/lib_Hbr1_EC7798FC=Show Test Panel
+FunctionDef/Grammar/lib_Hbr1_EC7798FC=Show the test panel titled (~title~)
+FunctionDef/Hint/lib_Hbr1_EC7798FC=Shows the test panel with a title.
+ParamDef/Name/lib_Hbr1_E49F3270=Title
+FunctionDef/Name/lib_Hbr1_73F7AAE3=Hide Test Panel
+Category/Name/lib_Hbr1_1E220B14=UI

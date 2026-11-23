@@ -1,0 +1,17 @@
+﻿FunctionDef/Grammar/C11903A4=Player ~player~ is in combat
+FunctionDef/Name/37027917=Spooge Area with Overlord
+FunctionDef/Name/C11903A4=Player Is In Combat
+ParamDef/Name/13C15DFB=param_Spawn
+ParamDef/Name/15EA95A3=Player
+ParamDef/Name/DA2DB4FA=param_SpoogeTarget
+Trigger/Name/53F593F4=Chrysalis Ping
+Trigger/Name/6366E49D=Cheat check
+Variable/Name/00000029=GameOver
+Variable/Name/0B701ADD=InCinematic
+Variable/Name/0E41CF71=ChrysalisPingUnit
+Variable/Name/258CFDF9=InCombatIndicator
+Variable/Name/27422CA1=P5_ZERG_TACTICALPHASE
+Variable/Name/2D3AF105=EscortIndex
+Variable/Name/BB132AF5=ColonistsOnTheMove
+Variable/Name/D6C2EE5B=unit
+Variable/Name/E73A326D=ColonistsKilled

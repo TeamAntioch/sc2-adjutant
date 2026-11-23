@@ -1,0 +1,68 @@
+//--------------------------------------------------------------------------------------------------
+// Trigger: Enemy Camp Init
+//--------------------------------------------------------------------------------------------------
+bool gt_EnemyCampInit_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_enemyCampIndex;
+    int lv_unitIndex;
+    point lv_homePosition;
+
+    // Automatic Variable Declarations
+    int auto60392102_ae;
+    const int auto60392102_ai = 1;
+    unitgroup auto0C0B8BA5_g;
+    int auto0C0B8BA5_u;
+    unit auto0C0B8BA5_var;
+    unitgroup auto1D1ECC95_g;
+    int auto1D1ECC95_u;
+    unit auto1D1ECC95_var;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_enemyCampsCount = 5;
+    auto60392102_ae = gv_enemyCampsCount;
+    lv_enemyCampIndex = 1;
+    for ( ; ( (auto60392102_ai >= 0 && lv_enemyCampIndex <= auto60392102_ae) || (auto60392102_ai < 0 && lv_enemyCampIndex >= auto60392102_ae) ) ; lv_enemyCampIndex += auto60392102_ai ) {
+        gv_enemyCamps[lv_enemyCampIndex].lv_unitGroup = UnitGroup(null, gv_pLAYER_02_DOMINION3, RegionFromName(("Enemy Camp " + IntToString(lv_enemyCampIndex))), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        auto0C0B8BA5_g = gv_enemyCamps[lv_enemyCampIndex].lv_unitGroup;
+        auto0C0B8BA5_u = UnitGroupCount(auto0C0B8BA5_g, c_unitCountAll);
+        for (;; auto0C0B8BA5_u -= 1) {
+            auto0C0B8BA5_var = UnitGroupUnitFromEnd(auto0C0B8BA5_g, auto0C0B8BA5_u);
+            if (auto0C0B8BA5_var == null) { break; }
+            if ((UnitGetType(auto0C0B8BA5_var) == "Bunker")) {
+                UnitGroupAddUnitGroup(gv_enemyCamps[lv_enemyCampIndex].lv_unitGroup, UnitCargoGroup(auto0C0B8BA5_var));
+            }
+
+        }
+        auto1D1ECC95_g = gv_enemyCamps[lv_enemyCampIndex].lv_unitGroup;
+        auto1D1ECC95_u = UnitGroupCount(auto1D1ECC95_g, c_unitCountAll);
+        for (;; auto1D1ECC95_u -= 1) {
+            auto1D1ECC95_var = UnitGroupUnitFromEnd(auto1D1ECC95_g, auto1D1ECC95_u);
+            if (auto1D1ECC95_var == null) { break; }
+            if ((libNtve_gf_UnitIsInsideTransport(auto1D1ECC95_var) == true)) {
+                lv_homePosition = PointWithOffsetPolar(UnitGetPosition(UnitTransport(auto1D1ECC95_var)), 1.0, (UnitCargoValue(auto1D1ECC95_var, c_unitCargoPosition) * (360 / UnitCargoValue(UnitTransport(auto1D1ECC95_var), c_unitCargoUnitCount))));
+            }
+            else {
+                lv_homePosition = UnitGetPosition(auto1D1ECC95_var);
+            }
+            UnitSetCustomValue(auto1D1ECC95_var, 1, PointGetX(lv_homePosition));
+            UnitSetCustomValue(auto1D1ECC95_var, 2, PointGetY(lv_homePosition));
+            UnitBehaviorAdd(auto1D1ECC95_var, "DisableMedicHealing", auto1D1ECC95_var, 1);
+        }
+        gv_enemyCamps[lv_enemyCampIndex].lv_targetDummies = UnitGroup("InvisibleTargetDummy", 0, RegionFromName(("Enemy Camp " + IntToString(lv_enemyCampIndex))), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32))), 0);
+        gv_enemyCamps[lv_enemyCampIndex].lv_aggroRegion = RegionCircle(UnitGroupCenterOfGroup(gv_enemyCamps[lv_enemyCampIndex].lv_unitGroup), 16.0);
+    }
+    TriggerExecute(gt_EnemyCampController, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_EnemyCampInit_Init () {
+    gt_EnemyCampInit = TriggerCreate("gt_EnemyCampInit_Func");
+}
+

@@ -1,0 +1,152 @@
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: BossBar
+//--------------------------------------------------------------------------------------------------
+// The boss bar's state: its frames once hooked up, the unit it shows, the colour it was given,
+// the unit's life and shields at the last pass, whether it is greyed out, shown and refreshing.
+bool libHbr1_ui_bossBar_hooked;
+int libHbr1_ui_bossBar_panel;
+int libHbr1_ui_bossBar_health;
+int libHbr1_ui_bossBar_shield;
+int libHbr1_ui_bossBar_border;
+int libHbr1_ui_bossBar_title;
+int[4] libHbr1_ui_bossBar_marks;
+unit libHbr1_ui_bossBar_unit;
+color libHbr1_ui_bossBar_color;
+fixed libHbr1_ui_bossBar_last;
+bool libHbr1_ui_bossBar_grey;
+bool libHbr1_ui_bossBar_shown;
+bool libHbr1_ui_bossBar_running;
+trigger libHbr1_ui_bossBar_loop;
+
+// Hooks up the bar's frames, the first time.
+void libHbr1_ui_bossBar_Hookup () {
+    if (!libHbr1_ui_bossBar_hooked) {
+        libHbr1_ui_bossBar_panel = DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/BossBar");
+        libHbr1_ui_bossBar_health = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Health");
+        libHbr1_ui_bossBar_shield = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Shield");
+        libHbr1_ui_bossBar_border = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Border");
+        libHbr1_ui_bossBar_title = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeLabel, "Title");
+        libHbr1_ui_bossBar_marks[0] = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Mark1");
+        libHbr1_ui_bossBar_marks[1] = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Mark2");
+        libHbr1_ui_bossBar_marks[2] = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Mark3");
+        libHbr1_ui_bossBar_marks[3] = DialogControlHookup(libHbr1_ui_bossBar_panel, c_triggerControlTypeImage, "Mark4");
+        libHbr1_ui_bossBar_hooked = true;
+    }
+}
+
+// Colours the fills: grey while the unit is invulnerable, else the bar's colour and the shields'.
+void libHbr1_ui_bossBar_Paint () {
+    if (libHbr1_ui_bossBar_grey) {
+        DialogControlSetPropertyAsColor(libHbr1_ui_bossBar_health, c_triggerControlPropertyColor, PlayerGroupAll(), Color(43.14, 43.14, 43.14));
+        DialogControlSetPropertyAsColor(libHbr1_ui_bossBar_shield, c_triggerControlPropertyColor, PlayerGroupAll(), Color(43.14, 43.14, 43.14));
+    }
+    else {
+        DialogControlSetPropertyAsColor(libHbr1_ui_bossBar_health, c_triggerControlPropertyColor, PlayerGroupAll(), libHbr1_ui_bossBar_color);
+        DialogControlSetPropertyAsColor(libHbr1_ui_bossBar_shield, c_triggerControlPropertyColor, PlayerGroupAll(), Color(0.00, 66.67, 100.00));
+    }
+    DialogControlSetPropertyAsBool(libHbr1_ui_bossBar_border, c_triggerControlPropertyDesaturated, PlayerGroupAll(), libHbr1_ui_bossBar_grey);
+}
+
+// Puts phase mark lp_index at lp_at of the bar (0.75 is three quarters along), or hides it for 0.
+void libHbr1_ui_bossBar_PlaceMark (int lp_index, fixed lp_at) {
+    if ((lp_at <= 0.0) || (lp_at >= 1.0)) {
+        DialogControlSetVisible(libHbr1_ui_bossBar_marks[lp_index], PlayerGroupAll(), false);
+        return;
+    }
+    DialogControlSetPositionRelative(libHbr1_ui_bossBar_marks[lp_index], PlayerGroupAll(), c_anchorTopLeft, libHbr1_ui_bossBar_border, c_anchorTopLeft, 14 + FixedToInt(288.0 * lp_at) - 1, 15);
+    DialogControlSetVisible(libHbr1_ui_bossBar_marks[lp_index], PlayerGroupAll(), true);
+}
+
+// One pass: sets the fills from the unit, flashes the bar when its life and shields fall and
+// greys it while the unit is invulnerable. False when the unit is dead.
+bool libHbr1_ui_bossBar_Refresh () {
+    fixed lv_now;
+    bool lv_invulnerable;
+
+    if (!UnitIsAlive(libHbr1_ui_bossBar_unit)) {
+        return false;
+    }
+    DialogControlSetSize(libHbr1_ui_bossBar_health, PlayerGroupAll(), MaxI(1, FixedToInt(288.0 * UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropLifePercent, c_unitPropCurrent) / 100.0)), 30);
+    if (UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropShieldsMax, c_unitPropCurrent) > 0.0) {
+        DialogControlSetSize(libHbr1_ui_bossBar_shield, PlayerGroupAll(), MaxI(1, FixedToInt(288.0 * UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropShieldsPercent, c_unitPropCurrent) / 100.0)), 8);
+        DialogControlSetVisible(libHbr1_ui_bossBar_shield, PlayerGroupAll(), (UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropShields, c_unitPropCurrent) > 0.0));
+    }
+    else {
+        DialogControlSetVisible(libHbr1_ui_bossBar_shield, PlayerGroupAll(), false);
+    }
+    lv_now = (UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropLife, c_unitPropCurrent) + UnitGetPropertyFixed(libHbr1_ui_bossBar_unit, c_unitPropShields, c_unitPropCurrent));
+    lv_invulnerable = UnitTestState(libHbr1_ui_bossBar_unit, c_unitStateInvulnerable);
+    if (lv_invulnerable != libHbr1_ui_bossBar_grey) {
+        libHbr1_ui_bossBar_grey = lv_invulnerable;
+        libHbr1_ui_bossBar_Paint();
+    }
+    if (lv_now < libHbr1_ui_bossBar_last) {
+        libHbr1_gf_FlashBossBar();
+    }
+    libHbr1_ui_bossBar_last = lv_now;
+    return true;
+}
+
+// The refresh loop, every 0.25 s while the bar shows; it hides the bar when the unit dies.
+bool libHbr1_ui_bossBar_LoopFunc (bool testConds, bool runActions) {
+    while (libHbr1_ui_bossBar_shown) {
+        if (!libHbr1_ui_bossBar_Refresh()) {
+            libHbr1_gf_HideBossBar();
+            break;
+        }
+        Wait(0.25, c_timeGame);
+    }
+    libHbr1_ui_bossBar_running = false;
+    return true;
+}
+
+void libHbr1_InitCustomScript () {
+}
+
+void libHbr1_gf_ShowBossBar (unit lp_unit, text lp_title, color lp_colour, fixed lp_mark1, fixed lp_mark2, fixed lp_mark3, fixed lp_mark4) {
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_bossBar_Hookup();
+    libHbr1_ui_bossBar_unit = lp_unit;
+    libHbr1_ui_bossBar_color = lp_colour;
+    libHbr1_ui_bossBar_grey = false;
+    libHbr1_ui_bossBar_last = (UnitGetPropertyFixed(lp_unit, c_unitPropLife, c_unitPropCurrent) + UnitGetPropertyFixed(lp_unit, c_unitPropShields, c_unitPropCurrent));
+    DialogControlSetPropertyAsText(libHbr1_ui_bossBar_title, c_triggerControlPropertyText, PlayerGroupAll(), lp_title);
+    libHbr1_ui_bossBar_PlaceMark(0, lp_mark1);
+    libHbr1_ui_bossBar_PlaceMark(1, lp_mark2);
+    libHbr1_ui_bossBar_PlaceMark(2, lp_mark3);
+    libHbr1_ui_bossBar_PlaceMark(3, lp_mark4);
+    libHbr1_ui_bossBar_Paint();
+    libHbr1_ui_bossBar_Refresh();
+    DialogControlSetVisible(libHbr1_ui_bossBar_panel, PlayerGroupAll(), true);
+    libHbr1_ui_bossBar_shown = true;
+    if (!libHbr1_ui_bossBar_running) {
+        libHbr1_ui_bossBar_running = true;
+        if (libHbr1_ui_bossBar_loop == null) {
+            libHbr1_ui_bossBar_loop = TriggerCreate("libHbr1_ui_bossBar_LoopFunc");
+        }
+        TriggerExecute(libHbr1_ui_bossBar_loop, false, false);
+    }
+}
+
+void libHbr1_gf_HideBossBar () {
+    // Automatic Variable Declarations
+    // Implementation
+    libHbr1_ui_bossBar_shown = false;
+    if (libHbr1_ui_bossBar_hooked) {
+        DialogControlSetVisible(libHbr1_ui_bossBar_panel, PlayerGroupAll(), false);
+    }
+}
+
+void libHbr1_gf_FlashBossBar () {
+    // Automatic Variable Declarations
+    // Implementation
+    if (libHbr1_ui_bossBar_hooked && !libHbr1_ui_bossBar_grey) {
+        DialogControlSendAnimationEvent(libHbr1_ui_bossBar_panel, PlayerGroupAll(), "Flash");
+    }
+}
+
+void libHbr1_gf_ShowBossBar (unit lp_unit, text lp_title, color lp_colour, fixed lp_mark1, fixed lp_mark2, fixed lp_mark3, fixed lp_mark4);
+void libHbr1_gf_HideBossBar ();
+void libHbr1_gf_FlashBossBar ();

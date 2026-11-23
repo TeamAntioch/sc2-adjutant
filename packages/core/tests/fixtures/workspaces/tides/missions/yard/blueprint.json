@@ -1,0 +1,32 @@
+{
+  "id": "yard",
+  "campaignId": "fixtures",
+  "title": "Yard",
+  "setting": "A yard a guard patrols, between the gate and the keep.",
+  "mapSize": { "width": 64, "height": 32 },
+  "zones": [
+    {
+      "id": "gate", "name": "Gate", "elevation": 1, "landform": "flat", "role": "refuge",
+      "polygon": [{ "x": 0, "y": 0 }, { "x": 16, "y": 0 }, { "x": 16, "y": 32 }, { "x": 0, "y": 32 }],
+      "connections": [{ "toZoneId": "yard", "type": "open" }]
+    },
+    {
+      "id": "yard", "name": "Yard", "elevation": 1, "landform": "flat", "role": "path",
+      "polygon": [{ "x": 16, "y": 0 }, { "x": 48, "y": 0 }, { "x": 48, "y": 32 }, { "x": 16, "y": 32 }],
+      "connections": [{ "toZoneId": "gate", "type": "open" }, { "toZoneId": "keep", "type": "open" }]
+    },
+    {
+      "id": "keep", "name": "Keep", "elevation": 1, "landform": "flat", "role": "objective",
+      "polygon": [{ "x": 48, "y": 0 }, { "x": 64, "y": 0 }, { "x": 64, "y": 32 }, { "x": 48, "y": 32 }],
+      "connections": [{ "toZoneId": "yard", "type": "open" }]
+    }
+  ],
+  "beats": [{ "id": "sneak", "title": "Sneak", "summary": "Cross the yard unseen." }],
+  "mechanics": [
+    {
+      "id": "guard", "type": "patrol",
+      "params": { "route": [{ "x": 32, "y": 2 }, { "x": 32, "y": 30 }], "sightRadius": 4, "speed": 2, "checkpointZoneId": "gate" }
+    }
+  ],
+  "screenplay": { "title": "Yard" }
+}
