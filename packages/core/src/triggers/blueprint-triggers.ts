@@ -371,16 +371,16 @@ function checkReferences(authored: AuthoredTriggers, kept: ReadonlyMap<string, s
     return `${name === undefined ? "" : ` ("${name}")`}, which the compile writes for a Blueprint concept and may change: ${REACT_THROUGH_CUES}`;
   };
   const elements = [
-    ...authored.triggers.map((entry) => ({ by: describeTrigger(entry), parts: triggerParts(entry.trigger), locals: new Set(entry.trigger.variables.map((variable) => variable.id)), parameters: new Set<string>(), types: entry.trigger.variables.map((variable) => variable.type), presets: [] as string[] })),
+    ...authored.triggers.map((entry) => ({ by: describeTrigger(entry), parts: triggerParts(entry.trigger), locals: new Set(entry.trigger.variables.map((variable) => variable.id)), parameters: new Set<string>(), types: entry.trigger.variables.map((variable) => ({ spec: variable.type as TypeSpec, what: "declares a variable" })), presets: [] as string[] })),
     ...(authored.functions ?? []).map((entry) => ({
       by: describeFunction(entry),
       parts: functionParts(entry.fn),
       locals: new Set(entry.fn.variables.map((variable) => variable.id)),
       parameters: new Set(entry.fn.parameters.map((parameter) => parameter.id)),
-      types: [...entry.fn.variables.map((variable) => variable.type), ...entry.fn.parameters.map((parameter) => parameter.type), ...(entry.fn.returns ? [entry.fn.returns] : [])],
+      types: [...entry.fn.variables.map((variable) => ({ spec: variable.type as TypeSpec, what: "declares a variable" })), ...entry.fn.parameters.map((parameter) => ({ spec: parameter.type as TypeSpec, what: "has a parameter" })), ...(entry.fn.returns ? [{ spec: entry.fn.returns as TypeSpec, what: "returns a value" }] : [])],
       presets: entry.fn.parameters.flatMap((parameter) => [parameter.preset ?? []].flat()),
     })),
-    ...(authored.variables ?? []).map((variable) => ({ by: describeGlobal(variable), parts: globalParts(variable), locals: new Set<string>(), parameters: new Set<string>(), types: [variable.type], presets: [] as string[] })),
+    ...(authored.variables ?? []).map((variable) => ({ by: describeGlobal(variable), parts: globalParts(variable), locals: new Set<string>(), parameters: new Set<string>(), types: [{ spec: variable.type as TypeSpec, what: "declares a variable" }], presets: [] as string[] })),
   ];
   for (const { by, parts, locals, parameters, types, presets } of elements) {
     const out = new Set<string>();
@@ -427,10 +427,16 @@ function checkReferences(authored: AuthoredTriggers, kept: ReadonlyMap<string, s
       return undefined;
     };
     // A variable's or parameter's preset type, from a library in reach or the map's own.
-    for (const type of types as readonly TypeSpec[]) {
-      if (type.type !== "preset" || type.element === undefined) continue;
-      const why = inReach(type.element, "presets", "Preset");
-      if (why) refuse(`declares a variable of the preset type ${type.element}, which is out of reach: ${why}`);
+    for (const { spec: type, what } of types) {
+      if (type.type === "preset" && type.element !== undefined) {
+        const why = inReach(type.element, "presets", "Preset");
+        if (why) refuse(`${what} of the preset type ${type.element}, which is out of reach: ${why}`);
+      }
+      // The map's own record type and the constant an array is sized by, among the Kept elements and the Blueprint's (a library's are checked when the library is read).
+      if (type.type === "struct" && type.element !== undefined && !type.element.includes("/") && !keptHas("Structure", type.element)) refuse(`${what} of the record type ${type.element}, which is out of reach: the map has no Kept Structure ${type.element}`);
+      for (const bound of type.array ?? []) {
+        if ("variable" in bound && !bound.variable.includes("/") && !globals.has(bound.variable) && !keptHas("Variable", bound.variable)) refuse(`${what} that is an array sized by the variable ${bound.variable}, which is neither a Blueprint nor a Kept global`);
+      }
     }
     for (const preset of presets) {
       const why = inReach(preset, "presets", "Preset");

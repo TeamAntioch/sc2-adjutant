@@ -37,6 +37,11 @@ describe("spliceMapScript", () => {
     expect(content).toContain(`// Global Function Declarations\r\n${rule}\r\nvoid gf_Ping ();\r\n\r\n${rule}\r\n// Trigger Variables\r\n`);
     expect(content).toContain(`// Global Functions\r\n${rule}\r\n${definition}${rule}\r\n// Trigger: Kept Start\r\n`);
     expect(spliceMapScript(content, undefined, blocks.map((block) => block.id)).content).toBe(keptScript);
+
+    // Written whole, the script's function sections are the compile's too, so a later splice takes them out once empty.
+    const whole = scriptBlocks(generated).map((block) => block.id);
+    expect(whole).toEqual(["function-declarations", "function-declaration:gf_Ping", "functions", "function:gf_Ping"]);
+    expect(spliceMapScript(generated, undefined, whole).content).not.toContain("// Global Function");
   });
 
   it("leaves the section the compile added when the author has declared a global in it since", () => {

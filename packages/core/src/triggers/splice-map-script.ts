@@ -418,7 +418,15 @@ export function spliceMapScript(
  */
 export function scriptBlocks(script: string): GalaxyBlock[] {
   const eol = eolOf(script);
-  return generatedPieces(script, script).map((piece) => ({ id: piece.id, fingerprint: fingerprint(piece.text.replace(/\r?\n/g, eol)) }));
+  const pieces = generatedPieces(script, script);
+  // The function sections are the compile's own (no Editor-saved script was there to hold them): recorded before what they hold, so a later splice takes them out once empty.
+  const sections = generatedPieces(script, "").filter((piece) => piece.id === "function-declarations" || piece.id === "functions");
+  const at = (id: string): number => pieces.findIndex((piece) => piece.id.startsWith(`${id}:`));
+  for (const section of sections) {
+    const index = at(section.id === "functions" ? "function" : "function-declaration");
+    pieces.splice(index < 0 ? pieces.length : index, 0, section);
+  }
+  return pieces.map((piece) => ({ id: piece.id, fingerprint: fingerprint(piece.text.replace(/\r?\n/g, eol)) }));
 }
 
 /**

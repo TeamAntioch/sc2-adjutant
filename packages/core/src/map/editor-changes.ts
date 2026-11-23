@@ -230,7 +230,7 @@ function sameObject(a: string, b: string): boolean {
 }
 
 /** The name of a trigger or variable in the package's TriggerStrings, by element Id. */
-export function triggerStringName(strings: string | undefined, type: "Trigger" | "Variable", id: string): string | undefined {
+export function triggerStringName(strings: string | undefined, type: "Trigger" | "Variable" | "FunctionDef", id: string): string | undefined {
   return strings && new RegExp(`^${type}/Name/${id}=([^\\r\\n]*)`, "m").exec(strings.replace(/^﻿/, ""))?.[1];
 }
 

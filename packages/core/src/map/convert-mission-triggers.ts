@@ -143,7 +143,8 @@ export function convertKeptTriggers(
   const refused: { trigger: string; id: string; reason: string }[] = [];
   const refusedFunctions: { function: string; id: string; reason: string }[] = [];
   for (const wanted of asked ?? []) {
-    const already = inBlueprint.find((each) => each.id === wanted || each.name === wanted);
+    // A name a Kept element still has is that one's: the Blueprint's namesake of another kind isn't asked for.
+    const already = kept.some((item) => item.id === wanted || item.name === wanted) ? undefined : inBlueprint.find((each) => each.id === wanted || each.name === wanted);
     if (!already) continue;
     const reason = `the Blueprint already holds it, in ${already.file}`;
     if (already.type === "Trigger") refused.push({ trigger: already.name, id: already.id, reason });
