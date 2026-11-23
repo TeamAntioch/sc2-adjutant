@@ -109,7 +109,11 @@ export function editorTypeName(libraries: Readonly<Record<string, GameLibrary>>,
   return types[type] ?? type;
 }
 
-/** Each set of libraries in reach's index, built once: the authoring tool resolves a name for every call it writes, and an outline each again. */
+/**
+ * The index of each record of libraries in reach, built the first time it is searched: the authoring
+ * tool resolves a name for every call it writes, and an outline resolves each again. A record isn't
+ * changed once searched (missionLibraries and librariesInReach fill theirs before they return it).
+ */
 const INDEXES = new WeakMap<Readonly<Record<string, GameLibrary>>, readonly Indexed[]>();
 
 /** Every function in reach, indexed for search, library by library in reach order. */

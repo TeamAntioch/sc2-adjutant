@@ -4,6 +4,10 @@
 // blueprintTriggerFile) and its Galaxy is written by the one engine. What can't be is refused, and
 // each refusal is on the known list (library-refusals.json) by reason; a refusal not on it, or one
 // listed that no longer happens, fails. `UPDATE_REFUSALS=1` rewrites the list.
+//
+// A parameter whose library default is a call leaving out a parameter (Sine's Facing Angle Of Unit,
+// with no Unit) is given that call filled in, so the function itself is measured; what the tool
+// does with the default as the library holds it is listed apart (`defaultsLeavingOut`).
 import { readFileSync, writeFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
@@ -21,18 +25,29 @@ const EMPTY_TRIGGERS = '<?xml version="1.0" encoding="utf-8"?>\r\n<TriggerData>\
 /** A map with nothing of its own: every call is the game's. */
 const MAP: MapReach = { functions: [], globals: [], triggers: [] };
 const NAME = "Library Call";
-/** The local variable an Any Variable parameter is given, or Set Variable sets to a function's value; and a placeholder's words. */
-const LOCAL = "Placeholder";
+/** A placeholder's words, and the name of its locals: an Integer one (what Any Variable is given), and one per other type, named after it. */
+const PLACEHOLDER = "Placeholder";
 /** Set Variable and Comparison, which hold a function's value. */
 const SET_VARIABLE = "Ntve/00000136";
 const COMPARISON = "Ntve/C439C375";
 
 type Holder = { readonly call: AuthoringCall; readonly param: string };
 type InReach = { readonly library: string; readonly ref: string; readonly fn: GameFunction; readonly lib: GameLibrary };
+/** What the known list holds: each reason with the functions refused for it, and what the tool does with the defaults leaving out a parameter. */
+type KnownList = { readonly refused: Record<string, string[]>; readonly defaultsLeavingOut: Record<string, string[]> };
 
 const ref = (library: string, id: string): string => `${library}/${id}`;
+/** A `<library>/<id>` reference's library and id. */
+const parts = (reference: string): [library: string, id: string] => reference.split("/") as [string, string];
 const sameType = (a: TypeSpec, b: TypeSpec): boolean => a.type === b.type && a.element === b.element && a.gameType === b.gameType;
 const localType = (type: TypeSpec): boolean => LOCAL_VARIABLE_TYPES.has(type.type) && type.element === undefined && type.gameType === undefined;
+const localName = (type: string): string => (type === "int" ? PLACEHOLDER : `${PLACEHOLDER} ${type}`);
+
+/** `key`'s value in `cache`, made by `make` the first time. */
+function memo<T>(cache: Map<string, T>, key: string, make: () => T): T {
+  if (!cache.has(key)) cache.set(key, make());
+  return cache.get(key)!;
+}
 
 /** Placeholder arguments: the value a parameter a call must be given is given, by its type. */
 class Placeholders {
@@ -43,7 +58,11 @@ class Placeholders {
   private readonly holders = new Map<string, Holder | undefined>();
   private readonly placeholders = new Map<string, AuthoringValue | undefined>();
 
-  constructor(private readonly libraries: Readonly<Record<string, GameLibrary>>) {
+  /** `fillDefaults`: whether a parameter whose default is a call leaving out a parameter is given that call filled in, else left to its default. */
+  constructor(
+    private readonly libraries: Readonly<Record<string, GameLibrary>>,
+    private readonly fillDefaults = true,
+  ) {
     const all = Object.entries(libraries).flatMap(([library, lib]) => Object.entries(lib.functions).map(([id, fn]) => ({ library, ref: ref(library, id), fn, lib })));
     const plain = ({ fn }: InReach): boolean => !fn.flags.includes("hidden") && !fn.subFunctions?.length;
     this.values = all
@@ -53,23 +72,30 @@ class Placeholders {
   }
 
   /**
-   * A function's parameters a call must be given: those with no default, and those whose default is
-   * a call leaving out a parameter (Order With No Target, with no Ability Command; Sine's Facing
-   * Angle Of Unit, with no Unit), which the tool copies as it stands and can't write back or compile.
-   * Such a one is given a call to the same function, filled in.
+   * A function's parameters a call must be given: those with no default, and (`fillDefaults`) those
+   * whose default is a call leaving out a parameter (Order With No Target, with no Ability Command;
+   * Sine's Facing Angle Of Unit, with no Unit), each with the function that call is to.
    */
   unfilled(fn: GameFunction, lib: GameLibrary): { readonly id: string; readonly param: GameParameter | undefined; readonly call?: string }[] {
     return fn.params.flatMap((id) => {
       const param = lib.params[id];
       if (param?.default === undefined) return [{ id, param }];
-      const call = "call" in param.default ? param.default.call : undefined;
+      const call = this.fillDefaults && "call" in param.default ? param.default.call : undefined;
       return call && this.leavesOut(call) ? [{ id, param, call: call.function }] : [];
+    });
+  }
+
+  /** Whether a function has a parameter whose default is a call leaving out a parameter. */
+  defaultLeavesOut(fn: GameFunction, lib: GameLibrary): boolean {
+    return fn.params.some((id) => {
+      const fallback = lib.params[id]?.default;
+      return fallback !== undefined && "call" in fallback && this.leavesOut(fallback.call);
     });
   }
 
   /** Whether `call` leaves out a parameter of its function. */
   private leavesOut(call: { readonly function: string; readonly params?: readonly { readonly def: string }[] }): boolean {
-    const [library, id] = call.function.split("/") as [string, string];
+    const [library, id] = parts(call.function);
     const fn = this.libraries[library]?.functions[id];
     const given = new Set((call.params ?? []).map((param) => param.def));
     return fn !== undefined && fn.params.some((param) => !given.has(ref(library, param)));
@@ -81,7 +107,7 @@ class Placeholders {
     for (const { id, param, call } of this.unfilled(fn, lib)) {
       let value: AuthoringValue | undefined;
       if (call !== undefined) {
-        const [owner, callee] = call.split("/") as [string, string];
+        const [owner, callee] = parts(call);
         const inner = this.libraries[owner]?.functions[callee];
         const params = inner && depth < 2 ? this.params(inner, this.libraries[owner]!, owner, depth + 1) : undefined;
         value = params && { function: call, params };
@@ -95,10 +121,10 @@ class Placeholders {
     return out;
   }
 
-  /** A parameter's type; a Same As one's, the parameter's it names (an Any Variable's, the placeholder local's). */
+  /** A parameter's type; a Same As one's, the parameter's it names (an Any Variable's, the Integer local's). */
   private typeOf(param: GameParameter, lib: GameLibrary, library: string): TypeSpec | undefined {
     if (param.type === "sameas" && param.element) {
-      const [owner, id] = param.element.split("/") as [string, string];
+      const [owner, id] = parts(param.element);
       const named = (owner === library ? lib : this.libraries[owner])?.params[id];
       return named?.type === "anyvariable" ? { type: "int" } : named && this.typeOf(named, lib, library);
     }
@@ -106,11 +132,9 @@ class Placeholders {
     return { type: param.type, ...(param.element ? { element: param.element } : {}), ...(param.gameType ? { gameType: param.gameType } : {}) };
   }
 
-  /** A placeholder of `type`: a plain literal where it has one, else a call to the plainest function giving it, else the placeholder local, else a literal of it. */
+  /** A placeholder of `type`: a plain literal where it has one, else a call to the plainest function giving it, else a local of it, else a literal of it. */
   value(type: TypeSpec, depth = 0): AuthoringValue | undefined {
-    const key = `${depth} ${JSON.stringify(type)}`;
-    if (!this.placeholders.has(key)) this.placeholders.set(key, this.placeholder(type, depth));
-    return this.placeholders.get(key);
+    return memo(this.placeholders, `${depth} ${JSON.stringify(type)}`, () => this.placeholder(type, depth));
   }
 
   private placeholder(type: TypeSpec, depth: number): AuthoringValue | undefined {
@@ -125,21 +149,21 @@ class Placeholders {
         return false;
       case "string":
       case "actormsg":
-        return LOCAL;
+        return PLACEHOLDER;
       case "text":
-        return { text: LOCAL };
+        return { text: PLACEHOLDER };
       case "trigger":
         return { trigger: NAME };
       case "anyvariable":
-        return { variable: LOCAL };
+        return { variable: localName("int") };
       case "gamelink":
-        if (type.gameType) return LOCAL;
+        if (type.gameType) return PLACEHOLDER;
         break;
       case "anygamelink":
-        return { value: LOCAL, type: "gamelink", gameType: "Unit" };
+        return { value: PLACEHOLDER, type: "gamelink", gameType: "Unit" };
       case "preset":
       case "anypreset": {
-        const [library = "Ntve", id] = type.element?.split("/") ?? [];
+        const [library = "Ntve", id] = type.element ? parts(type.element) : [];
         const preset = id ? this.libraries[library]?.presets[id] : Object.values(this.libraries.Ntve?.presets ?? {}).find((each) => !each.bits && each.values?.length);
         if (preset?.bits) return { bits: [] };
         const first = preset?.values?.[0];
@@ -154,20 +178,22 @@ class Placeholders {
         const params = this.params(candidate.fn, candidate.lib, candidate.library, depth + 1);
         if (params) return { function: candidate.ref, ...(Object.keys(params).length ? { params } : {}) };
       }
-    if (localType(type)) return { variable: LOCAL };
-    return { value: LOCAL, type: type.type, ...(type.gameType ? { gameType: type.gameType } : {}) };
+    if (localType(type)) return { variable: localName(type.type) };
+    return { value: PLACEHOLDER, type: type.type, ...(type.gameType ? { gameType: type.gameType } : {}) };
   }
 
-  /** A block slot's name and what it holds. */
-  slot(library: string, id: string): { readonly name: string; readonly holds?: "action" | "condition" } | undefined {
-    return this.libraries[library]?.slots?.[id];
+  /** The name of each block slot of `fn` that holds conditions (If Then Else's If). */
+  conditionSlots(fn: GameFunction): string[] {
+    return (fn.subFunctions ?? []).flatMap((slot) => {
+      const [library, id] = parts(slot);
+      const found = this.libraries[library]?.slots?.[id];
+      return found?.holds === "condition" ? [found.name] : [];
+    });
   }
 
   /** The plainest action with a parameter of `type` (by reference), its others given placeholders: what holds a value no local can have the type of. */
   holder(type: TypeSpec): Holder | undefined {
-    const key = JSON.stringify(type);
-    if (!this.holders.has(key)) this.holders.set(key, this.findHolder(type));
-    return this.holders.get(key);
+    return memo(this.holders, JSON.stringify(type), () => this.findHolder(type));
   }
 
   private findHolder(type: TypeSpec): Holder | undefined {
@@ -185,11 +211,23 @@ class Placeholders {
   }
 }
 
+/** The placeholder locals `value` names, each declared of the type its name is for. */
+function localsNamed(value: unknown, into = new Map<string, string>()): Map<string, string> {
+  if (Array.isArray(value)) for (const each of value) localsNamed(each, into);
+  else if (value !== null && typeof value === "object") {
+    const { variable } = value as { variable?: unknown };
+    if (typeof variable === "string" && (variable === PLACEHOLDER || variable.startsWith(`${PLACEHOLDER} `))) into.set(variable, variable === PLACEHOLDER ? "int" : variable.slice(PLACEHOLDER.length + 1));
+    for (const each of Object.values(value)) localsNamed(each, into);
+  }
+  return into;
+}
+
 /**
  * A trigger calling `fn` from placeholder arguments, where its kind has it stand: an event among the
  * events, a condition among the conditions, an action among the actions; any other function's value
  * set to a local of its type (Set Variable), else given to the plainest action taking it, else
- * compared with a placeholder (Comparison). A string is why it can't be placed.
+ * compared with a placeholder (Comparison). A block's condition slots each hold a Comparison, as a
+ * new one does in the Editor (the engine writes no empty one). A string is why it can't be placed.
  */
 function callingTrigger(at: InReach, placeholders: Placeholders): AuthoringTrigger | string {
   const { fn } = at;
@@ -198,26 +236,25 @@ function callingTrigger(at: InReach, placeholders: Placeholders): AuthoringTrigg
     return fn.params.some((param) => at.lib.params[param] === undefined)
       ? "a parameter of it isn't in the library data"
       : "a parameter it must be given has no placeholder: no literal, function or local gives its type";
-  // A block's condition slots (If Then Else's If) each hold a Comparison as a new one is: the engine writes no empty one.
-  const conditionSlots = (fn.subFunctions ?? []).flatMap((slot) => {
-    const [owner, id] = slot.split("/") as [string, string];
-    const found = id === undefined ? undefined : placeholders.slot(owner, id);
-    return found?.holds === "condition" ? [found.name] : [];
-  });
-  const blocks = Object.fromEntries(conditionSlots.map((name) => [name, [{ function: COMPARISON }]]));
-  const call: AuthoringCall = { function: at.ref, ...(Object.keys(params).length ? { params } : {}), ...(conditionSlots.length ? { blocks } : {}) };
-  const local = (type: TypeSpec): AuthoringVariable[] => [{ name: LOCAL, type: { type: type.type } }];
-  // A placeholder naming the local has it an Integer (Any Variable's).
-  const variables = JSON.stringify(params).includes(`{"variable":"${LOCAL}"}`) ? local({ type: "int" }) : [];
-  if (fn.flags.includes("event")) return { name: NAME, variables, events: [call] };
-  if (fn.flags.includes("condition")) return { name: NAME, variables, conditions: [call] };
-  if (fn.flags.includes("action") || fn.returns === undefined) return { name: NAME, variables, actions: [call] };
-  if (localType(fn.returns) && variables.length === 0) return { name: NAME, variables: local(fn.returns), actions: [{ function: SET_VARIABLE, params: { Variable: { variable: LOCAL }, Value: call } }] };
+  const slots = placeholders.conditionSlots(fn);
+  const call: AuthoringCall = {
+    function: at.ref,
+    ...(Object.keys(params).length ? { params } : {}),
+    ...(slots.length ? { blocks: Object.fromEntries(slots.map((name) => [name, [{ function: COMPARISON }]])) } : {}),
+  };
+  const trigger = (body: Omit<AuthoringTrigger, "name">): AuthoringTrigger => {
+    const variables: AuthoringVariable[] = [...localsNamed(body)].map(([name, type]) => ({ name, type: { type } }));
+    return { name: NAME, ...(variables.length ? { variables } : {}), ...body };
+  };
+  if (fn.flags.includes("event")) return trigger({ events: [call] });
+  if (fn.flags.includes("condition")) return trigger({ conditions: [call] });
+  if (fn.flags.includes("action") || fn.returns === undefined) return trigger({ actions: [call] });
+  if (localType(fn.returns)) return trigger({ actions: [{ function: SET_VARIABLE, params: { Variable: { variable: localName(fn.returns.type) }, Value: call } }] });
   const holder = placeholders.holder(fn.returns);
-  if (holder) return { name: NAME, variables, actions: [{ ...holder.call, params: { ...holder.call.params, [holder.param]: call } }] };
+  if (holder) return trigger({ actions: [{ ...holder.call, params: { ...holder.call.params, [holder.param]: call } }] });
   const other = placeholders.value(fn.returns);
   if (other === undefined) return `no placeholder of its type (${fn.returns.type}) to compare its value with`;
-  return { name: NAME, variables, conditions: [{ function: COMPARISON, params: { "Value 1": call, "Value 2": other } }] };
+  return trigger({ conditions: [{ function: COMPARISON, params: { "Value 1": call, "Value 2": other } }] });
 }
 
 /** Where the authoring tool refuses `input`, its outline can't express it, the outline writes other bytes, or the engine can't write its Galaxy: why. */
@@ -242,22 +279,37 @@ const reasonOf = (problem: string): string =>
     .replace(/^(?:its outline can't express )?(?:action|condition|event) \d+ \(.*?\)(?:, [^:]*?)?: /, (place) => (place.startsWith("its outline") ? "its outline can't express " : ""))
     .replace(/\b[0-9A-F]{8}\b/g, "<id>");
 
+/** Each reason's functions, the reasons sorted. */
+const byReason = (found: Record<string, string[]>): Record<string, string[]> => Object.fromEntries(Object.entries(found).sort(([a], [b]) => a.localeCompare(b)));
+
 describe("every function in the game's library data", () => {
   it("is written by the authoring tool from placeholder arguments, outlines and writes back to the same bytes and compiles, or is refused for a known reason", async () => {
     const libraries = gameTriggerLibraries();
     const placeholders = new Placeholders(libraries);
+    const asHeld = new Placeholders(libraries, false);
     const refused: Record<string, string[]> = {};
-    let count = 0;
+    const defaultsLeavingOut: Record<string, string[]> = {};
+    const problemsOf = (at: InReach, from: Placeholders): readonly string[] => {
+      const input = callingTrigger(at, from);
+      return typeof input === "string" ? [input] : roundTripProblems(input, libraries);
+    };
+    let yielded = Date.now();
     for (const [library, lib] of Object.entries(libraries))
       for (const [id, fn] of Object.entries(lib.functions)) {
-        // The worker answers vitest between batches, which times its calls out otherwise.
-        if (++count % 100 === 0) await new Promise((resolve) => setImmediate(resolve));
+        // The worker answers vitest every so often, which times its calls out otherwise (on a loaded machine too).
+        if (Date.now() - yielded > 100) {
+          await new Promise((resolve) => setImmediate(resolve));
+          yielded = Date.now();
+        }
         const at = { library, ref: ref(library, id), fn, lib };
-        const input = callingTrigger(at, placeholders);
-        const problems = typeof input === "string" ? [input] : roundTripProblems(input, libraries);
-        for (const reason of new Set(problems.map(reasonOf))) (refused[reason] ??= []).push(`${at.ref} ${fn.name ?? fn.identifier ?? ""}`.trim());
+        const name = `${at.ref} ${fn.name ?? fn.identifier ?? ""}`.trim();
+        for (const reason of new Set(problemsOf(at, placeholders).map(reasonOf))) (refused[reason] ??= []).push(name);
+        if (placeholders.defaultLeavesOut(fn, lib)) {
+          const problems = problemsOf(at, asHeld);
+          for (const reason of problems.length ? new Set(problems.map(reasonOf)) : ["written back and compiled"]) (defaultsLeavingOut[reason] ??= []).push(name);
+        }
       }
-    const known = Object.fromEntries(Object.entries(refused).sort(([a], [b]) => a.localeCompare(b)));
+    const known: KnownList = { refused: byReason(refused), defaultsLeavingOut: byReason(defaultsLeavingOut) };
     if (process.env.UPDATE_REFUSALS) writeFileSync(REFUSALS, `${JSON.stringify(known, null, 2)}\n`);
     expect(known).toEqual(JSON.parse(readFileSync(REFUSALS, "utf8")));
   }, 300_000);
