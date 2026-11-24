@@ -25,7 +25,8 @@ import {
 import { type SlotKind, type Spec, type SpecUnit, readSpec } from "./spec.ts";
 
 /** The runtime the spec's data is put into. */
-export const RUNTIME_PATH = fileURLToPath(new URL(import.meta.url.includes("/dist/") ? "../runtime/testbed.galaxy" : "./runtime/testbed.galaxy", import.meta.url));
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+export const RUNTIME_PATH = path.join(HERE, path.basename(HERE) === "dist" ? ".." : ".", "runtime", "testbed.galaxy");
 export const SCRIPT_ID = "E7710200";
 export const INIT_FUNC = "Tb_Init";
 /** The bank a --capture build's tour announces its stops in. */
@@ -97,6 +98,7 @@ export function parseCue(cue: string, defaultBase: number): { cue?: Cue; problem
     stop = s.at;
   }
   const actor = /^(actor|target)(?::(\S+))?\s+(.+)$/.exec(what);
+  if (actor && stopBase >= 0) return { problem: `"${cue}" has a stop (~), which only a sound can have` };
   if (actor) return { cue: { kind: actor[1] === "actor" ? CUE_ACTOR : CUE_TARGET, text: actor[3]!.trim(), child: actor[2] ?? "", base: at.base, at: at.at, stopBase, stop } };
   if (!/^[A-Za-z_][\w]*$/.test(what)) return { problem: `"${cue}" is neither a CSound id nor "actor <message>"` };
   return { cue: { kind: CUE_SOUND, text: what, child: "", base: at.base, at: at.at, stopBase, stop } };
@@ -170,7 +172,10 @@ function animMatches(props: readonly string[], fullMatch: boolean, clips: readon
 // ---------------------------------------------------------------------------------------------------
 // Writing
 
+/** A Galaxy string literal. A Galaxy string can't hold a line break, a tab or another control character: the build refuses them first (controlChars). */
 const gstr = (s: string): string => `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+/** Whether `s` holds a character a Galaxy string literal can't. */
+const controlChars = (s: string): boolean => /[\u0000-\u001f\u007f]/.test(s);
 const gfix = (n: number): string => {
   const r = Math.round(n * 10000) / 10000;
   return Number.isInteger(r) ? `${r}.0` : String(r);
@@ -181,6 +186,7 @@ const CATALOGS: readonly (readonly [string, string])[] = [
   ["CActor", "ActorData.xml"],
   ["CModel", "ModelData.xml"],
   ["CUnit", "UnitData.xml"],
+  ["CSoundtrack", "SoundtrackData.xml"],
   ["CSound", "SoundData.xml"],
   ["CEffect", "EffectData.xml"],
   ["CBehavior", "BehaviorData.xml"],
@@ -205,7 +211,7 @@ const globRegex = (glob: string): RegExp =>
   );
 
 /** Top-level elements of an XML <Catalog> file, as text with their tag. Comments are dropped. */
-function catalogElements(xml: string): { tag: string; text: string }[] {
+function catalogElements(xml: string): { elements: { tag: string; text: string }[]; problem?: string } {
   const body = xml.replace(/<!--[\s\S]*?-->/g, "").replace(/<\?xml[^>]*\?>/, "");
   const inner = /<Catalog\b[^>]*>([\s\S]*)<\/Catalog>/.exec(body)?.[1] ?? "";
   const out: { tag: string; text: string }[] = [];
@@ -235,11 +241,11 @@ function catalogElements(xml: string): { tag: string; text: string }[] {
         break;
       }
     }
-    if (end < 0) break;
+    if (end < 0) return { elements: out, problem: `<${tag}> at "${inner.slice(m.index, m.index + 60).split("\n")[0]}" has no closing </${tag}>` };
     out.push({ tag, text: inner.slice(m.index, end) });
     i = end;
   }
-  return out;
+  return { elements: out };
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -257,6 +263,13 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     return { report, outMap: "", scriptPath: "", name: name0, built: false, counts: empty };
   }
   const spec: Spec = read.spec;
+  const walk = (value: unknown, at: string): void => {
+    if (typeof value === "string") {
+      if (controlChars(value)) report.errors.push(`${at}: holds a line break, tab or other control character, which a Galaxy string can't`);
+    } else if (Array.isArray(value)) value.forEach((item, i) => walk(item, `${at}.${i}`));
+    else if (value && typeof value === "object") for (const [k, v] of Object.entries(value)) walk(v, at ? `${at}.${k}` : k);
+  };
+  walk(spec, "");
   const roots = Object.fromEntries(Object.entries(spec.roots).map(([k, v]) => [k, v.replace(/^~(?=$|[\\/])/, os.homedir())]));
   /** A spec path: `<root>:path` with a root from `roots`, else relative to the spec. */
   const resolve = (p: string): string => {
@@ -317,7 +330,9 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
       report.errors.push(`data file ${df} has no <Catalog>`);
       continue;
     }
-    for (const el of catalogElements(xml)) {
+    const { elements, problem } = catalogElements(xml);
+    if (problem) report.errors.push(`data file ${df}: ${problem}`);
+    for (const el of elements) {
       const catalog = catalogFor(el.tag);
       if (!catalog) {
         report.errors.push(`${df}: no catalog for <${el.tag}>`);
@@ -338,10 +353,13 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     const from = resolve(sound.from);
     const found = new Map<string, string>();
     if (existsSync(from)) {
+      const clashes = new Set<string>();
       for (const rel of await readdir(from, { recursive: true })) {
         const key = path.basename(rel).toLowerCase();
-        if (!found.has(key)) found.set(key, path.join(from, rel));
+        if (found.has(key)) clashes.add(key);
+        else found.set(key, path.join(from, rel));
       }
+      for (const key of clashes) if (sound.files.some((pattern) => globRegex(pattern).test(key))) report.errors.push(`sound ${id}: more than one file in ${from} is named ${key}; give "from" the folder that holds the one you mean`);
     } else report.errors.push(`sound ${id}: the folder ${from} is missing`);
     const picked: string[] = [];
     for (const pattern of sound.files) {
@@ -353,7 +371,8 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     soundXml += `    <CSound id="${xesc(id)}" parent="${xesc(sound.parent)}">\n`;
     for (const hit of picked) {
       const file = found.get(hit)!;
-      const to = `Assets/Sounds/${name}/${path.basename(file)}`;
+      // Each CSound's files in a folder of its own, so two CSounds' files of one name don't overwrite each other.
+      const to = `Assets/Sounds/${name}/${id}/${path.basename(file)}`;
       copies.push({ from: file, to });
       soundXml += `        <AssetArray File="${xesc(to.replace(/\//g, "\\"))}"/>\n`;
     }
@@ -366,6 +385,16 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   // ---- Units: new ones get their files and data; each gets the clips it's checked against
   const clipsOf = new Map<number, M3Sequence[] | undefined>();
   const allTextureDirs = spec.units.flatMap((u) => (u.new ? u.new.textures.map(resolve) : []));
+  const keys = new Set<string>();
+  const newIds = new Set<string>();
+  for (const unit of spec.units) {
+    if (keys.has(unit.key)) report.errors.push(`units: the key "${unit.key}" is given twice`);
+    keys.add(unit.key);
+    if (!unit.new) continue;
+    if (newIds.has(unit.new.id)) report.errors.push(`units: two new units have the id "${unit.new.id}"`);
+    if (hasUnit(unit.new.id)) report.errors.push(`${unit.key}: the new unit's id "${unit.new.id}" is already a unit of the game or the Workspace; give it an id of its own`);
+    newIds.add(unit.new.id);
+  }
   for (const [ui, unit] of spec.units.entries()) {
     if (unit.new) {
       const nw = unit.new;
@@ -540,7 +569,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
       }
       const unit = spec.units[ui]!;
       const ci = stop.clip === undefined ? 0 : typeof stop.clip === "number" ? stop.clip - 1 : unit.clips.findIndex((c) => c.name === stop.clip);
-      if (ci < 0 || (unit.clips.length > 0 && ci >= unit.clips.length)) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no clip ${String(stop.clip)}`);
+      if (ci < 0 || (stop.clip !== undefined && ci >= unit.clips.length)) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no clip ${String(stop.clip)}`);
       const variations = unit.variations[stop.slot] ?? [];
       const vi = stop.variation !== undefined ? stop.variation - 1 : Math.max(0, variations.findLastIndex((v) => v.pick));
       if (stop.variation !== undefined && vi >= variations.length) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no ${stop.slot} variation ${stop.variation}`);
@@ -549,6 +578,14 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     }
   }
 
+  // A file two units name (a shared texture) is copied once.
+  const seenTo = new Set<string>();
+  for (let i = copies.length - 1; i >= 0; i--) {
+    const key = copies[i]!.to.toLowerCase();
+    if (seenTo.has(key)) copies.splice(i, 1);
+    else seenTo.add(key);
+  }
+  copies.reverse();
   for (const { from } of copies) if (!existsSync(from)) report.errors.push(`${from} is missing`);
 
   const stage = spec.stage;
@@ -592,6 +629,8 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   await mkdir(path.dirname(outMap), { recursive: true });
   await writeFile(scriptPath, `${script}\n`);
 
+  // A message repeated (one site op on several actors) is said once.
+  for (const list of [report.errors, report.warnings, report.notes]) list.splice(0, list.length, ...new Set(list));
   const counts = { units: spec.units.length, slots: slots.length, variations: nv, cues: nq, files: copies.length };
   if (report.errors.length || options.check) return { report, outMap, scriptPath, script, name, built: false, counts };
 

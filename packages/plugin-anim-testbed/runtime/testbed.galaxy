@@ -420,7 +420,7 @@ void Tb_Play (bool withCues) {
 
     if (k == TB_KIND_HIT && tb_uHitClear[u] > 0.0) {
         if (ran < tb_uHitClear[u]) { Wait(tb_uHitClear[u] - ran, c_timeGame); }
-        ActorSend(ua, "AnimClear Hit");
+        ActorSend(ua, "AnimClear " + StringWord(tb_uHit[u], 2));
         ran = MaxF(ran, tb_uHitClear[u]);
     }
     if (k == TB_KIND_DEATH) {

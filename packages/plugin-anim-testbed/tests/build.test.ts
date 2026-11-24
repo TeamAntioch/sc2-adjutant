@@ -60,6 +60,7 @@ describe("times and cues", () => {
     expect(parseCue("target AnimPlay Hit Hit NonLooping", 0).cue).toMatchObject({ kind: 2, text: "AnimPlay Hit Hit NonLooping", at: 0 });
     expect(parseCue("Two Words", 0).problem).toMatch(/neither a CSound id/);
     expect(parseCue("Marine_Yes@later", 0).problem).toMatch(/not a time/);
+    expect(parseCue("actor Create TestBurst@0.1~1", 0).problem).toMatch(/only a sound can have/);
   });
 
   it("times an impact slot's plain numbers from the land", () => {
@@ -172,8 +173,43 @@ describe("buildTestbed", () => {
     expect(result.counts.files).toBe(2);
     const sounds = await readFile(path.join(outMap, "Base.SC2Data", "GameData", "SoundData.xml"), "utf8");
     expect(sounds).toContain('<CSound id="Test_Grunt" parent="Combat">');
-    expect(sounds).toContain('<AssetArray File="Assets\\Sounds\\StockUnits\\grunt_01.wav"/>');
-    expect(existsSync(path.join(outMap, "Assets", "Sounds", "StockUnits", "grunt_02.wav"))).toBe(true);
+    expect(sounds).toContain('<AssetArray File="Assets\\Sounds\\StockUnits\\Test_Grunt\\grunt_01.wav"/>');
+    expect(existsSync(path.join(outMap, "Assets", "Sounds", "StockUnits", "Test_Grunt", "grunt_02.wav"))).toBe(true);
+  });
+
+  it("refuses a sound file name found in two of the folder's subfolders", async () => {
+    const { root, spec } = await mission();
+    for (const sub of ["a", "b"]) {
+      await mkdir(path.join(root, "private", sub), { recursive: true });
+      await writeFile(path.join(root, "private", sub, "grunt_01.wav"), "RIFF");
+    }
+    await editSpec(spec, (s) => {
+      s.sounds = { Test_Grunt: { from: path.join(root, "private"), files: ["grunt_01.wav"] } };
+    });
+    const result = await buildTestbed(spec, { workspace: null, check: true });
+    expect(result.report.errors).toEqual([expect.stringMatching(/more than one file .* is named grunt_01\.wav/)]);
+  });
+
+  it("refuses a control character, a repeated key, a new unit named as a stock one, an unclosed data element and a tour clip past the end", async () => {
+    const { root, spec } = await mission();
+    await writeFile(path.join(root, "tests", "bad.xml"), '<Catalog>\n    <CModel id="Open">\n        <Model value="x"/>\n</Catalog>\n');
+    await editSpec(spec, (s) => {
+      s.units[0].variations.attack[0].note = "two\nlines";
+      s.units[2].key = "marine";
+      s.units.push({ key: "custom", new: { id: "Zergling", model: "nothing.m3" } });
+      s.data = ["bad.xml"];
+      s.tour = [{ unit: "zealot", slot: "voice", clip: 3, hold: 0.5 }];
+    });
+    const result = await buildTestbed(spec, { workspace: null, check: true, tour: true });
+    expect(result.report.errors).toEqual(
+      expect.arrayContaining([
+        expect.stringMatching(/^units\.0\.variations\.attack\.0\.note: holds a line break/),
+        expect.stringMatching(/the key "marine" is given twice/),
+        expect.stringMatching(/"Zergling" is already a unit/),
+        expect.stringMatching(/bad\.xml: <CModel> .* has no closing <\/CModel>/),
+        expect.stringMatching(/tour stop 1: zealot has no clip 3/),
+      ]),
+    );
   });
 
   it("writes the map only inside an output/ folder", async () => {

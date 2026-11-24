@@ -19,12 +19,16 @@ async function main(): Promise<void> {
     console.log(USAGE);
     return;
   }
-  const cwd = process.env.INIT_CWD ?? process.cwd();
-  const spec = path.resolve(cwd, args[0]!);
+  // npm run starts a script in the package's folder and says where it was run from in INIT_CWD; run
+  // directly, a stale INIT_CWD inherited from some earlier npm would point elsewhere.
+  const cwd = process.env.npm_lifecycle_event && process.env.INIT_CWD ? process.env.INIT_CWD : process.cwd();
   const check = args.includes("--check");
   const captureAt = args.indexOf("--capture");
   const captureDir = captureAt >= 0 ? args[captureAt + 1] : undefined;
-  if (captureAt >= 0 && !captureDir) throw new Error(`--capture needs a folder for the frames\n${USAGE}`);
+  if (captureAt >= 0 && (!captureDir || captureDir.startsWith("--"))) throw new Error(`--capture needs a folder for the frames\n${USAGE}`);
+  const specArg = args.find((arg, i) => !arg.startsWith("--") && (captureAt < 0 || i !== captureAt + 1));
+  if (!specArg) throw new Error(`No spec given\n${USAGE}`);
+  const spec = path.resolve(cwd, specArg);
   const started = Date.now();
   const result = await buildTestbed(spec, { check, tour: captureDir !== undefined });
   for (const line of reportLines(result)) console.log(line);
