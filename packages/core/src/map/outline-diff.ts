@@ -1,9 +1,10 @@
-// A trigger's change in the Editor's form (#46): the outline's own text (outline-trigger.ts) of the
-// trigger after the change, each line it changed marked `← new`, `← was: <old line>` or `← remove`
+// A trigger's change in the Editor's form (#46): the trigger after the change as editor-form.ts
+// writes it, one line to a call, each line it changed marked `← new`, `← was: <old line>` or `← remove`
 // (a removed line stays in its place, so the reader sees where it was). No other notation.
 
 import type { Workspace } from "../plugins/workspace.js";
 import type { AuthoringTrigger } from "../triggers/author-trigger.js";
+import { editorForm } from "./editor-form.js";
 import { outlineText, outlineTrigger, type TriggerOutline } from "./outline-trigger.js";
 import { writeBlueprintTrigger, type WrittenBlueprintTrigger } from "./write-blueprint-trigger.js";
 
@@ -32,12 +33,13 @@ function lineEdits(before: readonly string[], after: readonly string[]): { reado
   return [...edits, ...before.slice(before.length - tail).map((line) => ({ op: "keep" as const, line }))];
 }
 
-/** A line's key, the text before its first colon: two lines of one key are one value changed. */
-const keyOf = (line: string): string | undefined => /^\s*("(?:[^"\\]|\\.)*"):/.exec(line)?.[0];
+/** A line's head, its indent and its words before the first parenthesis: two lines of one head are one call changed. */
+const headOf = (line: string): string => /^\s*[^(]*/.exec(line)![0].trimEnd();
 
 /**
- * `after`'s text with each changed line marked against `before`'s. A removed line and an added one
- * of the same key (and indent) are one changed value: the new line, `← was: ` the old.
+ * `after`'s text with each changed line marked against `before`'s. In a run of changes, a removed
+ * line and an added one with the same head (a call, its arguments changed) are one changed line: the
+ * new line, `← was: ` the old.
  */
 export function markedChanges(before: string, after: string): string {
   const edits = lineEdits(before.split("\n"), after.split("\n"));
@@ -47,55 +49,36 @@ export function markedChanges(before: string, after: string): string {
       out.push(edits[at++]!.line);
       continue;
     }
-    // One run of changes: its removed lines, then its added ones (as the edit script lists them, in either order).
+    // One run of changes: its removed lines and its added ones.
     const run = [];
     while (at < edits.length && edits[at]!.op !== "keep") run.push(edits[at++]!);
     const removed = run.filter((edit) => edit.op === "del").map((edit) => edit.line);
     const added = run.filter((edit) => edit.op === "add").map((edit) => edit.line);
-    // A removed line and an added one of the same key are one value changed: the removed one is its `was`, an object or list on one line.
-    const was = new Map<string, { readonly text: string; readonly indices: readonly number[] }>();
-    removed.forEach((line, index) => {
-      const key = keyOf(line);
-      if (key === undefined || was.has(key) || !added.some((other) => keyOf(other) === key)) return;
-      const indent = /^\s*/.exec(line)![0];
-      // An object or list opened here ends at the next removed line closing it at this indent; if the run doesn't close it, only this line is the old one.
-      const closing = /[{[]$/.test(line) ? removed.findIndex((other, at) => at > index && /^\s*[}\]],?$/.test(other) && /^\s*/.exec(other)![0] === indent) : -1;
-      const end = closing === -1 ? index : closing;
-      const indices = Array.from({ length: end - index + 1 }, (_, offset) => index + offset);
-      was.set(key, { text: indices.map((at) => removed[at]!.trim()).join(" "), indices });
+    const was = new Map<number, string>();
+    const taken = new Set<number>();
+    added.forEach((line, index) => {
+      const old = removed.findIndex((other, at) => !taken.has(at) && headOf(other) === headOf(line));
+      if (old !== -1) {
+        taken.add(old);
+        was.set(index, removed[old]!);
+      }
     });
-    const paired = new Set([...was.values()].flatMap((entry) => entry.indices));
     removed.forEach((line, index) => {
-      if (!paired.has(index)) out.push(`${line}  ← remove`);
+      if (!taken.has(index)) out.push(`${line}  ← remove`);
     });
-    const used = new Set<string>();
-    for (const line of added) {
-      const key = keyOf(line);
-      const old = key !== undefined && !used.has(key) ? was.get(key) : undefined;
-      if (key !== undefined && old !== undefined) used.add(key);
-      out.push(old !== undefined ? `${line}  ← was: ${old.text.replace(/,$/, "")}` : `${line}  ← new`);
-    }
+    added.forEach((line, index) => out.push(was.has(index) ? `${line}  ← was: ${was.get(index)!.trim()}` : `${line}  ← new`));
   }
   return out.join("\n");
 }
 
 /**
- * The outline's text with each line it changed marked against `before`'s (every line new where
- * there is none), then what the input can't express, as the outline lists it.
+ * The trigger after the change as the Editor's form (editor-form.ts) with each line it changed
+ * marked against `before`'s (every line new where there is none), then what the outline's input
+ * can't express, as the outline lists it.
  */
 export function outlineDiff(before: TriggerOutline | undefined, after: TriggerOutline): string {
-  const json = (outline: TriggerOutline): string => JSON.stringify(outline.trigger, null, 2);
-  const marked = before === undefined ? json(after).split("\n").map((line) => `${line}  ← new`).join("\n") : markedChanges(json(before), json(after));
-  return marked + outlineText(after.trigger, after.unwritable).slice(json(after).length);
-}
-
-/**
- * Where a function's parameters changed, the callers to look at: one line naming the parameters
- * before and after, then each caller. Nothing where they didn't change.
- */
-export function callersOfChanged(fn: string, before: readonly string[], after: readonly string[], callers: readonly string[]): string[] {
-  if (before.length === after.length && before.every((name, index) => name === after[index])) return [];
-  return [`${fn}'s parameters changed: (${before.join(", ")}) → (${after.join(", ")}). Its callers:`, ...(callers.length > 0 ? callers.map((caller) => `- ${caller}`) : ["- none"])];
+  const marked = before === undefined ? editorForm(after.trigger).split("\n").map((line) => `${line}  ← new`).join("\n") : markedChanges(editorForm(before.trigger), editorForm(after.trigger));
+  return marked + outlineText(after.trigger, after.unwritable).slice(JSON.stringify(after.trigger, null, 2).length);
 }
 
 /**

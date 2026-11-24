@@ -348,7 +348,7 @@ describe("tuning a Kept trigger", () => {
     expect(changedArgument.files).toEqual([]);
     const [argument] = changedArgument.diffs!;
     expect(argument!.trigger).toBe("Zeratul Dies");
-    expect(argument!.diff.split("\n").filter((line) => line.includes("←"))).toEqual([expect.stringMatching(/"Time": 4\.5,  ← was: "Time": \{ "type": "fixed", "value": "3\.0" \}$/)]);
+    expect(argument!.diff.split("\n").filter((line) => line.includes("←"))).toEqual([expect.stringMatching(/^ +\S.*4\.5.*  ← was: .*3\.0/)]);
     const marked = addedAndRemoved.diffs![0]!.diff.split("\n").filter((line) => line.includes("←"));
     expect(marked.some((line) => line.endsWith("← new"))).toBe(true);
     expect(marked.some((line) => line.endsWith("← remove"))).toBe(true);

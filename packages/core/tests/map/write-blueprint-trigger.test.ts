@@ -136,9 +136,8 @@ describe("writeBlueprintTrigger", () => {
     expect(first.diff).toBeUndefined();
     expect(second.written).toMatchObject({ created: false });
     expect(marked.length).toBeGreaterThan(0);
-    expect(marked.every((line) => line.endsWith("← new"))).toBe(true);
-    expect(second.diff).toContain('"function": "Wait",  ← new');
-    expect(second.diff).toContain('"name": "Hyperion Fighter Acquire Target",\n');
+    expect(marked).toEqual(["  Wait (Time = 1, Time Type = Game Time)  ← new"]);
+    expect(second.diff).toContain("Trigger Hyperion Fighter Acquire Target (initially off)\n");
   }, 60_000);
 
   it("rewrites a trigger keeping its Id, its local's and its unchanged calls' Ids, and gives a new call Ids nothing in reach has", async () => {
