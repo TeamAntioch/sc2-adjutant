@@ -31,6 +31,9 @@ import { formatFixed } from "../triggers/write-triggers-xml.js";
 import { child, children, elementKey, elementOf, readTriggersFile, referenced, refKey, triggerStringNames, type TriggerXmlElement, type TriggerXmlNode, type TriggersFile } from "../triggers/triggers-file.js";
 import { packageContents, type PackageContents } from "./kept-references.js";
 import { openKeptSession, withMissionPackageLock } from "./kept-session.js";
+import { outlineDiff } from "./outline-diff.js";
+import { outlineKeptTriggerFrom } from "./outline-trigger.js";
+import { missionTriggerReach } from "./write-blueprint-trigger.js";
 import { missionMapPackage, readCompileRecord } from "./mission-package.js";
 import { readDependencies } from "./read-dependencies.js";
 
@@ -73,11 +76,15 @@ export type KeptTriggerTuneResult = {
   readonly changed: readonly string[];
   readonly files: readonly string[];
   readonly mapPackage: string;
+  /** A dry run's change to each trigger edited, in the Editor's form with the changed lines marked (outline-diff.ts); a function has none. */
+  readonly diffs?: readonly { readonly trigger: string; readonly diff: string }[];
 };
 
 export type KeptTriggerTuneOptions = {
   /** Asked whether the Editor has the map open (`editor.checkClosed`); a host that can't tell lets the edit go ahead. */
   readonly host?: Host;
+  /** Check and apply every edit in memory and return the change to each trigger in the Editor's form, writing nothing (so the Editor having the map open is no refusal). */
+  readonly dryRun?: boolean;
 };
 
 const TRIGGER_STRINGS = "enUS.SC2Data/LocalizedData/TriggerStrings.txt";
@@ -517,12 +524,14 @@ async function tuneKeptTriggersLocked(workspace: Workspace, blueprintPath: strin
   const kept = blueprint.kept ?? [];
   const galaxies = new Map<string, ElementGalaxy>();
   const changed: string[] = [];
+  const touched = new Map<string, Target>();
   const texts = (): ReadonlyMap<string, string> => textKeys(pkg);
   parsed.forEach((edit, index) => {
     try {
       const file = readTriggersFile(pkg.triggers);
       const target = resolveTarget(file, pkg.names, kept, edit.trigger);
       refuseCompiled(target, compiled);
+      touched.set(elementKey(target.type, target.id), target);
       // By type and Id: an older map's trigger and function can share an Id.
       const galaxyKey = elementKey(target.type, target.id);
       if (!galaxies.has(galaxyKey)) {
@@ -543,6 +552,8 @@ async function tuneKeptTriggersLocked(workspace: Workspace, blueprintPath: strin
     }
   });
 
+  if (options.dryRun) return { changed, files: [], mapPackage, diffs: await dryRunDiffs(workspace, blueprintPath, [...touched.values()], original.triggers, pkg) };
+
   // Only the files the edits changed, written together so the XML, the script and the strings never disagree.
   const candidates: readonly (readonly [string, string, string | undefined])[] = [
     ["Triggers", pkg.triggers, original.triggers],
@@ -553,6 +564,22 @@ async function tuneKeptTriggersLocked(workspace: Workspace, blueprintPath: strin
   // Nothing changed, nothing written, so the Editor being open is no refusal.
   const files = changedFiles.length > 0 ? await session.commit(changedFiles) : [];
   return { changed, files: files.map((file) => file.split(path.sep).join("/")), mapPackage };
+}
+
+/**
+ * Each trigger edited, as the Editor shows it after the edits with its changed lines marked
+ * (outline-diff.ts). A trigger the Editor's form can't read is named with why; a function has none.
+ */
+async function dryRunDiffs(workspace: Workspace, blueprintPath: string, targets: readonly Target[], was: string, now: Package): Promise<{ readonly trigger: string; readonly diff: string }[]> {
+  const reach = await missionTriggerReach(workspace, blueprintPath);
+  return targets.map((target) => {
+    if (target.type !== "Trigger") return { trigger: target.name, diff: `${target.name} is a function: outline_trigger reads triggers, so its change isn't shown in the Editor's form` };
+    try {
+      return { trigger: target.name, diff: outlineDiff(outlineKeptTriggerFrom(reach, target.id, was, reach.gameStrings), outlineKeptTriggerFrom(reach, target.id, now.triggers, now.gameStrings)) };
+    } catch (error) {
+      return { trigger: target.name, diff: `${target.name}: no Editor-form diff: ${error instanceof Error ? error.message : String(error)}` };
+    }
+  });
 }
 
 /**
