@@ -1,6 +1,6 @@
 {
   "name": "@team-antioch/sc2-adjutant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Co-design and compile StarCraft II campaign missions from narrative inputs into unpacked map packages.",
   "license": "MIT",
   "repository": {
@@ -44,8 +44,8 @@
     "zod": "^4.0.0"
   },
   "optionalDependencies": {
-    "@team-antioch/sc2-adjutant-doodad-finder": "0.1.0",
-    "@team-antioch/sc2-adjutant-set-finder": "0.1.0"
+    "@team-antioch/sc2-adjutant-doodad-finder": "0.1.1",
+    "@team-antioch/sc2-adjutant-set-finder": "0.1.1"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",

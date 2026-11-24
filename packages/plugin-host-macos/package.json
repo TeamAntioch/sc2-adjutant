@@ -1,6 +1,6 @@
 {
   "name": "@team-antioch/sc2-adjutant-host-macos",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The macOS Host Adapter Plugin for sc2-adjutant: opens the Galaxy Editor, runs Test Document, captures tours and the screen, speaks placeholder voices and renders game models.",
   "license": "MIT",
   "repository": {
