@@ -15,6 +15,16 @@ import { AUTHOR_CAMPAIGN, AUTHOR_CAMPAIGN_ENTRIES } from "./support/campaign-con
 const TESTS = fileURLToPath(new URL(".", import.meta.url));
 const DATA = fileURLToPath(new URL("../data/", import.meta.url));
 const REPO = fileURLToPath(new URL("../../../", import.meta.url));
+/** The file's bytes, or undefined when it's gone. */
+async function readFileIfThere(file: string): Promise<Buffer | undefined> {
+  try {
+    return await readFile(file);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return undefined;
+    throw error;
+  }
+}
+
 /** Files that name the content to look for, rather than holding it. */
 const SKIPPED = new Set(["support/campaign-content.ts", "no-campaign-content.test.ts"]);
 
@@ -31,7 +41,10 @@ describe("core's tests", () => {
       if (SKIPPED.has(file)) continue;
       // Every file, binary ones too (map headers, audio), as bytes: as Latin-1 for ASCII and UTF-8
       // text, and as UTF-16 for the strings some binary formats hold.
-      const bytes = await readFile(path.join(TESTS, file));
+      const bytes = await readFileIfThere(path.join(TESTS, file));
+      // A test running beside this one (toast.test.ts's Workspace copies) removed the file after the
+      // listing: it was never going to be published, so there's nothing to scan.
+      if (!bytes) continue;
       const match = bytes.toString("latin1").match(AUTHOR_CAMPAIGN) ?? bytes.toString("utf16le").match(AUTHOR_CAMPAIGN);
       if (match) found.push(`${file}: ${match[0]}`);
       const entry = bytes.toString("latin1").match(AUTHOR_CAMPAIGN_ENTRIES) ?? bytes.toString("utf16le").match(AUTHOR_CAMPAIGN_ENTRIES);
