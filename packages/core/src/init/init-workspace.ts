@@ -67,6 +67,9 @@ export const WORKSPACE_SCRIPTS: Readonly<Record<string, string>> = {
   "model-anims": "record-model-anims",
 };
 
+/** The Utilities every new Workspace gets, as `bundled:<name>`: installed with it and listed in its config's `utilities`. */
+export const DEFAULT_UTILITIES: readonly string[] = ["bundled:anim-testbed"];
+
 /** The Host Adapter for a platform, as `bundled:<name>`: none on Linux, which has no Editor. */
 export function platformHostAdapter(platform: NodeJS.Platform): string | undefined {
   if (platform === "darwin") return "bundled:host-macos";
@@ -84,10 +87,11 @@ export function workspacePackageName(folder: string): string {
   return name || "sc2-adjutant-workspace";
 }
 
-/** The new Workspace's package.json: core and the Host Adapter package at core's version, and core's CLIs as scripts. */
+/** The new Workspace's package.json: core, the Host Adapter package and the default Utilities' packages at core's version, and core's CLIs as scripts. */
 export function workspacePackageJson(name: string, coreVersion: string, hostAdapter: string | undefined): Record<string, unknown> {
   const range = `^${coreVersion}`;
   const adapterPackage = hostAdapter ? BUNDLED_PACKAGES[hostAdapter.slice("bundled:".length)] : undefined;
+  const utilityPackages = DEFAULT_UTILITIES.map((source) => BUNDLED_PACKAGES[source.slice("bundled:".length)]!);
   const cli = (file: string) => `node node_modules/${CORE_PACKAGE}/dist/cli/${file}.js`;
   return {
     name,
@@ -102,6 +106,7 @@ export function workspacePackageJson(name: string, coreVersion: string, hostAdap
     dependencies: {
       [CORE_PACKAGE]: range,
       ...(adapterPackage ? { [adapterPackage]: range } : {}),
+      ...Object.fromEntries(utilityPackages.map((pkg) => [pkg, range])),
     },
   };
 }
@@ -222,6 +227,11 @@ export async function initWorkspace({ folder, install = true, runInstall = npmIn
   await cp(example, root, { recursive: true, filter: leftOut(example), force: false });
   await writeFile(path.join(root, ".gitignore"), WORKSPACE_GITIGNORE);
   await writeFile(path.join(root, "package.json"), `${JSON.stringify(workspacePackageJson(workspacePackageName(root), version, hostAdapter), null, 2)}\n`);
+  // The default Utilities join any the example lists.
+  const configFile = path.join(root, WORKSPACE_FILE);
+  const config = JSON.parse(await readFile(configFile, "utf8")) as { utilities?: string[] };
+  const utilities = [...(config.utilities ?? []), ...DEFAULT_UTILITIES.filter((source) => !(config.utilities ?? []).includes(source))];
+  await writeFile(configFile, `${JSON.stringify({ ...config, utilities }, null, 2)}\n`);
 
   const machineConfig = await writeMachineConfig(env, platform);
   if (!install) return { root, ...(hostAdapter ? { hostAdapter } : {}), installed: false, machineConfig, skillsNote: "not copied: npm install wasn't run" };

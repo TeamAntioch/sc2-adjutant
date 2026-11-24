@@ -76,3 +76,17 @@ export {
 export { compare, debugMessage, type DebugPiece, ifThen, runTrigger, titleWords, unitIsAlive } from "../triggers/trigger-builders.js";
 export { NTVE_FUNCTIONS, NTVE_PRESETS, SUB_FUNCTIONS, type FunctionDef, type ParamDef, type PresetDef, type SubFunctionDef } from "../triggers/trigger-catalog.js";
 export type { ElementId, Trigger, TriggerBlock, TriggerCall, TriggerParam, TriggerVariable } from "../triggers/trigger-model.js";
+// For a Utility that builds test maps (anim-testbed): the game's packages' ids, the Workspace's own
+// sounds and recorded animations, a model's clips, writing a script into a map, and running a
+// capture tour through the Editor Broker.
+export { packageEntries, packageName, type PackageEntries } from "../map/game-packages.js";
+export { gameUnitIds } from "../catalog/tech-catalog.js";
+export { readM3Sequences, type M3Sequence } from "../catalog/m3-sequences.js";
+export { catalogModelAnims, type ModelAnims } from "../catalog/model-anims.js";
+export { definedSounds, workspaceSounds } from "../mods/sound-mix.js";
+export { withCustomScript, withCustomScriptInMapScript } from "../triggers/custom-script.js";
+export { writeMapScript } from "../triggers/write-map-script.js";
+export { workspaceFor, workspaceRootFor, type Workspace } from "./workspace.js";
+export { loadHost, requireCapability } from "../host/host.js";
+export { loadMachineConfig } from "../host/machine-config.js";
+export { runBrokeredCapture } from "../capture/editor-broker-client.js";

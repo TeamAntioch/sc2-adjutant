@@ -24,6 +24,7 @@ export const BUNDLED_PACKAGES: Readonly<Record<string, string>> = {
   "host-macos": "@team-antioch/sc2-adjutant-host-macos",
   "host-windows": "@team-antioch/sc2-adjutant-host-windows",
   "style-antioch": "@team-antioch/sc2-adjutant-style-antioch",
+  "anim-testbed": "@team-antioch/sc2-adjutant-anim-testbed",
 };
 
 /** A `bundled:<name>` Plugin whose package isn't installed where core can resolve it. */

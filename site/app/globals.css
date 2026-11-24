@@ -100,6 +100,16 @@
   html[data-os="windows"] .doc .for-os:not([data-for-os="windows"]) {
     display: none;
   }
+  /* A screenshot with its caption (a Utility's page). */
+  .doc figure {
+    @apply my-5 max-w-[880px];
+  }
+  .doc figure img {
+    @apply w-full border border-sky-400/25;
+  }
+  .doc figcaption {
+    @apply mt-1.5 text-sm text-slate-400;
+  }
   /* A generated tool page's inputs and outputs. */
   .doc table.fields {
     @apply w-full border-collapse text-left text-sm;

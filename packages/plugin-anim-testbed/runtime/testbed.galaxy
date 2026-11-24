@@ -1,0 +1,713 @@
+//==================================================================================================
+// Animation and sound testbed: the runtime. The build (build.ts) puts the spec's constants at the
+// CONSTANTS marker line and its Tb_Data() at the DATA marker line, then writes the whole file into
+// the map (Triggers and MapScript.galaxy). Nothing here is specific to one test.
+//
+// The tables: units (each with clips), slots (each with a kind), variations per unit and slot (a
+// flat list, tb_v0/tb_vN index it), cues per variation (a flat list, tb_vQ0/tb_vQN index it).
+// A cue is a sound or an actor message at a time; a time is a base (clip start, strike or land)
+// plus an offset, so a candidate follows whichever clip is selected.
+//
+// Lessons built in: dialog events are registered one type at a time with c_invalidDialogControlId
+// (Any never fires); pulldown items count from 1; a new unit's actor needs 0.5 s before it takes
+// messages; sounds on a dead unit are dropped, so death cues play at the point it died.
+//==================================================================================================
+
+//@@CONSTANTS
+
+const int TB_KIND_CLIP = 0;      // the selected clip, cues at the unit, timed from the clip's start
+const int TB_KIND_IMPACT = 1;    // the selected clip, cues at the target, timed from the clip's land
+const int TB_KIND_HIT = 2;       // the unit's hit reaction, cues at the unit
+const int TB_KIND_DEATH = 3;     // kill the unit, cues at the point it died, respawn
+const int TB_KIND_CUES = 4;      // the cues alone, at the unit
+
+const int TB_CUE_SOUND = 0;
+const int TB_CUE_ACTOR = 1;      // an actor message to the unit (or a child actor in its scope)
+const int TB_CUE_TARGET = 2;     // an actor message to the target
+
+const int TB_BASE_START = 0;
+const int TB_BASE_STRIKE = 1;
+const int TB_BASE_LAND = 2;
+
+// Units
+string[TB_NU] tb_uName;
+string[TB_NU] tb_uType;
+fixed[TB_NU] tb_uReach;
+string[TB_NU] tb_uIdle;
+string[TB_NU] tb_uHit;
+fixed[TB_NU] tb_uHitClear;
+fixed[TB_NU] tb_uRespawn;
+int[TB_NU] tb_uNClip;
+unit[TB_NU] tb_unit;
+int[TB_NU] tb_uClip;             // each unit's selected clip
+
+// Clips
+string[TB_NU][TB_NC] tb_cName;
+string[TB_NU][TB_NC] tb_cPlay;
+fixed[TB_NU][TB_NC] tb_cStrike;
+fixed[TB_NU][TB_NC] tb_cLand;
+fixed[TB_NU][TB_NC] tb_cLen;
+
+// Slots
+string[TB_NS] tb_sName;
+int[TB_NS] tb_sKind;
+
+// Variations
+int[TB_NU][TB_NS] tb_v0;
+int[TB_NU][TB_NS] tb_vN;
+string[TB_NV] tb_vLabel;
+string[TB_NV] tb_vNote;
+bool[TB_NV] tb_vPick;
+int[TB_NV] tb_vQ0;
+int[TB_NV] tb_vQN;
+int tb_nv = 0;
+
+// Cues
+int[TB_NQ] tb_qKind;
+string[TB_NQ] tb_qText;
+string[TB_NQ] tb_qChild;
+int[TB_NQ] tb_qBase;
+fixed[TB_NQ] tb_qAt;
+int[TB_NQ] tb_qStopBase;         // -1: let it play out
+fixed[TB_NQ] tb_qStop;
+int tb_nq = 0;
+
+// The tour (a --capture build): each stop selects a unit, clip, slot and variation, plays it, and
+// announces itself in a bank after its hold, for the Host to screenshot.
+int[TB_NTOUR] tb_tU;
+int[TB_NTOUR] tb_tC;
+int[TB_NTOUR] tb_tS;
+int[TB_NTOUR] tb_tV;
+fixed[TB_NTOUR] tb_tHold;
+int tb_ntour = 0;
+
+// Selection and playback
+int tb_cur = 0;
+int tb_slot = 0;
+int tb_var = 0;                  // within the unit and slot's variations, from 0
+int tb_gen = 0;                  // Stop and each Play bump it; a running timeline quits when it changes
+bool tb_looping = false;
+fixed tb_lastEnd = 0.0;          // how long the last Play's action lasts (clip length, respawn), for Loop
+fixed tb_lastRan = 0.0;          // how far the last Play waited through it
+unit tb_target;
+
+// The GUI
+int tb_dlg;
+int tb_unitPd;
+int tb_clipPd;
+int tb_slotPd;
+int tb_varPd;
+int tb_note;
+int tb_play;
+int tb_stop;
+int tb_kill;
+int tb_loop;
+int tb_edit;
+int tb_send;
+int tb_read;
+
+// The readout's cue lines and whether each has fired
+string tb_head = "";
+string[TB_NT] tb_line;
+bool[TB_NT] tb_fired;
+int tb_nline = 0;
+fixed tb_clock = 0.0;
+
+//--------------------------------------------------------------------------------------------------
+// Filling the tables (Tb_Data calls these)
+//--------------------------------------------------------------------------------------------------
+
+void Tb_U (int u, string name, string type, fixed reach, string idle, string hit, fixed hitClear, fixed respawn) {
+    tb_uName[u] = name;
+    tb_uType[u] = type;
+    tb_uReach[u] = reach;
+    tb_uIdle[u] = idle;
+    tb_uHit[u] = hit;
+    tb_uHitClear[u] = hitClear;
+    tb_uRespawn[u] = respawn;
+}
+
+void Tb_C (int u, int c, string name, string play, fixed strike, fixed land, fixed len) {
+    tb_cName[u][c] = name;
+    tb_cPlay[u][c] = play;
+    tb_cStrike[u][c] = strike;
+    tb_cLand[u][c] = land;
+    tb_cLen[u][c] = len;
+    if (tb_uNClip[u] < c + 1) { tb_uNClip[u] = c + 1; }
+}
+
+void Tb_S (int s, string name, int kind) {
+    tb_sName[s] = name;
+    tb_sKind[s] = kind;
+}
+
+// A variation for unit u in slot s; the cues added next (Tb_Q) are its own. Each unit and slot's
+// variations come together.
+void Tb_V (int u, int s, string label, string note, bool pick) {
+    if (tb_vN[u][s] == 0) { tb_v0[u][s] = tb_nv; }
+    tb_vN[u][s] += 1;
+    tb_vLabel[tb_nv] = label;
+    tb_vNote[tb_nv] = note;
+    tb_vPick[tb_nv] = pick;
+    tb_vQ0[tb_nv] = tb_nq;
+    tb_vQN[tb_nv] = 0;
+    tb_nv += 1;
+}
+
+void Tb_Q (int kind, string what, string child, int base, fixed at, int stopBase, fixed stop) {
+    tb_qKind[tb_nq] = kind;
+    tb_qText[tb_nq] = what;
+    tb_qChild[tb_nq] = child;
+    tb_qBase[tb_nq] = base;
+    tb_qAt[tb_nq] = at;
+    tb_qStopBase[tb_nq] = stopBase;
+    tb_qStop[tb_nq] = stop;
+    tb_vQN[tb_nv - 1] += 1;
+    tb_nq += 1;
+}
+
+void Tb_T (int u, int c, int s, int v, fixed hold) {
+    tb_tU[tb_ntour] = u;
+    tb_tC[tb_ntour] = c;
+    tb_tS[tb_ntour] = s;
+    tb_tV[tb_ntour] = v;
+    tb_tHold[tb_ntour] = hold;
+    tb_ntour += 1;
+}
+
+//@@DATA
+
+//--------------------------------------------------------------------------------------------------
+// Helpers
+//--------------------------------------------------------------------------------------------------
+
+void Tb_Msg (string s) {
+    UIDisplayMessage(PlayerGroupAll(), c_messageAreaChat, StringToText(s));
+}
+
+actor Tb_Actor (unit u) {
+    return ActorFromScope(ActorScopeFromUnit(u), "::Main");
+}
+
+void Tb_Text (int c, string s) {
+    DialogControlSetPropertyAsText(c, c_triggerControlPropertyText, PlayerGroupAll(), StringToText(s));
+}
+
+string Tb_F (fixed f) {
+    return FixedToString(f, 2);
+}
+
+point Tb_Home (int u) {
+    return Point(TB_X + TB_GAP * IntToFixed(u), TB_Y);
+}
+
+// Where the target stands for unit u: reach cells in front of it.
+point Tb_Front (int u) {
+    return PointWithOffsetPolar(Tb_Home(u), tb_uReach[u], TB_FACING);
+}
+
+// The selected variation's index in the flat list, or -1 if the unit has none in this slot.
+int Tb_VarIndex () {
+    if (tb_vN[tb_cur][tb_slot] == 0) { return -1; }
+    return tb_v0[tb_cur][tb_slot] + tb_var;
+}
+
+fixed Tb_BaseTime (int base) {
+    int c = tb_uClip[tb_cur];
+    if (base == TB_BASE_STRIKE) { return tb_cStrike[tb_cur][c]; }
+    if (base == TB_BASE_LAND) { return tb_cLand[tb_cur][c]; }
+    return 0.0;
+}
+
+bool Tb_UsesClip (int kind) {
+    return kind == TB_KIND_CLIP || kind == TB_KIND_IMPACT;
+}
+
+void Tb_Spawn (int u) {
+    UnitCreate(1, tb_uType[u], c_unitCreateIgnorePlacement, TB_PLAYER, Tb_Home(u), TB_FACING);
+    tb_unit[u] = UnitLastCreated();
+    UnitSetState(tb_unit[u], c_unitStateInvulnerable, true);
+    UnitSetPropertyFixed(tb_unit[u], c_unitPropMovementSpeed, 0.0);
+}
+
+void Tb_Idle (int u) {
+    if (tb_uIdle[u] != "") { ActorSend(Tb_Actor(tb_unit[u]), tb_uIdle[u]); }
+}
+
+// Frames unit u and its target to the right of the dialog, closer than the default camera (the tour).
+void Tb_Focus (int u) {
+    point p = PointWithOffsetPolar(Tb_Home(u), tb_uReach[u] / 2.0, TB_FACING);
+    CameraPan(1, Point(PointGetX(p) - TB_CAM_SHIFT, PointGetY(p)), 0.0, -1, 0.0, false);
+    CameraSetValue(1, c_cameraValueDistance, TB_CAM_DISTANCE, 0.0, -1, 0.0);
+}
+
+void Tb_PlaceTarget () {
+    if (tb_target == null) { return; }
+    UnitSetPosition(tb_target, Tb_Front(tb_cur), false);
+    UnitSetFacing(tb_target, TB_FACING + 180.0, 0.0);
+}
+
+//--------------------------------------------------------------------------------------------------
+// The readout
+//--------------------------------------------------------------------------------------------------
+
+void Tb_ShowRead () {
+    string s = tb_head + "<n/>t = " + Tb_F(tb_clock);
+    int i;
+    for (i = 0; i < tb_nline; i += 1) {
+        if (tb_fired[i]) { s = s + "<n/>" + tb_line[i]; }
+        else { s = s + "<n/><c val=\"8a8a8a\">" + tb_line[i] + "</c>"; }
+    }
+    Tb_Text(tb_read, s);
+}
+
+// The header for what is selected: unit, slot, variation, and the clip where the slot uses one.
+void Tb_Head () {
+    int k = tb_sKind[tb_slot];
+    int c = tb_uClip[tb_cur];
+    int v = Tb_VarIndex();
+    tb_head = tb_uName[tb_cur] + " (" + tb_uType[tb_cur] + ") / " + tb_sName[tb_slot];
+    if (v >= 0) { tb_head = tb_head + " / " + IntToString(tb_var + 1) + " " + tb_vLabel[v]; }
+    if (Tb_UsesClip(k)) {
+        tb_head = tb_head + "<n/>clip " + tb_cName[tb_cur][c] + ": strike " + Tb_F(tb_cStrike[tb_cur][c])
+            + ", land " + Tb_F(tb_cLand[tb_cur][c]) + ", length " + Tb_F(tb_cLen[tb_cur][c]);
+    }
+    if (v >= 0) { Tb_Text(tb_note, tb_vNote[v]); }
+    else { Tb_Text(tb_note, "(no variations: Play does the slot's action alone)"); }
+}
+
+void Tb_ReadReset () {
+    tb_nline = 0;
+    tb_clock = 0.0;
+    Tb_Head();
+    Tb_ShowRead();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Playing
+//--------------------------------------------------------------------------------------------------
+
+void Tb_Sound (string id, unit on, point at, bool atPoint) {
+    if (atPoint) {
+        SoundPlayAtPointForPlayer(SoundLink(id, c_soundIndexAny), c_maxPlayers, PlayerGroupAll(), at, 1.0, 100.0, 0.0);
+    }
+    else {
+        SoundPlayOnUnitForPlayer(SoundLink(id, c_soundIndexAny), c_maxPlayers, PlayerGroupAll(), on, 0.0, 100.0, 0.0);
+    }
+}
+
+void Tb_ActorCue (actor a, string child, string msg) {
+    if (child == "") { ActorSend(a, msg); }
+    else { ActorSend(ActorFromScope(ActorScopeFromActor(a), child), msg); }
+}
+
+// Runs variation v's cues in time order from now. Sounds play on `on` (or at `at` when atPoint);
+// actor cues go to ua (the unit's actor, taken before any kill) or ta (the target's). Returns the
+// time it ran to; quits early if tb_gen changes (Stop, or another Play).
+fixed Tb_RunCues (int v, int gen, unit on, point at, bool atPoint, actor ua, actor ta) {
+    fixed[TB_NT] t;
+    fixed[TB_NT] stop;
+    bool[TB_NT] played;
+    bool[TB_NT] stopped;
+    sound[TB_NT] snd;
+    int n = tb_vQN[v];
+    int q0 = tb_vQ0[v];
+    int q;
+    int i;
+    int best;
+    bool isStop;
+    fixed when = 0.0;
+    fixed now = 0.0;
+    for (i = 0; i < n; i += 1) {
+        q = q0 + i;
+        t[i] = Tb_BaseTime(tb_qBase[q]) + tb_qAt[q];
+        stop[i] = -1.0;
+        if (tb_qStopBase[q] >= 0) { stop[i] = Tb_BaseTime(tb_qStopBase[q]) + tb_qStop[q]; }
+        if (tb_nline < TB_NT) {
+            tb_line[tb_nline] = Tb_F(t[i]) + "  " + tb_qText[q];
+            if (tb_qChild[q] != "") { tb_line[tb_nline] = Tb_F(t[i]) + "  [" + tb_qChild[q] + "] " + tb_qText[q]; }
+            if (tb_qKind[q] == TB_CUE_TARGET) { tb_line[tb_nline] = tb_line[tb_nline] + "  (target)"; }
+            if (stop[i] >= 0.0) { tb_line[tb_nline] = tb_line[tb_nline] + "  ~" + Tb_F(stop[i]); }
+            tb_fired[tb_nline] = false;
+            tb_nline += 1;
+        }
+    }
+    Tb_ShowRead();
+    while (true) {
+        best = -1;
+        isStop = false;
+        for (i = 0; i < n; i += 1) {
+            if (!played[i] && (best == -1 || t[i] < when)) { best = i; when = t[i]; isStop = false; }
+            if (played[i] && !stopped[i] && stop[i] >= 0.0 && (best == -1 || stop[i] < when)) { best = i; when = stop[i]; isStop = true; }
+        }
+        if (best == -1) { return now; }
+        if (when > now) {
+            Wait(when - now, c_timeGame);
+            now = when;
+        }
+        if (gen != tb_gen) { return now; }
+        q = q0 + best;
+        if (isStop) {
+            SoundStop(snd[best], true);
+            stopped[best] = true;
+        }
+        else {
+            played[best] = true;
+            if (tb_qKind[q] == TB_CUE_SOUND) {
+                Tb_Sound(tb_qText[q], on, at, atPoint);
+                snd[best] = SoundLastPlayed();
+            }
+            else if (tb_qKind[q] == TB_CUE_ACTOR) { Tb_ActorCue(ua, tb_qChild[q], tb_qText[q]); }
+            else { Tb_ActorCue(ta, tb_qChild[q], tb_qText[q]); }
+            if (best < TB_NT) { tb_fired[best] = true; }
+            tb_clock = now;
+            Tb_ShowRead();
+        }
+    }
+    return now;
+}
+
+void Tb_Respawn (int u, fixed after) {
+    if (after > 0.0) { Wait(after, c_timeGame); }
+    Tb_Spawn(u);
+    Wait(0.5, c_timeGame);
+    Tb_Idle(u);
+}
+
+// Plays the selection: the slot's action (clip, hit reaction or kill) and the variation's cues.
+void Tb_Play (bool withCues) {
+    int u = tb_cur;
+    int s = tb_slot;
+    int k = tb_sKind[s];
+    int c = tb_uClip[u];
+    int v = -1;
+    int gen;
+    unit who = tb_unit[u];
+    point p = UnitGetPosition(who);
+    actor ua = Tb_Actor(who);
+    actor ta = null;
+    fixed ran = 0.0;
+    fixed len = 0.0;
+    if (withCues) { v = Tb_VarIndex(); }
+    if (tb_target != null) { ta = Tb_Actor(tb_target); }
+    tb_gen += 1;
+    gen = tb_gen;
+    Tb_ReadReset();
+
+    tb_lastEnd = 0.0;
+    tb_lastRan = 0.0;
+    if (!UnitIsAlive(who)) { return; }
+    if (Tb_UsesClip(k)) {
+        ActorSend(ua, tb_cPlay[u][c]);
+        len = tb_cLen[u][c];
+    }
+    else if (k == TB_KIND_HIT) {
+        if (tb_uHit[u] != "") { ActorSend(ua, tb_uHit[u]); }
+        len = tb_uHitClear[u];
+    }
+    else if (k == TB_KIND_DEATH) {
+        UnitSetState(who, c_unitStateInvulnerable, false);
+        UnitKill(who);
+        len = tb_uRespawn[u] + 0.5;
+    }
+
+    if (v >= 0) {
+        if (k == TB_KIND_IMPACT && tb_target != null) { ran = Tb_RunCues(v, gen, tb_target, p, false, ua, ta); }
+        else if (k == TB_KIND_IMPACT) { ran = Tb_RunCues(v, gen, who, Tb_Front(u), true, ua, ta); }
+        else if (k == TB_KIND_DEATH) { ran = Tb_RunCues(v, gen, who, p, true, ua, ta); }
+        else { ran = Tb_RunCues(v, gen, who, p, false, ua, ta); }
+    }
+
+    if (k == TB_KIND_HIT && tb_uHitClear[u] > 0.0) {
+        if (ran < tb_uHitClear[u]) { Wait(tb_uHitClear[u] - ran, c_timeGame); }
+        ActorSend(ua, "AnimClear " + StringWord(tb_uHit[u], 2));
+        ran = MaxF(ran, tb_uHitClear[u]);
+    }
+    if (k == TB_KIND_DEATH) {
+        Tb_Respawn(u, MaxF(0.0, tb_uRespawn[u] - ran));
+        ran = MaxF(ran, tb_uRespawn[u]) + 0.5;
+    }
+    tb_lastEnd = MaxF(ran, len);
+    tb_lastRan = ran;
+}
+
+void Tb_Stop () {
+    int u = tb_cur;
+    tb_gen += 1;
+    SoundStopAllTriggerSounds(true);
+    if (Tb_UsesClip(tb_sKind[tb_slot]) && UnitIsAlive(tb_unit[u])) {
+        ActorSend(Tb_Actor(tb_unit[u]), "AnimClear " + StringWord(tb_cPlay[u][tb_uClip[u]], 2));
+    }
+    Tb_Idle(u);
+}
+
+// Kill/Respawn: the unit dies with no cues and comes back after its respawn time.
+void Tb_Kill () {
+    int u = tb_cur;
+    unit who = tb_unit[u];
+    if (!UnitIsAlive(who)) { return; }
+    UnitSetState(who, c_unitStateInvulnerable, false);
+    UnitKill(who);
+    Tb_Respawn(u, tb_uRespawn[u]);
+}
+
+//--------------------------------------------------------------------------------------------------
+// The GUI
+//--------------------------------------------------------------------------------------------------
+
+void Tb_FillClips () {
+    int c;
+    DialogControlRemoveAllItems(tb_clipPd, PlayerGroupAll());
+    for (c = 0; c < tb_uNClip[tb_cur]; c += 1) {
+        DialogControlAddItem(tb_clipPd, PlayerGroupAll(), StringToText(IntToString(c + 1) + "  " + tb_cName[tb_cur][c]));
+    }
+    if (tb_uNClip[tb_cur] == 0) { DialogControlAddItem(tb_clipPd, PlayerGroupAll(), StringToText("(no clips)")); }
+    DialogControlSelectItem(tb_clipPd, PlayerGroupAll(), tb_uClip[tb_cur] + 1);
+}
+
+void Tb_FillVars () {
+    int n = tb_vN[tb_cur][tb_slot];
+    int v0 = tb_v0[tb_cur][tb_slot];
+    int i;
+    string mark;
+    tb_var = 0;
+    DialogControlRemoveAllItems(tb_varPd, PlayerGroupAll());
+    for (i = 0; i < n; i += 1) {
+        mark = "   ";
+        if (tb_vPick[v0 + i]) { mark = "* "; tb_var = i; }
+        DialogControlAddItem(tb_varPd, PlayerGroupAll(), StringToText(mark + IntToString(i + 1) + "  " + tb_vLabel[v0 + i]));
+    }
+    if (n == 0) { DialogControlAddItem(tb_varPd, PlayerGroupAll(), StringToText("(none)")); }
+    DialogControlSelectItem(tb_varPd, PlayerGroupAll(), tb_var + 1);
+}
+
+int Tb_Ctl (int type, int w, int h, int x, int y) {
+    int c = DialogControlCreate(tb_dlg, type);
+    DialogControlSetSize(c, PlayerGroupAll(), w, h);
+    DialogControlSetPosition(c, PlayerGroupAll(), c_anchorTopLeft, x, y);
+    return c;
+}
+
+int Tb_Button (string label, int w, int x, int y) {
+    int c = Tb_Ctl(c_triggerControlTypeButton, w, 40, x, y);
+    Tb_Text(c, label);
+    return c;
+}
+
+bool Tb_OnEvent (bool testConds, bool runActions) {
+    int c = EventDialogControl();
+    int e = EventDialogControlEventType();
+    int sel;
+    string s;
+    if (e == c_triggerControlEventTypeSelectionChanged) {
+        if (c == tb_unitPd) {
+            sel = DialogControlGetSelectedItem(c, 1) - 1;
+            if (sel >= 0 && sel < TB_NU && sel != tb_cur) {
+                tb_cur = sel;
+                Tb_PlaceTarget();
+                Tb_FillClips();
+                Tb_FillVars();
+                Tb_ReadReset();
+            }
+        }
+        else if (c == tb_clipPd) {
+            sel = DialogControlGetSelectedItem(c, 1) - 1;
+            if (sel >= 0 && sel < tb_uNClip[tb_cur]) { tb_uClip[tb_cur] = sel; Tb_ReadReset(); }
+        }
+        else if (c == tb_slotPd) {
+            sel = DialogControlGetSelectedItem(c, 1) - 1;
+            if (sel >= 0 && sel < TB_NS && sel != tb_slot) { tb_slot = sel; Tb_FillVars(); Tb_ReadReset(); }
+        }
+        else if (c == tb_varPd) {
+            sel = DialogControlGetSelectedItem(c, 1) - 1;
+            if (sel >= 0 && sel < tb_vN[tb_cur][tb_slot]) { tb_var = sel; Tb_ReadReset(); }
+        }
+    }
+    else if (e == c_triggerControlEventTypeClick) {
+        if (c == tb_play) { Tb_Play(true); }
+        else if (c == tb_stop) { Tb_Stop(); }
+        else if (c == tb_kill) { Tb_Kill(); }
+        else if (c == tb_send) {
+            s = DialogControlGetPropertyAsString(tb_edit, c_triggerControlPropertyEditText, 1);
+            if (StringWord(s, 1) == "target" && tb_target != null) {
+                ActorSend(Tb_Actor(tb_target), StringSub(s, 8, StringLength(s)));
+                Tb_Msg("target actor: " + StringSub(s, 8, StringLength(s)));
+            }
+            else if (StringFind(s, " ", c_stringCase) == c_stringNotFound) {
+                Tb_Sound(s, tb_unit[tb_cur], Tb_Home(tb_cur), !UnitIsAlive(tb_unit[tb_cur]));
+                Tb_Msg("sound: " + s);
+            }
+            else {
+                ActorSend(Tb_Actor(tb_unit[tb_cur]), s);
+                Tb_Msg("actor: " + s);
+            }
+        }
+    }
+    else if (e == c_triggerControlEventTypeChecked && c == tb_loop) {
+        tb_looping = DialogControlGetPropertyAsBool(tb_loop, c_triggerControlPropertyChecked, 1);
+    }
+    return true;
+}
+
+bool Tb_Loop (bool testConds, bool runActions) {
+    while (true) {
+        if (tb_looping) {
+            Tb_Play(true);
+            Wait(MaxF(0.0, tb_lastEnd - tb_lastRan) + 1.0, c_timeGame);
+        }
+        else { Wait(0.25, c_timeGame); }
+    }
+    return true;
+}
+
+void Tb_Help () {
+    Tb_Msg("Testbed: pick a unit, a clip, a slot and a variation, then Play. * marks the spec's pick.");
+    Tb_Msg("Send: a CSound id plays at the unit; text with a space goes to its actor; 'target <msg>' goes to the target's actor.");
+    Tb_Msg("-t <strike> [land]: retime the selected clip   -len <s>: its length   -help: this");
+}
+
+bool Tb_Chat (bool testConds, bool runActions) {
+    string msg = EventChatMessage(false);
+    string w1 = StringCase(StringWord(msg, 1), false);
+    string w2 = StringWord(msg, 2);
+    string w3 = StringWord(msg, 3);
+    int u = tb_cur;
+    int c = tb_uClip[u];
+    if (w1 == "-help") { Tb_Help(); }
+    else if (w1 == "-t" && w2 != "") {
+        tb_cStrike[u][c] = StringToFixed(w2);
+        if (w3 != "") { tb_cLand[u][c] = StringToFixed(w3); }
+        Tb_Msg(tb_uName[u] + " / " + tb_cName[u][c] + ": \"strike\": " + Tb_F(tb_cStrike[u][c]) + ", \"land\": " + Tb_F(tb_cLand[u][c]));
+        Tb_ReadReset();
+    }
+    else if (w1 == "-len" && w2 != "") {
+        tb_cLen[u][c] = StringToFixed(w2);
+        Tb_ReadReset();
+    }
+    return true;
+}
+
+void Tb_Gui () {
+    trigger t = TriggerCreate("Tb_OnEvent");
+    int i;
+    int y = 70;
+    tb_dlg = DialogCreate(500, 700, c_anchorTopLeft, 20, 60, false);
+    DialogSetTitle(tb_dlg, StringToText(TB_TITLE));
+
+    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5), "Unit");
+    tb_unitPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
+    for (i = 0; i < TB_NU; i += 1) {
+        DialogControlAddItem(tb_unitPd, PlayerGroupAll(), StringToText(tb_uName[i] + " (" + tb_uType[i] + ")"));
+    }
+    DialogControlSelectItem(tb_unitPd, PlayerGroupAll(), 1);
+    y += 45;
+    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5), "Clip");
+    tb_clipPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
+    y += 45;
+    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5), "Slot");
+    tb_slotPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
+    for (i = 0; i < TB_NS; i += 1) {
+        DialogControlAddItem(tb_slotPd, PlayerGroupAll(), StringToText(tb_sName[i]));
+    }
+    DialogControlSelectItem(tb_slotPd, PlayerGroupAll(), 1);
+    y += 45;
+    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5), "Variation");
+    tb_varPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
+    y += 45;
+    tb_note = Tb_Ctl(c_triggerControlTypeLabel, 440, 50, 30, y);
+    y += 55;
+    tb_play = Tb_Button("Play", 90, 30, y);
+    tb_stop = Tb_Button("Stop", 90, 125, y);
+    tb_kill = Tb_Button("Kill", 90, 220, y);
+    tb_loop = Tb_Ctl(c_triggerControlTypeCheckBox, 30, 30, 330, y + 5);
+    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 70, 30, 365, y + 8), "Loop");
+    y += 50;
+    tb_edit = Tb_Ctl(c_triggerControlTypeEditBox, 340, 40, 30, y);
+    tb_send = Tb_Button("Send", 90, 380, y);
+    y += 55;
+    tb_read = Tb_Ctl(c_triggerControlTypeLabel, 440, 700 - y - 30, 30, y);
+
+    Tb_FillClips();
+    Tb_FillVars();
+    TriggerAddEventDialogControl(t, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
+    TriggerAddEventDialogControl(t, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeChecked);
+    TriggerAddEventDialogControl(t, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeSelectionChanged);
+    DialogSetVisible(tb_dlg, PlayerGroupAll(), true);
+    Tb_ReadReset();
+}
+
+// The tour: selects each stop's state as the pulldowns would, plays it in its own thread, and saves
+// the stop in the bank after its hold; -1 when done.
+bool Tb_TourPlay (bool testConds, bool runActions) {
+    Tb_Play(true);
+    return true;
+}
+
+bool Tb_Tour (bool testConds, bool runActions) {
+    bank b = BankLoad(TB_TOUR_BANK, 1);
+    int i;
+    Wait(4.0, c_timeGame);       // let the window settle before the first frame
+    for (i = 0; i < tb_ntour; i += 1) {
+        tb_cur = tb_tU[i];
+        tb_uClip[tb_cur] = tb_tC[i];
+        tb_slot = tb_tS[i];
+        Tb_PlaceTarget();
+        Tb_Focus(tb_cur);
+        DialogControlSelectItem(tb_unitPd, PlayerGroupAll(), tb_cur + 1);
+        Tb_FillClips();
+        DialogControlSelectItem(tb_slotPd, PlayerGroupAll(), tb_slot + 1);
+        Tb_FillVars();
+        if (tb_tV[i] >= 0 && tb_tV[i] < tb_vN[tb_cur][tb_slot]) {
+            tb_var = tb_tV[i];
+            DialogControlSelectItem(tb_varPd, PlayerGroupAll(), tb_var + 1);
+        }
+        Tb_ReadReset();
+        Wait(0.5, c_timeGame);
+        TriggerExecute(TriggerCreate("Tb_TourPlay"), false, false);
+        Wait(tb_tHold[i], c_timeGame);
+        BankValueSetFromInt(b, "tour", "stop", i + 1);
+        BankSave(b);
+        // Long enough for the Host to see the stop and take its frame before the next: its watch loop
+        // has been seen taking 13 s between polls, and a stop it misses has no frame.
+        Wait(15.0, c_timeReal);
+        Tb_Stop();
+        // A death stop waits for the unit to come back before the next stop.
+        if (tb_sKind[tb_slot] == TB_KIND_DEATH) { Wait(tb_uRespawn[tb_cur] + 1.0, c_timeGame); }
+        else { Wait(0.5, c_timeGame); }
+    }
+    BankValueSetFromInt(b, "tour", "stop", -1);
+    BankSave(b);
+    return true;
+}
+
+bool Tb_Start (bool testConds, bool runActions) {
+    trigger t;
+    int u;
+    if (!TB_FOG) {
+        VisEnable(c_visTypeMask, false);
+        VisEnable(c_visTypeFog, false);
+    }
+    Tb_Data();
+    for (u = 0; u < TB_NU; u += 1) { Tb_Spawn(u); }
+    if (TB_TARGET != "") {
+        UnitCreate(1, TB_TARGET, c_unitCreateIgnorePlacement, TB_TARGET_PLAYER, Tb_Front(0), TB_FACING + 180.0);
+        tb_target = UnitLastCreated();
+        UnitSetState(tb_target, c_unitStateInvulnerable, true);
+        Tb_PlaceTarget();
+    }
+    CameraPan(1, Point(TB_X + TB_GAP * IntToFixed(TB_NU - 1) / 2.0, TB_Y - 2.5), 0.0, -1.0, 0.0, false);
+    Tb_Gui();
+    Wait(0.5, c_timeGame);       // a new unit's actor isn't there to take messages straight away
+    for (u = 0; u < TB_NU; u += 1) { Tb_Idle(u); }
+    if (tb_ntour == 0) { Tb_Help(); }     // a tour's frames show the dialog, not the help
+    t = TriggerCreate("Tb_Chat");
+    TriggerAddEventChatMessage(t, 1, "-", false);
+    TriggerExecute(TriggerCreate("Tb_Loop"), false, false);
+    if (tb_ntour > 0) { TriggerExecute(TriggerCreate("Tb_Tour"), false, false); }
+    return true;
+}
+
+void Tb_Init () {
+    trigger t = TriggerCreate("Tb_Start");
+    TriggerAddEventMapInit(t);
+}

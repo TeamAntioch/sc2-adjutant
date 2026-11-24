@@ -1,5 +1,5 @@
 // The static export, as `npm run build` leaves it in site/out/ (the test script builds first): the
-// home page and one page behind each of the five tabs, each in the shell.
+// home page and one page behind each of the six tabs, each in the shell.
 import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
@@ -11,6 +11,7 @@ const TABS = [
   { label: "Tools", path: "tools" },
   { label: "Skills", path: "skills" },
   { label: "Commands", path: "commands" },
+  { label: "Utilities", path: "utilities" },
 ];
 
 function page(path: string): string {
@@ -65,6 +66,17 @@ describe("the static export", () => {
     const html = page("tutorials");
     expect(html).toContain('aria-label="Mission select"');
     expect(html).not.toContain('aria-label="Pages"');
+  });
+
+  it("has the Anim Testbed page under Utilities, with its screenshots beside it", () => {
+    const html = page("utilities/anim-testbed");
+    expect(html).toContain('<h2 id="the-spec">The spec</h2>');
+    // The slot kinds are a table, not a run of pipes: the site's MDX has no GFM tables.
+    expect(html).toMatch(/<table class="fields">[\s\S]*<code>impact<\/code>/);
+    expect(html).not.toContain("| Kind |");
+    const images = [...html.matchAll(/<img [^>]*src="(\/anim-testbed\/[^"]+)"/g)].map((m) => m[1]!);
+    expect(images).toEqual(["/anim-testbed/attack.jpg", "/anim-testbed/impact.jpg", "/anim-testbed/death.jpg", "/anim-testbed/voice.jpg"]);
+    for (const image of images) expect(existsSync(new URL(image.slice(1), OUT)), image).toBe(true);
   });
 
   it("gives a hand-written page's headings ids, for on-this-page links", () => {
