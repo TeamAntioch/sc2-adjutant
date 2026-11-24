@@ -191,7 +191,7 @@ The Cutscene Editor's Director Window shows neither correctly: it draws depth of
 
 ## Cutscene walk animations need their built-in move speed
 
-An actor on a `CCutsceneNodeFollowPath` stands still unless its `CCutsceneElementAnim` carries the animation's own length and movement speed: `priority="5" originalDuration originalMoveSpeed movespeed`. The Cutscene Editor fills these in from the model when an animation is picked. They differ by model: the Nova crowd models `SMX3_BGPeople_01`-`05` run Walk A for 2566 ms and `_06`-`10` for 2567 ms, both at speed 38, and one custom Campaign's cutscenes show speeds from 28 to 540. One model's values copied to another are a guess.
+An actor on a `CCutsceneNodeFollowPath` stands still unless its `CCutsceneElementAnim` carries the animation's own length and movement speed: `priority="5" originalDuration originalMoveSpeed movespeed`. The Cutscene Editor fills these in from the model when an animation is picked. They differ by model: the Nova crowd models `SMX3_BGPeople_01`-`05` run Walk A for 2566 ms and `_06`-`10` for 2567 ms, both at speed 38, and one custom Campaign's cutscenes show speeds from 28 to 540. One model's values copied to another are a guess. Authoring a walk's own speed into a model: [m3-models-in-blender.md](./m3-models-in-blender.md#authoring-animations).
 
 **How fast it goes (measured).** An actor on a follow path travels **`movespeed` ÷ 100 cells a second**, in game and in the Director Window alike, whatever the element's `originalMoveSpeed` and whatever the actor's scale. It was measured on a test map, `TestPathSpeed` (2026-11-01), straight 40-cell lanes with markers every 10 cells, recorded in game and in the Editor:
 
@@ -439,6 +439,35 @@ How each native reads its path:
 - `DialogControlHookup(panel, type, path)`: relative to `panel`.
 
 A path no layout has should make the call fail, and whatever it drives do nothing; that isn't confirmed in game yet (a blackout fade made from a template no file defines is the check to do). `check` warns about each literal path a mod passes that is in neither its own layouts (with its UI Components' generated ones) nor Blizzard's (`packages/core/src/ui/frame-path-check.ts`, ADR-0019). It can't follow the panel a relative hookup is given, so it passes one that some frame's path ends in. Blizzard's frames are `packages/core/data/ui-frame-paths.json`, built by `packages/core/scripts/build-ui-frame-paths.mjs` from every layout in the mods and campaigns (not maps) of the pinned game-data mirror `sc2-arcade-watcher/sc2-game-data` @ `7be8945`; rerun it after moving the pin. The snapshot keeps each frame's template rather than copying the template's frames out, since Blizzard's templates of templates would copy out to over 300,000 paths.
+
+### UI layout pitfalls
+
+Things a layout hand-written in a Mod Blueprint's `files` can get wrong, which show only in game. Most came from checking another project's notes on SC2 authoring against our code and Blizzard's files, so each row has a status: **confirmed** (seen in game by us), **checked** (settled from Blizzard's files, not seen in game), **unverified** (only the other notes say so) or **needs an in-game check**. Blizzard's files are the pinned game-data mirror above. Blizzard's "stock layouts" are the 50 in the ticket's recorded run; the "mirror" counts are all 542 of its layouts.
+
+| Pitfall | Status | Evidence |
+| --- | --- | --- |
+| A Label shorter than its font's line height logs `Text [...] is too tall for a single line`. | Unverified; the margin **needs an in-game check** (#57). | The notes say a label's height must clear its font's size by 8 UI units. A test holds each of core's labels to that (`packages/core/tests/ui/label-height.test.ts`, the margin a constant): all do but the choice picker's prompt and hotkeys, 6 over, which stay pending until #57. The toast's text label of 44 px for a 20 px font didn't wrap in game (below), which fits the rule. |
+| A template must be declared earlier in the same file than the frame that uses it, or the game logs `Failed to locate specified Desc`. | Unverified in game; **checked** against Blizzard's files. | Blizzard's stock layouts have 325 `template="<own file>/…"` references and none points forward (the mirror: 6,870, none). `check` warns about one that does (below). |
+| With a `Width` set, use one edge anchor per axis, or a Mid/Mid pair. | Unverified, narrowed: the pair is **checked**. | The notes say two edge anchors with a `Width` conflict. Blizzard's stock layouts pair `Width` with Left Mid and Right Mid in 71 frames, which is how core's centred frames are written (`anchorElements`); the single-edge case isn't tested. |
+| A full-screen frame that takes the mouse blocks the clicks beneath it. | Unverified in game. | The choice picker's root does so on purpose while it's open, so a click can't reach the world beneath. A frame that should let clicks through must not take the mouse. |
+| `Normal`, `Toggled`, `Pushed` and `Selected` are events the engine fires on a button; name your own events otherwise. | Unverified. | Only the notes say so. The toast's own event is `SlideIn`, a name the engine never fires. |
+| Overriding a child of a template that has `DescFlags Internal` has no effect. | Unverified. | Only the notes say so. Test it before relying on such an override. |
+| The game's UI is at most 16:9, and its units are 1200 tall. | Unverified. | Only the notes say so. |
+| `//` cuts off a GameStrings value. | **Checked**: the notes are wrong. | Core's enUS GameStrings has `TriggerDebug/SDNoFileLoaded=// No File Loaded.`, so a value may start with `//`. |
+| A Portrait frame shows nothing in a trigger dialog. | Unverified; **needs an in-game check**. | Only the notes say so. Test it when a hero-frame or camera-feed component is planned. |
+
+The two frame-path warnings:
+
+- **Template order.** `check` warns about a frame made from a template its own file declares further down: `template="HarbourUI/X"` in `HarbourUI.SC2Layout`, where `X` comes after the frame. It names the file, the frame and the template. A template of another file isn't compared. The recorded run found none in Blizzard's layouts.
+- **Control type.** `check` warns about a literal hookup whose control-type constant (`c_triggerControlTypeImage`) is another basic type from the frame's `type` in a layout the mod loads: Label, Image, Button, CheckBox, EditBox, ListBox, ProgressBar, Slider, Pulldown or Portrait. It doesn't compare a Panel, which Blizzard hooks to frames of any type, nor a plain Frame (Blizzard hooks Images, Buttons and Labels to them), nor a frame whose type the layouts don't give, nor a constant that isn't one name. Blizzard's frames have no types until `build-ui-frame-paths.mjs` records them, so for now this reads the mod's own layouts and its UI Components'. The recorded run found none in the 413 hookups of the stock layouts' Galaxy that resolve to a frame with a type (1,610 across the mirror).
+
+### What the toast taught
+
+Seen in game while building the toast (`packages/core/src/ui/toast.ts`):
+
+- **A Fade animation left paused at its end kept every later toast see-through** (2026-11-10), so they only flickered. The toast's fades are the script's (`DialogControlFadeTransparency`), not the layout's. **Confirmed.**
+- **A text label of 44 px didn't wrap** (2026-11-10): it kept to one line and cut it off, most likely because a second line didn't fit its height. Two full lines of the style (56 px for a 20 px font) wrap. The cause is **unconfirmed**; it fits the label-height pitfall above.
+- **A label shrinks its text to fit only so far** (2026-11-10 and 11-11). With `ScaleToPreventTruncation`, a full-size title fitted 20 ordinary letters or 11 W's, "Master of Western Waters" shrank and fitted, and 24 W's were cut off. The text label wrapped and shrank: 60 W's and m's fitted in three shrunk lines. So the toast measures a title by its letters' widths (`titleWidth`) and counts a text's characters. **Confirmed**, at the default styles in 302 px labels.
 
 ## Game time, AI time and mission time
 

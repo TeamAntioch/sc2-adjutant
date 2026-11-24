@@ -51,9 +51,10 @@ import { isInside } from "../util/inside.js";
 import { bankFixtureProblem } from "../capture/bank-fixtures.js";
 import { workspaceLibrary } from "../mods/library.js";
 import { modUi, uiComponentsOn, type UiComponentOn } from "../ui/components.js";
-import { componentUi, modFramePathWarnings } from "../ui/frame-path-check.js";
+import { componentUi, modFrameWarnings } from "../ui/frame-path-check.js";
 import { UI_COMPONENTS } from "../ui/core-components.js";
 import type { UiComponent } from "../ui/ui-component.js";
+import { KNOWN_ERRORS_FILE, readKnownErrors } from "../host/known-errors.js";
 import type { CampaignLibrary } from "./plugin-api.js";
 import { BLUEPRINT_FILE, campaignModName, loadWorkspace, missionIds, readRawBlueprint, validateMissionBlueprint, WORKSPACE_FILE, type Workspace } from "./workspace.js";
 
@@ -101,6 +102,16 @@ export type CheckWorkspaceOptions = {
   readonly uiComponents?: readonly UiComponent[];
 };
 
+/** A known-errors list's problems: the file that doesn't read or fit its format, and a pattern whose reason is still the placeholder a tool proposed. */
+async function knownErrorsProblems(absolute: string, file: string, mission?: string): Promise<WorkspaceProblem[]> {
+  try {
+    const patterns = await readKnownErrors(absolute, file);
+    return patterns.flatMap((pattern, index) => (/^TODO/i.test(pattern.reason.trim()) ? [{ ...(mission ? { mission } : {}), file, path: `patterns.${index}.reason`, message: `the pattern "${pattern.match}" still has a placeholder for its reason: say why it's known`, severity: "warning" as const }] : []));
+  } catch (error) {
+    return [{ ...(mission ? { mission } : {}), file, message: messageOf(error) }];
+  }
+}
+
 /** Why a Mission's UI action can't be called as its compile would call it, or undefined when it can. */
 function uiActionProblem(library: CampaignLibrary, blueprint: MissionBlueprint, action: string, params: unknown): string | undefined {
   try {
@@ -129,7 +140,7 @@ export async function checkWorkspace(root: string, options: CheckWorkspaceOption
     return { root: absolute, missions: [], problems: [{ file: relative(workspace.missionsDir), message: messageOf(error) }, ...(await modProblems(workspace, relative, sc2Path, options.modelFootprints, options.uiComponents ?? UI_COMPONENTS))] };
   }
 
-  const problems: WorkspaceProblem[] = [];
+  const problems: WorkspaceProblem[] = [...(await knownErrorsProblems(path.join(absolute, KNOWN_ERRORS_FILE), KNOWN_ERRORS_FILE))];
   const footprints = options.modelFootprints ?? (await bundledModelFootprints());
   const uiComponents = options.uiComponents ?? UI_COMPONENTS;
   /** The Campaign Mod's library, read once a Mission has a UI action to check. */
@@ -145,6 +156,7 @@ export async function checkWorkspace(root: string, options: CheckWorkspaceOption
       problems.push({ mission, file, message: messageOf(error) });
       continue;
     }
+    problems.push(...(await knownErrorsProblems(path.join(path.dirname(blueprintPath), KNOWN_ERRORS_FILE), relative(path.join(path.dirname(blueprintPath), KNOWN_ERRORS_FILE)), mission)));
     // The Mission's own Map Package; a folder holding two is a problem, and the rest of the Mission is still checked.
     let mapDir: string | undefined;
     try {
@@ -379,7 +391,7 @@ async function modProblems(workspace: Workspace, relative: (file: string) => str
       // A `ui` that doesn't read is reported above, and its components' layouts left out here.
       try {
         const generated = componentUi(on, found.blueprintPath, blueprint.library?.id);
-        for (const warning of await modFramePathWarnings(found.modPackage, generated)) problems.push({ mod, file: relative(warning.file), path: warning.where, message: warning.message, severity: "warning" });
+        for (const warning of await modFrameWarnings(found.modPackage, generated)) problems.push({ mod, file: relative(warning.file), path: warning.where, message: warning.message, severity: "warning" });
       } catch (error) {
         problems.push({ mod, file: relative(found.modPackage), message: `The frame paths weren't checked: ${messageOf(error)}`, severity: "warning" });
       }

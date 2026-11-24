@@ -19,12 +19,12 @@ import { existsSync } from "node:fs";
 import { appendFile, mkdir, readFile, rm } from "node:fs/promises";
 import path from "node:path";
 
-import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type HostContext } from "@team-antioch/sc2-adjutant/plugin-sdk";
+import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type GameProcess, type HostContext, ownedGame, quitOwnedGame, refuseForeignGame } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
 import { bankFile, captureCopies, type TourWorld, watchTour } from "./capture-tour-windows.ts";
 import { documentsOf } from "./editor-windows.ts";
 import { activate, choose, closeDocument, type Editor, editorExe, editorHelper, launch, promptText, readEditor } from "./editor.ts";
-import { firstAnswer, gamePids, quitGame, tolerantCheck, topWindows, wasMinimized } from "./game.ts";
+import { firstAnswer, gamePids, tolerantCheck, topWindows, wasMinimized, windowsSystem } from "./game.ts";
 import { gameWindows } from "./game-windows.ts";
 import { deadline, helper, runHelper, sleep } from "./helpers.ts";
 
@@ -53,6 +53,11 @@ function documentsFolder(editor: Editor): Promise<string> {
 /** The folder the game saves its banks in (`game.banksDir`): `<Documents>\StarCraft II\Banks`. */
 export async function banksDir(_request: Record<string, never>, context: HostContext): Promise<string> {
   return path.join(await documentsFolder(await editorHelper(context)), "StarCraft II", "Banks");
+}
+
+/** game.logsFolder: `<Documents>\StarCraft II\GameLogs`, Documents as the shell has it (it may be redirected). */
+export async function gameLogsFolder(_request: Record<string, never>, context: HostContext): Promise<string> {
+  return path.join(await documentsFolder(await editorHelper(context)), "StarCraft II", "GameLogs");
 }
 
 const isOpen = async (editor: Editor, mapPath: string): Promise<boolean> => documentsOf(await readEditor(editor), mapPath).length > 0;
@@ -121,7 +126,16 @@ async function bankNow(bank: string): Promise<string | undefined> {
 export const WATCH_FAILED_CHECKS = 10;
 
 /** The watch's world: the game's processes, the bank on disk, and the capture helper on the game's window. */
-export function gameWorld(request: CaptureTourRequest, editor: Editor, capture: string, bank: string, leftover: string | undefined, log: (line: string) => void): TourWorld {
+export function gameWorld(
+  request: CaptureTourRequest,
+  editor: Editor,
+  capture: string,
+  bank: string,
+  leftover: string | undefined,
+  log: (line: string) => void,
+  /** Whether the game this capture started runs; without it, whether any game does (attaching). */
+  gameUp?: () => Promise<boolean>,
+): TourWorld {
   let warned = "";
   /** A capture problem, logged once until another comes up. */
   const warn = (line: string) => {
@@ -141,7 +155,7 @@ export function gameWorld(request: CaptureTourRequest, editor: Editor, capture: 
     // Checks that keep failing end the tour, rather than watch a game that may be gone.
     gameRunning: async () => {
       try {
-        running = (await gamePids(editor.exe)).length > 0;
+        running = gameUp ? await gameUp() : (await gamePids(editor.exe)).length > 0;
         failedChecks = 0;
       } catch (error) {
         const message = `couldn't tell whether the game is still running: ${(error as Error).message}`;
@@ -214,6 +228,9 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
   // Set once this run may have opened the map or started the game; whatever ends the run then
   // quits the game and closes the map.
   let touchedEditor = false;
+  // The game this capture starts, once it appears: the only one it watches or quits. Attaching, the author's game is watched and left alone.
+  const system = windowsSystem(editor.exe);
+  const own = ownedGame(system, request.onGameStarted);
   // Attached to a game already running, the bank may still hold an earlier run's last stop (-1);
   // that content is ignored until the game saves the bank again.
   let leftover: string | undefined;
@@ -225,7 +242,8 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       leftover = await bankNow(bank);
     } else {
       await rm(bank, { force: true });
-      await quitGame(editor.exe);
+      // Nothing is quit here: a game already running isn't this capture's.
+      await refuseForeignGame(system);
       // A copy left open by an earlier run would be tested as it was: opening only brings it forward.
       if (await isOpen(editor, mapPath)) {
         log("closing a stale copy");
@@ -238,11 +256,14 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       await startTest(mapPath, context, editor, log);
     }
     log("game started; it can sit behind other windows now (don't minimize it)");
-    return await watchTour({ ...request, ...(leftover !== undefined ? { leftover } : {}) }, gameWorld(request, editor, capture, bank, leftover, log));
+    return await watchTour({ ...request, ...(leftover !== undefined ? { leftover } : {}) }, gameWorld(request, editor, capture, bank, leftover, log, request.attach ? undefined : () => own.running()));
   } finally {
     try {
       if (touchedEditor) {
-        await quitGame(editor.exe).catch((error: unknown) => log((error as Error).message));
+        // A game that appeared since the last look is this capture's too.
+        await own.running().catch(() => false);
+        const game = own.game();
+        if (game) await quitOwnedGame(game, system, log).catch((error: unknown) => log(`couldn't quit the game: ${(error as Error).message}`));
         await closeMap(mapPath, editor, log, earlier);
       }
     } finally {
@@ -253,25 +274,18 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
 
 /**
  * Closes, without saving, every capture copy the Editor has open (any document under
- * <cacheDir>/capture/maps/), quitting the game first when one is running, since that game is most
- * likely testing it. The Editor Broker runs this as it starts and after a failed tour.
+ * <cacheDir>/capture/maps/), after quitting the games it is given: the capture's own, which the
+ * broker recorded. Another game is left running. The Editor Broker runs this as it starts and after a failed tour.
  */
-export async function closeCaptureCopies(request: { readonly log?: (line: string) => void }, context: HostContext): Promise<void> {
+export async function closeCaptureCopies(request: { readonly log?: (line: string) => void; readonly games?: readonly GameProcess[] }, context: HostContext): Promise<void> {
   const log = request.log ?? (() => undefined);
   const maps = path.join(context.requirePath("cacheDir"), CAPTURE_MAPS_FOLDER);
   const editor = await editorHelper(context);
+  // Only the games the broker recorded as a capture's; one it didn't is the author's to quit.
+  const system = windowsSystem(editor.exe);
+  for (const game of request.games ?? []) await quitOwnedGame(game, system, log).catch((error: unknown) => log(`couldn't quit game ${game.pid}: ${(error as Error).message}`));
   const copies = captureCopies(await readEditor(editor), maps, existsSync);
   if (copies.length === 0) return;
-  // A check that won't answer is no reason to leave the copies open: the game is quit regardless.
-  const running = await firstAnswer(tolerantCheck(() => gamePids(editor.exe))).catch((error: unknown) => {
-    log(`couldn't tell whether a game is running: ${(error as Error).message}`);
-    return undefined;
-  });
-  if (running === undefined || running.length > 0) {
-    if (running) log("quitting the game a capture copy left running");
-    // The copies are closed even when the game won't go, so the next tour doesn't find one stale.
-    await quitGame(editor.exe).catch((error: unknown) => log((error as Error).message));
-  }
   for (const copy of copies) {
     log(`closing ${path.basename(copy)}`);
     await closeMap(copy, editor, log);

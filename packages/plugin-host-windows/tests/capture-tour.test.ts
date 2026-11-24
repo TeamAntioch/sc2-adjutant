@@ -34,6 +34,19 @@ describe("the capture tour's world", () => {
     await expect(world.gameRunning()).rejects.toThrow(`(${WATCH_FAILED_CHECKS} checks in a row)`);
   });
 
+  it("asks only about the game the capture started when it is given the check, never listing every game", async () => {
+    const folder = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-tour-"));
+    folders.push(folder);
+    const missing = path.join(folder, "no-such-helper.exe");
+    const request = { outputDir: folder, quality: 90, width: 1280 } as unknown as CaptureTourRequest;
+    let own = true;
+    const world = gameWorld(request, { exe: missing }, missing, path.join(folder, "Tour.SC2Bank"), undefined, () => undefined, async () => own);
+    expect(await world.gameRunning()).toBe(true);
+    own = false;
+    // Another game may be running, and the helper can't even run here: neither matters.
+    expect(await world.gameRunning()).toBe(false);
+  });
+
   it("keeps the bank as last read when a read fails, and the leftover until then", async () => {
     const { world, bank, lines } = await brokenWorld("leftover");
     expect(await world.readBank()).toBe("");

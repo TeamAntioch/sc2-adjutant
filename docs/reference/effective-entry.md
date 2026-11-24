@@ -31,3 +31,11 @@ The install's own data is in CASC storage and isn't read here.
 | Referrers by whole-value match | Entry ids are written whole in link fields | Yes: lists written as one comma- or space-separated value are not matched, so a referrer may be missing |
 
 Nothing here was run against the StarCraft II Editor. Until an Editor check, read the result as our best account of the merge, not a confirmed one. The tests (`tests/mods/effective-entry.test.ts`, `tests/mcp/show-entry.test.ts`) use synthetic data in the shape of Blizzard's catalogs; they test the merge rules above, not the game.
+
+## Copying an entry from a base mod
+
+An entry copied out of a base mod into a Blueprint must take the values a later mod overrides, not the base mod's own: otherwise its tooltip and its upgrades disagree with play. `show_entry` shows the merged values, so copy from that, not from the one file that defines the entry.
+
+## A field that repeats its parent's
+
+`compile-mod` warns of a field a Generic Entry writes that its parent already gives it the same value (`repeatedFields`, in `effective-entry.ts`, called from `data-rules.ts`; the row is in [data-rules.md](./data-rules.md)). It reads the Blueprint's own entries through this same merge (the parent chain from the root down, without the class default), never Kept or imported data and never a stock parent.

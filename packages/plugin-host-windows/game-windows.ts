@@ -10,11 +10,27 @@
 
 import path from "node:path";
 
+import type { GameProcess } from "@team-antioch/sc2-adjutant/plugin-sdk";
+
 import { editorState, GAME_PROCESSES, isEditorProcess, type MenuItem, type TopWindow } from "./editor-windows.ts";
+
+/**
+ * The flags the Editor's Test Document starts the game with besides the map and window mode
+ * (docs/reference/game-testing.md §1): preload on, cheats off, and the reload check.
+ */
+export const EDITOR_TEST_FLAGS = ["-preload", "1", "-NoUserCheats", "-reloadcheck"] as const;
 
 /** How game.launch starts the game on a map: the install's SC2Switcher, windowed. */
 export function switcherLaunch(sc2Path: string, mapPath: string): { readonly exe: string; readonly args: readonly string[] } {
-  return { exe: path.join(sc2Path, "Support", "SC2Switcher.exe"), args: ["-run", mapPath, "-displaymode", "0"] };
+  return { exe: path.join(sc2Path, "Support", "SC2Switcher.exe"), args: ["-run", mapPath, "-displaymode", "0", ...EDITOR_TEST_FLAGS] };
+}
+
+/** The running games from `editor games` output: a process id and its UTC start time a line, tab-separated. */
+export function parseGames(stdout: string): GameProcess[] {
+  return stdout.split(/\r?\n/).flatMap((line) => {
+    const [pid, startedAt] = line.split("\t");
+    return pid && startedAt && /^\d+$/.test(pid) ? [{ pid: Number(pid), startedAt: startedAt.trim() }] : [];
+  });
 }
 
 const isGameProcess = (name: string): boolean => GAME_PROCESSES.some((game) => game.toLowerCase() === name.toLowerCase());

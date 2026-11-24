@@ -115,6 +115,22 @@ export function readGameModelPaths(file: string = GAME_MODELS_PATH): string[] {
   return paths;
 }
 
+// --- The game's other asset files (data/game-assets.json) ---
+
+export const GAME_ASSETS_PATH = path.join(CORE_DATA_DIR, "game-assets.json");
+let gameAssets: ReadonlySet<string> | undefined;
+
+/**
+ * Whether any of the game's mods names an image (.dds, .tga, .png, .jpg) or model file at
+ * `storagePath` (either slash, any case) that isGameModel doesn't know: its catalogs, layouts and
+ * asset lists, of every stock mod, the Heroes of the Storm and co-op ones among them
+ * (data/game-assets.json, `node scripts/build-game-assets.mjs`). A texture only a model names isn't in it.
+ */
+export function isGameAsset(storagePath: string): boolean {
+  gameAssets ??= new Set((JSON.parse(readFileSync(GAME_ASSETS_PATH, "utf8")) as string[]).map(comparable));
+  return gameAssets.has(comparable(storagePath));
+}
+
 /** The CModel ids of every model in the set catalogue's sets (data/cinematic-sets/catalog.json), once each, sorted: a piece named by file alone has none. */
 export function setCatalogModelIds(): string[] {
   type Catalog = { sets: { models: { model: string }[]; occurrences: { pieces: { model: string; modelPath?: string }[] }[] }[] };

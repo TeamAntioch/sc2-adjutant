@@ -332,6 +332,29 @@ describe("tuning a Kept trigger", () => {
     const copy = /copied [0-9A-F]{8} as ([0-9A-F]{8})/.exec(result.changed[0]!)![1]!;
     expect(after).toContain(`<Action Type="FunctionCall" Id="${wait}"/>\r\n        <Action Type="FunctionCall" Id="${copy}"/>`);
   }, 60_000);
+  it("on a dry run writes nothing and shows each trigger's change in the Editor's form, the changed lines marked", async () => {
+    const harbour = await imported();
+    const before = await tree(harbour.mapDir);
+    const triggers = before["Triggers"]!;
+    const call = (functionId: string): string => new RegExp(`<Element Type="FunctionCall" Id="([0-9A-F]{8})">\\r\\n        <FunctionDef Type="FunctionDef" Library="Ntve" Id="${functionId}"/>`).exec(triggers)![1]!;
+
+    const changedArgument = await tuneKeptTriggers(harbour.workspace, harbour.blueprintPath, [{ op: "set", trigger: "Zeratul Dies", param: waitTimeParam(triggers), value: 4.5 }], { dryRun: true });
+    const addedAndRemoved = await tuneKeptTriggers(harbour.workspace, harbour.blueprintPath, [
+      { op: "copy", trigger: "Zeratul Dies", call: call("00000242") },
+      { op: "remove", trigger: "Zeratul Dies", call: call("00000198") },
+    ], { dryRun: true });
+
+    expect(await tree(harbour.mapDir)).toEqual(before);
+    expect(changedArgument.files).toEqual([]);
+    const [argument] = changedArgument.diffs!;
+    expect(argument!.trigger).toBe("Zeratul Dies");
+    expect(argument!.diff.split("\n").filter((line) => line.includes("←"))).toEqual([expect.stringMatching(/^ +\S.*4\.5.*  ← was: .*3\.0/)]);
+    const marked = addedAndRemoved.diffs![0]!.diff.split("\n").filter((line) => line.includes("←"));
+    expect(marked.some((line) => line.endsWith("← new"))).toBe(true);
+    expect(marked.some((line) => line.endsWith("← remove"))).toBe(true);
+    // Every line of the outline is there, marked or not.
+    expect(addedAndRemoved.diffs![0]!.diff.split("\n").length).toBeGreaterThan(marked.length);
+  }, 60_000);
   it("tunes an older map's trigger whose calls and parameters share their Ids with Variables, and gives a copy Ids no type has", async () => {
     const harbour = await imported();
     const triggersPath = path.join(harbour.mapDir, "Triggers");

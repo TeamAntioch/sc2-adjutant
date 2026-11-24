@@ -1,6 +1,6 @@
 {
   "name": "@team-antioch/sc2-adjutant-doodad-finder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "sc2-adjutant's Doodad Finder (ADR-0020, ADR-0022): a thin CLI over the published @team-antioch/sc2-doodad-finder's startFinder, adding the Workspace's Campaign Mod doodads, Mission badges, Doodad Searches and look closer (src/adjutant/), and the find_doodads and open_doodad_finder MCP tools.",
   "license": "MIT",
   "repository": {

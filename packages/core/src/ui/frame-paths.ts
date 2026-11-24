@@ -26,19 +26,25 @@ export type FramePathReading = "relative" | "gameUI" | "template";
  * under, and how the native reads it.
  */
 export const FRAME_PATH_NATIVES = {
-  DialogControlHookup: { argument: 2, paramDef: "2147B27F", reading: "relative" },
-  DialogControlHookupStandard: { argument: 1, paramDef: "AEF92396", reading: "gameUI" },
-  DialogControlCreateFromTemplate: { argument: 2, paramDef: "B68F0E3F", reading: "template" },
-  DialogControlCreateInPanelFromTemplate: { argument: 2, paramDef: "3CC77352", reading: "template" },
-} as const satisfies Record<string, { readonly argument: number; readonly paramDef: string; readonly reading: FramePathReading }>;
+  DialogControlHookup: { argument: 2, typeArgument: 1, paramDef: "2147B27F", reading: "relative" },
+  DialogControlHookupStandard: { argument: 1, typeArgument: 0, paramDef: "AEF92396", reading: "gameUI" },
+  DialogControlCreateFromTemplate: { argument: 2, typeArgument: 1, paramDef: "B68F0E3F", reading: "template" },
+  DialogControlCreateInPanelFromTemplate: { argument: 2, typeArgument: 1, paramDef: "3CC77352", reading: "template" },
+} as const satisfies Record<string, { readonly argument: number; readonly typeArgument: number; readonly paramDef: string; readonly reading: FramePathReading }>;
 export type FramePathNative = keyof typeof FRAME_PATH_NATIVES;
 
-/** A literal frame path passed to one of the natives, the line the call starts on, and the function it's in (none at the top level). */
-export type FramePathCall = { readonly native: FramePathNative; readonly path: string; readonly line: number; readonly function?: string };
+/**
+ * A literal frame path passed to one of the natives, the line the call starts on, the function
+ * it's in (none at the top level) and the control-type constant it's given, when it's one name
+ * (`c_triggerControlTypeImage`) rather than an expression.
+ */
+export type FramePathCall = { readonly native: FramePathNative; readonly path: string; readonly line: number; readonly function?: string; readonly controlType?: string };
 
 type GalaxyToken = { readonly kind: "name" | "string" | "punctuation"; readonly text: string; readonly line: number };
 
 const NAME = /[A-Za-z_]\w*/y;
+/** A control-type constant: c_triggerControlTypeImage. */
+const CONTROL_TYPE = /^c_triggerControlType\w+$/;
 
 /** `galaxy`'s names, strings (their values) and punctuation, without its comments. */
 function galaxyTokens(galaxy: string): GalaxyToken[] {
@@ -132,7 +138,9 @@ export function framePathCalls(galaxy: string): FramePathCall[] {
       else args.at(-1)!.push(next);
     }
     const path = literalOf(args[FRAME_PATH_NATIVES[native].argument] ?? []);
-    if (path !== undefined) calls.push({ native, path: pathSegments(path).join("/"), line: token.line, ...(inFunction ? { function: inFunction } : {}) });
+    const typeArgument = args[FRAME_PATH_NATIVES[native].typeArgument] ?? [];
+    const controlType = typeArgument.length === 1 && typeArgument[0]!.kind === "name" && CONTROL_TYPE.test(typeArgument[0]!.text) ? typeArgument[0]!.text : undefined;
+    if (path !== undefined) calls.push({ native, path: pathSegments(path).join("/"), line: token.line, ...(inFunction ? { function: inFunction } : {}), ...(controlType ? { controlType } : {}) });
   });
   return calls;
 }
@@ -148,12 +156,13 @@ export type FrameSnapshotTree = { readonly [name: string]: FrameSnapshotTree | s
 /** The key a snapshot node's template is under: `@` is in no frame's name. */
 export const TEMPLATE_KEY = "@template";
 
-type FrameNode = { readonly name: string; readonly children: Map<string, FrameNode>; readonly templates: string[] };
+/** A frame: its names, its frames, its templates and the `type`s (Label, Image, …, in lower case) layouts gave it; the snapshot keeps none. */
+type FrameNode = { readonly name: string; readonly children: Map<string, FrameNode>; readonly templates: string[]; readonly types: string[] };
 
 const key = (name: string): string => name.toLowerCase();
 /** A path's names, `\` read as `/`. */
 export const pathSegments = (path: string): string[] => path.replace(/\\/g, "/").split("/").filter((segment) => segment !== "");
-const newNode = (name: string): FrameNode => ({ name, children: new Map(), templates: [] });
+const newNode = (name: string): FrameNode => ({ name, children: new Map(), templates: [], types: [] });
 
 /**
  * The frames of layout files, looked up by path. A tree made `over` another has that one's frames
@@ -221,6 +230,8 @@ export class FrameTree {
   #addFrame(node: FrameNode, depth: number, frame: XmlNode): void {
     const template = xmlAttribute(frame, "template");
     if (template && !node.templates.includes(template)) node.templates.push(template);
+    const type = xmlAttribute(frame, "type")?.toLowerCase();
+    if (type && !node.types.includes(type)) node.types.push(type);
     for (const child of frame.children) {
       const name = child.name === "Frame" ? xmlAttribute(child, "name") : undefined;
       if (!name) continue;
@@ -311,6 +322,21 @@ export class FrameTree {
     const [first, ...rest] = pathSegments(path);
     if (first === undefined) return false;
     return this.#walk(this.#named(key(first)), rest).length > 0;
+  }
+
+  /**
+   * The frames at `path` (its file's name first), each with its `type`s as layouts gave them: a
+   * frame none gave a type, a snapshot's among them, has none listed.
+   */
+  find(path: string): { readonly types: readonly string[] }[] {
+    const names = pathSegments(path);
+    return names.length >= 2 ? this.#walk(this.#roots, names) : [];
+  }
+
+  /** The frames some frame's path ends in `path`, as `endsWith` reads it, with their types as `find` gives them. */
+  findEndingWith(path: string): { readonly types: readonly string[] }[] {
+    const [first, ...rest] = pathSegments(path);
+    return first === undefined ? [] : this.#walk(this.#named(key(first)), rest);
   }
 
   /** The tree's own frames (not its base's) as the snapshot stores them, names and templates in a stable order. */

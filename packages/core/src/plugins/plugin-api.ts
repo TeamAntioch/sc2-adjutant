@@ -487,6 +487,9 @@ export const HOST_CAPABILITIES = [
   "editor.closeCaptureCopies",
   "game.running",
   "game.banksDir",
+  "game.list",
+  "game.quit",
+  "game.logsFolder",
   "screen.capture",
   "tts.speak",
   "model.render",
@@ -525,6 +528,16 @@ export type HostContext = {
  */
 export const CAPTURE_MAPS_FOLDER = "capture/maps";
 
+/**
+ * A running game, named by its process id and when that process started. A process id is reused
+ * once its process exits, so the start time (as the host reads it; compared only for equality) says
+ * whether a recorded game is still the one that was started.
+ */
+export type GameProcess = { readonly pid: number; readonly startedAt: string };
+
+/** What a capture says when another game is running: one it didn't start isn't its to quit. */
+export const FOREIGN_GAME_REFUSAL = "A game is running that this tool didn't start. Quit it, or capture with `attach`.";
+
 /** A camera tour to capture: see `editor.captureTour`. */
 export type CaptureTourRequest = {
   /** A Map Package inside `<cacheDir>/capture/maps/`, whose script announces each stop in a bank. */
@@ -562,6 +575,11 @@ export type CaptureTourRequest = {
   readonly writeMap?: () => Promise<unknown>;
   /** The game is already running the map (the author started it): only watch, and leave the Editor alone. */
   readonly attach?: boolean;
+  /**
+   * Called once with the game this tour started, as soon as it is found, so the Editor Broker
+   * records it as the tool's to quit (and quits it if the tour fails or is cancelled).
+   */
+  readonly onGameStarted?: (game: GameProcess) => void;
   /** Progress lines for the author. */
   readonly log?: (line: string) => void;
   /**
@@ -620,13 +638,14 @@ export type HostCapabilities = {
   readonly "editor.captureTour": (request: CaptureTourRequest, context: HostContext) => Promise<CaptureTourResult>;
   /**
    * Closes, without saving, every map in `<cacheDir>/capture/maps/` the Editor has open, and quits
-   * a game it may be testing. The Editor Broker runs it as it starts and after a failed tour, so a
-   * copy an earlier run left open is never tested in place of a new one. Never touches another map.
+   * the `games` the broker recorded as the tool's own (never another game: the author may be playing).
+   * The Editor Broker runs it as it starts and after a failed tour, so a copy an earlier run left
+   * open is never tested in place of a new one. Never touches another map.
    */
-  readonly "editor.closeCaptureCopies": (request: { readonly log?: (line: string) => void }, context: HostContext) => Promise<void>;
+  readonly "editor.closeCaptureCopies": (request: { readonly log?: (line: string) => void; readonly games?: readonly GameProcess[] }, context: HostContext) => Promise<void>;
   /**
-   * Whether a StarCraft II game is running. The Editor Broker asks it after a Test Document it ran,
-   * and starts no capture until the game has quit, since a capture quits any game it finds.
+   * Whether a StarCraft II game is running. The Editor Broker asks it, when the host has no
+   * `game.list`, after a Test Document it ran, and starts no capture until that game has quit.
    */
   readonly "game.running": (request: Record<string, never>, context: HostContext) => Promise<boolean>;
   /**
@@ -635,6 +654,21 @@ export type HostCapabilities = {
    * reads the folder, and writes into it only when the author asks to roll a bank back.
    */
   readonly "game.banksDir": (request: Record<string, never>, context: HostContext) => Promise<string>;
+  /** Every running StarCraft II game, so the Editor Broker can tell the one a job started from any other. */
+  readonly "game.list": (request: Record<string, never>, context: HostContext) => Promise<GameProcess[]>;
+  /**
+   * Quits this game and no other: the quit key and its Yes (Mac: Cmd+Option+Q; Windows: close the
+   * window), so the game writes its logs, then ends the process only if it hasn't exited within a
+   * timeout. Resolves "gone" without touching anything when no process matches both the pid and
+   * the start time (it exited, or its pid was reused), else how it ended, which it also logs.
+   */
+  readonly "game.quit": (request: { readonly game: GameProcess; readonly log?: (line: string) => void }, context: HostContext) => Promise<"closed" | "killed" | "gone">;
+  /**
+   * The folder the game writes its log files to (GameLogs): where core reads a run's errors and
+   * crashes from (host/game-logs.ts). Each Host Adapter names its machine's; the game writes the
+   * files as it exits, so they're read after a quit.
+   */
+  readonly "game.logsFolder": (request: Record<string, never>, context: HostContext) => Promise<string>;
   /** Captures the game window (else the Editor's) to an image, JPEG or PNG by the path's extension. */
   readonly "screen.capture": (request: { readonly outputPath: string }, context: HostContext) => Promise<void>;
   /**

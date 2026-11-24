@@ -8,7 +8,7 @@ import { readdir, rename } from "node:fs/promises";
 import path from "node:path";
 
 import type { Host } from "../host/host.js";
-import type { CaptureTourResult } from "../plugins/plugin-api.js";
+import type { CaptureTourResult, GameProcess } from "../plugins/plugin-api.js";
 import type { CaptureCopyOptions } from "./capture-copy.js";
 import { runBrokeredCapture } from "./editor-broker-client.js";
 
@@ -40,7 +40,7 @@ export async function refuseUsedFolder(outputDir: string, record: string, holds:
 export async function runStopTour(
   host: Host,
   request: { readonly source: string; readonly label: string; readonly copy: Omit<CaptureCopyOptions, "name">; readonly outputDir: string; readonly log: (line: string) => void; readonly onQueued?: (id: string) => void; readonly signal?: AbortSignal },
-): Promise<CaptureTourResult & { readonly copy: string }> {
+): Promise<CaptureTourResult & { readonly copy: string; readonly games: readonly GameProcess[]; readonly startedAt?: string }> {
   const result = await runBrokeredCapture(
     host,
     {
@@ -53,7 +53,7 @@ export async function runStopTour(
     },
     { log: request.log, ...(request.onQueued ? { onQueued: request.onQueued } : {}), ...(request.signal ? { signal: request.signal } : {}) },
   );
-  return { frames: result.frames, end: result.end, copy: result.copy! };
+  return { frames: result.frames, end: result.end, copy: result.copy!, games: result.games ?? [], ...(result.startedAt ? { startedAt: result.startedAt } : {}) };
 }
 
 /** Gives each stop's frame (the host names them by stop) its planned name: the frames' paths, null for a stop with none. */

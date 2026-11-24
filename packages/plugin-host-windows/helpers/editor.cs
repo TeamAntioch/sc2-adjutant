@@ -4,6 +4,9 @@
 //   editor windows             one line per top-level window: hwnd, owner hwnd, pid, process, class, visible (1/0), has a menu (1/0), title (tab-separated)
 //   editor menu <hwnd>         one line per item of the window's menus, one level down: menu, command id, checked (1/0), label, shortcut
 //   editor pids <name>...      the ids of the running processes with those names (no ".exe"), one per line
+//   editor games <name>...     the running processes with those names: id and start time (UTC, round-trip format), tab-separated, one per line
+//   editor close <hwnd>        posts WM_CLOSE to the window, as its close button does (a game then asks to confirm)
+//   editor key <hwnd> <key>    brings the window forward and presses one key in it: space or y
 //   editor post <hwnd> <id>    posts WM_COMMAND <id> to the window, as choosing that menu item does
 //   editor buttons <hwnd>      one line per child button: hwnd, enabled (1/0), text (tab-separated); then "text" lines for its static text
 //   editor click <hwnd>        clicks the button (BN_CLICKED to its dialog), without bringing anything forward
@@ -68,11 +71,13 @@ static class Editor {
   const uint INPUT_KEYBOARD = 1;
   const uint KEYEVENTF_KEYUP = 0x0002;
   const ushort VK_SPACE = 0x20;
+  const ushort VK_Y = 0x59;
   const uint ES_CONTINUOUS = 0x80000000;
   const uint ES_SYSTEM_REQUIRED = 0x00000001;
   const uint ES_DISPLAY_REQUIRED = 0x00000002;
   const uint GW_OWNER = 4;
   const uint WM_COMMAND = 0x0111;
+  const uint WM_CLOSE = 0x0010;
   const uint WM_GETTEXT = 0x000D;
   const uint BM_CLICK = 0x00F5;
   const uint SMTO_ABORTIFHUNG = 0x0002;
@@ -131,6 +136,19 @@ static class Editor {
   static int Pids(string[] names) {
     foreach (var name in names) foreach (var process in Process.GetProcessesByName(name)) Console.WriteLine(process.Id);
     return 0;
+  }
+
+  static int Games(string[] names) {
+    foreach (var name in names) foreach (var process in Process.GetProcessesByName(name)) {
+      try { Console.WriteLine(process.Id + "\t" + process.StartTime.ToUniversalTime().ToString("o")); }
+      catch (Exception) { /* exited, or not readable: not a game to name */ }
+    }
+    return 0;
+  }
+
+  static int Close(IntPtr hwnd) {
+    if (!IsWindow(hwnd)) { Console.Error.WriteLine("no window " + hwnd); return 2; }
+    return PostMessage(hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero) ? 0 : 1;
   }
 
   static int Menu(IntPtr hwnd) {
@@ -216,7 +234,9 @@ static class Editor {
    * a background process take the foreground only while its input is attached to the foreground
    * window's thread.
    */
-  static int Space(IntPtr hwnd) {
+  static int Space(IntPtr hwnd) { return Key(hwnd, VK_SPACE, "Space"); }
+
+  static int Key(IntPtr hwnd, ushort vk, string name) {
     if (!IsWindow(hwnd)) { Console.Error.WriteLine("no window " + hwnd); return 2; }
     if (IsIconic(hwnd)) ShowWindowAsync(hwnd, SW_SHOWNOACTIVATE);
     var foreground = GetForegroundWindow();
@@ -228,13 +248,13 @@ static class Editor {
     SetForegroundWindow(hwnd);
     if (attached) AttachThreadInput(mine, theirs, false);
     System.Threading.Thread.Sleep(300);
-    if (GetForegroundWindow() != hwnd) { Console.Error.WriteLine("couldn't bring the window forward to press Space"); return 1; }
+    if (GetForegroundWindow() != hwnd) { Console.Error.WriteLine("couldn't bring the window forward to press " + name); return 1; }
     var size = Marshal.SizeOf(typeof(Input));
     // With its scan code too, for a game that reads keys by scan code.
-    var scan = (ushort)MapVirtualKey(VK_SPACE, 0);
+    var scan = (ushort)MapVirtualKey(vk, 0);
     var inputs = new[] {
-      new Input { Type = INPUT_KEYBOARD, Union = new InputUnion { Key = new KeyboardInput { Vk = VK_SPACE, Scan = scan } } },
-      new Input { Type = INPUT_KEYBOARD, Union = new InputUnion { Key = new KeyboardInput { Vk = VK_SPACE, Scan = scan, Flags = KEYEVENTF_KEYUP } } },
+      new Input { Type = INPUT_KEYBOARD, Union = new InputUnion { Key = new KeyboardInput { Vk = vk, Scan = scan } } },
+      new Input { Type = INPUT_KEYBOARD, Union = new InputUnion { Key = new KeyboardInput { Vk = vk, Scan = scan, Flags = KEYEVENTF_KEYUP } } },
     };
     return SendInput((uint)inputs.Length, inputs, size) == inputs.Length ? 0 : 1;
   }
@@ -253,6 +273,10 @@ static class Editor {
     try {
       if (command == "windows" && args.Length == 1) return Windows();
       if (command == "pids" && args.Length >= 2) { var names = new string[args.Length - 1]; Array.Copy(args, 1, names, 0, names.Length); return Pids(names); }
+      if (command == "games" && args.Length >= 2) { var gameNames = new string[args.Length - 1]; Array.Copy(args, 1, gameNames, 0, gameNames.Length); return Games(gameNames); }
+      if (command == "close" && args.Length == 2) return Close(Handle(args[1]));
+      if (command == "key" && args.Length == 3 && args[2] == "space") return Space(Handle(args[1]));
+      if (command == "key" && args.Length == 3 && args[2] == "y") return Key(Handle(args[1]), VK_Y, "Y");
       if (command == "menu" && args.Length == 2) return Menu(Handle(args[1]));
       if (command == "post" && args.Length == 3) return Post(Handle(args[1]), int.Parse(args[2]));
       if (command == "buttons" && args.Length == 2) return Buttons(Handle(args[1]));
@@ -265,7 +289,7 @@ static class Editor {
       Console.Error.WriteLine(error.Message);
       return 2;
     }
-    Console.Error.WriteLine("usage: editor windows | pids <name>... | menu <hwnd> | post <hwnd> <id> | buttons <hwnd> | click <hwnd> | documents | restore <hwnd> | space <hwnd> | awake <pid>");
+    Console.Error.WriteLine("usage: editor windows | pids <name>... | games <name>... | close <hwnd> | key <hwnd> space|y | menu <hwnd> | post <hwnd> <id> | buttons <hwnd> | click <hwnd> | documents | restore <hwnd> | space <hwnd> | awake <pid>");
     return 2;
   }
 }

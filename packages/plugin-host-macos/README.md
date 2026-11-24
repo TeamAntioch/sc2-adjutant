@@ -9,7 +9,9 @@ The macOS **Host Adapter** for [sc2-adjutant](https://github.com/TeamAntioch/sc2
 | `editor.open`, `editor.checkClosed`, `editor.refresh` | Opens a Map Package in the Galaxy Editor, tells whether the Editor has it open, and closes a clean copy so a compile can rewrite it. It never saves or discards your changes. |
 | `editor.testDocument`, `editor.save` | Runs File > Test Document, and saves a throwaway copy of a map, through the Editor's menus. |
 | `game.banksDir` | The folder the game keeps its banks in; test_mission snapshots it around a test game. |
-| `editor.captureTour`, `editor.closeCaptureCopies`, `game.running` | Plays a capture map and screenshots each camera stop, then closes it unsaved. Captures run one at a time through the Editor Broker. |
+| `editor.captureTour`, `editor.closeCaptureCopies`, `game.running` | Plays a capture map and screenshots each camera stop, then closes it unsaved. Captures run one at a time through the Editor Broker. A capture quits only the game it started. |
+| `game.logsFolder` | `~/Library/Application Support/Blizzard/StarCraft II/GameLogs`. |
+| `game.list`, `game.quit` | Lists the running games with their start times, and quits one recorded game gracefully (Cmd+Option+Q, then Yes), killing it only after a timeout. |
 | `screen.capture` | Captures the game's window, else the Editor's. |
 | `tts.speak` | Speaks placeholder voice lines with macOS's `say`. |
 | `model.render`, `model.rendererKey`, `model.export`, `model.exportGltf` | Renders game and mod models to turntable thumbnails, and exports them as `.m3` or glTF, with the WhiteoutFlakes model viewer. |
