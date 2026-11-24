@@ -18,10 +18,10 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { type GuiBody, type GuiCall, type GuiStatement, type GuiValue, type GuiVariable, heldIds, isComment, LIBRARY_ITEM_TYPES, type LibraryFunction, statementIds, type StructMember, type TypeSpec } from "../domain/library-interface.js";
-import { type BlueprintComment, type BlueprintElement, BlueprintElementSchema, type BlueprintFunction, type BlueprintTrigger, type BlueprintTriggerFolder, BlueprintTriggerSchema } from "../domain/blueprint-trigger.js";
+import { type BlueprintComment, type BlueprintCustomScript, type BlueprintElement, BlueprintElementSchema, type BlueprintFunction, type BlueprintPreset, type BlueprintRecord, type BlueprintTrigger, type BlueprintTriggerFolder, BlueprintTriggerSchema } from "../domain/blueprint-trigger.js";
 import type { Strings } from "../domain/entry-strings.js";
 import { type GameLibrary, gameTriggerLibraries, type LibraryVariable } from "../mods/library-galaxy.js";
-import { ElementWriter, escapeXml, functionStrings, functionXml, mapLabelLine } from "../mods/library-xml.js";
+import { ElementWriter, escapeXml, functionStrings, functionXml, mapLabelLine, scriptCodeLines } from "../mods/library-xml.js";
 import { KeptGalaxyRenderer, type KeptCatalog, type UnknownPart } from "./kept-trigger-galaxy.js";
 import { itemKind, libraryItems } from "./splice-triggers.js";
 import { CORE_PRIMITIVES } from "./trigger-catalog.js";
@@ -36,18 +36,34 @@ export type AuthoredFunction = { readonly file: string; readonly fn: BlueprintFu
 /** A Blueprint comment element, filed in Root or a folder, with the file it was read from (relative to the Blueprint). */
 export type AuthoredComment = { readonly file: string; readonly comment: BlueprintComment };
 
-/** The Blueprint's own trigger elements (its triggers, functions and comments), the global variables it declares, and the folders they're filed in. */
+/** A Blueprint preset type, record or custom script, with the file it was read from (relative to the Blueprint). */
+export type AuthoredItem<T> = { readonly file: string; readonly item: T };
+
+/** The Blueprint's own trigger elements (its triggers, functions, comments, preset types, records and custom script), the global variables it declares, and the folders they're filed in. */
 export type AuthoredTriggers = {
   readonly triggers: readonly AuthoredTrigger[];
   readonly functions?: readonly AuthoredFunction[];
   readonly comments?: readonly AuthoredComment[];
+  readonly presets?: readonly AuthoredItem<BlueprintPreset>[];
+  readonly records?: readonly AuthoredItem<BlueprintRecord>[];
+  readonly customScripts?: readonly AuthoredItem<BlueprintCustomScript>[];
   readonly variables?: readonly GuiVariable[];
   readonly folders: readonly BlueprintTriggerFolder[];
 };
 
-/** Whether the Blueprint declares any trigger element of its own: a trigger, a function, a comment, a global or a folder. */
+/** Whether the Blueprint declares any trigger element of its own: a trigger, a function, a comment, a preset type, a record, custom script, a global or a folder. */
 export const hasAuthoredTriggers = (authored: AuthoredTriggers | undefined): authored is AuthoredTriggers =>
-  authored !== undefined && authored.triggers.length + (authored.functions ?? []).length + (authored.comments ?? []).length + (authored.variables ?? []).length + authored.folders.length > 0;
+  authored !== undefined &&
+  authored.triggers.length + (authored.functions ?? []).length + (authored.comments ?? []).length + (authored.presets ?? []).length + (authored.records ?? []).length + (authored.customScripts ?? []).length + (authored.variables ?? []).length + authored.folders.length > 0;
+
+/** What a refusal names a Blueprint preset type, record or custom script by. */
+const describeItem = (what: string, { file, item }: AuthoredItem<{ readonly id: string; readonly name: string }>): string => `the Blueprint ${what} "${item.name}" (${item.id}, ${file})`;
+
+/** Every element Id a Blueprint preset type gives: its own, its values' and its comments'. */
+export const blueprintPresetIds = (preset: BlueprintPreset): string[] => [preset.id, ...preset.values.map((value) => value.id)];
+
+/** Every element Id a Blueprint record gives: its own, its members' and their initial values'. */
+export const blueprintRecordIds = (record: BlueprintRecord): string[] => [record.id, ...record.members.flatMap((member) => [member.id, ...(member.value ? heldIds(member.value) : [])])];
 
 /** A Blueprint function as the library writer and reader have one: its interface (LibraryFunction) and its GUI body. */
 export function libraryForm(fn: BlueprintFunction): { readonly fn: LibraryFunction; readonly body: GuiBody } {
@@ -132,7 +148,10 @@ export async function readAuthoredTriggers(
   const triggers = elements.flatMap(({ file, element }) => (element.kind === "trigger" ? [{ file, trigger: element }] : []));
   const functions = elements.flatMap(({ file, element }) => (element.kind === "function" ? [{ file, fn: element }] : []));
   const comments = elements.flatMap(({ file, element }) => (element.kind === "comment" ? [{ file, comment: element }] : []));
-  return { triggers, functions, comments, variables: blueprint.triggerVariables ?? [], folders: blueprint.triggerFolders ?? [] };
+  const presets = elements.flatMap(({ file, element }) => (element.kind === "preset" ? [{ file, item: element }] : []));
+  const records = elements.flatMap(({ file, element }) => (element.kind === "record" ? [{ file, item: element }] : []));
+  const customScripts = elements.flatMap(({ file, element }) => (element.kind === "custom-script" ? [{ file, item: element }] : []));
+  return { triggers, functions, comments, presets, records, customScripts, variables: blueprint.triggerVariables ?? [], folders: blueprint.triggerFolders ?? [] };
 }
 
 /** A reference line in a trigger element: `<Event Type="FunctionCall" Id="…"/>`, a comment's `Type="Comment"`. */
@@ -160,6 +179,43 @@ export function blueprintTriggerXml(trigger: BlueprintTrigger): readonly string[
   for (const statement of [...trigger.events, ...trigger.conditions, ...trigger.actions]) writer.statement(statement);
   return writer.elements;
 }
+
+/** A Blueprint preset type's elements as the Editor writes them in a map's Triggers (LF): its Preset, filing its values and comments in order, then each of theirs. */
+export function blueprintPresetXml(preset: BlueprintPreset): readonly string[] {
+  const writer = new ElementWriter(undefined, ELEMENT);
+  writer.element("Preset", preset.id, [
+    ...(preset.integer ? [`${CHILD}<PresetInteger/>`] : []),
+    `${CHILD}<BaseType Value="${escapeXml(preset.baseType)}"/>`,
+    ...(preset.constants ? [`${CHILD}<PresetGenConstVar/>`] : []),
+    ...preset.values.map((value) => `${CHILD}<Item Type="${"comment" in value ? "Comment" : "PresetValue"}" Id="${value.id}"/>`),
+  ]);
+  for (const value of preset.values) {
+    if ("comment" in value) writer.statement({ id: value.id, comment: value.comment });
+    else writer.element("PresetValue", value.id, []);
+  }
+  return writer.elements;
+}
+
+/** A Blueprint record's elements as the Editor writes them in a map's Triggers (LF): its Structure, naming its members, then each member's Variable and what it owns. */
+export function blueprintRecordXml(record: BlueprintRecord): readonly string[] {
+  const writer = new ElementWriter(undefined, ELEMENT);
+  writer.element("Structure", record.id, record.members.map((member) => `${CHILD}<Variable Type="Variable" Id="${member.id}"/>`));
+  for (const member of record.members) writer.variable(member);
+  return writer.elements;
+}
+
+/** A Blueprint custom script's element as the Editor writes it in a map's Triggers (LF): its script, then its init function. */
+export function blueprintCustomScriptXml(script: BlueprintCustomScript): readonly string[] {
+  const writer = new ElementWriter(undefined, ELEMENT);
+  writer.element("CustomScript", script.id, [...scriptCodeLines(script.script, CHILD, `${CHILD}    `), ...(script.initFunction ? [`${CHILD}<InitFunc>${escapeXml(script.initFunction)}</InitFunc>`] : [])]);
+  return writer.elements;
+}
+
+/**
+ * A Blueprint custom script's block of Galaxy as the Editor writes it in the Custom Script section
+ * (CRLF): a ruled heading with its name, its script as it stands, then a blank line.
+ */
+export const customScriptGalaxy = (script: Pick<BlueprintCustomScript, "name" | "script">): string => [RULE, `// Custom Script: ${script.name}`, RULE, ...script.script.replace(/\s+$/, "").split(/\r?\n/), "", ""].join("\r\n");
 
 /** A Blueprint folder's Category element (LF): its icon, then the item lines of what it files. */
 export function folderXml(folder: BlueprintTriggerFolder): string {
@@ -289,7 +345,7 @@ export class BlueprintTriggerError extends Error {
   }
 }
 
-/** The folders' tree: each folder's items resolved, filed once, with no folder inside itself; the Root items, folders first, then globals, then functions, then triggers. */
+/** The folders' tree: each folder's items resolved, filed once, with no folder inside itself; the Root items, folders first, then custom script, preset types, records, globals, functions, triggers and comments. */
 function folderTree(
   authored: AuthoredTriggers,
   problems: string[],
@@ -302,6 +358,9 @@ function folderTree(
   const functions = new Set((authored.functions ?? []).map(({ fn }) => `function:${fn.id}`));
   const comments = new Set((authored.comments ?? []).map(({ comment }) => `comment:${comment.id}`));
   const variables = new Set((authored.variables ?? []).map((variable) => `variable:${variable.id}`));
+  const presets = new Set((authored.presets ?? []).map(({ item }) => `preset:${item.id}`));
+  const records = new Set((authored.records ?? []).map(({ item }) => `structure:${item.id}`));
+  const customScripts = new Set((authored.customScripts ?? []).map(({ item }) => `custom-script:${item.id}`));
   const folders = new Map<string, BlueprintTriggerFolder>();
   for (const folder of authored.folders) {
     if (folders.has(folder.id)) problems.push(`the Trigger Folder ${folder.id} is declared twice in triggerFolders`);
@@ -309,11 +368,12 @@ function folderTree(
   }
   const filed = new Map<string, string>();
   const keptItems = new Set<string>();
+  const blueprintHas = (item: string): boolean => [triggers, functions, comments, variables, presets, records, customScripts].some((set) => set.has(item));
   for (const folder of authored.folders) {
     for (const item of folder.items) {
       const { kind, id } = parseItem(item);
       // A Kept item the folder files, by its line alone.
-      if (!(kind === "category" && folders.has(id)) && !triggers.has(item) && !functions.has(item) && !comments.has(item) && !variables.has(item) && keptHas(LIBRARY_ITEM_TYPES[kind], id)) {
+      if (!(kind === "category" && folders.has(id)) && !blueprintHas(item) && keptHas(LIBRARY_ITEM_TYPES[kind], id)) {
         keptItems.add(item);
         // A Kept folder filing a Blueprint folder that files it would be a folder inside itself.
         const back = kind === "category" ? keptFolderItems(id).find((inner) => inner.startsWith("category:") && folders.has(inner.slice("category:".length))) : undefined;
@@ -334,8 +394,12 @@ function folderTree(
               ? [variables.has(item), "global of triggerVariables"]
               : kind === "category"
                 ? [folders.has(id), "folder of triggerFolders"]
-                : [false, `Kept ${kind === "structure" ? "record" : kind}`];
-      if (!known) problems.push(`the Trigger Folder "${folder.name}" (${folder.id}) files ${item}, which is no ${list}${list.startsWith("Kept ") ? "" : ", nor a Kept one"}`);
+                : kind === "preset"
+                  ? [presets.has(item), "Blueprint preset type the triggers list"]
+                  : kind === "structure"
+                    ? [records.has(item), "Blueprint record the triggers list"]
+                    : [customScripts.has(item), "Blueprint custom script the triggers list"];
+      if (!known) problems.push(`the Trigger Folder "${folder.name}" (${folder.id}) files ${item}, which is no ${list}, nor a Kept one`);
       const other = filed.get(item);
       if (other !== undefined) problems.push(`${item} is filed in both ${other} and ${folder.id}: an item is filed once`);
       filed.set(item, folder.id);
@@ -352,7 +416,7 @@ function folderTree(
       seen.add(at);
     }
   }
-  const root = [...authored.folders.map((folder) => `category:${folder.id}`), ...variables, ...functions, ...triggers, ...comments].filter((item) => !filed.has(item));
+  const root = [...authored.folders.map((folder) => `category:${folder.id}`), ...customScripts, ...presets, ...records, ...variables, ...functions, ...triggers, ...comments].filter((item) => !filed.has(item));
   return { root, folders, keptItems };
 }
 
@@ -375,6 +439,9 @@ function checkIds(authored: AuthoredTriggers, kept: ReadonlyMap<string, string>,
   for (const entry of authored.triggers) for (const id of blueprintTriggerIds(entry.trigger)) check(id, describeTrigger(entry));
   for (const entry of authored.functions ?? []) for (const id of blueprintFunctionIds(entry.fn)) check(id, describeFunction(entry));
   for (const { file, comment } of authored.comments ?? []) check(comment.id, `the Blueprint comment ${comment.id} (${file})`);
+  for (const entry of authored.presets ?? []) for (const id of blueprintPresetIds(entry.item)) check(id, describeItem("preset type", entry));
+  for (const entry of authored.records ?? []) for (const id of blueprintRecordIds(entry.item)) check(id, describeItem("record", entry));
+  for (const entry of authored.customScripts ?? []) check(entry.item.id, describeItem("custom script", entry));
   for (const variable of authored.variables ?? []) for (const id of [variable.id, ...(variable.value ? heldIds(variable.value) : [])]) check(id, describeGlobal(variable));
   for (const folder of authored.folders) check(folder.id, `the Trigger Folder "${folder.name}"`);
 }
@@ -390,9 +457,12 @@ function checkReferences(authored: AuthoredTriggers, kept: ReadonlyMap<string, s
   const blueprintTriggers = new Set(authored.triggers.map(({ trigger }) => trigger.id));
   const globals = new Set((authored.variables ?? []).map((variable) => variable.id));
   // The Blueprint's functions, with their parameter definitions and block slots, which a call names as it does a Kept function's.
-  const blueprintOwn = new Set(
-    (authored.functions ?? []).flatMap(({ fn }) => [elementKey("FunctionDef", fn.id), ...fn.parameters.map((parameter) => elementKey("ParamDef", parameter.id)), ...fn.subFunctions.map((slot) => elementKey("SubFuncType", slot.id))]),
-  );
+  // Its preset types and their values, and its records, which a type or a value names as it does a Kept one's.
+  const blueprintOwn = new Set([
+    ...(authored.functions ?? []).flatMap(({ fn }) => [elementKey("FunctionDef", fn.id), ...fn.parameters.map((parameter) => elementKey("ParamDef", parameter.id)), ...fn.subFunctions.map((slot) => elementKey("SubFuncType", slot.id))]),
+    ...(authored.presets ?? []).flatMap(({ item }) => [elementKey("Preset", item.id), ...item.values.flatMap((value) => ("name" in value ? [elementKey("PresetValue", value.id)] : []))]),
+    ...(authored.records ?? []).map(({ item }) => elementKey("Structure", item.id)),
+  ]);
   const keptHas = (type: string, id: string): boolean => kept.has(elementKey(type, id)) || blueprintOwn.has(elementKey(type, id));
   /** Why a bare Id of `type` can't be named when it is one of the concepts' elements: they're the compile's, and a trigger reacts to a concept through its cues. */
   const conceptRefusal = (type: string, id: string): string | undefined => {
@@ -411,6 +481,15 @@ function checkReferences(authored: AuthoredTriggers, kept: ReadonlyMap<string, s
       presets: entry.fn.parameters.flatMap((parameter) => [parameter.preset ?? []].flat()),
     })),
     ...(authored.variables ?? []).map((variable) => ({ by: describeGlobal(variable), parts: globalParts(variable), locals: new Set<string>(), parameters: new Set<string>(), types: [{ spec: variable.type as TypeSpec, what: "declares a variable" }], presets: [] as string[] })),
+    // A record's members, as globals are: their types and initial values.
+    ...(authored.records ?? []).map((entry) => ({
+      by: describeItem("record", entry),
+      parts: { values: entry.item.members.flatMap((member) => (member.value ? [member.value] : [])), statements: [] },
+      locals: new Set<string>(),
+      parameters: new Set<string>(),
+      types: entry.item.members.map((member) => ({ spec: member.type as TypeSpec, what: "has a member" })),
+      presets: [] as string[],
+    })),
   ];
   for (const { by, parts, locals, parameters, types, presets } of elements) {
     const out = new Set<string>();
@@ -529,8 +608,8 @@ export function blueprintReferenceProblems(authored: AuthoredTriggers, kept: Kep
 }
 
 /**
- * Each Blueprint trigger's and global's Galaxy name (gt_, gv_), checked: none the compile's own
- * script declares, a Kept trigger or global has, or another Blueprint element has, since the script
+ * Each Blueprint element's Galaxy name (a trigger's gt_, a global's gv_, a function's gf_, a record's gs_, a preset value's ge_), checked: none the compile's own
+ * script declares, a Kept element has, or another Blueprint element has, since the script
  * would declare it twice and the game refuse it.
  */
 function checkScriptNames(authored: AuthoredTriggers, renderer: KeptGalaxyRenderer, script: string, kept: KeptTriggers | undefined, converted: ReadonlySet<string>, problems: string[]): void {
@@ -538,9 +617,19 @@ function checkScriptNames(authored: AuthoredTriggers, renderer: KeptGalaxyRender
   for (const match of script.matchAll(/^(?:trigger|\S+) (g[tv]_\w+);\r?$/gm)) taken.set(match[1]!, "one of the compile's own");
   for (const [key, item] of kept ? libraryItems(kept.triggers) : []) {
     // A Kept trigger or function the Blueprint converts is the Blueprint's element itself.
-    if (kept!.compiled.has(key) || !["Trigger", "Variable", "FunctionDef"].includes(item.type) || converted.has(elementKey(item.type, item.id))) continue;
+    if (kept!.compiled.has(key) || !["Trigger", "Variable", "FunctionDef", "Structure", "Preset"].includes(item.type) || converted.has(elementKey(item.type, item.id))) continue;
     try {
-      taken.set(item.type === "Trigger" ? renderer.triggerName(item.id) : item.type === "FunctionDef" ? renderer.functionName(item.id) : renderer.variableGalaxyName(item.id), `the Kept ${item.type} ${item.id}`);
+      const names =
+        item.type === "Trigger"
+          ? [renderer.triggerName(item.id)]
+          : item.type === "FunctionDef"
+            ? [renderer.functionName(item.id)]
+            : item.type === "Structure"
+              ? [renderer.structureName(item.id)]
+              : item.type === "Preset"
+                ? renderer.presetValueNames(item.id)
+                : [renderer.variableGalaxyName(item.id)];
+      for (const name of names) taken.set(name, `the Kept ${item.type} ${item.id}`);
     } catch {
       // A Kept element with no name in TriggerStrings has no Galaxy name to clash with here; the splice checks the script itself.
     }
@@ -553,6 +642,8 @@ function checkScriptNames(authored: AuthoredTriggers, renderer: KeptGalaxyRender
   for (const variable of authored.variables ?? []) claim(renderer.variableGalaxyName(variable.id), describeGlobal(variable));
   for (const entry of authored.triggers) if (!entry.trigger.disabled) claim(renderer.triggerName(entry.trigger.id), describeTrigger(entry));
   for (const entry of authored.functions ?? []) claim(renderer.functionName(entry.fn.id), describeFunction(entry));
+  for (const entry of authored.records ?? []) claim(renderer.structureName(entry.item.id), describeItem("record", entry));
+  for (const entry of authored.presets ?? []) for (const name of renderer.presetValueNames(entry.item.id)) claim(name, describeItem("preset type", entry));
 }
 
 /** Why a Blueprint trigger's Galaxy can't be written, from the renderer's unknown parts. */
@@ -601,8 +692,26 @@ export type CompiledBlueprintTriggers = {
   readonly script: string;
   readonly triggerStrings: Readonly<Record<string, string>>;
   readonly gameStrings: Strings;
-  /** The Kept elements the Blueprint converts this compile (triggers, functions, globals, comments and folders), each by its kind, element Id and Galaxy name, and whether it has no Galaxy (a disabled trigger, a comment or a folder, whose name is empty). */
-  readonly converted: readonly { readonly kind: "trigger" | "function" | "variable" | "comment" | "category"; readonly id: string; readonly scriptName: string; readonly disabled: boolean }[];
+  /**
+   * The Kept elements the Blueprint converts this compile (triggers, functions, globals, comments,
+   * folders, preset types, records and custom script), each by its kind (as the compile record names
+   * it), element Id and the ids of the Galaxy blocks it writes over the Kept one's (none for a
+   * disabled trigger, a comment or a folder, which have no Galaxy).
+   */
+  readonly converted: readonly { readonly kind: ConvertedItemKind; readonly id: string; readonly blocks: readonly string[] }[];
+};
+
+/** The kinds of Kept item a Blueprint element converts, as the compile record names them. */
+export type ConvertedItemKind = "trigger" | "function" | "variable" | "comment" | "category" | "preset" | "structure" | "custom-script";
+
+/** A preset type's, record's and custom script's Galaxy, as the Editor writes them. */
+type ItemGalaxy = {
+  /** Each record's struct, in Global Structures. */
+  readonly structures: readonly string[];
+  /** Each preset value's constant line, in Global Preset Declarations. */
+  readonly presetValues: readonly string[];
+  /** Each custom script's block, in Custom Script, and the call of its init function, in InitCustomScript. */
+  readonly customScripts: readonly { readonly block: string; readonly init?: string }[];
 };
 
 /**
@@ -613,7 +722,7 @@ export type CompiledBlueprintTriggers = {
  * package has it, while the compile's own go to the end, so the order holds from one compile to the
  * next. In the script each trigger's declaration, section and _Init call go before the compile's
  * own, in that same order, as the Editor writes the tree's; each function's declaration and
- * definition in sections of their own (withFunctions). A Blueprint trigger or function with a Kept
+ * definition in sections of their own (withFunctions), and each record's, preset type's and custom script's too (withItems). A Blueprint element with a Kept
  * one's Id is that one converted (convert-mission-triggers.ts): it may give the Kept one's
  * Ids, and is returned in `converted`, for the Equivalence Check. Refused, naming each element and
  * why, when an Id clashes or a reference is out of reach (BlueprintTriggerError), or when its
@@ -650,14 +759,38 @@ export function compileBlueprintTriggers(
   const functionsById = new Map((authored.functions ?? []).map((entry) => [entry.fn.id, entry]));
   const commentsById = new Map((authored.comments ?? []).map((entry) => [entry.comment.id, entry]));
   const globalsById = new Map((authored.variables ?? []).map((variable) => [variable.id, variable]));
+  const presetsById = new Map((authored.presets ?? []).map((entry) => [entry.item.id, entry]));
+  const recordsById = new Map((authored.records ?? []).map((entry) => [entry.item.id, entry]));
+  const customScriptsById = new Map((authored.customScripts ?? []).map((entry) => [entry.item.id, entry]));
   const order: AuthoredTrigger[] = [];
   const functionOrder: AuthoredFunction[] = [];
   const globalOrder: GuiVariable[] = [];
+  const presetOrder: AuthoredItem<BlueprintPreset>[] = [];
+  const recordOrder: AuthoredItem<BlueprintRecord>[] = [];
+  const customScriptOrder: AuthoredItem<BlueprintCustomScript>[] = [];
   const elements: string[] = [];
   const visit = (item: string): void => {
     // A Kept item is the package's: the folder files it by its line alone.
     if (tree.keptItems.has(item)) return;
     const { kind, id } = parseItem(item);
+    if (kind === "preset") {
+      const entry = presetsById.get(id)!;
+      presetOrder.push(entry);
+      elements.push(...blueprintPresetXml(entry.item));
+      return;
+    }
+    if (kind === "structure") {
+      const entry = recordsById.get(id)!;
+      recordOrder.push(entry);
+      elements.push(...blueprintRecordXml(entry.item));
+      return;
+    }
+    if (kind === "custom-script") {
+      const entry = customScriptsById.get(id)!;
+      customScriptOrder.push(entry);
+      elements.push(...blueprintCustomScriptXml(entry.item));
+      return;
+    }
     if (kind === "category") {
       const folder = tree.folders.get(id)!;
       elements.push(folderXml(folder));
@@ -710,6 +843,15 @@ export function compileBlueprintTriggers(
     const { fn: form, body } = libraryForm(fn);
     Object.assign(triggerStrings, functionStrings(undefined, form, body));
   }
+  for (const { item: preset } of authored.presets ?? []) {
+    triggerStrings[`Preset/Name/${preset.id}`] = preset.name;
+    for (const value of preset.values) if ("name" in value) triggerStrings[`PresetValue/Name/${value.id}`] = value.name;
+  }
+  for (const { item: record } of authored.records ?? []) {
+    triggerStrings[`Structure/Name/${record.id}`] = record.name;
+    for (const member of record.members) triggerStrings[`Variable/Name/${member.id}`] = member.name;
+  }
+  for (const { item: script } of authored.customScripts ?? []) triggerStrings[`CustomScript/Name/${script.id}`] = script.name;
   const gameStrings: Record<string, Record<string, string>> = {};
   for (const element of [...authored.triggers.map(({ trigger }) => trigger), ...(authored.functions ?? []).map(({ fn }) => fn)]) {
     for (const [file, strings] of Object.entries(element.strings ?? {})) Object.assign((gameStrings[file] ??= {}), strings);
@@ -746,10 +888,23 @@ export function compileBlueprintTriggers(
     else if (declaration === undefined) problems.push(`${describeFunction(entry)} can't be written as Galaxy: its definition has no signature to declare it by`);
     else functionGalaxy.push({ declaration, definition });
   }
+  const structures: string[] = [];
+  for (const entry of recordOrder) {
+    const struct = renderer.renderStructure(entry.item.id);
+    if (struct === undefined) problems.push(`${describeItem("record", entry)} can't be written as Galaxy: it holds ${unknownParts(renderer.unknown)}`);
+    else structures.push(struct);
+  }
+  const presetValues: string[] = [];
+  for (const entry of presetOrder) {
+    const constants = renderer.renderPreset(entry.item.id);
+    if (constants === undefined) problems.push(`${describeItem("preset type", entry)} can't be written as Galaxy: it holds ${unknownParts(renderer.unknown)}`);
+    else presetValues.push(...constants.map(({ line }) => line));
+  }
+  const customScripts = customScriptOrder.map(({ item }) => ({ block: customScriptGalaxy(item), ...(item.initFunction ? { init: `    ${item.initFunction}();\r\n` } : {}) }));
   if (problems.length > 0) throw new BlueprintTriggerError(problems);
 
   // Each before the compile's own, as in Triggers.
-  let script = withFunctions(withGlobals(generated.script, globals), functionGalaxy);
+  let script = withItems(withFunctions(withGlobals(generated.script, globals), functionGalaxy), { structures, presetValues, customScripts });
   const declarations = find(script, /^\/\/ Trigger Variables\r\n\/\/-+\r\n/m, "map script's Trigger Variables");
   script = insertAt(script, declarations.index + declarations[0].length, written.map(({ name }) => `trigger ${name};\r\n`).join(""));
   const firstSection = script.search(new RegExp(`^${RULE}\\r\\n// Trigger: `, "m"));
@@ -757,16 +912,47 @@ export function compileBlueprintTriggers(
   script = insertAt(script, firstSection >= 0 && firstSection < initialization.index ? firstSection : initialization.index, written.map(({ section }) => section).join(""));
   const inits = find(script, /^void InitTriggers \(\) \{\r\n/m, "map script's InitTriggers");
   script = insertAt(script, inits.index + inits[0].length, written.map(({ name }) => `    ${name}_Init();\r\n`).join(""));
-  const converted = [...converting.keys()].map((key) => {
+  const converted = [...converting.keys()].map((key): CompiledBlueprintTriggers["converted"][number] => {
     const [type, id] = key.split("/") as [string, string];
-    if (type === "FunctionDef") return { kind: "function" as const, id, scriptName: renderer.functionName(id), disabled: false };
-    if (type === "Variable") return { kind: "variable" as const, id, scriptName: renderer.variableGalaxyName(id), disabled: false };
-    // A comment or a folder has no Galaxy.
-    if (type === "Comment") return { kind: "comment" as const, id, scriptName: "", disabled: true };
-    if (type === "Category") return { kind: "category" as const, id, scriptName: "", disabled: true };
-    return { kind: "trigger" as const, id, scriptName: renderer.triggerName(id), disabled: byId.get(id)!.trigger.disabled === true };
+    const named = (kind: ConvertedItemKind, prefixes: readonly string[], name: string): CompiledBlueprintTriggers["converted"][number] => ({ kind, id, blocks: prefixes.map((prefix) => `${prefix}:${name}`) });
+    if (type === "FunctionDef") return named("function", ["function-declaration", "function"], renderer.functionName(id));
+    if (type === "Variable") return named("variable", ["variable", "variable-init"], renderer.variableGalaxyName(id));
+    if (type === "Structure") return named("structure", ["structure"], renderer.structureName(id));
+    if (type === "Preset") return { kind: "preset", id, blocks: renderer.presetValueNames(id).map((name) => `preset-value:${name}`) };
+    if (type === "CustomScript") {
+      const { item } = customScriptsById.get(id)!;
+      return { kind: "custom-script", id, blocks: [`custom-script:${item.name}`, ...(item.initFunction ? [`custom-script-init:${item.initFunction}`] : [])] };
+    }
+    // A comment or a folder has no Galaxy, nor a disabled trigger.
+    if (type === "Comment") return { kind: "comment", id, blocks: [] };
+    if (type === "Category") return { kind: "category", id, blocks: [] };
+    return byId.get(id)!.trigger.disabled === true ? { kind: "trigger", id, blocks: [] } : named("trigger", ["trigger-variable", "trigger", "trigger-init"], renderer.triggerName(id));
   });
   return { triggers, script, triggerStrings, gameStrings, converted };
+}
+
+/**
+ * `script` (the compile's, CRLF) with the records' structs, the preset types' constants and the
+ * custom scripts in their sections, as the Editor writes them: Global Structures after the libraries
+ * (and Constants), before Global Preset Declarations and the globals; Global Preset Declarations
+ * before the globals, and an empty Global Presets after Trigger Variables; Custom Script before
+ * Global Functions and the trigger sections, ending with InitCustomScript, which InitMap calls after
+ * InitGlobals. The compile writes none of its own, so each section is made here.
+ */
+function withItems(script: string, { structures, presetValues, customScripts }: ItemGalaxy): string {
+  const before = (titles: string, what: string): number => find(script, new RegExp(`^${RULE}\\r\\n// (?:${titles})\\r?\\n`, "m"), what).index;
+  if (structures.length > 0) script = insertAt(script, before("Global Preset Declarations|Global Variables|Global Function Declarations|Trigger Variables", "map script's Trigger Variables"), `${RULE}\r\n// Global Structures\r\n${RULE}\r\n${structures.join("")}`);
+  if (presetValues.length > 0) {
+    script = insertAt(script, before("Global Variables|Global Function Declarations|Trigger Variables", "map script's Trigger Variables"), `${RULE}\r\n// Global Preset Declarations\r\n${RULE}\r\n${presetValues.join("")}\r\n`);
+    script = insertAt(script, before("Global Functions|Trigger: [^\\r\\n]*|Trigger Initialization", "map script's Trigger Initialization"), `${RULE}\r\n// Global Presets\r\n${RULE}\r\n\r\n`);
+  }
+  if (customScripts.length > 0) {
+    const inits = customScripts.flatMap(({ init }) => (init ? [init] : [])).join("");
+    script = insertAt(script, before("Global Functions|Trigger: [^\\r\\n]*|Trigger Initialization", "map script's Trigger Initialization"), `${RULE}\r\n// Custom Script\r\n${RULE}\r\n${customScripts.map(({ block }) => block).join("")}void InitCustomScript () {\r\n${inits}}\r\n\r\n`);
+    const map = find(script, /^void InitMap \(\) \{\r\n {4}InitLibs\(\);\r\n(?: {4}InitGlobals\(\);\r\n)?/m, "map script's InitMap");
+    script = insertAt(script, map.index + map[0].length, "    InitCustomScript();\r\n");
+  }
+  return script;
 }
 
 /** A function's Galaxy, as the Editor writes it: its declaration (in Global Function Declarations) and its definition (in Global Functions), with the blank line after it. */
@@ -795,8 +981,9 @@ function withFunctions(script: string, functions: readonly FunctionGalaxy[]): st
 }
 
 /**
- * The Blueprint elements that are Kept ones converted: each Blueprint trigger, function, comment, folder or
- * global whose Id a Kept Trigger, FunctionDef, Comment, Category or Variable in the package has, by its element key (`Trigger/<id>`), with the
+ * The Blueprint elements that are Kept ones converted: each Blueprint element, folder or global
+ * whose Id a Kept item of its type in the package has (a Trigger, FunctionDef, Comment, Category,
+ * Variable, Preset, Structure or CustomScript), by its element key (`Trigger/<id>`), with the
  * element keys of the Kept one's elements, which it writes over.
  */
 function convertedKept(authored: AuthoredTriggers, kept: KeptTriggers | undefined): Map<string, string[]> {
@@ -808,6 +995,9 @@ function convertedKept(authored: AuthoredTriggers, kept: KeptTriggers | undefine
     ...(authored.comments ?? []).map(({ comment }) => elementKey("Comment", comment.id)),
     ...(authored.variables ?? []).map((variable) => elementKey("Variable", variable.id)),
     ...authored.folders.map((folder) => elementKey("Category", folder.id)),
+    ...(authored.presets ?? []).map(({ item }) => elementKey("Preset", item.id)),
+    ...(authored.records ?? []).map(({ item }) => elementKey("Structure", item.id)),
+    ...(authored.customScripts ?? []).map(({ item }) => elementKey("CustomScript", item.id)),
   ]);
   for (const [key, item] of libraryItems(kept.triggers)) {
     if (kept.compiled.has(key) || !keys.has(elementKey(item.type, item.id))) continue;

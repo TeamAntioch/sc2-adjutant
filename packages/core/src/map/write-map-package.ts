@@ -869,11 +869,13 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
         ...(authored.comments ?? []).map(({ comment }) => `Comment/${comment.id}`),
         ...(authored.variables ?? []).map((variable) => `Variable/${variable.id}`),
         ...authored.folders.map((folder) => `Category/${folder.id}`),
+        ...(authored.presets ?? []).map(({ item }) => `Preset/${item.id}`),
+        ...(authored.records ?? []).map(({ item }) => `Structure/${item.id}`),
+        ...(authored.customScripts ?? []).map(({ item }) => `CustomScript/${item.id}`),
       ]);
-      for (const { kind, id, scriptName, disabled } of withAuthored.converted) {
+      for (const { kind, id, blocks } of withAuthored.converted) {
         convertedTriggerParts.add(`${kind}:${id}`);
-        const blocks = kind === "function" ? ["function-declaration", "function"] : kind === "variable" ? ["variable", "variable-init"] : ["trigger-variable", "trigger", "trigger-init"];
-        if (!disabled) for (const block of blocks) convertedTriggerParts.add(`galaxy:MapScript.galaxy:${block}:${scriptName}`);
+        for (const block of blocks) convertedTriggerParts.add(`galaxy:MapScript.galaxy:${block}`);
       }
     }
     out.write("Triggers", withAuthored?.triggers ?? generated.triggers, "triggers");

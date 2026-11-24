@@ -67,6 +67,20 @@ function withCutScript(script: string, cut: string): string {
     const span = name && keptElementSpan(crlf(cut), name);
     return name && span ? [{ declaration: line, definition: crlf(cut).slice(span.start, span.end) }] : [];
   });
+  // The cut's Global Structures, Global Preset Declarations, Global Presets and Custom Script sections, whole, where the Editor writes each.
+  const section = (title: string): string | undefined => new RegExp(`^//-+\\r\\n// ${title}\\r\\n//-+\\r\\n[\\s\\S]*?(?=^//-+\\r\\n// (?!Custom Script: )|(?![\\s\\S]))`, "m").exec(crlf(cut))?.[0];
+  const before = (titles: string, insert: string | undefined): void => {
+    if (insert === undefined) return;
+    const next = new RegExp(`^//-+\\r\\n// (${titles})`, "m").exec(out)!;
+    out = out.slice(0, next.index) + insert + out.slice(next.index);
+  };
+  before("Global Preset Declarations\\r|Global Variables\\r|Global Function Declarations\\r|Trigger Variables\\r", section("Global Structures"));
+  before("Global Variables\\r|Global Function Declarations\\r|Trigger Variables\\r", section("Global Preset Declarations"));
+  before("Custom Script\\r|Global Functions\\r|Trigger: |Trigger Initialization\\r", section("Global Presets"));
+  const customScript = section("Custom Script");
+  before("Global Functions\\r|Trigger: |Trigger Initialization\\r", customScript);
+  // InitMap calls InitCustomScript after InitGlobals, as the Editor writes it.
+  if (customScript !== undefined) out = at(out, /^void InitMap \(\) \{\r\n {4}InitLibs\(\);\r\n(?: {4}InitGlobals\(\);\r\n)?/m, "    InitCustomScript();\r\n");
   if (functions.length > 0) {
     const rule = "//--------------------------------------------------------------------------------------------------";
     const variables = /^\/\/-+\r\n\/\/ Trigger Variables\r\n/m.exec(out)!;

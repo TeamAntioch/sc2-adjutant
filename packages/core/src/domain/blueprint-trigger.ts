@@ -9,12 +9,13 @@
 // (`Param/Value/<id>`), as a Mod Blueprint's do. Folders are the Blueprint's `triggerFolders`.
 //
 // A file holds one element, by its `kind`: a trigger, a comment, or a function, whose interface is a library
-// function's (library-interface.ts) and whose body is its own variables and actions.
+// function's (library-interface.ts) and whose body is its own variables and actions; or a preset
+// type, a record or custom script, each as a library's is.
 
 import { z } from "zod";
 
 import { StringsSchema } from "./entry-strings.js";
-import { ElementId, ElementRef, FUNCTION_FLAGS, FUNCTION_KINDS, MAP_GUI, MAP_TYPES, MapElementRef, SubFunctionSlotSchema } from "./library-interface.js";
+import { ElementId, ElementRef, FUNCTION_FLAGS, FUNCTION_KINDS, LibraryCustomScriptSchema, LibraryPresetSchema, LibraryStructureSchema, MAP_GUI, MAP_TYPES, MapElementRef, SubFunctionSlotSchema } from "./library-interface.js";
 
 /** A GameStrings file a Blueprint trigger's text values are in: `<locale>.SC2Data/LocalizedData/GameStrings.txt`. */
 const GAME_STRINGS = /^[a-zA-Z]{4}\.SC2Data\/LocalizedData\/GameStrings\.txt$/;
@@ -122,12 +123,83 @@ export type BlueprintFunction = z.infer<typeof BlueprintFunctionSchema>;
 export const BlueprintCommentSchema = z.object({ kind: z.literal("comment"), id: ElementId, comment: z.string() }).strict();
 export type BlueprintComment = z.infer<typeof BlueprintCommentSchema>;
 
+/** A Galaxy name: letters, digits and _, as an identifier is. */
+const GalaxyName = z.string().regex(/^[A-Za-z_][A-Za-z0-9_]*$/, "An identifier is a Galaxy name: letters, digits and _");
+
+/**
+ * A preset type of the map's own (`<Element Type="Preset">`), as a library's is (LibraryPresetSchema):
+ * its name, base type and values, in order, a comment the Editor files among them in its place. Its
+ * Galaxy is a constant for each value (ge_<preset>_<value>) in Global Preset Declarations, numbered
+ * from 0 in order: the form every Editor save of a map's preset type has (`<PresetInteger/>`, an int
+ * base type, values with no value of their own). Any other form isn't written yet.
+ */
+export const BlueprintPresetSchema = z
+  .object({
+    kind: z.literal("preset"),
+    id: ElementId,
+    /** Its name, as the Editor shows it (Preset/Name/<id>): its constants are ge_, its name's identifier, _ and each value's name's. */
+    name: z.string().min(1),
+    /** Its base type (BaseType). */
+    baseType: LibraryPresetSchema.shape.baseType,
+    /** PresetInteger: its values are numbered, from 0. */
+    integer: z.boolean().optional(),
+    /**
+     * PresetGenConstVar, as the Editor saved it: it changes no Galaxy in a map, where an integer
+     * preset type gets a constant for each value either way (thanson01's and pulnar02's have none,
+     * the Missions' have it).
+     */
+    constants: LibraryPresetSchema.shape.constants,
+    values: z
+      .array(
+        z.union([
+          /** One of its values (PresetValue), by its name (PresetValue/Name/<id>). */
+          z.object({ id: ElementId, name: z.string().min(1) }).strict(),
+          /** A comment filed among its values. */
+          z.object({ id: ElementId, comment: z.string() }).strict(),
+        ]),
+      )
+      .default([]),
+  })
+  .strict()
+  .superRefine((preset, context) => {
+    // What the map script's writer (the Kept renderer's renderPreset) doesn't write yet, so no compile could.
+    if (!preset.integer || preset.baseType !== "int") context.addIssue({ code: "custom", path: ["integer"], message: "A Mission's preset type other than an integer one (integer, of base type int) isn't written yet: no compile writes its Galaxy" });
+  });
+export type BlueprintPreset = z.infer<typeof BlueprintPresetSchema>;
+
+/** A record of the map's own (an Editor Structure, `<Element Type="Structure">`), as a library's structure is (LibraryStructureSchema): its members, each a variable with its type and initial value. Its Galaxy is a struct (gs_<identifier>) in Global Structures. */
+export const BlueprintRecordSchema = LibraryStructureSchema.extend({
+  kind: z.literal("record"),
+  /** Its name, as the Editor shows it (Structure/Name/<id>): its Galaxy name is gs_ and its name's identifier. */
+  name: z.string().min(1),
+  /** Its members, the map's own preset types and records named by Id. */
+  members: z.array(MAP_GUI.GuiVariableSchema).default([]),
+}).strict();
+export type BlueprintRecord = z.infer<typeof BlueprintRecordSchema>;
+
+/**
+ * Custom script filed among the map's items (`<Element Type="CustomScript">`), as a library's is
+ * (LibraryCustomScriptSchema): Galaxy the Editor writes into MapScript.galaxy's Custom Script section
+ * as it stands, under its name, and the function InitCustomScript calls at map initialization. A
+ * converted one keeps its script as data (ADR-0026).
+ */
+export const BlueprintCustomScriptSchema = LibraryCustomScriptSchema.omit({ identifier: true, label: true })
+  .extend({
+    kind: z.literal("custom-script"),
+    /** Its name, as the Editor shows it (CustomScript/Name/<id>): its section's heading. */
+    name: z.string().min(1),
+    /** The Galaxy function InitCustomScript calls (InitFunc). */
+    initFunction: GalaxyName.optional(),
+  })
+  .strict();
+export type BlueprintCustomScript = z.infer<typeof BlueprintCustomScriptSchema>;
+
 /** Any element a Mission Blueprint's trigger element file holds, by its kind. */
-export const BlueprintElementSchema = z.discriminatedUnion("kind", [BlueprintTriggerSchema, BlueprintFunctionSchema, BlueprintCommentSchema]);
+export const BlueprintElementSchema = z.discriminatedUnion("kind", [BlueprintTriggerSchema, BlueprintFunctionSchema, BlueprintCommentSchema, BlueprintPresetSchema, BlueprintRecordSchema, BlueprintCustomScriptSchema]);
 export type BlueprintElement = z.infer<typeof BlueprintElementSchema>;
 
-/** An item a Blueprint Trigger Folder files: one of the Blueprint's triggers, globals or other folders, as `<kind>:<id>`. */
-export const BlueprintFolderItem = z.string().regex(/^(trigger|function|comment|variable|category|preset|structure|custom-script):[0-9A-F]{8}$/, "An item is trigger:<id>, function:<id>, comment:<id>, variable:<id> or category:<id>, a Blueprint trigger, function, comment, global or folder by its element Id, or preset:<id>, structure:<id> or custom-script:<id>, a Kept one");
+/** An item a Blueprint Trigger Folder files: one of the Blueprint's elements, globals or other folders, or a Kept item, as `<kind>:<id>` (a record is `structure:`, the Editor's Structure). */
+export const BlueprintFolderItem = z.string().regex(/^(trigger|function|comment|variable|category|preset|structure|custom-script):[0-9A-F]{8}$/, "An item is trigger:<id>, function:<id>, comment:<id>, variable:<id>, category:<id>, preset:<id>, structure:<id> (a record) or custom-script:<id>, a Blueprint or Kept element by its element Id");
 
 /** A Trigger Folder (an Editor Category) of the Blueprint's own triggers: its name, its icon and what it files, in order. */
 export const BlueprintTriggerFolderSchema = z

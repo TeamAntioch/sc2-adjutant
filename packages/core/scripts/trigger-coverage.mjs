@@ -10,13 +10,14 @@
 //   by where its definition is: core's catalog, the game's library data only, the map's own, or a
 //   library the data doesn't hold.
 //
-//   A map's conversion: each Kept trigger and function is converted as convert_triggers would
+//   A map's conversion: each Kept element (a trigger, function, global, comment, folder, record,
+//   custom script or preset type) is converted as convert_triggers would
 //   (convertKeptTriggers, src/map/convert-mission-triggers.ts, writing nothing): read into a
 //   Blueprint element, checked in reach, and written back to the Editor's Triggers XML and Galaxy,
 //   or refused with why. A Mission's package (blueprint.json beside it, in a Workspace) is checked
 //   against its record, holds, own triggers and the libraries its dependencies put in reach; any
-//   other map against the game's libraries. The other Kept items are counted by kind, as not yet
-//   convertible. Each trigger that converts is then written back through the authoring tool
+//   other map against the game's libraries. Any other Kept item would be counted by kind, as not
+//   yet convertible. Each trigger that converts is then written back through the authoring tool
 //   (authoringRoundTrip, src/triggers/authoring-outline.ts): its outline in the tool's input, written
 //   as a rewrite of it, compared with it; one that doesn't come back as it is is listed with the
 //   value form the tool can't write.
@@ -119,6 +120,9 @@ const OTHER_KINDS = [
   { key: "globals", field: "global", kind: "global variable", plural: "global variables" },
   { key: "comments", field: "comment", kind: "comment", plural: "comments" },
   { key: "folders", field: "folder", kind: "folder", plural: "folders" },
+  { key: "records", field: "record", kind: "record", plural: "records" },
+  { key: "customScripts", field: "customScript", kind: "custom script", plural: "custom scripts" },
+  { key: "presets", field: "preset", kind: "preset", plural: "presets" },
 ];
 const otherReasons = Object.fromEntries(OTHER_KINDS.map(({ key }) => [key, new Map()]));
 const otherRefusals = Object.fromEntries(OTHER_KINDS.map(({ key }) => [key, []]));

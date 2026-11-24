@@ -79,6 +79,32 @@ export function triggerTreeScriptNames(triggers: string, strings: readonly strin
     const scriptNames = [...new Set(names.map((name) => `gf_${identifier ?? galaxyIdentifier(name)}`))];
     if (scriptNames.length > 0) named.set(`FunctionDef:${match[1]}`, scriptNames);
   }
+  // A record (gs_ and its name's identifier), each of a preset type's values (its constant, ge_<preset>_<value>, an item of its own, since
+  // each is a block), and custom script (its section's heading, its name, and the init function InitCustomScript calls), which a Mission
+  // Blueprint may convert (ADR-0026).
+  const nameIn = (type: string, id: string): string[] => [...new Set(tables.flatMap((table) => table.get(`${type}:${id}`) ?? []))];
+  const outside = (index: number): boolean => !libraries.some(([start, end]) => index >= start && index < end);
+  /** An element's Galaxy identifiers: its Identifier, else its name's in each strings file. */
+  const identifiers = (type: string, id: string): string[] => {
+    const element = new RegExp(`<Element Type="${type}" Id="${id}">([\\s\\S]*?)</Element>`).exec(triggers)?.[1];
+    const identifier = element === undefined ? undefined : elementIdentifier(element);
+    return identifier !== undefined ? [identifier] : [...new Set(nameIn(type, id).map(galaxyIdentifier))];
+  };
+  for (const match of triggers.matchAll(/<Element Type="Structure" Id="([0-9A-F]{8})">/g)) {
+    if (outside(match.index!)) named.set(`Structure:${match[1]}`, identifiers("Structure", match[1]!).map((identifier) => `gs_${identifier}`));
+  }
+  const presetValues = new Map<string, string[][]>();
+  for (const match of triggers.matchAll(/<Element Type="Preset" Id="([0-9A-F]{8})">([\s\S]*?)<\/Element>/g)) {
+    if (!outside(match.index!)) continue;
+    const presets = identifiers("Preset", match[1]!);
+    const values = [...match[2]!.matchAll(/<Item Type="PresetValue" Id="([0-9A-F]{8})"\/>/g)].map((value) => presets.flatMap((preset) => identifiers("PresetValue", value[1]!).map((identifier) => `ge_${preset}_${identifier}`)));
+    presetValues.set(match[1]!, values);
+  }
+  for (const match of triggers.matchAll(/<Element Type="CustomScript" Id="([0-9A-F]{8})">([\s\S]*?)<\/Element>/g)) {
+    if (!outside(match.index!)) continue;
+    const init = /<InitFunc>([^<]*)<\/InitFunc>/.exec(match[2]!)?.[1]?.trim();
+    named.set(`CustomScript:${match[1]}`, [...nameIn("CustomScript", match[1]!), ...(init ? [init] : [])]);
+  }
   const items = (body: string): [string, string][] => [...body.matchAll(ITEM_LINE())].map((match) => [match[1]!, match[2]!]);
   const folders = new Map([...triggers.matchAll(/<Element Type="Category" Id="([0-9A-F]{8})">([\s\S]*?)<\/Element>/g)].map((match) => [match[1]!, items(match[2]!)]));
   const root = /<Root>([\s\S]*?)<\/Root>/.exec(triggers);
@@ -88,6 +114,7 @@ export function triggerTreeScriptNames(triggers: string, strings: readonly strin
     if (seen.has(`${type}:${id}`)) return;
     seen.add(`${type}:${id}`);
     if (type === "Category") (folders.get(id) ?? []).forEach(visit);
+    else if (type === "Preset") for (const names of presetValues.get(id) ?? []) out.push(names);
     else {
       const names = named.get(`${type}:${id}`);
       if (names !== undefined) out.push(names);

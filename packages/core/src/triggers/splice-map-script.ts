@@ -19,9 +19,23 @@
 //   functions                   an empty Global Functions section, when the Kept script has none,
 //                                 before the first trigger's section
 //   function:gf_<name>          its definition, in it
+//   structures                  an empty Global Structures section, when the Kept script has none,
+//                                 after the libraries and Constants
+//   structure:gs_<name>         a Blueprint record's struct, in it
+//   presets                     an empty Global Presets section, when the Kept script has none,
+//                                 after Trigger Variables, as the Editor writes it beside presets
+//   preset-declarations         an empty Global Preset Declarations section, when the Kept script
+//                                 has none, before Global Variables
+//   preset-value:ge_<name>      a Blueprint preset type's value's constant, in it
+//   custom-script-init-call     InitMap's InitCustomScript() call, and
+//   custom-scripts                an empty Custom Script section ending in InitCustomScript, when
+//                                 the Kept script has none, before Global Functions
+//   custom-script:<name>        a Blueprint custom script's block, in it
+//   custom-script-init:<function>  its init function's call, in InitCustomScript
 //
-// The Editor writes globals, functions and triggers in the depth-first order of Triggers' folder
-// tree, so a global's, function's or trigger's block goes before the block of the next one in that order the script has
+// The Editor writes globals, functions, triggers, records, preset values and custom script in the
+// depth-first order of Triggers' folder tree, so each one's block goes before the block of the next
+// one of its kind in that order the script has
 // (`order`, the spliced Triggers' items by name), or at the end of its section when none follows: a
 // Kept trigger the author files among Compiled ones keeps its place when the Editor next saves.
 // A disabled trigger, which the Editor leaves out of the script, is passed over.
@@ -140,9 +154,56 @@ function namedBlockSpan(script: string, id: string): { start: number; end: numbe
       const span = section && keptElementSpan(script, name);
       return span && span.start >= section.start && span.start < section.end ? span : undefined;
     }
+    case "structure": {
+      // From its `struct` line through its `};` and the blank line after it.
+      const section = sectionSpan(script, "Global Structures");
+      const open = section && lineMatching(script, `struct ${escape(name)} \\{`, section.start, section.end);
+      if (!section || !open) return undefined;
+      const close = lineMatching(script, "\\};", open.end, section.end);
+      if (!close) return undefined;
+      const blank = /^\r?\n/.exec(script.slice(close.end));
+      return { start: open.start, end: close.end + (blank ? blank[0].length : 0) };
+    }
+    case "preset-value": {
+      const section = sectionSpan(script, "Global Preset Declarations");
+      return section && lineMatching(script, `const \\S+ ${escape(name)} = [^\\r\\n]*;`, section.start, section.end);
+    }
+    case "custom-script": {
+      // From the rule before its "// Custom Script: <name>" heading to the next block's rule, or InitCustomScript.
+      const section = customScriptSection(script);
+      const heading = section && new RegExp(`^${escape(RULE)}\\r?\\n// Custom Script: ${escape(name)}\\r?\\n${escape(RULE)}\\r?\\n`, "m").exec(script.slice(section.start, section.end));
+      if (!section || !heading) return undefined;
+      const start = section.start + heading.index;
+      const rest = script.slice(start + heading[0].length, section.end);
+      const next = rest.search(new RegExp(`^(?:${escape(RULE)}\\r?\\n// Custom Script: |void InitCustomScript \\(\\) \\{)`, "m"));
+      return { start, end: next < 0 ? section.end : start + heading[0].length + next };
+    }
+    case "custom-script-init": {
+      const init = functionSpan(script, "void InitCustomScript () {");
+      return init && lineMatching(script, `    ${escape(name)}\\(\\);`, init.start, init.end);
+    }
     default:
       return undefined;
   }
+}
+
+/**
+ * The span of the map's Custom Script section: from after its rules past its blocks (each under a
+ * "Custom Script: <name>" rule pair of its own, its script as it stands, which may open with
+ * comments of its own) through the InitCustomScript the Editor ends it with and the blank line
+ * after; with no InitCustomScript, to the next section's rules.
+ */
+function customScriptSection(script: string): { header: number; start: number; end: number } | undefined {
+  const match = new RegExp(`^${escape(RULE)}\\r?\\n// Custom Script\\r?\\n${escape(RULE)}\\r?\\n`, "m").exec(script);
+  if (!match) return undefined;
+  const start = match.index + match[0].length;
+  const init = functionSpan(script.slice(start), "void InitCustomScript () {");
+  if (init) {
+    const blank = /^\r?\n/.exec(script.slice(start + init.end));
+    return { header: match.index, start, end: start + init.end + (blank ? blank[0].length : 0) };
+  }
+  const next = script.slice(start).search(new RegExp(`^${escape(RULE)}\\r?\\n// (?!Custom Script: )[^\\r\\n]*\\r?\\n${escape(RULE)}\\r?$`, "m"));
+  return { header: match.index, start, end: next < 0 ? script.length : start + next };
 }
 
 /** The text of the block `id` (as the record names one: `function-declaration:gf_<name>`, `trigger:gt_<name>`, …) in `script`, or undefined where it has none. */
@@ -178,7 +239,35 @@ function removeBlock(script: string, id: string): string {
     case "trigger-init":
     case "function-declaration":
     case "function":
+    case "structure":
+    case "preset-value":
+    case "custom-script":
+    case "custom-script-init":
       return remove(namedBlockSpan(script, id));
+    case "structures": {
+      const section = sectionSpan(script, "Global Structures");
+      return remove(section && !/^struct /m.test(script.slice(section.start, section.end)) ? { start: section.header, end: section.end } : undefined);
+    }
+    case "preset-declarations": {
+      const section = sectionSpan(script, "Global Preset Declarations");
+      return remove(section && !/^\S/m.test(script.slice(section.start, section.end)) ? { start: section.header, end: section.end } : undefined);
+    }
+    case "presets": {
+      // The Editor writes an empty Global Presets wherever it declares a preset type's constants: it goes once they have.
+      const section = sectionSpan(script, "Global Presets");
+      const declarations = sectionSpan(script, "Global Preset Declarations");
+      const declares = declarations !== undefined && /^\S/m.test(script.slice(declarations.start, declarations.end));
+      return remove(section && !declares && !/^\S/m.test(script.slice(section.start, section.end)) ? { start: section.header, end: section.end } : undefined);
+    }
+    case "custom-scripts": {
+      // With no block left, the section goes, and its InitCustomScript with it when that calls nothing.
+      const section = customScriptSection(script);
+      return remove(section && !hasCustomScripts(script) && /^void InitCustomScript \(\) \{\r?\n\}\r?\n(?:\r?\n)?$/.test(script.slice(section.start, section.end)) ? { start: section.header, end: section.end } : undefined);
+    }
+    case "custom-script-init-call": {
+      const map = functionSpan(script, "void InitMap () {");
+      return remove(map && !customScriptSection(script) ? lineMatching(script, "    InitCustomScript\\(\\);", map.start, map.end) : undefined);
+    }
     case "function-declarations": {
       const section = sectionSpan(script, "Global Function Declarations");
       return remove(section && !/^\S/m.test(script.slice(section.start, section.end)) ? { start: section.header, end: section.end } : undefined);
@@ -200,6 +289,12 @@ function removeBlock(script: string, id: string): string {
   }
 }
 
+/** Whether the script's Custom Script section holds a block. */
+function hasCustomScripts(script: string): boolean {
+  const section = customScriptSection(script);
+  return section !== undefined && /^\/\/ Custom Script: /m.test(script.slice(section.start, section.end));
+}
+
 /** Whether the script's Global Variables section declares anything. */
 function declaresGlobals(script: string): boolean {
   const section = sectionSpan(script, "Global Variables");
@@ -218,6 +313,22 @@ function generatedPieces(generated: string, kept: string): Piece[] {
   for (const line of libs ? generated.slice(libs.start, libs.close).split(/(?<=\n)/).slice(1) : []) {
     const name = /^    (\w+)\(\);/.exec(line)?.[1];
     if (name && !(keptLibs && lineMatching(kept, `    ${name}\\(\\);`, keptLibs.start, keptLibs.end))) pieces.push({ id: `lib-init:${name}`, text: line });
+  }
+  const eolGenerated = eolOf(generated);
+  const structures = sectionSpan(generated, "Global Structures");
+  if (structures) {
+    if (!sectionSpan(kept, "Global Structures")) pieces.push({ id: "structures", text: [RULE, "// Global Structures", RULE, ""].join(eolGenerated) });
+    for (const match of generated.slice(structures.start, structures.end).matchAll(/^struct (gs_\w+) \{\r?$/gm)) {
+      const span = namedBlockSpan(generated, `structure:${match[1]}`);
+      if (span) pieces.push({ id: `structure:${match[1]}`, text: generated.slice(span.start, span.end) });
+    }
+  }
+  const presets = sectionSpan(generated, "Global Preset Declarations");
+  if (presets) {
+    // Global Presets first: it goes only once the declarations have, which a later splice takes out in reverse.
+    if (!sectionSpan(kept, "Global Presets") && sectionSpan(generated, "Global Presets")) pieces.push({ id: "presets", text: [RULE, "// Global Presets", RULE, "", ""].join(eolGenerated) });
+    if (!sectionSpan(kept, "Global Preset Declarations")) pieces.push({ id: "preset-declarations", text: [RULE, "// Global Preset Declarations", RULE, "", ""].join(eolGenerated) });
+    for (const match of generated.slice(presets.start, presets.end).matchAll(/^const \S+ (ge_\w+) = [^\r\n]*;\r?\n/gm)) pieces.push({ id: `preset-value:${match[1]}`, text: match[0] });
   }
   const globals = sectionSpan(generated, "Global Variables");
   if (globals) {
@@ -244,6 +355,26 @@ function generatedPieces(generated: string, kept: string): Piece[] {
     for (const match of declarations) {
       const span = keptElementSpan(generated, match[1]!);
       if (span) pieces.push({ id: `function:${match[1]}`, text: generated.slice(span.start, span.end) });
+    }
+  }
+  const customScripts = customScriptSection(generated);
+  if (customScripts) {
+    // The call first: it goes only once the section has, which a later splice takes out in reverse.
+    if (!customScriptSection(kept)) {
+      const call = lineMatching(generated, "    InitCustomScript\\(\\);");
+      if (!call) throw new Error("The compile's script has a Custom Script section but no InitCustomScript() call in InitMap");
+      pieces.push({ id: "custom-script-init-call", text: call.text });
+      pieces.push({ id: "custom-scripts", text: [RULE, "// Custom Script", RULE, "void InitCustomScript () {", "}", "", ""].join(eolGenerated) });
+    }
+    const body = generated.slice(customScripts.start, customScripts.end);
+    for (const match of body.matchAll(/^\/\/ Custom Script: ([^\r\n]*)\r?$/gm)) {
+      const span = namedBlockSpan(generated, `custom-script:${match[1]}`);
+      if (span) pieces.push({ id: `custom-script:${match[1]}`, text: generated.slice(span.start, span.end) });
+    }
+    const init = functionSpan(generated, "void InitCustomScript () {");
+    for (const line of init ? generated.slice(init.start, init.close).split(/(?<=\n)/).slice(1) : []) {
+      const name = /^ {4}(\w+)\(\);/.exec(line)?.[1];
+      if (name) pieces.push({ id: `custom-script-init:${name}`, text: line });
     }
   }
   const triggerVariables = sectionSpan(generated, "Trigger Variables");
@@ -273,10 +404,11 @@ function following(order: readonly (readonly string[])[], name: string): (readon
  */
 function nextBlock(piece: Piece, order: readonly (readonly string[])[], find: (name: string) => { start: number } | undefined): number | undefined {
   const name = piece.id.split(/:(.*)/s)[1] ?? "";
-  const prefix = name.slice(0, 3);
+  // A trigger's, global's, function's, record's or preset value's name by its prefix (gt_, gv_, gf_, gs_, ge_); a custom script's name and its init function's by none.
+  const kindOf = (text: string): string => (/^g[tvfse]_/.test(text) ? text.slice(0, 3) : "");
   for (const names of following(order, name)) {
     for (const next of names) {
-      if (!next.startsWith(prefix)) continue;
+      if (kindOf(next) !== kindOf(name)) continue;
       const span = find(next);
       if (span) return span.start;
     }
@@ -360,6 +492,51 @@ function insertPiece(script: string, piece: Piece, eol: string, order: readonly 
       const section = need(sectionSpan(script, "Global Functions"), "Global Functions section");
       return insertAt(script, before((name) => namedBlockSpan(script, `function:${name}`)) ?? section.end, text);
     }
+    case "structures": {
+      // After the libraries and constants, before the preset declarations and the globals.
+      const next = need(/^\/\/-+\r?\n\/\/ (Global Preset Declarations|Global Variables|Global Function Declarations|Trigger Variables)\r?\n/m.exec(script), "Trigger Variables section");
+      return insertAt(script, next.index, text);
+    }
+    case "structure": {
+      const section = need(sectionSpan(script, "Global Structures"), "Global Structures section");
+      return insertAt(script, before((name) => namedBlockSpan(script, `structure:${name}`)) ?? section.end, text);
+    }
+    case "preset-declarations": {
+      const next = need(/^\/\/-+\r?\n\/\/ (Global Variables|Global Function Declarations|Trigger Variables)\r?\n/m.exec(script), "Trigger Variables section");
+      return insertAt(script, next.index, text);
+    }
+    case "preset-value": {
+      const section = need(sectionSpan(script, "Global Preset Declarations"), "Global Preset Declarations section");
+      const next = before((name) => namedBlockSpan(script, `preset-value:${name}`));
+      if (next !== undefined) return insertAt(script, next, text);
+      const declarations = [...script.slice(section.start, section.end).matchAll(/^\S[^\r\n]*;\r?\n/gm)];
+      const last = declarations.at(-1);
+      return insertAt(script, last ? section.start + last.index + last[0].length : section.start, text);
+    }
+    case "presets": {
+      // After Trigger Variables, before custom script, the functions and the triggers.
+      const next = need(/^\/\/-+\r?\n\/\/ (Custom Script\r?\n|Global Functions\r?\n|Trigger: |Trigger Initialization\r?\n)/m.exec(script), "Trigger Initialization section");
+      return insertAt(script, next.index, text);
+    }
+    case "custom-scripts": {
+      const next = need(/^\/\/-+\r?\n\/\/ (Global Functions\r?\n|Trigger: |Trigger Initialization\r?\n)/m.exec(script), "Trigger Initialization section");
+      return insertAt(script, next.index, text);
+    }
+    case "custom-script-init-call": {
+      // After InitGlobals' call, or InitLibs' where there is none.
+      const map = need(functionSpan(script, "void InitMap () {"), "InitMap");
+      const after = lineMatching(script, "    InitGlobals\\(\\);", map.start, map.end) ?? need(lineMatching(script, "    InitLibs\\(\\);", map.start, map.end), "InitLibs() call in InitMap");
+      return insertAt(script, after.end, text);
+    }
+    case "custom-script": {
+      const section = need(customScriptSection(script), "Custom Script section");
+      const init = lineMatching(script, "void InitCustomScript \\(\\) \\{", section.start, section.end);
+      return insertAt(script, before((name) => namedBlockSpan(script, `custom-script:${name}`)) ?? init?.start ?? section.end, text);
+    }
+    case "custom-script-init": {
+      const init = need(functionSpan(script, "void InitCustomScript () {"), "InitCustomScript");
+      return insertAt(script, before((name) => namedBlockSpan(script, `custom-script-init:${name}`)) ?? init.close, text);
+    }
     default:
       throw new Error(`Unknown Galaxy block ${piece.id}`);
   }
@@ -375,6 +552,10 @@ function declaredNames(script: string): Set<string> {
   }
   const functions = sectionSpan(script, "Global Function Declarations");
   if (functions) for (const match of script.slice(functions.start, functions.end).matchAll(/^\S[^\r\n(]* (gf_\w+) \(/gm)) names.add(match[1]!);
+  const structures = sectionSpan(script, "Global Structures");
+  if (structures) for (const match of script.slice(structures.start, structures.end).matchAll(/^struct (gs_\w+) \{/gm)) names.add(match[1]!);
+  const presets = sectionSpan(script, "Global Preset Declarations");
+  if (presets) for (const match of script.slice(presets.start, presets.end).matchAll(/^const \S+ (ge_\w+) = /gm)) names.add(match[1]!);
   return names;
 }
 
@@ -404,12 +585,24 @@ export function spliceMapScript(
   });
   const taken = declaredNames(script);
   for (const piece of pieces) {
-    const name = /^(?:trigger-variable|variable|function-declaration):(.*)$/.exec(piece.id)?.[1];
-    if (name && taken.has(editorForm(name))) throw new Error(`MapScript.galaxy already declares ${name}, a Kept ${name.startsWith("gt_") ? "trigger" : name.startsWith("gf_") ? "function" : "variable"}; the compile's would have the same script name`);
+    const name = /^(?:trigger-variable|variable|function-declaration|structure|preset-value):(.*)$/.exec(piece.id)?.[1];
+    const kind = name?.startsWith("gt_") ? "trigger" : name?.startsWith("gf_") ? "function" : name?.startsWith("gs_") ? "record" : name?.startsWith("ge_") ? "preset value" : "variable";
+    if (name && taken.has(editorForm(name))) throw new Error(`MapScript.galaxy already declares ${name}, a Kept ${kind}; the compile's would have the same script name`);
   }
   for (const piece of pieces) script = insertPiece(script, piece, eol, order);
   return { content: script, blocks: pieces.map((piece) => ({ id: piece.id, fingerprint: fingerprint(piece.text.replace(/\r?\n/g, eol)) })) };
 }
+
+/** The sections the compile writes only to hold a Blueprint's elements, each by the kind of block it holds, which it is recorded before. */
+const OWN_SECTIONS: Readonly<Record<string, string>> = {
+  "function-declarations": "function-declaration",
+  functions: "function",
+  structures: "structure",
+  presets: "preset-value",
+  "preset-declarations": "preset-value",
+  "custom-script-init-call": "custom-script",
+  "custom-scripts": "custom-script",
+};
 
 /**
  * The blocks of a whole script the compile wrote (no Kept triggers beside it): each trigger's and
@@ -419,14 +612,24 @@ export function spliceMapScript(
 export function scriptBlocks(script: string): GalaxyBlock[] {
   const eol = eolOf(script);
   const pieces = generatedPieces(script, script);
-  // The function sections are the compile's own (no Editor-saved script was there to hold them): recorded before what they hold, so a later splice takes them out once empty.
-  const sections = generatedPieces(script, "").filter((piece) => piece.id === "function-declarations" || piece.id === "functions");
-  const at = (id: string): number => pieces.findIndex((piece) => piece.id.startsWith(`${id}:`));
-  for (const section of sections) {
-    const index = at(section.id === "functions" ? "function" : "function-declaration");
-    pieces.splice(index < 0 ? pieces.length : index, 0, section);
+  // The sections the compile writes only for a Blueprint's elements are its own (no Editor-saved script was there to hold them): recorded before
+  // what they hold, in the order a splice gives them, so a later splice takes them out once empty.
+  const sections = generatedPieces(script, "").filter((piece) => piece.id in OWN_SECTIONS);
+  const out: Piece[] = [];
+  const placed = new Set<string>();
+  const place = (kind: string): void => {
+    for (const section of sections) {
+      if (OWN_SECTIONS[section.id] !== kind || placed.has(section.id)) continue;
+      out.push(section);
+      placed.add(section.id);
+    }
+  };
+  for (const piece of pieces) {
+    place(piece.id.split(":")[0]!);
+    out.push(piece);
   }
-  return pieces.map((piece) => ({ id: piece.id, fingerprint: fingerprint(piece.text.replace(/\r?\n/g, eol)) }));
+  for (const section of sections) if (!placed.has(section.id)) out.push(section);
+  return out.map((piece) => ({ id: piece.id, fingerprint: fingerprint(piece.text.replace(/\r?\n/g, eol)) }));
 }
 
 /**

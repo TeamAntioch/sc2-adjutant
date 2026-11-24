@@ -72,6 +72,11 @@ const GALAXY_TYPES: Readonly<Record<string, string>> = {
   revealer: "revealer",
   order: "order",
   actor: "actor",
+  // Handles the game numbers, as every Editor save declares them (a record's members, Missions' globals).
+  objective: "int",
+  ping: "int",
+  dialog: "int",
+  control: "int",
 };
 
 /** The types a local variable's declaration is written for: any other is refused. */
@@ -387,6 +392,62 @@ export class KeptGalaxyRenderer {
     return `gf_${this.identifier(this.element(id, "FunctionDef"))}`;
   }
 
+  /** A record's (Structure's) Galaxy name: gs_ and its name's identifier. */
+  structureName(id: string): string {
+    return `gs_${this.identifier(this.element(id, "Structure"))}`;
+  }
+
+  /** The Galaxy names of a preset type's values, in order, each its constant (ge_<preset>_<value>). */
+  presetValueNames(id: string): string[] {
+    const owner = this.element(id, "Preset");
+    return children(owner, "Item")
+      .filter((item) => item.attrs.Type === "PresetValue" && !item.attrs.Library)
+      .map((item) => presetConstant(undefined, this.identifier(owner), this.identifier(this.element(item.attrs.Id ?? "", "PresetValue"))));
+  }
+
+  /**
+   * A record's struct as the Editor writes it in Global Structures (CRLF), through the blank line
+   * after it: each member declared as a local variable is, with no initial value (each variable of
+   * the record starts its members itself). Undefined, with `unknown` filled in, when it can't be.
+   */
+  renderStructure(id: string): string | undefined {
+    this.unknown.length = 0;
+    try {
+      const element = this.element(id, "Structure");
+      this.checkTags(element, ["Variable"]);
+      const members = children(element, "Variable").map((node) => `    ${this.localVariable(node.attrs.Id ?? "", { member: true }).declaration}`);
+      const lines = [`struct ${this.structureName(id)} {`, ...members, "};", "", ""];
+      return this.unknown.length > 0 ? undefined : lines.join("\r\n");
+    } catch (error) {
+      if (error instanceof Unknown) return undefined;
+      throw error;
+    }
+  }
+
+  /**
+   * A preset type's constants as the Editor writes them in Global Preset Declarations (CRLF lines):
+   * one for each value, numbered from 0 in order, by name. Only an integer preset type of base type
+   * int whose values have none of their own is written, the form every map save shows; undefined,
+   * with `unknown` filled in, for any other.
+   */
+  renderPreset(id: string): { readonly name: string; readonly line: string }[] | undefined {
+    this.unknown.length = 0;
+    try {
+      const element = this.element(id, "Preset");
+      this.checkTags(element, ["PresetInteger", "BaseType", "PresetGenConstVar", "Item"]);
+      if (!child(element, "PresetInteger") || child(element, "BaseType")?.attrs.Value !== "int") throw this.fail("form", "a preset type other than an integer one of base type int, whose Galaxy no map save shows");
+      const values = children(element, "Item").filter((item) => item.attrs.Type === "PresetValue");
+      for (const item of values) {
+        const value = this.element(item.attrs.Id ?? "", "PresetValue");
+        if (item.attrs.Library || value.children.length > 0) throw this.fail("form", `a preset value ${value.id} with a value of its own, whose Galaxy no map save shows`);
+      }
+      return this.presetValueNames(id).map((name, index) => ({ name, line: `const int ${name} = ${index};\r\n` }));
+    } catch (error) {
+      if (error instanceof Unknown) return undefined;
+      throw error;
+    }
+  }
+
   /** A map variable's Galaxy name: gv_ for a global, lv_ for a trigger's or function's own. */
   variableGalaxyName(id: string): string {
     return this.variableName(refNode(id));
@@ -615,16 +676,17 @@ export class KeptGalaxyRenderer {
    * constant is declared with its value; an array with its sizes, each one more than the Editor's
    * (`int[4]` for 3, `[gv_count + 1]` for a constant variable's).
    */
-  private localVariable(id: string): { declaration: string; initial?: string } {
+  private localVariable(id: string, { member = false } = {}): { declaration: string; initial?: string } {
     const element = this.element(id, "Variable");
     const variableType = child(element, "VariableType") ?? { tag: "VariableType", attrs: {}, text: "", children: [] };
-    const other = variableType.children.find((node) => !["Type", "Constant", "ArraySize"].includes(node.tag));
-    if (other) throw this.fail("form", `a local variable's <${other.tag}>`);
     const type = child(variableType, "Type")?.attrs.Value ?? "";
-    const galaxy = GALAXY_TYPES[type];
-    if (!galaxy) throw this.fail("form", `a local variable of type ${type || "(none)"}`);
+    // A game link names the catalog it links into (GameType), which its Galaxy, a string, doesn't show.
+    const other = variableType.children.find((node) => !["Type", "Constant", "ArraySize", "TypeElement", ...(type === "gamelink" ? ["GameType"] : [])].includes(node.tag));
+    if (other) throw this.fail("form", `a local variable's <${other.tag}>`);
+    const galaxy = this.variableType(variableType, type, member);
     const name = this.variableName(refNode(id));
-    const value = child(element, "Value");
+    const value = member ? undefined : child(element, "Value");
+    // A record's member starts where each variable of the record does, in its own initialization, not the record's Galaxy.
     const initial = value ? this.value(value.attrs.Id ?? "") : undefined;
     const bounds = this.arrayBounds(variableType).map((bound) => `[${"size" in bound ? bound.size + 1 : `${this.variableName(refNode(bound.variable))} + 1`}]`);
     if (child(variableType, "Constant")) {
@@ -635,6 +697,31 @@ export class KeptGalaxyRenderer {
     // No Editor save sets an array variable's elements to a value of its own in a trigger.
     if (starts && bounds.length) throw this.fail("form", "an array local variable with an initial value");
     return { declaration: `${galaxy}${bounds.join("")} ${name};`, ...(starts ? { initial: `${name} = ${initial};` } : {}) };
+  }
+
+  /**
+   * A variable's Galaxy type, from its `<VariableType>` of `type`: a plain type's, a preset type's
+   * base type's (the map's own or a library's in reach), and, for a record's member, a record of the
+   * map's own as its struct (gs_). A variable of a record type is refused: its Galaxy initializes
+   * each member, which this doesn't write yet.
+   */
+  private variableType(variableType: TriggerXmlNode, type: string, member: boolean): string {
+    const element = child(variableType, "TypeElement");
+    if (element && type !== "preset" && type !== "struct") throw this.fail("form", "a local variable's <TypeElement>");
+    if (type === "preset") {
+      if (!element) throw this.fail("form", "a local variable of a preset type it doesn't name");
+      if (!element.attrs.Library) return this.ownPresetBase(element.attrs.Id ?? "");
+      return this.presetBaseGalaxy(this.reach.libraries[element.attrs.Library]?.presets[element.attrs.Id ?? ""]?.base, `a variable of the preset type ${refKey(element)}`);
+    }
+    if (type === "struct") {
+      if (!member) throw this.fail("form", "a variable of a record type, whose members' initialization this doesn't write yet");
+      if (!element || element.attrs.Library) throw this.fail("form", `a record's member of ${element ? `the library record ${refKey(element)}` : "a record type it doesn't name"}`);
+      return this.structureName(element.attrs.Id ?? "");
+    }
+    if (type === "gamelink") return "string";
+    const galaxy = GALAXY_TYPES[type];
+    if (!galaxy) throw this.fail("form", `a local variable of type ${type || "(none)"}`);
+    return galaxy;
   }
 
   /** A `<VariableType>`'s array sizes, read as the library reader reads them (arrayBoundOf): none for a variable that isn't an array. */

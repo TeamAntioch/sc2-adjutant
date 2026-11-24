@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="CustomScript" Id="73E9E84E"/>
+    </Root>
+    <Element Type="CustomScript" Id="73E9E84E">
+        <ScriptCode>
+            unitgroup GateWatch_gates;
+            trigger GateWatch_watch;
+
+            void GateWatch_Add (string type) {
+                UnitGroupAddUnitGroup(GateWatch_gates, UnitGroup(type, c_playerAny, RegionEntireMap(), UnitFilter(0, 0, 0, 0), 0));
+            }
+
+            bool GateWatch_Watch (bool testConds, bool runActions) {
+                unitgroup gates;
+                unit gate;
+                int i;
+
+                GateWatch_gates = UnitGroupEmpty();
+                GateWatch_Add(&quot;Gate_Thin_NE&quot;);
+                GateWatch_Add(&quot;Gate_Thin_NW&quot;);
+                while (UnitGroupCount(GateWatch_gates, c_unitCountAll) &gt; 0) {
+                    gates = UnitGroupCopy(GateWatch_gates);
+                    for (i = UnitGroupCount(gates, c_unitCountAll); i &gt; 0; i -= 1) {
+                        gate = UnitGroupUnit(gates, i);
+                        // Open a gate once one of player 1's units comes within 4 of it.
+                        if (UnitGroupCount(UnitGroup(null, 1, RegionCircle(UnitGetPosition(gate), 4.0), UnitFilter(0, 0, 0, (1 &lt;&lt; (c_targetFilterDead - 32))), 1), c_unitCountAll) &gt; 0) {
+                            UnitIssueOrder(gate, Order(AbilityCommand(UnitGetType(gate) + &quot;Lowered&quot;, 0)), c_orderQueueReplace);
+                            UnitGroupRemove(GateWatch_gates, gate);
+                        }
+                    }
+                    Wait(0.5, c_timeGame);
+                }
+                return true;
+            }
+
+            // A diamond of cells round the middle of a 128 by 128 map, one rect per row.
+            region GateWatch_Middle () {
+                region r = RegionEmpty();
+                int y;
+                fixed half;
+
+                for (y = 32; y &lt; 96; y += 1) {
+                    half = 32.0 - AbsF(IntToFixed(y) + 0.5 - 64.0);
+                    if (half &gt; 0.0) {
+                        RegionAddRect(r, true, 64.0 - half, IntToFixed(y), 64.0 + half, IntToFixed(y + 1));
+                    }
+                }
+                return r;
+            }
+
+            bool GateWatch_Explore (bool testConds, bool runActions) {
+                VisExploreArea(1, GateWatch_Middle(), true, false);
+                return true;
+            }
+
+            void GateWatch_Init () {
+                GateWatch_watch = TriggerCreate(&quot;GateWatch_Watch&quot;);
+                TriggerAddEventMapInit(GateWatch_watch);
+                TriggerAddEventMapInit(TriggerCreate(&quot;GateWatch_Explore&quot;));
+            }
+        </ScriptCode>
+        <InitFunc>GateWatch_Init</InitFunc>
+    </Element>
+</TriggerData>

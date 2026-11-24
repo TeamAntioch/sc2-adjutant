@@ -13,7 +13,7 @@
 //                                    function stays Kept rather than convert lossily
 
 import type { ArrayBound, ExpressionSlot, GuiBody, GuiCall, GuiExpression, GuiParam, GuiStatement, GuiValue, GuiVariable, HeldValue, LibraryCategory, LibraryComment, LibraryCustomScript, LibraryFunction, LibraryItemKind, LibraryParameter, LibraryPreset, LibraryStructure, StructMember, TypeSpec } from "../domain/library-interface.js";
-import type { BlueprintTrigger } from "../domain/blueprint-trigger.js";
+import type { BlueprintPreset, BlueprintTrigger } from "../domain/blueprint-trigger.js";
 import { isComment, LIBRARY_ITEM_TYPES, LIBRARY_STRUCTURE_KINDS, type LibraryStructureKind } from "../domain/library-interface.js";
 import { elementKey } from "../triggers/triggers-file.js";
 import { labelLine } from "../triggers/write-triggers-xml.js";
@@ -98,7 +98,7 @@ function typeLines(indent: string, tag: string, type: TypeSpec, library: string 
 }
 
 /** A `<ScriptCode>` block: its text's lines under the tag, a blank line left empty. */
-const scriptCodeLines = (text: string, child = CHILD, grandchild = GRANDCHILD): string[] => [`${child}<ScriptCode>`, ...text.split("\n").map((line) => (line === "" ? "" : `${grandchild}${escapeXml(line)}`)), `${child}</ScriptCode>`];
+export const scriptCodeLines = (text: string, child = CHILD, grandchild = GRANDCHILD): string[] => [`${child}<ScriptCode>`, ...text.split("\n").map((line) => (line === "" ? "" : `${grandchild}${escapeXml(line)}`)), `${child}</ScriptCode>`];
 
 /** What a type's TypeElement names: a structure's Structure, a user instance's parameter giving its user type (ParamDef), else a Preset. */
 const typeElementKind = (type: string): string => (type === "struct" ? "Structure" : type === "userinstance" ? "ParamDef" : "Preset");
@@ -510,6 +510,19 @@ export function readMapItem(elements: LibraryElements, strings: ReadonlyMap<stri
   return new Reader(elements, strings, undefined, id).readItem(type);
 }
 
+/** A map's preset type as a Mission Blueprint holds it (ADR-0026), less its `kind`: its values in order, a comment filed among them in its place. */
+export type MapPreset = Omit<BlueprintPreset, "kind">;
+
+/**
+ * A map's own preset type (mapElements) with its values and the comments filed among them, as
+ * blueprintPresetXml writes it, its name and each value's from TriggerStrings. A form this file
+ * doesn't write (a value of its own, a default value, a preset type extending another) is refused
+ * (UnconvertibleFunctionError), saying what it is.
+ */
+export function readMapPreset(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): MapPreset {
+  return new Reader(elements, strings, undefined, id).mapPreset();
+}
+
 /** A map's own global (mapElements) with its initial value, as ElementWriter.variable writes it with no library; a form this file doesn't write is refused (UnconvertibleFunctionError). */
 export function readMapGlobal(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): GuiVariable {
   return new Reader(elements, strings, undefined, id).variable(id);
@@ -882,6 +895,35 @@ class Reader {
         };
       }
     }
+  }
+
+  /** A map's preset type, as readMapPreset reads it. */
+  mapPreset(): MapPreset {
+    const id = this.functionId;
+    const node = this.element(id, "Preset");
+    this.only(node, ["PresetInteger", "BaseType", "PresetGenConstVar", "Item"]);
+    const name = this.name("Preset", id);
+    if (name === undefined) this.fail("it has no name in TriggerStrings.txt");
+    const base = node.children.find((c) => c.name === "BaseType");
+    const baseType = base && attr(base, "Value");
+    if (!baseType) this.fail(`its preset type ${id} has no BaseType`);
+    const values = node.children
+      .filter((c) => c.name === "Item")
+      .map((c): MapPreset["values"][number] => {
+        const itemId = this.ref(c, true);
+        if (attr(c, "Type") === "Comment") {
+          const comment = this.comment(itemId);
+          if (!("comment" in comment) || comment.disabled || comment.sub !== undefined) this.fail(`its comment ${itemId} is disabled or in a block slot, which no preset type's is`);
+          return { id: itemId, comment: comment.comment };
+        }
+        if (attr(c, "Type") !== "PresetValue") this.fail(`its preset type ${id} holds a ${attr(c, "Type")}`);
+        this.only(this.element(itemId, "PresetValue"), []);
+        const valueName = this.name("PresetValue", itemId);
+        if (valueName === undefined) this.fail(`its value ${itemId} has no name in TriggerStrings.txt`);
+        return { id: itemId, name: valueName };
+      });
+    const has = (tag: string): boolean => node.children.some((c) => c.name === tag);
+    return { id, name, baseType, ...(has("PresetInteger") ? { integer: true } : {}), ...(has("PresetGenConstVar") ? { constants: true } : {}), values };
   }
 
   /** A map's trigger: its flags, local variables, events, conditions and actions, as blueprintTriggerXml writes them. */

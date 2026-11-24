@@ -2709,7 +2709,7 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "destructiveHint": true,
       "readOnlyHint": false,
     },
-    "description": "Writes Kept triggers and globals of a Workspace Campaign Mod's GUI trigger library into its Mod Blueprint's triggers (ADR-0011), keeping their element ids: each item's elements go into the Blueprint's triggers source (library/triggers.xml unless the Blueprint names another), as the Editor wrote them, and its name and a trigger's local variables' names into triggers.names, and each text parameter's value (Param/Value/lib_<library>_<id>) into triggers.strings, by the strings file the package has it in, from the Kept strings or the Blueprint's raw strings, which it leaves; triggers converted earlier take the values they didn't then, and a value removals names stays removed. A category of the library interface (convert_library) that files one keeps filing it. Nothing in the package changes: compile_mod then writes them and their names over the Kept originals under the Equivalence Check. The compile doesn't write their Galaxy: it leaves the Editor's. Given a Mission instead of a mod, it reads chosen Kept triggers, functions, globals, comments and Trigger Folders of the Mission's Map Package into its Blueprint's own trigger elements (ADR-0026): a global into the Blueprint's triggerVariables, a folder into its triggerFolders (filing what it did, Kept or converted), every other one into a file of its own in triggers/ (triggers/<name>.json, listed in the Blueprint's triggers), a GUI Body keeping the element's Ids, its name and its local variables', a trigger's flags, events, conditions and actions or a function's kind, flags, return type, parameters and actions, custom script as data, and its text values' words in strings. A trigger stays where the package files it: a Kept folder keeps filing it, and the compile writes it in place of the Kept one. One converts only when it reads back as it is, its XML and Galaxy come out as the Editor's, and everything it names is in reach (a library the map loads, a Kept element, the Blueprint's); else it stays Kept, with why, in the Editor's terms. Kept References and holds that name it keep working, by its Id and Galaxy name. Nothing in the package changes: compile_map, in place, then writes each over its Kept original under the Equivalence Check. The result is under mission in the structured output.",
+    "description": "Writes Kept triggers and globals of a Workspace Campaign Mod's GUI trigger library into its Mod Blueprint's triggers (ADR-0011), keeping their element ids: each item's elements go into the Blueprint's triggers source (library/triggers.xml unless the Blueprint names another), as the Editor wrote them, and its name and a trigger's local variables' names into triggers.names, and each text parameter's value (Param/Value/lib_<library>_<id>) into triggers.strings, by the strings file the package has it in, from the Kept strings or the Blueprint's raw strings, which it leaves; triggers converted earlier take the values they didn't then, and a value removals names stays removed. A category of the library interface (convert_library) that files one keeps filing it. Nothing in the package changes: compile_mod then writes them and their names over the Kept originals under the Equivalence Check. The compile doesn't write their Galaxy: it leaves the Editor's. Given a Mission instead of a mod, it reads chosen Kept triggers, functions, globals, comments, Trigger Folders, preset types, records and custom script of the Mission's Map Package into its Blueprint's own trigger elements (ADR-0026): a global into the Blueprint's triggerVariables, a folder into its triggerFolders (filing what it did, Kept or converted), every other one into a file of its own in triggers/ (triggers/<name>.json, listed in the Blueprint's triggers), a GUI Body keeping the element's Ids, its name and its local variables', a trigger's flags, events, conditions and actions, a function's kind, flags, return type, parameters and actions, a preset type's values, a record's members, custom script as data, and its text values' words in strings. A trigger stays where the package files it: a Kept folder keeps filing it, and the compile writes it in place of the Kept one. One converts only when it reads back as it is, its XML and Galaxy come out as the Editor's, and everything it names is in reach (a library the map loads, a Kept element, the Blueprint's); else it stays Kept, with why, in the Editor's terms. Kept References and holds that name it keep working, by its Id and Galaxy name. Nothing in the package changes: compile_map, in place, then writes each over its Kept original under the Equivalence Check. The result is under mission in the structured output.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -2717,7 +2717,7 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "$schema": "http://json-schema.org/draft-07/schema#",
       "properties": {
         "items": {
-          "description": "The triggers (and, for a mod, globals; for a Mission, functions, globals, comments and folders, a comment by its element id) to convert, by name or element id; every Kept one that can convert when not given",
+          "description": "The triggers (and, for a mod, globals; for a Mission, functions, globals, comments, folders, preset types, records and custom script, a comment by its element id) to convert, by name or element id; every Kept one that can convert when not given",
           "items": {
             "minLength": 1,
             "type": "string",
@@ -2773,6 +2773,9 @@ exports[`the tool list > is the same on a bare machine 1`] = `
                       "global",
                       "comment",
                       "folder",
+                      "preset",
+                      "record",
+                      "custom-script",
                     ],
                     "type": "string",
                   },
@@ -2804,6 +2807,9 @@ exports[`the tool list > is the same on a bare machine 1`] = `
                       "global",
                       "comment",
                       "folder",
+                      "preset",
+                      "record",
+                      "custom-script",
                     ],
                     "type": "string",
                   },
@@ -11972,7 +11978,7 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "destructiveHint": true,
       "readOnlyHint": false,
     },
-    "description": "Writes Kept triggers and globals of a Workspace Campaign Mod's GUI trigger library into its Mod Blueprint's triggers (ADR-0011), keeping their element ids: each item's elements go into the Blueprint's triggers source (library/triggers.xml unless the Blueprint names another), as the Editor wrote them, and its name and a trigger's local variables' names into triggers.names, and each text parameter's value (Param/Value/lib_<library>_<id>) into triggers.strings, by the strings file the package has it in, from the Kept strings or the Blueprint's raw strings, which it leaves; triggers converted earlier take the values they didn't then, and a value removals names stays removed. A category of the library interface (convert_library) that files one keeps filing it. Nothing in the package changes: compile_mod then writes them and their names over the Kept originals under the Equivalence Check. The compile doesn't write their Galaxy: it leaves the Editor's. Given a Mission instead of a mod, it reads chosen Kept triggers, functions, globals, comments and Trigger Folders of the Mission's Map Package into its Blueprint's own trigger elements (ADR-0026): a global into the Blueprint's triggerVariables, a folder into its triggerFolders (filing what it did, Kept or converted), every other one into a file of its own in triggers/ (triggers/<name>.json, listed in the Blueprint's triggers), a GUI Body keeping the element's Ids, its name and its local variables', a trigger's flags, events, conditions and actions or a function's kind, flags, return type, parameters and actions, custom script as data, and its text values' words in strings. A trigger stays where the package files it: a Kept folder keeps filing it, and the compile writes it in place of the Kept one. One converts only when it reads back as it is, its XML and Galaxy come out as the Editor's, and everything it names is in reach (a library the map loads, a Kept element, the Blueprint's); else it stays Kept, with why, in the Editor's terms. Kept References and holds that name it keep working, by its Id and Galaxy name. Nothing in the package changes: compile_map, in place, then writes each over its Kept original under the Equivalence Check. The result is under mission in the structured output.",
+    "description": "Writes Kept triggers and globals of a Workspace Campaign Mod's GUI trigger library into its Mod Blueprint's triggers (ADR-0011), keeping their element ids: each item's elements go into the Blueprint's triggers source (library/triggers.xml unless the Blueprint names another), as the Editor wrote them, and its name and a trigger's local variables' names into triggers.names, and each text parameter's value (Param/Value/lib_<library>_<id>) into triggers.strings, by the strings file the package has it in, from the Kept strings or the Blueprint's raw strings, which it leaves; triggers converted earlier take the values they didn't then, and a value removals names stays removed. A category of the library interface (convert_library) that files one keeps filing it. Nothing in the package changes: compile_mod then writes them and their names over the Kept originals under the Equivalence Check. The compile doesn't write their Galaxy: it leaves the Editor's. Given a Mission instead of a mod, it reads chosen Kept triggers, functions, globals, comments, Trigger Folders, preset types, records and custom script of the Mission's Map Package into its Blueprint's own trigger elements (ADR-0026): a global into the Blueprint's triggerVariables, a folder into its triggerFolders (filing what it did, Kept or converted), every other one into a file of its own in triggers/ (triggers/<name>.json, listed in the Blueprint's triggers), a GUI Body keeping the element's Ids, its name and its local variables', a trigger's flags, events, conditions and actions, a function's kind, flags, return type, parameters and actions, a preset type's values, a record's members, custom script as data, and its text values' words in strings. A trigger stays where the package files it: a Kept folder keeps filing it, and the compile writes it in place of the Kept one. One converts only when it reads back as it is, its XML and Galaxy come out as the Editor's, and everything it names is in reach (a library the map loads, a Kept element, the Blueprint's); else it stays Kept, with why, in the Editor's terms. Kept References and holds that name it keep working, by its Id and Galaxy name. Nothing in the package changes: compile_map, in place, then writes each over its Kept original under the Equivalence Check. The result is under mission in the structured output.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -11980,7 +11986,7 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "$schema": "http://json-schema.org/draft-07/schema#",
       "properties": {
         "items": {
-          "description": "The triggers (and, for a mod, globals; for a Mission, functions, globals, comments and folders, a comment by its element id) to convert, by name or element id; every Kept one that can convert when not given",
+          "description": "The triggers (and, for a mod, globals; for a Mission, functions, globals, comments, folders, preset types, records and custom script, a comment by its element id) to convert, by name or element id; every Kept one that can convert when not given",
           "items": {
             "minLength": 1,
             "type": "string",
@@ -12036,6 +12042,9 @@ exports[`the tool list > is the same on a machine that can do everything, with b
                       "global",
                       "comment",
                       "folder",
+                      "preset",
+                      "record",
+                      "custom-script",
                     ],
                     "type": "string",
                   },
@@ -12067,6 +12076,9 @@ exports[`the tool list > is the same on a machine that can do everything, with b
                       "global",
                       "comment",
                       "folder",
+                      "preset",
+                      "record",
+                      "custom-script",
                     ],
                     "type": "string",
                   },
