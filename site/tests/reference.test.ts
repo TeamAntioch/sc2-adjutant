@@ -62,12 +62,13 @@ describe("the tool reference", () => {
     expect(tool("compile_map").inputs.find((input) => input.name === "workspace")).toMatchObject({ required: false });
   });
 
-  it("puts every tool in one of the server's five groups, in the order the server registers them", () => {
-    expect(reference.groups.map((group) => group.id)).toEqual(["catalog", "compile", "blueprint", "capture", "session"]);
+  it("puts every tool in one of the server's six groups, in the order the server registers them", () => {
+    expect(reference.groups.map((group) => group.id)).toEqual(["catalog", "compile", "blueprint", "capture", "session", "stylePack"]);
     const grouped = reference.groups.flatMap((group) => group.tools);
     expect([...grouped].sort()).toEqual(reference.tools.map((entry) => entry.name).sort());
     expect(tool("compile_map").group).toBe("compile");
     expect(tool("get_blueprint").group).toBe("blueprint");
+    expect(tool("find_places").group).toBe("stylePack");
   });
 
   it("reads whether a tool writes from its hints", () => {

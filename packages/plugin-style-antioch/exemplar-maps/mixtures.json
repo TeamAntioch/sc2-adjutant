@@ -26,6 +26,146 @@
   "3-10",
   "3-11"
  ],
+ "moodRules": [
+  {
+   "name": "battlefield",
+   "when": [
+    [
+     {
+      "motifs": [
+       "carnage"
+      ],
+      "atLeast": 0.15
+     }
+    ]
+   ]
+  },
+  {
+   "name": "infestation",
+   "when": [
+    [
+     {
+      "motifs": [
+       "creep"
+      ],
+      "atLeast": 0.2
+     }
+    ]
+   ]
+  },
+  {
+   "name": "military post",
+   "when": [
+    [
+     {
+      "motifs": [
+       "military"
+      ],
+      "atLeast": 0.15
+     }
+    ]
+   ]
+  },
+  {
+   "name": "lab",
+   "when": [
+    [
+     {
+      "motifs": [
+       "lab"
+      ],
+      "atLeast": 0.15
+     }
+    ]
+   ]
+  },
+  {
+   "name": "street",
+   "when": [
+    [
+     {
+      "motifs": [
+       "civic"
+      ],
+      "atLeast": 0.2
+     }
+    ]
+   ]
+  },
+  {
+   "name": "ruin",
+   "when": [
+    [
+     {
+      "motifs": [
+       "wreck"
+      ],
+      "atLeast": 0.15
+     }
+    ],
+    [
+     {
+      "motifs": [
+       "masonry"
+      ],
+      "atLeast": 0.15
+     },
+     {
+      "motifs": [
+       "vegetation",
+       "rock"
+      ],
+      "atLeast": 0.3
+     }
+    ]
+   ]
+  },
+  {
+   "name": "shrine",
+   "when": [
+    [
+     {
+      "motifs": [
+       "masonry"
+      ],
+      "atLeast": 0.2
+     }
+    ]
+   ]
+  },
+  {
+   "name": "industrial",
+   "when": [
+    [
+     {
+      "motifs": [
+       "machinery",
+       "cargo"
+      ],
+      "atLeast": 0.25
+     }
+    ]
+   ]
+  },
+  {
+   "name": "built edge",
+   "when": [
+    [
+     {
+      "motifs": [
+       "structure",
+       "decal",
+       "light"
+      ],
+      "atLeast": 0.5
+     }
+    ]
+   ]
+  },
+  {
+   "name": "wild ground"
+  }
+ ],
  "moods": {
   "battlefield": {
    "places": 55,

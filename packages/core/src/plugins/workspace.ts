@@ -159,7 +159,7 @@ export async function exemplarMapSources(
   const fromWorkspace = workspace.exemplarMaps && path.resolve(workspace.root, workspace.exemplarMaps.replace(/^~(?=$|[\\/])/, os.homedir()));
   const root = settings.exemplarMaps ?? fromWorkspace;
   if (!root) {
-    throw new Error(`No folder for the Exemplar Maps' source maps: set exemplarMaps in the machine config ${settings.file}, or ${MACHINE_ENV.exemplarMaps}`);
+    throw new Error(`No folder for the Exemplar Maps' source maps: set exemplarMaps in the machine config ${settings.file}, or ${MACHINE_ENV.exemplarMaps}, or exemplarMaps in the Workspace config ${configPath} for a folder that travels with the Workspace`);
   }
   return exemplars.map((exemplar) => ({ ...exemplar, source: path.resolve(root, exemplar.map) }));
 }

@@ -1,0 +1,9 @@
+{
+  "name": "studio-style",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["style-pack"],
+  "contributions": {
+    "exemplarMaps": "exemplar-maps/exemplars.json"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "plaza",
+  "campaignId": "studio",
+  "title": "Plaza",
+  "setting": "A small plaza of kerbs, the one Exemplar Map of the studio Style Pack (its source map is compiled from this Blueprint).",
+  "mapSize": { "width": 64, "height": 64 },
+  "zones": [
+    { "id": "plaza", "name": "Plaza", "elevation": 1, "landform": "flat", "role": "base", "polygon": [{ "x": 0, "y": 0 }, { "x": 64, "y": 0 }, { "x": 64, "y": 64 }, { "x": 0, "y": 64 }] }
+  ],
+  "anchors": [
+    { "id": "start", "name": "Start", "zoneId": "plaza", "kind": "point", "position": { "x": 8, "y": 8 } }
+  ],
+  "placements": [
+    {
+      "id": "kerbs",
+      "zoneId": "plaza",
+      "kind": "set-piece",
+      "params": {
+        "story": "Kerbs laid round a plaza",
+        "added": [
+          { "type": "Korhal_Curbs", "x": 30, "y": 30, "rotation": 0, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 31.5, "y": 30, "rotation": 0, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 33, "y": 30, "rotation": 0, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 30, "y": 31.5, "rotation": 1.57, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 31.5, "y": 31.5, "rotation": 1.57, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 33, "y": 31.5, "rotation": 1.57, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 30, "y": 33, "rotation": 0, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 31.5, "y": 33, "rotation": 0, "scale": 1, "variation": 0, "forcePlacement": true },
+          { "type": "Korhal_Curbs", "x": 33, "y": 33, "rotation": 0, "scale": 1, "variation": 0, "forcePlacement": true }
+        ]
+      }
+    }
+  ],
+  "beats": [{ "id": "arrive", "title": "Arrive", "summary": "The player walks into the plaza." }],
+  "screenplay": { "title": "Plaza" }
+}

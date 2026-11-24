@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { buildMixtures, findPlaces, readCaptureStops } from "../../src/study/find-places.js";
+import { buildMixtures, findPlaces, moodRuleOf, readCaptureStops } from "../../src/study/find-places.js";
 import type { StudiedDoodad } from "../../src/study/measure-doodads.js";
 
 let nextId = 1;
@@ -108,6 +108,28 @@ describe("findPlaces", () => {
     it("lists no frames without stops", () => {
       expect(findPlaces("m", places)[0]!.frames).toBeUndefined();
     });
+  });
+});
+
+describe("moodRuleOf", () => {
+  // Antioch's ruin: wreck >= 15%, or masonry >= 15% with vegetation and rock >= 30%.
+  const ruin = moodRuleOf({
+    name: "ruin",
+    when: [[{ motifs: ["wreck"], atLeast: 0.15 }], [{ motifs: ["masonry"], atLeast: 0.15 }, { motifs: ["vegetation", "rock"], atLeast: 0.3 }]],
+  });
+
+  it("passes when every condition of one alternative holds, adding up the motifs a condition names", () => {
+    expect(ruin.test({ wreck: 0.2 })).toBe(true);
+    expect(ruin.test({ masonry: 0.15, vegetation: 0.2, rock: 0.1 })).toBe(true);
+  });
+
+  it("fails when no alternative holds whole", () => {
+    expect(ruin.test({ masonry: 0.15, vegetation: 0.2 })).toBe(false);
+    expect(ruin.test({ wreck: 0.1, rock: 0.5 })).toBe(false);
+  });
+
+  it("passes every place when it has no conditions", () => {
+    expect(moodRuleOf({ name: "wild ground" }).test({})).toBe(true);
   });
 });
 

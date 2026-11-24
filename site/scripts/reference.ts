@@ -76,6 +76,7 @@ const GROUP_TITLES: Record<keyof typeof TOOL_GROUPS, string> = {
   blueprint: "Blueprint",
   capture: "Capture",
   session: "Session",
+  stylePack: "Style Pack",
 };
 
 type Schema = {

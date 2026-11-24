@@ -1,0 +1,6 @@
+{
+  "campaign": { "id": "studio", "name": "Studio Campaign" },
+  "missions": "missions",
+  "stylePack": "./style-pack",
+  "exemplarMaps": "exemplar-sources"
+}

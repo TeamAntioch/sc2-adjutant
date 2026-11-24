@@ -211,6 +211,23 @@ function profile(map: string, members: readonly StudiedDoodad[]): Place {
 /** A Style Pack's mood: a place has it when `test` passes on the place's motif shares. */
 export type MoodRule = { readonly name: string; readonly test: (motifs: Readonly<Record<string, number>>) => boolean };
 
+/** One test of a recorded mood: the motifs' shares, added up, are at least `atLeast`. */
+export type MoodCondition = { readonly motifs: readonly string[]; readonly atLeast: number };
+
+/**
+ * A mood as a Style Pack's mixtures file records it (`moodRules`): a place has it when every
+ * condition of any one of `when`'s alternatives holds. With no `when`, every place does, so it
+ * belongs last, as the catch-all.
+ */
+export type RecordedMood = { readonly name: string; readonly when?: readonly (readonly MoodCondition[])[] };
+
+const holds = (motifs: Readonly<Record<string, number>>, { motifs: names, atLeast }: MoodCondition) => names.reduce((sum, name) => sum + (motifs[name] ?? 0), 0) >= atLeast;
+
+/** The mood rule a recorded mood stands for. */
+export function moodRuleOf({ name, when }: RecordedMood): MoodRule {
+  return { name, test: (motifs) => when === undefined || when.some((conditions) => conditions.every((condition) => holds(motifs, condition))) };
+}
+
 export type FindPlacesOptions = {
   /** Checked in order; a place takes the first that passes, and has no mood when none does. */
   readonly moods?: readonly MoodRule[];

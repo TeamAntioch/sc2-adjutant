@@ -7,7 +7,7 @@
 # never committed or shipped with the Style Pack, which reads only their paths, from mixtures.json.
 #
 # Run after mixtures.mjs, so mixtures.json knows the frames:
-#   node packages/core/scripts/exemplar-analysis/mixtures.mjs > <Style Pack>/exemplar-maps/mixtures.json
+#   node packages/core/scripts/exemplar-analysis/mixtures.mjs     # rewrites <Style Pack>/exemplar-maps/mixtures.json
 #   packages/core/scripts/exemplar-capture/make-frames.sh
 # from the Workspace root.
 set -euo pipefail

@@ -4631,6 +4631,83 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "destructiveHint": true,
       "readOnlyHint": false,
     },
+    "description": "Finds the dressed places of the active Style Pack's Exemplar Maps (clusters of doodads within 2.5 cells, wide ones split into 16-cell tiles, places under 8 visible doodads dropped) and writes them, with what each is made of, to the pack's mixtures file (exemplar-maps/mixtures.json), replacing the places it held. Each place lists the frames near it when its map has tours (exemplar-maps/<id>/captures/ or frames/, or under $SC2_RESEARCH_DIR/docs/research/exemplar-maps/ when that is set). A place takes the first of the pack's moods it passes, as the mixtures file's moodRules record them (kept as they are), or no mood when the pack has none yet. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "ids": {
+          "description": "The Exemplar Maps whose places the mixtures file is to hold, by their ids in the pack's exemplars.json; every one the pack lists when not given. The file is rewritten for these maps alone",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "find_places",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string",
+        },
+        "maps": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "moods": {
+          "additionalProperties": {
+            "maximum": 9007199254740991,
+            "minimum": -9007199254740991,
+            "type": "integer",
+          },
+          "propertyNames": {
+            "type": "string",
+          },
+          "type": "object",
+        },
+        "places": {
+          "maximum": 9007199254740991,
+          "minimum": -9007199254740991,
+          "type": "integer",
+        },
+        "withoutFrames": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "file",
+        "maps",
+        "places",
+        "moods",
+        "withoutFrames",
+      ],
+      "type": "object",
+    },
+    "title": "Find an Exemplar Map's places",
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
     "description": "Freezes a set piece: writes the doodads it expands to into the Blueprint as ordinary doodad Anchors (exact positions, yaw and variation), numbered <set piece>-1, -2 and so on, and removes the set-piece placement, so single doodads can be moved or swapped by hand or in the Editor. Other set pieces don't move.",
     "execution": {
       "taskSupport": "forbidden",
@@ -7892,6 +7969,74 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "type": "object",
     },
     "title": "Sign off a Co-design Stage",
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Builds the Map Study of one or more of the active Style Pack's Exemplar Maps: study.json (measurements of its texturing, cliffs, doodads, lighting and composition) and its layer images, written into the pack's exemplar-maps/<id>/ over any study already there. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "ids": {
+          "description": "The Exemplar Maps to work on, by their ids in the pack's exemplars.json; every one the pack lists when not given",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "study_exemplar",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "studied": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "images": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "studyDir": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "studyDir",
+              "images",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "studied",
+      ],
+      "type": "object",
+    },
+    "title": "Study Exemplar Maps",
   },
   {
     "annotations": {
@@ -14344,6 +14489,83 @@ exports[`the tool list > is the same on a machine that can do everything, with b
   },
   {
     "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Finds the dressed places of the active Style Pack's Exemplar Maps (clusters of doodads within 2.5 cells, wide ones split into 16-cell tiles, places under 8 visible doodads dropped) and writes them, with what each is made of, to the pack's mixtures file (exemplar-maps/mixtures.json), replacing the places it held. Each place lists the frames near it when its map has tours (exemplar-maps/<id>/captures/ or frames/, or under $SC2_RESEARCH_DIR/docs/research/exemplar-maps/ when that is set). A place takes the first of the pack's moods it passes, as the mixtures file's moodRules record them (kept as they are), or no mood when the pack has none yet. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "ids": {
+          "description": "The Exemplar Maps whose places the mixtures file is to hold, by their ids in the pack's exemplars.json; every one the pack lists when not given. The file is rewritten for these maps alone",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "find_places",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string",
+        },
+        "maps": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "moods": {
+          "additionalProperties": {
+            "maximum": 9007199254740991,
+            "minimum": -9007199254740991,
+            "type": "integer",
+          },
+          "propertyNames": {
+            "type": "string",
+          },
+          "type": "object",
+        },
+        "places": {
+          "maximum": 9007199254740991,
+          "minimum": -9007199254740991,
+          "type": "integer",
+        },
+        "withoutFrames": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "file",
+        "maps",
+        "places",
+        "moods",
+        "withoutFrames",
+      ],
+      "type": "object",
+    },
+    "title": "Find an Exemplar Map's places",
+  },
+  {
+    "annotations": {
       "destructiveHint": false,
       "readOnlyHint": true,
     },
@@ -18100,6 +18322,74 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "Speak placeholder voice lines",
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Builds the Map Study of one or more of the active Style Pack's Exemplar Maps: study.json (measurements of its texturing, cliffs, doodads, lighting and composition) and its layer images, written into the pack's exemplar-maps/<id>/ over any study already there. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "ids": {
+          "description": "The Exemplar Maps to work on, by their ids in the pack's exemplars.json; every one the pack lists when not given",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "study_exemplar",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "studied": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "images": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "studyDir": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "studyDir",
+              "images",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "studied",
+      ],
+      "type": "object",
+    },
+    "title": "Study Exemplar Maps",
   },
   {
     "annotations": {

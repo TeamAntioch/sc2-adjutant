@@ -33,6 +33,7 @@ import { CAPTURE_TOOLS, registerCaptureTools } from "./tools/capture.js";
 import { CATALOG_TOOLS, registerCatalogTools } from "./tools/catalog.js";
 import { COMPILE_TOOLS, registerCompileTools } from "./tools/compile.js";
 import { registerSessionTools, SESSION_TOOLS } from "./tools/session.js";
+import { registerStylePackTools, STYLE_PACK_TOOLS } from "./tools/style-pack.js";
 
 /**
  * The tools each group can register, keyed by the group createServer registers them in (#976), for the
@@ -44,6 +45,7 @@ export const TOOL_GROUPS = {
   blueprint: BLUEPRINT_TOOLS,
   capture: CAPTURE_TOOLS,
   session: SESSION_TOOLS,
+  stylePack: STYLE_PACK_TOOLS,
 } as const;
 
 export type ServerOptions = {
@@ -79,6 +81,7 @@ export function createServer({ workspaceRoot, host = bareHost(), followRoots: fo
   registerBlueprintTools(server, ctx);
   registerCaptureTools(server, ctx, { captureWaitMs });
   registerSessionTools(server, ctx);
+  registerStylePackTools(server, ctx);
 
   const pluginsWorkspace = cachedWorkspace(ctx.root);
   registerKnowledge(server, pluginsWorkspace);
@@ -89,14 +92,19 @@ export function createServer({ workspaceRoot, host = bareHost(), followRoots: fo
 
 /**
  * The Workspace for resource and prompt calls, which clients make often (a list on every turn):
- * loaded again only when the Workspace folder has changed, or the Workspace config or a loaded
- * local Plugin's manifest has changed since. Tools still load it fresh at each call. A Plugin's
+ * loaded again only when the Workspace folder has changed, or the Workspace config, a loaded
+ * local Plugin's manifest or an Exemplar Map's study.json (which the registry serves as a document
+ * only once it exists) has changed since. Tools still load it fresh at each call. A Plugin's
  * document and prompt files are read at each call either way.
  */
 function cachedWorkspace(currentRoot: () => Promise<string>): () => Promise<Workspace> {
   let cached: { readonly root: string; readonly stamp: string; readonly workspace: Promise<Workspace> } | undefined;
   const stampOf = async (root: string, workspace?: Workspace): Promise<string> => {
-    const files = [path.join(root, WORKSPACE_FILE), ...(workspace?.registry.plugins ?? []).flatMap((plugin) => (plugin.folder ? [path.join(plugin.folder, MANIFEST_FILE)] : []))];
+    const files = [
+      path.join(root, WORKSPACE_FILE),
+      ...(workspace?.registry.plugins ?? []).flatMap((plugin) => (plugin.folder ? [path.join(plugin.folder, MANIFEST_FILE)] : [])),
+      ...(workspace?.registry.contributions("exemplarMaps") ?? []).map((exemplar) => path.join(exemplar.studyDir, "study.json")),
+    ];
     const times = await Promise.all(files.map((file) => stat(file).then((stats) => stats.mtimeMs, () => -1)));
     return files.map((file, index) => `${file}@${times[index]}`).join("\n");
   };
