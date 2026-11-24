@@ -3,8 +3,9 @@
 //
 //   npm run build && node packages/core/scripts/exemplar-analysis/lessons.mjs [id ...] > lessons.json   (from the Workspace root)
 //
-// Definitions follow LESSONS.md and data-analysis.md: "visible" doodads exclude helpers (point lights,
-// curtains, blockers, placement markers); the main level is the whole cliff level with the most playable cells.
+// The Antioch pack's lessons on top of core's lesson-neutral measures (src/study/measures.ts), which
+// define "visible" doodads, the main level and the measures it shares with every pack; the cliff-set,
+// set-piece, manipulation and pair metrics here are this pack's own.
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
@@ -12,15 +13,23 @@ import { cliffSetNaming } from "@team-antioch/sc2-asset-catalog/catalog/cliff-ca
 
 import { exemplarMapSources, loadWorkspace } from "../../dist/plugins/workspace.js";
 import { loadMapPackage } from "../../dist/study/load-map-package.js";
-import { buildTerrainGrid } from "../../dist/study/terrain-grid.js";
-import { studyDoodads } from "../../dist/study/measure-doodads.js";
+import {
+  blendPlacement,
+  cliffCrossings,
+  doodadDensityRatio,
+  frameAreaTexturing,
+  isPointLight,
+  measureInput,
+  propsOfKind,
+  snappedShare,
+  topTextureByLevel,
+  visibleOnPlayable,
+} from "../../dist/study/measures.js";
+import { cellIndexAt } from "../../dist/study/terrain-grid.js";
 import { CORE_ROOT, workspaceRoot } from "../workspace-root.mjs";
 
 const textureCatalog = JSON.parse(readFileSync(path.join(CORE_ROOT, "data/texture-extracted.json"), "utf8")).textures;
 
-const HELPER = /^LightOmni|^LightSpot|Curtain|Blocker|PlacementDoodad|^PathingBlocker|^SightBlocker/i;
-const NATURAL = new Set(["rock", "tree", "foliage"]);
-const BUILT = new Set(["ruin", "other"]);
 const BACK = Number(process.env.BACK ?? 2);
 const r3 = (v) => (Number.isFinite(v) ? Math.round(v * 1000) / 1000 : null);
 
@@ -32,144 +41,30 @@ function cliffFamily(name) {
   return cliffSetNaming(name).family ?? name.replace(/Cliff\d+$/, "");
 }
 
-/** Dominant texture per cell (index into the cell's 8 layers resolved to a name). */
-function dominantTextures(grid) {
-  const n = grid.width * grid.height;
-  const out = new Array(n);
-  for (let i = 0; i < n; i++) {
-    let best = -1;
-    let name = "";
-    for (let l = 0; l < 8; l++) {
-      const s = grid.layerShare[i * 8 + l];
-      if (s > best) [best, name] = [s, grid.layerTexture[i * 8 + l]];
-    }
-    out[i] = name;
-  }
-  return out;
-}
-
 function measure(entry) {
   const map = loadMapPackage(entry.source);
-  const grid = buildTerrainGrid(map);
+  const input = measureInput(map);
+  const { grid, visible, levels, playable, main } = input;
+  const all = input.doodads;
   const { width: W, height: H } = grid;
-  const dom = dominantTextures(grid);
-  const all = studyDoodads(map);
-  const visible = all.filter((d) => !HELPER.test(d.type));
-  const at = (d) => Math.min(H - 1, Math.max(0, Math.floor(d.position.y))) * W + Math.min(W - 1, Math.max(0, Math.floor(d.position.x)));
-
-  // Levels.
-  const levelCells = new Map();
-  let playable = 0;
-  for (let i = 0; i < W * H; i++) {
-    if (!grid.isPlayable[i] || grid.isRamp[i]) continue;
-    playable++;
-    levelCells.set(grid.level[i], (levelCells.get(grid.level[i]) ?? 0) + 1);
-  }
-  const levels = [...levelCells.keys()].sort((a, b) => a - b);
-  const main = [...levelCells].sort((a, b) => b[1] - a[1])[0][0];
+  const at = (d) => cellIndexAt(grid, d.position.x, d.position.y);
 
   // DL-01: top texture per level; doodad density on the lowest level; single-texture frame-sized areas on main.
   const topByLevel = {};
-  for (const lv of levels) {
-    const counts = new Map();
-    for (let i = 0; i < W * H; i++) if (grid.isPlayable[i] && !grid.isRamp[i] && grid.level[i] === lv) counts.set(dom[i], (counts.get(dom[i]) ?? 0) + 1);
-    const [name, c] = [...counts].sort((a, b) => b[1] - a[1])[0];
-    topByLevel[`L${lv}`] = { texture: name, share: r3(c / levelCells.get(lv)), cellShare: r3(levelCells.get(lv) / playable) };
-  }
-  const doodadsOnLevel = (lv) => visible.filter((d) => grid.level[at(d)] === lv && grid.isPlayable[at(d)]).length;
-  const densityRatio = (lv) => r3(doodadsOnLevel(lv) / visible.length / (levelCells.get(lv) / playable));
+  for (const t of topTextureByLevel(input)) topByLevel[`L${t.level}`] = { texture: t.texture, share: r3(t.share), cellShare: r3(t.cellShare) };
+  const densityRatio = (lv) => r3(doodadDensityRatio(input, lv));
   const lowest = levels[0];
   const highest = levels.at(-1);
-  let areas = 0;
-  let singleAreas = 0;
-  const areaDood = { single: [0, 0, 0], mixed: [0, 0, 0] }; // areas, doodads, decals
-  const cellArea = new Map();
-  for (let y0 = 0; y0 + 12 <= H; y0 += 12) {
-    for (let x0 = 0; x0 + 18 <= W; x0 += 18) {
-      let onMain = 0;
-      const share = new Map();
-      for (let y = y0; y < y0 + 12; y++) {
-        for (let x = x0; x < x0 + 18; x++) {
-          const i = y * W + x;
-          cellArea.set(i, `${x0},${y0}`);
-          if (!grid.isPlayable[i] || grid.isRamp[i] || grid.level[i] !== main) continue;
-          onMain++;
-          for (let l = 0; l < 8; l++) {
-            const s = grid.layerShare[i * 8 + l];
-            if (s > 0) share.set(grid.layerTexture[i * 8 + l], (share.get(grid.layerTexture[i * 8 + l]) ?? 0) + s);
-          }
-        }
-      }
-      if (onMain < 0.8 * 216) continue;
-      areas++;
-      const present = [...share.values()].filter((s) => s / onMain >= 0.005).length;
-      const kind = present <= 1 ? "single" : "mixed";
-      if (kind === "single") singleAreas++;
-      const inArea = visible.filter((d) => {
-        const { x, y } = d.position;
-        return x >= x0 && x < x0 + 18 && y >= y0 && y < y0 + 12;
-      });
-      areaDood[kind][0]++;
-      areaDood[kind][1] += inArea.filter((d) => d.kind !== "decal").length;
-      areaDood[kind][2] += inArea.filter((d) => d.kind === "decal").length;
-    }
-  }
-  const perArea = (k) => (areaDood[k][0] ? [r3(areaDood[k][1] / areaDood[k][0]), r3(areaDood[k][2] / areaDood[k][0])] : null);
+  const frames = frameAreaTexturing(input);
+  const perArea = (k) => (frames.doodads[k][0] ? [r3(frames.doodads[k][1] / frames.doodads[k][0]), r3(frames.doodads[k][2] / frames.doodads[k][0])] : null);
 
-  // DL-02: dominant texture two cells back on each side of a cliff, split into crossings down into a pit
+  // DL-02: dominant texture BACK cells back on each side of a cliff, split into crossings down into a pit
   // (low side below main) and up onto a height (high side above main).
-  const cross = { down: [0, 0], up: [0, 0], other: [0, 0] };
-  for (let y = 2; y < H - 3; y++) {
-    for (let x = 2; x < W - 3; x++) {
-      const i = y * W + x;
-      if (!grid.isPlayable[i] || grid.isRamp[i]) continue;
-      for (const [dx, dy] of [[1, 0], [0, 1]]) {
-        const j = (y + dy) * W + (x + dx);
-        if (grid.isRamp[j] || grid.level[j] === grid.level[i]) continue;
-        const a = (y - BACK * dy) * W + (x - BACK * dx); // BACK cells behind each edge cell
-        const b = (y + (1 + BACK) * dy) * W + (x + (1 + BACK) * dx);
-        if (a < 0 || b >= W * H) continue;
-        const lo = Math.min(grid.level[i], grid.level[j]);
-        const hi = Math.max(grid.level[i], grid.level[j]);
-        const k = lo < main ? "down" : hi > main ? "up" : "other";
-        cross[k][0]++;
-        if (dom[a] !== dom[b]) cross[k][1]++;
-      }
-    }
-  }
+  const cross = cliffCrossings(input, BACK);
   const crossShare = (k) => (cross[k][0] ? r3(cross[k][1] / cross[k][0]) : null);
 
   // DL-03: blended cells (2+ textures at >= 10%) near a dominant-texture border; single-texture cells.
-  let blended = 0;
-  let blendedNear = 0;
-  let single = 0;
-  let cells = 0;
-  const border = new Uint8Array(W * H);
-  for (let y = 0; y < H; y++)
-    for (let x = 0; x < W; x++) {
-      const i = y * W + x;
-      for (const [nx, ny] of [[x + 1, y], [x, y + 1]]) if (nx < W && ny < H && dom[ny * W + nx] !== dom[i]) border[i] = border[ny * W + nx] = 1;
-    }
-  for (let y = 0; y < H; y++)
-    for (let x = 0; x < W; x++) {
-      const i = y * W + x;
-      if (!grid.isPlayable[i]) continue;
-      cells++;
-      let present = 0;
-      for (let l = 0; l < 8; l++) if (grid.layerShare[i * 8 + l] >= 0.1) present++;
-      if (present <= 1) single++;
-      else {
-        blended++;
-        let near = false;
-        for (let dy = -2; dy <= 2 && !near; dy++)
-          for (let dx = -2; dx <= 2 && !near; dx++) {
-            const nx = x + dx;
-            const ny = y + dy;
-            if (nx >= 0 && ny >= 0 && nx < W && ny < H && border[ny * W + nx]) near = true;
-          }
-        if (near) blendedNear++;
-      }
-    }
+  const blend = blendPlacement(input);
 
   // DL-04: real cliff cells (flags = 1) by set and family.
   const realCliffs = map.terrain.cliffCells.filter((c) => c.flags === 1);
@@ -185,7 +80,7 @@ function measure(entry) {
   // DL-05: visible doodads within one cell of a cliff edge, against the share of playable cells that are.
   let nearCells = 0;
   for (let i = 0; i < W * H; i++) if (grid.isPlayable[i] && !grid.isRamp[i] && grid.edgeDistance[i] <= 1) nearCells++;
-  const onPlay = visible.filter((d) => grid.isPlayable[at(d)]);
+  const onPlay = visibleOnPlayable(input);
   const nearDood = onPlay.filter((d) => grid.edgeDistance[at(d)] <= 1).length;
   const cliffModel = /Cliff|GapFiller|RockTower|Glacier/;
   const cliffModels = onPlay.filter((d) => cliffModel.test(d.type));
@@ -203,17 +98,16 @@ function measure(entry) {
   const manip = (m) => r3(visible.filter((d) => d.manipulations.includes(m)).length / visible.length);
 
   // DL-08: pair lift against a permutation baseline (types shuffled among the same positions), story props only.
-  const story = visible.filter((d) => d.kind !== "decal" || true);
-  const pairs = pairLift(story, 3, 30);
+  const pairs = pairLift(visible, 3, 30);
 
   // DL-09, DL-12, DL-13: from the study and the doodads.
   const study = JSON.parse(readFileSync(path.join(entry.studyDir, "study.json"), "utf8"));
   const blends = study.lighting.calls.map((c) => c.blendSeconds);
-  const omni = all.filter((d) => /^LightOmni/.test(d.type));
+  const omni = all.filter((d) => isPointLight(d.type));
 
   // DL-11: share of yaws on a 45-degree step, by kind; natural-prop scale.
-  const snapped = (list) => (list.length ? r3(list.filter((d) => isSnapped(d.yaw ?? d.rotation ?? 0)).length / list.length) : null);
-  const natural = visible.filter((d) => NATURAL.has(d.kind));
+  const snapped = (list) => r3(snappedShare(list));
+  const natural = propsOfKind(input, "natural");
   const scales = natural.map((d) => d.scale.x).sort((a, b) => a - b);
 
   // DL-14: texture families covering >= 5% of the ground.
@@ -241,13 +135,13 @@ function measure(entry) {
       topByLevel,
       lowestDensityRatio: lowest === main ? null : densityRatio(lowest),
       highestDensityRatio: highest === main ? null : densityRatio(highest),
-      frameAreasOnMain: areas,
-      singleTextureAreaShare: areas ? r3(singleAreas / areas) : null,
+      frameAreasOnMain: frames.areas,
+      singleTextureAreaShare: frames.areas ? r3(frames.singleTexture / frames.areas) : null,
       perAreaSingle: perArea("single"),
       perAreaMixed: perArea("mixed"),
     },
     dl02: { downIntoPit: crossShare("down"), upOntoHeight: crossShare("up"), betweenOthers: crossShare("other"), crossings: cross },
-    dl03: { blendedNearBorder: r3(blendedNear / Math.max(1, blended)), singleTextureCellShare: r3(single / cells) },
+    dl03: { blendedNearBorder: r3(blend.blendedNearBorder / Math.max(1, blend.blended)), singleTextureCellShare: r3(blend.singleTexture / blend.cells) },
     dl04: { sets: Object.fromEntries([...bySet].sort((a, b) => b[1] - a[1])), families: famList.length, topFamilyShare: famList.length ? r3(famList[0][1] / realCliffs.length) : null },
     dl05: {
       nearCliffLift: r3(nearDood / onPlay.length / (nearCells / playable)),
@@ -264,16 +158,11 @@ function measure(entry) {
     dl07: { tilted: manip("tilted"), nonUniformScale: manip("nonUniformScale"), raised: manip("raised"), sunk: manip("sunk"), tinted: manip("tinted"), noFootprint: manip("noFootprint") },
     dl08: { topPairs: pairs.slice(0, 8) },
     dl09: { lights: study.lighting.lightsUsed, calls: blends.length, instant: blends.filter((b) => b === 0).length, longestBlend: blends.length ? Math.max(...blends) : null },
-    dl11: { snappedNatural: snapped(natural), snappedBuilt: snapped(visible.filter((d) => BUILT.has(d.kind))), snappedDecal: snapped(visible.filter((d) => d.kind === "decal")), naturalScaleAtOne: natural.length ? r3(natural.filter((d) => Math.abs(d.scale.x - 1) < 0.01).length / natural.length) : null, naturalScaleP10P90: scales.length ? [r3(scales[Math.floor(scales.length * 0.1)]), r3(scales[Math.floor(scales.length * 0.9)])] : null },
+    dl11: { snappedNatural: snapped(natural), snappedBuilt: snapped(propsOfKind(input, "built")), snappedDecal: snapped(propsOfKind(input, "decal")), naturalScaleAtOne: natural.length ? r3(natural.filter((d) => Math.abs(d.scale.x - 1) < 0.01).length / natural.length) : null, naturalScaleP10P90: scales.length ? [r3(scales[Math.floor(scales.length * 0.1)]), r3(scales[Math.floor(scales.length * 0.9)])] : null },
     dl12: { pointLights: omni.length, pointLightShare: r3(omni.length / all.length) },
     dl13: { waterBodies: study.lighting.waterBodies },
     dl14: { families: families.filter(([, s]) => s >= 0.01), familiesOver5: families.filter(([, s]) => s >= 0.05).length, outsideDominant: r3(1 - (families[0]?.[1] ?? 0)) },
   };
-}
-
-function isSnapped(yaw) {
-  const deg = (((yaw * 180) / Math.PI) % 45 + 45) % 45;
-  return deg < 1 || deg > 44;
 }
 
 /** Pairs of types co-occurring within `radius`, as a multiple of the count with types shuffled. */

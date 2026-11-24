@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Prose, ToolList } from "@/components/tool-reference";
-import { describedSkill, reference, skillNamed } from "@/lib/reference";
+import { describedSkill, reference, skillNamed, tutorialHref, tutorialNamed } from "@/lib/reference";
 import { indexed } from "@/lib/search";
 
 /** A page for each skill the reference lists, and no others. */
@@ -59,6 +59,21 @@ export default async function SkillPage({ params }: Props) {
         </>
       ) : (
         <p className="text-slate-400">It names no tool: it is knowledge for Claude to design with.</p>
+      )}
+
+      {skill.tutorials.length > 0 && (
+        <>
+          <h2 id="tutorials">In the tutorials</h2>
+          <p>The tutorials that use it, step by step.</p>
+          {/* Weighted low in search, like its list of tools: linking to this skill isn't being about it. */}
+          <ul data-pagefind-weight="0.5">
+            {skill.tutorials.map((slug) => (
+              <li key={slug}>
+                <Link href={tutorialHref(slug)}>{tutorialNamed(slug)?.title ?? slug}</Link>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </div>
   );

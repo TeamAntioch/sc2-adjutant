@@ -77,6 +77,14 @@ describe("the tutorials' reader", () => {
     expect(tutorials.map((tutorial) => tutorial.tools)).toEqual([["compile_map", "test_mission"], ["get_session_state"]]);
   });
 
+  it("lists the skills its links point to, each once, and fails on a link to a skill the plugin doesn't ship", () => {
+    const body = `See [the skill](/skills/level-design/) and [again](/skills/level-design/#tools), then [another][m], not [a tool](/tools/compile_map/).\n\n[m]: /skills/melee-design`;
+    expect(parse(body).skills).toEqual(["level-design", "melee-design"]);
+    const withSkills: Known = { ...known, skills: ["level-design", "melee-design"] };
+    expect(parseTutorial(source(body), "01-test.mdx", withSkills).skills).toEqual(["level-design", "melee-design"]);
+    expect(() => parseTutorial(source("[gone](/skills/vanished/)"), "01-test.mdx", withSkills)).toThrow(/01-test\.mdx.*vanished/);
+  });
+
   it("fails on a tool call naming a tool the server doesn't list", () => {
     expect(() => parse(`<ToolCall name="compile_everything" args={{ mission: "m" }} />`)).toThrow(/01-test\.mdx.*compile_everything.*isn't a tool/);
   });

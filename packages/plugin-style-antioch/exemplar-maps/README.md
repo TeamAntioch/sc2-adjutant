@@ -22,7 +22,7 @@ npm run study            # every Exemplar Map
 npm run study -- 3-11    # one
 ```
 
-The study reads each source map from the folder the machine config's `exemplarMaps` names (`SC2_ADJUTANT_EXEMPLAR_MAPS` overrides it) and writes `study.json` and the layer images into `<id>/` here. It needs only the source maps: no Editor and no game.
+The study reads each source map from the folder the machine config's `exemplarMaps` names (`SC2_ADJUTANT_EXEMPLAR_MAPS` overrides it), else the Workspace config's, and writes `study.json` and the layer images into `<id>/` here. It needs only the source maps: no Editor and no game. The MCP server's `study_exemplar` tool runs the same code, so it works from a package install too.
 
 ## Generating the screenshots
 
@@ -33,26 +33,26 @@ The lessons were checked against in-game frames: camera tours of each map, one f
 - The source maps, in the folder the machine config's `exemplarMaps` names. They aren't included.
 - The StarCraft II Editor and a Host Adapter with `editor.captureTour`, since capture runs through the Editor's Test Document. These frames were made with the macOS Host Adapter; its requirements and safety rules are in its docs and the header of its `capture-tour.ts`. In short: the Editor with Test Document set to Windowed, the app running the capture allowed Accessibility and Screen Recording, and the screen unlocked and awake for the whole run. The game window can sit behind other windows (not minimized). The Windows Host Adapter has `editor.captureTour` too.
 - `editorPath` and `cacheDir` in the machine config. Core builds each capture copy of a map under `<cacheDir>/capture/maps/`, and the adapter only ever closes documents there.
-- `SC2_RESEARCH_DIR`, naming a research archive: a folder of your own outside the repo, where all the screenshots go. There is no default; the commands stop with an error when it isn't set.
-- A clone of the sc2-adjutant repo, run inside a Workspace whose `stylePack` is this pack. The commands below are the repo's: `npm run capture-exemplars` is a root script, and `make-frames.sh` and `mixtures.mjs` are in core's `scripts/` folder, which the npm package doesn't include. None of them work from a package install.
+- `SC2_RESEARCH_DIR`, naming a research archive: a folder of your own outside the repo, where all of this pack's screenshots go. Without it the captures go into the pack's own `exemplar-maps/` (git-ignored), as for any other Style Pack, and `mixtures.mjs` finds none.
+- A clone of the sc2-adjutant repo, run inside a Workspace whose `stylePack` is this pack. The commands below are the repo's: `npm run capture-exemplars` is a root script, and `make-frames.sh` and `mixtures.mjs` are in core's `scripts/` folder, which the npm package doesn't include. None of them work from a package install: the MCP server's `capture_exemplar` tool does what `capture-exemplars` and `make-frames.sh` do (both are wrappers over the same code), and `find_places` what `mixtures.mjs` does, for the maps it is given.
 
 **The commands**, from the repo's root:
 
 ```sh
 npm run capture-exemplars -- --places [id ...]                    # place tours: a frame centred on every place in mixtures.json
 npm run capture-exemplars -- [id ...]                             # grid tours: every (map, lighting) not yet captured, ~13 min each
-packages/core/scripts/exemplar-capture/make-frames.sh             # 1000px copies of the place-tour frames
+packages/core/scripts/exemplar-capture/make-frames.sh             # 1000px copies again (each capture also makes them)
 ```
 
 `--start-on-init` starts a tour at map init, for maps whose timed triggers never fire, and `--show-errors` keeps data errors on screen to debug a tour that doesn't start. A rerun skips tours that already have frames, so a stopped run resumes. Frames are the game window cropped to 16:9, 1600×900. If the Editor can't come forward to open the menu, the macOS adapter posts a notification asking for one File > Test Document click.
 
-After a new capture, `node packages/core/scripts/exemplar-analysis/mixtures.mjs > packages/plugin-style-antioch/exemplar-maps/mixtures.json` links each place to its frames, then `make-frames.sh` makes the copies (run `npm run build` first; both read the archive).
+After a new capture, `node packages/core/scripts/exemplar-analysis/mixtures.mjs` rewrites `mixtures.json` here, linking each place to its frames (it reads the archive). A capture makes the 1000px copies of all its frames itself; `make-frames.sh` makes them again, for every tour in the archive (run `npm run build` first).
 
 **Where they go**, all under `$SC2_RESEARCH_DIR/docs/research/exemplar-maps/`:
 
 - `<id>/captures/<lighting>/`: a grid tour, one per lighting the map's triggers use (`default` when it sets none), with `stops.txt` giving each frame's camera target (`stop x y`). Every area is shown in every lighting; pair frames with areas using the study's `lighting.calls`.
 - `<id>/captures/places-<lighting>/`: a place tour, one frame centred on each place in `mixtures.json`, in the map's main lighting (`placeLight` in `exemplars.json` where the triggers leave it unclear). A map lit by zone lists `placeZones` (rectangles with a lighting) and gets one place tour per lighting.
-- `<id>/frames/<tour>/`: the 1000px copies (JPEG quality 75): every place-tour frame, and any grid-tour frame `mixtures.json` links to a place, with each tour's `stops.txt`. These are the paths `mixtures.json` names.
+- `<id>/frames/<tour>/`: the 1000px copies (JPEG quality 75) of every frame of every tour, place and grid, with each tour's `stops.txt`. These are the paths `mixtures.json` names.
 - `<id>/evidence/`: the frames a ratified lesson was shown with, copied by hand at ratification. `LESSONS.md` describes each one in words and doesn't link to it.
 
 ## Decisions

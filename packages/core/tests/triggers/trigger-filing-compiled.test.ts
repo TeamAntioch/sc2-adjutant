@@ -49,7 +49,7 @@ const workspaceRoot = async (name: string): Promise<string> => (name === "bell" 
 describe("each fixture Workspace's Missions, compiled", () => {
   // These two fail to compile on purpose: broken-field its checks, gong-field its library call.
   const failing = ["checked/broken-field", "bell/gong-field"];
-  const missions = ["bell/bell-field", "checked/radio-field", "cinematic/radio-field", "crossing/ashen-crossing", "dressed/yard", "field/lava-field", "radio/radio-field", "reference/ember-reach", "reference/ember-reach-run", "screenplay/outpost", "tides/ford", "tides/yard"];
+  const missions = ["bell/bell-field", "checked/radio-field", "cinematic/radio-field", "crossing/ashen-crossing", "dressed/yard", "field/lava-field", "radio/radio-field", "reference/ember-reach", "reference/ember-reach-run", "screenplay/outpost", "studio/plaza", "tides/ford", "tides/yard"];
 
   it("lists every fixture Mission but the two that fail", async () => {
     const found: string[] = [];

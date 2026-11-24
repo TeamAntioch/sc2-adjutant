@@ -43,12 +43,23 @@ export const storagePath = (...parts) => parts.map((part) => part.replace(/[.*+?
  * lower-cased, and returns the folder. It is removed when the script exits.
  */
 export async function extractFromStorage(storage, patterns, label) {
-  const tool = cascTool();
+  const folder = scratchFolder(label);
+  await extractInto(storage, patterns, folder);
+  return folder;
+}
+
+/** A scratch folder for extracted files, removed when the script exits, an interrupted run included. */
+export function scratchFolder(label) {
   const folder = mkdtempSync(path.join(tmpdir(), `sc2-adjutant-${label}-`));
-  const remove = () => rmSync(folder, { recursive: true, force: true });
-  process.on("exit", remove);
+  process.on("exit", () => rmSync(folder, { recursive: true, force: true }));
   // Node doesn't emit "exit" on a signal, so an interrupted run removes its folder here.
   for (const signal of ["SIGINT", "SIGTERM"]) process.once(signal, () => process.exit(130));
+  return folder;
+}
+
+/** Extracts every storage path matching one of `patterns` (regex sources) into `folder`, lower-cased. */
+export async function extractInto(storage, patterns, folder) {
+  const tool = cascTool();
   const regex = patterns.length === 1 ? patterns[0] : `(?:${patterns.join("|")})`;
   try {
     await promisify(execFile)(tool, ["-S", storage, "-I", regex, "-x", "-o", folder], { maxBuffer: 64 * 1024 * 1024 });
@@ -56,7 +67,6 @@ export async function extractFromStorage(storage, patterns, label) {
     fail(`${CASC_TOOL_VARIABLE} (${tool}) failed to extract ${regex} from ${storage}: ${String(error.stderr || error.message).trim()}`);
   }
   await lowerCase(folder);
-  return folder;
 }
 
 /** Renames every entry below `folder` to lower case, merging folders whose names differ only in case. */

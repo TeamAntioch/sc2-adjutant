@@ -96,6 +96,10 @@ export type CaptureExemplarToursOptions = {
   /** Keep data errors on screen, to debug a tour that doesn't start. */
   readonly showErrors?: boolean;
   readonly log?: (line: string) => void;
+  /** Hears the broker's id for each tour as it is queued. */
+  readonly onQueued?: (id: string) => void;
+  /** Cancels the tour running or waiting, and fails the call, leaving the tours after it. */
+  readonly signal?: AbortSignal;
 };
 
 export type ExemplarTourOutcome =
@@ -110,6 +114,7 @@ export async function captureExemplarTours(host: Host, tours: readonly ExemplarT
   hostContext(host.machine).requirePath("cacheDir");
   const outcomes: ExemplarTourOutcome[] = [];
   for (const tour of tours) {
+    options.signal?.throwIfAborted();
     const outputDir = path.join(options.capturesRoot, tour.id, "captures", tour.label);
     if (existsSync(outputDir) && (await readdir(outputDir)).some((file) => file.endsWith(".jpg"))) {
       log(`${tour.id}/${tour.label}: already captured`);
@@ -136,11 +141,12 @@ export async function captureExemplarTours(host: Host, tours: readonly ExemplarT
           settings: { frameDigits: 3, recordKeys: ["x", "y"], width: 1600, quality: 80, startSeconds: 300, pressSpaceAfterSeconds: 30 },
           outputDir,
         },
-        { log: (line) => log(`${tour.id}/${tour.label}: ${line}`) },
+        { log: (line) => log(`${tour.id}/${tour.label}: ${line}`), ...(options.onQueued ? { onQueued: options.onQueued } : {}), ...(options.signal ? { signal: options.signal } : {}) },
       );
       log(`${tour.id}/${tour.label}: ${result.end}, ${result.frames} frames`);
       outcomes.push({ id: tour.id, label: tour.label, outcome: result.end, frames: result.frames });
     } catch (error) {
+      if (options.signal?.aborted) throw error;
       const reason = error instanceof Error ? error.message : String(error);
       log(`${tour.id}/${tour.label}: failed: ${reason}`);
       outcomes.push({ id: tour.id, label: tour.label, outcome: "failed", frames: 0, reason });

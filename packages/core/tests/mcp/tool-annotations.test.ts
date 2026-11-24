@@ -27,7 +27,7 @@ describe("the tool groups", () => {
     expect([...grouped].sort()).toEqual([...listed].sort());
   });
 
-  it("are the server's five register functions", () => {
-    expect(Object.keys(TOOL_GROUPS).sort()).toEqual(["blueprint", "capture", "catalog", "compile", "session"]);
+  it("are the server's six register functions", () => {
+    expect(Object.keys(TOOL_GROUPS).sort()).toEqual(["blueprint", "capture", "catalog", "compile", "session", "stylePack"]);
   });
 });

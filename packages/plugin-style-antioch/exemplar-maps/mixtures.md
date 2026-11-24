@@ -1,13 +1,13 @@
 # Mood Mixtures
 
-How the exemplar authors dressed each kind of place, as mixtures to generate from rather than layouts to copy (DL-07, DL-08, DL-15). Data: `mixtures.json`; script: `packages/core/scripts/exemplar-analysis/mixtures.mjs`. Extracted 2026-10-27.
+How the exemplar authors dressed each kind of place, as mixtures to generate from rather than layouts to copy (DL-07, DL-08, DL-15). Data: `mixtures.json`; script: `packages/core/scripts/exemplar-analysis/mixtures.mjs`, which runs core's place-finding (`packages/core/src/study/find-places.ts`, as the `find_places` tool does) over this pack's maps, with the moods `mixtures.json` records as `moodRules`. Extracted 2026-10-27.
 
 ## Method
 
 - **Maps:** the 18 independent maps: 2-0 to 2-6, 2-8, 3-0, 3-2 to 3-7, 3-9 to 3-11. 2-7, 2-9, 3-1, 3-8 and 3-12 share content with these (`episode-2-analysis.md`).
 - **Places:** doodads within 2.5 cells of each other, with pathing, sight and placement helpers left out. Clusters wider than 18 cells are cut into 16-cell tiles, and places under 8 visible doodads are dropped. That gives 834 places.
 - **Motifs [inferred]:** each type gets a motif from its name, whatever its planet: carnage, fire, wreck, military, creep, lab, civic, cargo, machinery, light, masonry, structure, vegetation, weather, rock, decal. `AiurTree`, `HavenTree` and `ZerusTree` are all vegetation, so a mixture can be rebuilt with another tileset's assets. It's name matching, so a few types land in the wrong motif.
-- **Moods [inferred]:** each place's mood comes from its motif shares. The tests are applied in order, and the first match wins:
+- **Moods [inferred]:** each place's mood comes from its motif shares. The tests, recorded in `mixtures.json` as `moodRules`, are applied in order, and the first match wins:
 
   | Order | Mood | Test |
   |---|---|---|

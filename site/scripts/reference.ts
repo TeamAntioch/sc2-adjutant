@@ -5,7 +5,8 @@
 //
 // It starts createServer() over the SDK's in-memory transport against the example Workspace and
 // reads tools/list: with a bare host, with a host that has every capability plus the Finder tools,
-// and once more for each capability or Finder left out, to name what a tool needs.
+// and once more for each capability or Finder left out, to name what a tool needs. A tool listed on
+// every machine but refused without a capability is named in core's REFUSED_WITHOUT.
 //
 // It reads the tutorials too (#980), from site/tutorials/ or the folder given after --tutorials, and
 // fails on a tool call that names a tool or input the server doesn't have (scripts/tutorials.ts).
@@ -18,7 +19,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { bareHost } from "@team-antioch/sc2-adjutant/dist/host/host.js";
 import { emptyMachineConfig } from "@team-antioch/sc2-adjutant/dist/host/machine-config.js";
-import { createServer, TOOL_GROUPS, type ServerOptions } from "@team-antioch/sc2-adjutant/dist/mcp/server.js";
+import { createServer, REFUSED_WITHOUT, TOOL_GROUPS, type ServerOptions } from "@team-antioch/sc2-adjutant/dist/mcp/server.js";
 import { HOST_CAPABILITIES } from "@team-antioch/sc2-adjutant/dist/plugins/plugin-api.js";
 
 import type { Command, FinderName, Field, HostAdapter, Needs, Reference, Skill, Tool, Writes } from "../lib/reference-types";
@@ -76,6 +77,7 @@ const GROUP_TITLES: Record<keyof typeof TOOL_GROUPS, string> = {
   blueprint: "Blueprint",
   capture: "Capture",
   session: "Session",
+  stylePack: "Style Pack",
 };
 
 type Schema = {
@@ -169,7 +171,7 @@ function readSkills(names: readonly string[]): Skill[] {
       const texts = readdirSync(folder, { recursive: true, withFileTypes: true })
         .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
         .map((entry) => bodyOf(path.join(entry.parentPath, entry.name)));
-      return { slug, invocation: `/${MANIFEST.name}:${slug}`, description: fields.get("description") ?? "", tools: toolsNamedIn(texts, names) };
+      return { slug, invocation: `/${MANIFEST.name}:${slug}`, description: fields.get("description") ?? "", tools: toolsNamedIn(texts, names), tutorials: [] as string[] };
     });
 }
 
@@ -251,6 +253,11 @@ async function buildReference(tutorialsFolder: string): Promise<Reference> {
   for (const tool of listedAll) {
     if (!listedBare.has(tool.name) && !needs.has(tool.name)) throw new Error(`${tool.name} is listed only on a capable host, but no one capability or Finder gates it`);
   }
+  // A tool listed everywhere but refused without a capability says so in core's REFUSED_WITHOUT.
+  for (const [name, capabilities] of Object.entries(REFUSED_WITHOUT)) {
+    if (!listedBare.has(name)) throw new Error(`${name} is in core's REFUSED_WITHOUT, but a bare host doesn't list it`);
+    needs.set(name, { kind: "refused", capabilities: [...capabilities] });
+  }
 
   const groupOf = new Map<string, string>(Object.entries(TOOL_GROUPS).flatMap(([group, names]) => names.map((name) => [name, group] as const)));
   const scripts = rootScripts();
@@ -258,8 +265,14 @@ async function buildReference(tutorialsFolder: string): Promise<Reference> {
   const skills = readSkills(names);
   const commands = readCommands(names);
   const hostAdapters = readHostAdapters();
-  const known = { tools: listedAll.map((tool) => ({ name: tool.name, inputs: fieldsOf(tool.inputSchema as Schema) })), hostAdapters, finders: Object.keys(FINDERS) as FinderName[] };
+  const known = {
+    tools: listedAll.map((tool) => ({ name: tool.name, inputs: fieldsOf(tool.inputSchema as Schema) })),
+    hostAdapters,
+    finders: Object.keys(FINDERS) as FinderName[],
+    skills: skills.map((skill) => skill.slug),
+  };
   const tutorials = readTutorials(tutorialsFolder, known);
+  for (const skill of skills) skill.tutorials = tutorials.filter((tutorial) => tutorial.skills.includes(skill.slug)).map((tutorial) => tutorial.slug);
   const tools: Tool[] = listedAll.map((tool) => {
     const group = groupOf.get(tool.name);
     if (!group) throw new Error(`${tool.name} is in none of core's TOOL_GROUPS`);

@@ -22,11 +22,13 @@ export type Writes = "none" | "adds" | "overwrites";
 /** A Finder package, which core loads when it's installed: the server lists its tools only then. */
 export type FinderName = "Doodad Finder" | "Set Finder";
 
-/** What a machine needs before the server lists the tool. */
+/** What a machine needs before the server lists the tool, or before it runs a tool it always lists. */
 export type Needs =
   | { kind: "none" }
   /** Listed only when the Host Adapter has each of these capabilities. */
   | { kind: "capability"; capabilities: HostCapabilityName[] }
+  /** Listed on every machine, but refused where the Host Adapter lacks one of these capabilities. */
+  | { kind: "refused"; capabilities: HostCapabilityName[] }
   /** Listed only when this Finder package loaded. */
   | { kind: "finder"; finder: FinderName };
 
@@ -76,6 +78,8 @@ export interface Skill {
   description: string;
   /** The tools its Markdown files' bodies name in backticks, in the server's order. */
   tools: string[];
+  /** The tutorials that link to its page, by slug, in the tutorials' order. */
+  tutorials: string[];
 }
 
 /** A slash command the Claude Code plugin ships: packages/claude-plugin/commands/<slug>.md (#978). */
@@ -137,6 +141,8 @@ export interface Tutorial {
   objectives: Objective[];
   /** The tools its `<ToolCall>`s name, each once, in the order they're first called. */
   tools: string[];
+  /** The skills its links point to (`/skills/<slug>/`), each once, in the order they're first linked. */
+  skills: string[];
 }
 
 export interface Reference {

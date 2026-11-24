@@ -38,6 +38,8 @@ It needs sc2-adjutant core (`@team-antioch/sc2-adjutant`) installed beside it, w
 
 ## Making your own Style Pack
 
-A Style Pack is a Plugin with the `style-pack` role. Copy this one's shape, with knowledge documents, Exemplar Maps, Composites and optional style rules, and read [the plugin API](https://github.com/TeamAntioch/sc2-adjutant/blob/main/docs/plugin-api.md#style-pack-kinds).
+The sc2-adjutant Claude Code plugin's `style-pack-builder` skill builds one in your Workspace from maps you made, edited or admire: it scaffolds the pack, studies and captures the maps, and drafts Design Lessons and moods from what is distinctive about them, for you to ratify one at a time.
+
+A Style Pack is a Plugin with the `style-pack` role. To make one by hand, copy this one's shape, with knowledge documents, Exemplar Maps, Composites and optional style rules, and read [the plugin API](https://github.com/TeamAntioch/sc2-adjutant/blob/main/docs/plugin-api.md#style-pack-kinds).
 
 MIT licensed.

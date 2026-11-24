@@ -372,7 +372,7 @@ describe("exemplarMapSources", () => {
   it("names the setting when no folder is set, and the Style Pack slot when there's no pack", async () => {
     const field = await loadWorkspace(fixture("field"));
     await expect(exemplarMapSources(field, machine())).rejects.toThrow(
-      "No folder for the Exemplar Maps' source maps: set exemplarMaps in the machine config /home/author/.config/sc2-adjutant/machine.json, or SC2_ADJUTANT_EXEMPLAR_MAPS",
+      `No folder for the Exemplar Maps' source maps: set exemplarMaps in the machine config /home/author/.config/sc2-adjutant/machine.json, or SC2_ADJUTANT_EXEMPLAR_MAPS, or exemplarMaps in the Workspace config ${path.join(field.root, "sc2-adjutant.workspace.json")} for a folder that travels with the Workspace`,
     );
     const basic = await loadWorkspace(fixture("basic"));
     await expect(exemplarMapSources(basic, machine({ exemplarMaps: "/maps" }))).rejects.toThrow(
