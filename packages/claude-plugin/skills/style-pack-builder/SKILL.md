@@ -11,21 +11,21 @@ The evidence is this pack's own maps, set against Blizzard's campaign maps as `e
 
 ## 1. Scaffold the pack
 
-Run `list_plugins`. When it lists a Plugin in the `style-pack` role whose source is a folder in the Workspace (`./style-pack`), pick that pack up: read its `lessons` and `candidate-lessons` knowledge, and in the later steps work only on the maps and candidates that are new. Otherwise run `scaffold_style_pack` (its folder is `style-pack/` unless the mapper wants another). When it's refused because the Workspace already names a Style Pack, say which and ask the mapper whether the new pack replaces it; on a yes, call it again with `replace: true`.
+Run `list_plugins`. When it lists a Plugin in the `style-pack` role whose source is a folder in the Workspace (`./style-pack`), pick that pack up: read its `lessons` and `candidate-lessons` knowledge. In the later steps, study and capture only the new maps and bring only new or changed candidates, but run `find_places` and `exemplar_report` over every map (no `ids`): `find_places` rewrites the mixtures file for the maps it's given alone, and the report measures agreement across them all. Otherwise run `scaffold_style_pack` (its folder is `style-pack/` unless the mapper wants another). When it's refused because the Workspace already names a Style Pack, say which and ask the mapper whether the new pack replaces it; on a yes, call it again with `replace: true`.
 
 **Done when** `list_plugins` shows a `style-pack` Plugin whose source is a folder in the Workspace, and the mapper knows its name and folder.
 
 ## 2. Add the maps
 
-For each map, get from the mapper its path, a short id and its **provenance**: `made` (they made it), `edited` (they edited it) or `approved` (a map they admire). Ask for whatever they didn't give, provenance always: a `made` map weighs most as evidence, an `approved` one least, so the mapper's answer is the only source of it. A relative path is inside the folder the machine config's `exemplarMaps` names (or `SC2_ADJUTANT_EXEMPLAR_MAPS`), else the Workspace config's `exemplarMaps`; an absolute path works without either. Record each with `add_exemplar_map`, with a `note` for anything worth knowing (what the map reuses, who else worked on it). The report needs at least two maps with a value to place a measure, and agreement reads more clearly across three or more, so ask for more when the mapper has given fewer than three.
+For each map, get from the mapper its path, a short id and its **provenance**: `made` (they made it), `edited` (they edited it) or `approved` (a map they admire). Ask for whatever they didn't give, provenance always: a `made` map weighs most as evidence, an `approved` one least, so the mapper's answer is the only source of it. A relative path is inside the folder the machine config's `exemplarMaps` names (or `SC2_ADJUTANT_EXEMPLAR_MAPS`), else the Workspace config's `exemplarMaps`; an absolute path works without either. Record each with `add_exemplar_map`, one call after another (each rewrites the pack's list), with a `note` for anything worth knowing (what the map reuses, who else worked on it). The report needs at least two maps with a value to place a measure, and agreement reads more clearly across three or more, so ask for more when the mapper has given fewer than three.
 
 **Done when** every map the mapper named is in the pack with the provenance they gave.
 
 ## 3. Study the maps and find their places
 
-Run `study_exemplar`, then `find_places`. Read each map's study through its `study-<id>` resource. Its layer images (`textures.png`, `elevation.png`, `doodads.png` and the rest, in `exemplar-maps/<id>/`) are what you look at when a map has no frames. Note the maps with few or no places, from the `find_places` reply and the mixtures file's places: those are the maps to offer grid tours for.
+Run `study_exemplar`, then `find_places` with no `ids`, so the mixtures file holds every map's places. Read each map's study through its `study-<id>` resource. Its layer images (`textures.png`, `elevation.png`, `doodads.png` and the rest, in `exemplar-maps/<id>/`) are what you look at when a map has no frames. Count each map's places from the mixtures file (`exemplar-maps/mixtures.json`, each place's `map`); the `find_places` reply gives only the total. The maps with few or no places are the maps to offer grid tours for.
 
-**Done when** every map has a study and the `find_places` reply counts its places, and you have the list of thinly dressed maps.
+**Done when** every map has a study, you have each map's count of places, and you have the list of thinly dressed maps.
 
 ## 4. Capture place tours
 
@@ -74,7 +74,7 @@ Take a kept lesson or mood out of `candidate-lessons.md` once it's written.
 
 1. **Moods.** Write the kept moods' rules into the mixtures file's `moodRules` (`exemplar-maps/mixtures.json`), most specific first and the catch-all last, leaving its other keys as they are. Run `find_places`. Its reply counts the places by mood; show the mapper the counts, and adjust with them any mood that took far more or fewer places than they expect.
 2. **Guide.** Write `knowledge/GUIDE.md` over its stub. Under **Weights**, say how much the provenance and agreement behind each lesson count. Under **Leading words**, give the mapper's own words for their look. Under **Propose a look**, take each step of the `exemplar-design` method (tileset, texturing, dressing, lighting) and name the lesson ids that govern it and the moods to dress from. Add a **Blueprint hooks** section listing each lesson's hook.
-3. **Manifest.** In the pack's manifest, the JSON file at its folder's root, keep the `guide`, `lessons` and `candidate-lessons` knowledge entries. Update the `lessons` description to name the ids it holds, and add a `mixtures` entry for `exemplar-maps/mixtures.json` ("every dressed place with its mood, and each mood's mixture"), so `exemplar-design` reads the moods.
+3. **Manifest.** In the pack's manifest, the JSON file at its folder's root, keep the `guide`, `lessons` and `candidate-lessons` knowledge entries. Update the `lessons` description to name the ids it holds, and add an entry with the id `mixtures`, a `title` ("Mood mixtures (data)"), a `description` ("Every dressed place with its mood, and each mood's mixture.") and the `file` `exemplar-maps/mixtures.json`, so `exemplar-design` reads the moods.
 4. **Check.** From the Workspace's folder, run `npm run check` (or the `check_workspace` tool), and fix whatever it names in the pack.
 5. **Read it back** as `exemplar-design` will: `list_plugins` lists the pack's knowledge ids, and the `guide`, `lessons` and `mixtures` resources serve the new text.
 

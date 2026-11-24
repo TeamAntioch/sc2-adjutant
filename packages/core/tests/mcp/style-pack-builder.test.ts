@@ -7,7 +7,7 @@
 import { cp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { compileMission } from "../../src/map/compile-mission.js";
 import { checkWorkspace, isError } from "../../src/plugins/check-workspace.js";
@@ -38,6 +38,8 @@ async function workspace(): Promise<string> {
   await cp(plaza, path.join(root, "exemplar-sources/Square.SC2Map"), { recursive: true });
   return root;
 }
+
+afterEach(() => vi.unstubAllEnvs());
 
 describe("a dry run of the style-pack-builder skill", () => {
   it("reaches a pack that passes the Workspace check and serves its lessons, guide and moods", async () => {
@@ -70,6 +72,7 @@ describe("a dry run of the style-pack-builder skill", () => {
     const lead = report.measures.find((measure) => measure.agreeing.length === 2 && measure.spread);
     expect(lead, "a measure both maps agree on").toBeDefined();
     const candidates = await readFile(path.join(exemplars, "candidate-lessons.md"), "utf8");
+    expect(candidates).toContain("No candidates yet.\n");
     await writeFile(
       path.join(exemplars, "candidate-lessons.md"),
       candidates.replace("No candidates yet.\n", "## Candidate moods\n\n### open ground\n\n**Rule.** every place (the catch-all)\n"),
@@ -77,6 +80,7 @@ describe("a dry run of the style-pack-builder skill", () => {
 
     // 6. Ratify: the mapper keeps one lesson, in their words.
     const lessons = await readFile(path.join(exemplars, "LESSONS.md"), "utf8");
+    expect(lessons).toContain("No lessons are ratified yet.\n");
     const lesson = [
       `## DL-01. Keep ${lead!.id} where these maps keep it`,
       "",
@@ -112,6 +116,7 @@ describe("a dry run of the style-pack-builder skill", () => {
     const plugins = (await call(client, "list_plugins")).structuredContent as { plugins: { name: string; roles: string[]; contributions: Record<string, string[]> }[] };
     expect(plugins.plugins.find((plugin) => plugin.roles.includes("style-pack"))).toMatchObject({ name, contributions: { knowledge: expect.arrayContaining(["guide", "lessons", "candidate-lessons", "mixtures"]) } });
     expect(await resource(client, `sc2-adjutant://plugins/${name}/knowledge/lessons`)).toContain("## DL-01.");
+    expect(await resource(client, `sc2-adjutant://plugins/${name}/knowledge/candidate-lessons`)).toContain("## Candidate moods");
     expect(await resource(client, `sc2-adjutant://plugins/${name}/knowledge/guide`)).toContain("after DL-01");
     expect(await resource(client, `sc2-adjutant://plugins/${name}/knowledge/mixtures`)).toContain('"open ground"');
   });
