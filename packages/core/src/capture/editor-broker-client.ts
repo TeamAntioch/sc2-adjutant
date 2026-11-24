@@ -27,7 +27,7 @@ export const BROKERED_EDITOR_ACTIONS = ["editor.open", "editor.refresh", "editor
 export type BrokeredEditorAction = (typeof BROKERED_EDITOR_ACTIONS)[number];
 
 /** How a tour is captured: the frames' naming and size, and how long to wait for the game. */
-export type TourSettings = Pick<CaptureTourRequest, "frameDigits" | "recordKeys" | "width" | "quality" | "startSeconds" | "pressSpaceAfterSeconds">;
+export type TourSettings = Pick<CaptureTourRequest, "frameDigits" | "recordKeys" | "width" | "quality" | "startSeconds" | "pressSpaceAfterSeconds" | "video">;
 
 /**
  * A capture job. `tour`: a capture copy of `source` whose Triggers are the camera tour of `copy`

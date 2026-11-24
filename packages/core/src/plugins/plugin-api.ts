@@ -542,6 +542,13 @@ export type CaptureTourRequest = {
   /** How long to wait for the first stop once the game runs, in seconds, before giving up. */
   readonly startSeconds: number;
   /**
+   * Records the game window as well, from when it appears until the tour ends: `video.mp4` in
+   * `outputDir`, `width` pixels wide at up to `fps` frames a second, with `video-stops.txt` giving
+   * each stop's time into it (`<stop> <seconds>` per line), and the time of each change of the bank's int key `mark`, if the map saves one (`m<mark> <seconds>`). For what a screenshot misses: a burst
+   * of particles that is over before the frame is taken. A Host Adapter that can't record ignores it.
+   */
+  readonly video?: { readonly width: number; readonly fps: number };
+  /**
    * After this many seconds with no stop, press Space now and then, for a loading screen that waits
    * for it. Pressing takes focus from whoever is using the machine, so not too soon.
    */

@@ -64,6 +64,7 @@
     "freeze-set-piece": "npm run build && node packages/core/dist/cli/freeze-set-piece.js",
     "capture-composite": "npm run build && node packages/core/dist/cli/capture-composite.js",
     "facing-strip": "npm run build && node packages/core/dist/cli/facing-strip.js",
+    "effect-tour": "npm run build && node packages/core/dist/cli/effect-tour.js",
     "probe-game": "npm run build && node packages/core/dist/cli/probe-game.js",
     "compare-saves": "npm run build && node packages/core/dist/cli/compare-saves.js",
     "placement-stats": "npm run build && node packages/core/dist/cli/placement-stats.js",

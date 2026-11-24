@@ -347,11 +347,14 @@ async function runBatch(host: Host, batch: readonly Entry[], record: (line: stri
     } else mapPath = job.source;
   }
 
+  // A merged tour's video would be one recording of every job's stops; only a tour of one job records.
+  const { video, ...settings } = job.settings;
   const request: CaptureTourRequest = {
     mapPath,
     bank,
     outputDir,
-    ...job.settings,
+    ...settings,
+    ...(video && !merged ? { video } : {}),
     frameDigits,
     ...(writeMap ? { writeMap } : {}),
     ...(job.kind === "map" && job.attach ? { attach: true } : {}),
