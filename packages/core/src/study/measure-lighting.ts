@@ -6,7 +6,7 @@ function value(body: string, tag: string): string | undefined {
 }
 
 /** Each GameSetLighting call in MapScript.galaxy with the function that makes it. */
-function lightingCalls(script: string) {
+export function lightingCalls(script: string) {
   const calls: { light: string; blendSeconds: number | string; inFunction: string }[] = [];
   let fn = "";
   for (const line of script.split("\n")) {

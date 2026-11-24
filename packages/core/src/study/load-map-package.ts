@@ -3,6 +3,7 @@ import path from "node:path";
 
 import { readMapInfo, type MapInfoSummary } from "../map/read-map-info.js";
 import { readObjectsXml, type ObjectsFile } from "../map/read-objects-xml.js";
+import { readT3Water, type WaterArea } from "../map/write-water.js";
 import { readTga, type RgbImage } from "../map/read-tga.js";
 import { readT3FluffDoodad } from "../terrain/read-t3-fluff-doodad.js";
 import { readT3HeightMap, type T3HeightMap } from "../terrain/read-t3-height-map.js";
@@ -31,6 +32,8 @@ export type LoadedMapPackage = {
   readonly noPathing?: Uint8Array;
   /** Body count from the t3Water header. */
   readonly waterBodies: number;
+  /** The t3Water areas, empty when the map has none or its t3Water can't be read. */
+  readonly waterAreas: readonly WaterArea[];
   readonly mapScript: string;
   readonly terrainData: string;
   readonly lightData: string;
@@ -38,6 +41,15 @@ export type LoadedMapPackage = {
 
 function readOptional(file: string): Buffer | undefined {
   return existsSync(file) ? readFileSync(file) : undefined;
+}
+
+/** A study leaves out water it can't read, as it does a painted layer, rather than fail. */
+function readWaterAreas(water: Buffer): readonly WaterArea[] {
+  try {
+    return readT3Water(water);
+  } catch {
+    return [];
+  }
 }
 
 export function loadMapPackage(dir: string): LoadedMapPackage {
@@ -66,6 +78,7 @@ export function loadMapPackage(dir: string): LoadedMapPackage {
     ...(pathing && cellAttributeFits(pathing, terrain.width, terrain.height) ? { noPathing: readCellAttribute(pathing, terrain.width, terrain.height) } : {}),
     fluffCount: fluff ? readT3FluffDoodad(fluff).entries.length : 0,
     waterBodies: water && water.length >= 16 ? water.readUInt32LE(12) : 0,
+    waterAreas: water ? readWaterAreas(water) : [],
     mapScript: readOptional(at("MapScript.galaxy"))?.toString("utf8") ?? "",
     terrainData: gameData("TerrainData.xml"),
     lightData: gameData("LightData.xml"),

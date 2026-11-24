@@ -9,6 +9,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { compileMission } from "../../src/map/compile-mission.js";
 import { loadWorkspace } from "../../src/plugins/workspace.js";
+import { MEASURES } from "../../src/study/measures.js";
 import { connect, copyOf, text } from "./harness.js";
 
 /** A copy of the studio fixture, with its Exemplar Map's source map compiled. */
@@ -31,8 +32,10 @@ describe("study_exemplar", () => {
     expect(reply.isError, text(reply)).toBeFalsy();
 
     const studyDir = path.join(exemplarDir(root), "plaza");
-    const study = JSON.parse(await readFile(path.join(studyDir, "study.json"), "utf8")) as { exemplar: { id: string; provenance: string } };
+    const study = JSON.parse(await readFile(path.join(studyDir, "study.json"), "utf8")) as { exemplar: { id: string; provenance: string }; measures: Record<string, unknown> };
     expect(study.exemplar).toEqual({ id: "plaza", provenance: "made" });
+    // The lesson-neutral measures, so a consistency report reads them without the source map.
+    expect(Object.keys(study.measures).sort()).toEqual(MEASURES.map((m) => m.id).sort());
     const images = (await readdir(studyDir)).filter((name) => name.endsWith(".png"));
     expect(images.length).toBeGreaterThan(0);
     expect(reply.structuredContent).toMatchObject({ studied: [{ id: "plaza", studyDir, images: expect.arrayContaining(images) }] });

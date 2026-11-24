@@ -312,6 +312,14 @@ _Avoid_: Reference map, sample map, inspiration
 The structured record of one Exemplar Map's visual design—its texturing, cliff and ramp styling, doodad dressing, lighting, and composition—captured as measurements alongside a top-down render.
 _Avoid_: Map analysis, map report, scan
 
+**Measure**:
+One lesson-neutral number about a map's look (the top texture's share of a level, how often the texture changes at a cliff, the share of decals snapped to 45°), named by what it measures and carrying no Design Lesson or threshold, so any Style Pack's maps can be compared on it. A Design Lesson may cite one; the measure itself never says what is right.
+_Avoid_: Lesson metric, score, rule
+
+**Blizzard Baseline**:
+Every Measure over every campaign mission of Wings of Liberty, Heart of the Swarm, Legacy of the Void and Nova Covert Ops, shipped in core as each measure's spread and each map's value. It tells what is a Style Pack author's own taste from what every SC2 campaign map does.
+_Avoid_: Blizzard average, norm, reference pack
+
 **Design Lesson**:
 A reusable visual design principle distilled from one or more Map Studies, citing the Exemplar Maps that support it, and applied when co-designing a Mission Blueprint.
 _Avoid_: Rule, guideline, tip, pattern

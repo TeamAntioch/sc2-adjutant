@@ -6,6 +6,7 @@ import { measureComposition } from "./measure-composition.js";
 import { measureDoodads, studyDoodads } from "./measure-doodads.js";
 import { measureLighting } from "./measure-lighting.js";
 import { measureTexturing } from "./measure-texturing.js";
+import { measureMap } from "./measures.js";
 import { PX, renderDoodads, renderElevation, renderHeight, CONTOUR, renderPathing, renderTextures, renderVertexShading } from "./render-layers.js";
 import { buildTerrainGrid } from "./terrain-grid.js";
 
@@ -43,6 +44,8 @@ export function buildMapStudy(exemplar: ExemplarEntry, map: LoadedMapPackage) {
     doodads: measureDoodads(map, grid, doodads),
     lighting: measureLighting(map),
     composition: measureComposition(map, grid),
+    // The lesson-neutral measures (measures.ts), which a consistency report reads from the study, so it needs no source map.
+    measures: measureMap(map),
   };
   return { study, images };
 }
