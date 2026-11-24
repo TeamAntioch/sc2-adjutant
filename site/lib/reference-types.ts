@@ -78,6 +78,8 @@ export interface Skill {
   description: string;
   /** The tools its Markdown files' bodies name in backticks, in the server's order. */
   tools: string[];
+  /** The tutorials that link to its page, by slug, in the tutorials' order. */
+  tutorials: string[];
 }
 
 /** A slash command the Claude Code plugin ships: packages/claude-plugin/commands/<slug>.md (#978). */
@@ -139,6 +141,8 @@ export interface Tutorial {
   objectives: Objective[];
   /** The tools its `<ToolCall>`s name, each once, in the order they're first called. */
   tools: string[];
+  /** The skills its links point to (`/skills/<slug>/`), each once, in the order they're first linked. */
+  skills: string[];
 }
 
 export interface Reference {

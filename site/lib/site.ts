@@ -34,7 +34,7 @@ export const SECTIONS: Section[] = [
   {
     title: "Tutorials",
     href: "/tutorials/",
-    blurb: "Co-design a first Mission, find doodads, make a 1v1 melee map.",
+    blurb: "Co-design a first Mission, find doodads, make a 1v1 melee map, stage cutscenes, build a Style Pack from your own maps.",
     pages: [{ title: "All tutorials", href: "/tutorials/" }],
   },
   {

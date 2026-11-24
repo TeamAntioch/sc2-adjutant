@@ -171,7 +171,7 @@ function readSkills(names: readonly string[]): Skill[] {
       const texts = readdirSync(folder, { recursive: true, withFileTypes: true })
         .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
         .map((entry) => bodyOf(path.join(entry.parentPath, entry.name)));
-      return { slug, invocation: `/${MANIFEST.name}:${slug}`, description: fields.get("description") ?? "", tools: toolsNamedIn(texts, names) };
+      return { slug, invocation: `/${MANIFEST.name}:${slug}`, description: fields.get("description") ?? "", tools: toolsNamedIn(texts, names), tutorials: [] as string[] };
     });
 }
 
@@ -265,8 +265,14 @@ async function buildReference(tutorialsFolder: string): Promise<Reference> {
   const skills = readSkills(names);
   const commands = readCommands(names);
   const hostAdapters = readHostAdapters();
-  const known = { tools: listedAll.map((tool) => ({ name: tool.name, inputs: fieldsOf(tool.inputSchema as Schema) })), hostAdapters, finders: Object.keys(FINDERS) as FinderName[] };
+  const known = {
+    tools: listedAll.map((tool) => ({ name: tool.name, inputs: fieldsOf(tool.inputSchema as Schema) })),
+    hostAdapters,
+    finders: Object.keys(FINDERS) as FinderName[],
+    skills: skills.map((skill) => skill.slug),
+  };
   const tutorials = readTutorials(tutorialsFolder, known);
+  for (const skill of skills) skill.tutorials = tutorials.filter((tutorial) => tutorial.skills.includes(skill.slug)).map((tutorial) => tutorial.slug);
   const tools: Tool[] = listedAll.map((tool) => {
     const group = groupOf.get(tool.name);
     if (!group) throw new Error(`${tool.name} is in none of core's TOOL_GROUPS`);

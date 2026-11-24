@@ -1,9 +1,10 @@
 // The tutorials (#980): reads each site/tutorials/<number>-<slug>.mdx for the reference script,
 // which puts what it finds in reference.json. It parses the MDX, without running it, for the
-// tutorial's `meta`, its <Objective>s and its <ToolCall>s. Each tool call must name a tool the
-// server lists, give only inputs that tool takes, and give every input it needs. Each objective's
-// `needs` must be capabilities some Host Adapter has, or Finders. Anything else throws. The site
-// build runs the reference script first, so it fails the build.
+// tutorial's `meta`, its <Objective>s, its <ToolCall>s and the skills it links to. Each tool call
+// must name a tool the server lists, give only inputs that tool takes, and give every input it
+// needs. Each objective's `needs` must be capabilities some Host Adapter has, or Finders. A link to
+// a skill's page must name a skill the plugin ships. Anything else throws. The site build runs the
+// reference script first, so it fails the build.
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
@@ -13,12 +14,17 @@ import { HOST_CAPABILITIES, type HostCapabilityName } from "@team-antioch/sc2-ad
 import type { FinderName, HostAdapter, Objective, Tool, Tutorial } from "../lib/reference-types";
 import { objectiveId } from "../lib/slug.ts";
 
-/** What a tutorial is checked against: the server's tools, the Host Adapters that ship and the Finders. */
+/** What a tutorial is checked against: the server's tools, the Host Adapters that ship, the Finders and, when given, the skills. */
 export interface Known {
   tools: Pick<Tool, "name" | "inputs">[];
   hostAdapters: HostAdapter[];
   finders: readonly FinderName[];
+  /** The skills' slugs: a link to any other skill's page throws. Not checked when left out. */
+  skills?: readonly string[];
 }
+
+/** A link to a skill's page, as `/skills/<slug>/`, with or without its slash or a #fragment. */
+const SKILL_LINK = /^\/skills\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?(?:#.*)?$/;
 
 /** A tutorial's file name: its number, then its slug. */
 const FILE_NAME = /^(\d+)-([a-z0-9]+(?:-[a-z0-9]+)*)\.mdx$/;
@@ -34,6 +40,7 @@ type Node = {
   attributes?: Attribute[];
   children?: Node[];
   value?: string;
+  url?: string;
   data?: { estree?: Program };
   position?: { start: { line: number } };
 };
@@ -174,6 +181,7 @@ export function parseTutorial(source: string, file: string, known: Known): Tutor
     const meta = metaOf(tree);
     const objectives: Objective[] = [];
     const tools: string[] = [];
+    const skills: string[] = [];
     for (const node of walk(tree)) {
       line = node.position?.start.line;
       if (isElement(node, "Objective")) {
@@ -183,9 +191,14 @@ export function parseTutorial(source: string, file: string, known: Known): Tutor
       } else if (isElement(node, "ToolCall")) {
         const tool = toolCallOf(node, known);
         if (!tools.includes(tool)) tools.push(tool);
+      } else if (node.type === "link" || node.type === "definition") {
+        const skill = SKILL_LINK.exec(node.url ?? "")?.[1];
+        if (skill === undefined) continue;
+        if (known.skills && !known.skills.includes(skill)) throw new TutorialError(`a link goes to /skills/${skill}/, but the plugin ships no skill ${skill}`);
+        if (!skills.includes(skill)) skills.push(skill);
       }
     }
-    return { slug: match[2]!, number: Number(match[1]), file: path.basename(file), ...meta, objectives, tools };
+    return { slug: match[2]!, number: Number(match[1]), file: path.basename(file), ...meta, objectives, tools, skills };
   } catch (error) {
     // The MDX parser's own errors (a tag left open, say) say where they are.
     const where = error instanceof TutorialError && line !== undefined ? `${file}:${line}` : file;

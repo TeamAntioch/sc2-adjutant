@@ -1,0 +1,290 @@
+export const meta = {
+  title: "Your own Style Pack",
+  summary: "Turn a few maps of your own into a Style Pack: study them, capture their places in game, see which habits are yours against Blizzard's campaign maps, and ratify each Design Lesson and mood before exemplar-design dresses Missions with them.",
+  minutes: 45,
+};
+
+You'll build a **Style Pack** from your own maps: your visual taste, written down so that every session dresses your Missions the way you would. Its evidence is a handful of **Exemplar Maps**: maps you made, edited or admire. Claude studies each one, captures its dressed places in game, and measures what your maps agree on against Blizzard's campaign maps. What your maps share and Blizzard's mostly don't is your taste. Claude drafts it as candidate **Design Lessons** and moods, and brings them to you one at a time. Only what you keep goes into the pack. Then the [`exemplar-design`](/skills/exemplar-design/) skill reads the pack as it reads any Style Pack.
+
+The [`style-pack-builder`](/skills/style-pack-builder/) skill runs it all. Here it works in the Workspace from [Your first Mission](/tutorials/first-mission/), with four maps: *Harbour* and *Foundry*, which the mapper made, *Outpost*, which they edited, and *Relic*, someone else's map they admire. Use your own: three or more give the clearest result. The in-game captures need a Host Adapter that can run camera tours. Without one, the pack is built from the maps' data alone.
+
+The turns below are written by hand. Claude's words will differ in your session, and so will the numbers, since they come from your maps. The tool calls are the ones it makes.
+
+<Objective id="scaffold" title="Start the pack">
+
+Say what you want. The skill looks for a pack in the Workspace first.
+
+<You>I want a Style Pack of my own, from my maps.</You>
+
+<Claude>
+<ToolCall name="list_plugins" args={{}}>looks for a Style Pack in the Workspace to pick up</ToolCall>
+
+This Workspace names no Style Pack, so I'll start one in `style-pack/`.
+
+<ToolCall name="scaffold_style_pack" args={{}}>makes the pack's folder and names it as the Workspace's Style Pack</ToolCall>
+
+The pack is `style-example`, in `style-pack/`. It has no maps, lessons or moods yet: those will all be yours.
+</Claude>
+
+A Style Pack is a Plugin, and this one is a folder in your Workspace. [`scaffold_style_pack`](/tools/scaffold_style_pack/) writes its manifest, `sc2-adjutant-plugin.json`, and these:
+
+- `exemplar-maps/exemplars.json`, the list of Exemplar Maps, empty for now;
+- `exemplar-maps/candidate-lessons.md`, for drafts, and `exemplar-maps/LESSONS.md`, for the Design Lessons you ratify, each with the format its entries follow;
+- `knowledge/GUIDE.md`, a stub, written last;
+- `exemplar-maps/.gitignore`, which keeps the in-game captures and frames out of git.
+
+It then sets the Workspace config's `stylePack` to `./style-pack`. If the Workspace already names a Style Pack, the tool refuses and names it. Claude asks whether the new pack is to replace it, and makes it only on a yes. Give the pack another folder or name if you like: its name is a Plugin name, lowercase, `style-<campaign id>` by default.
+
+</Objective>
+
+<Objective id="maps" title="Add your maps, with their provenance">
+
+The studies read your maps where they are: Claude never copies them into the pack. Name the folder that holds them in your machine config ([Install](/install/), step 6), as `exemplarMaps`:
+
+```json
+{
+  "hostAdapter": "bundled:host-macos",
+  "editorPath": "/Applications/StarCraft II Editor (Fixed).app",
+  "cacheDir": "~/Library/Caches/sc2-adjutant",
+  "exemplarMaps": "~/sc2-maps"
+}
+```
+
+A folder that travels with the Workspace can go in the Workspace config's `exemplarMaps` instead, relative to its root. A map given by an absolute path needs neither. The server reads the machine config when it starts, so after changing it, type `/mcp` and reconnect `plugin:sc2-adjutant:sc2-adjutant`, as at [Install](/install/)'s step 5.
+
+<You>My maps are Harbour.SC2Map, Foundry.SC2Map, Outpost.SC2Map and Relic.SC2Map in ~/sc2-maps.</You>
+
+<Claude>
+Which of them did you make, which did you edit, and which do you only admire? A map you made weighs most as evidence, one you edited less, and one you admire least, so I'll only take this from you.
+</Claude>
+
+<You>I made Harbour and Foundry. Outpost is a friend's map I reworked. Relic isn't mine; I love how it looks.</You>
+
+<Claude>
+<ToolCall name="add_exemplar_map" args={{ id: "harbour", map: "Harbour.SC2Map", provenance: "made" }} />
+<ToolCall name="add_exemplar_map" args={{ id: "foundry", map: "Foundry.SC2Map", provenance: "made" }} />
+<ToolCall name="add_exemplar_map" args={{ id: "outpost", map: "Outpost.SC2Map", provenance: "edited", note: "A friend's map; reworked its dressing and lighting" }} />
+<ToolCall name="add_exemplar_map" args={{ id: "relic", map: "Relic.SC2Map", provenance: "approved", note: "Someone else's map, admired for its look" }} />
+
+The pack lists four Exemplar Maps: `harbour` and `foundry` (made), `outpost` (edited) and `relic` (approved).
+</Claude>
+
+Each map's **provenance** is `made`, `edited` or `approved`. It's the one thing Claude can't read from a map, so it always asks. A `note` records anything worth knowing, such as what the map reuses or who else worked on it. Claude adds the maps one call after another: each call rewrites the pack's list. A map already listed, or one that isn't where you said, is refused before anything is written.
+
+</Objective>
+
+<Objective id="study" title="Study the maps and find their places">
+
+<Claude>
+<ToolCall name="study_exemplar" args={{}}>builds each map's Map Study: its measurements and layer images</ToolCall>
+
+<ToolCall name="find_places" args={{}}>finds each map's dressed places and writes them to the mixtures file</ToolCall>
+
+All four are studied. The maps hold 76 dressed places: Harbour 31, Foundry 24, Relic 18, and Outpost only 3. Outpost is thinly dressed, so its place tours would show little of it. Shall I take a grid tour of it as well, after the place tours? It covers the whole map, once for each of its lightings, and takes longer.
+</Claude>
+
+<You>Yes, a grid tour of Outpost too.</You>
+
+A **Map Study** is a map's look as measurements: its texturing, cliffs, doodad dressing, lighting and composition. [`study_exemplar`](/tools/study_exemplar/) writes it as `study.json` in `exemplar-maps/<id>/`, beside its layer images: the map from above as textures, elevation, doodads and more. They're what Claude looks at for a map with no frames.
+
+A **place** is a cluster of doodads: doodads within 2.5 cells of each other, with a wide cluster split into 16-cell tiles, and anything under 8 visible doodads dropped. [`find_places`](/tools/find_places/) records each place's centre, size and what it's made of in `exemplar-maps/mixtures.json`: its **motifs**, such as machinery, cargo, rock or vegetation, as shares of its doodads, and its most-used types. The places are where the in-game captures look, and what moods are made of. Claude always runs it over every map, since it rewrites the file for the maps it's given alone.
+
+</Objective>
+
+<Objective id="capture" title="Capture place tours" needs="editor.captureTour">
+
+Lessons drawn from how your maps look in game beat lessons from their data alone, so captures matter most. A **place tour** starts the map in the game and takes one frame centred on each place, in the lighting the map's triggers set most outside its cutscenes. A **grid tour** covers the whole playable area instead, once for each lighting the map's study lists: that's how a thinly dressed map is still seen.
+
+<Claude>
+The captures need:
+
+- a Host Adapter with `editor.captureTour`, named as `hostAdapter` in your machine config, with its `editorPath` and `cacheDir`;
+- the StarCraft II Editor with Test Document set to Windowed, and on macOS, Accessibility and Screen Recording allowed for the app running Claude Code;
+- the screen unlocked and awake throughout. The Editor comes to the front for each tour, and each tour starts the game, which takes minutes.
+
+Tell me when you're ready, and don't work in the Editor while it runs.
+</Claude>
+
+<You>Ready.</You>
+
+<Claude>
+<ToolCall name="capture_exemplar" args={{}}>captures a place tour of each map</ToolCall>
+
+The tours are still going after ten minutes: Harbour and Foundry are done, and Outpost is in the game. I'll wait again.
+
+<ToolCall name="capture_exemplar" args={{ job: "7f3a9c21" }}>waits for the job, then collects its tours</ToolCall>
+
+All four place tours are done. Now the grid tour for Outpost:
+
+<ToolCall name="capture_exemplar" args={{ ids: ["outpost"], tours: "grid" }}>covers Outpost's playable area, once for each lighting its study lists</ToolCall>
+
+<ToolCall name="find_places" args={{}}>lists the frames near each place</ToolCall>
+
+<ToolCall name="capture_exemplar" args={{ ids: ["outpost"], tours: "grid" }}>makes the 1000px frames of the grid-tour stops that places list</ToolCall>
+
+Every tour is done, and each place lists the frames near it.
+</Claude>
+
+A call waits up to ten minutes. A tour still going by then comes back as a job: Claude calls again with its `job` to wait and collect it. Every capture on the machine goes through one Editor Broker, one at a time. A rerun skips the tours that already have frames, so it resumes where it stopped. If a map's timed triggers never fire, its tour never starts: Claude retries that map with `startOnInit: true`, or with `showErrors: true` to see why.
+
+The full-size captures go in `exemplar-maps/<id>/captures/`, with their 1000px copies in `frames/`. The `.gitignore` keeps both out of git, so frames are never part of the pack. A lesson describes each frame it cites in words, so it stands without the picture.
+
+Without a Host Adapter that has `editor.captureTour`, [`capture_exemplar`](/tools/capture_exemplar/) says what the machine lacks and captures nothing. Claude goes on from the studies and layer images, and the candidates cite numbers and layer images instead of frames.
+
+</Objective>
+
+<Objective id="report" title="Read the consistency report">
+
+The **consistency report** measures your maps on lesson-neutral **Measures**, numbers that carry no Design Lesson, such as the share of rocks turned to a 45° step, or point lights per 100 cells. For each Measure, it finds what your maps agree on and sets it against Blizzard's campaign maps.
+
+<Claude>
+<ToolCall name="exemplar_report" args={{}}>measures the four maps' studies against Blizzard's campaign maps</ToolCall>
+
+The report, trimmed:
+
+```text
+Exemplar Maps: harbour (made), foundry (made), outpost (edited), relic (approved).
+Blizzard's spread is over 81 campaign maps; the baseline couldn't measure nova01, nova02, …, nova09, so its spreads leave them out.
+
+Distinctive: the maps agree, outside Blizzard's spread (p10 to p90):
+- lighting.pointLightsPerHundredCells (point lights (LightOmni) per 100 playable, non-ramp cells): harbour, foundry, outpost at 0.39 to 0.44, above Blizzard's spread; Blizzard p10 0, median 0.005, p90 0.176 over 81 maps, the maps' median above 96% of them; outside it: relic 0.02
+- yawSnapping.natural (share of visible natural props (rocks, trees, foliage) turned to within a degree of a 45-degree step): harbour, foundry, outpost at 0.63 to 0.74, above Blizzard's spread; …; outside it: relic 0.05
+
+Common practice: the maps agree, as Blizzard's maps do:
+- doodadDensity.perHundredCells (…): harbour, foundry, outpost, relic at 4.4 to 6.1; Blizzard p10 2.234, median 4.495, p90 9.011 over 81 maps, …
+- …
+
+Questions for the mapper: the maps don't agree:
+- blend.width (…): from 0.74 to 0.8, the largest group harbour, outpost; …; outside the largest group: foundry 1.52, relic 1.66
+```
+
+Blizzard's spreads leave out Nova Covert Ops' missions: the install the Blizzard Baseline was built from held none of their data.
+
+Two habits are yours: your maps light their places with many more point lights than Blizzard's do, and turn their rocks and trees to 45° steps, where Blizzard's mostly don't. Relic doesn't share either, which fits: it's someone else's. How densely you dress is common practice: every one of your maps sits inside Blizzard's spread. Your maps disagree on how wide their textures blend: Harbour and Outpost blend in thin seams, Foundry and Relic in wide soft bands.
+</Claude>
+
+The report sorts each Measure into one of these, in this order:
+
+- **Distinctive:** your maps agree, and wholly outside Blizzard's spread, from its 10th to its 90th percentile. This is your own taste, where candidate lessons come from.
+- **Common practice:** your maps agree, as Blizzard's maps do. Every SC2 campaign map does it, so it's rarely worth a lesson.
+- **Questions:** your maps don't agree. Claude asks you which way is yours.
+- Then what it can't place: Measures your maps agree on that no Blizzard map has a value for, and Measures too few of your maps have a value for.
+
+Your maps **agree** on a Measure when a group of them, close together, holds at least two maps and two thirds of the maps' weight: a `made` map weighs 3, an `edited` one 2 and an `approved` one 1. Close together means no further apart than the middle half of Blizzard's maps, from its 25th to its 75th percentile. The maps outside the group are its outliers. Within each kind, the heaviest evidence comes first.
+
+The comparison is always with Blizzard's campaign maps: every mission of Wings of Liberty, Heart of the Swarm and Legacy of the Void, 81 maps. sc2-adjutant ships their Measures as the **Blizzard Baseline**, so you don't need the game's files for it. [`exemplar_report`](/tools/exemplar_report/) reads only the studies, so it runs without your source maps.
+
+</Objective>
+
+<Objective id="candidates" title="Draft candidate lessons and moods">
+
+Claude reads the frames, then drafts into `exemplar-maps/candidate-lessons.md`: a candidate for each distinctive Measure, the heaviest evidence first, and, for each question, a candidate put as a question when its largest group holds the maps you made ("your made maps do this, your admired one doesn't: is it yours?"), else a short line. Here the largest group leaves Foundry out, so blend width gets a line. It adds the candidates the frames show and the Measures don't, such as a habit of composition or of what stands at a place's centre. Each says it comes from frames alone.
+
+<Claude>
+I've drafted three candidates, a line on one question, and three moods. The strongest:
+
+**Light every dressed place with its own lamps.** Point lights per 100 cells: 0.39 to 0.44 across Harbour, Foundry and Outpost, above 96% of Blizzard's campaign maps. Relic, at 0.02, doesn't. Frames:
+
+- Harbour under `HarbourNight`, the place centred at (84, 112): crates stacked under a crane, each pool of light from a lamp on the crane's leg, the ground between them dark.
+- Foundry under `FoundryDay`, the place centred at (40, 66): a row of furnaces, a lamp over each door, the walkway between lit only where they fall.
+
+The other two: rocks and trees turned to 45° steps, and, from the frames alone, a tall machine at the centre of every large place.
+
+For moods, I've grouped the places by their motifs and how their frames look:
+
+- **Working yard**, 34 places: machinery and cargo together make up at least half the doodads.
+- **Wreckage**, 12 places: wreck and fire make up at least 40%.
+- **Wild ground**, the other 30: the catch-all.
+</Claude>
+
+A candidate gives the rule it would become, its numbers, the maps that support it (and those that don't) and two to four frames. Each frame is named by its map, the lighting it was captured under and the place's centre in cells, or its stop in a grid tour, and described by what it shows. It also names its **Blueprint hook**: the part of a Mission Blueprint it would shape.
+
+A **mood** is a kind of place in your maps. Its rule gives the motifs a place must have and their least share. A place takes the first mood whose rule it passes, and the last mood, with no rule, takes the rest.
+
+</Objective>
+
+<Objective id="ratify" title="Ratify each lesson and mood, one at a time">
+
+This step is a conversation. Claude brings each candidate with its rule, numbers, supporting maps and frames, giving each frame's path so you can open it. It then waits for you to keep it, reword it or drop it before bringing the next.
+
+<You>Keep the lamps. That's exactly what I do: every place gets its own light.</You>
+
+<Claude>
+Kept as DL-01, with your words. Its hook is the dressing of each Zone's places: the point lights a place's dressing holds.
+
+Next: **Turn rocks and trees to 45° steps.** The share of rocks, trees and foliage turned to within a degree of a 45° step: 0.63 to 0.74 across Harbour, Foundry and Outpost; Blizzard's median is 0.058, and its p90 is 0.5. Relic's is 0.05. Frames: Harbour under `HarbourNight`, the place centred at (122, 40), a ridge of boulders all square to the cliff below them; and Outpost under `OutpostDusk`, stop 14 of its grid tour: a stand of pines in a straight line along the road. Keep it, reword it or drop it?
+</Claude>
+
+<You>Reword it: only the rocks along cliffs and roads. Loose rocks I turn freely.</You>
+
+<Claude>
+I'll write it as: "Turn the rocks that line a cliff or a road to 45° steps; turn loose rocks freely." Kept as DL-02, in your words. Its hook is the dressing's `yaw` slot.
+
+Next, from the frames alone: **a tall machine at the centre of every large place.**
+</Claude>
+
+<You>Drop it. That's just what those two maps needed.</You>
+
+<Claude>
+Dropped, with a line in `candidate-lessons.md` saying why, so a later run doesn't propose it again.
+
+Then the question: Harbour and Outpost blend their textures in thin seams, Foundry and Relic in wide soft bands. Is one of these yours?
+</Claude>
+
+<You>Thin seams. Foundry's blends were a mistake.</You>
+
+<Claude>
+Kept as DL-03: "Blend textures in thin seams, not wide soft bands." Its hook is the texture painter's `blendGroup` slot.
+
+Now the moods: Working yard, Wreckage and Wild ground. Confirm each, rename it, or move places between them by changing its rule.
+</Claude>
+
+<You>Rename Working yard to Dockside. The other two are fine.</You>
+
+<Claude>
+Renamed. Every candidate and mood has your answer, and `LESSONS.md` holds DL-01 to DL-03.
+</Claude>
+
+Each kept lesson goes into `exemplar-maps/LESSONS.md` as the next `DL-NN`, with today's date and your words as you said them:
+
+```markdown
+## DL-01. Light every dressed place with its own lamps
+
+**Rule.** Give each dressed place its own point lights, so its pools of light pick it out of the dark ground between.
+
+**Evidence.**
+- Point lights per 100 cells: 0.39 to 0.44 across harbour, foundry and outpost; above 96% of Blizzard's campaign maps.
+- Harbour under `HarbourNight`, the place centred at (84, 112): crates under a crane, each pool of light from a lamp on the crane's leg.
+
+**Weight.** Two maps the mapper made and one they edited agree; the map they only admire doesn't.
+
+**Blueprint hook.** Each Zone's dressing: the point lights a place holds; no style-rule slot yet.
+
+**Ratified.** 2026-11-24, the mapper: "That's exactly what I do: every place gets its own light."
+```
+
+The frames a kept lesson cites are copied to `exemplar-maps/<id>/evidence/`, which git ignores, for your later reference. A Blueprint hook can name the slot a Style Rule could later fill, such as `yaw`; a Style Pack built this way has no Style Rules of its own yet, so its lessons guide the design rather than the compile.
+
+</Objective>
+
+<Objective id="package" title="Package it for exemplar-design">
+
+<Claude>
+I've written the moods into the mixtures file's `moodRules`, Dockside and Wreckage first, with Wild ground last as the catch-all.
+
+<ToolCall name="find_places" args={{}}>gives each place its mood and counts the places by mood</ToolCall>
+
+By mood: Dockside 34, Wreckage 12, Wild ground 30, as you saw them. Then I wrote `knowledge/GUIDE.md`: how much each lesson weighs, your own words for your look, and, for each step of proposing a look (tileset, texturing, dressing, lighting), the lessons that govern it and the moods to dress from. I added the `mixtures` entry to the pack's manifest, so `exemplar-design` reads the moods.
+
+<ToolCall name="check_workspace" args={{}}>validates the Workspace with the new pack</ToolCall>
+
+<ToolCall name="list_plugins" args={{}}>reads the pack back as exemplar-design will</ToolCall>
+
+The check has no errors. `style-example` serves its guide, its lessons, its candidate lessons and its moods.
+</Claude>
+
+From now on, `exemplar-design` dresses your Missions from this pack. It starts from `GUIDE.md`, cites your lessons by id ("after DL-01"), and dresses each place from your moods. The next time you propose a Mission's look at Stage 3, or ask Claude to critique one, it draws on them.
+
+To add a map later, ask again: the skill picks up the pack in the Workspace, studies and captures only the new map, then reruns `find_places` and the report over every map, and brings only new or changed candidates. Commit the pack's folder with the Workspace. The captures and frames stay on your machine.
+
+</Objective>

@@ -274,6 +274,24 @@ describe("the tutorials", () => {
     expect(triggerScene.objectives.filter((objective) => objective.needs.includes("editor.testDocument")).map((objective) => objective.id)).toEqual(["play", "revise"]);
   });
 
+  it("lists the Style Pack tutorial sixth, calling every Style Pack tool, with only its captures needing a Host Adapter", () => {
+    const stylePack = tutorial("style-pack");
+    expect(stylePack).toMatchObject({ number: 6, title: "Your own Style Pack", file: "06-style-pack.mdx" });
+    const group = reference.groups.find((entry) => entry.id === "stylePack")!;
+    expect(stylePack.tools).toEqual(expect.arrayContaining(group.tools));
+    expect(stylePack.objectives.filter((objective) => objective.needs.length > 0).map((objective) => objective.id)).toEqual(["capture"]);
+    expect(stylePack.objectives.find((objective) => objective.id === "capture")).toMatchObject({ needs: ["editor.captureTour"] });
+    expect(stylePack.skills).toEqual(expect.arrayContaining(["style-pack-builder", "exemplar-design"]));
+  });
+
+  it("lists under each skill the tutorials that link to its page, and only those", () => {
+    for (const skill of reference.skills) {
+      const linking = reference.tutorials.filter((candidate) => candidate.skills.includes(skill.slug)).map((candidate) => candidate.slug);
+      expect(skill.tutorials, skill.slug).toEqual(linking);
+    }
+    expect(reference.skills.find((skill) => skill.slug === "style-pack-builder")?.tutorials).toEqual(["style-pack"]);
+  });
+
   it("lists under each tool's Used by the tutorials whose tool calls name it, and only those", () => {
     expect(tool("compile_map").usedBy.tutorials).toContain("first-mission");
     expect(tool("find_doodads").usedBy.tutorials).not.toContain("first-mission");
@@ -296,6 +314,7 @@ describe("the tutorial pages", () => {
     expect(grid).toContain("A 1v1 melee map");
     expect(grid).toContain("A cutscene with placeholder voices");
     expect(grid).toContain("An in-game cutscene on the map");
+    expect(grid).toContain("Your own Style Pack");
     expect(grid, "no locked card once every planned tutorial is written").not.toContain("aria-disabled");
   });
 
@@ -338,5 +357,14 @@ describe("the tutorial pages", () => {
       for (const slug of entry.usedBy.tutorials) expect(page(`tools/${entry.name}`), `${entry.name} used by ${slug}`).toContain(`href="/tutorials/${slug}/"`);
     }
     expect(page("tools/compile_map")).toContain("Your first Mission");
+  });
+
+  it("link a skill's page to the tutorials that link to it, by title, and give a skill no tutorial links no such section", () => {
+    for (const skill of reference.skills) {
+      const html = page(`skills/${skill.slug}`);
+      if (skill.tutorials.length === 0) expect(html, skill.slug).not.toContain('id="tutorials"');
+      for (const slug of skill.tutorials) expect(part(html, /id="tutorials".*$/s), `${skill.slug} in ${slug}`).toContain(`href="/tutorials/${slug}/"`);
+    }
+    expect(page("skills/style-pack-builder")).toContain("Your own Style Pack");
   });
 });
