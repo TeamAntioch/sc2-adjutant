@@ -17,6 +17,8 @@
 //   id           refused when it is a game doodad's or unit's: the entries would replace the game's
 //                (a unit's actor and model are mostly of its id). A model at a game doodad model's
 //                path is warned about: its file replaces the game's for everything that draws it.
+//   entries      a Blueprint Generic Entry's fields that name an `Assets\` model or image (genericEntryAssetWarnings)
+//                are warned about when no mod package, the Blueprint or the game's lists hold the file
 //   swaps        checked against the .m3 the game draws (texture-swaps.ts): its own file, or a
 //                gameModel's read from the game through the Host Adapter's model.export, refused
 //                on a machine without it; each `with` found as the model's textures are (a
@@ -27,7 +29,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
-import { gameDoodadModels, isGameModel, listDoodads } from "../catalog/stock-catalog.js";
+import { gameDoodadModels, isGameImage, isGameModel, listDoodads } from "../catalog/stock-catalog.js";
 import { findPackageFile } from "../catalog/package-files.js";
 import { readM3Footprint, readM3MeshExtent } from "../catalog/m3-footprint.js";
 import { readM3Sequences } from "../catalog/m3-sequences.js";
@@ -39,7 +41,7 @@ import { OBJECT_STRINGS } from "../domain/entry-strings.js";
 import type { Workspace } from "../plugins/workspace.js";
 import { isLfsPointer } from "./asset-sources.js";
 import { CatalogSchemaError, catalogSchema, schemaProblems } from "./catalog-schema.js";
-import type { GenericEntry } from "./generic-entries.js";
+import { type GenericEntry, genericEntryKey } from "./generic-entries.js";
 import { isInside } from "../util/inside.js";
 import type { Host } from "../host/host.js";
 import { baseName, checkDoodadSwaps, type SwapSlot } from "./texture-swaps.js";
@@ -195,6 +197,53 @@ export function checkCustomDoodadFiles(doodad: CustomDoodad, label: string, find
 }
 
 /**
+ * Finds a file by its storage path in the mod packages the game loads under the mod `id`, the mod's
+ * own among them (its Asset Mod's too, once compiled): `lookedIn` says where, for messages.
+ */
+export async function modFileFinder(workspace: Pick<Workspace, "root" | "mods">, id: string): Promise<{ readonly find: (storagePath: string) => FoundFile | undefined; readonly lookedIn: string }> {
+  const packages = await modPackagesUnder(workspace, await readWorkspaceMod(workspace, id));
+  const lookedIn = `the mod packages it loads from the Workspace (${packages.map((pkg) => fromRoot(workspace.root, pkg)).join(", ")}), where an Asset Mod's assets put its files once it's compiled`;
+  const find = (storagePath: string): FoundFile | undefined => {
+    const found = findPackageFile(packages, storagePath);
+    return found ? { data: readFileSync(found.file), where: fromRoot(workspace.root, found.file) } : undefined;
+  };
+  return { find, lookedIn };
+}
+
+/** An asset path a Generic Entry's field names: a model, or an image (an icon, a texture). */
+const ASSET_PATH = /^Assets[\\/][^#*]*\.(m3|dds|tga|png|jpg)$/i;
+
+/** The asset paths `entry`'s fields name, each with its field's name (a nested one dotted, as `TextureDeclares.Prefix`). */
+export function entryAssetPaths(entry: GenericEntry): { readonly field: string; readonly path: string }[] {
+  const found: { field: string; path: string }[] = [];
+  const walk = (value: FieldValue, field: string): void => {
+    if (typeof value === "string") {
+      if (ASSET_PATH.test(value)) found.push({ field, path: value });
+    } else if (Array.isArray(value)) for (const item of value) walk(item, field);
+    else if (typeof value === "object") for (const [key, each] of Object.entries(value)) if (!key.startsWith("$")) walk(each, field === "" ? key : `${field}.${key}`);
+  };
+  for (const [name, value] of Object.entries(entry.fields)) walk(value, name);
+  return found;
+}
+
+/**
+ * Warns about each asset path `entries`' fields name (entryAssetPaths) that is no file the game
+ * loads under the mod: not found by `find` (as checkCustomDoodadFiles finds a model or texture), not
+ * a model core knows of (isGameModel), and for an image not one the game's data names (isGameImage).
+ * The game may still have a file those lists lack, so it is advice. Names the entry, field and path.
+ */
+export function genericEntryAssetWarnings(entries: readonly GenericEntry[], find: (storagePath: string) => FoundFile | undefined, lookedIn: string): string[] {
+  return entries.flatMap((entry) =>
+    entryAssetPaths(entry)
+      .filter(({ path: file }) => !find(file) && !(/\.m3$/i.test(file) ? isGameModel(file) : isGameImage(file)))
+      .map(
+        ({ field, path: file }) =>
+          `${genericEntryKey(entry)}'s ${field} names ${file}, which isn't in ${lookedIn}, and no ${/\.m3$/i.test(file) ? "game model" : "game image"} core knows of is at that path: the game shows a placeholder or nothing. Add the file there (and compile it), or fix the path. If it is a game file core's list lacks (data/${/\.m3$/i.test(file) ? "game-models" : "game-images"}.json), report it on sc2-adjutant`,
+      ),
+  );
+}
+
+/**
  * Checks the files of a Campaign Mod's doodads (its Blueprint `doodads`, its folder's id `id`) in
  * the Workspace's mod packages the game loads under it (its Asset Mod among them), as
  * checkCustomDoodadFiles does, and their swaps as a Mission's are, each `with` in those packages
@@ -210,12 +259,7 @@ export async function modDoodadWarnings(
 ): Promise<{ readonly warnings: readonly string[]; readonly swaps: ReadonlyMap<string, readonly SwapSlot[]> }> {
   const swaps = new Map<string, readonly SwapSlot[]>();
   if (doodads.length === 0) return { warnings: [], swaps };
-  const packages = await modPackagesUnder(workspace, await readWorkspaceMod(workspace, id));
-  const lookedIn = `the mod packages it loads from the Workspace (${packages.map((pkg) => fromRoot(workspace.root, pkg)).join(", ")}), where an Asset Mod's assets put its files once it's compiled`;
-  const find = (storagePath: string): FoundFile | undefined => {
-    const found = findPackageFile(packages, storagePath);
-    return found ? { data: readFileSync(found.file), where: fromRoot(workspace.root, found.file) } : undefined;
-  };
+  const { find, lookedIn } = await modFileFinder(workspace, id);
   const warnings: string[] = [];
   for (const [index, doodad] of doodads.entries()) {
     const label = `doodads.${index} (${doodad.id})`;

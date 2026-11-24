@@ -60,7 +60,7 @@ import { CatalogSchemaError, catalogSchema, entryFile, schemaProblems } from "./
 import { missingHotkeyWarnings, modHotkeyKeys } from "./button-hotkeys.js";
 import { dataRuleWarnings } from "./data-rules.js";
 import { shapeEntries } from "./characters.js";
-import { hostGameModels, modDoodadWarnings } from "./custom-doodads.js";
+import { entryAssetPaths, type FoundFile, genericEntryAssetWarnings, hostGameModels, modDoodadWarnings, modFileFinder, samePath } from "./custom-doodads.js";
 import { CONVERSATION_STRINGS, conversationEntry, conversationStrings, type ModScript, readModScreenplays } from "./conversations.js";
 import { CUTSCENE_ASPECTS, cutsceneDifferences } from "../cutscene/compare-cutscenes.js";
 import { type Conversion, EquivalenceCheck } from "./equivalence.js";
@@ -264,10 +264,17 @@ export async function compileMod(blueprintPath: string, options: CompileModOptio
   const doodadWarnings = doodads?.warnings ?? [];
   // The hotkey lines the package Keeps, which the missing-hotkey check counts (button-hotkeys.ts).
   const keptHotkeys = await Promise.all(existing.filter((file) => /(^|\/)enUS\.SC2Data\/LocalizedData\/GameHotkeys\.txt$/i.test(file)).map((file) => readFile(path.join(pkg, ...file.split("/")), "utf8")));
+  // The files an entry's asset path can name: the mod packages, and what this compile writes (not on disk yet).
+  const blueprintFiles = new Set([...blueprint.files, ...blueprint.assets].map(({ path: file }) => samePath(file.replace(/^Base\.SC2Assets[\\/]/i, ""))));
+  const assetFiles = async (): Promise<{ readonly find: (storagePath: string) => FoundFile | undefined; readonly lookedIn: string }> => {
+    const { find, lookedIn } = await modFileFinder(await workspace(), blueprint.id);
+    return { find: (storagePath) => find(storagePath) ?? (blueprintFiles.has(samePath(storagePath)) ? { data: new Uint8Array(), where: "the Blueprint's files" } : undefined), lookedIn };
+  };
   const { byFile: generic, strings: entryStrings, warnings: dataWarnings } = await genericEntries(
     blueprint,
     source,
     doodads?.swaps ?? new Map(),
+    assetFiles,
     [
       { from: "screenplays", entries: scripts.map(conversationEntry) },
       { from: "soundSets", entries: await soundSetEntries(blueprint, name, scripts, workspace) },
@@ -597,6 +604,7 @@ async function genericEntries(
   blueprint: ModBlueprint,
   source: (file: string) => Promise<Buffer>,
   swapSlots: ReadonlyMap<string, readonly SwapSlot[]>,
+  assetFiles: () => Promise<{ readonly find: (storagePath: string) => FoundFile | undefined; readonly lookedIn: string }>,
   shapes: readonly { readonly from: string; readonly entries: readonly GenericEntry[] }[],
   keptHotkeys: readonly string[],
 ): Promise<{ readonly byFile: Map<string, GenericEntry[]>; readonly strings: readonly { readonly from: string; readonly entry: GenericEntry }[]; readonly warnings: readonly string[] }> {
@@ -607,6 +615,8 @@ async function genericEntries(
   const seen = new Map<string, string>();
   const sources: { readonly from: string; readonly list: readonly GenericEntry[] }[] = [];
   for (const { source: from } of blueprint.entries) sources.push({ from, list: readGenericEntries((await source(from)).toString("utf8"), from) });
+  // The Blueprint's own entries' asset paths are checked (custom-doodads.ts); the shapes' are the Blueprint's other checks'.
+  const own = sources.flatMap(({ list }) => list);
   // Purpose-level shapes, as the generic entries they compile down to.
   for (const { from, entries } of [...shapeEntries(blueprint, swapSlots), ...shapes]) sources.push({ from, list: entries });
   for (const { from, list } of sources) {
@@ -627,7 +637,9 @@ async function genericEntries(
   }
   if (problems.length > 0) throw new CatalogSchemaError(problems);
   const written = sources.map(({ from, list }) => ({ from, entries: list }));
-  return { byFile, strings, warnings: [...dataRuleWarnings(written), ...missingHotkeyWarnings(written, modHotkeyKeys(written, blueprint.strings, keptHotkeys))] };
+  // The files are looked for only when an entry names one.
+  const assetWarnings = own.some((entry) => entryAssetPaths(entry).length > 0) ? await assetFiles().then(({ find, lookedIn }) => genericEntryAssetWarnings(own, find, lookedIn)) : [];
+  return { byFile, strings, warnings: [...dataRuleWarnings(written), ...missingHotkeyWarnings(written, modHotkeyKeys(written, blueprint.strings, keptHotkeys)), ...assetWarnings] };
 }
 
 /** The game strings file a mod's DocInfo strings are in. */

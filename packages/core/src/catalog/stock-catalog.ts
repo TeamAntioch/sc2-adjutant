@@ -115,6 +115,21 @@ export function readGameModelPaths(file: string = GAME_MODELS_PATH): string[] {
   return paths;
 }
 
+// --- The game's image files (data/game-images.json) ---
+
+export const GAME_IMAGES_PATH = path.join(CORE_DATA_DIR, "game-images.json");
+let gameImages: ReadonlySet<string> | undefined;
+
+/**
+ * Whether the game's own data names an image file (.dds, .tga, .png, .jpg) at `storagePath` (either
+ * slash, any case): its catalogs, layouts and asset lists (data/game-images.json,
+ * `node scripts/build-game-images.mjs`). A texture only a model names isn't in it.
+ */
+export function isGameImage(storagePath: string): boolean {
+  gameImages ??= new Set((JSON.parse(readFileSync(GAME_IMAGES_PATH, "utf8")) as string[]).map(comparable));
+  return gameImages.has(comparable(storagePath));
+}
+
 /** The CModel ids of every model in the set catalogue's sets (data/cinematic-sets/catalog.json), once each, sorted: a piece named by file alone has none. */
 export function setCatalogModelIds(): string[] {
   type Catalog = { sets: { models: { model: string }[]; occurrences: { pieces: { model: string; modelPath?: string }[] }[] }[] };
