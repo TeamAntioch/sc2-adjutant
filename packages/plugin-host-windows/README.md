@@ -11,6 +11,7 @@ The Windows **Host Adapter** for [sc2-adjutant](https://github.com/TeamAntioch/s
 | `game.banksDir` | The folder the game keeps its banks in; test_mission snapshots it around a test game. |
 | `editor.captureTour`, `editor.closeCaptureCopies` | Plays a capture map and screenshots each camera stop, then closes it unsaved. |
 | `game.launch` | Starts the game on a Map Package without the Editor. |
+| `game.running`, `game.list`, `game.quit` | Tells whether a game runs, lists the running games with their start times, and quits one recorded game gracefully (close the window, then Yes), ending it only after a timeout. |
 | `screen.capture` | Captures the game's window, even when other windows cover it. |
 | `tts.speak` | Speaks placeholder voice lines with Windows' built-in voices. |
 | `model.render`, `model.rendererKey`, `model.export`, `model.exportGltf` | Renders game and mod models to turntable thumbnails, and exports them as `.m3` or glTF, with the WhiteoutFlakes model viewer on D3D11. It falls back to WARP, Windows' software rasterizer, when the GPU can't run the viewer. |

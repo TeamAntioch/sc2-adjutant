@@ -15,7 +15,7 @@ import { startEditorBroker, type EditorBroker } from "../../src/capture/editor-b
 import { testInGame } from "../../src/mcp/tools/editor-handoff.js";
 import type { Host } from "../../src/host/host.js";
 import { emptyMachineConfig } from "../../src/host/machine-config.js";
-import type { CaptureTourRequest, CaptureTourResult } from "../../src/plugins/plugin-api.js";
+import { FOREIGN_GAME_REFUSAL, type CaptureTourRequest, type CaptureTourResult, type GameProcess } from "../../src/plugins/plugin-api.js";
 import { writeMapInfo } from "../../src/terrain/write-map-info.js";
 
 const folders: string[] = [];
@@ -28,16 +28,34 @@ afterEach(async () => {
 type Tour = (request: CaptureTourRequest) => Promise<CaptureTourResult | void>;
 
 /** A host whose tour runs `before` (to hold it or fail it), then writes a frame per stop; it records every call. */
-async function setup({ before }: { before?: Tour } = {}) {
+async function setup({ before, processes }: { before?: Tour; processes?: boolean } = {}) {
   const folder = await mkdtemp(path.join(tmpdir(), "broker-"));
   folders.push(folder);
   const cacheDir = path.join(folder, "cache");
   const calls: string[] = [];
   let running = 0;
   let overlapped = false;
+  // With `processes`, a fake process table: game.list and game.quit work on it, and a tour refuses
+  // while a game runs, starts one it leaves running, and reports it.
+  const table: GameProcess[] = [];
+  const quits: string[] = [];
+  const closeGames: (readonly GameProcess[] | undefined)[] = [];
+  let nextPid = 500;
+  const spawnGame = (): GameProcess => {
+    const game = { pid: nextPid++, startedAt: `start-${nextPid}` };
+    table.push(game);
+    return game;
+  };
   const tour = async (request: CaptureTourRequest): Promise<CaptureTourResult> => {
     running++;
     if (running > 1) overlapped = true;
+    if (processes && !request.attach) {
+      if (table.length > 0) {
+        running--;
+        throw new Error(FOREIGN_GAME_REFUSAL);
+      }
+      request.onGameStarted?.(spawnGame());
+    }
     calls.push(`tour ${path.basename(request.mapPath)}`);
     try {
       const early = await before?.(request);
@@ -62,19 +80,38 @@ async function setup({ before }: { before?: Tour } = {}) {
   const host: Host = {
     machine: { ...emptyMachineConfig(path.join(folder, "machine.json")), cacheDir },
     adapter: undefined,
-    has: (name) => ["editor.captureTour", "editor.closeCaptureCopies", "editor.testDocument", "editor.save", "game.running", "game.banksDir"].includes(name),
+    has: (name) => ["editor.captureTour", "editor.closeCaptureCopies", "editor.testDocument", "editor.save", "game.running", "game.banksDir", ...(processes ? ["game.list", "game.quit"] : [])].includes(name),
     run: ((name: string, request: never) => {
       if (name === "editor.captureTour") return tour(request);
       if (name === "editor.testDocument" || name === "editor.save") {
         if (running > 0) overlapped = true;
         calls.push(`${name} ${path.basename((request as { mapPath: string }).mapPath)}`);
-        if (name === "editor.testDocument") game = true;
+        if (name === "editor.testDocument") {
+          game = true;
+          if (processes) spawnGame();
+        }
         return Promise.resolve();
+      }
+      if (name === "game.list") return Promise.resolve(table.map((each) => ({ ...each })));
+      if (name === "game.quit") {
+        const { game: target } = request as unknown as { game: GameProcess };
+        const at = table.findIndex((each) => each.pid === target.pid && each.startedAt === target.startedAt);
+        if (at < 0) return Promise.resolve("gone");
+        table.splice(at, 1);
+        quits.push(String(target.pid));
+        return Promise.resolve("closed");
       }
       if (name === "game.running") return Promise.resolve(game);
       if (name === "game.banksDir") return Promise.resolve(path.join(folder, "Banks"));
       if (name === "editor.closeCaptureCopies") {
         calls.push("close copies");
+        const own = (request as { games?: readonly GameProcess[] }).games;
+        closeGames.push(own);
+        // As the real one does: quits exactly the games it is given.
+        for (const target of own ?? []) {
+          const at = table.findIndex((each) => each.pid === target.pid && each.startedAt === target.startedAt);
+          if (at >= 0) quits.push(String(table.splice(at, 1)[0]!.pid));
+        }
         return Promise.resolve();
       }
       return Promise.reject(new Error(`no ${name}`));
@@ -107,7 +144,7 @@ async function setup({ before }: { before?: Tour } = {}) {
     outputDir: path.join(folder, "out", label),
     ...extra,
   });
-  return { folder, cacheDir, host, socketPath, start, map, job, calls, brokerLog, overlapped: () => overlapped, quitGame: () => (game = false) };
+  return { folder, cacheDir, host, socketPath, start, map, job, calls, brokerLog, overlapped: () => overlapped, quitGame: () => (game = false), table, quits, closeGames, spawnGame };
 }
 
 /** A promise and the function that settles it. */
@@ -441,6 +478,85 @@ describe("the Editor Broker", () => {
     await mkdir(empty, { recursive: true });
     await expect(runEditorJob({ kind: "editor", action: "editor.testDocument", source: mission, ifIdle: true, bankFixture: { name: "e", dir: empty } }, { socketPath: t.socketPath })).rejects.toThrow(/holds no .SC2Bank files/);
     expect(t.calls).not.toContain("editor.testDocument Mission.SC2Map");
+  });
+
+  describe("owning the games it starts", () => {
+    const testDocument = (t: Awaited<ReturnType<typeof setup>>, source: string) => runEditorJob({ kind: "editor", action: "editor.testDocument", source, ifIdle: true }, { socketPath: t.socketPath });
+
+    it("quits the game a capture started, by its pid and start time, once the job is done", async () => {
+      const t = await setup({ processes: true });
+      await t.start();
+      expect((await runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath })).end).toBe("done");
+      expect(t.quits).toEqual(["500"]);
+      expect(t.table).toEqual([]);
+      expect((await editorBrokerStatus(t.socketPath))?.games).toEqual([]);
+    });
+
+    it("quits the game a failed capture left running, through closing its copies", async () => {
+      const t = await setup({ processes: true, before: async () => Promise.reject(new Error("the tour failed")) });
+      await t.start();
+      await expect(runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath })).rejects.toThrow("the tour failed");
+      expect(t.closeGames.at(-1)).toEqual([expect.objectContaining({ pid: 500 })]);
+      expect(t.quits).toEqual(["500"]);
+    });
+
+    it("refuses a capture while a game it didn't start runs, and leaves that game running", async () => {
+      const t = await setup({ processes: true });
+      await t.start();
+      const foreign = t.spawnGame();
+      await expect(runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath })).rejects.toThrow(FOREIGN_GAME_REFUSAL);
+      expect(t.table).toEqual([foreign]);
+      expect(t.quits).toEqual([]);
+    });
+
+    it("records a Test Document's game as the author's, holds the queue for it, and never quits it", async () => {
+      const t = await setup({ processes: true });
+      await t.start();
+      const [mission, alpha] = [await t.map("Mission"), await t.map("Alpha")];
+      await testDocument(t, mission);
+      expect((await editorBrokerStatus(t.socketPath))?.games).toEqual([expect.objectContaining({ pid: 500, owner: "author" })]);
+      const tour = runCaptureJob(t.job(alpha, "a", [40]), { socketPath: t.socketPath });
+      await until(queued(t.socketPath, 1));
+      expect(t.calls.some((call) => call.startsWith("tour"))).toBe(false);
+      // The author's game quits by their own hand: only then does the capture run.
+      t.table.length = 0;
+      expect((await tour).end).toBe("done");
+      expect(t.quits).toEqual(["501"]);
+    });
+
+    it("records what the author's game changed in the banks once that game, and not just any, quits", async () => {
+      const t = await setup({ processes: true });
+      await t.start();
+      const banks = path.join(t.folder, "Banks");
+      await mkdir(banks, { recursive: true });
+      await writeFile(path.join(banks, "Kept.SC2Bank"), '<Bank><Section name="S"><Key name="a"><Value int="1"/></Key></Section></Bank>');
+      await testDocument(t, await t.map("Mission"));
+      await writeFile(path.join(banks, "Kept.SC2Bank"), '<Bank><Section name="S"><Key name="a"><Value int="2"/></Key></Section></Bank>');
+      expect((await bankRuns(t.cacheDir))[0]?.state).toBe("running");
+      t.table.length = 0;
+      await until(async () => (await bankRuns(t.cacheDir))[0]?.state === "finished");
+      expect((await bankRuns(t.cacheDir))[0]!.changes.map((change) => change.bank)).toEqual(["Kept.SC2Bank"]);
+    });
+
+    it("doesn't trust a recorded game whose pid now belongs to another process", async () => {
+      // The tour's game exits and another process takes its pid before the broker quits it.
+      let swap = () => undefined as void;
+      const t = await setup({
+        processes: true,
+        before: async () => {
+          swap();
+          throw new Error("the tour failed");
+        },
+      });
+      swap = () => {
+        t.table.length = 0;
+        t.table.push({ pid: 500, startedAt: "someone-else" });
+      };
+      await t.start();
+      await expect(runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath })).rejects.toThrow("the tour failed");
+      expect(t.quits).toEqual([]);
+      expect(t.table).toEqual([{ pid: 500, startedAt: "someone-else" }]);
+    });
   });
 
   it("is started by the first client when none answers, once for two clients at once, and exits after the idle timeout", async () => {

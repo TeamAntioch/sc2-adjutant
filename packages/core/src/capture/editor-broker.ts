@@ -8,8 +8,10 @@
 // it has hung up (one of a merged tour's clients going isn't enough). It exits after `idleMs`
 // with nothing to do. The display is kept awake by editor.captureTour itself while a tour runs.
 // It runs the other Editor actions that click menus (open, Test Document, save) as jobs too, in
-// the same queue; after a Test Document it holds the queue until that game quits (game.running),
-// since a capture quits any game it finds. An editor job marked ifIdle is refused while anything
+// the same queue; after a Test Document it holds the queue until that game quits (game.list, else
+// game.running). It records each game a job starts, by pid and start time: a capture's is the
+// tool's, quit by pid and gracefully once the job ends or fails (game.quit); a Test Document's is the
+// author's to play, never quit, and a capture refuses while any game it didn't start runs. An editor job marked ifIdle is refused while anything
 // runs or waits, with what that is, for test_mission, which can't wait out a capture.
 // Its log has each job's start, end and progress lines, so one job's "running" always follows the
 // last one's "done" or "failed": the record of what the Editor was doing when a capture went wrong.
@@ -21,11 +23,12 @@ import path from "node:path";
 
 import type { Host } from "../host/host.js";
 import { hostContext } from "../host/machine-config.js";
-import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest } from "../plugins/plugin-api.js";
+import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type GameProcess } from "../plugins/plugin-api.js";
 import { discardBankRun, finishBankRun, restoreBankRun, snapshotBanks, unrestoredFixtureRun, type BankRun } from "./bank-snapshots.js";
 import { makeCaptureCopy, TOUR_BANK } from "./capture-copy.js";
 import {
   BROKER_PROTOCOL,
+  type BrokerGameSummary,
   type BrokerJobSummary,
   type BrokerMessage,
   type BrokerStatus,
@@ -64,6 +67,11 @@ export type EditorBroker = {
   close(): Promise<void>;
 };
 
+/** A game a job started: the tool's (a capture's, quit by the broker) or the author's (a Test Document's, never quit by it). */
+type GameRecord = BrokerGameSummary & { readonly game: GameProcess };
+
+const sameGame = (a: GameProcess, b: GameProcess): boolean => a.pid === b.pid && a.startedAt === b.startedAt;
+
 type Entry = {
   readonly id: string;
   readonly job: CaptureJob;
@@ -87,6 +95,8 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
   const hungUp = new Set<Entry>();
   /** Set while the queue waits for the game a Test Document job started to quit. */
   let holding = false;
+  /** Every game a job started that may still run, by who owns it. Only a tool's is ever quit. */
+  let games: GameRecord[] = [];
   const holdPollMs = options.holdPollMs ?? 5000;
   let lastError: BrokerStatus["lastError"] = null;
   let pumping = false;
@@ -170,13 +180,50 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
   }
 
   function status(): BrokerStatus {
-    return { pid: process.pid, ...(options.script ? { script: options.script } : {}), running: running ? running.map(summary) : null, queue: queue.map(summary), lastError };
+    return {
+      pid: process.pid,
+      ...(options.script ? { script: options.script } : {}),
+      running: running ? running.map(summary) : null,
+      queue: queue.map(summary),
+      games: games.map(({ pid, owner, job }) => ({ pid, owner, job })),
+      lastError,
+    };
+  }
+
+  /** The running games, or null when the host can't list them. Records of games that have gone are dropped. */
+  async function listGames(): Promise<GameProcess[] | null> {
+    if (!host.has("game.list")) return null;
+    try {
+      const list = await host.run("game.list", {});
+      games = games.filter((record) => list.some((each) => sameGame(each, record.game)));
+      return list;
+    } catch (error) {
+      log(`couldn't list the games: ${(error as Error).message}`);
+      return null;
+    }
+  }
+
+  /** Quits the games a capture started, by pid and start time, gracefully; an author's test game is never touched. */
+  async function quitToolGames(): Promise<void> {
+    for (const record of games.filter((each) => each.owner === "tool")) {
+      try {
+        const how = await host.run("game.quit", { game: record.game, log: (line) => log(`quitting game ${record.pid}: ${line}`) });
+        log(`game ${record.pid} of job ${record.job}: ${how}`);
+      } catch (error) {
+        lastError = { job: record.job, message: `quitting game ${record.pid}: ${(error as Error).message}`, at: new Date().toISOString() };
+        log(lastError.message);
+      }
+      games = games.filter((each) => each !== record);
+    }
   }
 
   async function closeCopies(why: string): Promise<void> {
     if (!host.has("editor.closeCaptureCopies")) return;
+    const own = games.filter((record) => record.owner === "tool").map((record) => record.game);
     try {
-      await host.run("editor.closeCaptureCopies", { log: (line) => log(`closing copies ${why}: ${line}`) });
+      await host.run("editor.closeCaptureCopies", { log: (line) => log(`closing copies ${why}: ${line}`), ...(own.length ? { games: own } : {}) });
+      // Quit by it, or gone: the tool's records are done either way.
+      games = games.filter((record) => record.owner !== "tool");
     } catch (error) {
       lastError = { message: `closing capture copies ${why}: ${(error as Error).message}`, at: new Date().toISOString() };
       log(lastError.message);
@@ -214,7 +261,14 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
           continue;
         }
         try {
-          const results = await runBatch(host, batch, (line) => log(`${head.id}: ${line}`), signal);
+          // A game an earlier job left running that was a capture's is quit first; any other game is left for the host to refuse.
+          await listGames();
+          await quitToolGames();
+          const results = await runBatch(host, batch, (line) => log(`${head.id}: ${line}`), signal, (game) => {
+            games.push({ game, pid: game.pid, owner: "tool", job: head.id });
+            log(`${head.id}: started game ${game.pid}, the tool's to quit`);
+          });
+          await quitToolGames();
           log(`done ${ids}: ${results.map((result) => result.frames).join(" + ")} frames, ${results[0]!.end}`);
           batch.forEach((entry, i) => entry.send({ type: "done", result: results[i]! }));
         } catch (error) {
@@ -227,6 +281,7 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
           for (const entry of batch) entry.send({ type: "failed", message });
           // The copy is closed unsaved even when the tour failed before it could close it.
           await closeCopies(`after job ${head.id} ${signal.aborted ? "was cancelled" : "failed"}`);
+          await quitToolGames();
         }
         for (const entry of batch) hungUp.delete(entry);
         running = null;
@@ -251,6 +306,7 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
       entry.send({ type: "failed", message });
       return;
     }
+    const before = job.action === "editor.testDocument" ? await listGames() : null;
     try {
       await host.run(job.action, { mapPath: job.source, ...(job.seconds !== undefined ? { seconds: job.seconds } : {}) });
     } catch (error) {
@@ -264,11 +320,25 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
     }
     log(`done ${entry.id}: ${job.action}`);
     entry.send({ type: "done", result: null });
-    if (job.action !== "editor.testDocument" || !host.has("game.running")) return;
+    if (job.action !== "editor.testDocument") return;
+    // The games this Test Document started are the author's to play: recorded as theirs, never quit.
+    const after = before ? await listGames() : null;
+    const started = before && after ? after.filter((game) => !before.some((each) => sameGame(each, game))) : [];
+    for (const game of started) {
+      games.push({ game, pid: game.pid, owner: "author", job: entry.id });
+      record(`game ${game.pid} started: the author's, never quit by the broker`);
+    }
+    if (!before && !host.has("game.running")) return;
+    if (before && started.length === 0) {
+      // No game of its own to wait for (it never started, or already quit): the banks are as the run left them.
+      if (snapshot) await recordBankChanges(snapshot, record);
+      return;
+    }
+    const stillPlaying = async (): Promise<boolean> => (before ? ((await listGames()) ?? []).some((game) => started.some((each) => sameGame(each, game))) : host.run("game.running", {}));
     holding = true;
     record("holding the queue until the test game quits");
     try {
-      while (!closing && (await host.run("game.running", {}))) await new Promise((resolve) => setTimeout(resolve, holdPollMs));
+      while (!closing && (await stillPlaying())) await new Promise((resolve) => setTimeout(resolve, holdPollMs));
       record("the test game quit");
       // A closing broker leaves a fixture run `running`: bank_changes puts the author's banks back once the game has quit.
       if (snapshot && !closing) await recordBankChanges(snapshot, record);
@@ -277,6 +347,7 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
       record(`stopped holding: ${(error as Error).message}`);
     } finally {
       holding = false;
+      games = games.filter((record) => record.job !== entry.id);
     }
   }
 
@@ -364,7 +435,7 @@ function takeMerging(head: Entry, queue: Entry[]): Entry[] {
 const stopCount = (job: CaptureJob): number => (job.kind === "tour" ? (job.copy.stops?.length ?? 0) : 0);
 
 /** Runs one tour for the batch's jobs, all alike but their stops; each job's result. Its progress lines go to each job's client and to `record`, the broker's log. */
-async function runBatch(host: Host, batch: readonly Entry[], record: (line: string) => void, signal: AbortSignal): Promise<CaptureJobResult[]> {
+async function runBatch(host: Host, batch: readonly Entry[], record: (line: string) => void, signal: AbortSignal, onGameStarted: (game: GameProcess) => void): Promise<CaptureJobResult[]> {
   const head = batch[0]!;
   const { job } = head;
   if (job.kind === "editor") throw new Error("an editor job isn't a tour");
@@ -417,6 +488,7 @@ async function runBatch(host: Host, batch: readonly Entry[], record: (line: stri
     ...(job.kind === "map" && job.attach ? { attach: true } : {}),
     log,
     signal,
+    onGameStarted,
   };
   let results: CaptureJobResult[];
   let end: CaptureJobResult["end"];

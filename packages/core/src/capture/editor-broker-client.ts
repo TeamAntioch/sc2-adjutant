@@ -19,8 +19,8 @@ import { hostContext } from "../host/machine-config.js";
 import type { CaptureTourRequest, CaptureTourResult } from "../plugins/plugin-api.js";
 import type { CaptureCopyOptions } from "./capture-copy.js";
 
-/** The protocol both ends speak; a broker built from another version refuses the job. 2: editor jobs. 3: a Test Document's bank fixture. */
-export const BROKER_PROTOCOL = 3;
+/** The protocol both ends speak; a broker built from another version refuses the job. 2: editor jobs. 3: a Test Document's bank fixture. 4: the games it recorded, in its status. */
+export const BROKER_PROTOCOL = 4;
 
 /** The Editor actions the broker runs between captures: each clicks the Editor's menus or brings it forward. */
 export const BROKERED_EDITOR_ACTIONS = ["editor.open", "editor.refresh", "editor.testDocument", "editor.save"] as const;
@@ -86,6 +86,15 @@ export type BrokerJobSummary = {
   readonly holding?: true;
 };
 
+/** A game the broker recorded: whose it is decides whether anything may quit it. */
+export type BrokerGameSummary = {
+  readonly pid: number;
+  /** `tool`: started by a capture, which quits it; `author`: a Test Document's, for the author to play, which the broker holds the queue for and never quits. */
+  readonly owner: "tool" | "author";
+  /** The job that started it. */
+  readonly job: string;
+};
+
 export type BrokerStatus = {
   readonly pid: number;
   /** The script the broker runs from, naming the checkout it was built from; absent from a broker built before it was sent. */
@@ -93,6 +102,8 @@ export type BrokerStatus = {
   /** The jobs of the tour running now, or null. */
   readonly running: readonly BrokerJobSummary[] | null;
   readonly queue: readonly BrokerJobSummary[];
+  /** The games the broker started a job for and that still run. */
+  readonly games: readonly BrokerGameSummary[];
   /** The last failure: a job's (by its id), or closing capture copies' (no job). */
   readonly lastError: { readonly job?: string; readonly message: string; readonly at: string } | null;
 };

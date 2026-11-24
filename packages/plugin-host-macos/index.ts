@@ -24,7 +24,7 @@ import { promisify } from "node:util";
 import type { HostContext, PluginCode } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
 import { fragmentFor, refusalFor, windowState } from "./refresh.ts";
-import { banksDir, captureScreen, captureTour, closeCaptureCopies, gameRunning } from "./capture-tour.ts";
+import { banksDir, captureScreen, captureTour, closeCaptureCopies, gameRunning, listGames, quitGame } from "./capture-tour.ts";
 import { exportModel, exportModelGltf, rendererKey, renderModel } from "./whiteoutflakes.ts";
 
 const run = promisify(execFile);
@@ -206,8 +206,7 @@ async function refreshEditor({ mapPath }: { readonly mapPath: string }): Promise
 /** The ids of the running game processes. */
 async function gamePids(): Promise<string[]> {
   try {
-    const { stdout } = await run("pgrep", ["-f", "MacOS/SC2 "]);
-    return stdout.split("\n").filter(Boolean);
+    return (await listGames()).map((game) => String(game.pid));
   } catch {
     return [];
   }
@@ -238,6 +237,8 @@ const plugin: PluginCode = {
     "editor.closeCaptureCopies": closeCaptureCopies,
     "game.running": gameRunning,
     "game.banksDir": banksDir,
+    "game.list": listGames,
+    "game.quit": quitGame,
     "screen.capture": captureScreen,
     "tts.speak": speak,
     "model.render": renderModel,

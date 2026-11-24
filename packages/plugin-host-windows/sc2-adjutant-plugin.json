@@ -4,5 +4,5 @@
   "pluginApi": 2,
   "roles": ["host-adapter"],
   "entry": "./dist/index.js",
-  "contributions": { "capabilities": ["editor.open", "editor.checkClosed", "editor.testDocument", "editor.save", "editor.captureTour", "editor.closeCaptureCopies", "game.banksDir", "screen.capture", "game.launch", "tts.speak", "model.render", "model.rendererKey", "model.export", "model.exportGltf"] }
+  "contributions": { "capabilities": ["editor.open", "editor.checkClosed", "editor.testDocument", "editor.save", "editor.captureTour", "editor.closeCaptureCopies", "game.banksDir", "screen.capture", "game.launch", "game.running", "game.list", "game.quit", "tts.speak", "model.render", "model.rendererKey", "model.export", "model.exportGltf"] }
 }
