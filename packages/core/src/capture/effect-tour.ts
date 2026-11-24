@@ -6,7 +6,8 @@
 // to screenshot. A renderer can't show this: Blender and WhiteoutFlakes draw no particles.
 //
 // Each effect's timing comes from its own animations and its framing from its bounds, both read
-// from the .m3 (catalog/m3-sequences.ts, m3-footprint.ts).
+// from the .m3 (catalog/m3-sequences.ts, m3-footprint.ts). Where it is attached, and whether it is
+// moved fast, comes from where the game attaches it (data/effect-sites.json, scripts/build-effect-sites.mjs).
 
 import { PLAYER_CAMERA } from "./area-tour.js";
 import { galaxyString } from "./capture-copy.js";
@@ -20,13 +21,24 @@ export const EFFECT_TOUR_INIT = "FxTour_Init";
 
 type Vec3 = readonly [number, number, number];
 
-/** One effect model to film: its storage path, its animations and its bounds (cells, in its own frame). */
+/**
+ * Where the game attaches an effect model, from data/effect-sites.json: the site most of its uses
+ * name (null when nothing says; `guessed` from its CModel parents, ImpactFX or LaunchFX, with no
+ * use), whether it is a missile and how many ribbons it has.
+ */
+export type EffectPlacement = { readonly site: string | null; readonly guessed?: boolean; readonly missile?: boolean; readonly ribbons?: number };
+
+/** One effect model to film: its storage path, its animations, its bounds (cells, in its own frame) and where the game attaches it. */
 export type TourEffect = {
   readonly file: string;
   readonly sequences: readonly M3Sequence[];
   readonly min: Vec3;
   readonly max: Vec3;
+  readonly placement?: EffectPlacement;
 };
+
+/** The host model's attachment points, each with its height above the host's origin in the bind pose (data/effect-sites.json `hosts`). */
+export type HostSites = Readonly<Record<string, number>>;
 
 /** What a frame shows. */
 export type EffectShotLabel = "birth" | "stand" | "moving" | "after-destroy" | "death";
@@ -44,6 +56,17 @@ export type EffectPlan = {
   readonly move: number;
   /** How far it moves in that time, in cells. */
   readonly moveCells: number;
+  /**
+   * Moved fast, turned to face the way it goes: a missile, or a model with ribbons, whose trail
+   * forms only at a missile's speed. The camera pulls back to `moveDistance` and follows.
+   */
+  readonly fast: boolean;
+  /** The camera's distance while it moves. */
+  readonly moveDistance: number;
+  /** How far the host gets from the pad before the camera follows it, in cells: a quarter of the frame's width, so a trail has the rest behind it. */
+  readonly lead: number;
+  /** The host's attachment point it is attached at. */
+  readonly site: string;
   /** Half its Death, when the death frame is taken; 0 when it has none. */
   readonly death: number;
   /**
@@ -74,6 +97,35 @@ const MAX_DISTANCE = 70;
 const MAX_PART = 4;
 /** An animation under this long is a flash; one this long or longer has time to move in. */
 const MOVE_MIN = 1.5;
+/** A fast move: cells a second, near a slow missile's (a Phoenix's is 15, a Stalker's 10), for how long. */
+export const FAST_SPEED = 10;
+export const FAST_MOVE = 2;
+/** The closest the camera is while a fast move films a trail. */
+const FAST_DISTANCE = 12;
+/** The site every host has, and the one a site the host lacks falls back to. */
+const ORIGIN = "Ref_Origin";
+const CENTER = "Ref_Center";
+
+/**
+ * Where to attach an effect on the host: a missile at Ref_Center, as it flies round its own centre;
+ * else the site the game attaches it at, guessed or not; Ref_Origin when nothing says. A site the
+ * host lacks is Ref_Center. `hostSites` unset doesn't check.
+ */
+export function attachSite(placement: EffectPlacement | undefined, hostSites?: HostSites): string {
+  const wanted = placement?.missile ? CENTER : (placement?.site ?? ORIGIN);
+  if (!hostSites || wanted === ORIGIN || wanted in hostSites) return wanted;
+  return CENTER in hostSites ? CENTER : ORIGIN;
+}
+
+/**
+ * How high a site is on the host, for framing: its bind-pose height, but no lower than Ref_Center
+ * for a raised one, since a weapon bone rests at the feet in the bind pose (the Marine's) and is
+ * held up in Stand.
+ */
+function siteHeight(site: string, hostSites?: HostSites): number {
+  if (site === ORIGIN || !hostSites) return 0;
+  return Math.max(hostSites[site] ?? 0, hostSites[CENTER] ?? 0);
+}
 
 const animation = (sequences: readonly M3Sequence[], name: string): M3Sequence | undefined =>
   sequences.find((sequence) => sequence.name.toLowerCase() === name.toLowerCase()) ?? sequences.find((sequence) => sequence.name.toLowerCase().startsWith(`${name.toLowerCase()} `));
@@ -95,9 +147,12 @@ const round = (value: number): number => Math.round(value * 100) / 100;
  * - `death` half way through Death, on a fresh copy whose bracket is stopped, when it has one.
  * A model with no Stand that loops under another name (`GLstand`) has that loop played instead:
  * as Birth ends, or at once when it has no Birth either.
+ * It is attached where the game attaches it (attachSite), and the camera looks at that point. A
+ * missile or a model with ribbons moves fast (FAST_SPEED for FAST_MOVE seconds) with the camera
+ * pulled back and following, so a trail has room to form.
  * `firstStop` is the first stop number; the plan numbers its frames on from it.
  */
-export function planEffect(effect: TourEffect, firstStop: number): EffectPlan {
+export function planEffect(effect: TourEffect, firstStop: number, hostSites?: HostSites): EffectPlan {
   const birth = animation(effect.sequences, "Birth");
   const named = animation(effect.sequences, "Stand");
   const other = named ? undefined : otherLoop(effect.sequences);
@@ -119,17 +174,25 @@ export function planEffect(effect: TourEffect, firstStop: number): EffectPlan {
   const labels: EffectShotLabel[] = [...(birth ? (["birth"] as const) : []), "stand", ...(moves ? (["moving"] as const) : []), "after-destroy", ...(death ? (["death"] as const) : [])];
   const stops = { birth: 0, stand: 0, moving: 0, "after-destroy": 0, death: 0 };
   labels.forEach((label, n) => (stops[label] = firstStop + n));
+  const fast = moves && Boolean(effect.placement?.missile || effect.placement?.ribbons);
+  const moveDistance = fast ? Math.max(distance, FAST_DISTANCE) : distance;
+  const site = attachSite(effect.placement, hostSites);
   return {
     birth: birth ? round(Math.min(MAX_PART, birth.durationMs / 2000)) : 0,
     standShot,
-    move: moves ? 1 : 0,
-    // A quarter of the frame's width, so the host stays in view: the frame is about 0.84 × distance wide.
-    moveCells: moves ? round(Math.min(12, Math.max(1, distance * 0.21))) : 0,
+    move: fast ? FAST_MOVE : moves ? 1 : 0,
+    // Slow, a quarter of the frame's width, so the host stays in view: the frame is about 0.84 × distance wide.
+    moveCells: fast ? FAST_SPEED * FAST_MOVE : moves ? round(Math.min(12, Math.max(1, distance * 0.21))) : 0,
+    fast,
+    moveDistance,
+    lead: moves ? round(moveDistance * 0.21) : 0,
+    site,
     death: death ? round(Math.min(MAX_PART, Math.max(death.durationMs / 2000, 0.1))) : 0,
     play,
     loop,
     distance,
-    height: round(Math.max(0, Math.min((z0 + z1) / 2, radius))),
+    // The effect's middle, above the site it's attached at; never below the ground.
+    height: round(Math.max(0, siteHeight(site, hostSites) + Math.min((z0 + z1) / 2, radius))),
     stops,
   };
 }
@@ -140,12 +203,12 @@ export type EffectBatch = { readonly effects: readonly TourEffect[]; readonly id
 /** The map-local CModel id of a batch's `n`th effect. */
 export const effectModelId = (n: number): string => `FxTour${String(n + 1).padStart(4, "0")}`;
 
-/** Plans a batch: its effects' plans, numbered from stop 1. */
-export function planEffectBatch(effects: readonly TourEffect[]): EffectBatch {
+/** Plans a batch: its effects' plans, numbered from stop 1, attached at the host's `hostSites`. */
+export function planEffectBatch(effects: readonly TourEffect[], hostSites?: HostSites): EffectBatch {
   if (effects.length === 0) throw new Error("An effect tour needs at least one effect");
   let next = 1;
   const plans = effects.map((effect) => {
-    const plan = planEffect(effect, next);
+    const plan = planEffect(effect, next, hostSites);
     next += Object.values(plan.stops).filter((stop) => stop > 0).length;
     return plan;
   });
@@ -227,8 +290,9 @@ export function effectTourScript(batch: EffectBatch, options: EffectTourOptions 
   const data = batch.plans.map((plan, i) =>
     [
       `    fxModel[${i}] = ${galaxyString(batch.ids[i]!)}; fxPlay[${i}] = ${galaxyString(plan.play)}; fxLoop[${i}] = ${galaxyString(animProps(plan.loop))};`,
+      `fxSite[${i}] = ${galaxyString(plan.site)}; fxFast[${i}] = ${plan.fast ? "true" : "false"};`,
       `fxBirth[${i}] = ${fx(plan.birth)}; fxStand[${i}] = ${fx(plan.standShot)}; fxMove[${i}] = ${fx(plan.move)}; fxMoveCells[${i}] = ${fx(plan.moveCells)}; fxDeath[${i}] = ${fx(plan.death)};`,
-      `fxDistance[${i}] = ${fx(plan.distance)}; fxHeight[${i}] = ${fx(plan.height)};`,
+      `fxDistance[${i}] = ${fx(plan.distance)}; fxHeight[${i}] = ${fx(plan.height)}; fxMoveDistance[${i}] = ${fx(plan.moveDistance)}; fxLead[${i}] = ${fx(plan.lead)};`,
       `fxShot[${i}][0] = ${plan.stops.birth}; fxShot[${i}][1] = ${plan.stops.stand}; fxShot[${i}][2] = ${plan.stops.moving}; fxShot[${i}][3] = ${plan.stops["after-destroy"]}; fxShot[${i}][4] = ${plan.stops.death};`,
     ].join(" "),
   );
@@ -243,6 +307,10 @@ const string fxLighting = ${galaxyString(options.lighting ?? "")};
 string[fxCount] fxModel;
 string[fxCount] fxPlay;
 string[fxCount] fxLoop;
+string[fxCount] fxSite;
+bool[fxCount] fxFast;
+fixed[fxCount] fxMoveDistance;
+fixed[fxCount] fxLead;
 fixed[fxCount] fxBirth;
 fixed[fxCount] fxStand;
 fixed[fxCount] fxMove;
@@ -302,7 +370,7 @@ void FxTour_Film(int i) {
     fixed step;
     fixed moved;
     FxTour_Reset(i);
-    fx = libNtve_gf_AttachModelToUnit(fxHost, fxModel[i], "Ref_Origin");
+    fx = libNtve_gf_AttachModelToUnit(fxHost, fxModel[i], fxSite[i]);
     if (fxPlay[i] != "") {
         ActorSend(fx, "AnimPlay FxTour " + fxPlay[i]);
     }
@@ -318,12 +386,21 @@ void FxTour_Film(int i) {
     Wait(fxStand[i], c_timeGame);
     FxTour_Shot(fxShot[i][1]);
     if (fxMove[i] > 0.0) {
+        if (fxFast[i]) {
+            // A missile flies facing the way it goes; the camera pulls back for its trail.
+            UnitSetFacing(fxHost, 0.0, 0.0);
+            CameraSetValue(1, c_cameraValueDistance, fxMoveDistance[i], 0.5, -1, 10.0);
+        }
         // Moved a step each game loop, the art blended between, so the effect sees a smooth move.
+        // Once the host is a quarter of the frame from the pad the camera follows it, the trail behind.
         step = fxMoveCells[i] / (fxMove[i] * 16.0);
         moved = 0.0;
         while (moved < fxMoveCells[i]) {
             moved += step;
             UnitSetPosition(fxHost, PointWithOffset(fxPad, moved, 0.0), true);
+            if (moved > fxLead[i]) {
+                CameraPan(1, PointWithOffset(fxPad, moved - fxLead[i], 0.0), 0.0625, -1, 10.0, false);
+            }
             Wait(0.0625, c_timeGame);
         }
         FxTour_Shot(fxShot[i][2]);
@@ -333,7 +410,7 @@ void FxTour_Film(int i) {
     FxTour_Shot(fxShot[i][3]);
     if (fxDeath[i] > 0.0) {
         FxTour_Reset(i);
-        fx = libNtve_gf_AttachModelToUnit(fxHost, fxModel[i], "Ref_Origin");
+        fx = libNtve_gf_AttachModelToUnit(fxHost, fxModel[i], fxSite[i]);
         Wait(fxBirth[i] * 2.0 + 0.75, c_timeGame);
         // Played outright: stopping the bracket of the generic actor this makes removes it at once.
         ActorSend(fx, "AnimPlay FxTour Death");

@@ -48,19 +48,46 @@ A test batch of 20 effects, 13 particle-heavy ones (lava impact, Yamato, psi sto
 
 ## What a batch does
 
-Each effect gets a map-local CModel (`FxTour0001`, with parent `FX`) naming its file. The script attaches the effect to a Marine on a pad (`libNtve_gf_AttachModelToUnit`, at `Ref_Origin`). The Marine shows the effect's scale, and carries its team colour (player 1, colour index 8). The script then takes these frames, each announced by saving the bank `FxTour` with key `stop`:
+Each effect gets a map-local CModel (`FxTour0001`, with parent `FX`) naming its file. The script attaches the effect to a Marine on a pad (`libNtve_gf_AttachModelToUnit`), at the site the game attaches it at (below). The Marine shows the effect's scale, and carries its team colour (player 1, colour index 8). The script then takes these frames, each announced by saving the bank `FxTour` with key `stop`:
 
 | Frame | When | What it shows |
 | --- | --- | --- |
 | `birth` | half way through Birth, if it has one | the build-up |
 | `stand` | a second into a looping Stand, or half way through one that plays once | the effect |
-| `moving` | after the Marine has slid a quarter of the frame sideways in a second | whether the effect travels with its host or trails |
+| `moving` | after the Marine has slid a quarter of the frame sideways in a second; a missile or a model with ribbons goes 20 cells in 2 s (below) | whether the effect travels with its host or trails |
 | `after-destroy` | half a second after a plain `Destroy` | whether anything is left behind |
 | `death` | half way through Death, on a fresh copy, if it has one | the end |
 
 - **Timing** comes from each model's `SEQS` (`catalog/m3-sequences.ts`). Waits for animations are in game time, and waits for a frame are in real time.
-- **Framing** comes from its bounds (`catalog/m3-footprint.ts`): a sphere round them at a margin of 1.3, with the camera 6 to 70 cells away at pitch 40. Bounds seldom cover all the particles.
+- **Framing** comes from its bounds (`catalog/m3-footprint.ts`): a sphere round them at a margin of 1.3, with the camera 6 to 70 cells away at pitch 40, looking at the effect's middle above the site it's attached at. Bounds seldom cover all the particles.
 - **Clean-up:** before each effect, `ActorWorldParticleFXDestroy` clears whatever the last one left.
+
+## Where each effect is attached
+
+Until 2026-11-24 every effect was attached at the Marine's `Ref_Origin`, its feet. The gallery's first reviews found missiles stuck in the ground (AdeptSoulMissile) or with no trail (PhoenixMissile), each a small glow at the Marine's feet. A missile is built round its own centre, which is in the air in game, and many impacts and launches are built to sit at a unit's centre or weapon (#86).
+
+`data/effect-sites.json` says where the game attaches each effect, derived by `packages/core/scripts/build-effect-sites.mjs` from the install's ActorData, ModelData and `.m3` files (only the derived facts are committed):
+
+- **site:** the site most of the model's uses name: an actor's `HostSiteOps` for its model, an action actor's `ImpactSiteOps` for its `ImpactMap` models and `LaunchSiteOps` for its `LaunchAssets`, resolved through the actor's parents. With no use, a model under `ImpactFX` is guessed to sit at `Ref_Center` and one under `LaunchFX` at `Ref_Weapon`. A tie goes to `Ref_Origin`.
+- **missile:** a `CActorMissile` names its CModel, or the CModel's parents hold `MissileFX`.
+- **ribbons:** its `RIB_` records.
+
+Of the 1,313 effects on 2026-11-24: 172 missiles; otherwise 421 at `Ref_Origin`, 245 at `Ref_Center` (112 more guessed), 28 at `Ref_Weapon` (24 more guessed), 19 at `Ref_Overhead`, 8 at `Ref_Head`, 5 at `Ref_Hardpoint`, and 279 nothing says. 324 have ribbons, 105 of them missiles.
+
+The tour (`attachSite` in `effect-tour.ts`) attaches:
+
+- a missile at `Ref_Center`, whatever its uses say;
+- anything else at its site, guessed or not;
+- at `Ref_Origin` when nothing says;
+- at `Ref_Center` when the Marine lacks the site. The file records the Marine's attachment points (`hosts`).
+
+The camera looks at the site's height, from the Marine's bind pose, but no lower than its `Ref_Center` (0.51 cells): the Marine's weapon bone rests at its feet in the bind pose, though Stand holds it at the chest. A model from `make --folder` has no actor data, so it goes at `Ref_Origin` as before.
+
+## Fast moves for trails
+
+A ribbon is drawn behind a moving emitter, so a trail forms only at speed. The old move, at most 12 cells in 1 s and usually 1–3, left none. A missile, or any model with ribbons, now moves at 10 cells a second for 2 s (`FAST_SPEED`, `FAST_MOVE`), near a slow missile's speed. Before it moves, the Marine turns to face the way it goes, since a missile flies facing forward, and the camera pulls back to at least 12 cells. Once the Marine is a quarter of the frame from the pad, the camera follows it, so the trail has the rest of the frame behind it. The `after-destroy` frame is taken where the move ends. An effect too short to move (a one-shot Stand under 1.5 s past its stand frame) still doesn't.
+
+The spacing rules below are unchanged: the fast move is 2 s, longer than the 1.5 s frames need, and the 1 s between a video mark and the attach comes before the move.
 
 ## What the game does, as found filming it
 
