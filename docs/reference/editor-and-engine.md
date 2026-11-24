@@ -486,3 +486,11 @@ A model's animation names must be built from the words the engine knows. A clip 
 ## The Editor keeps a model loaded by name
 
 The running Editor caches a model by its path. Rebuilding a map with a new `.m3` at the same path and reopening the map still showed the old model, until the Editor was quit and started again (2026-11-11). After swapping a model's file, quit the Editor before testing.
+
+## Sounds on a dead unit are dropped
+
+`SoundPlayOnUnitForPlayer` on a unit just killed plays only the sounds started at the moment of the kill; anything later is silent (test map, 2026-11-24). For death and after-death sounds, record `UnitGetPosition` before `UnitKill` and play them with `SoundPlayAtPointForPlayer` at that point.
+
+## Dialog control events: one event type per registration
+
+`TriggerAddEventDialogControl(t, c_playerAny, c_dialogControlAny, c_triggerControlEventTypeAny)` never fired in Test Document (test map, 2026-11-24). Blizzard's way works: register one call per event type (`c_triggerControlEventTypeClick`, `Checked`, `SelectionChanged`, `TextChanged`) with `c_invalidDialogControlId` as the control, then branch on `EventDialogControl()`.
