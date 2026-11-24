@@ -1,0 +1,69 @@
+{
+  "kind": "trigger",
+  "id": "D4B9718B",
+  "name": "Ash Tremors",
+  "initiallyOff": true,
+  "variables": [],
+  "events": [
+    {
+      "id": "CAAD3E4B",
+      "function": "Ntve/6D565EB4",
+      "params": [
+        {
+          "id": "3D66E248",
+          "def": "Ntve/4AB413B8",
+          "value": "11",
+          "type": "fixed"
+        },
+        {
+          "id": "4B0A584B",
+          "def": "Ntve/3E8E573F",
+          "preset": "Ntve/00000013"
+        }
+      ]
+    }
+  ],
+  "conditions": [],
+  "actions": [
+    {
+      "id": "AB68983C",
+      "function": "Ntve/64827F40",
+      "params": [
+        {
+          "id": "0A47F8B3",
+          "def": "Ntve/B9B87B39",
+          "value": "1",
+          "type": "int"
+        },
+        {
+          "id": "773BDA13",
+          "def": "Ntve/2446A281",
+          "preset": "Ntve/753FF241"
+        },
+        {
+          "id": "95559CB4",
+          "def": "Ntve/ADC6DA49",
+          "preset": "Ntve/D1F17DF9"
+        },
+        {
+          "id": "60C3CCB4",
+          "def": "Ntve/BF952F76",
+          "value": "0",
+          "type": "fixed"
+        },
+        {
+          "id": "645C1E90",
+          "def": "Ntve/5A1ABE55",
+          "value": "0",
+          "type": "fixed"
+        },
+        {
+          "id": "4E736C47",
+          "def": "Ntve/42815531",
+          "value": "2",
+          "type": "fixed"
+        }
+      ]
+    }
+  ]
+}

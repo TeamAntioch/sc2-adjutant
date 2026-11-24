@@ -1,0 +1,31 @@
+{
+  "kind": "trigger",
+  "id": "15E66F7A",
+  "name": "Start Ash Tremors",
+  "variables": [],
+  "events": [
+    {
+      "id": "14A7F8F5",
+      "function": "Ntve/00000120"
+    }
+  ],
+  "conditions": [],
+  "actions": [
+    {
+      "id": "61033615",
+      "function": "Ntve/00000111",
+      "params": [
+        {
+          "id": "D16F9AFC",
+          "def": "Ntve/00000176",
+          "trigger": "D4B9718B"
+        },
+        {
+          "id": "8AAB7B0D",
+          "def": "Ntve/00000177",
+          "preset": "Ntve/00000538"
+        }
+      ]
+    }
+  ]
+}

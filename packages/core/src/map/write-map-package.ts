@@ -223,7 +223,9 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
   // compile that builds them, and only in the Mission's own package: its record keeps the Kept
   // triggers they name from being written over, and elsewhere what they name isn't there.
   const buildsMissionTriggers = triggersRequested && !triggerOverride;
-  const referencesRefusal = plan.keptReferencesRefusal(buildsMissionTriggers, options.previousRecord !== undefined);
+  // The Blueprint's own triggers' element Ids (ADR-0026): a reference or a hold naming one names nothing in the package.
+  const blueprintTriggers = new Set((options.authoredTriggers?.triggers ?? []).map(({ trigger }) => trigger.id));
+  const referencesRefusal = plan.keptReferencesRefusal(buildsMissionTriggers, options.previousRecord !== undefined, blueprintTriggers);
   if (referencesRefusal) throw new Error(referencesRefusal);
   // Each Kept Reference found in the package, a Kept trigger or variable called by the Editor's names.
   // A trigger reference may name one of the Blueprint's own triggers instead, by the same element Id (ADR-0026).
@@ -920,12 +922,13 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
   const holdNotes: string[] = [];
   const previousHolds = (options.previousRecord?.entries ?? []).filter((entry): entry is KeptHoldEntry => entry.kind === "kept-hold");
   const holds = keptHolds(resolved);
-  if (buildsMissionTriggers && (holds.length > 0 || previousHolds.length > 0)) {
+  // A hold whose call sits in a Blueprint trigger is switched off in its body (holdBlueprintTriggers), so only the others need the package's Kept triggers.
+  const anyHoldInPackage = holds.some((hold) => !blueprintTriggers.has((hold.from ?? hold.trigger).id)) || previousHolds.some((entry) => !blueprintTriggers.has(entry.trigger));
+  if (buildsMissionTriggers && anyHoldInPackage) {
     const holdsRefusal = plan.holdsRefusal(existsSync(path.join(outputDir, "Triggers")));
     if (holdsRefusal) throw new Error(holdsRefusal);
     const read = (file: string): Promise<string> => readFile(path.join(outputDir, ...file.split("/")), "utf8");
     const names = triggerStringNames(existsSync(path.join(outputDir, ...TRIGGER_STRINGS.split("/"))) ? await read(TRIGGER_STRINGS) : "");
-    const blueprintTriggers = new Set((authored?.triggers ?? []).map(({ trigger }) => trigger.id));
     const held = applyKeptHolds(await read("Triggers"), await read("MapScript.galaxy"), names, holds, previousHolds, options.previousRecord ? recordedIds(options.previousRecord, "trigger") : new Set(), blueprintTriggers);
     // Merged with the Compiled triggers when there are any; written as they are when the compile writes none.
     out.amendKept("Triggers", () => held.triggers, { merged: true });

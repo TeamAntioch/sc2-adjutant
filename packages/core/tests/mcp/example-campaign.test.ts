@@ -75,6 +75,30 @@ describe("the example Campaign Pack", () => {
     expect(galaxy).toContain("TransmissionSourceFromUnit(");
   });
 
+  it("compiles its Blueprint triggers into a fresh package, the tremors held until the Crossing Beat starts", async () => {
+    const root = await copyOfExample();
+    const client = await connect(root);
+
+    const reply = await client.callTool({ name: "compile_map", arguments: { mission: "ashfall-relay" } });
+    expect(reply.isError, text(reply)).toBeFalsy();
+
+    const outputDir = path.join(root, "missions", "ashfall-relay", "Ashfall-Relay.SC2Map");
+    const galaxy = (await readFile(path.join(outputDir, "MapScript.galaxy"), "utf8")).replace(/\r\n/g, "\n");
+    // Ash Tremors: every 11 seconds of game time, a medium tremor of 2 seconds on player 1's camera, off until turned on.
+    expect(galaxy).toContain("TriggerAddEventTimePeriodic(gt_AshTremors, 11.0, c_timeGame);");
+    expect(galaxy).toContain('CameraShake(1, "Medium", "Tremor", 0.0, 0.0, 2.0);');
+    expect(galaxy).toContain("TriggerEnable(gt_AshTremors, false);");
+    // Start Ash Tremors turns it on, and its Map Initialization event is held: the Crossing Beat's start runs it.
+    expect(galaxy).toContain("TriggerEnable(gt_AshTremors, true);");
+    expect(galaxy).not.toContain("TriggerAddEventMapInit(gt_StartAshTremors);");
+    expect(galaxy).toContain("TriggerExecute(gt_StartAshTremors, true, false);");
+
+    // Compiled again, now with its record, it writes the same script.
+    const again = await client.callTool({ name: "compile_map", arguments: { mission: "ashfall-relay" } });
+    expect(again.isError, text(again)).toBeFalsy();
+    expect((await readFile(path.join(outputDir, "MapScript.galaxy"), "utf8")).replace(/\r\n/g, "\n")).toBe(galaxy);
+  });
+
   it("passes the layout checker, its hazard Mechanic included", async () => {
     const client = await connect(EXAMPLE);
     const reply = await client.callTool({ name: "check_layout", arguments: { mission: "ashfall-relay" } });

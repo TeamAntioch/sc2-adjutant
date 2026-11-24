@@ -54,10 +54,16 @@ describe("planOwnership", () => {
 
   it("refuses Kept References with no record, only when the compile builds the Mission's triggers", () => {
     const withKept = plan([zone("kept")], false, [{}]);
-    expect(withKept.keptReferencesRefusal(true, false)).toContain("has Kept References");
-    expect(withKept.keptReferencesRefusal(false, false)).toBeUndefined();
-    expect(withKept.keptReferencesRefusal(true, true)).toBeUndefined();
-    expect(plan([zone("kept")]).keptReferencesRefusal(true, false)).toBeUndefined();
+    expect(withKept.keptReferencesRefusal(true, false, new Set())).toContain("has Kept References");
+    expect(withKept.keptReferencesRefusal(false, false, new Set())).toBeUndefined();
+    expect(withKept.keptReferencesRefusal(true, true, new Set())).toBeUndefined();
+    expect(plan([zone("kept")]).keptReferencesRefusal(true, false, new Set())).toBeUndefined();
+  });
+
+  it("needs no record for Kept References that each name one of the Blueprint's own triggers", () => {
+    const naming = (...editorIds: string[]) => plan([zone()], false, editorIds.map((editorId) => ({ kind: "trigger" as const, editorId })));
+    expect(naming("15E66F7A").keptReferencesRefusal(true, false, new Set(["15E66F7A"]))).toBeUndefined();
+    expect(naming("15E66F7A", "00000029").keptReferencesRefusal(true, false, new Set(["15E66F7A"]))).toContain("has Kept References");
   });
 
   it("writes triggers beside Kept ground only when it has any to splice in, and needs a Triggers file for them", () => {

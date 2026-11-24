@@ -114,5 +114,15 @@
         { "scene": 2, "cue": { "type": "anchorEntersZone", "anchorId": "sergeant", "zoneId": "relay" } }
       ]
     }
-  }
+  },
+  "triggers": ["triggers/ash-tremors.json", "triggers/start-ash-tremors.json"],
+  "kept": [
+    {
+      "id": "start-ash-tremors",
+      "kind": "trigger",
+      "editorId": "15E66F7A",
+      "name": "Start Ash Tremors",
+      "hold": { "until": { "type": "beatStarts", "beatId": "crossing" } }
+    }
+  ]
 }

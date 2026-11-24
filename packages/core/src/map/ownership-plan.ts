@@ -75,8 +75,12 @@ export type OwnershipPlan = {
   readonly componentListKind: "components" | "kept-components";
   /** The refusal if the package can't be compiled beside: it needs a compile record and a MapInfo. */
   packageRefusal(hasRecord: boolean, hasMapInfo: boolean): string | undefined;
-  /** The refusal if Kept References are built with no compile record to keep their Kept triggers from being written over. */
-  keptReferencesRefusal(buildsMissionTriggers: boolean, hasRecord: boolean): string | undefined;
+  /**
+   * The refusal if Kept References are built with no compile record to keep their Kept triggers from
+   * being written over. A reference to one of the Blueprint's own triggers (`blueprintTriggers`, by
+   * element Id; ADR-0026) names nothing in the package, so it needs no record.
+   */
+  keptReferencesRefusal(buildsMissionTriggers: boolean, hasRecord: boolean, blueprintTriggers: ReadonlySet<string>): string | undefined;
   /** Whether the compile writes triggers: asked for, and beside Kept terrain only if it has any to splice in. */
   writesTriggers(requested: boolean, splicesAny: boolean): boolean;
   /** The refusal if the compile's triggers have no Kept Triggers file to go beside. */
@@ -102,8 +106,8 @@ export function planOwnership(input: OwnershipInput, table: Readonly<Record<Pack
       besideKept && (!hasRecord || !hasMapInfo)
         ? `${blueprint.id} ${blueprint.zones.length === 0 ? "has no Zones, so every terrain cell is Kept Content" : "has Kept terrain beside its Zones"}, and ${outputDir} isn't a Map Package with a compile record to keep it from: compile the Mission in place, into its own package (no output folder), or import a map for it (import-map)`
         : undefined,
-    keptReferencesRefusal: (buildsMissionTriggers, hasRecord) =>
-      buildsMissionTriggers && blueprint.kept.length > 0 && !hasRecord
+    keptReferencesRefusal: (buildsMissionTriggers, hasRecord, blueprintTriggers) =>
+      buildsMissionTriggers && !hasRecord && blueprint.kept.some((reference) => !(reference.kind === "trigger" && blueprintTriggers.has(String(reference.editorId))))
         ? `${blueprint.id} has Kept References, but ${outputDir} has no compile record, so its triggers would be written whole over the Kept Content they name: compile the Mission in place, into its own package (no output folder), once it has a record (import-map writes one)`
         : undefined,
     writesTriggers: (requested, splicesAny) => requested && (owner("triggers") === "compile" || splicesAny),
