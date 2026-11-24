@@ -31,7 +31,7 @@ Run `study_exemplar`, then `find_places` with no `ids`, so the mixtures file hol
 
 Captures matter most: lessons drawn from how the maps look in game beat lessons from their data alone. `capture_exemplar` needs:
 
-- a Host Adapter with `editor.captureTour`, named as `hostAdapter` in the machine config (the macOS Host Adapter has it), and `editorPath` and `cacheDir` there;
+- a Host Adapter with `editor.captureTour`, named as `hostAdapter` in the machine config (the macOS and Windows Host Adapters have it), and `editorPath` and `cacheDir` there;
 - the StarCraft II Editor with Test Document set to Windowed, Accessibility and Screen Recording allowed for the app running the capture, and the screen unlocked and awake throughout. The Editor comes to the front while each tour runs, and each tour starts the game, which takes minutes.
 
 Say all this, and ask the mapper to start when they're ready. Run `capture_exemplar` for place tours. Offer grid tours (`tours: "grid"`) for the thinly dressed maps from step 3. When a call comes back `waiting` with a job id, call `capture_exemplar({ job })` again until it's done. For a tour that failed, retry its map with `startOnInit: true` when its timed triggers never fire, or with `showErrors: true` to see why it doesn't start. A rerun skips tours that already have frames. Then run `find_places` again, so each place lists its frames. Every frame of every tour, grid tours too, gets its 1000px copy in `<id>/frames/<tour>/`, whether or not a place lists it.

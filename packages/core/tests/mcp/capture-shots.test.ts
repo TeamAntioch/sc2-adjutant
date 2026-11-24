@@ -144,6 +144,10 @@ describe("capture_shots", () => {
     expect(refused.isError).toBe(true);
     expect(text(refused)).toContain("capture_shots needs a Host Adapter that can run editor.captureTour");
     expect(text(refused)).toContain("No Shots were captured");
+    // It names every Host Adapter that has the capability, and the setting that picks one.
+    expect(text(refused)).toContain("bundled:host-macos or bundled:host-windows");
+    expect(text(refused)).toContain("hostAdapter");
+    expect(text(refused)).not.toContain("their Mac");
     const collect = await bare.client.callTool({ name: "capture_shots", arguments: { job: "any" } });
     expect(text(collect)).toContain("capture_shots needs a Host Adapter");
 
