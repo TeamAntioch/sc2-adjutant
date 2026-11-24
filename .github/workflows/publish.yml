@@ -4,7 +4,8 @@ name: Publish
 # laptop. A tag run refuses a tag whose version isn't every public package's and the plugin's, then
 # runs npm ci, the build and the tests, then `npm publish --provenance --access public` for each
 # public package in dependency order, core first (scripts/publish-packages.mjs, in the order of
-# scripts/public-packages.mjs). The npm token is the repo secret NPM_TOKEN.
+# scripts/public-packages.mjs). It publishes through npm's trusted publishing (OIDC), with no token:
+# each package's npm settings name this repo and this workflow as its publisher.
 #
 # On a pull request it runs `npm publish --dry-run` for each one instead, which publishes nothing
 # and needs no token, so a bad name, a private package or a missing `files` entry fails before a
@@ -32,7 +33,7 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: read
-      # npm's provenance statement is signed with the workflow's OIDC token.
+      # npm publishes with the workflow's OIDC token, which also signs the provenance statement.
       id-token: write
     steps:
       - uses: actions/checkout@v4
@@ -52,6 +53,8 @@ jobs:
         if: github.event_name == 'push'
         timeout-minutes: 15
         run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      # Trusted publishing (OIDC) needs npm 11.5.1 or later.
+      - run: npm install -g npm@^11.5.1
       # npm ci builds every package (the root's prepare script).
       - run: npm ci
       - name: Check the pinned, published catalog packages are what's installed
@@ -66,5 +69,3 @@ jobs:
       - name: npm publish, each public package
         if: github.event_name == 'push'
         run: node scripts/publish-packages.mjs publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
