@@ -61,13 +61,26 @@ charge-up cut off at the strike) is an actor of its own, `<mix>_<n>` for the mix
 creates with itself. It plays its layer after the same delay and stops itself with an actor timer
 (`TimerSet <stop> Stop`, then `TimerExpired; TimerName Stop`):
 
-- **Cut:** `Destroy` at the stop. *Untested: whether the game cuts the sound dead or fades it out briefly.*
+- **Cut:** `Destroy` at the stop.
 - **Fade:** at the stop, `SoundSetVolume Logarithmic 0.000000@0.000000,-96.000000@<fade ms>` takes it from its
   volume to silence over the fade, and a second timer destroys it when the fade ends. The message's points are
   `<dB>@<ms after the message>` (`SoundSetVolume Logarithmic 0@0,0@1200` in Blizzard's data holds a sound
-  steady for 1.2 s). *Untested: the fade's sound.* `SoundSetMuted 1 1` (muted, fading) is the other way the
+  steady for 1.2 s). `SoundSetMuted 1 1` (muted, fading) is the other way the
   actor messages fade a sound; its fade's length is the CSound's `MuteFadeOut`, which a mix can't set for a
   stock CSound.
+
+## What's been heard in the game
+
+Checked in a test map on the macOS client (Test Document, 2026-11-24), against the same mixes played from a
+trigger script, and judged by ear to match:
+
+- A seven-layer death mix with nothing at 0 (so a silent main), created on `UnitDeath` from the unit's actor:
+  every layer played on its time, through the death animation and after the unit died.
+- A four-layer attack mix whose first layer stops at the strike, both with a 0.25 s fade and cut off.
+
+Not yet checked: two mixes of one silent main playing at once. `Nova_SniperRifleTail_Dummy` has
+`DupeDestroyCount 1`; whether a second play ends the first actor's layers needs a game check (kill two units
+with mixes together).
 
 ## The mix file
 
