@@ -735,10 +735,7 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
 
     let last = 0;
     let frames = 0;
-    // Seconds without a stop are timed by the clock: a recording's loop polls faster, and each pass
-    // costs more than its sleep.
-    const watching = Date.now();
-    let lastPress = 0;
+    let watch: StopWatch = { since: Date.now(), lastPress: 0 };
     let warnedNoWindow = false;
     let end: CaptureTourResult["end"] = "never started";
     // Recording, the bank is read more often, so each stop's time in the video is closer.
@@ -787,19 +784,17 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
         lastMark = mark;
         await recording.mark(`m${mark}`);
       }
-      if (stop === undefined) {
-        const waited = (Date.now() - watching) / 1000;
-        if (waited >= request.pressSpaceAfterSeconds && Date.now() - lastPress >= 10_000) {
-          lastPress = Date.now();
-          log("no stop yet; pressing Space in the game (takes focus)");
-          await quietly(PRESS_SPACE);
-        }
-        if (waited > request.startSeconds) {
-          log("the tour never started");
-          break;
-        }
-        continue;
+      const watched = watchStop(watch, stop, Date.now(), request);
+      watch = watched.watch;
+      if (watched.pressSpace) {
+        log("no stop yet; pressing Space in the game (takes focus)");
+        await quietly(PRESS_SPACE);
       }
+      if (watched.neverStarted) {
+        log("the tour never started");
+        break;
+      }
+      if (stop === undefined) continue;
       if (stop === "-1") {
         end = "done";
         log(`tour done (${frames} stops)`);
@@ -849,6 +844,35 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
     }
     awake.kill();
   }
+}
+
+/** The watch loop's clock for time without a stop: when it last saw one, and when it last pressed Space. */
+export interface StopWatch {
+  since: number;
+  lastPress: number;
+}
+
+/**
+ * One poll of the bank, as the watch loop's clock sees it: whether to press Space, and whether the
+ * tour never started. Time without a stop counts from the last stop the bank held, not from the
+ * start of the tour, so a long tour whose bank is read mid-save keeps going. It is timed by the
+ * clock (`now`, in ms), not by counting polls: a recording's loop polls faster, and each pass costs
+ * more than its sleep.
+ */
+export function watchStop(
+  watch: StopWatch,
+  stop: string | undefined,
+  now: number,
+  limits: Pick<CaptureTourRequest, "pressSpaceAfterSeconds" | "startSeconds">,
+): { watch: StopWatch; pressSpace: boolean; neverStarted: boolean } {
+  if (stop !== undefined) return { watch: { ...watch, since: now }, pressSpace: false, neverStarted: false };
+  const waited = (now - watch.since) / 1000;
+  const pressSpace = waited >= limits.pressSpaceAfterSeconds && now - watch.lastPress >= 10_000;
+  return {
+    watch: pressSpace ? { ...watch, lastPress: now } : watch,
+    pressSpace,
+    neverStarted: waited > limits.startSeconds,
+  };
 }
 
 /** Polls `check` every `every` seconds for up to `seconds`; whether it came true. Gives up, false, once `signal` is aborted. */
