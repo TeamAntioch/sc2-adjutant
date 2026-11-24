@@ -47,7 +47,8 @@ describe("bundled:anim-testbed", () => {
     await copyWorkspaceSkills(root);
     const skill = await readFile(path.join(root, ".claude", "skills", "anim-testbed", "SKILL.md"), "utf8");
     expect(skill).toMatch(/^---\nname: anim-testbed\n/);
-    expect(skill).toContain(`node ${PACKAGE}/dist/testbed.js`);
+    // Core fills in the folder with forward slashes on every platform.
+    expect(skill).toContain(`node ${PACKAGE.split(path.sep).join("/")}/dist/testbed.js`);
     expect(skill).not.toContain("{{PLUGIN_FOLDER}}");
   });
 });
