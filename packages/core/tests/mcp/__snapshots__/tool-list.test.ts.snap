@@ -767,6 +767,162 @@ exports[`the tool list > is the same on a bare machine 1`] = `
   },
   {
     "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Captures in-game camera tours of the active Style Pack's Exemplar Maps: place tours by default, one frame centred on each place in the pack's mixtures file (run find_places first), in the light the map's triggers set most outside cutscenes (or its exemplars.json placeLight, or placeZones by zone); or grid tours with tours: "grid", over the playable area once per lighting the map's study lists (run study_exemplar first), or its captureLights. Use grid tours for a map with little dressing. Frames go to the pack's exemplar-maps/<id>/captures/<tour>/ (git-ignored by the .gitignore it adds there), or under $SC2_RESEARCH_DIR/docs/research/exemplar-maps/ when that is set, with their 1000px copies in <id>/frames/<tour>/: every frame of a place tour, and of a grid tour only the frames a place lists (run find_places after a grid tour, then this again, to make them). A tour that already has frames is skipped, so a rerun resumes; delete its captures folder to take it again. Each tour starts the game, which takes minutes. Every capture on the machine goes through one Editor Broker, one at a time; it waits up to 10 minutes, and a job not done by then comes back as state waiting with a job id: call capture_exemplar({ job }) to wait again and collect it, or capture_exemplar({ job, cancel: true }) to cancel it; a new capture is refused while one is still going. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Needs the macOS Host Adapter (editor.captureTour) and an awake screen; the Editor comes to the front while it runs, so check the author isn't mid-task in it.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "cancel": {
+          "description": "With job: cancels it, whether it waits in the queue or runs",
+          "type": "boolean",
+        },
+        "ids": {
+          "description": "The Exemplar Maps to work on, by their ids in the pack's exemplars.json; every one the pack lists when not given",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "job": {
+          "description": "A job id an earlier call returned: waits again, then collects its tours or says where it stands. Give it alone, or with cancel",
+          "minLength": 1,
+          "type": "string",
+        },
+        "showErrors": {
+          "description": "Keep data errors on screen, to debug a tour that doesn't start",
+          "type": "boolean",
+        },
+        "startOnInit": {
+          "description": "Start each tour at map init, for a map whose timed triggers never fire",
+          "type": "boolean",
+        },
+        "tours": {
+          "description": "places (the default): a frame on each of the pack's places; grid: the playable area, once per lighting",
+          "enum": [
+            "places",
+            "grid",
+          ],
+          "type": "string",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "capture_exemplar",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "captureDir": {
+          "type": "string",
+        },
+        "frames": {
+          "additionalProperties": false,
+          "properties": {
+            "kept": {
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
+              "type": "integer",
+            },
+            "made": {
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
+              "type": "integer",
+            },
+            "removed": {
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
+              "type": "integer",
+            },
+            "unreadable": {
+              "items": {
+                "type": "string",
+              },
+              "type": "array",
+            },
+          },
+          "required": [
+            "made",
+            "removed",
+            "kept",
+            "unreadable",
+          ],
+          "type": "object",
+        },
+        "job": {
+          "type": "string",
+        },
+        "place": {
+          "type": "string",
+        },
+        "state": {
+          "enum": [
+            "done",
+            "waiting",
+            "cancelled",
+          ],
+          "type": "string",
+        },
+        "tours": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "frames": {
+                "maximum": 9007199254740991,
+                "minimum": -9007199254740991,
+                "type": "integer",
+              },
+              "id": {
+                "type": "string",
+              },
+              "label": {
+                "type": "string",
+              },
+              "outcome": {
+                "type": "string",
+              },
+              "reason": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "label",
+              "outcome",
+              "frames",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+        "withoutPlaces": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "state",
+        "job",
+      ],
+      "type": "object",
+    },
+    "title": "Capture Exemplar Map tours in game",
+  },
+  {
+    "annotations": {
       "destructiveHint": false,
       "readOnlyHint": false,
     },
@@ -10269,6 +10425,162 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "Capture a Doodad Composite",
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Captures in-game camera tours of the active Style Pack's Exemplar Maps: place tours by default, one frame centred on each place in the pack's mixtures file (run find_places first), in the light the map's triggers set most outside cutscenes (or its exemplars.json placeLight, or placeZones by zone); or grid tours with tours: "grid", over the playable area once per lighting the map's study lists (run study_exemplar first), or its captureLights. Use grid tours for a map with little dressing. Frames go to the pack's exemplar-maps/<id>/captures/<tour>/ (git-ignored by the .gitignore it adds there), or under $SC2_RESEARCH_DIR/docs/research/exemplar-maps/ when that is set, with their 1000px copies in <id>/frames/<tour>/: every frame of a place tour, and of a grid tour only the frames a place lists (run find_places after a grid tour, then this again, to make them). A tour that already has frames is skipped, so a rerun resumes; delete its captures folder to take it again. Each tour starts the game, which takes minutes. Every capture on the machine goes through one Editor Broker, one at a time; it waits up to 10 minutes, and a job not done by then comes back as state waiting with a job id: call capture_exemplar({ job }) to wait again and collect it, or capture_exemplar({ job, cancel: true }) to cancel it; a new capture is refused while one is still going. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Needs the macOS Host Adapter (editor.captureTour) and an awake screen; the Editor comes to the front while it runs, so check the author isn't mid-task in it.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "cancel": {
+          "description": "With job: cancels it, whether it waits in the queue or runs",
+          "type": "boolean",
+        },
+        "ids": {
+          "description": "The Exemplar Maps to work on, by their ids in the pack's exemplars.json; every one the pack lists when not given",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "job": {
+          "description": "A job id an earlier call returned: waits again, then collects its tours or says where it stands. Give it alone, or with cancel",
+          "minLength": 1,
+          "type": "string",
+        },
+        "showErrors": {
+          "description": "Keep data errors on screen, to debug a tour that doesn't start",
+          "type": "boolean",
+        },
+        "startOnInit": {
+          "description": "Start each tour at map init, for a map whose timed triggers never fire",
+          "type": "boolean",
+        },
+        "tours": {
+          "description": "places (the default): a frame on each of the pack's places; grid: the playable area, once per lighting",
+          "enum": [
+            "places",
+            "grid",
+          ],
+          "type": "string",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "capture_exemplar",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "captureDir": {
+          "type": "string",
+        },
+        "frames": {
+          "additionalProperties": false,
+          "properties": {
+            "kept": {
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
+              "type": "integer",
+            },
+            "made": {
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
+              "type": "integer",
+            },
+            "removed": {
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
+              "type": "integer",
+            },
+            "unreadable": {
+              "items": {
+                "type": "string",
+              },
+              "type": "array",
+            },
+          },
+          "required": [
+            "made",
+            "removed",
+            "kept",
+            "unreadable",
+          ],
+          "type": "object",
+        },
+        "job": {
+          "type": "string",
+        },
+        "place": {
+          "type": "string",
+        },
+        "state": {
+          "enum": [
+            "done",
+            "waiting",
+            "cancelled",
+          ],
+          "type": "string",
+        },
+        "tours": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "frames": {
+                "maximum": 9007199254740991,
+                "minimum": -9007199254740991,
+                "type": "integer",
+              },
+              "id": {
+                "type": "string",
+              },
+              "label": {
+                "type": "string",
+              },
+              "outcome": {
+                "type": "string",
+              },
+              "reason": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "label",
+              "outcome",
+              "frames",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+        "withoutPlaces": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "state",
+        "job",
+      ],
+      "type": "object",
+    },
+    "title": "Capture Exemplar Map tours in game",
   },
   {
     "annotations": {

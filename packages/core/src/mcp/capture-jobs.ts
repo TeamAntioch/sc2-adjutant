@@ -20,6 +20,9 @@ import type { BrokerStatus } from "../capture/editor-broker-client.js";
  */
 export const CAPTURE_WAIT_MS = 10 * 60 * 1000;
 
+/** A wait limit in words, for a tool's description and its waiting reply. */
+export const waitLength = (ms: number): string => (ms >= 60_000 ? `${Math.round(ms / 60_000)} minutes` : `${(ms / 1000).toFixed(1)} seconds`);
+
 /** How long a finished job's result is kept to collect: an hour. */
 export const FINISHED_KEEP_MS = 60 * 60 * 1000;
 

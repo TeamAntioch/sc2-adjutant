@@ -15,7 +15,7 @@ import { writeTarget } from "../../util/replace-file.js";
 import { brokerSocketPath, editorBrokerStatus } from "../../capture/editor-broker-client.js";
 import { type CaptureShotsResult, captureShots, ShotSchema } from "../../capture/shots.js";
 import { hostContext } from "../../host/machine-config.js";
-import { captureJobs, type JobState, placeOf } from "../capture-jobs.js";
+import { captureJobs, type JobState, placeOf, waitLength as waitLengthOf } from "../capture-jobs.js";
 import { MissionSchema, IssueSchema, MapSchema } from "./schemas.js";
 import { stageHint, insideWorkspace, existingMapPackage, oneAtATime, readingMapToEdit } from "./mission-files.js";
 import { describeHandoff, editorHasOpen, TEST_BUDGET_SECONDS, TEST_MIN_SECONDS, testInGame } from "./editor-handoff.js";
@@ -118,7 +118,7 @@ export function registerCaptureTools(server: McpServer, ctx: CallContext, { capt
   // Listed whatever the Host Adapter, unlike the other bulk tools, so a call on a machine that
   // can't capture is refused with the reason rather than finding no tool.
   const shotJobs = captureJobs<CaptureShotsResult>();
-  const waitLength = captureWaitMs >= 60_000 ? `${Math.round(captureWaitMs / 60_000)} minutes` : `${(captureWaitMs / 1000).toFixed(1)} seconds`;
+  const waitLength = waitLengthOf(captureWaitMs);
   tool(
     "capture_shots",
     {

@@ -81,7 +81,7 @@ export function createServer({ workspaceRoot, host = bareHost(), followRoots: fo
   registerBlueprintTools(server, ctx);
   registerCaptureTools(server, ctx, { captureWaitMs });
   registerSessionTools(server, ctx);
-  registerStylePackTools(server, ctx);
+  registerStylePackTools(server, ctx, { captureWaitMs });
 
   const pluginsWorkspace = cachedWorkspace(ctx.root);
   registerKnowledge(server, pluginsWorkspace);
