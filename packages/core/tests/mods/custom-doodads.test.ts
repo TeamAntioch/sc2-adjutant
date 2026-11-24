@@ -356,20 +356,20 @@ describe("Generic Entries' asset paths (#49)", () => {
     ]);
   });
 
-  it("is quiet for the game's own paths, in any slash and case", async () => {
+  it("is quiet for the game's own paths, in any slash and case, and for the Heroes of the Storm and co-op ones", async () => {
     const mod = await harbourWithModels({});
-    await withEntries(mod, [model("Spot", GAME_MODEL), button("Mine", GAME_ICON), button("Lower", GAME_ICON.toLowerCase().replace(/\\/g, "/"))]);
+    await withEntries(mod, [model("Spot", GAME_MODEL), button("Mine", GAME_ICON), button("Lower", GAME_ICON.toLowerCase().replace(/\\/g, "/")), model("Coop", "Assets\\Effects\\Terran\\Goliath_Lockdown_Impact\\Goliath_Lockdown_Impact.m3")]);
     const { warnings } = await compileMod(mod.blueprintPath);
     expect(warnings.filter((warning) => warning.includes("names Assets"))).toEqual([]);
   });
 
   it("is quiet for a file a mod package of the Workspace ships, and one the Blueprint writes", async () => {
-    const mod = await harbourWithModels({ [MODEL]: ring(), "Assets/Textures/btn-harbour.dds": binary(3) });
+    const mod = await harbourWithModels({ [MODEL]: ring(), "Assets/Textures/btn-harbour.dds": binary(3), "Assets/Doodads/Varied/Varied_00.m3": ring() });
     await declare(
       mod,
       { entries: [{ source: "entries/assets.json" }], files: [{ path: "Base.SC2Assets/Assets/Textures/btn-written.dds", source: "files/btn-written.dds" }] },
       {
-        "entries/assets.json": `${JSON.stringify([model("Ring", MODEL.replace(/\//g, "\\")), button("Harbour", "Assets\\Textures\\btn-harbour.dds"), button("Written", "Assets\\Textures\\btn-written.dds")])}\n`,
+        "entries/assets.json": `${JSON.stringify([model("Ring", MODEL.replace(/\//g, "\\")), model("Varied", "Assets\\Doodads\\Varied\\Varied.m3"), button("Harbour", "Assets\\Textures\\btn-harbour.dds"), button("Written", "Assets\\Textures\\btn-written.dds")])}\n`,
         "files/btn-written.dds": "dds",
       },
     );

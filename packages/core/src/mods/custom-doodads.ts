@@ -29,7 +29,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
-import { gameDoodadModels, isGameImage, isGameModel, listDoodads } from "../catalog/stock-catalog.js";
+import { gameDoodadModels, isGameAsset, isGameModel, listDoodads } from "../catalog/stock-catalog.js";
 import { findPackageFile } from "../catalog/package-files.js";
 import { readM3Footprint, readM3MeshExtent } from "../catalog/m3-footprint.js";
 import { readM3Sequences } from "../catalog/m3-sequences.js";
@@ -226,19 +226,22 @@ export function entryAssetPaths(entry: GenericEntry): { readonly field: string; 
   return found;
 }
 
+/** A model with variations is its numbered files (`<name>_00.m3` and on), as the game names them: the first one, for a path without a number. */
+const numbered = (file: string): string[] => (/\.m3$/i.test(file) ? [file.replace(/\.m3$/i, "_00.m3")] : []);
+
 /**
  * Warns about each asset path `entries`' fields name (entryAssetPaths) that is no file the game
  * loads under the mod: not found by `find` (as checkCustomDoodadFiles finds a model or texture), not
- * a model core knows of (isGameModel), and for an image not one the game's data names (isGameImage).
+ * a model core knows of (isGameModel), and for an image not one the game's data names (isGameAsset, every stock mod).
  * The game may still have a file those lists lack, so it is advice. Names the entry, field and path.
  */
 export function genericEntryAssetWarnings(entries: readonly GenericEntry[], find: (storagePath: string) => FoundFile | undefined, lookedIn: string): string[] {
   return entries.flatMap((entry) =>
     entryAssetPaths(entry)
-      .filter(({ path: file }) => !find(file) && !(/\.m3$/i.test(file) ? isGameModel(file) : isGameImage(file)))
+      .filter(({ path: file }) => ![file, ...numbered(file)].some((each) => find(each) || isGameModel(each) || isGameAsset(each)))
       .map(
         ({ field, path: file }) =>
-          `${genericEntryKey(entry)}'s ${field} names ${file}, which isn't in ${lookedIn}, and no ${/\.m3$/i.test(file) ? "game model" : "game image"} core knows of is at that path: the game shows a placeholder or nothing. Add the file there (and compile it), or fix the path. If it is a game file core's list lacks (data/${/\.m3$/i.test(file) ? "game-models" : "game-images"}.json), report it on sc2-adjutant`,
+          `${genericEntryKey(entry)}'s ${field} names ${file}, which isn't in ${lookedIn}, and no ${/\.m3$/i.test(file) ? "game model" : "game image"} core knows of is at that path: the game shows a placeholder or nothing. Add the file there (and compile it), or fix the path. If it is a game file core's list lacks (data/game-models.json or data/game-assets.json), report it on sc2-adjutant`,
       ),
   );
 }
