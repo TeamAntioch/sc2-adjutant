@@ -8802,7 +8802,7 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "destructiveHint": true,
       "readOnlyHint": false,
     },
-    "description": "Builds the Map Study of one or more of the active Style Pack's Exemplar Maps: study.json (measurements of its texturing, cliffs, doodads, lighting and composition) and its layer images, written into the pack's exemplar-maps/<id>/ over any study already there. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.",
+    "description": "Builds the Map Study of one or more of the active Style Pack's Exemplar Maps: study.json (measurements of its texturing, cliffs, doodads, lighting and composition) and its layer images, written into the pack's exemplar-maps/<id>/ over any study already there. Each map takes seconds, and a call that studied a whole pack could outlast the client's timeout, so study a few maps per call and call again for the rest. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -8810,7 +8810,7 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "$schema": "http://json-schema.org/draft-07/schema#",
       "properties": {
         "ids": {
-          "description": "The Exemplar Maps to work on, by their ids in the pack's exemplars.json; every one the pack lists when not given",
+          "description": "The Exemplar Maps to study, by their ids in the pack's exemplars.json: at least one, a few at most",
           "items": {
             "minLength": 1,
             "type": "string",
@@ -8824,6 +8824,9 @@ exports[`the tool list > is the same on a bare machine 1`] = `
           "type": "string",
         },
       },
+      "required": [
+        "ids",
+      ],
       "type": "object",
     },
     "name": "study_exemplar",
@@ -19827,7 +19830,7 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "destructiveHint": true,
       "readOnlyHint": false,
     },
-    "description": "Builds the Map Study of one or more of the active Style Pack's Exemplar Maps: study.json (measurements of its texturing, cliffs, doodads, lighting and composition) and its layer images, written into the pack's exemplar-maps/<id>/ over any study already there. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.",
+    "description": "Builds the Map Study of one or more of the active Style Pack's Exemplar Maps: study.json (measurements of its texturing, cliffs, doodads, lighting and composition) and its layer images, written into the pack's exemplar-maps/<id>/ over any study already there. Each map takes seconds, and a call that studied a whole pack could outlast the client's timeout, so study a few maps per call and call again for the rest. Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -19835,7 +19838,7 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "$schema": "http://json-schema.org/draft-07/schema#",
       "properties": {
         "ids": {
-          "description": "The Exemplar Maps to work on, by their ids in the pack's exemplars.json; every one the pack lists when not given",
+          "description": "The Exemplar Maps to study, by their ids in the pack's exemplars.json: at least one, a few at most",
           "items": {
             "minLength": 1,
             "type": "string",
@@ -19849,6 +19852,9 @@ exports[`the tool list > is the same on a machine that can do everything, with b
           "type": "string",
         },
       },
+      "required": [
+        "ids",
+      ],
       "type": "object",
     },
     "name": "study_exemplar",
