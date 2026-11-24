@@ -1,6 +1,7 @@
 name: CI
 
-# Lint and test every package on Linux, macOS and Windows, for pull requests and main.
+# Lint and test every package on Linux and Windows, for pull requests and main, and on macOS for
+# main and the pull requests that need it.
 #
 # sc2-adjutant runs the published @team-antioch/sc2-asset-catalog, sc2-finder-kit, sc2-doodad-finder
 # and sc2-set-finder at the versions pinned in packages/core, packages/doodad-finder and
@@ -12,13 +13,20 @@ name: CI
 #
 # Linux and Windows each run three jobs at once (#5), which together run what `npm test` and
 # `npm run lint` run: core's tests in two shards, and a third job with lint, every other package's
-# tests and the check scripts. macOS runs them all in one job: hosted macOS runners are scarce, and
-# three jobs at once were slow to start and sometimes cancelled.
+# tests and the check scripts.
+#
+# macOS runs the tests in one job, without lint, which is the same on every system: hosted macOS
+# runners are scarce, and three jobs at once were slow to start and sometimes cancelled. One job
+# takes three times as long as Linux's slowest, so a pull request runs it only when it changes the
+# macOS Host, a package's dependencies or CI itself. Every push to main runs it, and so does a run
+# started by hand (`gh workflow run CI --ref <branch>`), for a pull request macOS should check.
+# A pull request that skips it passes its required check.
 
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -37,9 +45,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         part: [core-1, core-2, rest]
-        include:
-          - os: macos-latest
-            part: all
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
@@ -53,56 +58,22 @@ jobs:
           "TEMP=$env:RUNNER_TEMP" >> $env:GITHUB_ENV
           "TMP=$env:RUNNER_TEMP" >> $env:GITHUB_ENV
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: 24
-          cache: npm
-      # A compile turns placeholder voices into Ogg Vorbis with ffmpeg, as on an author's machine.
-      - name: Install ffmpeg
-        shell: bash
-        timeout-minutes: 15
-        run: |
-          case "$RUNNER_OS" in
-            Linux) sudo apt-get update -q && sudo apt-get install -y -q ffmpeg ;;
-            macOS) brew install ffmpeg ;;
-            Windows) choco install ffmpeg -y --no-progress ;;
-          esac
-          ffmpeg -hide_banner -encoders | grep -i vorbis
-      - run: npm ci
-      - name: Check nothing moved is back, and the pinned, published packages are what's installed
-        run: node scripts/check-catalog-moved.mjs --installed
-      # Vitest's record of each test file's last duration, so it starts the longest first. Restored
-      # after npm ci, which deletes node_modules.
-      - name: Restore vitest's results
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            packages/*/node_modules/.vite/vitest
-            site/node_modules/.vite/vitest
-          key: vitest-${{ runner.os }}-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: vitest-${{ runner.os }}-${{ matrix.part }}-
+          vitest-cache-key: vitest-${{ runner.os }}-${{ matrix.part }}
       # A hang fails here, not at the job's limit.
       - name: Test core (${{ matrix.part }})
         if: startsWith(matrix.part, 'core-')
         run: npm test -w packages/core -- --shard=${{ matrix.part == 'core-1' && '1' || '2' }}/2
         timeout-minutes: 30
       - run: npm run lint
-        if: matrix.part == 'rest' || matrix.part == 'all'
+        if: matrix.part == 'rest'
         timeout-minutes: 10
       - name: Test every package but core, then run the checks
         if: matrix.part == 'rest'
         shell: bash
         timeout-minutes: 30
-        run: |
-          workspaces=()
-          for folder in packages/*/ site/; do
-            [ "$folder" = packages/core/ ] || workspaces+=(-w "${folder%/}")
-          done
-          npm test "${workspaces[@]}" --if-present
-          npm run test:checks
-      - run: npm test
-        if: matrix.part == 'all'
-        timeout-minutes: 30
+        run: bash scripts/test-except-core.sh
       - name: Save vitest's results
         if: always()
         uses: actions/cache/save@v4
@@ -111,3 +82,65 @@ jobs:
             packages/*/node_modules/.vite/vitest
             site/node_modules/.vite/vitest
           key: vitest-${{ runner.os }}-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+  # Whether this run tests on macOS: every run but a pull request's, and a pull request that changes
+  # the macOS Host, a package.json, the lockfile or anything under .github.
+  macos-needed:
+    name: Does macOS need to run?
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      run: ${{ steps.decide.outputs.run }}
+    steps:
+      - id: decide
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ "$EVENT" != pull_request ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          files=$(gh api --paginate "repos/$REPO/pulls/$PR/files" -q '.[].filename')
+          if grep -qE '^(packages/plugin-host-macos/|\.github/|package-lock\.json$|(.+/)?package\.json$)' <<<"$files"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No change macOS needs to check; skipping it."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  test-macos:
+    # The name the required check knows.
+    name: macos-latest (all)
+    needs: macos-needed
+    # always(), so a failure to decide runs macOS rather than skipping it, and a skip passes.
+    if: ${{ always() && !github.event.repository.private && needs.macos-needed.outputs.run != 'false' }}
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          vitest-cache-key: vitest-${{ runner.os }}-all
+      # The runner has three cores, and vitest's default of one fewer leaves one idle while the
+      # tests wait on ffmpeg and the file system.
+      - name: Test core
+        run: npm test -w packages/core -- --maxWorkers=3
+        timeout-minutes: 30
+      - name: Test every package but core, then run the checks
+        timeout-minutes: 15
+        run: bash scripts/test-except-core.sh
+      - name: Save vitest's results
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            packages/*/node_modules/.vite/vitest
+            site/node_modules/.vite/vitest
+          key: vitest-${{ runner.os }}-all-${{ github.run_id }}-${{ github.run_attempt }}

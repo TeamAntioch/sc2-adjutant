@@ -34,6 +34,6 @@ A change to the moved code is made in sc2-asset-catalog, by pull request there, 
 
    A release that changes the catalog's data or API may need core's binding or tests changed in the same pull request. If the extracted fields changed, `npm run extract-catalog` regenerates core's copy, and the golden shows whether any compile output moved.
 
-CI (`.github/workflows/ci.yml`) always installs the pinned, published packages and refuses a link. It lints and tests every package against them on Linux, macOS and Windows, so a pull request bumping the pin is checked before it merges.
+CI (`.github/workflows/ci.yml`) always installs the pinned, published packages and refuses a link. It tests every package against them on Linux, macOS and Windows, and lints them on Linux and Windows, so a pull request bumping the pin is checked before it merges.
 
 Never patch `node_modules`. A bug in a published package is reported, or fixed, in sc2-asset-catalog.
