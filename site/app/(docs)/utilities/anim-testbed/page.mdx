@@ -4,28 +4,18 @@ export const metadata = { title: "Anim Testbed" };
 
 Picking a unit's sounds means hearing them with its animation: the grunt at the top of the wind-up, the
 whoosh on the swing, the hit as it lands. The Anim Testbed builds a test map for that from one **spec**.
-The map shows a dialog where you pick a unit, a clip, a slot and a variation, and play it. Nothing is
-typed into chat, and a new test is a new spec, not a new script.
+The map shows a dialog where you pick a unit, a clip, a slot and a variation, and play it.
 
 <figure>
   <img src="/anim-testbed/attack.jpg" alt="The testbed's dialog over a Marine, a Zealot and a Zergling: the Marine's attack, variation 2, with its two cues in the readout" />
   <figcaption>The Marine's attack, variation 2: a stim grunt cut off at 0.6 s, then the rifle burst on the strike. The readout lists each cue at its time.</figcaption>
 </figure>
 
-## Add it to a Workspace
+## Using it
 
-Install the package beside sc2-adjutant, then list it in the Workspace config's `utilities`:
-
-```sh
-npm install @team-antioch/sc2-adjutant-anim-testbed
-```
-
-```json
-{ "utilities": ["bundled:anim-testbed"] }
-```
-
-Its `anim-testbed` skill arrives at the next session. Ask Claude for a test map ("audition the Marine's
-attack and death sounds"), or write a spec yourself and build it. The spec's `base` is the Mission's Map
+A Workspace made by `/sc2-adjutant:init` has it already. Claude reaches for its `anim-testbed` skill
+when you work on a custom unit, custom sounds or a custom animation, or ask for a test map ("audition
+the Marine's attack and death sounds"). You can also write a spec yourself and build it. The spec's `base` is the Mission's Map
 Package, so compile the Mission once first if it has never been compiled:
 
 ```sh
@@ -36,6 +26,21 @@ node node_modules/@team-antioch/sc2-adjutant-anim-testbed/dist/testbed.js missio
 Unless the spec says otherwise in `out`, the map is written beside the base map, in the Mission's
 git-ignored `output/`. Open it in the Editor and run Test Document.
 
+### If your Workspace doesn't have it
+
+A Workspace made before the testbed shipped needs the package beside sc2-adjutant, and the testbed
+listed in its config's `utilities`:
+
+```sh
+npm install @team-antioch/sc2-adjutant-anim-testbed
+```
+
+```json
+{ "utilities": ["bundled:anim-testbed"] }
+```
+
+Its skill arrives at the next Claude Code session.
+
 ## The dialog
 
 - **Unit**, **Clip**, **Slot** and **Variation** pick what plays. `*` marks the variation the spec
@@ -44,8 +49,6 @@ git-ignored `output/`. Open it in the Editor and run Test Document.
   replays it.
 - The **readout** lists the cues with their times, grey until each one fires.
 - **Send** plays any CSound at the unit, or sends any actor message to it.
-- In chat, `-t 1.4 1.55` retimes the selected clip's strike and land, and prints the numbers to copy
-  back into the spec.
 
 A **slot** is what a Play does, by its kind:
 
@@ -127,8 +130,8 @@ lists every key.
 
 ## What it checks
 
-A missing sound, model or unit fails silently in StarCraft II: it plays nothing and says nothing. So
-the build checks what it can before it writes anything, and `--check` stops there:
+To prevent silent failures on missing assets, the build checks to make sure that they're present.
+`--check` stops there:
 
 - **Sounds, models and units** against the game's own packages, the Workspace's mods, the base map,
   and the spec's own data.
@@ -147,5 +150,5 @@ the build checks what it can before it writes anything, and `--check` stops ther
 ## Screenshots of your own
 
 `--capture <folder>` builds the map with the spec's `tour` and films it through the Editor, one frame
-per stop. That's how the pictures on this page were made. It needs a Host Adapter that can capture,
-the macOS one today.
+per stop. That's how the pictures on this page were made, through the macOS Host Adapter. It needs a
+Host Adapter that can capture.
