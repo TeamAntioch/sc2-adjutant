@@ -13,9 +13,15 @@
 //   trigger-variable:gt_<name>  a trigger's declaration, in Trigger Variables
 //   trigger:gt_<name>           its section (its _Func and _Init), among the trigger sections
 //   trigger-init:gt_<name>      its _Init call, in InitTriggers
+//   function-declarations       an empty Global Function Declarations section, when the Kept
+//                                 script has none, before Trigger Variables
+//   function-declaration:gf_<name>  a Blueprint function's declaration, in it (ADR-0026)
+//   functions                   an empty Global Functions section, when the Kept script has none,
+//                                 before the first trigger's section
+//   function:gf_<name>          its definition, in it
 //
-// The Editor writes globals and triggers in the depth-first order of Triggers' folder tree, so a
-// global's or trigger's block goes before the block of the next one in that order the script has
+// The Editor writes globals, functions and triggers in the depth-first order of Triggers' folder
+// tree, so a global's, function's or trigger's block goes before the block of the next one in that order the script has
 // (`order`, the spliced Triggers' items by name), or at the end of its section when none follows: a
 // Kept trigger the author files among Compiled ones keeps its place when the Editor next saves.
 // A disabled trigger, which the Editor leaves out of the script, is passed over.
@@ -125,9 +131,24 @@ function namedBlockSpan(script: string, id: string): { start: number; end: numbe
       const triggers = functionSpan(script, "void InitTriggers () {");
       return triggers && lineMatching(script, `    ${escape(name)}_Init\\(\\);`, triggers.start, triggers.end);
     }
+    case "function-declaration": {
+      const section = sectionSpan(script, "Global Function Declarations");
+      return section && lineMatching(script, `\\S[^\\r\\n(]* ${escape(name)} \\([^\\r\\n]*\\);`, section.start, section.end);
+    }
+    case "function": {
+      const section = sectionSpan(script, "Global Functions");
+      const span = section && keptElementSpan(script, name);
+      return span && span.start >= section.start && span.start < section.end ? span : undefined;
+    }
     default:
       return undefined;
   }
+}
+
+/** The text of the block `id` (as the record names one: `function-declaration:gf_<name>`, `trigger:gt_<name>`, …) in `script`, or undefined where it has none. */
+export function blockText(script: string, id: string): string | undefined {
+  const span = namedBlockSpan(script, id);
+  return span && script.slice(span.start, span.end);
 }
 
 /**
@@ -155,7 +176,17 @@ function removeBlock(script: string, id: string): string {
     case "trigger-variable":
     case "trigger":
     case "trigger-init":
+    case "function-declaration":
+    case "function":
       return remove(namedBlockSpan(script, id));
+    case "function-declarations": {
+      const section = sectionSpan(script, "Global Function Declarations");
+      return remove(section && !/^\S/m.test(script.slice(section.start, section.end)) ? { start: section.header, end: section.end } : undefined);
+    }
+    case "functions": {
+      const section = sectionSpan(script, "Global Functions");
+      return remove(section && !/^\S/m.test(script.slice(section.start, section.end)) ? { start: section.header, end: section.end } : undefined);
+    }
     case "global-variables": {
       const section = sectionSpan(script, "Global Variables");
       return remove(section && !declaresGlobals(script) ? { start: section.header, end: section.end } : undefined);
@@ -202,6 +233,18 @@ function generatedPieces(generated: string, kept: string): Piece[] {
     }
     for (const line of declarations) pieces.push({ id: `variable:${/ (gv_\w+);/.exec(line)![1]}`, text: line });
     for (const line of inits) pieces.push({ id: `variable-init:${/^    (gv_\w+) = /.exec(line)![1]}`, text: line });
+  }
+  const functionDeclarations = sectionSpan(generated, "Global Function Declarations");
+  if (functionDeclarations) {
+    const eol = eolOf(generated);
+    const declarations = [...generated.slice(functionDeclarations.start, functionDeclarations.end).matchAll(/^\S[^\r\n(]* (gf_\w+) \([^\r\n]*\);\r?\n/gm)];
+    if (!sectionSpan(kept, "Global Function Declarations")) pieces.push({ id: "function-declarations", text: [RULE, "// Global Function Declarations", RULE, "", ""].join(eol) });
+    for (const match of declarations) pieces.push({ id: `function-declaration:${match[1]}`, text: match[0] });
+    if (!sectionSpan(kept, "Global Functions")) pieces.push({ id: "functions", text: [RULE, "// Global Functions", RULE, ""].join(eol) });
+    for (const match of declarations) {
+      const span = keptElementSpan(generated, match[1]!);
+      if (span) pieces.push({ id: `function:${match[1]}`, text: generated.slice(span.start, span.end) });
+    }
   }
   const triggerVariables = sectionSpan(generated, "Trigger Variables");
   const names = triggerVariables ? [...generated.slice(triggerVariables.start, triggerVariables.end).matchAll(/^trigger (gt_\w+);\r?\n/gm)] : [];
@@ -295,6 +338,28 @@ function insertPiece(script: string, piece: Piece, eol: string, order: readonly 
       const triggers = need(functionSpan(script, "void InitTriggers () {"), "InitTriggers");
       return insertAt(script, before((name) => lineMatching(script, `    ${escape(name)}_Init\\(\\);`, triggers.start, triggers.close)) ?? triggers.close, text);
     }
+    case "function-declarations": {
+      // Just before Trigger Variables, after the globals.
+      const next = need(/^\/\/-+\r?\n\/\/ Trigger Variables\r?\n/m.exec(script), "Trigger Variables section");
+      return insertAt(script, next.index, text);
+    }
+    case "function-declaration": {
+      const section = need(sectionSpan(script, "Global Function Declarations"), "Global Function Declarations section");
+      const next = before((name) => namedBlockSpan(script, `function-declaration:${name}`));
+      if (next !== undefined) return insertAt(script, next, text);
+      const declarations = [...script.slice(section.start, section.end).matchAll(/^\S[^\r\n]*;\r?\n/gm)];
+      const last = declarations.at(-1);
+      return insertAt(script, last ? section.start + last.index + last[0].length : section.start, text);
+    }
+    case "functions": {
+      // Before the first trigger's section, after Trigger Variables and any custom script.
+      const next = need(/^\/\/-+\r?\n\/\/ (Trigger: |Trigger Initialization\r?\n)/m.exec(script), "Trigger Initialization section");
+      return insertAt(script, next.index, text);
+    }
+    case "function": {
+      const section = need(sectionSpan(script, "Global Functions"), "Global Functions section");
+      return insertAt(script, before((name) => namedBlockSpan(script, `function:${name}`)) ?? section.end, text);
+    }
     default:
       throw new Error(`Unknown Galaxy block ${piece.id}`);
   }
@@ -308,6 +373,8 @@ function declaredNames(script: string): Set<string> {
     if (!section) continue;
     for (const match of script.slice(section.start, section.end).matchAll(/^\S[^\r\n]* (g[tv]_\w+);/gm)) names.add(editorForm(match[1]!));
   }
+  const functions = sectionSpan(script, "Global Function Declarations");
+  if (functions) for (const match of script.slice(functions.start, functions.end).matchAll(/^\S[^\r\n(]* (gf_\w+) \(/gm)) names.add(match[1]!);
   return names;
 }
 
@@ -332,13 +399,13 @@ export function spliceMapScript(
   const eol = eolOf(existing);
   const skipped = new Set([...skip].map(editorForm));
   const pieces = generatedPieces(generated, script).filter((piece) => {
-    const name = /^(?:trigger-variable|trigger|trigger-init|variable|variable-init):(.*)$/.exec(piece.id)?.[1];
+    const name = /^(?:trigger-variable|trigger|trigger-init|variable|variable-init|function-declaration|function):(.*)$/.exec(piece.id)?.[1];
     return name === undefined || !skipped.has(editorForm(name));
   });
   const taken = declaredNames(script);
   for (const piece of pieces) {
-    const name = /^(?:trigger-variable|variable):(.*)$/.exec(piece.id)?.[1];
-    if (name && taken.has(editorForm(name))) throw new Error(`MapScript.galaxy already declares ${name}, a Kept ${name.startsWith("gt_") ? "trigger" : "variable"}; the compile's would have the same script name`);
+    const name = /^(?:trigger-variable|variable|function-declaration):(.*)$/.exec(piece.id)?.[1];
+    if (name && taken.has(editorForm(name))) throw new Error(`MapScript.galaxy already declares ${name}, a Kept ${name.startsWith("gt_") ? "trigger" : name.startsWith("gf_") ? "function" : "variable"}; the compile's would have the same script name`);
   }
   for (const piece of pieces) script = insertPiece(script, piece, eol, order);
   return { content: script, blocks: pieces.map((piece) => ({ id: piece.id, fingerprint: fingerprint(piece.text.replace(/\r?\n/g, eol)) })) };
@@ -351,7 +418,15 @@ export function spliceMapScript(
  */
 export function scriptBlocks(script: string): GalaxyBlock[] {
   const eol = eolOf(script);
-  return generatedPieces(script, script).map((piece) => ({ id: piece.id, fingerprint: fingerprint(piece.text.replace(/\r?\n/g, eol)) }));
+  const pieces = generatedPieces(script, script);
+  // The function sections are the compile's own (no Editor-saved script was there to hold them): recorded before what they hold, so a later splice takes them out once empty.
+  const sections = generatedPieces(script, "").filter((piece) => piece.id === "function-declarations" || piece.id === "functions");
+  const at = (id: string): number => pieces.findIndex((piece) => piece.id.startsWith(`${id}:`));
+  for (const section of sections) {
+    const index = at(section.id === "functions" ? "function" : "function-declaration");
+    pieces.splice(index < 0 ? pieces.length : index, 0, section);
+  }
+  return pieces.map((piece) => ({ id: piece.id, fingerprint: fingerprint(piece.text.replace(/\r?\n/g, eol)) }));
 }
 
 /**

@@ -24,7 +24,7 @@ import { type CompileRecord, type CompileRecordEntry, entryName, fingerprint, ty
 import { type Removal, removalOfLine } from "../domain/mod-blueprint.js";
 import { LIBRARY_ITEM_TYPES } from "../domain/library-interface.js";
 import { libraryStringKey } from "../mods/library-xml.js";
-import { editorGlobalName, editorTriggerName } from "../triggers/trigger-model.js";
+import { editorGlobalName, editorTriggerName, galaxyIdentifier } from "../triggers/trigger-model.js";
 import { packageModes } from "../util/package-file-mode.js";
 import { withoutCustomScriptInMapScript } from "../triggers/custom-script.js";
 import { editorForm, scriptBlocks, sharedBlocks, spliceMapScript } from "../triggers/splice-map-script.js";
@@ -364,15 +364,16 @@ export class PackageOutput {
         const key = libraryStringKey(library, LIBRARY_ITEM_TYPES[entry.kind], "Name", (entry as { id: string }).id);
         if (!listed(discard, `string:${TRIGGER_STRINGS}:${key}`)) this.keptNames.add(`name:${key}`);
       }
-      if (entry.kind !== "trigger" && entry.kind !== "variable") continue;
-      const type = entry.kind === "trigger" ? "Trigger" : "Variable";
+      // A map's own function (a Mission Blueprint's, ADR-0026) keeps its name and Galaxy as a trigger does.
+      if (entry.kind !== "trigger" && entry.kind !== "variable" && !(entry.kind === "function" && library === undefined)) continue;
+      const type = SCRIPT_TYPES[entry.kind];
       const key = library === undefined ? `${type}/Name/${entry.id}` : libraryStringKey(library, type, "Name", entry.id);
       if (!listed(discard, `string:${TRIGGER_STRINGS}:${key}`)) this.keptNames.add(`name:${key}`);
       // A mod library's Galaxy isn't MapScript's: it has no blocks to keep.
       if (library !== undefined) continue;
       for (const source of [strings, typeof freshStrings === "string" ? freshStrings : undefined]) {
         const name = triggerStringName(source, type, entry.id);
-        if (name !== undefined) this.keptScript.add(entry.kind === "trigger" ? editorTriggerName(name) : editorGlobalName(name));
+        if (name !== undefined) this.keptScript.add(scriptNameOf(entry.kind, name));
       }
     }
     const keptScript = new Set([...this.keptScript].map(editorForm));
@@ -386,14 +387,14 @@ export class PackageOutput {
     const unknown = "0".repeat(16);
     for (const entry of reowned) {
       entries.push({ ...entry, fingerprint: unknown } as CompileRecordEntry);
-      if (entry.kind !== "trigger" && entry.kind !== "variable") continue;
-      const type = entry.kind === "trigger" ? "Trigger" : "Variable";
+      if (entry.kind !== "trigger" && entry.kind !== "variable" && !(entry.kind === "function" && library === undefined)) continue;
+      const type = SCRIPT_TYPES[entry.kind];
       entries.push({ kind: "string", file: TRIGGER_STRINGS, key: library === undefined ? `${type}/Name/${entry.id}` : libraryStringKey(library, type, "Name", entry.id), fingerprint: unknown });
       if (library !== undefined) continue;
       const name = triggerStringName(strings, type, entry.id);
       if (name === undefined) continue;
-      const blocks = entry.kind === "trigger" ? ["trigger-variable", "trigger", "trigger-init"] : ["variable", "variable-init"];
-      const script = entry.kind === "trigger" ? editorTriggerName(name) : editorGlobalName(name);
+      const blocks = entry.kind === "trigger" ? ["trigger-variable", "trigger", "trigger-init"] : entry.kind === "function" ? ["function-declaration", "function"] : ["variable", "variable-init"];
+      const script = scriptNameOf(entry.kind, name);
       for (const block of blocks) entries.push({ kind: "galaxy-block", id: `${block}:${script}`, fingerprint: unknown });
     }
     this.previous = { version: 1, entries };
@@ -882,3 +883,9 @@ function inComponent(file: string, component: string): boolean {
   if (component === "GameText") return /^[a-z]{2}[A-Z]{2}\.SC2Data\/LocalizedData\//.test(file);
   return file === component;
 }
+
+/** The Triggers element type of a record kind with a script name: a trigger, a global or a map function. */
+const SCRIPT_TYPES = { trigger: "Trigger", variable: "Variable", function: "FunctionDef" } as const;
+
+/** The Galaxy name the Editor gives an element of `kind` named `name` (gt_, gv_, gf_). */
+const scriptNameOf = (kind: keyof typeof SCRIPT_TYPES, name: string): string => (kind === "trigger" ? editorTriggerName(name) : kind === "function" ? `gf_${galaxyIdentifier(name)}` : editorGlobalName(name));

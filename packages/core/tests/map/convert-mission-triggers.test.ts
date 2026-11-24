@@ -9,6 +9,7 @@ import { describe, expect, it } from "vitest";
 
 import { compileMission } from "../../src/map/compile-mission.js";
 import { convertKeptTriggers, convertMissionTriggers, type KeptPackageFiles } from "../../src/map/convert-mission-triggers.js";
+import { missionMapReach, missionTriggerReach } from "../../src/map/write-blueprint-trigger.js";
 import { type GameLibrary, gameTriggerLibraries } from "../../src/mods/library-galaxy.js";
 import { packageLibraries } from "../../src/mods/library-reach.js";
 import { CUTS, harbourWith, readPackage, savedAt } from "./harbour-cuts.js";
@@ -21,7 +22,7 @@ describe("convertMissionTriggers", () => {
 
     const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: ["Hyperion Fighter Acquire Target"] });
 
-    expect(converted).toEqual({ converted: [{ name: "Hyperion Fighter Acquire Target", id: "7611B84F", file: "triggers/hyperion-fighter-acquire-target.json" }], refused: [] });
+    expect(converted).toEqual({ converted: [{ kind: "trigger", name: "Hyperion Fighter Acquire Target", id: "7611B84F", file: "triggers/hyperion-fighter-acquire-target.json" }], refused: [] });
     const blueprint = JSON.parse(await readFile(mission.blueprintPath, "utf8"));
     expect(blueprint.triggers).toEqual(["triggers/hyperion-fighter-acquire-target.json"]);
     const written = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "triggers", "hyperion-fighter-acquire-target.json"), "utf8"));
@@ -198,9 +199,128 @@ describe("convertMissionTriggers", () => {
     const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: ["Opening Transmission"] });
 
     expect(converted.converted).toEqual([]);
-    expect(converted.refused).toEqual([{ trigger: "Opening Transmission", reason: "it calls VCMI/3F2DAB19 (and 10 more of its parts), which is out of reach: the library VCMI isn't in reach of the map (the game's, or a Workspace mod its dependencies load)" }]);
+    expect(converted.refused).toEqual([{ kind: "trigger", element: "Opening Transmission", reason: "it calls VCMI/3F2DAB19 (and 10 more of its parts), which is out of reach: the library VCMI isn't in reach of the map (the game's, or a Workspace mod its dependencies load)" }]);
     expect(JSON.parse(await readFile(mission.blueprintPath, "utf8")).triggers).toBeUndefined();
   });
+});
+
+describe("a Mission's Kept functions", () => {
+  const FUNCTIONS = ["Player Is In Combat", "Attack with Unburrowing Units", "Create Unburrowing Units"];
+
+  it("converts Kept functions into the Blueprint, each with its interface and body, and compiles them back to the same Triggers, Galaxy and names", async () => {
+    const mission = await harbourWith("map-functions");
+    const before = await readPackage(mission.mapDir);
+
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: FUNCTIONS });
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted.map((item) => [item.kind, item.name, item.id])).toEqual([
+      ["function", "Player Is In Combat", "C11903A4"],
+      ["function", "Attack with Unburrowing Units", "137917D7"],
+      ["function", "Create Unburrowing Units", "555E0ADA"],
+    ]);
+    const written = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "triggers", "player-is-in-combat.json"), "utf8"));
+    expect(written).toMatchObject({ kind: "function", id: "C11903A4", name: "Player Is In Combat", functionKind: "function", grammar: "Player ~player~ is in combat", returns: { type: "bool" }, label: "Ntve/1C34099B" });
+    expect(written.parameters).toEqual([expect.objectContaining({ id: "15EA95A3", name: "Player", type: { type: "int" } })]);
+    // A call to another of the map's functions names it by its Id alone.
+    const create = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "triggers", "create-unburrowing-units.json"), "utf8"));
+    expect(create.actions.map((call: { function: string }) => call.function)).toContain("137917D7");
+
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    const record = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "compile-record.json"), "utf8"));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "function", id: "C11903A4" }));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "galaxy-block", id: "function:gf_PlayerIsInCombat" }));
+    // And again, now that they're Compiled.
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    // The authoring tool still reaches each by name: from the Blueprint now, not the package.
+    const reach = await missionTriggerReach(mission.workspace, mission.blueprintPath);
+    expect(reach.kept.filter((item) => item.type === "FunctionDef")).toEqual([]);
+    expect(missionMapReach(reach, reach.authored.triggers).functions.map((fn) => fn.name)).toEqual(FUNCTIONS);
+  }, 60_000);
+
+  it("converts a function one at a time, the other it calls staying Kept", async () => {
+    const mission = await harbourWith("map-functions");
+    const before = await readPackage(mission.mapDir);
+
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: ["Create Unburrowing Units"] });
+
+    expect(converted.refused).toEqual([]);
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+  }, 60_000);
+
+  it("refuses a function whose declaration the script lacks, naming the block", async () => {
+    const read = (file: string): Promise<string> => readFile(path.join(CUTS, "function-flags", "thanson01", file), "utf8");
+    const files: KeptPackageFiles = { triggers: await read("Triggers"), triggerStrings: await read("TriggerStrings.txt"), script: await read("MapScript.galaxy"), gameStrings: new Map() };
+
+    const conversion = convertKeptTriggers(files, { triggers: ["Player Is In Combat"] });
+
+    expect(conversion.functions.converted).toEqual([]);
+    expect(conversion.functions.refused).toEqual([{ function: "Player Is In Combat", id: "C11903A4", reason: "MapScript.galaxy has no function-declaration:gf_PlayerIsInCombat: save the map in the Editor so it writes one, then convert it" }]);
+  });
+});
+
+describe("a Mission's Kept globals and comments", () => {
+  const GLOBALS = ["ZergPlayers", "EscortRouteRallyPoints", "ConvoyGuardCyclingLineIndex", "ColonistsDeathQuota"];
+  const COMMENTS = ["510996FC", "2E116177"];
+
+  it("converts Kept globals into the Blueprint's triggerVariables and comments into files, and compiles them back to the same Triggers, Galaxy and names", async () => {
+    const mission = await harbourWith("globals-comments");
+    const before = await readPackage(mission.mapDir);
+
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: [...GLOBALS, ...COMMENTS] });
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted.map((item) => [item.kind, item.name])).toEqual([...GLOBALS.map((name) => ["global", name]), ...COMMENTS.map((id) => ["comment", id])]);
+    const blueprint = JSON.parse(await readFile(mission.blueprintPath, "utf8"));
+    expect(blueprint.triggerVariables.map((variable: { name: string }) => variable.name)).toEqual(GLOBALS);
+    expect(blueprint.triggerVariables[1]).toMatchObject({ id: "9CC9DD0E", type: { type: "point", array: [{ size: 50 }] } });
+    expect(JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), blueprint.triggers[1]), "utf8"))).toEqual({ kind: "comment", id: "2E116177", comment: "Generate colonists" });
+    // The authoring tool reaches each converted global once, from the Blueprint, before any compile.
+    const reach = await missionTriggerReach(mission.workspace, mission.blueprintPath);
+    expect(missionMapReach(reach, reach.authored.triggers).globals.filter((global) => global.name === "ZergPlayers").map((global) => global.id)).toEqual(["819C3330"]);
+
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    const record = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "compile-record.json"), "utf8"));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "variable", id: "67430AD6" }));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "comment", id: "510996FC" }));
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+  }, 60_000);
+
+  it("refuses a constant global, naming why", async () => {
+    const read = (file: string): Promise<string> => readFile(path.join(CUTS, "custom-script", file), "utf8");
+    const files: KeptPackageFiles = { triggers: await read("Triggers"), triggerStrings: await read("TriggerStrings.txt"), script: await read("MapScript.galaxy"), gameStrings: new Map() };
+
+    const conversion = convertKeptTriggers(files);
+
+    expect(conversion.globals.refused).toContainEqual(expect.objectContaining({ reason: "it is a constant, which the Editor declares in Constants, a section the compile doesn't write yet" }));
+  });
+});
+
+describe("a Mission's Kept Trigger Folders", () => {
+  it("converts a Kept folder into the Blueprint's triggerFolders, still filing its Kept items, and compiles it back to the same Triggers and names", async () => {
+    const mission = await harbourWith("folders");
+    const before = await readPackage(mission.mapDir);
+
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: ["Main Objective - Reach Hanson"] });
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted).toEqual([{ kind: "folder", name: "Main Objective - Reach Hanson", id: "01D9CA01", file: "blueprint.json (triggerFolders)" }]);
+    expect(JSON.parse(await readFile(mission.blueprintPath, "utf8")).triggerFolders).toEqual([
+      { id: "01D9CA01", name: "Main Objective - Reach Hanson", items: ["variable:5003998F", "variable:388B41AD", "trigger:325E9AD9", "trigger:2532CD57", "trigger:CC3ED831"] },
+    ]);
+
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    const record = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "compile-record.json"), "utf8"));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "category", id: "01D9CA01" }));
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+  }, 60_000);
 });
 
 describe("a Kept trigger naming its Campaign Mod's globals", () => {
@@ -282,10 +402,38 @@ describe("convertKeptTriggers", () => {
     for (const { reason } of conversion.refused) expect(reason).not.toBe("");
   });
 
-  it("names each Kept element of a kind that doesn't convert yet", async () => {
-    const conversion = convertKeptTriggers(await transmission());
+  /** The `transmission` save with its trigger Objective (C8093D15) filed in a folder of the author's named `name`, as harbourWith files one. */
+  const inFolder = async (name: string): Promise<KeptPackageFiles> => {
+    const files = await transmission();
+    const triggers = files.triggers.replace(/( *)<Item Type="Trigger" Id="C8093D15"\/>/, '$1<Item Type="Category" Id="5A5AF001"/>').replace("</TriggerData>", '    <Element Type="Category" Id="5A5AF001">\r\n        <Item Type="Trigger" Id="C8093D15"/>\r\n    </Element>\r\n</TriggerData>');
+    return { ...files, triggers, triggerStrings: `${files.triggerStrings}Category/Name/5A5AF001=${name}\r\n` };
+  };
 
-    expect(conversion.notYetConvertible).toEqual([{ type: "Variable", id: "C7C0764E", name: "objective" }]);
+  it("takes a name a folder and a trigger share for the trigger", async () => {
+    const conversion = convertKeptTriggers(await inFolder("Objective"), { triggers: ["Objective"] });
+
+    expect(conversion.converted.map((item) => item.id)).toEqual(["C8093D15"]);
+    expect(conversion.folders.converted).toEqual([]);
+    expect(conversion.folders.refused).toEqual([]);
+  });
+
+  it("refuses a folder that files an item the last compile wrote, a concept's", async () => {
+    const conversion = convertKeptTriggers(await inFolder("Briefing"), { triggers: ["Briefing"], compiled: new Set(["Trigger/C8093D15"]) });
+
+    expect(conversion.folders.refused).toEqual([{ folder: "Briefing", id: "5A5AF001", reason: "it files trigger:C8093D15, which the compile writes for a Blueprint concept and may change: file it elsewhere in the Editor, or leave the folder Kept" }]);
+  });
+
+  it("checks the map's global and folder, leaving no Kept element of a kind that doesn't convert", async () => {
+    const files = await transmission();
+    // The global filed in a folder of the author's, as harbourWith files one.
+    const filed = files.triggers.replace(/( *)<Item Type="Variable" Id="C7C0764E"\/>/, '$1<Item Type="Category" Id="5A5AF001"/>').replace("</TriggerData>", '    <Element Type="Category" Id="5A5AF001">\r\n        <Item Type="Variable" Id="C7C0764E"/>\r\n    </Element>\r\n</TriggerData>');
+
+    const conversion = convertKeptTriggers({ ...files, triggers: filed, triggerStrings: `${files.triggerStrings}Category/Name/5A5AF001=Objectives\r\n` });
+
+    // An objective global's Galaxy the renderer doesn't write yet.
+    expect(conversion.globals.refused).toEqual([{ global: "objective", id: "C7C0764E", reason: "its Galaxy can't be written as the Editor does: it holds a local variable of type objective" }]);
+    expect(conversion.folders.converted.map((item) => item.name)).toEqual(["Objectives"]);
+    expect(conversion.notYetConvertible).toEqual([]);
   });
 
   it("skips the Compiled items", async () => {

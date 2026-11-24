@@ -1,0 +1,14 @@
+﻿FunctionDef/Grammar/C11903A4=Player ~player~ is in combat
+FunctionDef/Name/137917D7=Attack with Unburrowing Units
+FunctionDef/Name/555E0ADA=Create Unburrowing Units
+FunctionDef/Name/C11903A4=Player Is In Combat
+ParamDef/Name/15EA95A3=Player
+ParamDef/Name/4AFFB7C7=Type
+ParamDef/Name/57995503=Units
+ParamDef/Name/5E1063C2=Player
+ParamDef/Name/6410F682=Qty
+ParamDef/Name/A2662127=Loc
+ParamDef/Name/E726D5E9=Player
+Variable/Name/258CFDF9=InCombatIndicator
+Variable/Name/675BBD80=U
+Variable/Name/B9E53607=U

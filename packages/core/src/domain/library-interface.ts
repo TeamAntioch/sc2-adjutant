@@ -24,39 +24,56 @@ export const ElementRef = z.string().regex(/^[A-Za-z0-9]+\/[0-9A-F]{8}$/, "A ref
 /** A library id, as `<Library Id="…">` gives it and Galaxy names it (lib<id>_gf_…). */
 export const LibraryId = z.string().regex(/^[A-Za-z][A-Za-z0-9]*$/, "A library id is letters and digits, starting with a letter");
 
-/** A parameter's, variable's or return value's type: `<Type Value>`, with the preset type, game link catalog and so on it names. */
-export const TypeSpecSchema = z
-  .object({
-    type: z.string().min(1),
-    /** A preset type or structure (TypeElement), as `<library>/<id>`. */
-    element: ElementRef.optional(),
-    /** A game link's catalog (GameType), such as Character. */
-    gameType: z.string().min(1).optional(),
-    /** An asset's type (AssetType). */
-    assetType: z.string().min(1).optional(),
-    /** A user type (UserType). */
-    userType: z.string().min(1).optional(),
-  })
-  .strict();
 /**
- * A variable's type (`<VariableType>`): a parameter's or return value's type, and whether it is
- * constant or an array, which only a variable is.
+ * A reference in a map's GUI tree: a library's element as `<library>/<id>` (Ntve/00000136), or the
+ * map's own by its Id alone (a Kept or Blueprint function, as the Editor writes it with no Library).
  */
-export const VariableTypeSpecSchema = TypeSpecSchema.extend({
-  /** A constant variable's (`<Constant/>`): declared with its initial value, which nothing sets after. */
-  constant: z.boolean().optional(),
-  /**
-   * An array variable's size in each dimension, first to last (`<ArraySize Dim>`): a literal
-   * (`Value`), or a constant variable of the library (`Type="Variable"`), as `<library>/<id>`. Galaxy
-   * holds one more than each (`int[4]` for a size of 3, `[lib<id>_gv_<count> + 1]`).
-   */
-  array: z
-    .array(z.union([z.object({ size: z.number().int().positive() }).strict(), z.object({ variable: ElementRef }).strict()]))
-    .min(1)
-    .optional(),
-})
-  .strict()
-  .refine((type) => !(type.constant && type.array), "An array variable can't be constant: no Editor save has one");
+export const MapElementRef = z.union([ElementRef, ElementId]);
+
+/**
+ * A parameter's, variable's or return value's type (`<Type Value>`, with the preset type, game link
+ * catalog and so on it names), and a variable's (`<VariableType>`), which may also be constant or an
+ * array; with `Ref` the form its preset type, structure or array size names an element in: a
+ * library's always as `<library>/<id>`, a map's own by its Id alone (MapElementRef).
+ */
+function typeSchemas(Ref: z.ZodType<string>) {
+  const TypeSpecSchema = z
+    .object({
+      type: z.string().min(1),
+      /** A preset type or structure (TypeElement), as `<library>/<id>` (a map's own by its Id). */
+      element: Ref.optional(),
+      /** A game link's catalog (GameType), such as Character. */
+      gameType: z.string().min(1).optional(),
+      /** An asset's type (AssetType). */
+      assetType: z.string().min(1).optional(),
+      /** A user type (UserType). */
+      userType: z.string().min(1).optional(),
+    })
+    .strict();
+  const VariableTypeSpecSchema = TypeSpecSchema.extend({
+    /** A constant variable's (`<Constant/>`): declared with its initial value, which nothing sets after. */
+    constant: z.boolean().optional(),
+    /**
+     * An array variable's size in each dimension, first to last (`<ArraySize Dim>`): a literal
+     * (`Value`), or a constant variable (`Type="Variable"`), as `<library>/<id>` (a map's own by its
+     * Id). Galaxy holds one more than each (`int[4]` for a size of 3, `[lib<id>_gv_<count> + 1]`).
+     */
+    array: z
+      .array(z.union([z.object({ size: z.number().int().positive() }).strict(), z.object({ variable: Ref }).strict()]))
+      .min(1)
+      .optional(),
+  })
+    .strict()
+    .refine((type) => !(type.constant && type.array), "An array variable can't be constant: no Editor save has one");
+  return { TypeSpecSchema, VariableTypeSpecSchema };
+}
+const LIBRARY_TYPES = typeSchemas(ElementRef);
+/** A parameter's or return value's type, a library's. */
+export const TypeSpecSchema = LIBRARY_TYPES.TypeSpecSchema;
+/** A variable's type, a library's: a parameter's or return value's, and whether it is constant or an array, which only a variable is. */
+export const VariableTypeSpecSchema = LIBRARY_TYPES.VariableTypeSpecSchema;
+/** The types of a map's own elements (a Mission Blueprint's): a preset type, structure or array size of the map's own by its Id alone. */
+export const MAP_TYPES = typeSchemas(MapElementRef);
 /** A type as the writers take it: a variable's, which a parameter's or return value's is without its constant and sizes. */
 export type TypeSpec = z.infer<typeof VariableTypeSpecSchema>;
 /** One dimension of an array variable's size. */
@@ -151,9 +168,10 @@ function oneValue(value: Record<string, unknown>, context: z.RefinementCtx): voi
  * block slot or a preset takes: a library's always names its library (`<library>/<id>`, its own
  * too), a map's names a library's and gives the map's own by Id alone (MapElementRef); and with
  * `VariableRef` the form a variable (or a structure's member) takes: a library's own by Id alone, a
- * map's own by Id or a library's global (and its structures' members) as `<library>/<id>`.
+ * map's own by Id or a library's global (and its structures' members) as `<library>/<id>`; and
+ * with `VariableType` a variable's type.
  */
-function guiSchemas(Ref: z.ZodType<string>, VariableRef: z.ZodType<string>) {
+function guiSchemas(Ref: z.ZodType<string>, VariableRef: z.ZodType<string>, VariableType: typeof VariableTypeSpecSchema = VariableTypeSpecSchema) {
   const valueShape = {
     preset: Ref.optional(),
     presetElement: Ref.optional(),
@@ -221,7 +239,7 @@ function guiSchemas(Ref: z.ZodType<string>, VariableRef: z.ZodType<string>) {
       name: z.string(),
       /** Its Galaxy name, when the Editor was given one; else from its name. */
       identifier: z.string().min(1).optional(),
-      type: VariableTypeSpecSchema,
+      type: VariableType,
       /** Its initial value, when it has one. */
       value: HeldValueSchema.optional(),
     })
@@ -241,16 +259,12 @@ export type HeldValue = { readonly id: string } & GuiValue;
 export const GuiVariableSchema = LIBRARY_GUI.GuiVariableSchema;
 
 /**
- * A reference in a map's GUI tree: a library's element as `<library>/<id>` (Ntve/00000136), or the
- * map's own by its Id alone (a Kept or Blueprint function, as the Editor writes it with no Library).
- */
-export const MapElementRef = z.union([ElementRef, ElementId]);
-/**
  * The GUI tree's schemas for a map's own elements (a Mission Blueprint's triggers): the map's own
  * references are bare Ids, and a variable may be a library's global, or a member of a library's
- * structure, as `<library>/<id>` (Cmpn/E5539606), as the Editor writes it with its Library.
+ * structure, as `<library>/<id>` (Cmpn/E5539606), as the Editor writes it with its Library; a
+ * variable's type may name the map's own preset type, structure or constant by its Id.
  */
-export const MAP_GUI = guiSchemas(MapElementRef, MapElementRef);
+export const MAP_GUI = guiSchemas(MapElementRef, MapElementRef, MAP_TYPES.VariableTypeSpecSchema);
 export type GuiVariable = z.infer<typeof GuiVariableSchema>;
 
 /** A function's GUI body, as its source file in the mod's folder holds it. */

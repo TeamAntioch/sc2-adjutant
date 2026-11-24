@@ -13,6 +13,7 @@ import { afterEach } from "vitest";
 import { compileMission } from "../../src/map/compile-mission.js";
 import { importMap } from "../../src/map/import-map.js";
 import { loadWorkspace, type Workspace } from "../../src/plugins/workspace.js";
+import { keptElementSpan } from "../../src/triggers/splice-map-script.js";
 
 const FIXTURES = fileURLToPath(new URL("../fixtures/", import.meta.url));
 const CROSSING = path.join(FIXTURES, "workspaces", "crossing");
@@ -35,8 +36,10 @@ const crlf = (text: string): string => text.replace(/\r?\n/g, "\r\n");
 /**
  * `script` (the Editor's, CRLF) with a cut's Galaxy added as the Editor would hold it beside the
  * rest: its globals' declarations and initializations, its triggers' declarations, sections and
- * _Init calls, each at the end of its part, a constant among the globals. A map function's declaration or definition the cut
- * keeps isn't added: no test reads one.
+ * _Init calls, each at the end of its part, a constant among the globals; and each map function
+ * the cut keeps both the declaration and the definition of, in a Global Function Declarations and
+ * a Global Functions section, as the Editor writes them. A function the cut keeps only one of isn't
+ * added: no test reads one.
  */
 function withCutScript(script: string, cut: string): string {
   const lines = crlf(cut).split("\r\n");
@@ -58,6 +61,19 @@ function withCutScript(script: string, cut: string): string {
   // A trigger the cut keeps only the declaration of has no _Init to call.
   const sectioned = triggers.filter((name) => sections.some((section) => section.includes(`void ${name}_Init () {`)));
   out = at(out, /^void InitTriggers \(\) \{\r\n(?: {4}\w+_Init\(\);\r\n)*/m, sectioned.map((name) => `    ${name}_Init();\r\n`).join(""));
+  // A map function the cut keeps both the declaration and the definition of, in the sections the Editor writes them in.
+  const functions = lines.flatMap((line) => {
+    const name = /^\S[^(]* (gf_\w+) \([^)]*\);$/.exec(line)?.[1];
+    const span = name && keptElementSpan(crlf(cut), name);
+    return name && span ? [{ declaration: line, definition: crlf(cut).slice(span.start, span.end) }] : [];
+  });
+  if (functions.length > 0) {
+    const rule = "//--------------------------------------------------------------------------------------------------";
+    const variables = /^\/\/-+\r\n\/\/ Trigger Variables\r\n/m.exec(out)!;
+    out = `${out.slice(0, variables.index)}${rule}\r\n// Global Function Declarations\r\n${rule}\r\n${functions.map(({ declaration }) => `${declaration}\r\n`).join("")}\r\n${out.slice(variables.index)}`;
+    const first = /^\/\/-+\r\n\/\/ (Trigger: |Trigger Initialization\r\n)/m.exec(out)!;
+    out = `${out.slice(0, first.index)}${rule}\r\n// Global Functions\r\n${rule}\r\n${functions.map(({ definition }) => definition).join("")}${out.slice(first.index)}`;
+  }
   return out;
 }
 

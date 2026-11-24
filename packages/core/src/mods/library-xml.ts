@@ -87,7 +87,12 @@ function typeLines(indent: string, tag: string, type: TypeSpec, library: string 
     ...(type.assetType ? [`${indent}    <AssetType Value="${escapeXml(type.assetType)}"/>`] : []),
     ...(type.userType ? [`${indent}    <UserType Value="${escapeXml(type.userType)}"/>`] : []),
     ...(type.constant ? [`${indent}    <Constant/>`] : []),
-    ...(type.array ?? []).map((bound, dim) => `${indent}    <ArraySize Dim="${dim}" ${"size" in bound ? `Value="${bound.size}"` : `Type="Variable" Library="${refParts(bound.variable, library)[0]}" Id="${refParts(bound.variable, library)[1]}"`}/>`),
+    ...(type.array ?? []).map((bound, dim) => {
+      if ("size" in bound) return `${indent}    <ArraySize Dim="${dim}" Value="${bound.size}"/>`;
+      // A map's own constant names no Library.
+      const [lib, id] = refParts(bound.variable, library);
+      return `${indent}    <ArraySize Dim="${dim}" Type="Variable"${lib === undefined ? "" : ` Library="${lib}"`} Id="${id}"/>`;
+    }),
     `${indent}</${tag}>`,
   ];
 }
@@ -253,38 +258,43 @@ export class ElementWriter {
   }
 }
 
-/** The function's item line (filed in Root) and its elements, as the Editor writes them. */
-export function functionXml(library: string, fn: LibraryFunction, body?: GuiBody): { readonly itemLine: string; readonly elements: readonly string[] } {
-  const writer = new ElementWriter(library);
+/**
+ * The function's item line (filed in Root) and its elements, as the Editor writes them: a library's
+ * (`library`), its elements in its `<Library>` block, or, with no library, a map's own (a Mission
+ * Blueprint's, ADR-0026), its own references bare and its elements at the top of `<TriggerData>`.
+ */
+export function functionXml(library: string | undefined, fn: LibraryFunction, body?: GuiBody): { readonly itemLine: string; readonly elements: readonly string[] } {
+  const [element, child, grandchild] = library === undefined ? ["    ", ELEMENT, CHILD] : [ELEMENT, CHILD, GRANDCHILD];
+  const writer = new ElementWriter(library, element);
   const lib = library;
   const def = [
-    ...(fn.identifier ? [`${CHILD}<Identifier>${escapeXml(fn.identifier)}</Identifier>`] : []),
-    ...(fn.label ? [labelRefLine(fn.label, lib)] : []),
-    ...(fn.section !== undefined ? [`${CHILD}<Section Value="${escapeXml(fn.section)}"/>`] : []),
-    ...(fn.disabled ? [`${CHILD}<Disabled/>`] : []),
-    ...(fn.deprecated ? [`${CHILD}<Deprecated/>`] : []),
-    ...(fn.internal ? [`${CHILD}<Internal/>`] : []),
-    `${CHILD}<${KIND_FLAGS[fn.kind]}/>`,
-    ...fn.flags.map((flag) => `${CHILD}<${flagTag(flag)}/>`),
-    ...(fn.returns ? typeLines(CHILD, "ReturnType", fn.returns, lib) : []),
-    ...fn.parameters.map((parameter) => refLine(CHILD, "Parameter", "ParamDef", parameter.id, lib)),
-    ...fn.subFunctions.map((slot) => refLine(CHILD, "SubFunctionType", "SubFuncType", slot.id, lib)),
-    ...(body?.variables ?? []).map((variable) => refLine(CHILD, "Variable", "Variable", variable.id, lib)),
-    ...(body?.actions ?? []).map((statement) => refLine(CHILD, "FunctionCall", isComment(statement) ? "Comment" : "FunctionCall", statement.id, lib)),
-    ...(fn.script !== undefined ? scriptCodeLines(fn.script) : []),
+    ...(fn.identifier ? [`${child}<Identifier>${escapeXml(fn.identifier)}</Identifier>`] : []),
+    ...(fn.label ? [lib === undefined ? mapLabelLine(fn.label, child) : labelRefLine(fn.label, lib)] : []),
+    ...(fn.section !== undefined ? [`${child}<Section Value="${escapeXml(fn.section)}"/>`] : []),
+    ...(fn.disabled ? [`${child}<Disabled/>`] : []),
+    ...(fn.deprecated ? [`${child}<Deprecated/>`] : []),
+    ...(fn.internal ? [`${child}<Internal/>`] : []),
+    `${child}<${KIND_FLAGS[fn.kind]}/>`,
+    ...fn.flags.map((flag) => `${child}<${flagTag(flag)}/>`),
+    ...(fn.returns ? typeLines(child, "ReturnType", fn.returns, lib) : []),
+    ...fn.parameters.map((parameter) => refLine(child, "Parameter", "ParamDef", parameter.id, lib)),
+    ...fn.subFunctions.map((slot) => refLine(child, "SubFunctionType", "SubFuncType", slot.id, lib)),
+    ...(body?.variables ?? []).map((variable) => refLine(child, "Variable", "Variable", variable.id, lib)),
+    ...(body?.actions ?? []).map((statement) => refLine(child, "FunctionCall", isComment(statement) ? "Comment" : "FunctionCall", statement.id, lib)),
+    ...(fn.script !== undefined ? scriptCodeLines(fn.script, child, grandchild) : []),
   ];
-  writer.elements.push([`${ELEMENT}<Element Type="FunctionDef" Id="${fn.id}">`, ...def, `${ELEMENT}</Element>`].join("\n"));
+  writer.elements.push([`${element}<Element Type="FunctionDef" Id="${fn.id}">`, ...def, `${element}</Element>`].join("\n"));
   for (const parameter of fn.parameters) writer.parameter(parameter);
   for (const slot of fn.subFunctions) writer.subFunction(slot);
   for (const variable of body?.variables ?? []) writer.variable(variable);
   for (const statement of body?.actions ?? []) writer.statement(statement);
-  return { itemLine: `            <Item Type="FunctionDef" Library="${library}" Id="${fn.id}"/>`, elements: writer.elements };
+  return { itemLine: library === undefined ? `${ELEMENT}<Item Type="FunctionDef" Id="${fn.id}"/>` : `${CHILD}<Item Type="FunctionDef" Library="${library}" Id="${fn.id}"/>`, elements: writer.elements };
 }
 
-/** The function's TriggerStrings: its name, grammar and hint, its parameters', block slots' and variables' names. */
-export function functionStrings(library: string, fn: LibraryFunction, body?: GuiBody): Record<string, string> {
+/** The function's TriggerStrings: its name, grammar and hint, its parameters', block slots' and variables' names; a map's own (no library) keyed `<Type>/<Field>/<id>`. */
+export function functionStrings(library: string | undefined, fn: LibraryFunction, body?: GuiBody): Record<string, string> {
   const out: Record<string, string> = {};
-  const key = (type: string, field: "Name" | "Grammar" | "Hint", id: string): string => libraryStringKey(library, type, field, id);
+  const key = (type: string, field: "Name" | "Grammar" | "Hint", id: string): string => (library === undefined ? `${type}/${field}/${id}` : libraryStringKey(library, type, field, id));
   out[key("FunctionDef", "Name", fn.id)] = fn.name;
   if (fn.grammar !== undefined) out[key("FunctionDef", "Grammar", fn.id)] = fn.grammar;
   if (fn.hint !== undefined) out[key("FunctionDef", "Hint", fn.id)] = fn.hint;
@@ -481,6 +491,11 @@ export function readMapFunction(elements: LibraryElements, strings: ReadonlyMap<
   return new Reader(elements, strings, undefined, id, true).read().fn;
 }
 
+/** A map's own function (mapElements) whole, as functionXml writes it with no library: its interface and its GUI body. A form this file doesn't write is refused (UnconvertibleFunctionError). */
+export function readMapFunctionWhole(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): { readonly fn: LibraryFunction; readonly body?: GuiBody } {
+  return new Reader(elements, strings, undefined, id).read();
+}
+
 /** The elements of a map's own trigger list, outside every library it embeds, by type and Id (LibraryElements). */
 export function mapElements(xml: string): Map<string, XmlNode> {
   const data = xmlTree(xml).find((node) => node.name === "TriggerData");
@@ -489,6 +504,23 @@ export function mapElements(xml: string): Map<string, XmlNode> {
 
 /** A map's trigger as a Mission Blueprint holds it (ADR-0026), less its `kind` and its text values' words. */
 export type MapTrigger = Omit<BlueprintTrigger, "kind" | "strings">;
+
+/** One of a map's own items other than a function (mapElements): a folder, preset type, record, comment or custom script, as a library's is read, its own references bare. A form this file doesn't write is refused (UnconvertibleFunctionError). */
+export function readMapItem(elements: LibraryElements, strings: ReadonlyMap<string, string>, type: string, id: string): LibraryItem {
+  return new Reader(elements, strings, undefined, id).readItem(type);
+}
+
+/** A map's own global (mapElements) with its initial value, as ElementWriter.variable writes it with no library; a form this file doesn't write is refused (UnconvertibleFunctionError). */
+export function readMapGlobal(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): GuiVariable {
+  return new Reader(elements, strings, undefined, id).variable(id);
+}
+
+/** A map's own comment filed in Root or a folder (mapElements), as ElementWriter.statement writes it with no library; refused (UnconvertibleFunctionError) where it holds what a comment among statements doesn't. */
+export function readMapComment(elements: LibraryElements, strings: ReadonlyMap<string, string>, id: string): { readonly id: string; readonly comment: string } {
+  const comment = new Reader(elements, strings, undefined, id).comment(id);
+  if (!("comment" in comment) || comment.disabled || comment.sub !== undefined) throw new UnconvertibleFunctionError(id, "it is a disabled comment or one in a block slot, which no item of Root or a folder is");
+  return { id: comment.id, comment: comment.comment };
+}
 
 /**
  * Reads one trigger of a map's own list (mapElements) with its names (TriggerStrings'
@@ -698,7 +730,7 @@ class Reader {
     return attr(ref, "Type") === "Comment" ? this.comment(id) : this.call(id);
   }
 
-  private comment(id: string): GuiStatement {
+  comment(id: string): GuiStatement {
     const node = this.element(id, "Comment");
     this.only(node, ["Comment", "SubFunctionType", "Disabled"]);
     const text = node.children.find((child) => child.name === "Comment");
@@ -758,7 +790,7 @@ class Reader {
     return def ? this.held(this.ref(def, true)) : undefined;
   }
 
-  private variable(id: string): GuiVariable {
+  variable(id: string): GuiVariable {
     const node = this.element(id, "Variable");
     this.only(node, ["Identifier", "VariableType", "Value"]);
     const child = (tag: string): XmlNode | undefined => node.children.find((c) => c.name === tag);

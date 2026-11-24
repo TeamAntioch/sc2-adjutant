@@ -12,14 +12,14 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import type { BlueprintTrigger } from "../domain/blueprint-trigger.js";
+import type { BlueprintFunction, BlueprintTrigger } from "../domain/blueprint-trigger.js";
 import type { MissionBlueprint } from "../domain/mission-blueprint.js";
 import { heldIds, type GuiVariable, type LibraryFunction, type TypeSpec } from "../domain/library-interface.js";
 import type { GameLibrary } from "../mods/library-galaxy.js";
-import { ElementWriter, mapElements, readMapFunction, stringTable, UnconvertibleFunctionError } from "../mods/library-xml.js";
+import { ElementWriter, functionStrings, mapElements, readMapFunction, stringTable, UnconvertibleFunctionError } from "../mods/library-xml.js";
 import { parseMissionBlueprint, type Workspace } from "../plugins/workspace.js";
 import { type AuthoringTrigger, AuthoringError, AuthoringTriggerSchema, authorTrigger, type MapPreset, type MapReach } from "../triggers/author-trigger.js";
-import { type AuthoredTrigger, type AuthoredTriggers, blueprintReferenceProblems, blueprintTriggerFile, blueprintTriggerIds, blueprintTriggerXml, readAuthoredTriggers, unknownParts } from "../triggers/blueprint-triggers.js";
+import { type AuthoredTrigger, type AuthoredTriggers, blueprintFunctionIds, blueprintFunctionXml, blueprintReferenceProblems, blueprintTriggerFile, blueprintTriggerIds, blueprintTriggerXml, libraryForm, readAuthoredTriggers, unknownParts } from "../triggers/blueprint-triggers.js";
 import { KeptGalaxyRenderer, textValueKeys } from "../triggers/kept-trigger-galaxy.js";
 import { libraryItems, recordedItemKeys } from "../triggers/splice-triggers.js";
 import { CORE_PRIMITIVES } from "../triggers/trigger-catalog.js";
@@ -93,17 +93,18 @@ function keptVariableType(node: XmlNode | undefined): TypeSpec | undefined {
  * The map's own elements a trigger may name, for the authoring tool (MapReach): the `kept` items'
  * functions (their interfaces; one that can't be read is left out, so a call to it is refused as
  * one not in reach), globals, triggers and preset types, by their names in TriggerStrings; the
- * Blueprint's own globals and triggers; and the enUS GameStrings' words, for a Kept function's
+ * Blueprint's own globals, triggers and functions; and the enUS GameStrings' words, for a Kept function's
  * text defaults.
  */
 export function authoringMapReach(
   files: { readonly triggers: string; readonly triggerStrings: string; readonly gameStrings: readonly string[] },
   kept: readonly { readonly type: string; readonly id: string }[],
-  blueprint: { readonly triggers: readonly AuthoredTrigger[]; readonly variables: readonly GuiVariable[] },
+  blueprint: { readonly triggers: readonly AuthoredTrigger[]; readonly variables: readonly GuiVariable[]; readonly functions?: readonly BlueprintFunction[] },
 ): MapReach {
   const strings = stringTable(files.triggerStrings);
   const elements = mapElements(files.triggers);
-  const functions: LibraryFunction[] = [];
+  // The Blueprint's own functions, as a Kept one's interface is read.
+  const functions: LibraryFunction[] = (blueprint.functions ?? []).map((fn) => libraryForm(fn).fn);
   for (const item of kept.filter((each) => each.type === "FunctionDef")) {
     try {
       functions.push(readMapFunction(elements, strings, item.id));
@@ -181,8 +182,14 @@ export async function missionTriggerReach(workspace: Workspace, blueprintPath: s
   const { files, gameStrings } = await packageFiles(blueprintPath);
   const record = await readCompileRecord(blueprintPath);
   const compiled = record ? recordedItemKeys(record.entries) : new Set<string>();
-  const owned = new Set(authored.triggers.map(({ trigger }) => trigger.id));
-  const kept = [...libraryItems(files.triggers)].filter(([key, item]) => !compiled.has(key) && !(item.type === "Trigger" && owned.has(item.id))).map(([, item]) => item);
+  // The Blueprint's own triggers, functions, globals and comments are read from it, not the package's copies.
+  const owned = new Set([
+    ...authored.triggers.map(({ trigger }) => `Trigger/${trigger.id}`),
+    ...(authored.functions ?? []).map(({ fn }) => `FunctionDef/${fn.id}`),
+    ...(authored.variables ?? []).map((variable) => `Variable/${variable.id}`),
+    ...(authored.comments ?? []).map(({ comment }) => `Comment/${comment.id}`),
+  ]);
+  const kept = [...libraryItems(files.triggers)].filter(([key]) => !compiled.has(key) && !owned.has(key)).map(([, item]) => item);
   return { blueprint, authored, libraries: await missionLibraries(workspace, blueprint.dependencies ?? []), files, gameStrings, record, compiled, kept };
 }
 
@@ -192,7 +199,7 @@ export async function missionTriggerReach(workspace: Workspace, blueprintPath: s
  * triggers but the one written.
  */
 export const missionMapReach = ({ files, kept, authored }: MissionTriggerReach, others: readonly AuthoredTrigger[], except?: string): MapReach =>
-  authoringMapReach(files, kept.filter((item) => !(item.type === "Trigger" && item.id === except)), { triggers: others, variables: authored.variables ?? [] });
+  authoringMapReach(files, kept.filter((item) => !(item.type === "Trigger" && item.id === except)), { triggers: others, variables: authored.variables ?? [], functions: (authored.functions ?? []).map(({ fn }) => fn) });
 
 /**
  * Writes (or, for a Blueprint trigger of the same name, rewrites) the trigger `input` gives in the
@@ -225,6 +232,8 @@ export async function writeBlueprintTrigger(workspace: Workspace, blueprintPath:
     ...(record?.entries ?? []).flatMap((entry) => ("id" in entry && typeof entry.id === "string" && /^[0-9A-F]{8}$/.test(entry.id) ? [entry.id] : [])),
     ...others.flatMap(({ trigger }) => blueprintTriggerIds(trigger)),
     ...(authored.variables ?? []).flatMap((variable) => [variable.id, ...(variable.value ? heldIds(variable.value) : [])]),
+    ...(authored.functions ?? []).flatMap(({ fn }) => blueprintFunctionIds(fn)),
+    ...(authored.comments ?? []).map(({ comment }) => comment.id),
     ...authored.folders.map((folder) => folder.id),
   ]);
   const { trigger, calls, keptCalls } = authorTrigger(input, { libraries, map, taken, ...(previous ? { previous: previous.trigger } : {}) });
@@ -244,7 +253,7 @@ export async function writeBlueprintTrigger(workspace: Workspace, blueprintPath:
   const prefix = `the Blueprint trigger "${trigger.name}" (${trigger.id}, ${file}) `;
   const own = problems.filter((problem) => problem.startsWith(prefix)).map((problem) => problem.slice(prefix.length));
   if (own.length > 0) throw new AuthoringError(input.name, own.map((problem) => `it ${problem}`));
-  authoredTriggerGalaxy(trigger, others, authored.variables ?? [], files, names, libraries);
+  authoredTriggerGalaxy(trigger, others, authored.variables ?? [], files, names, libraries, (authored.functions ?? []).map(({ fn }) => fn));
 
   await mkdir(path.join(dir, "triggers"), { recursive: true });
   await writeFile(path.join(dir, ...file.split("/")), blueprintTriggerFile(trigger));
@@ -268,16 +277,22 @@ export function authoredTriggerGalaxy(
   files: { readonly triggers: string; readonly gameStrings: readonly string[] },
   keptNames: ReadonlyMap<string, string>,
   libraries: Readonly<Record<string, GameLibrary>>,
+  /** The Blueprint's functions, which stand over the package's copies as its triggers do. */
+  functions: readonly BlueprintFunction[] = [],
 ): string {
   const base = files.triggers;
   const eol = base.includes("\r\n") ? "\r\n" : "\n";
   const writer = new ElementWriter(undefined, "    ");
   for (const variable of globals) writer.variable(variable);
   // Later elements stand over the package's of the same key: a converted trigger's Kept copy, a compiled global.
-  const added = [...writer.elements, ...others.flatMap(({ trigger: other }) => blueprintTriggerXml(other)), ...blueprintTriggerXml(trigger)].map((element) => `${element.replace(/\r?\n/g, eol)}${eol}`).join("");
+  const added = [...writer.elements, ...functions.flatMap(blueprintFunctionXml), ...others.flatMap(({ trigger: other }) => blueprintTriggerXml(other)), ...blueprintTriggerXml(trigger)].map((element) => `${element.replace(/\r?\n/g, eol)}${eol}`).join("");
   const combined = readTriggersFile(base.replace(/^<\/TriggerData>/m, `${added}</TriggerData>`));
   const names = new Map(keptNames);
   for (const variable of globals) names.set(`Variable/${variable.id}`, variable.name);
+  for (const fn of functions) {
+    const { fn: form, body } = libraryForm(fn);
+    for (const [key, name] of Object.entries(functionStrings(undefined, form, body))) if (key.includes("/Name/")) names.set(key.replace("/Name/", "/"), name);
+  }
   for (const each of [...others.map(({ trigger: other }) => other), trigger]) {
     names.set(`Trigger/${each.id}`, each.name);
     for (const variable of each.variables) names.set(`Variable/${variable.id}`, variable.name);

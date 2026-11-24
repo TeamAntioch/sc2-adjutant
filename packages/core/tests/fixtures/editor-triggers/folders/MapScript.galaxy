@@ -1,0 +1,10 @@
+//--------------------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------------------
+int gv_objPing_ReachHanson;
+int gv_objective_ReachHanson;
+
+void InitGlobals () {
+    gv_objPing_ReachHanson = c_invalidPingId;
+    gv_objective_ReachHanson = c_invalidObjectiveId;
+}
