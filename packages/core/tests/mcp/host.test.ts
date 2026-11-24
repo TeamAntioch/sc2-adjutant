@@ -514,3 +514,64 @@ describe("review regressions", () => {
     expect((await loadHost(machine)).adapter).toBeUndefined();
   });
 });
+
+describe("bank fixtures (#55)", () => {
+  const BANK = '<Bank><Section name="S"><Key name="a"><Value int="1"/></Key></Section></Bank>';
+  const nameFixture = async (root: string, bankFixture: string) => {
+    const file = path.join(root, "missions", "lava-field", "blueprint.json");
+    await writeFile(file, JSON.stringify({ ...JSON.parse(await readFile(file, "utf8")), bankFixture }));
+  };
+
+  it("makes test_mission refuse a fixture naming a missing folder, before compiling or touching any bank", async () => {
+    const root = await field();
+    await nameFixture(root, "../../bank-fixtures/after-two");
+    const client = await connect(root, await machineConfig({ hostAdapter: fixture("hosts/bare") }));
+    const reply = await client.callTool({ name: "test_mission", arguments: { mission: "lava-field" } });
+    expect(reply.isError).toBe(true);
+    expect(text(reply)).toContain("bankFixture ../../bank-fixtures/after-two names a folder that doesn't exist");
+    expect(existsSync(path.join(root, "missions", "lava-field", "Lava-Field.SC2Map"))).toBe(false);
+  });
+
+  it("makes test_mission refuse a fixture on a host that can't run it, rather than play on the author's banks", async () => {
+    const root = await field();
+    await mkdir(path.join(root, "bank-fixtures", "after-two"), { recursive: true });
+    await writeFile(path.join(root, "bank-fixtures", "after-two", "Score.SC2Bank"), BANK);
+    await nameFixture(root, "../../bank-fixtures/after-two");
+    const client = await connect(root, await machineConfig({ hostAdapter: fixture("hosts/bare") }));
+    const reply = await client.callTool({ name: "test_mission", arguments: { mission: "lava-field" } });
+    expect(reply.isError).toBe(true);
+    expect(text(reply)).toContain("Not compiled; nothing was played");
+  });
+
+  it("has check_workspace report a fixture naming a missing folder", async () => {
+    const root = await field();
+    await nameFixture(root, "../../bank-fixtures/after-two");
+    const { checkWorkspace } = await import("../../src/plugins/check-workspace.js");
+    expect((await checkWorkspace(root)).problems).toContainEqual({ mission: "lava-field", file: "missions/lava-field/blueprint.json", path: "bankFixture", message: expect.stringContaining("names a folder that doesn't exist") });
+    await mkdir(path.join(root, "bank-fixtures", "after-two"), { recursive: true });
+    await writeFile(path.join(root, "bank-fixtures", "after-two", "Score.SC2Bank"), BANK);
+    expect((await checkWorkspace(root)).problems.filter((problem) => problem.path === "bankFixture")).toEqual([]);
+  });
+
+  it("saves the game's banks as a fixture in the Workspace, and writes nowhere else", async () => {
+    const root = await field();
+    const file = await machineConfig({ hostAdapter: fixture("hosts/banks") });
+    await writeFile(file, JSON.stringify({ hostAdapter: fixture("hosts/banks"), cacheDir: path.join(path.dirname(file), "cache") }));
+    const banks = path.join(path.dirname(file), "Banks");
+    await mkdir(banks, { recursive: true });
+    await writeFile(path.join(banks, "Score.SC2Bank"), BANK);
+    await writeFile(path.join(banks, "other.txt"), "x");
+    const client = await connect(root, file, {});
+    const reply = await client.callTool({ name: "save_bank_fixture", arguments: { name: "after-two" } });
+    expect(reply.isError).toBeFalsy();
+    expect(text(reply)).toContain('"bankFixture": "../../bank-fixtures/after-two"');
+    expect(await readdir(path.join(root, "bank-fixtures", "after-two"))).toEqual(["Score.SC2Bank"]);
+    expect(await readFile(path.join(banks, "Score.SC2Bank"), "utf8")).toBe(BANK);
+    // Not over a fixture that's there, unless asked.
+    expect((await client.callTool({ name: "save_bank_fixture", arguments: { name: "after-two" } })).isError).toBe(true);
+    expect((await client.callTool({ name: "save_bank_fixture", arguments: { name: "after-two", overwrite: true } })).isError).toBeFalsy();
+    // A name can't leave the folder.
+    expect((await client.callTool({ name: "save_bank_fixture", arguments: { name: "../escape" } })).isError).toBe(true);
+    expect(existsSync(path.join(root, "escape"))).toBe(false);
+  });
+});

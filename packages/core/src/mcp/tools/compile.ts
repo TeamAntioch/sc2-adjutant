@@ -26,7 +26,8 @@ import { formatKeptReport, KEPT_COMPONENTS, keptReport } from "../../mods/kept-r
 import { formatProposedRemovals, proposeRemovals } from "../../mods/removals.js";
 import { readWorkspaceMod } from "../../mods/workspace-mods.js";
 import { missionMapPackage } from "../../map/mission-package.js";
-import { missionBlueprintPath } from "../../plugins/workspace.js";
+import { missionBlueprintPath, readRawBlueprint } from "../../plugins/workspace.js";
+import { hostContext } from "../../host/machine-config.js";
 import { editorDecisions } from "../../map/editor-changes.js";
 import { realPathOf } from "../../util/inside.js";
 import { MissionSchema, plain } from "./schemas.js";
@@ -36,6 +37,9 @@ import { hasKeptTerrain } from "../../domain/mission-blueprint.js";
 import { buildLayoutModel } from "../../layout/layout-model.js";
 import { routeTestResults } from "../../layout/route-checks.js";
 import { type CallContext } from "../call-context.js";
+import { BANK_FIXTURES_FOLDER, missionBankFixture } from "../../capture/bank-fixtures.js";
+import { fixtureBanks, saveBanksAsFixture, unrestoredFixtureRun } from "../../capture/bank-snapshots.js";
+import { bankReport } from "./bank-report.js";
 import { ADDITIVE, DESTRUCTIVE, READ_ONLY, toolGroup } from "./tool-group.js";
 
 const LineChangeSchema = z.object({ line: z.string(), kept: z.string(), script: z.string() });
@@ -94,7 +98,7 @@ const DECISION_INPUTS = {
 };
 
 /** The tools registerCompileTools can register, the compile group. */
-export const COMPILE_TOOLS = ["compile_map", "import_map", "import_mod", "compile_mod", "convert_sound_set", "convert_entries", "convert_files", "convert_assets", "convert_library", "convert_triggers", "convert_screenplay", "propose_removals", "kept_report", "compile_melee_map", "test_mission"] as const;
+export const COMPILE_TOOLS = ["compile_map", "import_map", "import_mod", "compile_mod", "convert_sound_set", "convert_entries", "convert_files", "convert_assets", "convert_library", "convert_triggers", "convert_screenplay", "propose_removals", "kept_report", "compile_melee_map", "test_mission", "bank_changes", "save_bank_fixture"] as const;
 
 export function registerCompileTools(server: McpServer, ctx: CallContext): void {
   const tool = toolGroup(server, COMPILE_TOOLS);
@@ -592,7 +596,7 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
       title: "Test a Mission in the game",
       annotations: DESTRUCTIVE,
       description:
-        "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
+        "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. When the Blueprint names a bankFixture (a folder of .SC2Bank files in the Workspace, as a path from the Blueprint's folder), the run plays on that fixture's banks instead: they are copied into the Banks folder after the snapshot, and the author's own are put back when the game quits, even if the run fails, with nothing for the author to keep or roll back (on a host that can't tell when the game quit, bank_changes with rollbackAll puts them back once the author says it has quit); a new test is refused until they are back. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
       inputSchema: { mission: MissionSchema, ...DECISION_INPUTS },
       outputSchema: {
         mapPath: z.string(),
@@ -611,16 +615,29 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
       // Checked before the compile, which would rewrite the map under the Editor.
       const open = await editorHasOpen(ctx.host, mapPath, "test_mission", "Not compiled");
       if (open) return ctx.fail(open.text, { mapPath, automated: [], steps: open.steps });
+      // The Mission's bank fixture, read before anything is compiled or the banks are touched.
+      let fixture;
+      try {
+        fixture = await missionBankFixture(workspace.root, blueprintPath, (await readRawBlueprint(blueprintPath)).bankFixture as string | undefined);
+        if (fixture && !(ctx.host.has("editor.testDocument") && ctx.host.has("editor.captureTour") && ctx.host.has("game.banksDir"))) {
+          throw new Error(`The Mission names the bank fixture ${fixture.name}, which needs this machine's Host Adapter to run Test Document through the Editor Broker and name the game's Banks folder (editor.testDocument, editor.captureTour, game.banksDir). Not compiled; nothing was played`);
+        }
+      } catch (error) {
+        return ctx.fail(error instanceof Error ? error.message : String(error), { mapPath, automated: [], steps: [] });
+      }
+      // What the last test game did to the Banks folder, before this one's snapshot makes it the baseline.
+      const earlierBanks = (await bankReport(ctx.host)).lines;
       const started = Date.now();
       const { blueprint, warnings, placeholders } = await oneAtATime(await realPathOf(mapPath), () => compileMission(workspace, blueprintPath, mapPath, { host: ctx.host, decisions: editorDecisions(choices) }));
       // What is left of the request's time after the compile and its voice lines, for the Editor and the game.
       const seconds = Math.max(TEST_MIN_SECONDS, TEST_BUDGET_SECONDS - Math.ceil((Date.now() - started) / 1000));
-      const handoff = await testInGame(ctx.host, mapPath, seconds);
+      const handoff = await testInGame(ctx.host, mapPath, seconds, fixture);
       const voices = describePlaceholders(placeholders);
       const declared = blueprint.tests?.routes.length ?? 0;
       const kept = declared > 0 && hasKeptTerrain(blueprint);
       const routeTests = declared > 0 && !kept ? routeTestResults(buildLayoutModel(blueprint)) : [];
       const lines = [
+        ...(earlierBanks.length > 0 ? [...earlierBanks, ""] : []),
         `Compiled ${blueprint.title} to ${mapPath}`,
         ...warnings.map((warning) => `Warning: ${warning}`),
         ...(voices ? [voices] : []),
@@ -632,6 +649,75 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
         await stageHint(blueprintPath),
       ];
       return ctx.reply(lines.join("\n"), { mapPath, automated: handoff.automated, steps: handoff.steps, routeTests });
+    },
+  );
+
+  tool(
+    "bank_changes",
+    {
+      title: "Banks a test game changed",
+      annotations: DESTRUCTIVE,
+      description:
+        "Reports which banks the last test_mission game added, changed or removed in the game's Banks folder (the shared folder the campaign's banks live in), and for a changed bank which sections and keys changed, from a snapshot taken just before the game started. The author decides what happens to each: keep a bank as the game left it, or roll it back to the snapshot (a bank the run added is deleted). Nothing is rolled back unless the author says so, so ask them, then call again with keep and rollback (bank names as listed), or keepAll and rollbackAll. A game still running is reported so far and nothing is applied until it quits. Snapshots live in the machine's cache and only the newest few are kept. Needs a Host Adapter that names the Banks folder (game.banksDir).",
+      inputSchema: {
+        keep: z.array(z.string().min(1)).optional().describe("Banks, as listed, to leave as the game left them"),
+        rollback: z.array(z.string().min(1)).optional().describe("Banks, as listed, to put back as they were before the game: the snapshot's copy replaces the bank, and a bank the game added is deleted"),
+        keepAll: z.boolean().optional().describe("Keep every bank still waiting for an answer (a bank in rollback still goes back)"),
+        rollbackAll: z.boolean().optional().describe("Roll back every bank still waiting for an answer (a bank in keep stays)"),
+      },
+      outputSchema: {
+        changes: z.array(
+          z.object({
+            bank: z.string(),
+            status: z.enum(["added", "changed", "removed"]),
+            resolution: z.enum(["kept", "rolled-back"]).optional(),
+            sections: z.array(z.object({ section: z.string(), status: z.string(), keys: z.array(z.object({ key: z.string(), status: z.string(), before: z.string().optional(), after: z.string().optional() })) })),
+          }),
+        ),
+      },
+    },
+    async (choices) => {
+      if (!ctx.host.has("game.banksDir")) return ctx.fail("This machine's Host Adapter can't name the game's Banks folder (game.banksDir), so no test game was snapshotted.", { changes: [] });
+      let report;
+      try {
+        report = await bankReport(ctx.host, choices);
+      } catch (error) {
+        return ctx.fail(error instanceof Error ? error.message : String(error), { changes: [] });
+      }
+      const changes = report.run?.changes ?? [];
+      return ctx.reply(report.lines.length > 0 ? report.lines.join("\n") : "No test game has changed a bank that waits for an answer.", { changes });
+    },
+  );
+
+  tool(
+    "save_bank_fixture",
+    {
+      title: "Save the game's banks as a bank fixture",
+      annotations: ADDITIVE,
+      description:
+        "Copies the .SC2Bank files in the game's Banks folder (from the Host Adapter's game.banksDir) into a new folder `<Workspace>/bank-fixtures/<name>/`, to be named by a Mission's Blueprint as its bankFixture (a path from the Blueprint's folder, e.g. ../../bank-fixtures/<name>). It reads the Banks folder and writes nothing outside that destination. Refused while a test game's banks haven't been put back, or a test game runs, since the folder then holds a fixture's banks; refused when the destination already holds banks, unless overwrite is true. Set the campaign up in the game first (play to the state the fixture should hold), then call this.",
+      inputSchema: {
+        name: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]*$/, "letters, digits, dots, hyphens and underscores").describe("The fixture's folder name, e.g. after-mission-2"),
+        overwrite: z.boolean().optional().describe("Replace the banks of a fixture of that name that already exists"),
+      },
+      outputSchema: { fixture: z.string().optional(), banks: z.array(z.string()) },
+    },
+    async ({ name, overwrite }) => {
+      if (!ctx.host.has("game.banksDir")) return ctx.fail("This machine's Host Adapter can't name the game's Banks folder (game.banksDir).", { banks: [] });
+      const workspace = await ctx.workspace();
+      const dir = path.join(workspace.root, BANK_FIXTURES_FOLDER, name);
+      try {
+        const cacheDir = hostContext(ctx.host.machine).requirePath("cacheDir");
+        const pending = await unrestoredFixtureRun(cacheDir);
+        if (pending) return ctx.fail(`The last test game ran on the bank fixture ${pending.fixture} and the author's banks aren't back in the Banks folder yet, so it can't be saved: quit the game, then call bank_changes${ctx.host.has("game.running") ? "" : " with rollbackAll"}.`, { banks: [] });
+        if (ctx.host.has("game.running") && (await ctx.host.run("game.running", {}).catch(() => false))) return ctx.fail("The game is running and may be writing banks: quit it first.", { banks: [] });
+        if (!overwrite && (await fixtureBanks(dir)).length > 0) return ctx.fail(`${path.relative(workspace.root, dir)} already holds banks: pick another name, or pass overwrite.`, { banks: [] });
+        const banks = await saveBanksAsFixture(await ctx.host.run("game.banksDir", {}), dir);
+        const relative = path.relative(workspace.root, dir).split(path.sep).join("/");
+        return ctx.reply(`Saved ${banks.length} bank${banks.length === 1 ? "" : "s"} to ${relative}: ${banks.join(", ")}\nName it in a Mission's Blueprint: "bankFixture": "${path.relative(path.join(workspace.missionsDir, "<mission>"), dir).split(path.sep).join("/")}"`, { fixture: relative, banks });
+      } catch (error) {
+        return ctx.fail(error instanceof Error ? error.message : String(error), { banks: [] });
+      }
     },
   );
 }

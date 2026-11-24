@@ -8,6 +8,7 @@ The Windows **Host Adapter** for [sc2-adjutant](https://github.com/TeamAntioch/s
 |---|---|
 | `editor.open`, `editor.checkClosed` | Opens a Map Package in the Galaxy Editor, and tells whether the Editor has it open. |
 | `editor.testDocument`, `editor.save` | Runs File > Test Document, and saves a throwaway copy of a map, through the Editor's menu. |
+| `game.banksDir` | The folder the game keeps its banks in; test_mission snapshots it around a test game. |
 | `editor.captureTour`, `editor.closeCaptureCopies` | Plays a capture map and screenshots each camera stop, then closes it unsaved. |
 | `game.launch` | Starts the game on a Map Package without the Editor. |
 | `screen.capture` | Captures the game's window, even when other windows cover it. |

@@ -40,6 +40,7 @@ const CAPABILITIES = [
   "editor.save",
   "editor.captureTour",
   "editor.closeCaptureCopies",
+  "game.banksDir",
   "screen.capture",
   "game.launch",
   "tts.speak",

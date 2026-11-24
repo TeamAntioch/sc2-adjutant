@@ -90,7 +90,7 @@ export const TEST_MIN_SECONDS = 15;
  * Editor Broker, refused at once while a capture runs or waits (the reason says which), since it
  * can't wait one out; and no capture starts until the game it starts has quit.
  */
-export async function testInGame(host: Host, mapPath: string, seconds: number): Promise<Handoff> {
+export async function testInGame(host: Host, mapPath: string, seconds: number, bankFixture?: { readonly name: string; readonly dir: string }): Promise<Handoff> {
   const components = path.join(mapPath, "ComponentList.SC2Components");
   const openStep = `Open the Map Package in the StarCraft II Editor: File > Open, then choose ${components} (an unpacked Map Package opens through that file, not its folder). If the Editor already has this map open, close it without saving and open it again, since the Editor tests the copy it loaded.`;
   const testSteps = [
@@ -104,10 +104,12 @@ export async function testInGame(host: Host, mapPath: string, seconds: number): 
 
   if (host.has("editor.testDocument")) {
     try {
-      await runEditorAction(host, "editor.testDocument", { mapPath, seconds }, { ifIdle: true });
-      return { automated: ["Opened it in the Editor and ran Test Document: the game is starting on it."], steps: [testSteps[2]!] };
+      await runEditorAction(host, "editor.testDocument", { mapPath, seconds, ...(bankFixture ? { bankFixture } : {}) }, { ifIdle: true });
+      return { automated: [`Opened it in the Editor and ran Test Document: the game is starting on it${bankFixture ? `, with the banks of the fixture ${bankFixture.name} copied in; your own banks are put back when the game quits` : ""}.`], steps: [testSteps[2]!] };
     } catch (error) {
       if (error instanceof EditorBusyError) return busy(error);
+      // A refusal that comes with a fixture is the banks', not the Editor's: doing it by hand would play on the wrong banks.
+      if (bankFixture) return { automated: [], reason: failed("run Test Document on the bank fixture", error), steps: ["Fix that, then ask for the test again."] };
       return { automated: [], reason: failed("run Test Document", error), steps: [openStep, ...testSteps] };
     }
   }

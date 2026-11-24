@@ -2113,6 +2113,12 @@ const CoreBlueprintSchema = z
      */
     tests: z.object({ routes: z.array(RouteTestSchema).default([]) }).strict().optional(),
     /**
+     * A bank fixture (issue #55): a folder of `.SC2Bank` files in the Workspace, as a path from this
+     * Blueprint's folder. `test_mission` copies its banks into the game's Banks folder for the run and puts the author's back when the
+     * game quits. Without it a test game runs on the author's own banks.
+     */
+    bankFixture: z.string().min(1).optional(),
+    /**
      * Blend textures (CTerrainTex ids, up to 8) to use instead of the tileset's, also written as a
      * map-local tileset override, e.g. Meinhoff's textures on MonlythEx1.
      */

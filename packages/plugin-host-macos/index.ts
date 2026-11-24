@@ -24,7 +24,7 @@ import { promisify } from "node:util";
 import type { HostContext, PluginCode } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
 import { fragmentFor, refusalFor, windowState } from "./refresh.ts";
-import { captureScreen, captureTour, closeCaptureCopies, gameRunning } from "./capture-tour.ts";
+import { banksDir, captureScreen, captureTour, closeCaptureCopies, gameRunning } from "./capture-tour.ts";
 import { exportModel, exportModelGltf, rendererKey, renderModel } from "./whiteoutflakes.ts";
 
 const run = promisify(execFile);
@@ -237,6 +237,7 @@ const plugin: PluginCode = {
     "editor.captureTour": captureTour,
     "editor.closeCaptureCopies": closeCaptureCopies,
     "game.running": gameRunning,
+    "game.banksDir": banksDir,
     "screen.capture": captureScreen,
     "tts.speak": speak,
     "model.render": renderModel,
