@@ -102,7 +102,7 @@ export const SpecSchema = z
     title: z.string().optional(),
     /** An Editor-saved .SC2Map folder. */
     base: z.string(),
-    /** The map to write, inside an output/ folder. */
+    /** The map to write, inside an output/ folder; output/<name>.SC2Map beside the base map by default. */
     out: z.string().optional(),
     roots: z.record(z.string(), z.string()).default({}),
     stage: z

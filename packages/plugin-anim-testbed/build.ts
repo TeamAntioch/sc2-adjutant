@@ -279,7 +279,8 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   };
   const name = spec.name ?? name0;
   const base = resolve(spec.base);
-  const outMap = resolve(spec.out ?? `output/${name}.SC2Map`);
+  // By default beside the base map, in its folder's output/: a Mission's Map Package's, which a Workspace's .gitignore keeps out of commits.
+  const outMap = spec.out !== undefined ? resolve(spec.out) : path.join(path.dirname(base), "output", `${name}.SC2Map`);
   const scriptPath = path.join(path.dirname(outMap), `${name}.testbed.galaxy`);
   const fail = (message: string): BuildResult => {
     report.errors.push(message);

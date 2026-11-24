@@ -61,7 +61,7 @@ JSON, with `//` comments allowed. Paths are relative to the spec, or `<root>:pat
 |---|---|
 | `name`, `title` | The map's name (default: the spec's file name) and the dialog's title |
 | `base` | Any Editor-saved `.SC2Map` folder, usually the Mission's Map Package. Its triggers are replaced; its terrain and data are kept |
-| `out` | The map to write, inside an `output/` folder (default `output/<name>.SC2Map`) |
+| `out` | The map to write, inside an `output/` folder. By default `output/<name>.SC2Map` beside the base map: the Mission's git-ignored `output/` |
 | `roots` | `{ "x": "~/private/folder" }`, so a spec names private files (extracted game files, a model's exports) without machine paths |
 | `stage` | `at` [x, y] of the first unit, `gap` between units, `facing` (270: models face as exported), `fog` (false), `player` (0, neutral), and a tour's `cameraDistance` and `cameraShift` |
 | `target` | `{ "unit": "Zergling", "player": 1 }`: stands `reach` in front of the selected unit; impact sounds play on it. Optional |

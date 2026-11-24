@@ -212,6 +212,15 @@ describe("buildTestbed", () => {
     );
   });
 
+  it("writes the map beside the base map, in its output/, when the spec gives no out", async () => {
+    const { root, spec } = await mission();
+    await editSpec(spec, (s) => {
+      delete s.out;
+    });
+    const result = await buildTestbed(spec, { workspace: null, check: true });
+    expect(result.outMap).toBe(path.join(root, "output", "StockUnits.SC2Map"));
+  });
+
   it("writes the map only inside an output/ folder", async () => {
     const { spec } = await mission();
     await editSpec(spec, (s) => {
