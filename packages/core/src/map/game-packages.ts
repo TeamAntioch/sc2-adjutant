@@ -129,16 +129,16 @@ export function packageName(pkg: string): string {
   return file ? path.posix.basename(file.replace(/\\/g, "/")) : pkg;
 }
 
-/** Which of the game's packages define each CModel and CLight id (data/package-entries.json), by id: each id's packages, in the file's order. */
-export type PackageEntries = { readonly models: ReadonlyMap<string, readonly string[]>; readonly lights: ReadonlyMap<string, readonly string[]> };
+/** Which of the game's packages define each CModel, CLight and CSound id (data/package-entries.json), by id: each id's packages, in the file's order. */
+export type PackageEntries = { readonly models: ReadonlyMap<string, readonly string[]>; readonly lights: ReadonlyMap<string, readonly string[]>; readonly sounds: ReadonlyMap<string, readonly string[]> };
 
 export const PACKAGE_ENTRIES_PATH = path.join(CORE_DATA_DIR, "package-entries.json");
 let entries: PackageEntries | undefined;
 
-/** The game's packages' models and Lights, read once; a missing or damaged file is refused, naming how to make it again. */
+/** The game's packages' models, Lights and sounds, read once; a missing or damaged file is refused, naming how to make it again. */
 export function packageEntries(): PackageEntries {
   entries ??= (() => {
-    type Stored = { readonly packages: Readonly<Record<string, { readonly models: readonly string[]; readonly lights: readonly string[] }>> };
+    type Stored = { readonly packages: Readonly<Record<string, { readonly models: readonly string[]; readonly lights: readonly string[]; readonly sounds: readonly string[] }>> };
     let stored: Stored;
     try {
       stored = JSON.parse(readFileSync(PACKAGE_ENTRIES_PATH, "utf8")) as Stored;
@@ -147,11 +147,13 @@ export function packageEntries(): PackageEntries {
     }
     const models = new Map<string, string[]>();
     const lights = new Map<string, string[]>();
+    const sounds = new Map<string, string[]>();
     for (const [pkg, held] of Object.entries(stored.packages)) {
       for (const id of held.models) models.set(id, [...(models.get(id) ?? []), pkg]);
       for (const id of held.lights) lights.set(id, [...(lights.get(id) ?? []), pkg]);
+      for (const id of held.sounds) sounds.set(id, [...(sounds.get(id) ?? []), pkg]);
     }
-    return { models, lights };
+    return { models, lights, sounds };
   })();
   return entries;
 }

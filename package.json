@@ -33,6 +33,7 @@
     "convert-screenplay": "npm run build && node packages/core/dist/cli/convert-screenplay.js",
     "convert-triggers": "npm run build && node packages/core/dist/cli/convert-triggers.js",
     "convert-sound-set": "npm run build && node packages/core/dist/cli/convert-sound-set.js",
+    "sound-mix": "npm run build && node packages/core/dist/cli/sound-mix.js",
     "edit-kept": "npm run build && node packages/core/dist/cli/edit-kept.js",
     "survey": "npm run build && node packages/core/dist/cli/survey.js",
     "tune-kept": "npm run build && node packages/core/dist/cli/tune-kept.js",

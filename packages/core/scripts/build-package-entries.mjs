@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-// Regenerates data/package-entries.json: the CModel and CLight ids each of the game's packages
-// defines in its ModelData.xml and LightData.xml, for the compile's check that a Cinematic's cast,
-// Set pieces and Lights are loaded by the map's dependencies (src/map/game-packages.ts, #1019). An
-// id defined by several packages is listed under each, so a map loading any of them has it.
+// Regenerates data/package-entries.json: the CModel, CLight and CSound ids each of the game's
+// packages defines in its ModelData.xml, LightData.xml and SoundData.xml, for the compile's check
+// that a Cinematic's cast, Set pieces and Lights are loaded by the map's dependencies
+// (src/map/game-packages.ts, #1019), and sound-mix's check of its layers' CSounds
+// (src/mods/sound-mix.ts). An id defined by several packages is listed under each, so a map
+// loading any of them has it.
 //
 // The packages are those whose place in the engine's built-in dependency chains is known
 // (GAME_PACKAGES in src/map/game-packages.ts). Read from the pinned mirror of the game's data,
@@ -38,7 +40,7 @@ const PACKAGES = [
   "mods/voidprologue.sc2mod",
   "mods/novastoryassets.sc2mod",
 ];
-const CATALOGS = { models: ["ModelData.xml", "CModel"], lights: ["LightData.xml", "CLight"] };
+const CATALOGS = { models: ["ModelData.xml", "CModel"], lights: ["LightData.xml", "CLight"], sounds: ["SoundData.xml", "CSound"] };
 
 const local = process.argv[2];
 
@@ -64,8 +66,8 @@ for (const pkg of PACKAGES) {
   for (const [kind, [file, element]] of Object.entries(CATALOGS)) entries[kind] = ids(await catalog(pkg, file), element);
   packages[pkg] = entries;
 }
-const source = `${REPOSITORY} at ${COMMIT}: each package's base.sc2data/GameData ModelData.xml and LightData.xml`;
+const source = `${REPOSITORY} at ${COMMIT}: each package's base.sc2data/GameData ModelData.xml, LightData.xml and SoundData.xml`;
 // One id per line, so a new pin's diff reads.
 await writeFile(OUTPUT, `${JSON.stringify({ source, packages }, null, 1)}\n`);
-for (const [pkg, { models, lights }] of Object.entries(packages)) console.log(`${pkg}: ${models.length} models, ${lights.length} lights`);
+for (const [pkg, { models, lights, sounds }] of Object.entries(packages)) console.log(`${pkg}: ${models.length} models, ${lights.length} lights, ${sounds.length} sounds`);
 console.log(`-> ${path.relative(process.cwd(), OUTPUT)}`);

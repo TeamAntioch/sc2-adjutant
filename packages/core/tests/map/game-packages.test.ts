@@ -54,7 +54,7 @@ describe("the game packages a map's dependencies load", () => {
   });
 });
 
-describe("which game packages define a model or a Light", () => {
+describe("which game packages define a model, a Light or a sound", () => {
   it("records Nova Covert Ops' own models and Lights in its art mod alone", () => {
     expect(packageEntries().models.get("SMX3_NovaMP03")).toEqual(["mods/novastoryassets.sc2mod"]);
     expect(packageEntries().lights.get("SMX3_Cutscene_MP03_030_Bridge")).toEqual(["mods/novastoryassets.sc2mod"]);
@@ -68,5 +68,11 @@ describe("which game packages define a model or a Light", () => {
 
   it("knows nothing of a model none of the game's packages define", () => {
     expect(packageEntries().models.get("RadioDesk")).toBeUndefined();
+  });
+
+  it("records the CSounds each package defines", () => {
+    expect(packageEntries().sounds.get("Battlecruiser_YamatoAttackChargeUp")).toContain("mods/liberty.sc2mod");
+    expect(packageEntries().sounds.get("Nova_SniperRifleTail_Dummy")).toEqual(["mods/void.sc2mod"]);
+    expect(packageEntries().sounds.get("NoSuchSound")).toBeUndefined();
   });
 });

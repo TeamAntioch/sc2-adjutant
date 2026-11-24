@@ -19,6 +19,7 @@ import { lookUpTextures, searchTextures, TEXTURE_KINDS, TEXTURE_SUITS, TEXTURE_T
 import { stockTextures } from "../../catalog/stock-catalog.js";
 import { describeTexture, renderTextureSheet } from "../../catalog/texture-sheet.js";
 import { areaLine, legendLine, missionTextureUsage } from "../../map/texture-usage.js";
+import { checkSoundMixes, definedSounds, SoundMixSchema, soundMixEntries, soundMixWiring, soundMixXml, workspaceSounds } from "../../mods/sound-mix.js";
 import { DOODAD_KINDS, DOODAD_ROLES, DOODAD_SIZES } from "@team-antioch/sc2-asset-catalog/catalog/doodad-catalog.js";
 import { DECAL_GLYPHS, DECAL_SHAPES, DECAL_SHOWS, DECAL_USES, decalSheetPath, findDecalVariations, formatDecalVariations } from "@team-antioch/sc2-asset-catalog/catalog/decal-catalog.js";
 import { DOODAD_PLACEMENTS } from "@team-antioch/sc2-asset-catalog/catalog/doodad-facings.js";
@@ -34,7 +35,7 @@ import { type CallContext } from "../call-context.js";
 import { ADDITIVE, DESTRUCTIVE, READ_ONLY, toolGroup } from "./tool-group.js";
 
 /** The tools registerCatalogTools can register, the catalog group: find_doodads, find_sets and open_doodad_finder only when their Finder package loaded. */
-export const CATALOG_TOOLS = ["asset_catalog", "show_entry", "search_doodads", "find_doodads", "find_sets", "open_doodad_finder", "decal_variations", "build_doodad_search_page", "build_doodad_sheets", "add_doodad_note", "contribute_doodad_notes", "index_mod_doodads", "record_model_anims", "texture_sheet", "texture_usage"] as const;
+export const CATALOG_TOOLS = ["asset_catalog", "show_entry", "search_doodads", "find_doodads", "find_sets", "open_doodad_finder", "decal_variations", "build_doodad_search_page", "build_doodad_sheets", "add_doodad_note", "contribute_doodad_notes", "index_mod_doodads", "record_model_anims", "texture_sheet", "texture_usage", "sound_mix"] as const;
 
 export function registerCatalogTools(server: McpServer, ctx: CallContext, { doodadFinder, openDoodadFinder, setFinder }: { doodadFinder?: DoodadFinderTool | undefined; openDoodadFinder?: OpenDoodadFinderTool | undefined; setFinder?: SetFinderTool | undefined }): void {
   const tool = toolGroup(server, CATALOG_TOOLS);
@@ -627,6 +628,36 @@ export function registerCatalogTools(server: McpServer, ctx: CallContext, { dood
           ...views.map((view) => ({ type: "image" as const, data: writePng(view.image).toString("base64"), mimeType: "image/png" })),
         ],
       };
+    },
+  );
+
+  tool(
+    "sound_mix",
+    {
+      title: "Sound mix actors",
+      annotations: READ_ONLY,
+      description:
+        "Makes the actor data that plays a sound mix: several CSounds played as one sound, each from its own time after the mix starts (docs/reference/sound-mixes.md, the sound-mix skill). Each mix is one CActorSound whose Layers play their CSounds after their PlayDelay, each with its own variations; a layer with a stop is an actor of its own that stops itself on a timer, fading out first if it has a fade. Created with `Create <id>` from the unit's actor on an event (its death, an attack), the mix takes its place once and keeps playing where the unit was, after the unit dies. Every CSound a layer plays is checked against the game's packages (core's data/package-entries.json), the Workspace mods' own (their packages and Blueprint entries) and the files or folders in sounds (a Mission's Map Package, say): one defined nowhere would play nothing, so it is refused, naming the id it may have meant. Returns the entries as Generic Entries JSON (for a Mod Blueprint's entries) or, with xml, as elements for a map's ActorData.xml, with where each CSound is defined and the line that creates a mix. Reads only: add the entries yourself.",
+      inputSchema: {
+        mixes: z.array(SoundMixSchema).min(1).describe("The mixes: each an actor id and its layers ({ sound, at, stop?, fade? }, seconds from the mix's start), and optionally the silent CSound to play when no layer starts at 0"),
+        xml: z.boolean().optional().describe("Give ActorData.xml elements instead of Generic Entries"),
+        sounds: z.array(z.string().min(1)).optional().describe("More own data to find CSounds in, as paths from the Workspace: a SoundData.xml, a JSON file of Generic Entries, or a folder such as a Mission's .SC2Map"),
+      },
+    },
+    async ({ mixes, xml, sounds }) => {
+      const workspace = await ctx.workspace();
+      const own = await workspaceSounds(workspace);
+      try {
+        for (const source of sounds ?? []) for (const id of await definedSounds(path.resolve(workspace.root, source))) own.add(id);
+      } catch (error) {
+        return ctx.fail((error as Error).message);
+      }
+      const { found, problems } = checkSoundMixes(mixes, own);
+      if (problems.length > 0) return ctx.fail(problems.join("\n"));
+      const entries = mixes.flatMap(soundMixEntries);
+      const where = [...found].map(([sound, at]) => `${sound}: ${at.join(", ")}`).join("\n");
+      const data = xml ? soundMixXml(entries) : JSON.stringify(entries, null, 2);
+      return ctx.reply(`${data}\n\nCSounds:\n${where}\n\nCreate each mix from the actor of the unit it's for, on the event it's for. On a death: ${soundMixWiring(mixes[0]!)}`);
     },
   );
 }
