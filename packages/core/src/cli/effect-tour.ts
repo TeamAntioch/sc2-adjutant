@@ -18,7 +18,7 @@
 //     films each batch through the Editor Broker (Test Document; the game's window is
 //     screenshotted at each frame), into <out>/batch-NN/frames/, and writes its index.html. A
 //     batch with its index.html is skipped unless --redo, so a stopped run carries on where it was.
-//     With --video the game window is recorded too (frames/video.mp4, about 1 MB a minute): each
+//     With --video the game window is recorded too (frames/video.mp4, 1600x900, about 18 MB a minute): each
 //     effect gets a clip (clips/<n>.mp4) and the frames where most is on screen (peaks/), for
 //     what's over before a screenshot is taken, such as an impact's burst of particles.
 //   npm run effect-tour -- pick <out> [--batches <a>-<b>]
@@ -297,8 +297,11 @@ async function capture(out: string, args: string[]): Promise<void> {
   }
 }
 
-/** The recording's size and rate: 1280 wide shows a burst plainly, and HEVC at 30 fps is about 1 MB a minute of tour. */
-const VIDEO_SETTINGS = { width: 1280, fps: 30 } as const;
+/**
+ * The recording's size, rate and HEVC quality: the stills' 1600x900, at 30 fps, at a quality that
+ * keeps sparks and particles (at 0.5 they smeared away). Sizes: docs/reference/effect-tour.md.
+ */
+const VIDEO_SETTINGS = { width: 1600, fps: 30, quality: 0.9 } as const;
 
 /** The hold the batch's map was filmed with (its script's fxHold), else the default: the segments are placed by it. */
 async function batchHold(dir: string, manifest: Manifest): Promise<number> {

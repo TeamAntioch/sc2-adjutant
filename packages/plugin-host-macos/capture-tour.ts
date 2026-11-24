@@ -309,8 +309,8 @@ exit(CGImageDestinationFinalize(destination) ? 0 : 1)
 `;
 
 /**
- * record <window-id> <out.mp4> <width> <fps>: records one window as HEVC, the 16:9 picture under its
- * title bar, scaled to <width>. A covered window records; a minimized one doesn't. Frames come only
+ * record <window-id> <out.mp4> <width> <fps> <quality>: records one window as HEVC at <quality>
+ * (AVVideoQualityKey, 0-1), the 16:9 picture under its title bar, scaled to <width>. A covered window records; a minimized one doesn't. Frames come only
  * when the window changes, so a still scene costs next to nothing. Prints "started <unix seconds>"
  * at the first frame, which is the video's time 0; stops, finishing the file, when stdin closes
  * (so a caller that dies doesn't leave it recording) or on SIGINT/SIGTERM.
@@ -323,8 +323,8 @@ import ScreenCaptureKit
 
 _ = NSApplication.shared // a command-line tool needs the window server connection ScreenCaptureKit uses
 let args = CommandLine.arguments
-guard args.count == 5, let windowID = UInt32(args[1]), let width = Int(args[3]), let fps = Int32(args[4]) else {
-  FileHandle.standardError.write("usage: record <window-id> <out.mp4> <width> <fps>\\n".data(using: .utf8)!)
+guard args.count == 6, let windowID = UInt32(args[1]), let width = Int(args[3]), let fps = Int32(args[4]), let quality = Double(args[5]), quality > 0, quality <= 1 else {
+  FileHandle.standardError.write("usage: record <window-id> <out.mp4> <width> <fps> <quality 0-1>\\n".data(using: .utf8)!)
   exit(2)
 }
 let outURL = URL(fileURLWithPath: args[2])
@@ -339,13 +339,13 @@ final class Recorder: NSObject, SCStreamOutput, SCStreamDelegate {
   var counts: [Int: Int] = [:]
   var lastReport = Date()
 
-  func setup(width: Int, height: Int, fps: Int32) throws {
+  func setup(width: Int, height: Int, fps: Int32, quality: Double) throws {
     let writer = try AVAssetWriter(outputURL: outURL, fileType: .mp4)
     let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
       AVVideoCodecKey: AVVideoCodecType.hevc,
       AVVideoWidthKey: width,
       AVVideoHeightKey: height,
-      AVVideoCompressionPropertiesKey: [AVVideoQualityKey: 0.5, AVVideoExpectedSourceFrameRateKey: Int(fps)],
+      AVVideoCompressionPropertiesKey: [AVVideoQualityKey: quality, AVVideoExpectedSourceFrameRateKey: Int(fps)],
     ])
     input.expectsMediaDataInRealTime = true
     writer.add(input)
@@ -410,6 +410,11 @@ Task {
     let frame = window.frame
     let pictureHeight = min(frame.height, frame.width * 9 / 16)
     FileHandle.standardError.write("record: window \\(windowID) \\(window.owningApplication?.applicationName ?? "?") \\(Int(frame.width))x\\(Int(frame.height)) on screen: \\(window.isOnScreen)\\n".data(using: .utf8)!)
+    // A window on a display of 1 pixel a point has fewer pixels than the recording is wide: it is
+    // scaled up then, with no more detail than it had.
+    let filter = SCContentFilter(desktopIndependentWindow: window)
+    let scale = Double(SCShareableContent.info(for: filter).pointPixelScale)
+    FileHandle.standardError.write("record: \\(scale)x, recording \\(width) wide\\(Double(frame.width) * scale < Double(width) ? ", scaled up from \\(Int(Double(frame.width) * scale)) pixels: the window is on a display of fewer pixels a point" : "")\\n".data(using: .utf8)!)
     let config = SCStreamConfiguration()
     config.sourceRect = CGRect(x: 0, y: frame.height - pictureHeight, width: frame.width, height: pictureHeight)
     config.width = width & ~1
@@ -417,8 +422,8 @@ Task {
     config.minimumFrameInterval = CMTime(value: 1, timescale: fps)
     config.showsCursor = false
     config.queueDepth = 8
-    try recorder.setup(width: config.width, height: config.height, fps: fps)
-    let started = SCStream(filter: SCContentFilter(desktopIndependentWindow: window), configuration: config, delegate: recorder)
+    try recorder.setup(width: config.width, height: config.height, fps: fps, quality: quality)
+    let started = SCStream(filter: filter, configuration: config, delegate: recorder)
     try started.addStreamOutput(recorder, type: .screen, sampleHandlerQueue: recorder.queue)
     try await started.startCapture()
     stream = started
@@ -450,6 +455,12 @@ dispatchMain()
  */
 type Recording = { readonly mark: (stop: string) => Promise<void>; readonly stop: () => Promise<void>; readonly failed: () => boolean };
 
+/**
+ * The recorder's HEVC quality (AVVideoQualityKey) when a request doesn't give one. At 0.5 the
+ * hardware encoder made about 80 kbps of a 1280x720 tour, and smeared particles away.
+ */
+export const DEFAULT_VIDEO_QUALITY = 0.9;
+
 /** The recording's file names in a tour's output folder. */
 export const VIDEO_FILE = "video.mp4";
 export const VIDEO_STOPS_FILE = "video-stops.txt";
@@ -465,7 +476,7 @@ async function startRecording(context: HostContext, window: string, outputDir: s
   log(`recording window ${window}`);
   const stopsFile = path.join(outputDir, VIDEO_STOPS_FILE);
   await rm(stopsFile, { force: true });
-  const child = spawn(bin, [window, path.join(outputDir, VIDEO_FILE), String(video.width), String(video.fps)], { stdio: ["pipe", "pipe", "pipe"] });
+  const child = spawn(bin, [window, path.join(outputDir, VIDEO_FILE), String(video.width), String(video.fps), String(video.quality ?? DEFAULT_VIDEO_QUALITY)], { stdio: ["pipe", "pipe", "pipe"] });
   let startedAt: number | undefined;
   let gone = false;
   const early: { stop: string; at: number }[] = [];
