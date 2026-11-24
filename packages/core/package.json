@@ -19,6 +19,7 @@
   },
   "files": [
     "dist",
+    "!dist/.tsbuildinfo",
     "data/*.json",
     "data/cinematic-sets/*.json",
     "blender",
