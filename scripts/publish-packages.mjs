@@ -5,7 +5,7 @@
 //
 // `check` fails unless every public package (public-packages.mjs), the Claude Code plugin's manifest
 // and its package.json are at one version, core names the public packages it depends on at that
-// version exactly, and the public packages are publishable (not `private`). With --tag it also fails
+// version exactly and as a peer at ^ that major.minor, and the public packages are publishable (not `private`). With --tag it also fails
 // a tag that isn't `v` and that version, so a tag can't publish packages at another version.
 //
 // `publish` runs `npm publish --provenance --access public` in each public package's folder, in
@@ -56,6 +56,11 @@ function releaseProblems({ tag, packages, plugin }) {
       for (const [name, range] of Object.entries(manifest[field] ?? {})) {
         if (names.has(name) && range !== want) problems.push(`${manifest.name} names ${name} at ${range} in its ${field}, not ${want}`);
       }
+    }
+    // A peer on another public package (a Plugin's on core) takes any patch of this major.minor.
+    const peer = `^${want.split(".").slice(0, 2).join(".")}.0`;
+    for (const [name, range] of Object.entries(manifest.peerDependencies ?? {})) {
+      if (names.has(name) && range !== peer) problems.push(`${manifest.name} names ${name} at ${range} in its peerDependencies, not ${peer}`);
     }
   }
   return { version: want, problems };

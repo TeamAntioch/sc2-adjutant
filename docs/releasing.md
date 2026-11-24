@@ -9,12 +9,11 @@ Set one version, say `0.1.1`, in every one of these:
 - each public package's `package.json` (the list and order are in `scripts/public-packages.mjs`)
 - core's `dependencies` on the other public packages, which name the version exactly
 - the plugin's `packages/claude-plugin/.claude-plugin/plugin.json` and `packages/claude-plugin/package.json`
+- on a minor or major bump, each package's `peerDependencies` range on core (`^0.1.0` to `^0.2.0`)
 
 Then run `npm install` so `package-lock.json` matches.
 
 The Publish workflow's pull-request run checks all of the above (`node scripts/publish-packages.mjs check`, which you can also run locally), then runs `npm publish --dry-run` for each package.
-
-On a minor or major bump, also change each package's `peerDependencies` range on core (`^0.1.0` to `^0.2.0`). The check doesn't read peer ranges, and `^0.1.0` doesn't accept `0.2.0`.
 
 ## 2. Tag the merge commit
 
