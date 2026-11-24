@@ -28,19 +28,27 @@ export type ExemplarOptions = {
 };
 
 /**
+ * The Exemplar Maps of `exemplars` that `ids` names, in its order (every one when not given).
+ * Refused for an id the pack doesn't list, naming it and the pack's ids.
+ */
+export function pickExemplars<T extends { readonly id: string }>(exemplars: readonly T[], ids?: readonly string[]): T[] {
+  if (ids === undefined) return [...exemplars];
+  const only = [...new Set(ids)];
+  const unknown = only.filter((id) => !exemplars.some((exemplar) => exemplar.id === id));
+  if (unknown.length) {
+    const listed = exemplars.length ? exemplars.map((exemplar) => exemplar.id).join(", ") : "none";
+    throw new Error(`The Style Pack has no Exemplar Map ${unknown.join(", ")} (its Exemplar Maps: ${listed})`);
+  }
+  return only.map((id) => exemplars.find((exemplar) => exemplar.id === id)!);
+}
+
+/**
  * The pack's Exemplar Maps named by `ids` (every one when not given), each with its source map.
  * Refused, before anything is written, for an id the pack doesn't list or a source map that isn't
  * there, naming them and the setting the folder came from.
  */
 export async function selectExemplars(workspace: Workspace, { ids, machine }: ExemplarOptions = {}): Promise<ExemplarMapSource[]> {
-  const exemplars = await exemplarMapSources(workspace, machine);
-  const only = ids === undefined ? undefined : [...new Set(ids)];
-  const unknown = (only ?? []).filter((id) => !exemplars.some((exemplar) => exemplar.id === id));
-  if (unknown.length) {
-    const listed = exemplars.length ? exemplars.map((exemplar) => exemplar.id).join(", ") : "none";
-    throw new Error(`The Style Pack has no Exemplar Map ${unknown.join(", ")} (its Exemplar Maps: ${listed})`);
-  }
-  const chosen = only ? only.map((id) => exemplars.find((exemplar) => exemplar.id === id)!) : exemplars;
+  const chosen = pickExemplars(await exemplarMapSources(workspace, machine), ids);
   const missing = chosen.filter((exemplar) => !existsSync(exemplar.source));
   if (missing.length) {
     const folder = path.dirname(missing[0]!.source);

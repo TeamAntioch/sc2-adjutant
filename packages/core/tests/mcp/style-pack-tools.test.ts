@@ -167,3 +167,31 @@ describe("find_places", () => {
     expect(existsSync(mixturesFile(root))).toBe(false);
   });
 });
+
+describe("exemplar_report", () => {
+  it("refuses, naming the map, when an Exemplar Map has no study yet", async () => {
+    const client = await connect(await copyOf("studio"));
+
+    const reply = await client.callTool({ name: "exemplar_report", arguments: {} });
+    expect(reply.isError).toBe(true);
+    expect(text(reply)).toContain("No Map Study to report on for Exemplar Map plaza (no study): run study_exemplar for it first");
+  });
+
+  it("reports every measure of the pack's studies against the shipped baseline, naming the missions it couldn't measure", async () => {
+    const root = await studio();
+    const client = await connect(root);
+    await client.callTool({ name: "study_exemplar", arguments: {} });
+
+    const reply = await client.callTool({ name: "exemplar_report", arguments: {} });
+    expect(reply.isError, text(reply)).toBeFalsy();
+
+    const report = reply.structuredContent as { maps: unknown[]; baseline: { maps: number; unavailable: string[] }; measures: { id: string; verdict: string }[] };
+    expect(report.maps).toEqual([{ id: "plaza", provenance: "made" }]);
+    expect(report.measures.map((m) => m.id).sort()).toEqual(MEASURES.map((m) => m.id).sort());
+    // One map can't agree with itself.
+    expect(new Set(report.measures.map((m) => m.verdict))).toEqual(new Set(["too few maps"]));
+    expect(report.baseline.unavailable).toContain("nova01");
+    expect(text(reply)).toContain("the baseline couldn't measure nova01");
+    expect(text(reply)).toContain("Too few maps with a value to tell:");
+  });
+});

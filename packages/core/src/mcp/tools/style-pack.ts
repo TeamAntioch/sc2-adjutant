@@ -7,10 +7,11 @@ import { z } from "zod";
 import { brokerSocketPath, editorBrokerStatus } from "../../capture/editor-broker-client.js";
 import { captureStylePack, type CaptureStylePackResult, planStylePackTours } from "../../capture/style-pack-captures.js";
 import { hostContext } from "../../host/machine-config.js";
+import { exemplarReport, type ReportMeasure, type Verdict, VERDICTS } from "../../study/exemplar-report.js";
 import { findStylePackPlaces, studyExemplars } from "../../study/study-exemplars.js";
 import { type CallContext } from "../call-context.js";
 import { captureJobs, type JobState, placeOf, waitLength } from "../capture-jobs.js";
-import { DESTRUCTIVE, type RefusedWithout, toolGroup } from "./tool-group.js";
+import { DESTRUCTIVE, READ_ONLY, type RefusedWithout, toolGroup } from "./tool-group.js";
 
 const IdsSchema = z
   .array(z.string().min(1))
@@ -22,7 +23,41 @@ const SOURCES =
   "Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it).";
 
 /** The tools registerStylePackTools can register, the Style Pack group. */
-export const STYLE_PACK_TOOLS = ["study_exemplar", "find_places", "capture_exemplar"] as const;
+export const STYLE_PACK_TOOLS = ["study_exemplar", "find_places", "capture_exemplar", "exemplar_report"] as const;
+
+const MapValueSchema = z.object({ id: z.string(), value: z.number() });
+const ReportMeasureSchema = z.object({
+  id: z.string(),
+  description: z.string(),
+  verdict: z.enum(VERDICTS),
+  side: z.enum(["above", "below", "within"]).optional(),
+  spread: z.object({ min: z.number(), max: z.number(), median: z.number() }).nullable(),
+  agreeing: z.array(z.string()),
+  outliers: z.array(MapValueSchema),
+  unmeasured: z.array(z.string()),
+  evidence: z.number(),
+  blizzard: z.object({ maps: z.number().int(), p10: z.number(), p25: z.number(), median: z.number(), p75: z.number(), p90: z.number() }).nullable(),
+  percentile: z.number().nullable(),
+});
+
+/** One line of exemplar_report's text for a measure. */
+function reportLine(measure: ReportMeasure): string {
+  const { spread, blizzard } = measure;
+  const range = spread ? (spread.min === spread.max ? `${spread.min}` : `${spread.min} to ${spread.max}`) : "no value";
+  const against = blizzard ? `; Blizzard p10 ${blizzard.p10}, median ${blizzard.median}, p90 ${blizzard.p90} over ${blizzard.maps} maps${measure.percentile === null ? "" : `, the maps' median above ${Math.round(measure.percentile * 100)}% of them`}` : "; no Blizzard map has a value";
+  const where = measure.verdict === "question" ? `from ${range}, the largest group ${measure.agreeing.join(", ")}` :measure.agreeing.length ? `${measure.agreeing.join(", ")} at ${range}${measure.side && measure.side !== "within" ? `, ${measure.side} Blizzard's spread` : ""}` : range;
+  const outside = measure.outliers.length ? `; ${measure.verdict === "question" ? "outside the largest group" : "outside it"}: ${measure.outliers.map((o) => `${o.id} ${o.value}`).join(", ")}` : "";
+  const unmeasured = measure.unmeasured.length ? `; nothing to measure in ${measure.unmeasured.join(", ")}` : "";
+  return `- ${measure.id} (${measure.description}): ${where}${against}${outside}${unmeasured}`;
+}
+
+const VERDICT_HEADINGS: Readonly<Record<Verdict, string>> = {
+  distinctive: "Distinctive: the maps agree, outside Blizzard's spread (p10 to p90)",
+  "common practice": "Common practice: the maps agree, as Blizzard's maps do",
+  question: "Questions for the mapper: the maps don't agree",
+  "no baseline": "Agreed, with no Blizzard value to compare",
+  "too few maps": "Too few maps with a value to tell",
+};
 
 /** The group's tools listed on every machine but refused where the Host Adapter lacks these capabilities. */
 export const STYLE_PACK_REFUSED_WITHOUT = { capture_exemplar: ["editor.captureTour"] } as const satisfies RefusedWithout<(typeof STYLE_PACK_TOOLS)[number]>;
@@ -66,6 +101,39 @@ export function registerStylePackTools(server: McpServer, ctx: CallContext, { ca
         ...(found.withoutFrames.length ? [`No tours for ${found.withoutFrames.join(", ")}, so their places list no frames.`] : []),
       ];
       return ctx.reply(lines.join("\n"), { ...found, maps: [...found.maps], moods: { ...found.moods }, withoutFrames: [...found.withoutFrames] });
+    },
+  );
+
+  tool(
+    "exemplar_report",
+    {
+      title: "Report which habits the Exemplar Maps share",
+      annotations: READ_ONLY,
+      description:
+        "The consistency report of the active Style Pack's Exemplar Maps, from their Map Studies (run study_exemplar first; no source map needed): for each lesson-neutral measure, the maps' spread, the maps outside it, and where it sits against Blizzard's campaign maps (the Blizzard baseline core ships). The maps agree on a measure when the largest group of them, by provenance weight (made 3, edited 2, approved 1), whose values lie within Blizzard's middle half (p25 to p75) of each other holds at least two maps and two thirds of every map's weight, maps with nothing to measure counted too; the rest are its outliers. Where Blizzard's middle half is a single value, the band is its p10 to p90, else its whole range, else (every Blizzard map alike, or no Blizzard value) a tenth of the maps' largest value. Ranked: distinctive first (the maps agree, wholly outside Blizzard's p10 to p90), the mapper's own taste and where candidate Design Lessons come from; then common practice (they agree, as Blizzard's maps do); then questions for the mapper (they don't agree), with the maps outside the largest group; then what it can't place. Within each, the heavier evidence first. Refused, naming them, when an Exemplar Map has no study yet, or one from before its measures.",
+      inputSchema: { ids: IdsSchema.describe("The Exemplar Maps to report on, by their ids in the pack's exemplars.json; every one the pack lists when not given") },
+      outputSchema: {
+        maps: z.array(z.object({ id: z.string(), provenance: z.string() })),
+        baseline: z.object({ maps: z.number().int(), unavailable: z.array(z.string()) }),
+        measures: z.array(ReportMeasureSchema),
+      },
+    },
+    async ({ ids }) => {
+      const report = await exemplarReport(await ctx.workspace(), ids ? { ids } : {});
+      const { baseline } = report;
+      const lines = [
+        `Exemplar Maps: ${report.maps.map(({ id, provenance }) => `${id} (${provenance})`).join(", ")}.`,
+        `Blizzard's spread is over ${baseline.maps} campaign maps${baseline.unavailable.length ? `; the baseline couldn't measure ${baseline.unavailable.join(", ")}, so its spreads leave them out` : ""}.`,
+        ...VERDICTS.flatMap((verdict) => {
+          const measures = report.measures.filter((m) => m.verdict === verdict);
+          return measures.length ? ["", `${VERDICT_HEADINGS[verdict]}:`, ...measures.map(reportLine)] : [];
+        }),
+      ];
+      return ctx.reply(lines.join("\n"), {
+        maps: report.maps.map((m) => ({ ...m })),
+        baseline: { maps: baseline.maps, unavailable: [...baseline.unavailable] },
+        measures: report.measures.map((m) => ({ ...m, agreeing: [...m.agreeing], outliers: m.outliers.map((o) => ({ ...o })), unmeasured: [...m.unmeasured] })),
+      });
     },
   );
 

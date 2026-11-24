@@ -4784,6 +4784,243 @@ exports[`the tool list > is the same on a bare machine 1`] = `
   },
   {
     "annotations": {
+      "destructiveHint": false,
+      "readOnlyHint": true,
+    },
+    "description": "The consistency report of the active Style Pack's Exemplar Maps, from their Map Studies (run study_exemplar first; no source map needed): for each lesson-neutral measure, the maps' spread, the maps outside it, and where it sits against Blizzard's campaign maps (the Blizzard baseline core ships). The maps agree on a measure when the largest group of them, by provenance weight (made 3, edited 2, approved 1), whose values lie within Blizzard's middle half (p25 to p75) of each other holds at least two maps and two thirds of every map's weight, maps with nothing to measure counted too; the rest are its outliers. Where Blizzard's middle half is a single value, the band is its p10 to p90, else its whole range, else (every Blizzard map alike, or no Blizzard value) a tenth of the maps' largest value. Ranked: distinctive first (the maps agree, wholly outside Blizzard's p10 to p90), the mapper's own taste and where candidate Design Lessons come from; then common practice (they agree, as Blizzard's maps do); then questions for the mapper (they don't agree), with the maps outside the largest group; then what it can't place. Within each, the heavier evidence first. Refused, naming them, when an Exemplar Map has no study yet, or one from before its measures.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "ids": {
+          "description": "The Exemplar Maps to report on, by their ids in the pack's exemplars.json; every one the pack lists when not given",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "exemplar_report",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "baseline": {
+          "additionalProperties": false,
+          "properties": {
+            "maps": {
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
+              "type": "integer",
+            },
+            "unavailable": {
+              "items": {
+                "type": "string",
+              },
+              "type": "array",
+            },
+          },
+          "required": [
+            "maps",
+            "unavailable",
+          ],
+          "type": "object",
+        },
+        "maps": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "provenance": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "provenance",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+        "measures": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "agreeing": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "blizzard": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "maps": {
+                        "maximum": 9007199254740991,
+                        "minimum": -9007199254740991,
+                        "type": "integer",
+                      },
+                      "median": {
+                        "type": "number",
+                      },
+                      "p10": {
+                        "type": "number",
+                      },
+                      "p25": {
+                        "type": "number",
+                      },
+                      "p75": {
+                        "type": "number",
+                      },
+                      "p90": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "maps",
+                      "p10",
+                      "p25",
+                      "median",
+                      "p75",
+                      "p90",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "description": {
+                "type": "string",
+              },
+              "evidence": {
+                "type": "number",
+              },
+              "id": {
+                "type": "string",
+              },
+              "outliers": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                    },
+                    "value": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "value",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "percentile": {
+                "type": [
+                  "number",
+                  "null",
+                ],
+              },
+              "side": {
+                "enum": [
+                  "above",
+                  "below",
+                  "within",
+                ],
+                "type": "string",
+              },
+              "spread": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "max": {
+                        "type": "number",
+                      },
+                      "median": {
+                        "type": "number",
+                      },
+                      "min": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "min",
+                      "max",
+                      "median",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "unmeasured": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "verdict": {
+                "enum": [
+                  "distinctive",
+                  "common practice",
+                  "question",
+                  "no baseline",
+                  "too few maps",
+                ],
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "description",
+              "verdict",
+              "spread",
+              "agreeing",
+              "outliers",
+              "unmeasured",
+              "evidence",
+              "blizzard",
+              "percentile",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "maps",
+        "baseline",
+        "measures",
+      ],
+      "type": "object",
+    },
+    "title": "Report which habits the Exemplar Maps share",
+  },
+  {
+    "annotations": {
       "destructiveHint": true,
       "readOnlyHint": false,
     },
@@ -14442,6 +14679,243 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "Edit Kept terrain",
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "readOnlyHint": true,
+    },
+    "description": "The consistency report of the active Style Pack's Exemplar Maps, from their Map Studies (run study_exemplar first; no source map needed): for each lesson-neutral measure, the maps' spread, the maps outside it, and where it sits against Blizzard's campaign maps (the Blizzard baseline core ships). The maps agree on a measure when the largest group of them, by provenance weight (made 3, edited 2, approved 1), whose values lie within Blizzard's middle half (p25 to p75) of each other holds at least two maps and two thirds of every map's weight, maps with nothing to measure counted too; the rest are its outliers. Where Blizzard's middle half is a single value, the band is its p10 to p90, else its whole range, else (every Blizzard map alike, or no Blizzard value) a tenth of the maps' largest value. Ranked: distinctive first (the maps agree, wholly outside Blizzard's p10 to p90), the mapper's own taste and where candidate Design Lessons come from; then common practice (they agree, as Blizzard's maps do); then questions for the mapper (they don't agree), with the maps outside the largest group; then what it can't place. Within each, the heavier evidence first. Refused, naming them, when an Exemplar Map has no study yet, or one from before its measures.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "ids": {
+          "description": "The Exemplar Maps to report on, by their ids in the pack's exemplars.json; every one the pack lists when not given",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "exemplar_report",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "baseline": {
+          "additionalProperties": false,
+          "properties": {
+            "maps": {
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
+              "type": "integer",
+            },
+            "unavailable": {
+              "items": {
+                "type": "string",
+              },
+              "type": "array",
+            },
+          },
+          "required": [
+            "maps",
+            "unavailable",
+          ],
+          "type": "object",
+        },
+        "maps": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+              "provenance": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "provenance",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+        "measures": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "agreeing": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "blizzard": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "maps": {
+                        "maximum": 9007199254740991,
+                        "minimum": -9007199254740991,
+                        "type": "integer",
+                      },
+                      "median": {
+                        "type": "number",
+                      },
+                      "p10": {
+                        "type": "number",
+                      },
+                      "p25": {
+                        "type": "number",
+                      },
+                      "p75": {
+                        "type": "number",
+                      },
+                      "p90": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "maps",
+                      "p10",
+                      "p25",
+                      "median",
+                      "p75",
+                      "p90",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "description": {
+                "type": "string",
+              },
+              "evidence": {
+                "type": "number",
+              },
+              "id": {
+                "type": "string",
+              },
+              "outliers": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                    },
+                    "value": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "value",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "percentile": {
+                "type": [
+                  "number",
+                  "null",
+                ],
+              },
+              "side": {
+                "enum": [
+                  "above",
+                  "below",
+                  "within",
+                ],
+                "type": "string",
+              },
+              "spread": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "max": {
+                        "type": "number",
+                      },
+                      "median": {
+                        "type": "number",
+                      },
+                      "min": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "min",
+                      "max",
+                      "median",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "unmeasured": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "verdict": {
+                "enum": [
+                  "distinctive",
+                  "common practice",
+                  "question",
+                  "no baseline",
+                  "too few maps",
+                ],
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "description",
+              "verdict",
+              "spread",
+              "agreeing",
+              "outliers",
+              "unmeasured",
+              "evidence",
+              "blizzard",
+              "percentile",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "maps",
+        "baseline",
+        "measures",
+      ],
+      "type": "object",
+    },
+    "title": "Report which habits the Exemplar Maps share",
   },
   {
     "annotations": {
