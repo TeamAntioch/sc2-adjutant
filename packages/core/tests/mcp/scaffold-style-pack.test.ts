@@ -177,6 +177,17 @@ describe("add_exemplar_map", () => {
     expect(JSON.parse(await readFile(list, "utf8"))).toEqual({ exemplars: [{ id: "harbour", map: "Harbour.SC2Map", provenance: "made" }] });
   });
 
+  it("keeps every map added by calls made at once, and refuses a second of the same id", async () => {
+    const { root, client, list } = await scaffolded();
+    for (const name of ["Dock", "Quay", "Pier"]) await mkdir(path.join(root, `exemplar-sources/${name}.SC2Map`), { recursive: true });
+    const add = (id: string, map: string) => client.callTool({ name: "add_exemplar_map", arguments: { id, map, provenance: "made" } });
+
+    const replies = await Promise.all([add("harbour", "Harbour.SC2Map"), add("dock", "Dock.SC2Map"), add("quay", "Quay.SC2Map"), add("pier", "Pier.SC2Map"), add("dock", "Dock.SC2Map")]);
+    expect(replies.filter((reply) => reply.isError).map(text)).toEqual([expect.stringContaining("already has an Exemplar Map dock")]);
+    const ids = (JSON.parse(await readFile(list, "utf8")) as { exemplars: { id: string }[] }).exemplars.map((exemplar) => exemplar.id);
+    expect(ids.sort()).toEqual(["dock", "harbour", "pier", "quay"]);
+  });
+
   it("takes an absolute source map without an exemplarMaps folder set", async () => {
     const { root, client, list } = await scaffolded();
     const { exemplarMaps: _, ...rest } = await readConfig(root);

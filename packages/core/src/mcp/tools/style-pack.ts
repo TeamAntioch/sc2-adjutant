@@ -13,6 +13,8 @@ import { addExemplarMap, DEFAULT_STYLE_PACK_FOLDER, scaffoldStylePack, STYLE_PAC
 import { findStylePackPlaces, studyExemplars } from "../../study/study-exemplars.js";
 import { type CallContext } from "../call-context.js";
 import { captureJobs, type JobState, placeOf, waitLength } from "../capture-jobs.js";
+import { realPathOf } from "../../util/inside.js";
+import { oneAtATime } from "./mission-files.js";
 import { ADDITIVE, DESTRUCTIVE, READ_ONLY, type RefusedWithout, toolGroup } from "./tool-group.js";
 
 const IdsSchema = z
@@ -106,7 +108,10 @@ export function registerStylePackTools(server: McpServer, ctx: CallContext, { ca
       outputSchema: { id: z.string(), map: z.string(), provenance: z.enum(EXEMPLAR_PROVENANCES), file: z.string(), source: z.string() },
     },
     async ({ id, map, provenance, note }) => {
-      const added = await addExemplarMap(await ctx.workspace(), { id, map, provenance, ...(note ? { note } : {}), machine: ctx.host.machine });
+      // One add at a time per Workspace, each loading it afresh, so adds made at once all land and a repeated id is refused.
+      const added = await oneAtATime(`exemplars:${await realPathOf(await ctx.root())}`, async () =>
+        addExemplarMap(await ctx.workspace(), { id, map, provenance, ...(note ? { note } : {}), machine: ctx.host.machine }),
+      );
       return ctx.reply(`Added Exemplar Map ${added.id} (${added.provenance}), from ${added.source}, to ${added.file}. Study it with study_exemplar.`, { ...added });
     },
   );

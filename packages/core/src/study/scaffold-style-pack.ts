@@ -298,6 +298,9 @@ export async function addExemplarMap(workspace: Workspace, { id, map, provenance
   } catch (error) {
     throw new Error(`Can't read the Style Pack's Exemplar Maps ${file}: ${(error as Error).message}`, { cause: error });
   }
+  // The file as it stands, in case it changed since the Workspace loaded.
+  const ids = list.exemplars.map((exemplar) => (exemplar as { id?: unknown }).id);
+  if (ids.includes(id)) throw new Error(`The Style Pack already has an Exemplar Map ${id} (in ${file}): give the new map another id; nothing was written`);
   list.exemplars.push({ id, map, provenance, ...(note ? { note } : {}) });
   await replaceFile(file, `${JSON.stringify(list, null, 2)}\n`);
   return { id, map, provenance, file, source };
