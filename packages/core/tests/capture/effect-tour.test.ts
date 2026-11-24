@@ -36,6 +36,24 @@ describe("planEffect", () => {
     expect(planEffect(effect("Assets/Effects/A/A.m3", [seq("Stand", 2), seq("Death", 1, false)]), 1).play).toBe("");
   });
 
+  it("plays a loop not named Stand as Birth ends, and films it as the Stand, which the bracket wouldn't play", () => {
+    const plan = planEffect(effect("Assets/Effects/A/A.m3", [seq("Birth", 1.2, false), seq("GLstand", 0.33), seq("GLstand 01", 0.33), seq("Death", 1, false)]), 1);
+    expect(plan.loop).toBe("GLstand");
+    expect(plan.play).toBe("");
+    expect(plan.standShot).toBe(0.25);
+    expect(plan.stops).toEqual({ birth: 1, stand: 2, moving: 3, "after-destroy": 4, death: 5 });
+    // A model with a Stand keeps the bracket's; one with only one-shots has no loop to play.
+    expect(planEffect(effect("Assets/Effects/B/B.m3", [seq("Birth", 1, false), seq("Stand", 2), seq("GLstand", 1)]), 1).loop).toBe("");
+    expect(planEffect(effect("Assets/Effects/C/C.m3", [seq("Birth", 1, false), seq("Spell A", 1, false)]), 1).loop).toBe("");
+  });
+
+  it("plays at once a loop not named Stand of a model with no Birth, before its first animation", () => {
+    const plan = planEffect(effect("Assets/Effects/A/A.m3", [seq("Death", 1, false), seq("GLstand", 0.33)]), 1);
+    expect(plan.play).toBe("GLstand");
+    expect(plan.loop).toBe("");
+    expect(plan.death).toBe(0.5);
+  });
+
   it("frames an effect by its bounds: a big one from farther away, a tiny one no closer than 6", () => {
     const big = planEffect(effect("Assets/Effects/Big/Big.m3", [seq("Stand", 2)], 20), 1);
     const small = planEffect(effect("Assets/Effects/Small/Small.m3", [seq("Stand", 2)], 0.2), 1);
@@ -71,6 +89,14 @@ describe("effectTourScript", () => {
     expect(script).toContain('ActorSend(fx, "AnimPlay FxTour Death");');
     expect(script).toContain('BankValueSetFromInt(fxBank, "tour", "stop", -1);');
     expect(script).toContain('UnitCreate(1, "Marine", c_unitCreateIgnorePlacement, 1, fxPad, 270.0);');
+  });
+
+  it("plays a loop not named Stand forever once Birth is over, its words as anim props", () => {
+    const looping = effectTourScript(planEffectBatch([effect("Assets/Effects/A/A.m3", [seq("Birth", 1, false), seq("GLstand 01", 0.33)])]));
+    expect(looping).toContain('fxLoop[0] = "GLstand,01";');
+    const film = looping.slice(looping.indexOf("void FxTour_Film(int i) {"));
+    expect(film.indexOf('ActorSend(fx, "AnimPlay FxTour " + fxLoop[i] + " PlayForever");')).toBeGreaterThan(film.indexOf("FxTour_Shot(fxShot[i][0]);"));
+    expect(effectTourScript(batch)).toContain('fxLoop[0] = "";');
   });
 
   it("holds the game still for each frame only when asked: the game writes no bank while held", () => {
