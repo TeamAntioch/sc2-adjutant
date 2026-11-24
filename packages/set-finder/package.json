@@ -1,6 +1,6 @@
 {
   "name": "@team-antioch/sc2-adjutant-set-finder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "sc2-adjutant's Set Finder (#726, #802): the published @team-antioch/sc2-set-finder's page and finder, with the Workspace's own sets (its cinematic-sets folder, drawn in the machine's cache folder) laid over the published ones, and the find_sets MCP tool.",
   "license": "MIT",
   "repository": {
