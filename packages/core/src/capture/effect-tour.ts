@@ -51,6 +51,11 @@ export type EffectPlan = {
    * nor Stand (an impact with only Death), which the game's bracket wouldn't play; "" for none.
    */
   readonly play: string;
+  /**
+   * A loop to play as Birth ends, for a model with Birth whose loop isn't named Stand (`GLstand`),
+   * which the bracket wouldn't play; "" for none. The stand frame is taken that far into it.
+   */
+  readonly loop: string;
   /** The camera: distance (cells) and the height it looks at, above the pad. */
   readonly distance: number;
   readonly height: number;
@@ -73,6 +78,10 @@ const MOVE_MIN = 1.5;
 const animation = (sequences: readonly M3Sequence[], name: string): M3Sequence | undefined =>
   sequences.find((sequence) => sequence.name.toLowerCase() === name.toLowerCase()) ?? sequences.find((sequence) => sequence.name.toLowerCase().startsWith(`${name.toLowerCase()} `));
 
+/** A model's loop when it has no Stand: its first looping animation not named Birth or Death (`GLstand`). */
+const otherLoop = (sequences: readonly M3Sequence[]): M3Sequence | undefined =>
+  sequences.find((sequence) => sequence.looping && !/^(birth|death)( |$)/i.test(sequence.name));
+
 const round = (value: number): number => Math.round(value * 100) / 100;
 
 /**
@@ -84,13 +93,17 @@ const round = (value: number): number => Math.round(value * 100) / 100;
  * - `moving` after the host has moved sideways for a second, when Stand loops or lasts long enough;
  * - `after-destroy` half a second after a plain Destroy, which shows particles left in the world;
  * - `death` half way through Death, on a fresh copy whose bracket is stopped, when it has one.
+ * A model with no Stand that loops under another name (`GLstand`) has that loop played instead:
+ * as Birth ends, or at once when it has no Birth either.
  * `firstStop` is the first stop number; the plan numbers its frames on from it.
  */
 export function planEffect(effect: TourEffect, firstStop: number): EffectPlan {
   const birth = animation(effect.sequences, "Birth");
   const named = animation(effect.sequences, "Stand");
-  const stand = named ?? (birth ? undefined : effect.sequences[0]);
+  const other = named ? undefined : otherLoop(effect.sequences);
+  const stand = named ?? other ?? (birth ? undefined : effect.sequences[0]);
   const play = !birth && !named && stand ? stand.name : "";
+  const loop = birth && other ? other.name : "";
   // A model whose only animation is Death plays it at once: no second copy for a death frame.
   const death = play && play === animation(effect.sequences, "Death")?.name ? undefined : animation(effect.sequences, "Death");
   const standSeconds = stand ? stand.durationMs / 1000 : 0;
@@ -114,6 +127,7 @@ export function planEffect(effect: TourEffect, firstStop: number): EffectPlan {
     moveCells: moves ? round(Math.min(12, Math.max(1, distance * 0.21))) : 0,
     death: death ? round(Math.min(MAX_PART, Math.max(death.durationMs / 2000, 0.1))) : 0,
     play,
+    loop,
     distance,
     height: round(Math.max(0, Math.min((z0 + z1) / 2, radius))),
     stops,
@@ -195,6 +209,9 @@ export type EffectTourOptions = {
   readonly video?: boolean;
 };
 
+/** An animation's name as an actor message's anim props: its words joined by commas (`GLstand 01` is `GLstand,01`). */
+const animProps = (name: string): string => name.trim().split(/\s+/).filter(Boolean).join(",");
+
 const fx = (value: number): string => (Number.isInteger(value) ? `${value}.0` : String(value));
 
 /**
@@ -209,7 +226,7 @@ export function effectTourScript(batch: EffectBatch, options: EffectTourOptions 
   const freeze = options.freeze ?? false;
   const data = batch.plans.map((plan, i) =>
     [
-      `    fxModel[${i}] = ${galaxyString(batch.ids[i]!)}; fxPlay[${i}] = ${galaxyString(plan.play)};`,
+      `    fxModel[${i}] = ${galaxyString(batch.ids[i]!)}; fxPlay[${i}] = ${galaxyString(plan.play)}; fxLoop[${i}] = ${galaxyString(animProps(plan.loop))};`,
       `fxBirth[${i}] = ${fx(plan.birth)}; fxStand[${i}] = ${fx(plan.standShot)}; fxMove[${i}] = ${fx(plan.move)}; fxMoveCells[${i}] = ${fx(plan.moveCells)}; fxDeath[${i}] = ${fx(plan.death)};`,
       `fxDistance[${i}] = ${fx(plan.distance)}; fxHeight[${i}] = ${fx(plan.height)};`,
       `fxShot[${i}][0] = ${plan.stops.birth}; fxShot[${i}][1] = ${plan.stops.stand}; fxShot[${i}][2] = ${plan.stops.moving}; fxShot[${i}][3] = ${plan.stops["after-destroy"]}; fxShot[${i}][4] = ${plan.stops.death};`,
@@ -225,6 +242,7 @@ const bool fxVideo = ${options.video ? "true" : "false"};
 const string fxLighting = ${galaxyString(options.lighting ?? "")};
 string[fxCount] fxModel;
 string[fxCount] fxPlay;
+string[fxCount] fxLoop;
 fixed[fxCount] fxBirth;
 fixed[fxCount] fxStand;
 fixed[fxCount] fxMove;
@@ -292,6 +310,10 @@ void FxTour_Film(int i) {
         Wait(fxBirth[i], c_timeGame);
         FxTour_Shot(fxShot[i][0]);
         Wait(fxBirth[i], c_timeGame);
+    }
+    if (fxLoop[i] != "") {
+        // A loop not named Stand, which the bracket doesn't play after Birth.
+        ActorSend(fx, "AnimPlay FxTour " + fxLoop[i] + " PlayForever");
     }
     Wait(fxStand[i], c_timeGame);
     FxTour_Shot(fxShot[i][1]);

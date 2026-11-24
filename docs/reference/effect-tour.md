@@ -66,6 +66,7 @@ Each effect gets a map-local CModel (`FxTour0001`, with parent `FX`) naming its 
 
 - **A generic model actor plays Birth, Stand and Death as an animation bracket** (`ModelAnimationStyleContinuous`: `AnimBracketStart BSD Birth Stand Death`). Stopping the bracket (`AnimBracketStop BSD`) on the actor `AttachModelToUnit` makes removes it at once, with no Death. So the tour plays Death outright, with `AnimPlay FxTour Death`.
 - **Models with no Birth or Stand:** the bracket doesn't play a model whose only animation is something else, such as an impact with only Death. The tour plays that animation as soon as the model is made.
+- **Loops not named Stand:** the bracket plays only `Stand`, so a model that loops under another name (`GLstand`, `GLstand 01`…) shows nothing after its Birth. The tour plays its first such loop outright, `AnimPlay FxTour <loop> PlayForever` as Birth ends (or at once, when it has no Birth), and takes the stand frame in it. A name with several words goes as comma-separated anim props (`GLstand,01`).
 - **A plain `Destroy` removes a generic actor at once.** Its particles go with it unless they're emitted in world space.
 - **Holding the game still loses frames.** `GameSetGlobalTimeScale(0)` around a frame stops the game writing the bank, so the capture misses those frames: 15 of 38 in a test, against none without it. `--freeze` still turns it on, to compare.
 - **Frames need to be at least 1.5 s apart.** The host polls the bank every 0.5 s and takes up to a second over a screenshot, so frames 1.3 s apart were lost.
