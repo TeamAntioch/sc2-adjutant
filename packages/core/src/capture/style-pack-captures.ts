@@ -174,7 +174,8 @@ export async function makeFrames(captureDir: string, mixtures: string, { maps: o
     if (existsSync(dest) && (await stat(src)).mtimeMs <= (await stat(dest)).mtimeMs) continue;
     await mkdir(path.dirname(dest), { recursive: true });
     try {
-      await sharp(src).resize(FRAME_WIDTH, FRAME_WIDTH, { fit: "inside" }).jpeg({ quality: FRAME_QUALITY }).toFile(dest);
+      // From a buffer: sharp opened on a path keeps the file open on Windows, so the capture couldn't be replaced afterwards.
+      await sharp(await readFile(src)).resize(FRAME_WIDTH, FRAME_WIDTH, { fit: "inside" }).jpeg({ quality: FRAME_QUALITY }).toFile(dest);
       made++;
     } catch {
       unreadable.push(capture);
