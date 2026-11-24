@@ -84,6 +84,11 @@ describe("the tool reference", () => {
     expect(tool("find_sets").needs).toEqual({ kind: "finder", finder: "Set Finder" });
   });
 
+  it("marks a tool listed on every machine but refused without a capability with the capability it needs", () => {
+    expect(tool("capture_exemplar").needs).toEqual({ kind: "refused", capabilities: ["editor.captureTour"] });
+    expect(tool("capture_shots").needs).toEqual({ kind: "refused", capabilities: ["editor.captureTour"] });
+  });
+
   it("matches a tool to the root npm script of the same name as its CLI twin", () => {
     expect(tool("compile_map").cli).toBe("npm run compile-map");
     expect(tool("get_blueprint").cli).toBeNull();
@@ -158,6 +163,9 @@ describe("the tool pages", () => {
     }
     expect(page("tools/compile_map")).toContain("npm run compile-map");
     expect(page("tools/speak_placeholder_voices")).toContain("tts.speak");
+    const capture = page("tools/capture_exemplar");
+    expect(capture).toContain("<code>editor.captureTour</code>");
+    expect(capture).not.toContain("Nothing: the server lists it on every machine.");
   });
 
   it("link each tool's Used by to the skills and commands that drive it", () => {

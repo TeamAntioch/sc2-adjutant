@@ -70,6 +70,18 @@ export default async function ToolPage({ params }: Props) {
           . On a machine without it, the server doesn&apos;t list this tool.
         </p>
       )}
+      {tool.needs.kind === "refused" && (
+        <p>
+          A Host Adapter with {tool.needs.capabilities.length === 1 ? "the capability " : "the capabilities "}
+          {tool.needs.capabilities.map((capability, index) => (
+            <span key={capability}>
+              {index > 0 && ", "}
+              <code>{capability}</code>
+            </span>
+          ))}
+          . The server lists it on every machine, and on one without it refuses the call, saying what the machine lacks.
+        </p>
+      )}
       {tool.needs.kind === "finder" && <p>The {tool.needs.finder} package. Where it isn&apos;t installed, the server doesn&apos;t list this tool.</p>}
 
       <h2 id="cli-twin">CLI twin</h2>

@@ -22,11 +22,13 @@ export type Writes = "none" | "adds" | "overwrites";
 /** A Finder package, which core loads when it's installed: the server lists its tools only then. */
 export type FinderName = "Doodad Finder" | "Set Finder";
 
-/** What a machine needs before the server lists the tool. */
+/** What a machine needs before the server lists the tool, or before it runs a tool it always lists. */
 export type Needs =
   | { kind: "none" }
   /** Listed only when the Host Adapter has each of these capabilities. */
   | { kind: "capability"; capabilities: HostCapabilityName[] }
+  /** Listed on every machine, but refused where the Host Adapter lacks one of these capabilities. */
+  | { kind: "refused"; capabilities: HostCapabilityName[] }
   /** Listed only when this Finder package loaded. */
   | { kind: "finder"; finder: FinderName };
 

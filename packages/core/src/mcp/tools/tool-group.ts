@@ -8,6 +8,8 @@ import type { McpServer, RegisteredTool, ToolCallback } from "@modelcontextproto
 import type { AnySchema, ZodRawShapeCompat } from "@modelcontextprotocol/sdk/server/zod-compat.js";
 import type { ToolAnnotations } from "@modelcontextprotocol/sdk/types.js";
 
+import type { HostCapabilityName } from "../../plugins/plugin-api.js";
+
 /** A tool's two hints. A read-only tool is never destructive. */
 export type ToolHints = { readonly readOnlyHint: true; readonly destructiveHint: false } | { readonly readOnlyHint: false; readonly destructiveHint: boolean };
 
@@ -17,6 +19,13 @@ export const READ_ONLY = { readOnlyHint: true, destructiveHint: false } as const
 export const ADDITIVE = { readOnlyHint: false, destructiveHint: false } as const satisfies ToolHints;
 /** May overwrite or remove what the author's files hold: a Blueprint edited in place, a Map Package compiled over. */
 export const DESTRUCTIVE = { readOnlyHint: false, destructiveHint: true } as const satisfies ToolHints;
+
+/**
+ * A group's tools that are listed on every machine, so an agent on one that can't run them hears
+ * why, and refused where the Host Adapter lacks these capabilities. A tool listed only on a capable
+ * host needs no entry: the reference finds what it needs from the listing.
+ */
+export type RefusedWithout<N extends string> = { readonly [Name in N]?: readonly HostCapabilityName[] };
 
 /** `server.registerTool` for one group's tools: `name` is one of the group's, and the hints are required. */
 export type GroupRegistrar<N extends string> = <OutputArgs extends ZodRawShapeCompat | AnySchema, InputArgs extends undefined | ZodRawShapeCompat | AnySchema = undefined>(

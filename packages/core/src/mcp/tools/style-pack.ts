@@ -10,7 +10,7 @@ import { hostContext } from "../../host/machine-config.js";
 import { findStylePackPlaces, studyExemplars } from "../../study/study-exemplars.js";
 import { type CallContext } from "../call-context.js";
 import { captureJobs, type JobState, placeOf, waitLength } from "../capture-jobs.js";
-import { DESTRUCTIVE, toolGroup } from "./tool-group.js";
+import { DESTRUCTIVE, type RefusedWithout, toolGroup } from "./tool-group.js";
 
 const IdsSchema = z
   .array(z.string().min(1))
@@ -23,6 +23,9 @@ const SOURCES =
 
 /** The tools registerStylePackTools can register, the Style Pack group. */
 export const STYLE_PACK_TOOLS = ["study_exemplar", "find_places", "capture_exemplar"] as const;
+
+/** The group's tools listed on every machine but refused where the Host Adapter lacks these capabilities. */
+export const STYLE_PACK_REFUSED_WITHOUT = { capture_exemplar: ["editor.captureTour"] } as const satisfies RefusedWithout<(typeof STYLE_PACK_TOOLS)[number]>;
 
 export function registerStylePackTools(server: McpServer, ctx: CallContext, { captureWaitMs }: { readonly captureWaitMs: number }): void {
   const tool = toolGroup(server, STYLE_PACK_TOOLS);
@@ -76,7 +79,7 @@ export function registerStylePackTools(server: McpServer, ctx: CallContext, { ca
     {
       title: "Capture Exemplar Map tours in game",
       annotations: DESTRUCTIVE,
-      description: `Captures in-game camera tours of the active Style Pack's Exemplar Maps: place tours by default, one frame centred on each place in the pack's mixtures file (run find_places first), in the light the map's triggers set most outside cutscenes (or its exemplars.json placeLight, or placeZones by zone); or grid tours with tours: "grid", over the playable area once per lighting the map's study lists (run study_exemplar first), or its captureLights. Use grid tours for a map with little dressing. Frames go to the pack's exemplar-maps/<id>/captures/<tour>/ (git-ignored by the .gitignore it adds there), or under $SC2_RESEARCH_DIR/docs/research/exemplar-maps/ when that is set, with their 1000px copies in <id>/frames/<tour>/: every frame of every tour, place or grid. A tour that already has frames is skipped, so a rerun resumes; delete its captures folder to take it again. Each tour starts the game, which takes minutes. Every capture on the machine goes through one Editor Broker, one at a time; it waits up to ${waited}, and a job not done by then comes back as state waiting with a job id: call capture_exemplar({ job }) to wait again and collect it, or capture_exemplar({ job, cancel: true }) to cancel it; a new capture is refused while one is still going. ${SOURCES} Needs the macOS Host Adapter (editor.captureTour) and an awake screen; the Editor comes to the front while it runs, so check the author isn't mid-task in it.`,
+      description: `Captures in-game camera tours of the active Style Pack's Exemplar Maps: place tours by default, one frame centred on each place in the pack's mixtures file (run find_places first), in the light the map's triggers set most outside cutscenes (or its exemplars.json placeLight, or placeZones by zone); or grid tours with tours: "grid", over the playable area once per lighting the map's study lists (run study_exemplar first), or its captureLights. Use grid tours for a map with little dressing. Frames go to the pack's exemplar-maps/<id>/captures/<tour>/ (git-ignored by the .gitignore it adds there), or under $SC2_RESEARCH_DIR/docs/research/exemplar-maps/ when that is set, with their 1000px copies in <id>/frames/<tour>/: every frame of every tour, place or grid. A tour that already has frames is skipped, so a rerun resumes; delete its captures folder to take it again. Each tour starts the game, which takes minutes. Every capture on the machine goes through one Editor Broker, one at a time; it waits up to ${waited}, and a job not done by then comes back as state waiting with a job id: call capture_exemplar({ job }) to wait again and collect it, or capture_exemplar({ job, cancel: true }) to cancel it; a new capture is refused while one is still going. ${SOURCES} Needs a Host Adapter with the editor.captureTour capability, and an awake screen; the Editor comes to the front while it runs, so check the author isn't mid-task in it.`,
       inputSchema: {
         ids: IdsSchema,
         tours: z.enum(["places", "grid"]).optional().describe("places (the default): a frame on each of the pack's places; grid: the playable area, once per lighting"),
@@ -99,7 +102,7 @@ export function registerStylePackTools(server: McpServer, ctx: CallContext, { ca
       if (!ctx.host.has("editor.captureTour")) {
         const adapter = ctx.host.adapter ? ctx.host.adapter.name : "none";
         return ctx.fail(
-          `capture_exemplar needs a Host Adapter that can run editor.captureTour, and this machine's (${adapter}) can't: set hostAdapter in the machine config ${ctx.host.machine.file} to the macOS Host Adapter (bundled:host-macos), on a Mac with the StarCraft II Editor. No tours were captured; the studies and places work without them.`,
+          `capture_exemplar needs a Host Adapter that can run editor.captureTour, and this machine's (${adapter}) can't: set hostAdapter in the machine config ${ctx.host.machine.file} to a Host Adapter that has it (bundled:host-macos or bundled:host-windows), on a machine with the StarCraft II Editor. No tours were captured; the studies and places work without them.`,
         );
       }
       if (job !== undefined) {
