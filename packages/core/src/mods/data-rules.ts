@@ -4,7 +4,8 @@
 // refuses a compile.
 
 import { isCommentItem, isCommentKey } from "../domain/catalog-fields.js";
-import { type GenericEntry, genericEntryKey } from "./generic-entries.js";
+import { repeatedFields } from "./effective-entry.js";
+import { entryXml, type GenericEntry, genericEntryKey } from "./generic-entries.js";
 
 /** The fields that hold one item per level, so an item with no index leaves the parent's level 0 as it was. */
 const LEVEL_ARRAYS = ["VeterancyLevelArray", "LevelScalingArray", "LevelUpgradeArray"];
@@ -25,6 +26,8 @@ export function dataRuleWarnings(sources: readonly { readonly from: string; read
   const byId = new Map<string, GenericEntry>();
   for (const entry of all) if (entry.id !== undefined) byId.set(`${entry.catalog}:${entry.id}`, entry);
   const out: string[] = [];
+  // The Blueprint's own entries only, as the effective-entry merge reads them: Kept and imported data aren't here.
+  const repeats = repeatedFields(sources.map(({ from, entries }) => ({ label: from, files: [`<Catalog>\n${entries.map(entryXml).join("\n")}\n</Catalog>`] })));
   for (const { from, entries } of sources) {
     for (const entry of entries) {
       const name = `${from}: ${genericEntryKey(entry)}`;
@@ -46,6 +49,11 @@ export function dataRuleWarnings(sources: readonly { readonly from: string; read
 
       if (entry.catalog === "Actor" && parent && parent.class !== entry.class && !entry.class.startsWith(parent.class))
         out.push(`${name}: its parent ${entry.parent} is a ${parent.class}, not a ${entry.class}: parent an actor on one of its own class (Blizzard parents a subclass on its base class, such as CActorRegionQuad on CActorRegion, but the safe pairing is the same class)`);
+
+      for (const repeat of repeats.filter((one) => one.class === entry.class && one.id === entry.id)) {
+        const field = repeat.index === undefined ? repeat.field : `${repeat.field}[${repeat.index}]`;
+        out.push(`${name}: ${field} repeats the value its parent ${repeat.parent} sets: delete it here, so a later change to ${repeat.parent} reaches this entry (or change it, if it should differ)`);
+      }
 
       if (entry.catalog === "Weapon" && entry.class === "CWeapon" && entry.id !== undefined)
         out.push(`${name}: a named weapon is a CWeaponLegacy in Blizzard's data (none of its 3,000-odd named weapons is a CWeapon), and the Editor may refuse a named CWeapon: change its class to CWeaponLegacy`);

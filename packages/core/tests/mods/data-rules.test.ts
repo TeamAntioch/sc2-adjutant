@@ -79,6 +79,44 @@ describe("a named CWeapon", () => {
   });
 });
 
+describe("a field that repeats its parent's value", () => {
+  const unit = (id: string, fields: GenericEntry["fields"], parent?: string): GenericEntry => entry({ catalog: "Unit", class: "CUnit", id, ...(parent ? { parent } : {}), fields });
+
+  it("warns, naming the field, the entry and the parent", () => {
+    const warnings = warn(unit("Base", { LifeMax: 100, Speed: 2 }), unit("Child", { LifeMax: 100, Speed: 3 }, "Base"));
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toContain("CUnit:Child");
+    expect(warnings[0]).toContain("LifeMax");
+    expect(warnings[0]).toContain("CUnit:Base");
+  });
+
+  it("finds a value set by a grandparent, and compares an indexed field element by element", () => {
+    const array = (value: number) => [{ index: 0, MinVeterancyXP: value }];
+    const warnings = warn(unit("A", { LifeMax: 5 }), unit("B", {}, "A"), unit("C", { LifeMax: 5 }, "B"), unit("D", { VeterancyLevelArray: array(1) }), unit("E", { VeterancyLevelArray: [{ index: 0, MinVeterancyXP: 1 }, { index: 1, MinVeterancyXP: 2 }] }, "D"));
+    expect(warnings.filter((warning) => warning.includes("CUnit:C"))).toHaveLength(1);
+    expect(warnings.filter((warning) => warning.includes("VeterancyLevelArray[0]"))).toHaveLength(1);
+    expect(warnings.some((warning) => warning.includes("VeterancyLevelArray[1]"))).toBe(false);
+  });
+
+  it("is quiet for a changed value, a removed element, a field the parent lacks, or a parent outside the Blueprint", () => {
+    expect(warn(unit("Base", { LifeMax: 100 }), unit("Child", { LifeMax: 150 }, "Base"))).toEqual([]);
+    expect(warn(unit("Base", { LifeMax: 100 }), unit("Child", { LifeMax: { removed: 1 } }, "Base"))).toEqual([]);
+    expect(warn(unit("Base", { LifeMax: 100 }), unit("Child", { LifeStart: 100 }, "Base"))).toEqual([]);
+    expect(warn(unit("Child", { LifeMax: 100 }, "Stock"))).toEqual([]);
+  });
+
+  it("is quiet for a token, whose value depends on the child", () => {
+    expect(warn(unit("Base", { Name: "Unit/Name/##id##" }), unit("Child", { Name: "Unit/Name/##id##" }, "Base"))).toEqual([]);
+  });
+
+  it("never reads a Kept entry, which isn't in the Blueprint's sources", async () => {
+    const mod = await setup();
+    await declare(mod, { entries: [{ source: "entries/UnitData.json" }] }, { "entries/UnitData.json": `${JSON.stringify([{ catalog: "Unit", class: "CUnit", id: "Child", parent: "Stock", fields: { LifeMax: 100 } }])}\n` });
+    const { warnings } = await compileMod(mod.blueprintPath);
+    expect(warnings.some((warning) => warning.includes("repeats the value"))).toBe(false);
+  });
+});
+
 describe("compileMod", () => {
   it("reports a data rule as a warning and still compiles", async () => {
     const mod = await setup();
