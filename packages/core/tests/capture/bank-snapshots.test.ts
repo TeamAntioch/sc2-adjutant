@@ -7,9 +7,10 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { bankRuns, diffBankText, finishBankRun, KEPT_BANK_RUNS, parseBank, pendingBankRun, resolveBanks, snapshotBanks } from "../../src/capture/bank-snapshots.js";
+import { bankRuns, diffBankText, finishBankRun, KEPT_BANK_RUNS, parseBank, pendingBankRun, pruneBankRuns, resolveBanks, restoreBankRun, saveBanksAsFixture, snapshotBanks, unrestoredFixtureRun } from "../../src/capture/bank-snapshots.js";
 import type { Host } from "../../src/host/host.js";
 import { emptyMachineConfig } from "../../src/host/machine-config.js";
+import { bankFixtureProblem, missionBankFixture } from "../../src/capture/bank-fixtures.js";
 import { bankReport } from "../../src/mcp/tools/bank-report.js";
 
 const folders: string[] = [];
@@ -161,5 +162,144 @@ describe("the bank report", () => {
     expect(await readFile(path.join(t.banksDir, "Score.SC2Bank"), "utf8")).toContain('int="4"');
     await bankReport(host, { rollback: ["Score.SC2Bank"] });
     expect(await readFile(path.join(t.banksDir, "Score.SC2Bank"), "utf8")).toContain('int="3"');
+  });
+});
+
+describe("a run on a bank fixture", () => {
+  /** A fixture folder: a new Score bank, a bank of its own, and a file that isn't a bank. */
+  async function fixtureOf(t: Awaited<ReturnType<typeof setup>>) {
+    const dir = path.join(t.folder, "fixture");
+    await mkdir(path.join(dir, "sub"), { recursive: true });
+    await writeFile(path.join(dir, "Score.SC2Bank"), bank({ level: 'int="7"', name: 'string="Fixture"' }));
+    await writeFile(path.join(dir, "sub", "Research.SC2Bank"), bank({ x: 'int="1"' }));
+    await writeFile(path.join(dir, "notes.txt"), "not a bank");
+    return { name: "after-two", dir };
+  }
+  const files = async (dir: string) => ({ score: await readFile(path.join(dir, "Score.SC2Bank"), "utf8"), gone: existsSync(path.join(dir, "Gone.SC2Bank")), research: existsSync(path.join(dir, "sub", "Research.SC2Bank")), notes: existsSync(path.join(dir, "notes.txt")) });
+
+  it("starts with the fixture's banks, and ends with the author's restored, the game's own changes recorded as rolled back", async () => {
+    const t = await setup();
+    const original = await files(t.banksDir);
+    const run = await snapshotBanks(t.cacheDir, t.banksDir, "/m/Mission.SC2Map", new Date(), await fixtureOf(t));
+    // The game starts on the fixture's banks; the author's other bank stays.
+    expect(await files(t.banksDir)).toEqual({ score: bank({ level: 'int="7"', name: 'string="Fixture"' }), gone: true, research: true, notes: false });
+    expect((await unrestoredFixtureRun(t.cacheDir))?.id).toBe(run.id);
+    // The game saves a key while it runs.
+    await writeFile(path.join(t.banksDir, "Score.SC2Bank"), bank({ level: 'int="8"', name: 'string="Fixture"' }));
+
+    const finished = await finishBankRun(t.cacheDir, run);
+    expect(await files(t.banksDir)).toEqual(original);
+    expect(finished.changes.map((change) => [change.bank, change.status, change.resolution])).toEqual([["Score.SC2Bank", "changed", "rolled-back"]]);
+    expect(finished.changes[0]!.sections[0]!.keys).toEqual([{ key: "level", status: "changed", before: 'int="7"', after: 'int="8"' }]);
+    // Nothing waits for the author, and nothing is left to restore.
+    expect(await pendingBankRun(t.cacheDir)).toBeUndefined();
+    expect(await unrestoredFixtureRun(t.cacheDir)).toBeUndefined();
+  });
+
+  it("restores the author's banks when the game's run wrote, deleted or added banks too", async () => {
+    const t = await setup();
+    const original = await files(t.banksDir);
+    const run = await snapshotBanks(t.cacheDir, t.banksDir, "/m/Mission.SC2Map", new Date(), await fixtureOf(t));
+    await rm(path.join(t.banksDir, "Gone.SC2Bank"));
+    await writeFile(path.join(t.banksDir, "Made.SC2Bank"), bank({ n: 'int="1"' }));
+    await finishBankRun(t.cacheDir, run);
+    expect(await files(t.banksDir)).toEqual(original);
+    expect(existsSync(path.join(t.banksDir, "Made.SC2Bank"))).toBe(false);
+  });
+
+  it("restores the author's banks, and keeps nothing, for a run whose game never started", async () => {
+    const t = await setup();
+    const original = await files(t.banksDir);
+    const run = await snapshotBanks(t.cacheDir, t.banksDir, "/m/Mission.SC2Map", new Date(), await fixtureOf(t));
+    expect((await files(t.banksDir)).research).toBe(true);
+    await restoreBankRun(t.cacheDir, run);
+    expect(await files(t.banksDir)).toEqual(original);
+    expect(await bankRuns(t.cacheDir)).toEqual([]);
+  });
+
+  it("puts the author's banks back even when the fixture can't be copied in", async () => {
+    const t = await setup();
+    const original = await files(t.banksDir);
+    await expect(snapshotBanks(t.cacheDir, t.banksDir, "/m/Mission.SC2Map", new Date(), { name: "gone", dir: path.join(t.folder, "nope") })).rejects.toThrow(/holds no .SC2Bank files/);
+    // A fixture folder that can't be read through: a file where a folder should be.
+    const dir = path.join(t.folder, "bad");
+    await mkdir(dir);
+    await writeFile(path.join(dir, "Score.SC2Bank"), bank({ level: 'int="1"' }));
+    await writeFile(path.join(t.banksDir, "sub2"), "a file in the way");
+    await mkdir(path.join(dir, "sub2"));
+    await writeFile(path.join(dir, "sub2", "X.SC2Bank"), bank({ a: 'int="1"' }));
+    await expect(snapshotBanks(t.cacheDir, t.banksDir, "/m/Mission.SC2Map", new Date(), { name: "bad", dir })).rejects.toThrow();
+    expect(await readFile(path.join(t.banksDir, "Score.SC2Bank"), "utf8")).toBe(original.score);
+    expect(await unrestoredFixtureRun(t.cacheDir)).toBeUndefined();
+  });
+
+  it("is never pruned while the author's banks aren't back", async () => {
+    const t = await setup();
+    const fixture = await snapshotBanks(t.cacheDir, t.banksDir, "/m/Fixture.SC2Map", new Date(2026, 0, 1), await fixtureOf(t));
+    for (let i = 0; i < KEPT_BANK_RUNS + 2; i++) await snapshotBanks(t.cacheDir, t.banksDir, `/m/${i}.SC2Map`, new Date(2026, 0, 2, 0, i));
+    await pruneBankRuns(t.cacheDir);
+    expect((await unrestoredFixtureRun(t.cacheDir))?.id).toBe(fixture.id);
+  });
+
+  it("on a host that can't tell whether the game quit, shows the fixture and restores on the author's word", async () => {
+    const t = await setup();
+    const original = await files(t.banksDir);
+    const host = { machine: { ...emptyMachineConfig(path.join(t.folder, "machine.json")), cacheDir: t.cacheDir }, adapter: undefined, has: () => false, run: (() => Promise.resolve(true)) as Host["run"] } as Host;
+    await snapshotBanks(t.cacheDir, t.banksDir, "/m/Mission.SC2Map", new Date(), await fixtureOf(t));
+    const during = (await bankReport(host)).lines.join("\n");
+    expect(during).toContain("plays on the bank fixture after-two");
+    expect(during).toContain("call bank_changes with rollbackAll");
+    expect((await files(t.banksDir)).research).toBe(true);
+
+    const after = await bankReport(host, { rollbackAll: true });
+    expect(after.lines).toEqual([]);
+    expect(await files(t.banksDir)).toEqual(original);
+  });
+
+  it("restores on the next report once the host sees the game has quit, with a broker that never recorded it", async () => {
+    const t = await setup();
+    const original = await files(t.banksDir);
+    let playing = true;
+    const host = { machine: { ...emptyMachineConfig(path.join(t.folder, "machine.json")), cacheDir: t.cacheDir }, adapter: undefined, has: (name: string) => name === "game.running", run: (() => Promise.resolve(playing)) as Host["run"] } as Host;
+    await snapshotBanks(t.cacheDir, t.banksDir, "/m/Mission.SC2Map", new Date(), await fixtureOf(t));
+    await bankReport(host);
+    expect((await files(t.banksDir)).research).toBe(true);
+    playing = false;
+    expect((await bankReport(host)).lines).toEqual([]);
+    expect(await files(t.banksDir)).toEqual(original);
+  });
+});
+
+describe("saving the banks as a fixture", () => {
+  it("copies the .SC2Bank files into the destination folder and touches nothing else", async () => {
+    const t = await setup();
+    await writeFile(path.join(t.banksDir, "readme.txt"), "x");
+    const dest = path.join(t.folder, "ws", "bank-fixtures", "after-two");
+    const saved = await saveBanksAsFixture(t.banksDir, dest);
+    expect(saved).toEqual(["Gone.SC2Bank", "Score.SC2Bank", "sub/Other.SC2Bank"]);
+    expect(await readFile(path.join(dest, "sub", "Other.SC2Bank"), "utf8")).toContain('name="a"');
+    expect(existsSync(path.join(dest, "readme.txt"))).toBe(false);
+    expect(await readFile(path.join(t.banksDir, "Score.SC2Bank"), "utf8")).toContain('int="3"');
+    expect(await readFile(path.join(t.banksDir, "readme.txt"), "utf8")).toBe("x");
+    await expect(saveBanksAsFixture(path.join(t.folder, "empty"), path.join(t.folder, "dest"))).rejects.toThrow(/no .SC2Bank files/);
+    expect(existsSync(path.join(t.folder, "dest"))).toBe(false);
+  });
+});
+
+describe("naming a fixture", () => {
+  it("resolves from the Blueprint's folder, and says why a missing, empty or outside folder can't be used", async () => {
+    const t = await setup();
+    const ws = path.join(t.folder, "ws");
+    const blueprint = path.join(ws, "missions", "m1", "blueprint.json");
+    await mkdir(path.join(ws, "bank-fixtures", "ok"), { recursive: true });
+    await mkdir(path.join(ws, "bank-fixtures", "empty"), { recursive: true });
+    await mkdir(path.dirname(blueprint), { recursive: true });
+    await writeFile(path.join(ws, "bank-fixtures", "ok", "A.SC2Bank"), bank({ a: 'int="1"' }));
+    expect(await missionBankFixture(ws, blueprint, undefined)).toBeUndefined();
+    expect(await missionBankFixture(ws, blueprint, "../../bank-fixtures/ok")).toEqual({ name: "../../bank-fixtures/ok", dir: path.join(ws, "bank-fixtures", "ok") });
+    expect(await bankFixtureProblem(ws, blueprint, "../../bank-fixtures/missing")).toContain("names a folder that doesn't exist");
+    expect(await bankFixtureProblem(ws, blueprint, "../../bank-fixtures/empty")).toContain("holds no .SC2Bank files");
+    expect(await bankFixtureProblem(ws, blueprint, "../../../elsewhere")).toContain("outside the Workspace");
+    await expect(missionBankFixture(ws, blueprint, "../../bank-fixtures/missing")).rejects.toThrow(/doesn't exist/);
   });
 });

@@ -19,8 +19,8 @@ import { hostContext } from "../host/machine-config.js";
 import type { CaptureTourRequest, CaptureTourResult } from "../plugins/plugin-api.js";
 import type { CaptureCopyOptions } from "./capture-copy.js";
 
-/** The protocol both ends speak; a broker built from another version refuses the job. 2: editor jobs. */
-export const BROKER_PROTOCOL = 2;
+/** The protocol both ends speak; a broker built from another version refuses the job. 2: editor jobs. 3: a Test Document's bank fixture. */
+export const BROKER_PROTOCOL = 3;
 
 /** The Editor actions the broker runs between captures: each clicks the Editor's menus or brings it forward. */
 export const BROKERED_EDITOR_ACTIONS = ["editor.open", "editor.refresh", "editor.testDocument", "editor.save"] as const;
@@ -66,6 +66,8 @@ export type CaptureJob =
       readonly source: string;
       readonly seconds?: number;
       readonly ifIdle?: boolean;
+      /** A Test Document's bank fixture (#55): its name, and its folder, absolute. The broker copies its banks in for the run and puts the author's back. */
+      readonly bankFixture?: { readonly name: string; readonly dir: string };
     };
 
 export type CaptureJobResult = CaptureTourResult & {
@@ -235,7 +237,7 @@ export class EditorBusyError extends Error {
 export async function runEditorAction(
   host: Host,
   action: BrokeredEditorAction,
-  request: { readonly mapPath: string; readonly seconds?: number },
+  request: { readonly mapPath: string; readonly seconds?: number; readonly bankFixture?: { readonly name: string; readonly dir: string } },
   options: { readonly ifIdle?: boolean; readonly log?: (line: string) => void } = {},
 ): Promise<void> {
   if (!host.has("editor.captureTour")) {
@@ -243,7 +245,7 @@ export async function runEditorAction(
     return;
   }
   const cacheDir = hostContext(host.machine).requirePath("cacheDir");
-  const job: Extract<CaptureJob, { kind: "editor" }> = { kind: "editor", action, source: request.mapPath, ...(request.seconds !== undefined ? { seconds: request.seconds } : {}), ...(options.ifIdle ? { ifIdle: true } : {}) };
+  const job: Extract<CaptureJob, { kind: "editor" }> = { kind: "editor", action, source: request.mapPath, ...(request.seconds !== undefined ? { seconds: request.seconds } : {}), ...(request.bankFixture ? { bankFixture: request.bankFixture } : {}), ...(options.ifIdle ? { ifIdle: true } : {}) };
   await runEditorJob(job, { socketPath: brokerSocketPath(cacheDir), start: () => spawnBroker(host, cacheDir), script: brokerScript(), ...(options.log ? { log: options.log } : {}) });
 }
 

@@ -33,14 +33,16 @@ export async function bankReport(host: Host, choices: BankChoices = {}): Promise
     const playing = canTell ? await host.run("game.running", {}).catch(() => true) : !asked;
     if (playing) {
       const soFar = await finishBankRun(cacheDir, run, false);
+      const restoring = run.fixture !== undefined ? [`  The test game plays on the bank fixture ${run.fixture}: the Banks folder holds its banks until the game quits, then the author's own are put back${canTell ? "." : ": call bank_changes with rollbackAll to say it has quit."}`] : [];
       const why = canTell ? "the game is still running" : "this machine's Host Adapter can't tell whether the game has quit, so keep or rollback is taken as the author's word that it has";
       const lines = [`Banks, so far (${why}):`, ...(soFar.changes.length > 0 ? describeBankRun({ ...soFar, state: "running" }) : ["  no bank has changed yet."])];
-      return { lines: asked ? [`Nothing kept or rolled back: ${why}. Quit the game, then ask again.`, ...lines] : lines, run: soFar, refused: asked };
+      return { lines: asked ? [`Nothing kept or rolled back: ${why}. Quit the game, then ask again.`, ...lines] : [...lines, ...restoring], run: soFar, refused: asked };
     }
     run = await finishBankRun(cacheDir, run);
     if (run.changes.length === 0) return { lines: [] };
   }
-  if (asked) {
+  // A fixture run's banks went back when the game quit; there is nothing to keep or roll back.
+  if (asked && run.fixture === undefined) {
     const open = run.changes.filter((change) => !change.resolution).map((change) => change.bank);
     const rollback = new Set([...(choices.rollback ?? []), ...(choices.rollbackAll ? open : [])]);
     const keep = new Set([...(choices.keep ?? []), ...(choices.keepAll ? open : [])]);

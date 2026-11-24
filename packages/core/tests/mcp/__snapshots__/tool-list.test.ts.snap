@@ -6894,6 +6894,60 @@ exports[`the tool list > is the same on a bare machine 1`] = `
   {
     "annotations": {
       "destructiveHint": false,
+      "readOnlyHint": false,
+    },
+    "description": "Copies the .SC2Bank files in the game's Banks folder (from the Host Adapter's game.banksDir) into a new folder \`<Workspace>/bank-fixtures/<name>/\`, to be named by a Mission's Blueprint as its bankFixture (a path from the Blueprint's folder, e.g. ../../bank-fixtures/<name>). It reads the Banks folder and writes nothing outside that destination. Refused while a test game's banks haven't been put back, or a test game runs, since the folder then holds a fixture's banks; refused when the destination already holds banks, unless overwrite is true. Set the campaign up in the game first (play to the state the fixture should hold), then call this.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "name": {
+          "description": "The fixture's folder name, e.g. after-mission-2",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "type": "string",
+        },
+        "overwrite": {
+          "description": "Replace the banks of a fixture of that name that already exists",
+          "type": "boolean",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "required": [
+        "name",
+      ],
+      "type": "object",
+    },
+    "name": "save_bank_fixture",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "banks": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "fixture": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "banks",
+      ],
+      "type": "object",
+    },
+    "title": "Save the game's banks as a bank fixture",
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
       "readOnlyHint": true,
     },
     "description": "Doodad Search's narrowing step: a keyword and facet search over the game's doodads (core's doodad catalog), its terrain objects and the Workspace's Campaign Mod's doodads, with the Workspace's Doodad Uses (doodad-notes.json beside its config) merged in. Words match whole words in a doodad's name, id (split at its camel case, so crusher finds PortZionCrusherDoodad), look or Doodad Uses, in any plural or inflected form (crate finds crates but not crater; press finds presses and pressed); a word ending in * matches the start of a word instead (stamp* finds stamper), and a word of several words matches them in a row; the most words matched rank first. Facets narrow by the catalog's description (a terrain object has no size or role; a doodad for any biome fits every biome). A Campaign Mod doodad matches on its entry in the mod's doodad index (mods/<id>/doodad-catalog.json: description, Doodad Uses and sheet) as a game doodad does on core's; one whose description wasn't written for its current model is marked pending (run index_mod_doodads, then describe it); one with no description at all matches by name and id alone and never passes a facet; and one with nothing to draw gives why as unpictured. A game doodad the mod gave a model of its own is the mod's. Each result gives its id, name, source, package, the map dependency it needs and, for a Mission, whether the Mission's dependencies already bring it in (those sort first), its description, Doodad Uses (the published sc2-asset-catalog package's, then the Workspace's: each a phrase with the variation, scale and source it was accepted with, when set), variation count, its facing when a game doodad has one (front: the degrees its face points at rotation 0, counterclockwise from east; placement: wall-foot, wall-face, wall-top or free, with its stand-off from a wall zone's edge and height; source: measured, the author's, which a set piece member's yaw and against: "wall" use, or sheet, read from its catalog renders, whose front they use only when sure and not diagonal and whose placement and stand-off are suggestions), and picture: its turntable sheet (variation 00 from four sides) when this machine has one, else its gallery picture (one angle: say so when judging from it), else none; and whether the renders a sheet is built from are here (then offer to build it: build_doodad_sheets builds sheets by id, and build_doodad_search_page with buildSheets builds a search's candidates'). Reads only.",
@@ -8360,7 +8414,7 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "destructiveHint": true,
       "readOnlyHint": false,
     },
-    "description": "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
+    "description": "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. When the Blueprint names a bankFixture (a folder of .SC2Bank files in the Workspace, as a path from the Blueprint's folder), the run plays on that fixture's banks instead: they are copied into the Banks folder after the snapshot, and the author's own are put back when the game quits, even if the run fails, with nothing for the author to keep or roll back (on a host that can't tell when the game quit, bank_changes with rollbackAll puts them back once the author says it has quit); a new test is refused until they are back. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -17083,6 +17137,60 @@ exports[`the tool list > is the same on a machine that can do everything, with b
   {
     "annotations": {
       "destructiveHint": false,
+      "readOnlyHint": false,
+    },
+    "description": "Copies the .SC2Bank files in the game's Banks folder (from the Host Adapter's game.banksDir) into a new folder \`<Workspace>/bank-fixtures/<name>/\`, to be named by a Mission's Blueprint as its bankFixture (a path from the Blueprint's folder, e.g. ../../bank-fixtures/<name>). It reads the Banks folder and writes nothing outside that destination. Refused while a test game's banks haven't been put back, or a test game runs, since the folder then holds a fixture's banks; refused when the destination already holds banks, unless overwrite is true. Set the campaign up in the game first (play to the state the fixture should hold), then call this.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "name": {
+          "description": "The fixture's folder name, e.g. after-mission-2",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "type": "string",
+        },
+        "overwrite": {
+          "description": "Replace the banks of a fixture of that name that already exists",
+          "type": "boolean",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "required": [
+        "name",
+      ],
+      "type": "object",
+    },
+    "name": "save_bank_fixture",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "banks": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "fixture": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "banks",
+      ],
+      "type": "object",
+    },
+    "title": "Save the game's banks as a bank fixture",
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
       "readOnlyHint": true,
     },
     "description": "Doodad Search's narrowing step: a keyword and facet search over the game's doodads (core's doodad catalog), its terrain objects and the Workspace's Campaign Mod's doodads, with the Workspace's Doodad Uses (doodad-notes.json beside its config) merged in. Words match whole words in a doodad's name, id (split at its camel case, so crusher finds PortZionCrusherDoodad), look or Doodad Uses, in any plural or inflected form (crate finds crates but not crater; press finds presses and pressed); a word ending in * matches the start of a word instead (stamp* finds stamper), and a word of several words matches them in a row; the most words matched rank first. Facets narrow by the catalog's description (a terrain object has no size or role; a doodad for any biome fits every biome). A Campaign Mod doodad matches on its entry in the mod's doodad index (mods/<id>/doodad-catalog.json: description, Doodad Uses and sheet) as a game doodad does on core's; one whose description wasn't written for its current model is marked pending (run index_mod_doodads, then describe it); one with no description at all matches by name and id alone and never passes a facet; and one with nothing to draw gives why as unpictured. A game doodad the mod gave a model of its own is the mod's. Each result gives its id, name, source, package, the map dependency it needs and, for a Mission, whether the Mission's dependencies already bring it in (those sort first), its description, Doodad Uses (the published sc2-asset-catalog package's, then the Workspace's: each a phrase with the variation, scale and source it was accepted with, when set), variation count, its facing when a game doodad has one (front: the degrees its face points at rotation 0, counterclockwise from east; placement: wall-foot, wall-face, wall-top or free, with its stand-off from a wall zone's edge and height; source: measured, the author's, which a set piece member's yaw and against: "wall" use, or sheet, read from its catalog renders, whose front they use only when sure and not diagonal and whose placement and stand-off are suggestions), and picture: its turntable sheet (variation 00 from four sides) when this machine has one, else its gallery picture (one angle: say so when judging from it), else none; and whether the renders a sheet is built from are here (then offer to build it: build_doodad_sheets builds sheets by id, and build_doodad_search_page with buildSheets builds a search's candidates'). Reads only.",
@@ -18611,7 +18719,7 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "destructiveHint": true,
       "readOnlyHint": false,
     },
-    "description": "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
+    "description": "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. When the Blueprint names a bankFixture (a folder of .SC2Bank files in the Workspace, as a path from the Blueprint's folder), the run plays on that fixture's banks instead: they are copied into the Banks folder after the snapshot, and the author's own are put back when the game quits, even if the run fails, with nothing for the author to keep or roll back (on a host that can't tell when the game quit, bank_changes with rollbackAll puts them back once the author says it has quit); a new test is refused until they are back. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
     "execution": {
       "taskSupport": "forbidden",
     },

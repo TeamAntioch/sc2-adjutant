@@ -47,6 +47,12 @@ export type BankRun = {
   readonly source: string;
   /** `running` until the game's quit is seen and the changes are recorded. */
   state: "running" | "finished";
+  /**
+   * The bank fixture the run played on (#55), as the Mission names it. The fixture's banks were
+   * copied into the Banks folder for the run, so the author's are put back when the game quits and
+   * the changes the game made are recorded as rolled back, never asked about. Absent for a run on the author's own banks.
+   */
+  readonly fixture?: string;
   changes: BankChange[];
 };
 
@@ -142,32 +148,104 @@ export async function bankRuns(cacheDir: string): Promise<BankRun[]> {
   return runs.sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id));
 }
 
-/** Deletes all but the newest `keep` runs. */
+/**
+ * Deletes all but the newest `keep` runs. A fixture run whose author's banks aren't back yet is
+ * never deleted: its snapshot is the only copy of them.
+ */
 export async function pruneBankRuns(cacheDir: string, keep = KEPT_BANK_RUNS): Promise<void> {
   const runs = await bankRuns(cacheDir);
-  for (const run of runs.slice(0, Math.max(0, runs.length - keep))) await rm(runFolder(cacheDir, run.id), { recursive: true, force: true });
+  for (const run of runs.slice(0, Math.max(0, runs.length - keep))) {
+    if (run.fixture !== undefined && run.state === "running") continue;
+    await rm(runFolder(cacheDir, run.id), { recursive: true, force: true });
+  }
+}
+
+/** The fixture run whose game hasn't been seen to quit: the Banks folder may still hold its banks instead of the author's. */
+export async function unrestoredFixtureRun(cacheDir: string): Promise<BankRun | undefined> {
+  return (await bankRuns(cacheDir)).find((run) => run.fixture !== undefined && run.state === "running");
+}
+
+/** The `.SC2Bank` files under `source`, as paths relative to it. */
+export async function fixtureBanks(source: string): Promise<string[]> {
+  return (await listFiles(source)).filter((file) => file.toLowerCase().endsWith(".sc2bank"));
+}
+
+/** Copies the fixture's banks over the Banks folder, creating it if it isn't there; any other bank is left alone. */
+async function copyBanks(from: string, to: string): Promise<void> {
+  for (const file of await fixtureBanks(from)) {
+    await mkdir(path.dirname(path.join(to, file)), { recursive: true });
+    await cp(path.join(from, file), path.join(to, file));
+  }
+}
+
+/**
+ * Copies the Banks folder's `.SC2Bank` files into a fixture folder, which is the only place it
+ * writes: it is made when missing, and a bank already there is replaced. Returns the banks copied.
+ */
+export async function saveBanksAsFixture(banksDir: string, fixtureDir: string): Promise<string[]> {
+  const banks = await fixtureBanks(banksDir);
+  if (banks.length === 0) throw new Error(`${banksDir} holds no .SC2Bank files to save`);
+  await copyBanks(banksDir, fixtureDir);
+  return banks;
+}
+
+/** Puts the Banks folder back as `snapshot` has it: every file the run added is deleted, every changed or removed one copied back. */
+async function restoreFromSnapshot(snapshot: string, banksDir: string): Promise<void> {
+  for (const change of await diffBanks(snapshot, banksDir)) {
+    const target = path.join(banksDir, change.bank);
+    if (change.status === "added") await rm(target, { force: true });
+    else {
+      await mkdir(path.dirname(target), { recursive: true });
+      await cp(path.join(snapshot, change.bank), target);
+    }
+  }
 }
 
 /** Copies `banksDir` into the cache as a new running run, and prunes the old ones. */
-export async function snapshotBanks(cacheDir: string, banksDir: string, source: string, now = new Date()): Promise<BankRun> {
+export async function snapshotBanks(cacheDir: string, banksDir: string, source: string, now = new Date(), fixture?: { readonly name: string; readonly dir: string }): Promise<BankRun> {
   const id = `${now.getTime().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
   const files = path.join(runFolder(cacheDir, id), "files");
   await mkdir(files, { recursive: true });
   if (existsSync(banksDir)) await cp(banksDir, files, { recursive: true });
-  const run: BankRun = { id, createdAt: now.toISOString(), banksDir, source, state: "running", changes: [] };
+  const run: BankRun = { id, createdAt: now.toISOString(), banksDir, source, state: "running", changes: [], ...(fixture ? { fixture: fixture.name } : {}) };
+  // Saved before the fixture is copied in, so a failure part-way still leaves the record that puts the author's banks back.
   await save(cacheDir, run);
+  if (fixture) {
+    try {
+      if ((await fixtureBanks(fixture.dir)).length === 0) throw new Error(`The bank fixture ${fixture.name} holds no .SC2Bank files (${fixture.dir})`);
+      await copyBanks(fixture.dir, banksDir);
+      await mkdir(appliedFolder(cacheDir, id), { recursive: true });
+      await cp(banksDir, appliedFolder(cacheDir, id), { recursive: true });
+    } catch (error) {
+      await restoreBankRun(cacheDir, run).catch(() => undefined);
+      throw error;
+    }
+  }
   await pruneBankRuns(cacheDir);
   return run;
 }
 
+/** A fixture run's Banks folder just after the fixture went in: what the game's own changes are compared with. */
+const appliedFolder = (cacheDir: string, id: string): string => path.join(runFolder(cacheDir, id), "applied");
+
 /** Forgets a run: a test game that never started. */
 export const discardBankRun = (cacheDir: string, id: string): Promise<void> => rm(runFolder(cacheDir, id), { recursive: true, force: true });
+
+/**
+ * Puts the author's banks back after a fixture run, then forgets the run. For a game that never
+ * started or a failed snapshot; a fixture run that played goes through finishBankRun.
+ */
+export async function restoreBankRun(cacheDir: string, run: BankRun): Promise<void> {
+  await restoreFromSnapshot(path.join(runFolder(cacheDir, run.id), "files"), run.banksDir);
+  await discardBankRun(cacheDir, run.id);
+}
 
 /**
  * Records what the run changed, once its game has quit. A run that changed nothing is deleted.
  * `record: false` only computes the changes (a game that may still run).
  */
 export async function finishBankRun(cacheDir: string, run: BankRun, record = true): Promise<BankRun> {
+  if (run.fixture !== undefined) return finishFixtureRun(cacheDir, run, record);
   const changes = await diffBanks(path.join(runFolder(cacheDir, run.id), "files"), run.banksDir);
   if (!record) return { ...run, changes };
   if (changes.length === 0) {
@@ -176,6 +254,26 @@ export async function finishBankRun(cacheDir: string, run: BankRun, record = tru
   }
   const finished: BankRun = { ...run, state: "finished", changes };
   await save(cacheDir, finished);
+  return finished;
+}
+
+/**
+ * A fixture run changes the banks on purpose, so what the game itself changed (against the folder
+ * just after the fixture went in) is recorded for the author's information, already `rolled-back`:
+ * the author's banks are put back whatever the game did, and nothing waits for an answer. If the
+ * restore fails the run stays `running`, and the next call tries again.
+ */
+async function finishFixtureRun(cacheDir: string, run: BankRun, record: boolean): Promise<BankRun> {
+  const changes = await diffBanks(appliedFolder(cacheDir, run.id), run.banksDir);
+  if (!record) return { ...run, changes };
+  await restoreFromSnapshot(path.join(runFolder(cacheDir, run.id), "files"), run.banksDir);
+  for (const change of changes) change.resolution = "rolled-back";
+  const finished: BankRun = { ...run, state: "finished", changes };
+  if (changes.length === 0) await discardBankRun(cacheDir, run.id);
+  else {
+    await rm(appliedFolder(cacheDir, run.id), { recursive: true, force: true });
+    await save(cacheDir, finished);
+  }
   return finished;
 }
 
@@ -220,7 +318,8 @@ export function describeBankRun(run: BankRun): string[] {
   const open = run.changes.filter((change) => !change.resolution);
   const lines: string[] = [];
   const source = path.basename(run.source);
-  if (run.state === "running") lines.push(`The test game of ${source} (started ${run.createdAt}) hasn't been seen to quit, so what it changes in the Banks folder isn't recorded yet.`);
+  if (run.fixture !== undefined && run.state === "running") lines.push(`The test game of ${source} plays on the bank fixture ${run.fixture}, so the Banks folder holds the fixture's banks until the game quits; the author's own banks are put back then.`);
+  else if (run.state === "running") lines.push(`The test game of ${source} (started ${run.createdAt}) hasn't been seen to quit, so what it changes in the Banks folder isn't recorded yet.`);
   for (const change of run.changes) {
     lines.push(`  ${change.bank}: ${change.status}${change.resolution ? ` (${change.resolution === "kept" ? "kept" : "rolled back"})` : ""}`);
     if (change.resolution) continue;

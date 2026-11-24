@@ -22,7 +22,7 @@ import path from "node:path";
 import type { Host } from "../host/host.js";
 import { hostContext } from "../host/machine-config.js";
 import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest } from "../plugins/plugin-api.js";
-import { discardBankRun, finishBankRun, snapshotBanks, type BankRun } from "./bank-snapshots.js";
+import { discardBankRun, finishBankRun, restoreBankRun, snapshotBanks, unrestoredFixtureRun, type BankRun } from "./bank-snapshots.js";
 import { makeCaptureCopy, TOUR_BANK } from "./capture-copy.js";
 import {
   BROKER_PROTOCOL,
@@ -241,14 +241,25 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
   /** Runs one Editor action; after a Test Document, holds the queue until its game quits. */
   async function runEditorJob(entry: Entry, job: Extract<CaptureJob, { kind: "editor" }>): Promise<void> {
     const record = (line: string) => log(`${entry.id}: ${line}`);
-    const snapshot = job.action === "editor.testDocument" ? await snapshotBanksBefore(job.source, record) : undefined;
+    let snapshot: { readonly cacheDir: string; readonly run: BankRun } | undefined;
+    try {
+      snapshot = job.action === "editor.testDocument" ? await snapshotBanksBefore(job.source, record, job.bankFixture) : undefined;
+    } catch (error) {
+      // A bank fixture that can't go in, or the author's banks not yet back from the last one: the game doesn't start.
+      const message = error instanceof Error ? error.message : String(error);
+      log(`failed ${entry.id}: ${message}`);
+      entry.send({ type: "failed", message });
+      return;
+    }
     try {
       await host.run(job.action, { mapPath: job.source, ...(job.seconds !== undefined ? { seconds: job.seconds } : {}) });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       log(`failed ${entry.id}: ${message}`);
+      // The game never started, so a fixture's banks must not stay in the folder; a run on the author's own banks changed nothing.
+      if (snapshot?.run.fixture !== undefined) await restoreBankRun(snapshot.cacheDir, snapshot.run).catch((restoreError: unknown) => record(`couldn't put the author's banks back: ${restoreError instanceof Error ? restoreError.message : String(restoreError)}; bank_changes will try again`));
+      else if (snapshot) await discardBankRun(snapshot.cacheDir, snapshot.run.id).catch(() => undefined);
       entry.send({ type: "failed", message });
-      if (snapshot) await discardBankRun(snapshot.cacheDir, snapshot.run.id).catch(() => undefined);
       return;
     }
     log(`done ${entry.id}: ${job.action}`);
@@ -259,6 +270,7 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
     try {
       while (!closing && (await host.run("game.running", {}))) await new Promise((resolve) => setTimeout(resolve, holdPollMs));
       record("the test game quit");
+      // A closing broker leaves a fixture run `running`: bank_changes puts the author's banks back once the game has quit.
       if (snapshot && !closing) await recordBankChanges(snapshot, record);
     } catch (error) {
       // A host that can't tell any more doesn't hold the queue for ever.
@@ -270,16 +282,30 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
 
   /**
    * Copies the game's Banks folder into the cache before a test game starts (#54), when the host
-   * names it. A snapshot that fails never stops the test: the run just goes unreported.
+   * names it. A snapshot that fails never stops a test on the author's own banks: the run just goes
+   * unreported. With a `fixture` (#55) it does, since the game would play on the wrong banks, and so
+   * does a fixture run of an earlier test whose banks haven't been put back: its snapshot, not the
+   * folder, holds the author's banks. The fixture's banks go in once the snapshot is taken.
    */
-  async function snapshotBanksBefore(source: string, record: (line: string) => void): Promise<{ readonly cacheDir: string; readonly run: BankRun } | undefined> {
-    if (!host.has("game.banksDir")) return undefined;
+  async function snapshotBanksBefore(source: string, record: (line: string) => void, fixture?: { readonly name: string; readonly dir: string }): Promise<{ readonly cacheDir: string; readonly run: BankRun } | undefined> {
+    if (!host.has("game.banksDir")) {
+      if (fixture) throw new Error(`Not played: bank fixture ${fixture.name} needs the Host Adapter to name the game's Banks folder (game.banksDir)`);
+      return undefined;
+    }
     try {
       const cacheDir = hostContext(host.machine).requirePath("cacheDir");
-      const run = await snapshotBanks(cacheDir, await host.run("game.banksDir", {}), source);
-      record(`snapshot of the banks ${run.id}`);
+      const earlier = await unrestoredFixtureRun(cacheDir);
+      if (earlier) {
+        // Put back now if its game is known to have quit; else the folder can't be trusted as the author's.
+        const quit = host.has("game.running") && !(await host.run("game.running", {}).catch(() => true));
+        if (quit) await finishBankRun(cacheDir, earlier);
+        else throw new BankFixtureError(`Not played: the last test game ran on the bank fixture ${earlier.fixture}, and the author's own banks aren't back in the Banks folder yet. Quit that game, then call bank_changes${host.has("game.running") ? "" : " with rollbackAll"} to put them back.`);
+      }
+      const run = await snapshotBanks(cacheDir, await host.run("game.banksDir", {}), source, new Date(), fixture);
+      record(`snapshot of the banks ${run.id}${fixture ? `, bank fixture ${fixture.name} copied in` : ""}`);
       return { cacheDir, run };
     } catch (error) {
+      if (fixture || error instanceof BankFixtureError) throw error;
       record(`no banks snapshot: ${(error as Error).message}`);
       return undefined;
     }
@@ -408,6 +434,9 @@ async function runBatch(host: Host, batch: readonly Entry[], record: (line: stri
 }
 
 /** A merged tour's job: tours only merge with tours. */
+/** The banks aren't in a state to start a test game on. */
+class BankFixtureError extends Error {}
+
 const capture = (entry: Entry) => entry.job as Exclude<CaptureJob, { kind: "editor" }>;
 
 /** Moves a merged tour's frames, and its stops.txt lines, to each job's folder, numbered from 1 for each job. */

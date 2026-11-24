@@ -48,6 +48,7 @@ import { campaignModPackages, MOD_PACKAGE_EXTENSION, ModBlueprintError, modDir, 
 import { readMissionScript } from "../script/name-script.js";
 import { sceneLineProblems, scenePartProblems } from "../script/scene-parts.js";
 import { isInside } from "../util/inside.js";
+import { bankFixtureProblem } from "../capture/bank-fixtures.js";
 import { workspaceLibrary } from "../mods/library.js";
 import { modUi, uiComponentsOn, type UiComponentOn } from "../ui/components.js";
 import { componentUi, modFramePathWarnings } from "../ui/frame-path-check.js";
@@ -236,6 +237,11 @@ export async function checkWorkspace(root: string, options: CheckWorkspaceOption
       if (bake) problems.push({ mission, file: relative(bake.file), message: bake.message, severity: "warning" });
     } catch (error) {
       problems.push({ mission, file, message: `The static shadow bake wasn't checked: ${messageOf(error)}`, severity: "warning" });
+    }
+    // A bank fixture (#55) that names no usable folder: test_mission would refuse to play it.
+    if (result.blueprint.bankFixture !== undefined) {
+      const problem = await bankFixtureProblem(absolute, blueprintPath, result.blueprint.bankFixture);
+      if (problem) problems.push({ mission, file, path: "bankFixture", message: problem });
     }
     const reference = result.blueprint.screenplay.script;
     let script: Awaited<ReturnType<typeof readMissionScript>>;

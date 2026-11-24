@@ -410,7 +410,22 @@ A Test Document runs the Mission's real triggers, and the game saves banks into 
 - **Keep or roll back, per bank.** `bank_changes` takes `keep` and `rollback` (bank names as listed) or `keepAll` and `rollbackAll`. Roll back puts the snapshot's copy back (a bank the run added is deleted); keep leaves the bank as the game left it. Nothing is rolled back without the author's say: ask which first. A rollback restores the folder as it was just before that run, so changes made to that bank since, including by a later test game, go with it.
 - **Pruning.** Only the newest five runs are kept in the cache. A run's copy is deleted once every one of its banks has been answered.
 
-**Needs a real run:** the report on a real game's banks (the folder's layout under the account, bank files the game saves while it quits, the time the quit takes) hasn't been checked; the code is tested against fixture folders.
+### Bank fixtures (issue #55)
+
+Testing a Mission from a given campaign state (after mission 2, with research X) needs the banks to hold that state. A **bank fixture** is a folder of `.SC2Bank` files in the Workspace; a Blueprint names it with `bankFixture`, a path from the Blueprint's folder like the Screenplay's `source`, which must stay inside the Workspace:
+
+```json
+"bankFixture": "../../bank-fixtures/after-mission-2"
+```
+
+- **A run.** `test_mission` (through the Editor Broker, on a host with `editor.testDocument`, `editor.captureTour` and `game.banksDir`; otherwise it refuses and plays nothing) takes the usual snapshot, then copies the fixture's `.SC2Bank` files into the Banks folder, over any bank of the same path. Banks the fixture doesn't have stay as the author's.
+- **Restore.** When the game quits, the broker puts the folder back as the snapshot has it: banks the game or the fixture added are deleted, changed or removed ones copied back. The same happens when Test Document fails to start. A run is only forgotten once the restore has worked; until then it stays `running`, is never pruned, and the next `bank_changes` (or `test_mission`) tries again. While one is unrestored no new test game starts, since the folder holds the fixture's banks and a snapshot of it would take them for the author's.
+- **The report.** A fixture run changes banks on purpose, so nothing is asked of the author: `bank_changes` doesn't list it as waiting for a keep or roll back. What the game itself changed (compared with the folder just after the fixture went in, not with the author's) is recorded as already rolled back, for the run's record.
+- **Windows.** With no `game.running` the host can't tell when the game quit, so the restore waits for the author: `bank_changes` with `rollbackAll`, taken as their word that the game has quit, puts the banks back. Until then the report says the folder holds the fixture's banks.
+- **Saving one.** `save_bank_fixture` with a `name` copies the `.SC2Bank` files in the Banks folder to `bank-fixtures/<name>/` in the Workspace, and writes nowhere else. It refuses while a fixture run's banks aren't back or the game runs, and won't replace a fixture of that name without `overwrite`.
+- **Checking.** `check_workspace` reports a `bankFixture` that is outside the Workspace, isn't a folder, names none that exists, or holds no `.SC2Bank` file.
+
+**Needs a real run:** the report on a real game's banks (the folder's layout under the account, bank files the game saves while it quits, the time the quit takes) and a fixture's copy in and restore haven't been checked; the code is tested against fixture folders.
 
 ## Mission tests (issue #741)
 
