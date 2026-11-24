@@ -7,11 +7,11 @@ import path from "node:path";
 
 import { makeFrames } from "../capture/style-pack-captures.js";
 import { WORKSPACE_FILE, workspaceFor } from "../plugins/workspace.js";
-import { exemplarCaptureDir, mixturesFile } from "../study/study-exemplars.js";
+import { exemplarCaptureDir } from "../study/study-exemplars.js";
 
 async function main(): Promise<void> {
   const workspace = await workspaceFor(path.join(process.cwd(), WORKSPACE_FILE));
-  const { made, removed, kept, unreadable } = await makeFrames(exemplarCaptureDir(workspace), mixturesFile(workspace));
+  const { made, removed, kept, unreadable } = await makeFrames(exemplarCaptureDir(workspace));
   console.log(`made ${made}, removed ${removed}, kept ${kept}`);
   if (unreadable.length) {
     console.error(`couldn't read ${unreadable.join(", ")}`);

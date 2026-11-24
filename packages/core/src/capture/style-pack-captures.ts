@@ -109,7 +109,7 @@ export async function captureStylePack(workspace: Workspace, host: Host, options
     ...(options.onQueued ? { onQueued: options.onQueued } : {}),
     ...(options.signal ? { signal: options.signal } : {}),
   });
-  const frames = await makeFrames(captureDir, mixturesFile(workspace), { maps: [...new Set(planned.tours.map((tour) => tour.id))] });
+  const frames = await makeFrames(captureDir, { maps: [...new Set(planned.tours.map((tour) => tour.id))] });
   return { ...planned, captureDir, outcomes, frames };
 }
 
@@ -147,19 +147,18 @@ const toFrames = (capture: string) => capture.replace(/^([^/]+)\/captures\//, "$
 
 /**
  * Makes the 1000px copies (JPEG quality 75) of the tours under `captureDir`, in
- * `<id>/frames/<tour>/`: every frame of a place tour (`captures/places-*`), and from grid tours only
- * the frames the mixtures file's places list. A frame older than its capture is made again, since a
- * rerun tour overwrites its captures. stops.txt is copied whole. Frames no place lists any more are
- * removed, and so are tours left without frames, but only where their captures are there to make
- * them again: a frame with no capture beside it may be the only copy. With `maps`, only those
- * maps' frames are made or removed.
+ * `<id>/frames/<tour>/`: every frame of every tour, place and grid, so a grid tour's frames are
+ * there to read whether or not a place lists them. A frame older than its capture is made again,
+ * since a rerun tour overwrites its captures. stops.txt is copied whole. A frame whose capture is
+ * gone from its tour is removed, and so is a tour left without frames, but only where the tour's
+ * captures folder is there: a frame with no captures beside it may be the only copy. With `maps`,
+ * only those maps' frames are made or removed.
  */
-export async function makeFrames(captureDir: string, mixtures: string, { maps: only }: { readonly maps?: readonly string[] } = {}): Promise<MakeFramesResult> {
+export async function makeFrames(captureDir: string, { maps: only }: { readonly maps?: readonly string[] } = {}): Promise<MakeFramesResult> {
   const maps = (await dirsIn(captureDir)).filter((map) => !only || only.includes(map));
-  const places = (await readJson<{ places?: readonly { frames?: readonly string[] }[] }>(mixtures))?.places ?? [];
-  const wanted = new Set(places.flatMap((place) => place.frames ?? []).filter((frame) => maps.includes(frame.split("/")[0]!)));
+  const wanted = new Set<string>();
   for (const map of maps) {
-    for (const tour of (await dirsIn(path.join(captureDir, map, "captures"))).filter((name) => name.startsWith("places-"))) {
+    for (const tour of await dirsIn(path.join(captureDir, map, "captures"))) {
       for (const file of await jpgsIn(path.join(captureDir, map, "captures", tour))) wanted.add(`${map}/frames/${tour}/${file}`);
     }
   }

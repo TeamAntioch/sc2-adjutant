@@ -141,6 +141,19 @@ describe("capturing a Style Pack's tours", () => {
     expect(await requests()).toHaveLength(1);
   });
 
+  it("makes the 1000px copies of every frame of a grid tour, on a map whose places have a place tour", async () => {
+    const { root, workspace } = await studio({ lightsUsed: ["Day"], places: [[31.5, 31.5]] });
+    const { host } = await studioMachine();
+    const captureDir = exemplarDir(root);
+    await captureStylePack(workspace, host, { tours: "places", machine, captureDir });
+
+    const result = await captureStylePack(workspace, host, { tours: "grid", machine, captureDir });
+    expect(result.outcomes).toMatchObject([{ id: "plaza", label: "Day", outcome: "done" }]);
+    const captured = (await readdir(path.join(captureDir, "plaza/captures/Day"))).filter((f) => f.endsWith(".jpg"));
+    expect(captured.length).toBeGreaterThan(0);
+    expect((await readdir(path.join(captureDir, "plaza/frames/Day"))).filter((f) => f.endsWith(".jpg"))).toEqual(captured);
+  });
+
   it("captures only the maps asked for", async () => {
     const { workspace } = await studio();
     const { host } = await studioMachine();
@@ -160,49 +173,48 @@ describe("making a Style Pack's 1000px frames", () => {
     }
     return dir;
   }
-  const mixtures = async (dir: string, frames: string[]) => {
-    const file = path.join(dir, "mixtures.json");
-    await writeFile(file, JSON.stringify({ places: [{ map: "plaza", center: [10, 10], frames }] }));
-    return file;
-  };
-
-  it("copies every frame of a place tour, and of a grid tour only the frames a place lists, with each tour's stops", async () => {
+  it("copies every frame of every tour, place and grid, with each tour's stops", async () => {
     const dir = await captures({ "places-Day": 2, Night: 3 });
-    const result = await makeFrames(dir, await mixtures(dir, ["plaza/frames/Night/002.jpg"]));
-    expect(result).toEqual({ made: 3, removed: 0, kept: 3, unreadable: [] });
+    const result = await makeFrames(dir);
+    expect(result).toEqual({ made: 5, removed: 0, kept: 5, unreadable: [] });
     expect((await readdir(path.join(dir, "plaza/frames/places-Day"))).sort()).toEqual(["001.jpg", "002.jpg", "stops.txt"]);
-    expect((await readdir(path.join(dir, "plaza/frames/Night"))).sort()).toEqual(["002.jpg", "stops.txt"]);
+    expect((await readdir(path.join(dir, "plaza/frames/Night"))).sort()).toEqual(["001.jpg", "002.jpg", "003.jpg", "stops.txt"]);
+    const { width } = await sharp(path.join(dir, "plaza/frames/Night/003.jpg")).metadata();
+    expect(width).toBe(1000);
   });
 
-  it("works with no mixtures file, from the place tours alone", async () => {
-    const dir = await captures({ "places-Day": 1, Night: 1 });
-    expect(await makeFrames(dir, path.join(dir, "mixtures.json"))).toMatchObject({ made: 1, kept: 1 });
-    expect(existsSync(path.join(dir, "plaza/frames/Night"))).toBe(false);
+  it("keeps a grid tour's frames on a rerun, for a map with place tours too", async () => {
+    const dir = await captures({ "places-Day": 1, Night: 2 });
+    await makeFrames(dir);
+    expect(await makeFrames(dir)).toEqual({ made: 0, removed: 0, kept: 3, unreadable: [] });
+    expect((await readdir(path.join(dir, "plaza/frames/Night"))).sort()).toEqual(["001.jpg", "002.jpg", "stops.txt"]);
   });
 
-  it("removes frames no place lists any more, and a tour left without frames, but keeps frames whose captures are gone", async () => {
+  it("removes frames whose capture was deleted, and a tour left without frames, but keeps frames whose tour's captures are gone", async () => {
     const dir = await captures({ Night: 2 });
-    await makeFrames(dir, await mixtures(dir, ["plaza/frames/Night/001.jpg", "plaza/frames/Night/002.jpg"]));
+    await makeFrames(dir);
     const lost = path.join(dir, "plaza/frames/Lost");
     await mkdir(lost, { recursive: true });
     await writeFile(path.join(lost, "001.jpg"), await jpeg(1000));
+    await rm(path.join(dir, "plaza/captures/Night/001.jpg"));
+    await rm(path.join(dir, "plaza/captures/Night/002.jpg"));
 
-    expect(await makeFrames(dir, await mixtures(dir, []))).toEqual({ made: 0, removed: 2, kept: 1, unreadable: [] });
+    expect(await makeFrames(dir)).toEqual({ made: 0, removed: 2, kept: 1, unreadable: [] });
     expect(existsSync(path.join(dir, "plaza/frames/Night"))).toBe(false);
     expect(existsSync(path.join(lost, "001.jpg"))).toBe(true);
   });
 
   it("leaves the frames of maps it isn't given alone", async () => {
     const dir = await captures({ Night: 1 });
-    await makeFrames(dir, await mixtures(dir, ["plaza/frames/Night/001.jpg"]));
-    expect(await makeFrames(dir, await mixtures(dir, []), { maps: ["harbour"] })).toEqual({ made: 0, removed: 0, kept: 0, unreadable: [] });
+    await makeFrames(dir);
+    await rm(path.join(dir, "plaza/captures/Night/001.jpg"));
+    expect(await makeFrames(dir, { maps: ["harbour"] })).toEqual({ made: 0, removed: 0, kept: 0, unreadable: [] });
     expect(existsSync(path.join(dir, "plaza/frames/Night/001.jpg"))).toBe(true);
   });
 
   it("remakes a frame older than its capture, and names a capture it can't read", async () => {
     const dir = await captures({ "places-Day": 2 });
-    const file = await mixtures(dir, []);
-    await makeFrames(dir, file);
+    await makeFrames(dir);
     const frame = path.join(dir, "plaza/frames/places-Day/001.jpg");
     const past = new Date(Date.now() - 60_000);
     await utimes(frame, past, past);
@@ -210,6 +222,6 @@ describe("making a Style Pack's 1000px frames", () => {
     await writeFile(path.join(dir, "plaza/frames/places-Day/002.jpg"), "stale");
     await utimes(path.join(dir, "plaza/frames/places-Day/002.jpg"), past, past);
 
-    expect(await makeFrames(dir, file)).toEqual({ made: 1, removed: 0, kept: 2, unreadable: ["plaza/captures/places-Day/002.jpg"] });
+    expect(await makeFrames(dir)).toEqual({ made: 1, removed: 0, kept: 2, unreadable: ["plaza/captures/places-Day/002.jpg"] });
   });
 });

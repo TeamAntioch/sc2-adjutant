@@ -41,18 +41,18 @@ The lessons were checked against in-game frames: camera tours of each map, one f
 ```sh
 npm run capture-exemplars -- --places [id ...]                    # place tours: a frame centred on every place in mixtures.json
 npm run capture-exemplars -- [id ...]                             # grid tours: every (map, lighting) not yet captured, ~13 min each
-packages/core/scripts/exemplar-capture/make-frames.sh             # 1000px copies again, after mixtures.mjs (each capture also makes them)
+packages/core/scripts/exemplar-capture/make-frames.sh             # 1000px copies again (each capture also makes them)
 ```
 
 `--start-on-init` starts a tour at map init, for maps whose timed triggers never fire, and `--show-errors` keeps data errors on screen to debug a tour that doesn't start. A rerun skips tours that already have frames, so a stopped run resumes. Frames are the game window cropped to 16:9, 1600×900. If the Editor can't come forward to open the menu, the macOS adapter posts a notification asking for one File > Test Document click.
 
-After a new capture, `node packages/core/scripts/exemplar-analysis/mixtures.mjs` rewrites `mixtures.json` here, linking each place to its frames, then `make-frames.sh` makes the copies of the grid-tour frames it links (run `npm run build` first; both read the archive). A capture makes the place-tour copies itself.
+After a new capture, `node packages/core/scripts/exemplar-analysis/mixtures.mjs` rewrites `mixtures.json` here, linking each place to its frames (it reads the archive). A capture makes the 1000px copies of all its frames itself; `make-frames.sh` makes them again, for every tour in the archive (run `npm run build` first).
 
 **Where they go**, all under `$SC2_RESEARCH_DIR/docs/research/exemplar-maps/`:
 
 - `<id>/captures/<lighting>/`: a grid tour, one per lighting the map's triggers use (`default` when it sets none), with `stops.txt` giving each frame's camera target (`stop x y`). Every area is shown in every lighting; pair frames with areas using the study's `lighting.calls`.
 - `<id>/captures/places-<lighting>/`: a place tour, one frame centred on each place in `mixtures.json`, in the map's main lighting (`placeLight` in `exemplars.json` where the triggers leave it unclear). A map lit by zone lists `placeZones` (rectangles with a lighting) and gets one place tour per lighting.
-- `<id>/frames/<tour>/`: the 1000px copies (JPEG quality 75): every place-tour frame, and any grid-tour frame `mixtures.json` links to a place, with each tour's `stops.txt`. These are the paths `mixtures.json` names.
+- `<id>/frames/<tour>/`: the 1000px copies (JPEG quality 75) of every frame of every tour, place and grid, with each tour's `stops.txt`. These are the paths `mixtures.json` names.
 - `<id>/evidence/`: the frames a ratified lesson was shown with, copied by hand at ratification. `LESSONS.md` describes each one in words and doesn't link to it.
 
 ## Decisions
