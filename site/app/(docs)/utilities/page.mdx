@@ -1,0 +1,33 @@
+export const metadata = { title: "Utilities" };
+
+# Utilities
+
+A **Utility** is an optional tool a Workspace chooses to add. It is a Plugin with the `utility` role. It
+works the same for any Campaign, so it isn't part of a Campaign Pack or a Style Pack, and the
+sc2-adjutant plugin doesn't load it unless the Workspace asks for it.
+
+## Adding one
+
+Install its package beside sc2-adjutant in the Workspace, then name it in the Workspace config's
+`utilities`:
+
+```sh
+npm install @team-antioch/sc2-adjutant-anim-testbed
+```
+
+```json
+{ "utilities": ["bundled:anim-testbed"] }
+```
+
+At the next Claude Code session in the Workspace, its skills are copied into `.claude/skills/`, named
+after it, and Claude reaches for them when they fit. `list_plugins` shows each Utility with its skills.
+
+A Utility of your own can be a local folder Plugin, listed by its path:
+`"utilities": ["./plugins/my-tool"]`. Its manifest declares `"roles": ["utility"]` and names its skill
+folders under `contributions.skills`. The [Plugin docs](https://github.com/TeamAntioch/sc2-adjutant/blob/main/docs/plugin-api.md)
+cover the manifest.
+
+## The Utilities sc2-adjutant ships
+
+- [Anim Testbed](/utilities/anim-testbed/) builds an animation and sound test map from a spec, with a
+  dialog in the game to pick a unit, clip, slot and variation and play it. `bundled:anim-testbed`.

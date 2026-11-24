@@ -1,4 +1,4 @@
-// The site's sections and links: the five top tabs, each section's page tree, and the links out.
+// The site's sections and links: the six top tabs, each section's page tree, and the links out.
 import core from "../../packages/core/package.json" with { type: "json" };
 
 /** The version of core the site was built from, shown in every page's shell. */
@@ -54,6 +54,15 @@ export const SECTIONS: Section[] = [
     href: "/commands/",
     blurb: "The slash commands, and what to type after them.",
     pages: [{ title: "All commands", href: "/commands/" }],
+  },
+  {
+    title: "Utilities",
+    href: "/utilities/",
+    blurb: "Optional tools a Workspace adds, such as the animation and sound testbed.",
+    pages: [
+      { title: "All utilities", href: "/utilities/" },
+      { title: "Anim Testbed", href: "/utilities/anim-testbed/" },
+    ],
   },
 ];
 

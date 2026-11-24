@@ -1,0 +1,142 @@
+export const metadata = { title: "Anim Testbed" };
+
+# Anim Testbed
+
+Picking a unit's sounds means hearing them with its animation: the grunt at the top of the wind-up, the
+whoosh on the swing, the hit as it lands. The Anim Testbed builds a test map for that from one **spec**.
+The map shows a dialog where you pick a unit, a clip, a slot and a variation, and play it. Nothing is
+typed into chat, and a new test is a new spec, not a new script.
+
+<figure>
+  <img src="/anim-testbed/attack.jpg" alt="The testbed's dialog over a Marine, a Zealot and a Zergling: the Marine's attack, variation 2, with its two cues in the readout" />
+  <figcaption>The Marine's attack, variation 2: a stim grunt cut off at 0.6 s, then the rifle burst on the strike. The readout lists each cue at its time.</figcaption>
+</figure>
+
+## Add it to a Workspace
+
+Install the package beside sc2-adjutant, then list it in the Workspace config's `utilities`:
+
+```sh
+npm install @team-antioch/sc2-adjutant-anim-testbed
+```
+
+```json
+{ "utilities": ["bundled:anim-testbed"] }
+```
+
+Its `anim-testbed` skill arrives at the next session. Ask Claude for a test map ("audition the Marine's
+attack and death sounds"), or write a spec yourself and build it:
+
+```sh
+node node_modules/@team-antioch/sc2-adjutant-anim-testbed/dist/testbed.js missions/<id>/tests/<name>.json
+```
+
+The map is written under the Mission's git-ignored `output/`. Open it in the Editor and run Test Document.
+
+## The dialog
+
+- **Unit**, **Clip**, **Slot** and **Variation** pick what plays. `*` marks the variation the spec
+  recommends.
+- **Play** runs it, **Stop** cuts it off, **Kill** kills the unit and brings it back, and **Loop**
+  replays it.
+- The **readout** lists the cues with their times, grey until each one fires.
+- **Send** plays any CSound at the unit, or sends any actor message to it.
+- In chat, `-t 1.4 1.55` retimes the selected clip's strike and land, and prints the numbers to copy
+  back into the spec.
+
+A **slot** is what a Play does, by its kind:
+
+| Kind | What plays |
+|---|---|
+| `clip` | The selected clip, with the cues at the unit, timed from the clip's start |
+| `impact` | The clip, with the cues at the target, timed from the moment the attack lands |
+| `hit` | The unit's hit reaction, with the cues |
+| `death` | The unit dies, the cues play where it died, and it comes back |
+| `cues` | The cues alone: voice lines, an ambient loop |
+
+<figure>
+  <img src="/anim-testbed/impact.jpg" alt="The Zealot selected, slot impact: the Zergling target stands in front of it" />
+  <figcaption>An impact plays on the target, which stands in front of the selected unit. Its cues count from the clip's land time.</figcaption>
+</figure>
+
+<figure>
+  <img src="/anim-testbed/death.jpg" alt="The Marauder dying, slot death, variation 2: its death and a body fall at 0.9 s" />
+  <figcaption>A death kills the unit and plays the cues where it fell. A sound played on a dead unit is dropped, so they play at a point instead. The unit comes back after its respawn time.</figcaption>
+</figure>
+
+## The spec
+
+A spec is JSON. This one is cut down from the package's example (`examples/stock-units.json`), which
+builds on the example Campaign's Mission:
+
+```json
+{
+  "name": "StockUnits",
+  "base": "../Ashfall-Relay.SC2Map",
+  "out": "../output/StockUnits.SC2Map",
+  "stage": { "at": [36, 22], "gap": 4, "facing": 270 },
+  "target": { "unit": "Zergling", "player": 1 },
+  "slots": {
+    "attack": { "kind": "clip" },
+    "impact": { "kind": "impact" },
+    "death": { "kind": "death" }
+  },
+  "units": [
+    {
+      "key": "marine",
+      "unit": "Marine",
+      "reach": 3,
+      "clips": [{ "name": "attack", "play": "AnimPlay Attack Attack NonLooping", "strike": 0.1, "land": 0.15 }],
+      "variations": {
+        "attack": [
+          { "cues": ["Marine_AttackLaunch@strike"], "note": "the Marine's own rifle burst", "pick": true },
+          { "cues": ["Marine_Stimpack~0.6", "Marine_AttackLaunch@strike+0.05"], "note": "a stim grunt, cut off at 0.6 s, then the burst" }
+        ],
+        "death": [{ "cues": ["Marine_Death", "Marine_Death_BodyFall_A@1.0"], "note": "the death and a body fall" }]
+      }
+    }
+  ]
+}
+```
+
+**A cue** is `<what>[@<when>][~<stop>]`:
+
+- `<what>` is a CSound id, or `actor <message>` to send the unit's actor a message. `actor:<child>`
+  sends to an actor in its scope, such as one a cue created, and `target <message>` goes to the target.
+- `<when>` is seconds, `strike`, `land`, or an offset from one of them: `strike+0.05`.
+- `~<stop>` fades a sound out at that time.
+
+Actor cues bring effects into the test as well as sounds: `actor Create MyStumpBurst@0.1`, then
+`actor:MyStumpBurst Destroy@2.1`.
+
+**A unit** is a stock CUnit (`"unit": "Marine"`) or a model of your own (`"new"`, with its `.m3`, its
+`.m3a` files and its texture folders). The build copies a model of your own into the test map and adds
+its unit. Private files, such as sounds extracted from the game, are named through `roots`, so no
+machine path goes into the spec, and they're copied into the test map only.
+
+The package's [README](https://github.com/TeamAntioch/sc2-adjutant/tree/main/packages/plugin-anim-testbed#the-spec)
+lists every key.
+
+## What it checks
+
+A missing sound, model or unit fails silently in StarCraft II: it plays nothing and says nothing. So
+the build checks every id before it writes anything, and `--check` stops there:
+
+- **Sounds, models and units** against the game's own packages, the Workspace's mods, the base map,
+  and the spec's own data.
+- **Animations.** Each `AnimPlay` must match one of the model's clips, read from its `.m3` and `.m3a`
+  files or from recorded model animations. An invented word never plays: a clip named `Attack Mega`
+  didn't, and `Spell C` did.
+- **Actors** that the spec's own data defines. sc2-adjutant can't list the game's actors, so an actor
+  outside the spec and the Workspace is only a warning.
+
+<figure>
+  <img src="/anim-testbed/voice.jpg" alt="The Marine selected, slot voice: a cues slot playing his Yes responses" />
+  <figcaption>A <code>cues</code> slot plays sounds with no animation: here the Marine's Yes responses.</figcaption>
+</figure>
+
+## Screenshots of your own
+
+`--capture <folder>` builds the map with the spec's `tour` and films it through the Editor, one frame
+per stop. That's how the pictures on this page were made. It needs a Host Adapter that can capture,
+the macOS one today.
