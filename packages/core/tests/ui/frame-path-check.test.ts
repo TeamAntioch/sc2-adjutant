@@ -10,7 +10,9 @@ import { fileURLToPath } from "node:url";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { checkWorkspace, formatWorkspaceCheck } from "../../src/plugins/check-workspace.js";
-import { componentUi, modFramePathWarnings } from "../../src/ui/frame-path-check.js";
+import { uiComponentsOn } from "../../src/ui/components.js";
+import { UI_COMPONENTS } from "../../src/ui/core-components.js";
+import { componentUi, modFramePathWarnings, modFrameWarnings } from "../../src/ui/frame-path-check.js";
 import { TEST_PANEL } from "./test-panel.js";
 
 const BELL = fileURLToPath(new URL("../fixtures/workspaces/bell/", import.meta.url));
@@ -157,6 +159,113 @@ describe("modFramePathWarnings", () => {
     expect(warnings.map(({ file, where, places }) => ({ file, where, places }))).toEqual([{ file: path.join(modPackage, "Base.SC2Data/LibHarb.galaxy"), where: "line 5", places: 2 }]);
     await put("Base.SC2Data/LibHarb.galaxy", ["void libHarb_gf_ShowGauge () {", call, "}"].join("\n"));
     expect((await modFramePathWarnings(modPackage, generated)).map(({ file, where, places }) => ({ file, where, places }))).toEqual([{ file: path.resolve(modPackage, "/elsewhere/blueprint.json"), where: "ui.harbourGauge", places: 1 }]);
+  });
+});
+
+describe("modFrameWarnings: a template below its user", () => {
+  const templateOrder = async () => (await modFrameWarnings(modPackage)).flatMap((warning) => (warning.kind === "templateOrder" ? [{ file: path.basename(warning.file), frame: warning.frame, template: warning.template }] : []));
+
+  it("warns about a frame made from a template its own file declares further down, naming the file, frame and template", async () => {
+    await put(
+      "Base.SC2Data/UI/Layout/HarbourGauge.SC2Layout",
+      layout(`<Frame type="Frame" name="EarlyTemplate"/>
+    <Frame type="Frame" name="Gauge">
+        <Frame type="Frame" name="Early" template="HarbourGauge/EarlyTemplate"/>
+        <Frame type="Frame" name="Late" template="harbourgauge/LateTemplate"/>
+        <Frame type="Frame" name="Sub" template="HarbourGauge/Gauge/Inner"/>
+        <Frame type="Frame" name="Inner"/>
+    </Frame>
+    <Frame type="Frame" name="LateTemplate"/>`),
+    );
+    await putDescIndex(["UI/Layout/HarbourGauge.SC2Layout"]);
+    expect(await templateOrder()).toEqual([
+      { file: "HarbourGauge.SC2Layout", frame: "HarbourGauge/Gauge/Late", template: "harbourgauge/LateTemplate" },
+      { file: "HarbourGauge.SC2Layout", frame: "HarbourGauge/Gauge/Sub", template: "HarbourGauge/Gauge/Inner" },
+    ]);
+    const [warning] = await modFrameWarnings(modPackage);
+    expect(warning!.message).toContain('"HarbourGauge/Gauge/Late" is made from the template "harbourgauge/LateTemplate", which HarbourGauge.SC2Layout declares further down');
+  });
+
+  it("passes a template declared first, one of another file in either order, and a frame of another file's name", async () => {
+    await put("Base.SC2Data/UI/Layout/HarbourUser.SC2Layout", layout(`<Frame type="Frame" name="User" template="HarbourTemplates/Crate"/>\n    <Frame type="Frame" name="Twin" template="HarbourUser/Own"/>\n    <Frame type="Frame" name="Own"/>`));
+    await put("Base.SC2Data/UI/Layout/HarbourTemplates.SC2Layout", layout(`<Frame type="Frame" name="Crate"/>`));
+    await putDescIndex(["UI/Layout/HarbourUser.SC2Layout", "UI/Layout/HarbourTemplates.SC2Layout"]);
+    // Own is below Twin in HarbourUser, so that one warns; the other file's template, below it in the DescIndex, doesn't.
+    expect(await templateOrder()).toEqual([{ file: "HarbourUser.SC2Layout", frame: "HarbourUser/Twin", template: "HarbourUser/Own" }]);
+  });
+
+  it("reads a generated layout too, and a layout the DescIndex doesn't load not at all", async () => {
+    await put("Base.SC2Data/UI/Layout/HarbourStray.SC2Layout", layout(`<Frame type="Frame" name="A" template="HarbourStray/B"/>\n    <Frame type="Frame" name="B"/>`));
+    await putDescIndex([]);
+    expect(await templateOrder()).toEqual([]);
+    const generated = { layouts: [{ file: "Base.SC2Data/UI/Layout/HarbourGen.SC2Layout", content: layout(`<Frame type="Frame" name="A" template="HarbourGen/B"/>\n    <Frame type="Frame" name="B"/>`) }] };
+    const warnings = await modFrameWarnings(modPackage, generated);
+    expect(warnings.map((warning) => warning.kind === "templateOrder" && [warning.file, warning.frame])).toEqual([[path.resolve(modPackage, "Base.SC2Data/UI/Layout/HarbourGen.SC2Layout"), "HarbourGen/A"]]);
+  });
+});
+
+describe("modFrameWarnings: a hookup's control type", () => {
+  const mismatches = async () => (await modFrameWarnings(modPackage)).flatMap((warning) => (warning.kind === "controlType" ? [{ path: warning.path, controlType: warning.controlType, where: warning.where }] : []));
+  const harbour = async (galaxy: string[]) => {
+    await put(
+      "Base.SC2Data/UI/Layout/HarbourGauge.SC2Layout",
+      layout(`<Frame type="Frame" name="GameUI/UIContainer/ConsoleUIContainer" file="GameUI">
+        <Frame type="Frame" name="HarbourGauge">
+            <Frame type="Label" name="Title"/>
+            <Frame type="Image" name="Icon"/>
+            <Frame type="Frame" name="Plain"/>
+            <Frame type="GlueButton" name="Special"/>
+        </Frame>
+    </Frame>
+    <Frame type="Label" name="Template"/>`),
+    );
+    await put("Base.SC2Data/LibHarb.galaxy", galaxy.join("\n"));
+    await putDescIndex(["UI/Layout/HarbourGauge.SC2Layout"]);
+  };
+
+  it("warns about a basic control type that is another basic type's frame, once per path and type, from each of the four natives", async () => {
+    await harbour([
+      'DialogControlHookupStandard(c_triggerControlTypeImage, "UIContainer/ConsoleUIContainer/HarbourGauge/Title");',
+      'DialogControlHookup(lv_panel, c_triggerControlTypeLabel, "HarbourGauge/Icon");',
+      'DialogControlHookup(lv_panel, c_triggerControlTypeLabel, "HarbourGauge/Icon");',
+      'DialogControlCreateFromTemplate(lv_d, c_triggerControlTypeButton, "HarbourGauge/Template");',
+      'DialogControlCreateInPanelFromTemplate(lv_p, c_triggerControlTypeImage, "HarbourGauge/Template");',
+    ]);
+    expect(await mismatches()).toEqual([
+      { path: "UIContainer/ConsoleUIContainer/HarbourGauge/Title", controlType: "c_triggerControlTypeImage", where: "line 1" },
+      { path: "HarbourGauge/Icon", controlType: "c_triggerControlTypeLabel", where: "line 2" },
+      { path: "HarbourGauge/Template", controlType: "c_triggerControlTypeButton", where: "line 4" },
+      { path: "HarbourGauge/Template", controlType: "c_triggerControlTypeImage", where: "line 5" },
+    ]);
+    const message = (await modFrameWarnings(modPackage)).find((warning) => warning.kind === "controlType")!.message;
+    expect(message).toBe('"UIContainer/ConsoleUIContainer/HarbourGauge/Title", passed to DialogControlHookupStandard as c_triggerControlTypeImage, is a frame of type Label in the layouts the mod loads, so the hookup is likely to find nothing or the wrong control. Pass c_triggerControlTypeLabel for it, or change the frame\'s type.');
+  });
+
+  it("passes the type the frame has, a Panel for any frame, a plain Frame or a special type, a type given as an expression and a frame whose type isn't known", async () => {
+    await harbour([
+      'DialogControlHookupStandard(c_triggerControlTypeLabel, "UIContainer/ConsoleUIContainer/HarbourGauge/Title");',
+      'DialogControlHookup(lv_panel, c_triggerControlTypePanel, "HarbourGauge/Icon");',
+      'DialogControlHookup(lv_panel, c_triggerControlTypeImage, "HarbourGauge/Plain");',
+      'DialogControlHookup(lv_panel, c_triggerControlTypeLabel, "HarbourGauge/Special");',
+      "DialogControlHookup(lv_panel, lv_type, \"HarbourGauge/Icon\");",
+      'DialogControlHookupStandard(c_triggerControlTypeImage, "UIContainer/ConsoleUIContainer");',
+      'DialogControlHookupStandard(c_triggerControlTypeButton, "UIContainer/ConsoleUIContainer/ConsoleControlsPanel");',
+    ]);
+    expect(await mismatches()).toEqual([]);
+  });
+
+  it("leaves a hookup whose path no layout has to the path warning", async () => {
+    await harbour(['DialogControlHookupStandard(c_triggerControlTypeImage, "UIContainer/ConsoleUIContainer/HarbourGauge/Gone");']);
+    const warnings = await modFrameWarnings(modPackage);
+    expect(warnings.map((warning) => warning.kind)).toEqual(["missing"]);
+  });
+});
+
+describe("modFrameWarnings: core's UI Components", () => {
+  it("raise none, all on at their default looks", async () => {
+    const on = uiComponentsOn(Object.fromEntries(UI_COMPONENTS.map((component) => [component.id, {}])), UI_COMPONENTS);
+    expect(on).toHaveLength(UI_COMPONENTS.length);
+    expect(await modFrameWarnings(modPackage, componentUi(on, "/elsewhere/blueprint.json", "Harb"))).toEqual([]);
   });
 });
 

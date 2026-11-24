@@ -51,7 +51,7 @@ import { isInside } from "../util/inside.js";
 import { bankFixtureProblem } from "../capture/bank-fixtures.js";
 import { workspaceLibrary } from "../mods/library.js";
 import { modUi, uiComponentsOn, type UiComponentOn } from "../ui/components.js";
-import { componentUi, modFramePathWarnings } from "../ui/frame-path-check.js";
+import { componentUi, modFrameWarnings } from "../ui/frame-path-check.js";
 import { UI_COMPONENTS } from "../ui/core-components.js";
 import type { UiComponent } from "../ui/ui-component.js";
 import { KNOWN_ERRORS_FILE, readKnownErrors } from "../host/known-errors.js";
@@ -391,7 +391,7 @@ async function modProblems(workspace: Workspace, relative: (file: string) => str
       // A `ui` that doesn't read is reported above, and its components' layouts left out here.
       try {
         const generated = componentUi(on, found.blueprintPath, blueprint.library?.id);
-        for (const warning of await modFramePathWarnings(found.modPackage, generated)) problems.push({ mod, file: relative(warning.file), path: warning.where, message: warning.message, severity: "warning" });
+        for (const warning of await modFrameWarnings(found.modPackage, generated)) problems.push({ mod, file: relative(warning.file), path: warning.where, message: warning.message, severity: "warning" });
       } catch (error) {
         problems.push({ mod, file: relative(found.modPackage), message: `The frame paths weren't checked: ${messageOf(error)}`, severity: "warning" });
       }
