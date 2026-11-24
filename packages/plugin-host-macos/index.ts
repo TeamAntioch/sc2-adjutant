@@ -17,7 +17,7 @@
 
 import { execFile } from "node:child_process";
 import { mkdtemp, rm, stat, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import os, { tmpdir } from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 
@@ -28,6 +28,11 @@ import { banksDir, captureScreen, captureTour, closeCaptureCopies, gameRunning, 
 import { exportModel, exportModelGltf, rendererKey, renderModel } from "./whiteoutflakes.ts";
 
 const run = promisify(execFile);
+
+/** game.logsFolder: where the game on the Mac writes its logs, under the user's Library. */
+async function gameLogsFolder(): Promise<string> {
+  return path.join(os.homedir(), "Library", "Application Support", "Blizzard", "StarCraft II", "GameLogs");
+}
 
 /**
  * How long to wait for the Editor to show the map and for the game to start, in seconds, when the
@@ -239,6 +244,7 @@ const plugin: PluginCode = {
     "game.banksDir": banksDir,
     "game.list": listGames,
     "game.quit": quitGame,
+    "game.logsFolder": gameLogsFolder,
     "screen.capture": captureScreen,
     "tts.speak": speak,
     "model.render": renderModel,

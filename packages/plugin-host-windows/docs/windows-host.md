@@ -102,6 +102,10 @@ The game can also start with no Editor: `game.launch`, below.
 
 Timings here: from a closed Editor, the game was running 47 s after the call and the first stop came 38 s after that; with the Editor open, Test Document ran after 14 to 17 s. Stopping the game and closing the map took 6 to 9 s.
 
+## Input (unverified, for future input work)
+
+Once the game has focus it takes keys sent with `SendInput`, but it ignores `SetCursorPos`, so a pointer can't be moved by setting its position. Resizing the game's window from outside desyncs the mouse: clicks land where the window used to be. Neither is covered by a test here; recorded so work that clicks in the game starts from it.
+
 ## Placeholder voices
 
 `tts.speak` speaks a line with Windows' built-in voices through System.Speech (`SpeechSynthesizer`), straight to a 22050 Hz, 16-bit, mono PCM WAV (`SetOutputToWaveFile` with a `SpeechAudioFormatInfo`), the format SC2 plays, so no conversion follows. The text goes to the helper in a UTF-8 file, never on its command line, so a long line or one with quotes arrives whole. A line of 14 words made 6.4 s of audio in about 1.2 s, and the first call also compiles the helper. The voices leave about 0.1 s of silence before the speech and 0.75 to 0.8 s after it; core trims each spoken placeholder to its speech before it moves the file into place (`packages/core/src/host/placeholder-voices.ts`), whatever the Host Adapter, and encodes it to Ogg with ffmpeg for a Mission whose voice format is `.ogg`.

@@ -486,7 +486,11 @@ describe("the Editor Broker", () => {
     it("quits the game a capture started, by its pid and start time, once the job is done", async () => {
       const t = await setup({ processes: true });
       await t.start();
-      expect((await runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath })).end).toBe("done");
+      const result = await runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath });
+      expect(result.end).toBe("done");
+      // The result names the game it ran and when it began, which is how its GameLogs are found.
+      expect(result.games?.map((game) => game.pid)).toEqual([500]);
+      expect(Date.parse(result.startedAt!)).not.toBeNaN();
       expect(t.quits).toEqual(["500"]);
       expect(t.table).toEqual([]);
       expect((await editorBrokerStatus(t.socketPath))?.games).toEqual([]);

@@ -10,6 +10,7 @@ The macOS **Host Adapter** for [sc2-adjutant](https://github.com/TeamAntioch/sc2
 | `editor.testDocument`, `editor.save` | Runs File > Test Document, and saves a throwaway copy of a map, through the Editor's menus. |
 | `game.banksDir` | The folder the game keeps its banks in; test_mission snapshots it around a test game. |
 | `editor.captureTour`, `editor.closeCaptureCopies`, `game.running` | Plays a capture map and screenshots each camera stop, then closes it unsaved. Captures run one at a time through the Editor Broker. A capture quits only the game it started. |
+| `game.logsFolder` | `~/Library/Application Support/Blizzard/StarCraft II/GameLogs`. |
 | `game.list`, `game.quit` | Lists the running games with their start times, and quits one recorded game gracefully (Cmd+Option+Q, then Yes), killing it only after a timeout. |
 | `screen.capture` | Captures the game's window, else the Editor's. |
 | `tts.speak` | Speaks placeholder voice lines with macOS's `say`. |

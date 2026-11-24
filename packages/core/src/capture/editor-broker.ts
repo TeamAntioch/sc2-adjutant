@@ -264,10 +264,14 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
           // A game an earlier job left running that was a capture's is quit first; any other game is left for the host to refuse.
           await listGames();
           await quitToolGames();
-          const results = await runBatch(host, batch, (line) => log(`${head.id}: ${line}`), signal, (game) => {
+          const startedAt = new Date().toISOString();
+          const started: GameProcess[] = [];
+          const ran = await runBatch(host, batch, (line) => log(`${head.id}: ${line}`), signal, (game) => {
+            started.push(game);
             games.push({ game, pid: game.pid, owner: "tool", job: head.id });
             log(`${head.id}: started game ${game.pid}, the tool's to quit`);
           });
+          const results = ran.map((result) => ({ ...result, games: started, startedAt }));
           await quitToolGames();
           log(`done ${ids}: ${results.map((result) => result.frames).join(" + ")} frames, ${results[0]!.end}`);
           batch.forEach((entry, i) => entry.send({ type: "done", result: results[i]! }));

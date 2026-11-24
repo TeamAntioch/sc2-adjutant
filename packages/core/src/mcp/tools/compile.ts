@@ -32,6 +32,7 @@ import { editorDecisions } from "../../map/editor-changes.js";
 import { realPathOf } from "../../util/inside.js";
 import { MissionSchema, plain } from "./schemas.js";
 import { stageHint, insideWorkspace, defaultOutputDir, oneAtATime, readingMapToEdit } from "./mission-files.js";
+import { formatRunLogReport, reportRunLogs } from "../../host/game-run-report.js";
 import { closeForRefresh, describeHandoff, editorHasOpen, reopenMap, TEST_BUDGET_SECONDS, TEST_MIN_SECONDS, testInGame } from "./editor-handoff.js";
 import { hasKeptTerrain } from "../../domain/mission-blueprint.js";
 import { buildLayoutModel } from "../../layout/layout-model.js";
@@ -596,7 +597,7 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
       title: "Test a Mission in the game",
       annotations: DESTRUCTIVE,
       description:
-        "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. When the Blueprint names a bankFixture (a folder of .SC2Bank files in the Workspace, as a path from the Blueprint's folder), the run plays on that fixture's banks instead: they are copied into the Banks folder after the snapshot, and the author's own are put back when the game quits, even if the run fails, with nothing for the author to keep or roll back (on a host that can't tell when the game quit, bank_changes with rollbackAll puts them back once the author says it has quit); a new test is refused until they are back. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
+        "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. When the Blueprint names a bankFixture (a folder of .SC2Bank files in the Workspace, as a path from the Blueprint's folder), the run plays on that fixture's banks instead: they are copied into the Banks folder after the snapshot, and the author's own are put back when the game quits, even if the run fails, with nothing for the author to keep or roll back (on a host that can't tell when the game quit, bank_changes with rollbackAll puts them back once the author says it has quit); a new test is refused until they are back. The route tests are static: nothing is read back from the running game yet, and the game writes its logs only when the author quits it, so the reply reports the logs of the last Test Document run that had quit, labelled as such, against the known-error lists. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
       inputSchema: { mission: MissionSchema, ...DECISION_INPUTS },
       outputSchema: {
         mapPath: z.string(),
@@ -606,6 +607,8 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
         steps: z.array(z.string()),
         /** The Blueprint's declared route tests, walked on the generated terrain; empty when it declares none. */
         routeTests: z.array(z.object({ id: z.string(), passed: z.boolean(), message: z.string() })),
+        /** The GameLogs of the last Test Document run that had quit before this call: this run's own are written when the game quits. */
+        previousRunLogs: z.unknown().optional(),
       },
     },
     async ({ mission, ...choices }) => {
@@ -632,6 +635,13 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
       // What is left of the request's time after the compile and its voice lines, for the Editor and the game.
       const seconds = Math.max(TEST_MIN_SECONDS, TEST_BUDGET_SECONDS - Math.ceil((Date.now() - started) / 1000));
       const handoff = await testInGame(ctx.host, mapPath, seconds, fixture);
+      // This run's game writes its logs when the author quits it, so what can be read now is the last Test Document run that quit.
+      const previous = !ctx.host.has("game.logsFolder") ? undefined : await reportRunLogs({ host: ctx.host, workspaceRoot: workspace.root, missionDir: path.dirname(blueprintPath), selection: { before: new Date(started), parameters: ["EditorTest.SC2Map"], latest: true } }).catch((error: unknown) => ({
+        folder: "",
+        sessions: [],
+        stale: [],
+        note: `couldn't read the game's logs: ${(error as Error).message}`,
+      }));
       const voices = describePlaceholders(placeholders);
       const declared = blueprint.tests?.routes.length ?? 0;
       const kept = declared > 0 && hasKeptTerrain(blueprint);
@@ -646,9 +656,10 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
           ? [`Route tests (static, from the terrain; not read back from the game): ${routeTests.filter((test) => test.passed).length} of ${routeTests.length} passed`, ...routeTests.map((test) => `  ${test.passed ? "pass" : "FAIL"} ${test.message}`)]
           : []),
         ...describeHandoff(handoff),
+        ...(previous ? formatRunLogReport(previous, "Game logs of the last Test Document run that has quit (not this run's: the game writes its logs when it quits, and a Test Document's map is always EditorTest, so it may be another Mission's)") : []),
         await stageHint(blueprintPath),
       ];
-      return ctx.reply(lines.join("\n"), { mapPath, automated: handoff.automated, steps: handoff.steps, routeTests });
+      return ctx.reply(lines.join("\n"), { mapPath, automated: handoff.automated, steps: handoff.steps, routeTests, ...(previous ? { previousRunLogs: previous } : {}) });
     },
   );
 

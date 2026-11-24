@@ -124,6 +124,7 @@ Two rules can't fill one slot. Only the rules of the Plugin named as the Workspa
 | `game.running` | Whether a StarCraft II game is running. |
 | `game.banksDir` | The folder the game keeps its banks in, which the Editor Broker snapshots around a test game. |
 | `game.list` | Every running game as `{ pid, startedAt }`, so the Editor Broker can record the game a job starts and tell it from the author's. |
+| `game.logsFolder` | The folder the game writes its logs to (GameLogs). Core reads a run's crashes and errors from it ([game-testing.md](reference/game-testing.md#reading-a-runs-logs)). |
 | `game.quit` | Quits one recorded game and no other, gracefully (the game's own quit, then Yes) and by its pid and start time, ending the process only after a timeout. |
 | `game.launch` | Starts the game on a Map Package without the Editor. |
 | `screen.capture` | Captures the game window (else the Editor's) to an image. |

@@ -26,6 +26,7 @@ What the Mac has shown so far:
 | The game always opens the ClientAPI on `127.0.0.1:6119`, with no `-clientapi` switch, and it answers `/game` and `/ui` | `curl` during Battle.net and Editor launches, 2026-10-27 (§5) |
 | The game ignores `-listen` (both forms) and never opens the SC2API port | Battle.net and Editor launches with the switch on the command line, 2026-10-27 (§2) |
 | Logs go to `~/Library/Application Support/Blizzard/StarCraft II/GameLogs/` as `<YYYY-MM-DD HH.MM.SS> <Channel>.txt`. Channels seen: `Alerts`, `Graphics`, `ScriptError`, `SystemInfo`, `Text`, `UI` | directory listing |
+| The game writes each session's log files when it exits (one session's four files, created over 14 minutes, were all last modified at the quit). See [§4](#4-logs-to-read) | file times, 2026-11-24 |
 | `Variables.txt` is in the same folder, with flat `name=value` lines. This Mac has `GraphicsApi=Metal` | file contents |
 | A second instance isn't safe. The script refuses to launch, or kills the running one first | `launch-sc2.sh --replace` comment: "a second instance exits at startup" |
 
@@ -79,6 +80,8 @@ Caveats:
 - Some cvars refuse persistent sources. A cvar with typeId bit 1 set is skipped when read from `Variables.txt` but accepted from the command line. The documented example is `development`. Check with a log line before relying on `Variables.txt` for a given switch.
 - The game rewrites `Variables.txt`. Bool cvars are always written back; ints and floats only when overridden. Putting `run=` or `trigdebug=1` in it would affect every later launch, including normal play. Prefer the command line.
 - Dotted names (`Debug.Console`, `Query.EnableStdin`) belong to a second config system that `Variables.txt` doesn't feed (`entrypoint-and-activation.md`, § Two Separate Config Systems).
+
+**Mac, tried 2026-11-24:** `windowwidth` and `windowheight` in `Variables.txt` had no effect on the next Test Document's window; the game rewrites the file on a clean quit, writing back the size it ran at. Don't plan on sizing the game window from the file. **Windows: unchecked.**
 
 On the Mac the file is `~/Library/Application Support/Blizzard/StarCraft II/Variables.txt`. On Windows it's `Documents/StarCraft II/Variables.txt`.
 
@@ -250,9 +253,15 @@ A generated test map would open a type file at map init, then write lines such a
 
 Sources: `docs/log-output-channels.md`, `docs/logging-system.md`, `docs/cvariable-list.md` (§ log channels), `docs/galaxy-vm-interpreter.md` §2, §9, §10, `docs/dependency-manager.md`, `docs/sc2api-raw-client.md`.
 
+### When the game writes its logs
+
+**Mac, verified 2026-11-24:** the game writes its log files when it exits. One session's four files were created over 14 minutes (each when its channel first spoke) and were all last modified at the quit. So read a run's logs after the game has quit, never while it runs; a game that was killed may have left them incomplete or empty (zero-byte `SystemInfo` and `Text` files are what such a session looks like). This is why a capture quits its game gracefully, and why `test_mission`, whose game the author plays, can't report on its own run: see [Reading a run's logs](#reading-a-runs-logs).
+
 ### GameLogs files
 
 **Mac, verified:** files are named `<YYYY-MM-DD HH.MM.SS> <Channel>.txt`. Each starts with a header block: `StarCraft II (B98310)`, `Executable`, `<Parameters>` (the full command line), `Parent Executable`, `<Version>`, `<DataBuild>`, `<CodeBranch>`, … `<AgentVersion>`, then a `====` rule. The timestamp is each file's creation time, so files from one session can differ by a second or more: `Alerts` at `13.32.25`, `ScriptError` and `Text` at `13.32.26`, and `Graphics` earlier still. Group a session by start time plus `<Parameters>`, not by an exact prefix.
+
+**Mac, verified (2026-11-24):** `Text.txt` has no header block and so no `<Parameters>` line. Files of one session can be created over more than an hour (`UI` first spoke 75 minutes after the session's `Alerts`), so a gap in time can't end a session. Sessions with the same command line follow each other (every Test Document runs `-run Test/EditorTest.SC2Map`, whichever Mission it tests, and a capture's game does too). A crash or an error makes a folder `<stamp> <computer> B<build> P<pid> Crash` (or `Error`) holding that session's own files, its report `<folder name>.txt`, `NGDP`, `Streaming` and `Variables` copies, the replay, the map it ran and `mac.log`. The `P<pid>` is the game's process id, which is how a tool that recorded the pid it started knows a crash is its own.
 
 **Windows, documented:** each `Log*` bool cvar enables one output channel, and the channel's file appears in GameLogs:
 
@@ -266,6 +275,25 @@ Sources: `docs/log-output-channels.md`, `docs/logging-system.md`, `docs/cvariabl
 | others | `LogXML`, `LogTextError`, `LogLanguageError`, `LogCutscenes`, `LogSHAD`, … (mostly true) | per channel |
 
 `disableAllLogging` (default false) suppresses everything. `LogGalaxyVerboseAssertion` defaults to true. Crashes leave a `<time> … Crash` folder in GameLogs.
+
+### Reading a run's logs
+
+Core reads them (`packages/core/src/host/game-logs.ts`, `game-run-report.ts`). Each Host Adapter names its folder with the `game.logsFolder` capability (the Mac's is the one above; Windows' is `<Documents>\StarCraft II\GameLogs`, Documents as the shell has it).
+
+- **Which session is ours.** Files are grouped in the order the game made them: a file joins the latest group that doesn't have its channel yet and whose `<Parameters>` agree (a file with no header agrees with any); otherwise it starts a group. A run's sessions are those that started after the tool's run began and name its map in `<Parameters>` (or `EditorTest.SC2Map`), plus any crash folder whose `P<pid>` is a game the Editor Broker recorded as the tool's (#52). Overlapping games with the same command line can interleave; the pid match covers crashes only.
+- **What it reports.** After `capture_shots`, whose game the tool quits: Crash or Error folders; each distinct error in `ScriptError`, `Alerts`, `Text`, `UI` and `Cutscenes` with a count of the lines that said it (the game prints `Final report for this error this game.` and then stops repeating, so a count is a floor); and which are new, meaning no known-error list knows them. A `Near line` line joins the error above it, and the `[ 13 1]` stamp some `Alerts` lines carry is dropped, so one error is one entry. `test_mission` can only report the **last Test Document run that had quit** before the call, labelled so: its own game runs on while the author plays and writes its logs at the quit, and a Test Document's map is always `EditorTest`, so the session may be another Mission's.
+- **Known-error lists, two levels.** `known-errors.json` at the Workspace root applies to every Mission; one beside a Mission's Blueprint adds to it for that Mission. Both are the author's: a tool prints a proposed pattern for each new error and writes nothing. `check` validates both.
+
+  ```json
+  { "patterns": [
+    { "match": "Cannot load font file", "reason": "this Mac has no Courier font; harmless", "added": "2026-11-24" },
+    { "match": "^Catalog field '.*' could not be read", "regex": true, "reason": "tracked in #123", "added": "2026-11-24" }
+  ] }
+  ```
+
+  `match` is text the error contains (or, with `"regex": true`, a regular expression it matches); `reason` is required and says why it's known (a proposed pattern's `TODO(author)` reason passes the format but `check` warns on it); `added` is the date, `YYYY-MM-DD`. A pattern is listed once per list.
+- **Stale patterns.** The report records, in the machine's cache folder (`known-error-hits.json`), when each pattern last matched, and flags one unmatched, since its last match or else its `added` date, for 30 days, so the author can remove it. A machine with no `cacheDir` records nothing and flags nothing.
+
 
 ### Strings worth matching
 
@@ -287,6 +315,16 @@ From the RE notes and [map-package-findings.md](./map-package-findings.md#logs-a
 | `UI/TextError/CannotLoadDescFile` + mod path | a dependency's descriptor failed to load |
 | `Script compile error:` / `Script load failed:` | from `erivgout/sc2-map-editor-mcp`'s matcher. Not yet seen here. |
 | `Unable to open map.` | bad path in an Editor reload (Windows) |
+
+Strings a UI layout or a Galaxy script should produce when it's wrong, from the same sources. **Unverified until seen in a log here**; match them, and when one shows up, move it to the first table:
+
+| Pattern | Probably means |
+|---|---|
+| `Unknown start tag` | a layout file's XML names an element the game doesn't have |
+| `not able to be hooked up` | a layout frame refers to a handle or control it can't connect |
+| `Unable to resolve layout of … for side(s)` | a frame's anchors don't fix its position or size on those sides |
+| `Invalid property binding` | a layout property binds to something that isn't there |
+| `could not be created` | an object (a frame or a catalog entry) failed to build |
 
 ### Galaxy VM errors and limits
 
@@ -353,6 +391,10 @@ To see part of a map in the game, call the MCP tool `capture_shots` (or `npm run
 - **Waiting.** Every capture on the machine goes through the Editor Broker ([macos-host.md](../../packages/plugin-host-macos/docs/macos-host.md#the-editor-broker-one-editor-job-at-a-time)), one at a time, so a call may wait behind another agent's. The call waits up to 10 minutes; a job not done by then comes back with a job id, and `capture_shots({ job })` waits again and collects the frames, or reports the job's place in the queue.
 - **Where frames go.** For a Mission, `missions/<id>/output/shots/<name>/` (git-ignored); for any other Map Package, `<cacheDir>/shots/<name>/`. Each frame is its two-digit number with any label as a lower-case, dashed tail, such as `01-north-gate.jpg`, beside `shots.json` with each Shot's rectangle, camera and `whole`. Read the frames to look at them.
 - **Stale captures (#748).** A Mission's `shots.json` (and `capture-edit`'s `views.json`) records `covers`: the Blueprint and Map Package files, with fingerprints, as they were when the frames were taken, the same shape and files a Stage 3 sign-off covers (`session/evidence-coverage.ts`; the Assets folder, the minimap and the two files an Editor save rewrites, `ComponentList.SC2Components` and `DocumentHeader`, are left out). `get_session_state` lists each `output/shots/<name>/` whose covered files differ now under `staleCaptures`, with what changed, and says to take it again. It only reports: nothing is deleted or rewritten, and a capture from before `covers` is never stale. `views.json` is written outside the Mission, under `$SC2_RESEARCH_DIR`, so it is recorded but not yet reported. A capture of a bare `mapPath` has no Mission and covers nothing.
+
+### The in-game error panel
+
+**Unverified.** The game shows its script and data errors in a panel that covers about the top 200 px of its window. Hide it (the green checkbox at its top left) before judging a layout or a screenshot of one, or the top of the picture is the panel's.
 
 ### The game's own screenshot paths
 

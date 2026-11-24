@@ -46,6 +46,7 @@ const CAPABILITIES = [
   "game.running",
   "game.list",
   "game.quit",
+  "game.logsFolder",
   "tts.speak",
   "model.render",
   "model.rendererKey",

@@ -33,6 +33,22 @@ describe("checkWorkspace", () => {
     ]);
   });
 
+  it("validates the Workspace's and each Mission's known-errors list, and warns on a placeholder reason", async () => {
+    const root = await copyOfChecked();
+    await rm(path.join(root, "missions/broken-field"), { recursive: true });
+    const good = { match: "Cannot load font", reason: "the Mac has no Courier", added: "2026-03-01" };
+    await writeFile(path.join(root, "known-errors.json"), JSON.stringify({ patterns: [good] }));
+    await writeFile(path.join(root, "missions/radio-field/known-errors.json"), JSON.stringify({ patterns: [good] }));
+    expect((await checkWorkspace(root)).problems).toEqual([]);
+
+    await writeFile(path.join(root, "known-errors.json"), JSON.stringify({ patterns: [{ match: "x", added: "2026-03-01" }] }));
+    await writeFile(path.join(root, "missions/radio-field/known-errors.json"), JSON.stringify({ patterns: [{ ...good, reason: "TODO(author): why this is known" }] }));
+    expect((await checkWorkspace(root)).problems).toEqual([
+      { file: "known-errors.json", message: expect.stringContaining("known-errors.json isn't a known-errors list: patterns.0.reason") },
+      { mission: "radio-field", file: "missions/radio-field/known-errors.json", path: "patterns.0.reason", message: expect.stringContaining("placeholder"), severity: "warning" },
+    ]);
+  });
+
   it("reads each valid Mission's Screenplay, and reports one it can't read against the Screenplay's file", async () => {
     const root = await copyOfChecked();
     await rm(path.join(root, "missions/broken-field"), { recursive: true });

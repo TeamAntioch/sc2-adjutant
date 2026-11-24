@@ -55,6 +55,11 @@ export async function banksDir(_request: Record<string, never>, context: HostCon
   return path.join(await documentsFolder(await editorHelper(context)), "StarCraft II", "Banks");
 }
 
+/** game.logsFolder: `<Documents>\StarCraft II\GameLogs`, Documents as the shell has it (it may be redirected). */
+export async function gameLogsFolder(_request: Record<string, never>, context: HostContext): Promise<string> {
+  return path.join(await documentsFolder(await editorHelper(context)), "StarCraft II", "GameLogs");
+}
+
 const isOpen = async (editor: Editor, mapPath: string): Promise<boolean> => documentsOf(await readEditor(editor), mapPath).length > 0;
 
 /**

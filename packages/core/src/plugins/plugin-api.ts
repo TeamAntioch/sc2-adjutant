@@ -489,6 +489,7 @@ export const HOST_CAPABILITIES = [
   "game.banksDir",
   "game.list",
   "game.quit",
+  "game.logsFolder",
   "screen.capture",
   "tts.speak",
   "model.render",
@@ -662,6 +663,12 @@ export type HostCapabilities = {
    * the start time (it exited, or its pid was reused), else how it ended, which it also logs.
    */
   readonly "game.quit": (request: { readonly game: GameProcess; readonly log?: (line: string) => void }, context: HostContext) => Promise<"closed" | "killed" | "gone">;
+  /**
+   * The folder the game writes its log files to (GameLogs): where core reads a run's errors and
+   * crashes from (host/game-logs.ts). Each Host Adapter names its machine's; the game writes the
+   * files as it exits, so they're read after a quit.
+   */
+  readonly "game.logsFolder": (request: Record<string, never>, context: HostContext) => Promise<string>;
   /** Captures the game window (else the Editor's) to an image, JPEG or PNG by the path's extension. */
   readonly "screen.capture": (request: { readonly outputPath: string }, context: HostContext) => Promise<void>;
   /**

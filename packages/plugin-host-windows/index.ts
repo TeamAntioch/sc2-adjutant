@@ -12,7 +12,7 @@
 
 import type { PluginCode } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
-import { banksDir, captureTour, closeCaptureCopies } from "./capture-tour.ts";
+import { banksDir, captureTour, closeCaptureCopies, gameLogsFolder } from "./capture-tour.ts";
 import { checkClosed, openInEditor, saveInEditor, testDocument } from "./editor.ts";
 import { captureScreen, gameRunning, launchGame, listGames, quitGame } from "./game.ts";
 import { speak } from "./speech.ts";
@@ -32,6 +32,7 @@ const plugin: PluginCode = {
     "game.running": gameRunning,
     "game.list": listGames,
     "game.quit": quitGame,
+    "game.logsFolder": gameLogsFolder,
     "tts.speak": speak,
     "model.render": renderModel,
     "model.rendererKey": rendererKey,
