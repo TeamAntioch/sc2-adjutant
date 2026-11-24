@@ -300,7 +300,7 @@ What it checks:
 
 What it can't check:
 
-- Whether the script compiles. There is no Galaxy compiler here, so syntax and full type checking need the game (or a third-party parser) and a log scrape.
+- Whether the script compiles. There is no Galaxy compiler here, so syntax and full type checking need the game and a log scrape, or a third-party parser. [plaxtony](https://www.npmjs.com/package/plaxtony) (npm) has type-checked a hand-written script against Blizzard's `natives.galaxy` outside the Editor (2026-11-11).
 - Types for the 17 natives with null signatures, including `TransmissionSendForPlayerSelect`, unless we load `natives.galaxy`.
 - `c_*` constant names and `libNtve_ge_*` / `lib*_gf_*` names and signatures, unless we load `natives.galaxy` and the library headers.
 - Catalog references inside strings (a custom hero unit's id, `"SolarFlareDamage"`, `"BelShirFlare"`, sound IDs). Those need the GameData catalogs of the map and its dependencies.

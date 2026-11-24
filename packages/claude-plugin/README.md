@@ -46,6 +46,15 @@ When none holds a built core, the server's error lists where it looked and what 
 
 The plugin and core release together, at the same version. When the core it finds has a different major or minor version from the plugin's (`.claude-plugin/plugin.json`), or has no version it can read, the launcher prints a warning to the server's log (`/mcp`), with both versions and how to update each, and starts the server anyway. A different patch version is fine. Update core with `npm update` in the Workspace, and the plugin with `claude plugin update sc2-adjutant@sc2-adjutant`.
 
+## When the server doesn't start
+
+`/mcp` shows a server that failed as failed, with the launcher's error. Claude Code also keeps each MCP server's log; on macOS it's under `~/Library/Caches/claude-cli-nodejs/<project folder>/mcp-logs-plugin-sc2-adjutant-sc2-adjutant/`.
+
+- **"Connection closed" from a checkout's core** usually means stale builds. Core refuses a checkout's Plugin package whose source is newer than its `dist/` (`packages/core/src/plugins/built-package.ts`), and a bundled Plugin refused that way stops the server. So does a `node_modules` holding an old `@team-antioch/sc2-asset-catalog`, or a core `dist/` missing exports newer Plugins use. Run `npm install && npm run build` in the checkout; `dist/` isn't committed, so a pull alone doesn't rebuild it.
+- **A Plugin's load error shows only on a tool call.** The server can start and still fail to load a Plugin, so call `list_plugins` to see it.
+- **Reconnect after fixing it.** `/reload-plugins` doesn't retry a failed MCP server; use `/mcp` and Reconnect.
+- **A compile refusing what main already handles** means the core the server runs is older than main, such as a shared checkout left on an old commit. Build core in an up-to-date worktree and run its CLI from there (`node <checkout>/packages/core/dist/cli/compile-map.js <blueprint>`), or point `core_path` at that worktree.
+
 ## Skills from the Workspace's Plugins
 
 A Plugin the Workspace lists (its Campaign Pack, Style Pack, a Utility or any other) can contribute skills ([ADR-0023](https://github.com/TeamAntioch/sc2-adjutant/blob/main/docs/adr/0023-utility-plugin-role.md)). A Claude Code plugin's own skills are fixed folders inside it, so these reach Claude Code another way: at each session start, `hooks/copy-skills.mjs` finds the Workspace and core as the launcher does, and core copies each listed Plugin's skill folders into `<workspace>/.claude/skills/`, where Claude Code finds project skills. It then asks Claude Code to reload its skills (`reloadSkills`), so they load in that session.

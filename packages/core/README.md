@@ -63,6 +63,8 @@ A Workspace is a folder of Missions with `sc2-adjutant.workspace.json` at its ro
 
 A Plugin is named as `bundled:<name>` for one that ships with sc2-adjutant, or as a local folder (`./plugins/beacon`, relative to the Workspace root, or an absolute path). How to write one is in [the plugin API](https://github.com/TeamAntioch/sc2-adjutant/blob/main/docs/plugin-api.md).
 
+**Commit the Editor's file modes.** The Editor sets the executable bit (100755) on every file it saves in a Map or Mod Package, and git records it. When `git diff --summary` shows `mode change 100644 => 100755` on package files after an Editor save, commit it with the work; reverting it only brings it back at the next save. Core's compiles keep each file's mode and give a new file its neighbours' (`packages/core/src/util/package-file-mode.ts`), so a compile shouldn't flip modes either way. If one turns files back to 100644, put them back with `chmod +x` rather than committing that, and report it.
+
 ## The machine config
 
 Settings for your own machine live outside the Workspace, in `machine.json` in your sc2-adjutant config folder:

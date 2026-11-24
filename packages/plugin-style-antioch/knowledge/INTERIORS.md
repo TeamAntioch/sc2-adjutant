@@ -106,6 +106,15 @@ How the kits make rooms:
 14. Push pieces together with ignore placement: overlaps and stacks are normal (a quarter of Blizzard's storage touches a neighbour). Nothing solid dangles over a drop (DL-18).
 15. Every number, letter and word labels something: a bay's number at its bay, the bay's name across its mouth, DO NOT ENTER or CAUTION at the hazard it warns of. Scattered, they read as noise. The same goes for hazard signs, bay badges and emblems.
 
+## Walls, doors and edges
+
+From the author's Editor reviews of a built factory interior (2026-11-08 and 2026-11-09). A low shell, a gap wider than its door or a door off its pillars all looked wrong straight away.
+
+- **A door sits between exactly two removed pillars.** The compile draws a 45° wall as 2×2 pillars on even corner vertices, 4 units apart along the wall. A door goes on the wall's centre line, midway between two neighbouring pillars, and its gap reaches 4 units either side of its centre, so it removes just those two. A gap that removes three leaves the door short of a wall at both ends. `CompoundSewers_Door_Thin_NW` at 225° runs along one diagonal, and `_NE` at 135° along the other. To check one, draw its footprint over the compiled cliffs: each end should overlap one pillar cell.
+- **Every door has a jamb on each side.** Where the terrain can't give one, as beside a drop, build the jamb from doodads. It closes flush against the door's edge and carries down the drop. `MetalWall` left a gap; a tinted `HybridWallPillar2High` closed it.
+- **Edges look like walls.** An outer wall stands one level above the floor beside it, never as a lower lip. Beyond it is black: Black Mask, and no permanent reveal over the room. A Kept initialization trigger's whole-map `VisRevealArea` hid all the black. Heroes that see by line of sight can't see past the higher wall either.
+- **Keep the levels tidy.** Set `raggedCliffs: 0` for an interior. No 2×2 cell window may span more than 2 cliff levels, or it renders as a hole. Step the ground outside down in bands at least 8 units wide.
+
 ## Which decal
 
 The decal catalog (the published sc2-asset-catalog's decal descriptions; the MCP tool `decal_variations`) says what every variation of every decal doodad shows. It also says whether it carries a number, letter or words, its shape (a line, a corner or a patch), whether it tiles, and its use (`marking`, `ornament`, `label`, `sign` or `emblem`). Choose variations from it by number, never at random.

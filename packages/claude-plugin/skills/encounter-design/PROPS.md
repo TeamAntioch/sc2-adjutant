@@ -44,7 +44,7 @@ A catalogue of interactive props for hero-mission encounters, the rules that mak
 
 - **Two-state props are morph pairs.** Each state has its own footprint, so pathing (and sight, where the footprint has `BlockVision`) changes with the morph. Script orders the morph ability.
 - **Units versus doodads.** A unit prop can be ordered, killed, given behaviours and hooked with `TriggerAddEventUnitClick/Range/Region`. A doodad takes only region-wide actor messages.
-- **Runtime pathing** changes with `PathingModify`. No native for runtime sight blocking was found.
+- **Runtime pathing:** move a `PathingBlocker` unit into place, or morph the prop. In a test, `PathingModify` with `PathingUpdate` blocked nothing, while a moved `PathingBlocker2x2` did block. No native for runtime sight blocking was found.
 - **No Blizzard library has a door, bridge, switch, alarm or hack helper.** The reusable helpers are signposting: reticle plus text tag, objective pings, `UnitSetInfoText`. The NCO stealth library (LibNCMI) hard-codes Nova; rewriting a slim stealth loop is usually better than loading it.
 
 ## Candidate props
