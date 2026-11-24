@@ -1,0 +1,39 @@
+{
+  "name": "@team-antioch/sc2-adjutant-anim-testbed",
+  "version": "0.1.0",
+  "description": "An sc2-adjutant Utility that builds animation and sound test maps from a spec: a dialog in the game to pick a unit, clip, slot and variation and play it, with every id checked first.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamAntioch/sc2-adjutant.git",
+    "directory": "packages/plugin-anim-testbed"
+  },
+  "type": "module",
+  "exports": {
+    "./sc2-adjutant-plugin.json": "./sc2-adjutant-plugin.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "!dist/.tsbuildinfo",
+    "sc2-adjutant-plugin.json",
+    "runtime",
+    "skills",
+    "examples"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"require('node:fs').writeFileSync('dist/.built', '')\"",
+    "prepack": "npm run build",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && vitest run"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "dependencies": {
+    "zod": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@team-antioch/sc2-adjutant": "^0.1.0"
+  }
+}

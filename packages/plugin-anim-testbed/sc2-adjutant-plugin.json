@@ -1,0 +1,7 @@
+{
+  "name": "anim-testbed",
+  "version": "0.1.0",
+  "pluginApi": 2,
+  "roles": ["utility"],
+  "contributions": { "skills": ["skills/anim-testbed"] }
+}

@@ -6,6 +6,7 @@ export const PUBLIC_PACKAGES = [
   "plugin-host-macos",
   "plugin-host-windows",
   "plugin-style-antioch",
+  "plugin-anim-testbed",
   "doodad-finder",
   "set-finder",
 ];
