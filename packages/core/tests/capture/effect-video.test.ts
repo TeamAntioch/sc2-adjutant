@@ -1,9 +1,14 @@
 // The effect tour's video (capture/effect-video.ts): reading the recording's timeline, placing each
-// effect in it, and picking the frames that changed most.
+// effect in it, picking the frames that changed most, and cutting each effect's clip.
+import { execFileSync } from "node:child_process";
+import { mkdtemp, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import type { EffectShot } from "../../src/capture/effect-tour.js";
-import { BASE_AFTER_MARK, changeScores, effectSegments, parseVideoStops, pickPeaks } from "../../src/capture/effect-video.js";
+import { BASE_AFTER_MARK, changeScores, cutEffect, effectSegments, parseVideoStops, pickPeaks } from "../../src/capture/effect-video.js";
 
 const shot = (stop: number, effect: number, label: EffectShot["label"]): EffectShot => ({ stop, effect, file: `Assets/Effects/E${effect}.m3`, label });
 
@@ -61,5 +66,30 @@ describe("changeScores", () => {
   it("scores each frame by the percentage of its pixels that changed past the threshold from the first", () => {
     const frames = new Uint8Array([10, 10, 10, 10, 20, 0, 10, 10, 60, 200, 10, 30]);
     expect(changeScores(frames, 2, 16)).toEqual([0, 0, 0, 0, 100, 50]);
+  });
+});
+
+// The clip is encoded with VideoToolbox, which only a Mac has.
+const hasVideoToolbox = (() => {
+  try {
+    return process.platform === "darwin" && execFileSync("ffmpeg", ["-hide_banner", "-encoders"], { encoding: "utf8" }).includes("hevc_videotoolbox");
+  } catch {
+    return false;
+  }
+})();
+
+describe("cutEffect", () => {
+  it.skipIf(!hasVideoToolbox)("cuts the clip at the recording's size, as HEVC, from the base to the end", async () => {
+    const dir = await mkdtemp(path.join(os.tmpdir(), "cut-effect-"));
+    try {
+      const video = path.join(dir, "video.mp4");
+      execFileSync("ffmpeg", ["-v", "error", "-y", "-f", "lavfi", "-i", "testsrc2=size=1600x900:rate=30", "-t", "4", "-c:v", "hevc_videotoolbox", "-tag:v", "hvc1", video]);
+      const result = await cutEffect(video, { effect: 0, base: 1, searchEnd: 2, end: 3 }, dir, "0001");
+      const probe = execFileSync("ffprobe", ["-v", "error", "-select_streams", "v", "-show_entries", "stream=codec_name,width,height:format=duration", "-of", "default=nw=1", result.clip], { encoding: "utf8" });
+      expect(probe).toMatch(/codec_name=hevc\nwidth=1600\nheight=900/);
+      expect(Number(/duration=([0-9.]+)/.exec(probe)![1])).toBeCloseTo(2, 1);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
   });
 });

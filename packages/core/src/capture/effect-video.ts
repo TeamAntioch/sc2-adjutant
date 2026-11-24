@@ -145,10 +145,23 @@ export type EffectVideoResult = {
 const limits = (seconds: number, maxOutputBytes: number) => ({ timeoutMs: (60 + seconds * 4) * 1000, maxOutputBytes });
 
 /**
- * Cuts `segment` of `video` into `<outDir>/clips/<name>.mp4` (HEVC, `clipWidth` wide) and writes its
- * peak frames as `<outDir>/peaks/<name>-<n>.jpg`. `name` is usually the effect's number.
+ * A clip's HEVC quality (hevc_videotoolbox's -q:v, 0-100): as high as the recording's, so the
+ * second encode loses next to nothing more. The clips are masters, which a gallery encodes for the
+ * web itself.
  */
-export async function cutEffect(video: string, segment: EffectSegment, outDir: string, name: string, clipWidth = 960): Promise<EffectVideoResult> {
+export const CLIP_QUALITY = 90;
+
+/** The largest clip written, in bytes: a clip of an effect is seconds long, a few MB at CLIP_QUALITY. */
+const CLIP_MAX_BYTES = 200 * 1024 * 1024;
+
+/**
+ * Cuts `segment` of `video` into `<outDir>/clips/<name>.mp4` and writes its peak frames as
+ * `<outDir>/peaks/<name>-<n>.jpg`. `name` is usually the effect's number. The clip is HEVC at the
+ * recording's size and CLIP_QUALITY. It is encoded again, not copied: a copy can only start at a
+ * keyframe, the recorder's come about a second apart, and the bare pad before an attach can be as
+ * short as 0.3 s, so a copied clip would start on the previous effect.
+ */
+export async function cutEffect(video: string, segment: EffectSegment, outDir: string, name: string): Promise<EffectVideoResult> {
   const seconds = Math.max(0.1, segment.end - segment.base);
   const searchSeconds = Math.max(0.1, segment.searchEnd - segment.base);
   const clips = path.join(outDir, "clips");
@@ -157,7 +170,7 @@ export async function cutEffect(video: string, segment: EffectSegment, outDir: s
   await mkdir(peaksDir, { recursive: true });
   const clip = path.join(clips, `${name}.mp4`);
   const at = ["-ss", segment.base.toFixed(3), "-t", seconds.toFixed(3)];
-  await runBounded("ffmpeg", ["-v", "error", "-y", ...at, "-i", video, "-an", "-vf", `scale=${clipWidth}:-2`, "-c:v", "hevc_videotoolbox", "-q:v", "50", "-tag:v", "hvc1", "-fs", String(20 * 1024 * 1024), clip], limits(seconds, 20 * 1024 * 1024));
+  await runBounded("ffmpeg", ["-v", "error", "-y", ...at, "-i", video, "-an", "-c:v", "hevc_videotoolbox", "-q:v", String(CLIP_QUALITY), "-tag:v", "hvc1", "-fs", String(CLIP_MAX_BYTES), clip], limits(seconds, CLIP_MAX_BYTES));
 
   const scratch = await mkdtemp(path.join(os.tmpdir(), "effect-video-"));
   try {
