@@ -72,6 +72,7 @@ Sources:
 ### sc2-arcade-watcher/sc2-game-data
 
 - **What:** a CASC-extracted text tree for SC2 and Heroes: catalogs, layouts, Galaxy libraries (1,254 files), shader source, localized strings. No binary media; `Assets.txt` only lists the paths.
+- **Not in it:** Blizzard's maps come with only their Objects, `t3Terrain.xml`, Regions and scripts. Their height maps (`t3HeightMap`), cliff levels (`t3SyncCliffLevel`), cell flags (`t3CellFlags`) and MapInfo come from your own install, extracted over CASC ([Game storage](#game-storage)). Extracted names come out lower case. Co-op maps aren't in the install.
 - **Language / licence:** GitHub says HLSL; no licence. Confirmed.
 - **Use:**
   - Full native prototypes for a `validate-map` lint, alongside the arity list from `sc2-ida-mcp-setup`.

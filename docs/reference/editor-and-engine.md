@@ -454,3 +454,35 @@ A trigger's `Wait`, a timer and a periodic event each run on one of three clocks
 - that a goal timer's countdown stops during a hero moment, held by "Clocks Hero Moment", and picks up where it stopped;
 - that a Wave's schedule doesn't advance during a moment;
 - in the `ui-test` Mission, that a moment begun during an in-play line waits for the line's end.
+
+## A unit model's front is its −Y
+
+A unit draws its model turned by its facing less 270°: a unit model's front is its −Y. So a unit faced 270° shows the model as it was exported. Doodads at rotation 0 are a different case ([doodad-facings.md](./doodad-facings.md)). A script that shows a model as a unit (`UnitCreate`, then `ActorSend` `ModelSwap <model> <variation>`) to match a placed doodad faces it at the doodad's rotation + 270, and lifts it with `UnitSetHeight`. On a test map (2026-11-11), units placed that way and doodads carrying `HeightAbsolute` at the same heights both lined up with their collision circles.
+
+## Blocking ground at runtime: move a blocker unit
+
+On a Kept map (2026-11-11), `PathingModify` with `PathingUpdate` blocked nothing: the cell stayed ground for units. Moving a `PathingBlocker2x2` or `PathingBlocker1x1` unit there with `UnitSetPosition` did block. Until `PathingModify` is seen working, open and close ground at runtime with blocker units, or with a morph pair whose states have different footprints.
+
+## Fog of war hides a big unit by its centre
+
+Fog of war hides a whole unit when its centre point is fogged. On a Kept map (2026-11-12), units with models about 35 cells across, standing at a hub, didn't draw at all from the corridors round it until `showmap`. `<FogVisibility value="Visible"/>` on the `CUnit` keeps such a unit drawn and animating under fog; `Snapshot` keeps only a frozen last-seen picture.
+
+To show one only once the player's sight reaches it: create it with `c_unitStateHidden`, test `VisIsVisibleForPlayer` at points round its edge (about ±4 cells), and when one is visible, unhide it and fade it in with `ActorSend` `SetOpacity 0` then `SetOpacity 1 1.5`. The author judged that much better than the unit popping in.
+
+## A Black Mask (Reduced Radius) map can leave every player blind
+
+On a Kept map with `BlackNoUnhide` ([Unexplored areas](#unexplored-areas)) whose triggers had been replaced (2026-11-12), no unit saw any other: enemies drew but couldn't be clicked or shot, `VisIsVisibleForPlayer` was false at 5 cells even with a whole-map revealer, and `VisEnable(c_visTypeFog, false)` didn't stick. The same script on a `Black` map fought normally. Test combat on a `Black` base before debugging alliances or flags.
+
+Two more things from the same test. Replacing a map's triggers drops the alliances its triggers set up, so a script that replaces them sets its enemies hostile itself. And `FogSetEnabled` is atmospheric fog, not fog of war: to show everything on a `BlackNoUnhide` map, turn off the mask and the fog with `VisEnable(c_visTypeMask, false)` and `VisEnable(c_visTypeFog, false)`.
+
+## VisExploreArea ignores a region's negative shapes
+
+`VisExploreArea` explores a region's positive shapes and ignores its negative ones: a circle less a smaller circle explored the whole disc (2026-11-12). To explore a ring-shaped band, explore many small `RegionCircle`s along it, one call each; the author confirmed that works.
+
+## Animation names use the engine's own words
+
+A model's animation names must be built from the words the engine knows. A clip named `Attack Mega` never played from `AnimPlay … Attack,Mega` (test map, 2026-11-23): "Mega" isn't one of the engine's animation-name properties. Renamed `Spell C`, it played. Name a new clip from existing words: a base and a letter (`Spell C`), or a property such as `Superior`, `Alternate`, `Start` or `End`. Never use an invented word.
+
+## The Editor keeps a model loaded by name
+
+The running Editor caches a model by its path. Rebuilding a map with a new `.m3` at the same path and reopening the map still showed the old model, until the Editor was quit and started again (2026-11-11). After swapping a model's file, quit the Editor before testing.
