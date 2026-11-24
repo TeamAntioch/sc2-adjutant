@@ -7449,6 +7449,60 @@ exports[`the tool list > is the same on a bare machine 1`] = `
   },
   {
     "annotations": {
+      "destructiveHint": false,
+      "readOnlyHint": false,
+    },
+    "description": "Copies the .SC2Bank files in the game's Banks folder (from the Host Adapter's game.banksDir) into a new folder \`<Workspace>/bank-fixtures/<name>/\`, to be named by a Mission's Blueprint as its bankFixture (a path from the Blueprint's folder, e.g. ../../bank-fixtures/<name>). It reads the Banks folder and writes nothing outside that destination. Refused while a test game's banks haven't been put back, or a test game runs, since the folder then holds a fixture's banks; refused when the destination already holds banks, unless overwrite is true. Set the campaign up in the game first (play to the state the fixture should hold), then call this.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "name": {
+          "description": "The fixture's folder name, e.g. after-mission-2",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "type": "string",
+        },
+        "overwrite": {
+          "description": "Replace the banks of a fixture of that name that already exists",
+          "type": "boolean",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "required": [
+        "name",
+      ],
+      "type": "object",
+    },
+    "name": "save_bank_fixture",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "banks": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "fixture": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "banks",
+      ],
+      "type": "object",
+    },
+    "title": "Save the game's banks as a bank fixture",
+  },
+  {
+    "annotations": {
       "destructiveHint": true,
       "readOnlyHint": false,
     },
@@ -7514,60 +7568,6 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "type": "object",
     },
     "title": "Start a Style Pack in the Workspace",
-  },
-  {
-    "annotations": {
-      "destructiveHint": false,
-      "readOnlyHint": false,
-    },
-    "description": "Copies the .SC2Bank files in the game's Banks folder (from the Host Adapter's game.banksDir) into a new folder \`<Workspace>/bank-fixtures/<name>/\`, to be named by a Mission's Blueprint as its bankFixture (a path from the Blueprint's folder, e.g. ../../bank-fixtures/<name>). It reads the Banks folder and writes nothing outside that destination. Refused while a test game's banks haven't been put back, or a test game runs, since the folder then holds a fixture's banks; refused when the destination already holds banks, unless overwrite is true. Set the campaign up in the game first (play to the state the fixture should hold), then call this.",
-    "execution": {
-      "taskSupport": "forbidden",
-    },
-    "inputSchema": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "properties": {
-        "name": {
-          "description": "The fixture's folder name, e.g. after-mission-2",
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
-          "type": "string",
-        },
-        "overwrite": {
-          "description": "Replace the banks of a fixture of that name that already exists",
-          "type": "boolean",
-        },
-        "workspace": {
-          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
-          "minLength": 1,
-          "type": "string",
-        },
-      },
-      "required": [
-        "name",
-      ],
-      "type": "object",
-    },
-    "name": "save_bank_fixture",
-    "outputSchema": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "additionalProperties": false,
-      "properties": {
-        "banks": {
-          "items": {
-            "type": "string",
-          },
-          "type": "array",
-        },
-        "fixture": {
-          "type": "string",
-        },
-      },
-      "required": [
-        "banks",
-      ],
-      "type": "object",
-    },
-    "title": "Save the game's banks as a bank fixture",
   },
   {
     "annotations": {
@@ -18384,6 +18384,60 @@ exports[`the tool list > is the same on a machine that can do everything, with b
   },
   {
     "annotations": {
+      "destructiveHint": false,
+      "readOnlyHint": false,
+    },
+    "description": "Copies the .SC2Bank files in the game's Banks folder (from the Host Adapter's game.banksDir) into a new folder \`<Workspace>/bank-fixtures/<name>/\`, to be named by a Mission's Blueprint as its bankFixture (a path from the Blueprint's folder, e.g. ../../bank-fixtures/<name>). It reads the Banks folder and writes nothing outside that destination. Refused while a test game's banks haven't been put back, or a test game runs, since the folder then holds a fixture's banks; refused when the destination already holds banks, unless overwrite is true. Set the campaign up in the game first (play to the state the fixture should hold), then call this.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "name": {
+          "description": "The fixture's folder name, e.g. after-mission-2",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "type": "string",
+        },
+        "overwrite": {
+          "description": "Replace the banks of a fixture of that name that already exists",
+          "type": "boolean",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "required": [
+        "name",
+      ],
+      "type": "object",
+    },
+    "name": "save_bank_fixture",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "banks": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "fixture": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "banks",
+      ],
+      "type": "object",
+    },
+    "title": "Save the game's banks as a bank fixture",
+  },
+  {
+    "annotations": {
       "destructiveHint": true,
       "readOnlyHint": false,
     },
@@ -18449,60 +18503,6 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "Start a Style Pack in the Workspace",
-  },
-  {
-    "annotations": {
-      "destructiveHint": false,
-      "readOnlyHint": false,
-    },
-    "description": "Copies the .SC2Bank files in the game's Banks folder (from the Host Adapter's game.banksDir) into a new folder \`<Workspace>/bank-fixtures/<name>/\`, to be named by a Mission's Blueprint as its bankFixture (a path from the Blueprint's folder, e.g. ../../bank-fixtures/<name>). It reads the Banks folder and writes nothing outside that destination. Refused while a test game's banks haven't been put back, or a test game runs, since the folder then holds a fixture's banks; refused when the destination already holds banks, unless overwrite is true. Set the campaign up in the game first (play to the state the fixture should hold), then call this.",
-    "execution": {
-      "taskSupport": "forbidden",
-    },
-    "inputSchema": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "properties": {
-        "name": {
-          "description": "The fixture's folder name, e.g. after-mission-2",
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
-          "type": "string",
-        },
-        "overwrite": {
-          "description": "Replace the banks of a fixture of that name that already exists",
-          "type": "boolean",
-        },
-        "workspace": {
-          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
-          "minLength": 1,
-          "type": "string",
-        },
-      },
-      "required": [
-        "name",
-      ],
-      "type": "object",
-    },
-    "name": "save_bank_fixture",
-    "outputSchema": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "additionalProperties": false,
-      "properties": {
-        "banks": {
-          "items": {
-            "type": "string",
-          },
-          "type": "array",
-        },
-        "fixture": {
-          "type": "string",
-        },
-      },
-      "required": [
-        "banks",
-      ],
-      "type": "object",
-    },
-    "title": "Save the game's banks as a bank fixture",
   },
   {
     "annotations": {
