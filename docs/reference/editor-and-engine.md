@@ -191,7 +191,7 @@ The Cutscene Editor's Director Window shows neither correctly: it draws depth of
 
 ## Cutscene walk animations need their built-in move speed
 
-An actor on a `CCutsceneNodeFollowPath` stands still unless its `CCutsceneElementAnim` carries the animation's own length and movement speed: `priority="5" originalDuration originalMoveSpeed movespeed`. The Cutscene Editor fills these in from the model when an animation is picked. They differ by model: the Nova crowd models `SMX3_BGPeople_01`-`05` run Walk A for 2566 ms and `_06`-`10` for 2567 ms, both at speed 38, and one custom Campaign's cutscenes show speeds from 28 to 540. One model's values copied to another are a guess.
+An actor on a `CCutsceneNodeFollowPath` stands still unless its `CCutsceneElementAnim` carries the animation's own length and movement speed: `priority="5" originalDuration originalMoveSpeed movespeed`. The Cutscene Editor fills these in from the model when an animation is picked. They differ by model: the Nova crowd models `SMX3_BGPeople_01`-`05` run Walk A for 2566 ms and `_06`-`10` for 2567 ms, both at speed 38, and one custom Campaign's cutscenes show speeds from 28 to 540. One model's values copied to another are a guess. Authoring a walk's own speed into a model: [m3-models-in-blender.md](./m3-models-in-blender.md#authoring-animations).
 
 **How fast it goes (measured).** An actor on a follow path travels **`movespeed` ÷ 100 cells a second**, in game and in the Director Window alike, whatever the element's `originalMoveSpeed` and whatever the actor's scale. It was measured on a test map, `TestPathSpeed` (2026-11-01), straight 40-cell lanes with markers every 10 cells, recorded in game and in the Editor:
 
