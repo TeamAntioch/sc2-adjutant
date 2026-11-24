@@ -116,11 +116,9 @@ The tours are still going after ten minutes: Harbour and Foundry are done, and O
 
 All four place tours are done. Now the grid tour for Outpost:
 
-<ToolCall name="capture_exemplar" args={{ ids: ["outpost"], tours: "grid" }}>covers Outpost's playable area, once for each lighting its study lists</ToolCall>
+<ToolCall name="capture_exemplar" args={{ ids: ["outpost"], tours: "grid" }}>covers Outpost's playable area, once for each lighting its study lists, with a 1000px frame of every stop</ToolCall>
 
 <ToolCall name="find_places" args={{}}>lists the frames near each place</ToolCall>
-
-<ToolCall name="capture_exemplar" args={{ ids: ["outpost"], tours: "grid" }}>makes the 1000px frames of the grid-tour stops that places list</ToolCall>
 
 Every tour is done, and each place lists the frames near it.
 </Claude>
@@ -285,6 +283,6 @@ The check has no errors. `style-example` serves its guide, its lessons, its cand
 
 From now on, `exemplar-design` dresses your Missions from this pack. It starts from `GUIDE.md`, cites your lessons by id ("after DL-01"), and dresses each place from your moods. The next time you propose a Mission's look at Stage 3, or ask Claude to critique one, it draws on them.
 
-To add a map later, ask again: the skill picks up the pack in the Workspace, studies and captures only the new map, then reruns `find_places` and the report over every map, and brings only new or changed candidates. Commit the pack's folder with the Workspace. The captures and frames stay on your machine.
+To add a map later, ask again: the skill picks up the pack in the Workspace, studies and captures only the new map, then reruns `find_places` and the report over every map, and brings only new or changed candidates. When it packages the pack again, it adds to the manifest only the entries it lacks, and updates `GUIDE.md` rather than writing it afresh, asking you before it changes a line you ratified. Commit the pack's folder with the Workspace. The captures and frames stay on your machine.
 
 </Objective>

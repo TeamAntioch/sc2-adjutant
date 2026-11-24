@@ -41,6 +41,29 @@ async function workspace(): Promise<string> {
 
 afterEach(() => vi.unstubAllEnvs());
 
+type Knowledge = { id: string; title: string; description: string; file: string };
+const MIXTURES_ENTRY: Knowledge = { id: "mixtures", title: "Mood mixtures (data)", description: "Every dressed place with its mood, and each mood's mixture.", file: "exemplar-maps/mixtures.json" };
+
+/**
+ * Step 7's manifest and guide, as the skill says: the manifest gets only the entries it lacks, with
+ * the lessons description naming the ids it holds, and the guide is written over its stub the first
+ * time, then updated where it says something, the mapper's ratified text kept.
+ */
+async function packageThePack(pack: string, { lessonIds, guideLine }: { lessonIds: string[]; guideLine: string }) {
+  const manifestFile = path.join(pack, "sc2-adjutant-plugin.json");
+  const manifest = JSON.parse(await readFile(manifestFile, "utf8")) as { contributions: { knowledge: Knowledge[] } };
+  const { knowledge } = manifest.contributions;
+  if (!knowledge.some((entry) => entry.id === MIXTURES_ENTRY.id)) knowledge.push(MIXTURES_ENTRY);
+  const lessons = knowledge.find((entry) => entry.id === "lessons")!;
+  lessons.description = `The ratified Design Lessons (${lessonIds.join(", ")}): each rule, its evidence, weight and Blueprint hook.`;
+  await writeFile(manifestFile, JSON.stringify(manifest, null, 2));
+
+  const guideFile = path.join(pack, "knowledge/GUIDE.md");
+  const guide = await readFile(guideFile, "utf8");
+  const stub = !guide.includes("## Propose a look");
+  await writeFile(guideFile, stub ? `# This pack's look, step by step\n\n## Propose a look\n\n${guideLine}\n` : `${guide}${guideLine}\n`);
+}
+
 describe("a dry run of the style-pack-builder skill", () => {
   it("reaches a pack that passes the Workspace check and serves its lessons, guide and moods", async () => {
     vi.stubEnv("SC2_RESEARCH_DIR", "");
@@ -103,11 +126,7 @@ describe("a dry run of the style-pack-builder skill", () => {
     await writeFile(mixturesFile, JSON.stringify({ ...mixtures, moodRules: [{ name: "lab", when: [[{ motifs: ["lab"], atLeast: 0.5 }]] }, { name: "open ground" }] }, null, 1));
     expect((await call(client, "find_places")).structuredContent).toMatchObject({ places: 2, moods: { "open ground": 2 } });
 
-    await writeFile(path.join(pack, "knowledge/GUIDE.md"), "# This pack's look, step by step\n\n## Propose a look\n\nDress each Zone from the open ground mood, after DL-01.\n");
-    const manifestFile = path.join(pack, "sc2-adjutant-plugin.json");
-    const manifest = JSON.parse(await readFile(manifestFile, "utf8")) as { contributions: { knowledge: object[] } };
-    manifest.contributions.knowledge.push({ id: "mixtures", title: "Mood mixtures (data)", description: "Every dressed place with its mood, and each mood's mixture.", file: "exemplar-maps/mixtures.json" });
-    await writeFile(manifestFile, JSON.stringify(manifest, null, 2));
+    await packageThePack(pack, { lessonIds: ["DL-01"], guideLine: "Dress each Zone from the open ground mood, after DL-01." });
 
     const check = await checkWorkspace(root, { sc2Path: undefined });
     expect(check.problems.filter(isError)).toEqual([]);
@@ -119,5 +138,25 @@ describe("a dry run of the style-pack-builder skill", () => {
     expect(await resource(client, `sc2-adjutant://plugins/${name}/knowledge/candidate-lessons`)).toContain("## Candidate moods");
     expect(await resource(client, `sc2-adjutant://plugins/${name}/knowledge/guide`)).toContain("after DL-01");
     expect(await resource(client, `sc2-adjutant://plugins/${name}/knowledge/mixtures`)).toContain('"open ground"');
+
+    // A second run: step 1 picks the pack up, a third map is added and studied, and the mapper
+    // keeps a second lesson. Packaging again keeps the Workspace loading and the ratified guide.
+    expect(plugins.plugins.find((plugin) => plugin.roles.includes("style-pack"))).toBeDefined();
+    await cp(path.join(root, "exemplar-sources/Plaza.SC2Map"), path.join(root, "exemplar-sources/Court.SC2Map"), { recursive: true });
+    await call(client, "add_exemplar_map", { id: "court", map: "Court.SC2Map", provenance: "approved" });
+    await call(client, "study_exemplar", { ids: ["court"] });
+    expect((await call(client, "find_places")).structuredContent).toMatchObject({ maps: ["plaza", "square", "court"], places: 3, moods: { "open ground": 3 } });
+    const kept = await readFile(path.join(exemplars, "LESSONS.md"), "utf8");
+    await writeFile(path.join(exemplars, "LESSONS.md"), `${kept}\n${lesson.replace("DL-01", "DL-02")}`);
+    await packageThePack(pack, { lessonIds: ["DL-01", "DL-02"], guideLine: "Light it as DL-02 says." });
+
+    const again = await checkWorkspace(root, { sc2Path: undefined });
+    expect(again.problems.filter(isError)).toEqual([]);
+    const relisted = (await call(client, "list_plugins")).structuredContent as { plugins: { roles: string[]; contributions: Record<string, string[]> }[] };
+    expect(relisted.plugins.find((plugin) => plugin.roles.includes("style-pack"))!.contributions.knowledge!.filter((id) => id === "mixtures")).toHaveLength(1);
+    const guide = await resource(client, `sc2-adjutant://plugins/${name}/knowledge/guide`);
+    expect(guide).toContain("after DL-01");
+    expect(guide).toContain("as DL-02 says");
+    expect(await resource(client, `sc2-adjutant://plugins/${name}/knowledge/lessons`)).toContain("## DL-02.");
   });
 });
