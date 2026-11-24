@@ -1,0 +1,42 @@
+name: Set up
+description: >-
+  Node, ffmpeg and the packages, for a CI test job, after the checkout. Restores vitest's record of
+  each test file's last duration, which the job saves at its end.
+
+inputs:
+  vitest-cache-key:
+    description: The key vitest's results are saved under; restored from its newest earlier save.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 24
+        cache: npm
+    # A compile turns placeholder voices into Ogg Vorbis with ffmpeg, as on an author's machine.
+    - name: Install ffmpeg
+      shell: bash
+      run: |
+        case "$RUNNER_OS" in
+          Linux) sudo apt-get update -q && sudo apt-get install -y -q ffmpeg ;;
+          macOS) brew install ffmpeg ;;
+          Windows) choco install ffmpeg -y --no-progress ;;
+        esac
+        ffmpeg -hide_banner -encoders | grep -i vorbis
+    - shell: bash
+      run: npm ci
+    - name: Check nothing moved is back, and the pinned, published packages are what's installed
+      shell: bash
+      run: node scripts/check-catalog-moved.mjs --installed
+    # Vitest's record of each test file's last duration, so it starts the longest first. Restored
+    # after npm ci, which deletes node_modules.
+    - name: Restore vitest's results
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          packages/*/node_modules/.vite/vitest
+          site/node_modules/.vite/vitest
+        key: ${{ inputs.vitest-cache-key }}-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: ${{ inputs.vitest-cache-key }}-
