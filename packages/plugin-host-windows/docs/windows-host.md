@@ -2,7 +2,7 @@
 
 How the mapper drives the StarCraft II Editor and game on Windows: the facts behind the Windows Host Adapter, `bundled:host-windows` (`packages/plugin-host-windows/`). How to install it and which capabilities it has are in the package's [README](../README.md), what each capability takes and returns is in [the plugin API](../../../docs/plugin-api.md#host-adapter-kinds), and the machine config is in [core's README](../../core/README.md#the-machine-config). This doc is what the adapter's code relies on, and what an author or assistant needs when doing the same by hand. The plan and the spikes behind it are spec #727. Everything here was seen on SC2 build 98310, in a Parallels Windows 11 ARM64 VM, between 2026-11-14 and 2026-11-18.
 
-The adapter has `editor.open`, `editor.checkClosed`, `editor.testDocument`, `editor.save`, `editor.captureTour`, `editor.closeCaptureCopies`, `game.launch`, `screen.capture`, `tts.speak`, `model.render`, `model.rendererKey`, `model.export` and `model.exportGltf`. The [macOS host](../../plugin-host-macos/docs/macos-host.md) has the facts the two platforms share: the Editor Broker, banks, the Custom Script the Editor keeps.
+The adapter has `editor.open`, `editor.checkClosed`, `editor.testDocument`, `editor.save`, `editor.captureTour`, `editor.closeCaptureCopies`, `game.banksDir`, `game.launch`, `screen.capture`, `tts.speak`, `model.render`, `model.rendererKey`, `model.export` and `model.exportGltf`. The [macOS host](../../plugin-host-macos/docs/macos-host.md) has the facts the two platforms share: the Editor Broker, banks, the Custom Script the Editor keeps.
 
 ## Setup
 
@@ -80,6 +80,8 @@ The game can also start with no Editor: `game.launch`, below.
 - About a second per capture with a built helper; the first capture also compiles it.
 
 ## Capture tours
+
+`game.banksDir` is `<Documents>\StarCraft II\Banks`, with Documents as the shell has it (the same lookup the capture tour uses for its bank). The Editor Broker copies that folder into `<cacheDir>\banks\` before a Test Document and records what the test game changed once it quits. This adapter has no `game.running`, so the broker can't tell when the game quits: `bank_changes` then shows the changes so far, and takes the author's keep or rollback as their word that the game has quit ([game-testing.md](../../../docs/reference/game-testing.md#what-a-test-game-does-to-the-banks-folder-issue-54)).
 
 `editor.captureTour` runs a camera tour as the macOS adapter does, for `capture_shots`, `capture-exemplars`, `capture-sets` and `capture-edit`, which all go through core's Editor Broker (on Windows it listens on a named pipe named for the `cacheDir`; the [macOS host](../../plugin-host-macos/docs/macos-host.md#the-editor-broker-one-editor-job-at-a-time) has how the broker queues and merges jobs). It only takes a map in `<cacheDir>\capture\maps\`, since it closes it without saving.
 

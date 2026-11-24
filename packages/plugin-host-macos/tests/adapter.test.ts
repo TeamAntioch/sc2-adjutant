@@ -34,7 +34,7 @@ describe("the macOS Host Adapter", () => {
       name: "host-macos",
       source: "bundled:host-macos",
       roles: ["host-adapter"],
-      contributions: { capabilities: ["editor.open", "editor.checkClosed", "editor.refresh","editor.testDocument", "editor.save", "editor.captureTour", "editor.closeCaptureCopies", "game.running", "screen.capture", "tts.speak", "model.render", "model.rendererKey", "model.export", "model.exportGltf"] },
+      contributions: { capabilities: ["editor.open", "editor.checkClosed", "editor.refresh","editor.testDocument", "editor.save", "editor.captureTour", "editor.closeCaptureCopies", "game.running", "game.banksDir", "screen.capture", "tts.speak", "model.render", "model.rendererKey", "model.export", "model.exportGltf"] },
     });
   });
 

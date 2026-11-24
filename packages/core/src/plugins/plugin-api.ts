@@ -486,6 +486,7 @@ export const HOST_CAPABILITIES = [
   "editor.captureTour",
   "editor.closeCaptureCopies",
   "game.running",
+  "game.banksDir",
   "screen.capture",
   "tts.speak",
   "model.render",
@@ -628,6 +629,12 @@ export type HostCapabilities = {
    * and starts no capture until the game has quit, since a capture quits any game it finds.
    */
   readonly "game.running": (request: Record<string, never>, context: HostContext) => Promise<boolean>;
+  /**
+   * The folder the game keeps its banks in (`Banks/` of the StarCraft II documents folder). The
+   * Editor Broker snapshots it around a test game (#54) to report what the run changed; it only
+   * reads the folder, and writes into it only when the author asks to roll a bank back.
+   */
+  readonly "game.banksDir": (request: Record<string, never>, context: HostContext) => Promise<string>;
   /** Captures the game window (else the Editor's) to an image, JPEG or PNG by the path's extension. */
   readonly "screen.capture": (request: { readonly outputPath: string }, context: HostContext) => Promise<void>;
   /**

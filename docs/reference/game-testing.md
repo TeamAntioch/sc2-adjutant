@@ -400,6 +400,18 @@ On the Mac, a "headless" run therefore still opens a window and renders with Met
    - Never pass `-run` in this mode.
 6. **Report** passed / failed / skipped per check, as [map-package-findings.md](./map-package-findings.md#logs-and-testing) suggests, so a missing game install skips the game stage instead of failing it.
 
+## What a test game does to the Banks folder (issue #54)
+
+A Test Document runs the Mission's real triggers, and the game saves banks into one shared folder (Mac: `~/Library/Application Support/Blizzard/StarCraft II/Banks/`; Windows: `<Documents>\StarCraft II\Banks\`, Documents as the shell has it). A run can rewrite a bank unnoticed, and the next test then starts from that state. Captures aren't affected: they use banks of their own.
+
+- **Snapshot.** When the Editor Broker runs a `editor.testDocument` job (so for `test_mission`), it first copies the whole Banks folder into `<cacheDir>/banks/<run>/files/`, asking the Host Adapter for the folder's place (`game.banksDir`). A host without that capability, or a machine with no broker, takes no snapshot, and nothing is reported.
+- **Report.** When the test game quits (the broker's hold, `game.running`), the broker compares the folder with the snapshot and records each bank added, changed or removed. A bank is an XML file: `<Section name>` holds `<Key name>` holds `<Value int="5"/>`. For a changed `.SC2Bank` the report lists each section and key that was added, removed or changed, with the value before and after (`level: int="3" -> int="4"`). The `<Signature>` is ignored, so a bank that differs only in signature or formatting is listed as changed with that note. Another file in the folder is compared byte for byte. A run that changed nothing leaves nothing behind.
+- **Where it shows.** The next `test_mission` reply starts with the changes the author hasn't answered, and the `bank_changes` tool reports them at any time. With the game still running it shows the changes so far and applies nothing. On a host with no `game.running` (Windows) it can't tell when the game quit, so it shows the changes so far until the author gives a keep or rollback, which it takes as their word that the game has quit.
+- **Keep or roll back, per bank.** `bank_changes` takes `keep` and `rollback` (bank names as listed) or `keepAll` and `rollbackAll`. Roll back puts the snapshot's copy back (a bank the run added is deleted); keep leaves the bank as the game left it. Nothing is rolled back without the author's say: ask which first. A rollback restores the folder as it was just before that run, so changes made to that bank since, including by a later test game, go with it.
+- **Pruning.** Only the newest five runs are kept in the cache. A run's copy is deleted once every one of its banks has been answered.
+
+**Needs a real run:** the report on a real game's banks (the folder's layout under the account, bank files the game saves while it quits, the time the quit takes) hasn't been checked; the code is tested against fixture folders.
+
 ## Mission tests (issue #741)
 
 A Blueprint can carry `tests`, a manifest of what its Mission should do. Today it has one list, `routes`; combats are the follow-up below.

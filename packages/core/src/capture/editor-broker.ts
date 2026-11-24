@@ -22,6 +22,7 @@ import path from "node:path";
 import type { Host } from "../host/host.js";
 import { hostContext } from "../host/machine-config.js";
 import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest } from "../plugins/plugin-api.js";
+import { discardBankRun, finishBankRun, snapshotBanks, type BankRun } from "./bank-snapshots.js";
 import { makeCaptureCopy, TOUR_BANK } from "./capture-copy.js";
 import {
   BROKER_PROTOCOL,
@@ -240,12 +241,14 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
   /** Runs one Editor action; after a Test Document, holds the queue until its game quits. */
   async function runEditorJob(entry: Entry, job: Extract<CaptureJob, { kind: "editor" }>): Promise<void> {
     const record = (line: string) => log(`${entry.id}: ${line}`);
+    const snapshot = job.action === "editor.testDocument" ? await snapshotBanksBefore(job.source, record) : undefined;
     try {
       await host.run(job.action, { mapPath: job.source, ...(job.seconds !== undefined ? { seconds: job.seconds } : {}) });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       log(`failed ${entry.id}: ${message}`);
       entry.send({ type: "failed", message });
+      if (snapshot) await discardBankRun(snapshot.cacheDir, snapshot.run.id).catch(() => undefined);
       return;
     }
     log(`done ${entry.id}: ${job.action}`);
@@ -256,11 +259,39 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
     try {
       while (!closing && (await host.run("game.running", {}))) await new Promise((resolve) => setTimeout(resolve, holdPollMs));
       record("the test game quit");
+      if (snapshot && !closing) await recordBankChanges(snapshot, record);
     } catch (error) {
       // A host that can't tell any more doesn't hold the queue for ever.
       record(`stopped holding: ${(error as Error).message}`);
     } finally {
       holding = false;
+    }
+  }
+
+  /**
+   * Copies the game's Banks folder into the cache before a test game starts (#54), when the host
+   * names it. A snapshot that fails never stops the test: the run just goes unreported.
+   */
+  async function snapshotBanksBefore(source: string, record: (line: string) => void): Promise<{ readonly cacheDir: string; readonly run: BankRun } | undefined> {
+    if (!host.has("game.banksDir")) return undefined;
+    try {
+      const cacheDir = hostContext(host.machine).requirePath("cacheDir");
+      const run = await snapshotBanks(cacheDir, await host.run("game.banksDir", {}), source);
+      record(`snapshot of the banks ${run.id}`);
+      return { cacheDir, run };
+    } catch (error) {
+      record(`no banks snapshot: ${(error as Error).message}`);
+      return undefined;
+    }
+  }
+
+  /** Once the test game has quit, records which banks it changed; bank_changes reports them. */
+  async function recordBankChanges(snapshot: { readonly cacheDir: string; readonly run: BankRun }, record: (line: string) => void): Promise<void> {
+    try {
+      const finished = await finishBankRun(snapshot.cacheDir, snapshot.run);
+      record(finished.changes.length === 0 ? "the test game changed no banks" : `the test game changed ${finished.changes.length} bank${finished.changes.length === 1 ? "" : "s"}: ${finished.changes.map((change) => `${change.bank} (${change.status})`).join(", ")}`);
+    } catch (error) {
+      record(`couldn't record the banks the test game changed: ${(error as Error).message}`);
     }
   }
 

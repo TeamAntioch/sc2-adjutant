@@ -553,6 +553,11 @@ const quietly = async (script: string, args: readonly string[] = []): Promise<st
 
 const windowList = (owner: string): Promise<string> => osascript(WINDOW_LIST, [owner], "JavaScript").catch(() => "");
 
+/** The folder the game saves its banks in (`game.banksDir`). */
+export async function banksDir(): Promise<string> {
+  return BANKS;
+}
+
 export async function gameRunning(): Promise<boolean> {
   return run("pgrep", ["-f", "MacOS/SC2 "]).then(
     () => true,

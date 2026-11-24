@@ -122,6 +122,7 @@ Two rules can't fill one slot. Only the rules of the Plugin named as the Workspa
 | `editor.captureTour` | Runs a capture map and screenshots each stop its bank announces, then closes the map unsaved. A bulk job with no manual form. |
 | `editor.closeCaptureCopies` | Closes, unsaved, any capture copies the Editor has open, and quits a game it is testing. |
 | `game.running` | Whether a StarCraft II game is running. |
+| `game.banksDir` | The folder the game keeps its banks in, which the Editor Broker snapshots around a test game. |
 | `game.launch` | Starts the game on a Map Package without the Editor. |
 | `screen.capture` | Captures the game window (else the Editor's) to an image. |
 | `tts.speak` | Speaks a placeholder line into a WAV file. |

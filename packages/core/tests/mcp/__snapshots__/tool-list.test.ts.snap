@@ -400,6 +400,140 @@ exports[`the tool list > is the same on a bare machine 1`] = `
   },
   {
     "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Reports which banks the last test_mission game added, changed or removed in the game's Banks folder (the shared folder the campaign's banks live in), and for a changed bank which sections and keys changed, from a snapshot taken just before the game started. The author decides what happens to each: keep a bank as the game left it, or roll it back to the snapshot (a bank the run added is deleted). Nothing is rolled back unless the author says so, so ask them, then call again with keep and rollback (bank names as listed), or keepAll and rollbackAll. A game still running is reported so far and nothing is applied until it quits. Snapshots live in the machine's cache and only the newest few are kept. Needs a Host Adapter that names the Banks folder (game.banksDir).",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "keep": {
+          "description": "Banks, as listed, to leave as the game left them",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "keepAll": {
+          "description": "Keep every bank still waiting for an answer (a bank in rollback still goes back)",
+          "type": "boolean",
+        },
+        "rollback": {
+          "description": "Banks, as listed, to put back as they were before the game: the snapshot's copy replaces the bank, and a bank the game added is deleted",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "rollbackAll": {
+          "description": "Roll back every bank still waiting for an answer (a bank in keep stays)",
+          "type": "boolean",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "bank_changes",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "bank": {
+                "type": "string",
+              },
+              "resolution": {
+                "enum": [
+                  "kept",
+                  "rolled-back",
+                ],
+                "type": "string",
+              },
+              "sections": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "keys": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "after": {
+                            "type": "string",
+                          },
+                          "before": {
+                            "type": "string",
+                          },
+                          "key": {
+                            "type": "string",
+                          },
+                          "status": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "key",
+                          "status",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "section": {
+                      "type": "string",
+                    },
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "section",
+                    "status",
+                    "keys",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "status": {
+                "enum": [
+                  "added",
+                  "changed",
+                  "removed",
+                ],
+                "type": "string",
+              },
+            },
+            "required": [
+              "bank",
+              "status",
+              "sections",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "changes",
+      ],
+      "type": "object",
+    },
+    "title": "Banks a test game changed",
+  },
+  {
+    "annotations": {
       "destructiveHint": false,
       "readOnlyHint": false,
     },
@@ -8226,7 +8360,7 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "destructiveHint": true,
       "readOnlyHint": false,
     },
-    "description": "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
+    "description": "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -9757,6 +9891,140 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "List the Campaign Mod's catalog entries",
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Reports which banks the last test_mission game added, changed or removed in the game's Banks folder (the shared folder the campaign's banks live in), and for a changed bank which sections and keys changed, from a snapshot taken just before the game started. The author decides what happens to each: keep a bank as the game left it, or roll it back to the snapshot (a bank the run added is deleted). Nothing is rolled back unless the author says so, so ask them, then call again with keep and rollback (bank names as listed), or keepAll and rollbackAll. A game still running is reported so far and nothing is applied until it quits. Snapshots live in the machine's cache and only the newest few are kept. Needs a Host Adapter that names the Banks folder (game.banksDir).",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "keep": {
+          "description": "Banks, as listed, to leave as the game left them",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "keepAll": {
+          "description": "Keep every bank still waiting for an answer (a bank in rollback still goes back)",
+          "type": "boolean",
+        },
+        "rollback": {
+          "description": "Banks, as listed, to put back as they were before the game: the snapshot's copy replaces the bank, and a bank the game added is deleted",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "rollbackAll": {
+          "description": "Roll back every bank still waiting for an answer (a bank in keep stays)",
+          "type": "boolean",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "bank_changes",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "bank": {
+                "type": "string",
+              },
+              "resolution": {
+                "enum": [
+                  "kept",
+                  "rolled-back",
+                ],
+                "type": "string",
+              },
+              "sections": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "keys": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "after": {
+                            "type": "string",
+                          },
+                          "before": {
+                            "type": "string",
+                          },
+                          "key": {
+                            "type": "string",
+                          },
+                          "status": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "key",
+                          "status",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "section": {
+                      "type": "string",
+                    },
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "section",
+                    "status",
+                    "keys",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "status": {
+                "enum": [
+                  "added",
+                  "changed",
+                  "removed",
+                ],
+                "type": "string",
+              },
+            },
+            "required": [
+              "bank",
+              "status",
+              "sections",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "changes",
+      ],
+      "type": "object",
+    },
+    "title": "Banks a test game changed",
   },
   {
     "annotations": {
@@ -18343,7 +18611,7 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "destructiveHint": true,
       "readOnlyHint": false,
     },
-    "description": "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
+    "description": "Compiles a Mission in place, into its committed Map Package (as compile_map does by default), runs the Blueprint's declared route tests (tests.routes) on the generated terrain without the game and reports each as passed or failed, then plays it in the game through the Editor's Test Document, first snapshotting the game's Banks folder (when the Host Adapter names it) so bank_changes can report what the run changed. A reply starts with the banks the previous test game changed that the author hasn't answered yet. The route tests are static: nothing is read back from the running game yet. When the machine's Host Adapter can't run Test Document, it returns step-by-step instructions for the author instead. Ask the author to close the Mission in the Editor first: rewriting a map the Editor has open can crash it, and the Editor keeps testing the copy it loaded.",
     "execution": {
       "taskSupport": "forbidden",
     },

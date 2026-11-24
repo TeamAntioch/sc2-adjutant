@@ -10,6 +10,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { brokerPipePath, brokerSocketPath, brokerUnixSocketPath, EditorBusyError, editorBrokerStatus, runCaptureJob, runEditorJob, type CaptureJob } from "../../src/capture/editor-broker-client.js";
+import { bankRuns } from "../../src/capture/bank-snapshots.js";
 import { startEditorBroker, type EditorBroker } from "../../src/capture/editor-broker.js";
 import { testInGame } from "../../src/mcp/tools/editor-handoff.js";
 import type { Host } from "../../src/host/host.js";
@@ -61,7 +62,7 @@ async function setup({ before }: { before?: Tour } = {}) {
   const host: Host = {
     machine: { ...emptyMachineConfig(path.join(folder, "machine.json")), cacheDir },
     adapter: undefined,
-    has: (name) => ["editor.captureTour", "editor.closeCaptureCopies", "editor.testDocument", "editor.save", "game.running"].includes(name),
+    has: (name) => ["editor.captureTour", "editor.closeCaptureCopies", "editor.testDocument", "editor.save", "game.running", "game.banksDir"].includes(name),
     run: ((name: string, request: never) => {
       if (name === "editor.captureTour") return tour(request);
       if (name === "editor.testDocument" || name === "editor.save") {
@@ -71,6 +72,7 @@ async function setup({ before }: { before?: Tour } = {}) {
         return Promise.resolve();
       }
       if (name === "game.running") return Promise.resolve(game);
+      if (name === "game.banksDir") return Promise.resolve(path.join(folder, "Banks"));
       if (name === "editor.closeCaptureCopies") {
         calls.push("close copies");
         return Promise.resolve();
@@ -379,6 +381,22 @@ describe("the Editor Broker", () => {
     t.quitGame();
     expect((await tour).end).toBe("done");
     expect(t.brokerLog.some((line) => line.endsWith("the test game quit"))).toBe(true);
+  });
+
+  it("snapshots the Banks folder before a Test Document and records what the game changed once it quits", async () => {
+    const t = await setup();
+    await t.start();
+    const banks = path.join(t.folder, "Banks");
+    await mkdir(banks, { recursive: true });
+    await writeFile(path.join(banks, "Kept.SC2Bank"), '<Bank><Section name="S"><Key name="a"><Value int="1"/></Key></Section></Bank>');
+    await runEditorJob({ kind: "editor", action: "editor.testDocument", source: await t.map("Mission"), ifIdle: true }, { socketPath: t.socketPath });
+    // The game saves a key while it runs.
+    await writeFile(path.join(banks, "Kept.SC2Bank"), '<Bank><Section name="S"><Key name="a"><Value int="2"/></Key></Section></Bank>');
+    expect((await bankRuns(t.cacheDir))[0]?.state).toBe("running");
+    t.quitGame();
+    await until(async () => (await bankRuns(t.cacheDir))[0]?.state === "finished");
+    const [run] = await bankRuns(t.cacheDir);
+    expect(run!.changes).toEqual([{ bank: "Kept.SC2Bank", status: "changed", sections: [{ section: "S", status: "changed", keys: [{ key: "a", status: "changed", before: 'int="1"', after: 'int="2"' }] }] }]);
   });
 
   it("is started by the first client when none answers, once for two clients at once, and exits after the idle timeout", async () => {

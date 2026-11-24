@@ -50,6 +50,11 @@ function documentsFolder(editor: Editor): Promise<string> {
   return folder;
 }
 
+/** The folder the game saves its banks in (`game.banksDir`): `<Documents>\StarCraft II\Banks`. */
+export async function banksDir(_request: Record<string, never>, context: HostContext): Promise<string> {
+  return path.join(await documentsFolder(await editorHelper(context)), "StarCraft II", "Banks");
+}
+
 const isOpen = async (editor: Editor, mapPath: string): Promise<boolean> => documentsOf(await readEditor(editor), mapPath).length > 0;
 
 /**
