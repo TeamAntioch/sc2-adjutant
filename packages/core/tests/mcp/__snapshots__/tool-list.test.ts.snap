@@ -7898,6 +7898,97 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "destructiveHint": false,
       "readOnlyHint": true,
     },
+    "description": "Makes the actor data that plays a sound mix: several CSounds played as one sound, each from its own time after the mix starts (docs/reference/sound-mixes.md, the sound-mix skill). Each mix is one CActorSound whose Layers play their CSounds after their PlayDelay, each with its own variations; a layer with a stop is an actor of its own that stops itself on a timer, fading out first if it has a fade. Created with \`Create <id>\` from the unit's actor on an event (its death, an attack), the mix takes its place once and keeps playing where the unit was, after the unit dies. Every CSound a layer plays is checked against the game's packages (core's data/package-entries.json), the Workspace mods' own (their packages and Blueprint entries) and the files or folders in sounds (a Mission's Map Package, say): one defined nowhere would play nothing, so it is refused, naming the id it may have meant. Returns the entries as Generic Entries JSON (for a Mod Blueprint's entries) or, with xml, as elements for a map's ActorData.xml, with where each CSound is defined and the line that creates a mix. Reads only: add the entries yourself.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "mixes": {
+          "description": "The mixes: each an actor id and its layers ({ sound, at, stop?, fade? }, seconds from the mix's start), and optionally the silent CSound to play when no layer starts at 0",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "pattern": "^[A-Za-z_][\\w]*$",
+                "type": "string",
+              },
+              "layers": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "at": {
+                      "minimum": 0,
+                      "type": "number",
+                    },
+                    "fade": {
+                      "minimum": 0,
+                      "type": "number",
+                    },
+                    "sound": {
+                      "pattern": "^[A-Za-z_][\\w]*$",
+                      "type": "string",
+                    },
+                    "stop": {
+                      "minimum": 0,
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "sound",
+                    "at",
+                  ],
+                  "type": "object",
+                },
+                "minItems": 1,
+                "type": "array",
+              },
+              "silent": {
+                "pattern": "^[A-Za-z_][\\w]*$",
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "layers",
+            ],
+            "type": "object",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "sounds": {
+          "description": "More own data to find CSounds in, as paths from the Workspace: a SoundData.xml, a JSON file of Generic Entries, or a folder such as a Mission's .SC2Map",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+        "xml": {
+          "description": "Give ActorData.xml elements instead of Generic Entries",
+          "type": "boolean",
+        },
+      },
+      "required": [
+        "mixes",
+      ],
+      "type": "object",
+    },
+    "name": "sound_mix",
+    "title": "Sound mix actors",
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "readOnlyHint": true,
+    },
     "description": "Lists what the Mission's own Map Package holds (ADR-0010), read from the package each time and never stored, with anything on the compile record marked [Compiled] and everything else Kept Content: units, points and cameras with Editor Id, type, player and position; doodads counted by type, with named ones listed; regions with their shapes; triggers by category, with their events as MapScript.galaxy adds them and the functions, structs and globals filed beside them; cutscenes with the conversation lines each plays, in order; conversations with their line count; and map-local catalog entries by GameData file. Use it to talk about an imported map by name, and to find the Editor Ids a Kept Reference or edit_kept_objects needs.",
     "execution": {
       "taskSupport": "forbidden",
@@ -17856,6 +17947,97 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "Sign off a Co-design Stage",
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "readOnlyHint": true,
+    },
+    "description": "Makes the actor data that plays a sound mix: several CSounds played as one sound, each from its own time after the mix starts (docs/reference/sound-mixes.md, the sound-mix skill). Each mix is one CActorSound whose Layers play their CSounds after their PlayDelay, each with its own variations; a layer with a stop is an actor of its own that stops itself on a timer, fading out first if it has a fade. Created with \`Create <id>\` from the unit's actor on an event (its death, an attack), the mix takes its place once and keeps playing where the unit was, after the unit dies. Every CSound a layer plays is checked against the game's packages (core's data/package-entries.json), the Workspace mods' own (their packages and Blueprint entries) and the files or folders in sounds (a Mission's Map Package, say): one defined nowhere would play nothing, so it is refused, naming the id it may have meant. Returns the entries as Generic Entries JSON (for a Mod Blueprint's entries) or, with xml, as elements for a map's ActorData.xml, with where each CSound is defined and the line that creates a mix. Reads only: add the entries yourself.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "mixes": {
+          "description": "The mixes: each an actor id and its layers ({ sound, at, stop?, fade? }, seconds from the mix's start), and optionally the silent CSound to play when no layer starts at 0",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "pattern": "^[A-Za-z_][\\w]*$",
+                "type": "string",
+              },
+              "layers": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "at": {
+                      "minimum": 0,
+                      "type": "number",
+                    },
+                    "fade": {
+                      "minimum": 0,
+                      "type": "number",
+                    },
+                    "sound": {
+                      "pattern": "^[A-Za-z_][\\w]*$",
+                      "type": "string",
+                    },
+                    "stop": {
+                      "minimum": 0,
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "sound",
+                    "at",
+                  ],
+                  "type": "object",
+                },
+                "minItems": 1,
+                "type": "array",
+              },
+              "silent": {
+                "pattern": "^[A-Za-z_][\\w]*$",
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "layers",
+            ],
+            "type": "object",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "sounds": {
+          "description": "More own data to find CSounds in, as paths from the Workspace: a SoundData.xml, a JSON file of Generic Entries, or a folder such as a Mission's .SC2Map",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+        "xml": {
+          "description": "Give ActorData.xml elements instead of Generic Entries",
+          "type": "boolean",
+        },
+      },
+      "required": [
+        "mixes",
+      ],
+      "type": "object",
+    },
+    "name": "sound_mix",
+    "title": "Sound mix actors",
   },
   {
     "annotations": {
