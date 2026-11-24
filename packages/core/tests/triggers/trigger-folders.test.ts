@@ -9,7 +9,7 @@ import { triggerNameStrings } from "../../src/triggers/write-trigger-strings.js"
 import { writeTriggersXml } from "../../src/triggers/write-triggers-xml.js";
 
 const variable = (id: string, name: string): TriggerVariable => ({ id, name, type: "int", initial: { id: `${id.slice(0, 7)}F`, value: { kind: "int", value: 1 } } });
-const trigger = (id: string, name: string): Trigger => ({ id, name, events: [{ id: `${id.slice(0, 7)}E`, def: F.mapInit, params: {} }], actions: [] });
+const trigger = (id: string, name: string): Trigger => ({ id, name, events: [{ id: `${id.slice(0, 6)}E${id.slice(-1)}`, def: F.mapInit, params: {} }], actions: [] });
 
 const count = variable("0000A001", "Count");
 const start = trigger("0000B001", "Start");

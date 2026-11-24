@@ -258,6 +258,56 @@ export function effectiveEntry(layers: readonly DataLayer[], query: EntryQuery):
   };
 }
 
+/** A field an entry writes that its parent chain already sets to the same value: `field`, or `field[index]` for one indexed element, and the entry whose definition sets it. */
+export type RepeatedField = { readonly class: string; readonly id: string; readonly field: string; readonly index?: string; readonly parent: string };
+
+/**
+ * The fields each entry of the layers writes whose value its parent chain already gives it, read
+ * from the same merge as `effectiveEntry` (the chain from the root down, the entry's own fields
+ * not among them; the class default is left out, since it isn't a value the parent sets). A field
+ * given only by index is compared element by element; any other as a whole. An element removed
+ * with `removed="1"`, or one that names a ##token##, is never a repeat: the first is a decision
+ * and the second may mean something else under the child's tokens. An entry whose parent no layer
+ * defines has none.
+ */
+export function repeatedFields(layers: readonly DataLayer[]): RepeatedField[] {
+  const index = new DataIndex(layers);
+  const text = (element: Element): string => render(element.node, new Map(), new Set());
+  const kept = (field: Field): Element[] => field.elements.filter((element) => !element.removed);
+  const out: RepeatedField[] = [];
+  for (const entry of index.entries.values()) {
+    if (entry.parent === undefined || entry.id === "") continue;
+    const chain: Entry[] = [entry];
+    for (let current: Entry = entry; current.parent !== undefined; ) {
+      const parent = index.resolveParent(current.cls, current.parent);
+      if (!parent || chain.includes(parent)) break;
+      chain.push(parent);
+      current = parent;
+    }
+    const inherited = new Map<string, Field>();
+    for (const source of [...chain.slice(1)].reverse()) {
+      mergeFields(inherited, [...source.fields.values()].flatMap((field) => field.elements.map((element) => ({ node: element.node, from: nameOf(source) }))));
+    }
+    for (const [name, own] of entry.fields) {
+      const given = inherited.get(name);
+      if (!given) continue;
+      const mine = kept(own);
+      const theirs = kept(given);
+      if (mine.length === 0 || mine.some((element) => text(element).includes("##"))) continue;
+      const base = { class: entry.cls, id: entry.id, field: name };
+      if (own.over) {
+        for (const element of mine) {
+          const same = theirs.find((other) => other.index === element.index);
+          if (same && text(same) === text(element)) out.push({ ...base, index: element.index, parent: same.from });
+        }
+      } else if (mine.length === theirs.length && mine.every((element, place) => text(element) === text(theirs[place]!))) {
+        out.push({ ...base, parent: theirs[0]!.from });
+      }
+    }
+  }
+  return out;
+}
+
 /** The report as plain lines for a reply. */
 export function formatEntryReport(report: EntryReport): string {
   const lines = [`${report.class}:${report.id}, defined in ${report.layers.join(", ")}`];

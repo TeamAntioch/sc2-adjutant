@@ -17,17 +17,22 @@
 
 import { execFile } from "node:child_process";
 import { mkdtemp, rm, stat, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import os, { tmpdir } from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 
 import type { HostContext, PluginCode } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
 import { fragmentFor, refusalFor, windowState } from "./refresh.ts";
-import { banksDir, captureScreen, captureTour, closeCaptureCopies, gameRunning } from "./capture-tour.ts";
+import { banksDir, captureScreen, captureTour, closeCaptureCopies, gameRunning, listGames, quitGame } from "./capture-tour.ts";
 import { exportModel, exportModelGltf, rendererKey, renderModel } from "./whiteoutflakes.ts";
 
 const run = promisify(execFile);
+
+/** game.logsFolder: where the game on the Mac writes its logs, under the user's Library. */
+async function gameLogsFolder(): Promise<string> {
+  return path.join(os.homedir(), "Library", "Application Support", "Blizzard", "StarCraft II", "GameLogs");
+}
 
 /**
  * How long to wait for the Editor to show the map and for the game to start, in seconds, when the
@@ -206,8 +211,7 @@ async function refreshEditor({ mapPath }: { readonly mapPath: string }): Promise
 /** The ids of the running game processes. */
 async function gamePids(): Promise<string[]> {
   try {
-    const { stdout } = await run("pgrep", ["-f", "MacOS/SC2 "]);
-    return stdout.split("\n").filter(Boolean);
+    return (await listGames()).map((game) => String(game.pid));
   } catch {
     return [];
   }
@@ -238,6 +242,9 @@ const plugin: PluginCode = {
     "editor.closeCaptureCopies": closeCaptureCopies,
     "game.running": gameRunning,
     "game.banksDir": banksDir,
+    "game.list": listGames,
+    "game.quit": quitGame,
+    "game.logsFolder": gameLogsFolder,
     "screen.capture": captureScreen,
     "tts.speak": speak,
     "model.render": renderModel,

@@ -23,7 +23,9 @@ import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 
-import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type HostContext } from "@team-antioch/sc2-adjutant/plugin-sdk";
+import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type GameProcess, type HostContext, ownedGame, quitOwnedGame, refuseForeignGame } from "@team-antioch/sc2-adjutant/plugin-sdk";
+
+import { macSystem } from "./games.ts";
 
 const run = promisify(execFile);
 const sleep = (seconds: number) => new Promise((resolve) => setTimeout(resolve, seconds * 1000));
@@ -558,19 +560,17 @@ export async function banksDir(): Promise<string> {
   return BANKS;
 }
 
+/** Whether any game runs: what attaching to the author's game and the broker's hold ask. */
 export async function gameRunning(): Promise<boolean> {
-  return run("pgrep", ["-f", "MacOS/SC2 "]).then(
-    () => true,
-    () => false,
-  );
+  return (await macSystem.list()).length > 0;
 }
 
-async function quitGame(): Promise<void> {
-  await run("pkill", ["-f", "MacOS/SC2 "]).catch(() => undefined);
-  await sleep(2);
-  await run("pkill", ["-9", "-f", "MacOS/SC2 "]).catch(() => undefined);
-  await sleep(1);
-}
+/** Every running game, with its start time. */
+export const listGames = (): Promise<GameProcess[]> => macSystem.list();
+
+/** Quits this game and no other, gracefully, killing it only after a timeout (games.ts). */
+export const quitGame = (request: { readonly game: GameProcess; readonly log?: (line: string) => void }): Promise<"closed" | "killed" | "gone"> =>
+  quitOwnedGame(request.game, macSystem, request.log ?? (() => undefined));
 
 /** The game's main window id, for `screencapture -l`. */
 async function gameWindow(): Promise<string | undefined> {
@@ -615,11 +615,13 @@ async function notify(title: string, message: string): Promise<void> {
 
 /**
  * Closes, without saving, every capture copy the Editor has open (any document whose window title
- * shows a copy in <cacheDir>/capture/maps/), quitting the game first when one is open, since that game is
- * most likely testing it. The Editor Broker runs this as it starts and after a failed tour.
+ * shows a copy in <cacheDir>/capture/maps/), after quitting the games it is given: the capture's own,
+ * which the broker recorded. Another game is left running. The Editor Broker runs this as it starts and after a failed tour.
  */
-export async function closeCaptureCopies(request: { readonly log?: (line: string) => void }, context: HostContext): Promise<void> {
+export async function closeCaptureCopies(request: { readonly log?: (line: string) => void; readonly games?: readonly GameProcess[] }, context: HostContext): Promise<void> {
   const log = request.log ?? (() => undefined);
+  // Only the games the broker recorded as a capture's; one it didn't is the author's to quit.
+  for (const game of request.games ?? []) await quitGame({ game, log });
   const maps = path.join(context.requirePath("cacheDir"), CAPTURE_MAPS_FOLDER);
   const titles = (await quietly(AX_WINDOWS)) + "\n" + (await windowList(EDITOR));
   // Only this machine's capture folder: a copy under another cache's folder isn't this broker's to
@@ -632,10 +634,7 @@ export async function closeCaptureCopies(request: { readonly log?: (line: string
     ),
   );
   if (names.size === 0) return;
-  if (await gameRunning()) {
-    log("quitting the game a capture copy left running");
-    await quitGame();
-  }
+  if (!request.games?.length && (await gameRunning())) log("a game is running that this tool didn't start: left running");
   for (const name of names) {
     log(`closing ${name}`);
     await closeMap(context, path.join(maps, name), log);
@@ -677,6 +676,9 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
   // Set once this run may have opened the map or started the game; whatever ends the run then
   // quits the game and closes the map.
   let touchedEditor = false;
+  // The game this capture starts, once it appears: the only one it asks about or quits. Attaching, the author's game is watched and left alone.
+  const own = ownedGame(macSystem, request.onGameStarted);
+  const gameUp = request.attach ? gameRunning : () => own.running();
   const shrinking: Promise<unknown>[] = [];
   // Attached to a game already running, the bank may still hold an earlier run's last stop (-1);
   // that content is ignored until the game saves the bank again.
@@ -689,11 +691,12 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
   try {
     stopIfCancelled();
     if (request.attach) {
-      if (!(await gameRunning())) throw new Error("no game is running to watch");
+      if (!(await gameUp())) throw new Error("no game is running to watch");
       leftover = existsSync(bankFile) ? await readFile(bankFile, "utf8") : undefined;
     } else {
       await rm(bankFile, { force: true });
-      await quitGame();
+      // Nothing is quit here: a game already running isn't this capture's.
+      await refuseForeignGame(macSystem);
       // A copy left open by an earlier run would be tested as it was: opening only brings it forward.
       if (await mapOpen(mapPath)) {
         log("closing a stale copy");
@@ -703,7 +706,8 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       stopIfCancelled();
       await request.writeMap?.();
       touchedEditor = true;
-      await run("open", ["-g", "-a", context.requirePath("editorPath"), mapPath]);
+      // Through its component list, as the host's own open does: a folder can open as a packed document.
+      await run("open", ["-g", "-a", context.requirePath("editorPath"), path.join(mapPath, "ComponentList.SC2Components")]);
       const opened = await waitFor(300, 2, () => mapOpen(mapPath));
       stopIfCancelled();
       if (!opened) {
@@ -715,7 +719,7 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       const clicked = await osascript(MENU_CLICK, [captureFragment(mapPath), "File", "Test Document", "15"]).catch(() => "");
       if (clicked.includes("clicked")) log("Test Document clicked");
       restoredTerrain = clicked.includes("restored");
-      const started = await waitFor(30, 2, gameRunning);
+      const started = await waitFor(30, 2, gameUp);
       stopIfCancelled();
       if (!started) {
         log("couldn't bring the Editor forward; trying again every 30 s, or waiting for File > Test Document (15 min)");
@@ -727,7 +731,7 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
         let lastTry = Date.now();
         await waitFor(900, 2, async () => {
           compileErrors = (await windowList(EDITOR)).includes("Script Compile Errors");
-          if (compileErrors || (await gameRunning())) return true;
+          if (compileErrors || (await gameUp())) return true;
           if (Date.now() - lastTry >= RAISE_RETRY_MS) {
             lastTry = Date.now();
             const retried = await osascript(MENU_CLICK, [captureFragment(mapPath), "File", "Test Document", "2"]).catch(() => "");
@@ -739,11 +743,11 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
           return false;
         });
         stopIfCancelled();
-        if (compileErrors && !(await gameRunning())) {
+        if (compileErrors && !(await gameUp())) {
           throw new Error(`the Editor shows script compile errors for ${path.basename(mapPath)}`);
         }
       }
-      if (!(await gameRunning())) {
+      if (!(await gameUp())) {
         throw new Error("the game never started");
       }
     }
@@ -785,7 +789,7 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
           log(`no recording yet: the game window is ${size || "not answering"}, and recording waits for ${RECORD_WINDOW.width}, ${RECORD_WINDOW.height}`);
         }
       }
-      if (!(await gameRunning())) {
+      if (!(await gameUp())) {
         log(`game exited at stop ${last}`);
         end = "game exited";
         break;
@@ -854,7 +858,10 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
     await recording?.stop().catch((error: unknown) => log(`couldn't finish the recording: ${(error as Error).message}`));
     await Promise.all(shrinking);
     if (touchedEditor) {
-      await quitGame();
+      // A game that appeared since the last look is this capture's too.
+      await own.running().catch(() => false);
+      const game = own.game();
+      if (game) await quitOwnedGame(game, macSystem, log).catch((error: unknown) => log(`couldn't quit the game: ${(error as Error).message}`));
       await closeMap(context, mapPath, log).catch((error: unknown) => log(`couldn't close ${path.basename(mapPath)}: ${(error as Error).message}`));
       if (restoredTerrain) await quietly(MINIMIZE_TERRAIN);
     }

@@ -51,3 +51,7 @@ An empty Kept list (`<Includes/>`) imports as `"includes": []`. The compile writ
 A Blueprint imported before `includes` existed has none, and its package's list stays Kept. To convert it, copy the list's paths into `includes`, each prefixed with `Base.SC2Data/`, in the list's order, then compile. The Equivalence Check confirms the list comes out byte for byte, and it leaves the Kept report.
 
 Code: `packages/core/src/mods/game-data-files.ts` (reading and writing the list), `compile-mod.ts` (`includesListFor`), `import-mod.ts`.
+
+## Evidence: which root files the game loads without a list
+
+Checked 2026-11-24 over the 12 stock packages (`STOCK_PACKAGES`, in the public game-data mirror): 1,161 `.xml` files sit directly in `Base.SC2Data/GameData/`. 1,157 are named `*Data.xml`; of those, only `SC2Data.xml` has a `<Catalog>` line (in `core.sc2mod`'s list). The other 4 (`CollectionSkin.xml`, `SC2Events.xml`, `WarChestSeason5.xml`, `WarChestSeason6.xml`, all `liberty.sc2mod`) are not named for a catalog and each has a line in that package's list. So every stock root file the game loads with no `<Catalog>` line is a `*Data.xml`, and every other root file is listed, which fits the rule above. The one counterexample in the whole mirror is `item.xml` of `war3data.sc2mod`, not a stock package, and not listed.

@@ -113,3 +113,7 @@ Of those 52, 36 aren't waiting on tooling: they're Editor leftovers that nothing
 The UserData entries already write every string their fields name. The 14 other `Param/Value` strings are the text parameters of the disabled trigger `TestFade`, and `UI/CreditItemBase/*` is named by the mod's templates layout (`<Prefix>Templates.SC2Layout`).
 
 Of those 50, 10 are strings of entries the mod has, 9 of them text the game shows, and that entry now owns each: the descriptions of 8 units, `Button/Tooltip/<unit>` (the heroes' biographies, and that of the heroes' parent unit, which only the Editor shows), an actor's highlight tooltip and an ability's activity, `Weapon/<id>`. The other 40 are 8 Editor leftovers and 32 dead strings, proposed as removals and Kept until they are confirmed.
+
+## Evidence: the byte order mark
+
+Checked 2026-11-24 over the 12 stock packages' root `enUS.SC2Data/LocalizedData/GameHotkeys.txt` (public game-data mirror): 8 start with a UTF-8 byte order mark, 4 (`core.sc2mod`, `swarm.sc2campaign`, `swarmstory.sc2campaign`, `voidstory.sc2campaign`) don't, and the game loads all of them, so the mark isn't required. The first stock `GameStrings.txt` and `ObjectStrings.txt` read (`core.sc2mod`, `liberty.sc2mod`) have it. The compile writes the mark on every strings file it writes, with the package's line endings; the Equivalence Check ignores the mark when it compares one.

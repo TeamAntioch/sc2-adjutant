@@ -90,3 +90,12 @@ describe("the game's model files", () => {
     expect(readGameModelPaths(missing)).toEqual(["Assets/A.m3"]);
   });
 });
+
+describe("isGameAsset", () => {
+  it("knows an image the game's data names, in either slash and any case", async () => {
+    const { isGameAsset } = await import("../../src/catalog/stock-catalog.js");
+    expect(isGameAsset("Assets\\Textures\\btn-ability-terran-activatemine.dds")).toBe(true);
+    expect(isGameAsset("assets/textures/BTN-Ability-Terran-ActivateMine.dds")).toBe(true);
+    expect(isGameAsset("Assets/Textures/btn-no-such-icon.dds")).toBe(false);
+  });
+});

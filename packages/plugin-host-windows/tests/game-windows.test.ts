@@ -6,7 +6,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { parseMenu, parseWindows } from "../editor-windows.ts";
-import { captureFormat, captureTarget, editorMenuWindows, gameWindows, switcherLaunch } from "../game-windows.ts";
+import { captureFormat, captureTarget, editorMenuWindows, gameWindows, parseGames, switcherLaunch } from "../game-windows.ts";
 
 const EDITOR = "983180\t0\t11140\tSC2Editor\t#32770\t1\t1\tTerrain - [C:/.../output/Spike.SC2Map/] - StarCraft II Editor";
 const MESSAGES = "328610\t0\t11140\tSC2Editor\t#32770\t1\t1\tMessages - StarCraft II Editor";
@@ -15,11 +15,18 @@ const GAME_IME = "67390\t67388\t7500\tSC2\tIME\t0\t0\tDefault IME";
 const NOTEPAD = "4242\t0\t900\tnotepad\tNotepad\t1\t1\tStarCraft II";
 
 describe("the game on Windows", () => {
-  it("starts the game through SC2Switcher, windowed, on the map's whole path", () => {
+  it("reads the running games with their start times, skipping lines that aren't one", () => {
+    expect(parseGames("7500\t2026-11-24T10:00:00.1234567Z\r\n8800\t2026-11-24T09:00:00.0000000Z\r\nnot a game\r\n\r\n")).toEqual([
+      { pid: 7500, startedAt: "2026-11-24T10:00:00.1234567Z" },
+      { pid: 8800, startedAt: "2026-11-24T09:00:00.0000000Z" },
+    ]);
+  });
+
+  it("starts the game through SC2Switcher, windowed, on the map's whole path, with the flags the Editor's Test Document adds", () => {
     const install = path.join("C:", "Program Files (x86)", "StarCraft II");
     expect(switcherLaunch(install, path.join("C:", "maps", "Spike.SC2Map"))).toEqual({
       exe: path.join(install, "Support", "SC2Switcher.exe"),
-      args: ["-run", path.join("C:", "maps", "Spike.SC2Map"), "-displaymode", "0"],
+      args: ["-run", path.join("C:", "maps", "Spike.SC2Map"), "-displaymode", "0", "-preload", "1", "-NoUserCheats", "-reloadcheck"],
     });
   });
 

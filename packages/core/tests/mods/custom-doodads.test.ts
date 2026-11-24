@@ -337,3 +337,49 @@ describe("a custom doodad's entries", () => {
     expect(CustomDoodadSchema.safeParse({ id: "Crate", model: "../Crate.m3" }).success).toBe(false);
   });
 });
+
+describe("Generic Entries' asset paths (#49)", () => {
+  const GAME_MODEL = "Assets\\Doodads\\ActorLightSpot\\ActorLightSpot.m3";
+  const GAME_ICON = "Assets\\Textures\\btn-ability-terran-activatemine.dds";
+  const withEntries = async (mod: Mod, fields: Record<string, unknown>[]) =>
+    declare(mod, { entries: [{ source: "entries/assets.json" }] }, { "entries/assets.json": `${JSON.stringify(fields)}\n` });
+  const model = (id: string, file: string) => ({ catalog: "Model", class: "CModel", id, parent: "Doodad", fields: { Model: file } });
+  const button = (id: string, icon: string) => ({ catalog: "Button", class: "CButton", id, fields: { Icon: icon } });
+
+  it("warns about a missing model and a missing icon, naming the entry, field and path", async () => {
+    const mod = await harbourWithModels({});
+    await withEntries(mod, [model("Ghost", "Assets\\Doodads\\Custom\\Ghost.m3"), button("GhostButton", "Assets\\Textures\\btn-ghost.dds")]);
+    const { warnings } = await compileMod(mod.blueprintPath);
+    expect(warnings.filter((warning) => warning.includes("Ghost"))).toEqual([
+      expect.stringMatching(/^CModel:Ghost's Model names Assets\\Doodads\\Custom\\Ghost\.m3, which isn't in the mod packages it loads from the Workspace .*no game model core knows of/),
+      expect.stringMatching(/^CButton:GhostButton's Icon names Assets\\Textures\\btn-ghost\.dds, which isn't in the mod packages .*no game image core knows of/),
+    ]);
+  });
+
+  it("is quiet for the game's own paths, in any slash and case, and for the Heroes of the Storm and co-op ones", async () => {
+    const mod = await harbourWithModels({});
+    await withEntries(mod, [model("Spot", GAME_MODEL), button("Mine", GAME_ICON), button("Lower", GAME_ICON.toLowerCase().replace(/\\/g, "/")), model("Coop", "Assets\\Effects\\Terran\\Goliath_Lockdown_Impact\\Goliath_Lockdown_Impact.m3")]);
+    const { warnings } = await compileMod(mod.blueprintPath);
+    expect(warnings.filter((warning) => warning.includes("names Assets"))).toEqual([]);
+  });
+
+  it("is quiet for a file a mod package of the Workspace ships, and one the Blueprint writes", async () => {
+    const mod = await harbourWithModels({ [MODEL]: ring(), "Assets/Textures/btn-harbour.dds": binary(3), "Assets/Doodads/Varied/Varied_00.m3": ring() });
+    await declare(
+      mod,
+      { entries: [{ source: "entries/assets.json" }], files: [{ path: "Base.SC2Assets/Assets/Textures/btn-written.dds", source: "files/btn-written.dds" }] },
+      {
+        "entries/assets.json": `${JSON.stringify([model("Ring", MODEL.replace(/\//g, "\\")), model("Varied", "Assets\\Doodads\\Varied\\Varied.m3"), button("Harbour", "Assets\\Textures\\btn-harbour.dds"), button("Written", "Assets\\Textures\\btn-written.dds")])}\n`,
+        "files/btn-written.dds": "dds",
+      },
+    );
+    const { warnings } = await compileMod(mod.blueprintPath);
+    expect(warnings.filter((warning) => warning.includes("names Assets"))).toEqual([]);
+  });
+
+  it("leaves a doodad's own check as it was: a missing model still refuses", async () => {
+    const mod = await harbourWithModels({});
+    await declare(mod, { doodads: [RING] });
+    await expect(compileMod(mod.blueprintPath)).rejects.toThrow(/doodads\.0 \(HarbourRing\)'s model .* isn't in the mod packages/);
+  });
+});

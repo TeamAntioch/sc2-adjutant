@@ -5,8 +5,11 @@
 // Adapter's capabilities take, return and read and write images with, and the WhiteoutFlakes
 // viewer driver the macOS and Windows Host Adapters render and export models with.
 
+export { type GameSystem, ownedGame, QUIT_GRACE_SECONDS, quitOwnedGame, refuseForeignGame, sameGame, stillRuns } from "../host/game-ownership.js";
 export {
   CAPTURE_MAPS_FOLDER,
+  FOREIGN_GAME_REFUSAL,
+  type GameProcess,
   type CaptureTourRequest,
   type CaptureTourResult,
   type HostContext,

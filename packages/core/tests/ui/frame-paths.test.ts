@@ -136,11 +136,11 @@ describe("framePathCalls", () => {
       "}",
     ].join("\r\n");
     expect(framePathCalls(galaxy)).toEqual([
-      { native: "DialogControlHookupStandard", path: "UIContainer/ConsoleUIContainer", line: 2, function: "lib1_gf_ShowDock" },
-      { native: "DialogControlHookup", path: "Dock/Title", line: 3, function: "lib1_gf_ShowDock" },
-      { native: "DialogControlHookupStandard", path: "WorldPanel", line: 3, function: "lib1_gf_ShowDock" },
-      { native: "DialogControlCreateFromTemplate", path: "HarbourTemplates/CrateTemplate", line: 4, function: "lib1_gf_ShowDock" },
-      { native: "DialogControlCreateInPanelFromTemplate", path: "HarbourTemplates/Row", line: 5, function: "lib1_gf_ShowDock" },
+      { native: "DialogControlHookupStandard", path: "UIContainer/ConsoleUIContainer", line: 2, function: "lib1_gf_ShowDock", controlType: "c_triggerControlTypePanel" },
+      { native: "DialogControlHookup", path: "Dock/Title", line: 3, function: "lib1_gf_ShowDock", controlType: "c_triggerControlTypeLabel" },
+      { native: "DialogControlHookupStandard", path: "WorldPanel", line: 3, function: "lib1_gf_ShowDock", controlType: "c_triggerControlTypePanel" },
+      { native: "DialogControlCreateFromTemplate", path: "HarbourTemplates/CrateTemplate", line: 4, function: "lib1_gf_ShowDock", controlType: "c_triggerControlTypePanel" },
+      { native: "DialogControlCreateInPanelFromTemplate", path: "HarbourTemplates/Row", line: 5, function: "lib1_gf_ShowDock", controlType: "c_triggerControlTypePanel" },
     ]);
   });
 
@@ -179,7 +179,7 @@ describe("framePathCalls", () => {
 
   it("keeps counting lines past an unclosed string and a backslash at a line's end", () => {
     const galaxy = ['    string lv_a = "unclosed;', '    string lv_b = "ends in \\', '";', '    DialogControlHookupStandard(c_triggerControlTypePanel, "WorldPanel");'].join("\n");
-    expect(framePathCalls(galaxy)).toEqual([{ native: "DialogControlHookupStandard", path: "WorldPanel", line: 4 }]);
+    expect(framePathCalls(galaxy)).toEqual([{ native: "DialogControlHookupStandard", path: "WorldPanel", line: 4, controlType: "c_triggerControlTypePanel" }]);
   });
 });
 
@@ -190,5 +190,16 @@ describe("FRAME_PATH_NATIVES", () => {
     for (const [native, { argument, paramDef }] of Object.entries(FRAME_PATH_NATIVES)) {
       expect(functions.find((fn) => fn.identifier === native)?.params[argument], native).toBe(paramDef);
     }
+  });
+});
+
+describe("FrameTree types", () => {
+  it("lists the types layouts gave the frames at a path, and none for a frame from a snapshot", () => {
+    const tree = new FrameTree().addLayouts([{ name: "HarbourUI", xml: layout(`<Frame type="Frame" name="Dock"><Frame type="Label" name="Title"/></Frame>\n    <Frame type="Image" name="Dock/Title"/>`) }]);
+    expect(tree.find("HarbourUI/Dock/Title").map((frame) => frame.types)).toEqual([["label", "image"]]);
+    expect(tree.findEndingWith("Dock/Title").flatMap((frame) => frame.types)).toEqual(["label", "image"]);
+    const read = FrameTree.fromSnapshot(tree.toSnapshot());
+    expect(read.find("HarbourUI/Dock/Title").map((frame) => frame.types)).toEqual([[]]);
+    expect(tree.find("Dock")).toEqual([]);
   });
 });

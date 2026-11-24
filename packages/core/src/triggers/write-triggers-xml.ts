@@ -112,6 +112,21 @@ function variableTypeLines(variable: TriggerVariable): string[] {
   return [`${INDENT}<Type Value="${variable.type}"/>`];
 }
 
+/**
+ * Who references each call element, by call Id. The Editor gives a call one parent: where two
+ * parameters point at one call it writes an empty argument (`f(a, , b)`) and the save won't compile,
+ * so a write that references a call twice is refused, naming the Id and both parents.
+ */
+type CallParents = Map<string, string>;
+
+function claimCall(parents: CallParents, id: string, parent: string): void {
+  const first = parents.get(id);
+  if (first !== undefined) {
+    throw new Error(`The call ${id} is referenced from two places, ${first} and ${parent}: the Editor gives a call one parent, and writes an empty argument where two share one`);
+  }
+  parents.set(id, parent);
+}
+
 function element(type: string, id: string, body: readonly string[]): string[] {
   return [
     `${INDENT}<Element Type="${type}" Id="${id}">`,
@@ -124,7 +139,7 @@ function element(type: string, id: string, body: readonly string[]): string[] {
  * Emits a call followed, depth-first, by its parameters and any nested calls, then the calls in
  * its blocks, each marked with its sub-function (as an Editor-saved map's If Then Else and Pick Each are).
  */
-function callElements(call: TriggerCall, subFunction?: SubFunctionDef): string[] {
+function callElements(call: TriggerCall, parents: CallParents, subFunction?: SubFunctionDef): string[] {
   const paramNames = Object.keys(call.def.params);
   const missing = paramNames.filter((name) => !call.params[name]);
   if (missing.length > 0) {
@@ -132,6 +147,7 @@ function callElements(call: TriggerCall, subFunction?: SubFunctionDef): string[]
   }
 
   const blocks = call.blocks ?? [];
+  for (const block of blocks) for (const child of block.calls) claimCall(parents, child.id, `a block of the call ${call.id}`);
   const lines = element("FunctionCall", call.id, [
     `<FunctionDef Type="FunctionDef" Library="${call.def.library}" Id="${call.def.id}"/>`,
     ...(subFunction ? [`<SubFunctionType Type="SubFuncType" Library="${subFunction.library}" Id="${subFunction.id}"/>`] : []),
@@ -150,11 +166,12 @@ function callElements(call: TriggerCall, subFunction?: SubFunctionDef): string[]
       ),
     );
     if (param.value.kind === "call") {
-      lines.push(...callElements(param.value.call));
+      claimCall(parents, param.value.call.id, `the parameter ${param.id} of the call ${call.id}`);
+      lines.push(...callElements(param.value.call, parents));
     }
   }
   for (const block of blocks) {
-    for (const child of block.calls) lines.push(...callElements(child, block.type));
+    for (const child of block.calls) lines.push(...callElements(child, parents, block.type));
   }
   return lines;
 }
@@ -171,6 +188,7 @@ function itemLine(item: TriggerNode): string {
 /** Writes a Triggers component the way Editor 5.0.17 does (CRLF, no trailing newline). */
 export function writeTriggersXml(doc: TriggerDocument): string {
   const tree = triggerTree(doc);
+  const parents: CallParents = new Map();
   const lines = ['<?xml version="1.0" encoding="utf-8"?>', "<TriggerData>", `${INDENT}<Root>`];
   for (const item of tree) lines.push(`${INDENT}${INDENT}${itemLine(item)}`);
   lines.push(`${INDENT}</Root>`);
@@ -195,11 +213,13 @@ export function writeTriggersXml(doc: TriggerDocument): string {
         ...element("Param", variable.initial.id, paramBody(variable.initial, undefined)),
       );
       if (variable.initial.value.kind === "call") {
-        lines.push(...callElements(variable.initial.value.call));
+        claimCall(parents, variable.initial.value.call.id, `the initial value ${variable.initial.id} of the variable ${variable.id}`);
+        lines.push(...callElements(variable.initial.value.call, parents));
       }
       return;
     }
     const { trigger } = item;
+    for (const call of triggerCalls(trigger)) claimCall(parents, call.id, `the trigger ${trigger.id}`);
     lines.push(
       ...element("Trigger", trigger.id, [
         // First, as in thanson01's Editor-saved Triggers.
@@ -210,7 +230,7 @@ export function writeTriggersXml(doc: TriggerDocument): string {
       ]),
     );
     for (const call of triggerCalls(trigger)) {
-      lines.push(...callElements(call));
+      lines.push(...callElements(call, parents));
     }
   };
   tree.forEach(visit);

@@ -7,7 +7,7 @@
 // ToastNotificationPanelTemplate): a nine-sliced background and a slide-in animation on the panel's
 // Right anchor. The fades are the script's (DialogControlFadeTransparency), not the layout's: in
 // game (2026-11-10), a Fade animation left paused at its end kept every later toast see-through, so
-// they only flickered. The panel sits in ConsoleUIContainer, as the boss bar does, so it goes with the console in cinematic
+// they only flickered (docs/reference/editor-and-engine.md, "What the toast taught"). The panel sits in ConsoleUIContainer, as the boss bar does, so it goes with the console in cinematic
 // mode.
 //
 // Show Toast joins a queue in the toast's script, which plays one toast at a time. Before each, it
@@ -40,10 +40,7 @@ const PAD = 10;
 /** The labels: the title's top and both labels' right edge sit this much further in than the icon. */
 const LABEL_INSET = 4;
 const TITLE_HEIGHT = 28;
-/**
- * Two full lines of the text's style. In game (2026-11-10), at 44 px the label didn't wrap: it kept
- * to one line and cut it off, most likely because a second line didn't fit its height (unconfirmed).
- */
+/** Two full lines of the text's style: a shorter label didn't wrap in game ("What the toast taught" in docs/reference/editor-and-engine.md). */
 const TEXT_HEIGHT = 56;
 /**
  * The labels shrink their text rather than cut it off, as the info panel's unit names do
@@ -75,11 +72,10 @@ const LINE_GAP = 2;
 
 /**
  * The longest title and text a Blueprint action takes, seen in game at the default styles in the
- * 302 px labels. The title shrinks to fit only so far: on 2026-11-11, "Master of Western Waters"
- * shrank and fitted, and 24 W's were cut off. So the title is measured by its letters' widths, not
- * counted: titleWidth weighs each letter against an ordinary one (2026-11-10: a full-size title
- * fitted 20 ordinary letters or 11 W's, so a W is about 1.8). The text wraps and shrinks: 60 W's and
- * m's fitted in three shrunk lines, so it's counted. A GUI call isn't checked.
+ * 302 px labels (the findings are in the docs, "What the toast taught"). The title shrinks to fit
+ * only so far, so it's measured by its letters' widths, not counted: titleWidth weighs each letter
+ * against an ordinary one, a W about 1.8. The text wraps and shrinks, so it's counted. A GUI call
+ * isn't checked.
  */
 export const TOAST_TITLE_WIDTH = 26.5;
 export const TOAST_TEXT_MAX = 60;

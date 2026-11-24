@@ -12,6 +12,7 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import { compileMission } from "../../src/map/compile-mission.js";
 import { importMap } from "../../src/map/import-map.js";
+import { writeBlueprintTriggerShowingChange } from "../../src/map/outline-diff.js";
 import { writeBlueprintTrigger } from "../../src/map/write-blueprint-trigger.js";
 import { loadWorkspace, type Workspace } from "../../src/plugins/workspace.js";
 import type { AuthoringCall, AuthoringTrigger } from "../../src/triggers/author-trigger.js";
@@ -125,6 +126,19 @@ describe("writeBlueprintTrigger", () => {
     const key = /StringExternal\("(Param\/Value\/[0-9A-F]{8})"\)/.exec(ping)![1]!;
     expect(await readFile(path.join(mission.mapDir, "enUS.SC2Data", "LocalizedData", "GameStrings.txt"), "utf8")).toContain(`${key}=Ping!`);
   });
+
+  it("shows a rewrite in the Editor's form with its changed lines marked, and a new trigger with none", async () => {
+    const mission = await harbour();
+    const first = await writeBlueprintTriggerShowingChange(mission.workspace, mission.blueprintPath, acquireTarget);
+    const second = await writeBlueprintTriggerShowingChange(mission.workspace, mission.blueprintPath, { ...acquireTarget, actions: [...acquireTarget.actions, { function: "Wait", params: { Time: 1 } }] });
+    const marked = second.diff!.split("\n").filter((line) => line.includes("←"));
+
+    expect(first.diff).toBeUndefined();
+    expect(second.written).toMatchObject({ created: false });
+    expect(marked.length).toBeGreaterThan(0);
+    expect(marked).toEqual(["  Wait (Time = 1, Time Type = Game Time)  ← new"]);
+    expect(second.diff).toContain("Trigger Hyperion Fighter Acquire Target (initially off)\n");
+  }, 60_000);
 
   it("rewrites a trigger keeping its Id, its local's and its unchanged calls' Ids, and gives a new call Ids nothing in reach has", async () => {
     const mission = await harbour();

@@ -8,11 +8,11 @@ import { existsSync } from "node:fs";
 import { mkdir, rename, rm } from "node:fs/promises";
 import path from "node:path";
 
-import type { HostContext } from "@team-antioch/sc2-adjutant/plugin-sdk";
+import { type GameProcess, type GameSystem, type HostContext, quitOwnedGame } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
 import { GAME_PROCESSES, type MenuItem, parseMenu, parseWindows, type TopWindow } from "./editor-windows.ts";
-import { captureFormat, captureTarget, editorMenuWindows, gameWindows, switcherLaunch } from "./game-windows.ts";
-import { deadline, helper, runHelper, sleep } from "./helpers.ts";
+import { captureFormat, captureTarget, editorMenuWindows, gameWindows, parseGames, switcherLaunch } from "./game-windows.ts";
+import { helper, runHelper, sleep } from "./helpers.ts";
 
 /** How long the game's window may take to appear once the switcher runs, in seconds. */
 const GAME_WINDOW_SECONDS = 30;
@@ -70,29 +70,51 @@ export async function firstAnswer<T>(check: () => Promise<T | undefined>): Promi
   }
 }
 
-/** How long the game may take to go once stopped, in seconds. */
-const QUIT_SECONDS = 10;
+/** Every running game, 32- or 64-bit, with its start time. Rejects when the helper fails: that is no answer, not "no game". */
+export async function gameProcesses(editor: string): Promise<GameProcess[]> {
+  return parseGames(await runHelper(editor, ["games", ...GAME_PROCESSES]));
+}
 
-/** Stops every running game process, 32- or 64-bit, and waits for them to go. */
-export async function quitGame(editor: string): Promise<void> {
-  const late = deadline(QUIT_SECONDS);
-  const check = tolerantCheck(() => gamePids(editor));
-  for (let pids = await firstAnswer(check); pids.length > 0; pids = await firstAnswer(check)) {
-    if (late()) throw new Error(`the game (pid ${pids.join(", ")}) was still running ${QUIT_SECONDS} s after it was stopped`);
-    for (const pid of pids) {
-      try {
-        process.kill(Number(pid));
-      } catch {
-        // Gone already, or exiting.
-      }
-    }
-    await sleep(0.5);
-  }
+/**
+ * The game as core's game ownership drives it on Windows: the quit request closes the game's
+ * window, which asks it to confirm exit; Yes is pressed in that window; the process is ended
+ * (TerminateProcess) only after the timeout.
+ */
+export function windowsSystem(editor: string): GameSystem {
+  const windowOf = async (pid: number): Promise<string> => {
+    const window = gameWindows(await topWindows(editor)).find((each) => each.pid === pid);
+    if (!window) throw new Error(`game ${pid} has no window to close`);
+    return window.hwnd;
+  };
+  return {
+    list: () => gameProcesses(editor),
+    requestQuit: async (pid) => void (await runHelper(editor, ["close", await windowOf(pid)])),
+    confirmQuit: async (pid) => void (await runHelper(editor, ["key", await windowOf(pid), "y"])),
+    kill: async (pid) => {
+      process.kill(pid);
+    },
+    sleep,
+  };
+}
+
+/** game.list: every running game with its start time, for the Editor Broker's ownership records. */
+export async function listGames(_request: Record<string, never>, context: HostContext): Promise<GameProcess[]> {
+  return gameProcesses(await helper(context, "editor"));
+}
+
+/** game.running: whether any game runs, from the same list (the broker's bank checks ask it). */
+export async function gameRunning(_request: Record<string, never>, context: HostContext): Promise<boolean> {
+  return (await listGames({}, context)).length > 0;
+}
+
+/** game.quit: this game and no other, gracefully, ended only after a timeout (core's quitOwnedGame). */
+export async function quitGame(request: { readonly game: GameProcess; readonly log?: (line: string) => void }, context: HostContext): Promise<"closed" | "killed" | "gone"> {
+  return quitOwnedGame(request.game, windowsSystem(await helper(context, "editor")), request.log ?? (() => undefined));
 }
 
 /**
  * Starts the game on a Map Package with no Editor: `Support\SC2Switcher.exe -run "<map>"
- * -displaymode 0`, windowed. Resolves once the game's window is up; the map is still loading then.
+ * -displaymode 0 -preload 1 -NoUserCheats -reloadcheck`, windowed, with the flags the Editor adds. Resolves once the game's window is up; the map is still loading then.
  * Refuses while a game runs, even one with no window yet.
  */
 export async function launchGame(request: { readonly mapPath: string }, context: HostContext): Promise<void> {

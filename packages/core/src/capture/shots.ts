@@ -19,7 +19,7 @@ import { hostContext } from "../host/machine-config.js";
 import { missionMapPackage } from "../map/mission-package.js";
 import { coverageOf, FIRST_PACKAGE_STAGE } from "../session/evidence-coverage.js";
 import { readMapInfo } from "../map/read-map-info.js";
-import type { CaptureTourResult } from "../plugins/plugin-api.js";
+import type { CaptureTourResult, GameProcess } from "../plugins/plugin-api.js";
 import { type FittedCamera, fitRect, HIGH_PITCH, PLAYER_CAMERA } from "./area-tour.js";
 import { checkCaptureName, defaultName, nameFrames, refuseUsedFolder, runStopTour, tourSummary } from "./stop-tour.js";
 
@@ -88,6 +88,8 @@ export type CaptureShotsResult = {
   readonly outputDir: string;
   /** The capture copy the tour ran on. */
   readonly copy: string;
+  /** The games the capture started, and when it began: what the run's GameLogs are found by (host/game-run-report.ts). */
+  readonly run: { readonly games: readonly GameProcess[]; readonly startedAt?: string };
 };
 
 /** A label as a file name's tail: lower case, runs of anything else as one dash. */
@@ -162,5 +164,5 @@ export async function captureShots(source: ShotsSource, shots: readonly Shot[], 
   const partial = planned.filter((shot) => !shot.whole).map(named);
   const summary = tourSummary(`Captured ${frames.length} Shot${frames.length === 1 ? "" : "s"} in ${outputDir}`, result.end, missing, partial, { its: "rectangle", why: "too big for the camera, or at the map's edge" });
   log(summary);
-  return { summary, end: result.end, shots: captured, frames, missing, partial, outputDir, copy };
+  return { summary, end: result.end, shots: captured, frames, missing, partial, outputDir, copy, run: { games: result.games, ...(result.startedAt ? { startedAt: result.startedAt } : {}) } };
 }
