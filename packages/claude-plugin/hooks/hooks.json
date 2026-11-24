@@ -6,6 +6,11 @@
           {
             "type": "command",
             "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/copy-skills.mjs\""
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/update-check.mjs\"",
+            "timeout": 10
           }
         ]
       }

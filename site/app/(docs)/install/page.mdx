@@ -137,7 +137,9 @@ Then `cd my-campaign` and start `claude` there.
 
 ### Updating
 
-Run `npm update` in the Workspace for core and the Host Adapter, and `claude plugin update sc2-adjutant@sc2-adjutant` for the plugin, then restart Claude Code. The two release together, so update both.
+At each session start in a Workspace, the plugin checks npm for a newer release, at most every 12 hours, and says so when the plugin or core is behind. Type `/sc2-adjutant:update` and Claude updates both, after you approve the commands, then asks you to restart Claude Code. The two release together, so update both.
+
+By hand: `claude plugin marketplace update sc2-adjutant` and `claude plugin update sc2-adjutant@sc2-adjutant` for the plugin, and in the Workspace `npm install @team-antioch/sc2-adjutant@latest` with the Workspace's other `@team-antioch` packages (`npm update` doesn't cross to a new 0.x minor version), then restart Claude Code. To turn the check off, set `SC2_ADJUTANT_NO_UPDATE_CHECK=1`.
 
 ## Check the server
 
@@ -183,7 +185,7 @@ Only from a checkout: run `npm install`, or `npm run build`, in it.
 sc2-adjutant: warning: the plugin and core versions don't match.
 ```
 
-A warning, and the server starts anyway. The plugin and core are from different releases, so an update is half done. Run `npm update` in the Workspace and `claude plugin update sc2-adjutant@sc2-adjutant`, then restart Claude Code.
+A warning, and the server starts anyway. The plugin and core are from different releases, so an update is half done. Run `/sc2-adjutant:update`, or update both by hand as in [Updating](#updating).
 
 ### Host Adapter not installed
 

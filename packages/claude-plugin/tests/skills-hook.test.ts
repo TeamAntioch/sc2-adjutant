@@ -60,10 +60,10 @@ async function writeManifest(folder: string, name: string, skills: readonly stri
 const reloads = { hookSpecificOutput: { hookEventName: "SessionStart", reloadSkills: true } };
 
 describe("the SessionStart hook", () => {
-  it("is the plugin's one SessionStart hook", async () => {
+  it("runs at session start, before the update check", async () => {
     const hooks = JSON.parse(await readFile(path.join(PLUGIN, "hooks", "hooks.json"), "utf8"));
     expect(Object.keys(hooks.hooks)).toEqual(["SessionStart", "PostToolUse", "PostToolUseFailure"]);
-    expect(hooks.hooks.SessionStart).toEqual([{ hooks: [{ type: "command", command: 'node "${CLAUDE_PLUGIN_ROOT}/hooks/copy-skills.mjs"' }] }]);
+    expect(hooks.hooks.SessionStart).toEqual([{ hooks: [{ type: "command", command: 'node "${CLAUDE_PLUGIN_ROOT}/hooks/copy-skills.mjs"' }, { type: "command", command: 'node "${CLAUDE_PLUGIN_ROOT}/hooks/update-check.mjs"', timeout: 10 }] }]);
   });
 
   it("copies a listed Utility's skill, named for its Plugin, with the marker and its Plugin's folder filled in, ignores the copy, and reloads skills", async () => {

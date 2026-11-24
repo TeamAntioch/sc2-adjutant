@@ -235,7 +235,8 @@ describe("the launcher", () => {
     expect(minor).toContain("the plugin and core versions don't match");
     expect(minor).toContain("The Claude Code plugin is 0.2.0.");
     expect(minor).toContain(`sc2-adjutant core 0.1.4 in ${at.folder} (${at.from})`);
-    expect(minor).toContain("npm update");
+    expect(minor).toContain("/sc2-adjutant:update");
+    expect(minor).toContain("npm install @team-antioch/sc2-adjutant@latest");
     expect(minor).toContain("claude plugin update sc2-adjutant@sc2-adjutant");
     expect(versionWarning({ plugin: "1.1.0", core: "2.1.0", ...at })).toContain("sc2-adjutant core 2.1.0");
     expect(versionWarning({ plugin: "0.1.0", core: undefined, ...at })).toContain("no version that can be read");
