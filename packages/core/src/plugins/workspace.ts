@@ -155,13 +155,22 @@ export async function exemplarMapSources(
   const pack = workspace.stylePack;
   if (!pack) throw new Error(`The Workspace names no Style Pack (stylePack in ${configPath}), so it has no Exemplar Maps`);
   const exemplars = workspace.registry.contributions("exemplarMaps").filter((exemplar) => exemplar.plugin === pack);
+  const root = await exemplarSourceFolder(workspace, machine);
+  return exemplars.map((exemplar) => ({ ...exemplar, source: path.resolve(root, exemplar.map) }));
+}
+
+/**
+ * The folder an Exemplar Map's `map` is found in, as `exemplarMapSources` resolves it: the machine
+ * config's `exemplarMaps`, else the Workspace config's. Refused when neither is set.
+ */
+export async function exemplarSourceFolder(workspace: Pick<Workspace, "root" | "exemplarMaps">, machine?: Pick<MachineConfig, "file" | "exemplarMaps">): Promise<string> {
   const settings = machine ?? (await loadMachineConfig());
   const fromWorkspace = workspace.exemplarMaps && path.resolve(workspace.root, workspace.exemplarMaps.replace(/^~(?=$|[\\/])/, os.homedir()));
   const root = settings.exemplarMaps ?? fromWorkspace;
   if (!root) {
-    throw new Error(`No folder for the Exemplar Maps' source maps: set exemplarMaps in the machine config ${settings.file}, or ${MACHINE_ENV.exemplarMaps}, or exemplarMaps in the Workspace config ${configPath} for a folder that travels with the Workspace`);
+    throw new Error(`No folder for the Exemplar Maps' source maps: set exemplarMaps in the machine config ${settings.file}, or ${MACHINE_ENV.exemplarMaps}, or exemplarMaps in the Workspace config ${path.join(workspace.root, WORKSPACE_FILE)} for a folder that travels with the Workspace`);
   }
-  return exemplars.map((exemplar) => ({ ...exemplar, source: path.resolve(root, exemplar.map) }));
+  return root;
 }
 
 /**

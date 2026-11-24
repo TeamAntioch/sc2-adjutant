@@ -113,14 +113,15 @@ export async function captureStylePack(workspace: Workspace, host: Host, options
   return { ...planned, captureDir, outcomes, frames };
 }
 
-const IGNORED = ["*/captures/", "*/frames/"];
+/** The rules a pack's Exemplar Maps folder needs so tours and their frames are never committed. */
+export const CAPTURE_IGNORES = ["*/captures/", "*/frames/"] as const;
 
 /** Adds `*\/captures/` and `*\/frames/` to the .gitignore in `dir`, where it lacks them. */
 export async function ignoreCaptures(dir: string): Promise<void> {
   const file = path.join(dir, ".gitignore");
   const text = existsSync(file) ? await readFile(file, "utf8") : "";
   const lines = new Set(text.split("\n").map((line) => line.trim()));
-  const missing = IGNORED.filter((rule) => !lines.has(rule));
+  const missing = CAPTURE_IGNORES.filter((rule) => !lines.has(rule));
   if (!missing.length) return;
   const header = text ? "" : "# In-game tours and their 1000px frames (capture_exemplar): never committed.\n";
   await mkdir(dir, { recursive: true });

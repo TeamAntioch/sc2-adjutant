@@ -123,6 +123,92 @@ exports[`the tool list > is the same on a bare machine 1`] = `
   {
     "annotations": {
       "destructiveHint": false,
+      "readOnlyHint": false,
+    },
+    "description": "Records an Exemplar Map in the active Style Pack's exemplars.json: its id, its source map and its provenance (made, edited or approved: a map the mapper made weighs most as evidence, one they admire least). The pack must be a folder in the Workspace (scaffold_style_pack makes one). Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack already lists or a source map that isn't there. Then study it with study_exemplar.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "id": {
+          "description": "A short id for the map, such as 1-1: letters, digits, dots, hyphens or underscores",
+          "minLength": 1,
+          "type": "string",
+        },
+        "map": {
+          "description": "The source map's path inside the exemplarMaps folder (or absolute), such as Maps/Harbour.SC2Map",
+          "minLength": 1,
+          "type": "string",
+        },
+        "note": {
+          "description": "Anything worth knowing about the map, such as what it reuses",
+          "minLength": 1,
+          "type": "string",
+        },
+        "provenance": {
+          "description": "made, edited or approved (a map the mapper admires)",
+          "enum": [
+            "made",
+            "edited",
+            "approved",
+          ],
+          "type": "string",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "map",
+        "provenance",
+      ],
+      "type": "object",
+    },
+    "name": "add_exemplar_map",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string",
+        },
+        "id": {
+          "type": "string",
+        },
+        "map": {
+          "type": "string",
+        },
+        "provenance": {
+          "enum": [
+            "made",
+            "edited",
+            "approved",
+          ],
+          "type": "string",
+        },
+        "source": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "map",
+        "provenance",
+        "file",
+        "source",
+      ],
+      "type": "object",
+    },
+    "title": "Add an Exemplar Map to the Style Pack",
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
       "readOnlyHint": true,
     },
     "description": "Lists what the Workspace's Campaign Mod defines, as Mission compiles and the checkers read it: its tilesets (each with its blend textures, cliff sets, default Light and sky, resolved through its parents), terrain textures, cliff sets, Lights, units (whether each flies or is a structure), doodads (with their variation counts, their model files and, where the mod's doodad index (mods/<id>/doodad-catalog.json) covers them, their descriptions in core's words, who wrote each, their sheets' absolute paths when on this machine, why they have no picture, or that they're pending: index-mod-doodads renders them and an agent describes them) and models. Kept entries come from the mod's package, Blueprint-owned ones from its Mod Blueprint. The game's own entries are core's: its catalog files (packages/core/data/*-catalog.json and tileset-*.json) and the published sc2-asset-catalog's textures and cliff sets, with their extracted fields in packages/core/data/texture-extracted.json and cliff-extracted.json; a Mission uses either.",
@@ -7229,6 +7315,74 @@ exports[`the tool list > is the same on a bare machine 1`] = `
   },
   {
     "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Makes a Style Pack Plugin in a folder of the Workspace (style-pack/ by default), laid out as the Antioch Style Pack's package is so it can later become a package unchanged: sc2-adjutant-plugin.json with the style-pack role and its knowledge entries, an empty exemplar-maps/exemplars.json, exemplar-maps/LESSONS.md and candidate-lessons.md with their headings and the lesson format, a knowledge/GUIDE.md stub, and exemplar-maps/.gitignore for */captures/, */frames/, */evidence/, */minimap.png. Then names it as the Workspace config's stylePack. Refused, before anything is written, when the folder exists and isn't empty, or is outside the Workspace, and when the Workspace already names a Style Pack: ask the mapper whether to replace it, then call again with replace: true. Add its Exemplar Maps with add_exemplar_map.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "folder": {
+          "description": "The pack's folder, relative to the Workspace root; style-pack by default",
+          "minLength": 1,
+          "type": "string",
+        },
+        "name": {
+          "description": "The Plugin's name, lowercase like an npm package name; style-<campaign id> by default",
+          "minLength": 1,
+          "type": "string",
+        },
+        "replace": {
+          "description": "Replace the Style Pack the Workspace already names, once the mapper has agreed to",
+          "type": "boolean",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "scaffold_style_pack",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "files": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "folder": {
+          "type": "string",
+        },
+        "name": {
+          "type": "string",
+        },
+        "replaced": {
+          "type": "string",
+        },
+        "source": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "name",
+        "folder",
+        "source",
+        "files",
+      ],
+      "type": "object",
+    },
+    "title": "Start a Style Pack in the Workspace",
+  },
+  {
+    "annotations": {
       "destructiveHint": false,
       "readOnlyHint": true,
     },
@@ -10017,6 +10171,92 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "Add a doodad note",
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "readOnlyHint": false,
+    },
+    "description": "Records an Exemplar Map in the active Style Pack's exemplars.json: its id, its source map and its provenance (made, edited or approved: a map the mapper made weighs most as evidence, one they admire least). The pack must be a folder in the Workspace (scaffold_style_pack makes one). Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it). Refused, before anything is written, for an id the pack already lists or a source map that isn't there. Then study it with study_exemplar.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "id": {
+          "description": "A short id for the map, such as 1-1: letters, digits, dots, hyphens or underscores",
+          "minLength": 1,
+          "type": "string",
+        },
+        "map": {
+          "description": "The source map's path inside the exemplarMaps folder (or absolute), such as Maps/Harbour.SC2Map",
+          "minLength": 1,
+          "type": "string",
+        },
+        "note": {
+          "description": "Anything worth knowing about the map, such as what it reuses",
+          "minLength": 1,
+          "type": "string",
+        },
+        "provenance": {
+          "description": "made, edited or approved (a map the mapper admires)",
+          "enum": [
+            "made",
+            "edited",
+            "approved",
+          ],
+          "type": "string",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "map",
+        "provenance",
+      ],
+      "type": "object",
+    },
+    "name": "add_exemplar_map",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string",
+        },
+        "id": {
+          "type": "string",
+        },
+        "map": {
+          "type": "string",
+        },
+        "provenance": {
+          "enum": [
+            "made",
+            "edited",
+            "approved",
+          ],
+          "type": "string",
+        },
+        "source": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "map",
+        "provenance",
+        "file",
+        "source",
+      ],
+      "type": "object",
+    },
+    "title": "Add an Exemplar Map to the Style Pack",
   },
   {
     "annotations": {
@@ -17819,6 +18059,74 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "Reopen a Co-design Stage",
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Makes a Style Pack Plugin in a folder of the Workspace (style-pack/ by default), laid out as the Antioch Style Pack's package is so it can later become a package unchanged: sc2-adjutant-plugin.json with the style-pack role and its knowledge entries, an empty exemplar-maps/exemplars.json, exemplar-maps/LESSONS.md and candidate-lessons.md with their headings and the lesson format, a knowledge/GUIDE.md stub, and exemplar-maps/.gitignore for */captures/, */frames/, */evidence/, */minimap.png. Then names it as the Workspace config's stylePack. Refused, before anything is written, when the folder exists and isn't empty, or is outside the Workspace, and when the Workspace already names a Style Pack: ask the mapper whether to replace it, then call again with replace: true. Add its Exemplar Maps with add_exemplar_map.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "folder": {
+          "description": "The pack's folder, relative to the Workspace root; style-pack by default",
+          "minLength": 1,
+          "type": "string",
+        },
+        "name": {
+          "description": "The Plugin's name, lowercase like an npm package name; style-<campaign id> by default",
+          "minLength": 1,
+          "type": "string",
+        },
+        "replace": {
+          "description": "Replace the Style Pack the Workspace already names, once the mapper has agreed to",
+          "type": "boolean",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "type": "object",
+    },
+    "name": "scaffold_style_pack",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "files": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "folder": {
+          "type": "string",
+        },
+        "name": {
+          "type": "string",
+        },
+        "replaced": {
+          "type": "string",
+        },
+        "source": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "name",
+        "folder",
+        "source",
+        "files",
+      ],
+      "type": "object",
+    },
+    "title": "Start a Style Pack in the Workspace",
   },
   {
     "annotations": {

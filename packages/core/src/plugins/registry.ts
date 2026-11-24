@@ -81,9 +81,14 @@ const PromptEntrySchema = z
   })
   .strict();
 
+/** A Plugin's name, as its manifest gives it: lowercase, like an npm package name. */
+export const PLUGIN_NAME_PATTERN = /^[a-z0-9@][a-z0-9@/._-]*$/;
+/** An Exemplar Map's id in a Style Pack's list. */
+export const EXEMPLAR_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
+
 const ManifestSchema = z
   .object({
-    name: z.string().regex(/^[a-z0-9@][a-z0-9@/._-]*$/, "A Plugin name is lowercase, like an npm package name"),
+    name: z.string().regex(PLUGIN_NAME_PATTERN, "A Plugin name is lowercase, like an npm package name"),
     version: z.string().min(1),
     /** The plugin API version the Plugin was built for. */
     pluginApi: z.number().int().positive(),
@@ -133,7 +138,7 @@ type Manifest = z.infer<typeof ManifestSchema>;
 const ExemplarListSchema = z.object({
   exemplars: z.array(
     z.looseObject({
-      id: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]*$/, "An Exemplar Map id is letters, digits, dots, hyphens or underscores"),
+      id: z.string().regex(EXEMPLAR_ID_PATTERN, "An Exemplar Map id is letters, digits, dots, hyphens or underscores"),
       /** The source map, inside the Workspace's Exemplar Map folder (or absolute). */
       map: z.string().min(1),
       provenance: z.enum(EXEMPLAR_PROVENANCES),

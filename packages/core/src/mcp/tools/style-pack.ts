@@ -8,10 +8,12 @@ import { brokerSocketPath, editorBrokerStatus } from "../../capture/editor-broke
 import { captureStylePack, type CaptureStylePackResult, planStylePackTours } from "../../capture/style-pack-captures.js";
 import { hostContext } from "../../host/machine-config.js";
 import { exemplarReport, type ReportMeasure, type Verdict, VERDICTS } from "../../study/exemplar-report.js";
+import { EXEMPLAR_PROVENANCES } from "../../plugins/plugin-api.js";
+import { addExemplarMap, DEFAULT_STYLE_PACK_FOLDER, scaffoldStylePack, STYLE_PACK_IGNORES } from "../../study/scaffold-style-pack.js";
 import { findStylePackPlaces, studyExemplars } from "../../study/study-exemplars.js";
 import { type CallContext } from "../call-context.js";
 import { captureJobs, type JobState, placeOf, waitLength } from "../capture-jobs.js";
-import { DESTRUCTIVE, READ_ONLY, type RefusedWithout, toolGroup } from "./tool-group.js";
+import { ADDITIVE, DESTRUCTIVE, READ_ONLY, type RefusedWithout, toolGroup } from "./tool-group.js";
 
 const IdsSchema = z
   .array(z.string().min(1))
@@ -23,7 +25,7 @@ const SOURCES =
   "Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it).";
 
 /** The tools registerStylePackTools can register, the Style Pack group. */
-export const STYLE_PACK_TOOLS = ["study_exemplar", "find_places", "capture_exemplar", "exemplar_report"] as const;
+export const STYLE_PACK_TOOLS = ["scaffold_style_pack", "add_exemplar_map", "study_exemplar", "find_places", "capture_exemplar", "exemplar_report"] as const;
 
 const MapValueSchema = z.object({ id: z.string(), value: z.number() });
 const ReportMeasureSchema = z.object({
@@ -64,6 +66,50 @@ export const STYLE_PACK_REFUSED_WITHOUT = { capture_exemplar: ["editor.captureTo
 
 export function registerStylePackTools(server: McpServer, ctx: CallContext, { captureWaitMs }: { readonly captureWaitMs: number }): void {
   const tool = toolGroup(server, STYLE_PACK_TOOLS);
+
+  tool(
+    "scaffold_style_pack",
+    {
+      title: "Start a Style Pack in the Workspace",
+      annotations: DESTRUCTIVE,
+      description: `Makes a Style Pack Plugin in a folder of the Workspace (${DEFAULT_STYLE_PACK_FOLDER}/ by default), laid out as the Antioch Style Pack's package is so it can later become a package unchanged: sc2-adjutant-plugin.json with the style-pack role and its knowledge entries, an empty exemplar-maps/exemplars.json, exemplar-maps/LESSONS.md and candidate-lessons.md with their headings and the lesson format, a knowledge/GUIDE.md stub, and exemplar-maps/.gitignore for ${STYLE_PACK_IGNORES.join(", ")}. Then names it as the Workspace config's stylePack. Refused, before anything is written, when the folder exists and isn't empty, or is outside the Workspace, and when the Workspace already names a Style Pack: ask the mapper whether to replace it, then call again with replace: true. Add its Exemplar Maps with add_exemplar_map.`,
+      inputSchema: {
+        folder: z.string().min(1).optional().describe(`The pack's folder, relative to the Workspace root; ${DEFAULT_STYLE_PACK_FOLDER} by default`),
+        name: z.string().min(1).optional().describe("The Plugin's name, lowercase like an npm package name; style-<campaign id> by default"),
+        replace: z.boolean().optional().describe("Replace the Style Pack the Workspace already names, once the mapper has agreed to"),
+      },
+      outputSchema: { name: z.string(), folder: z.string(), source: z.string(), files: z.array(z.string()), replaced: z.string().optional() },
+    },
+    async ({ folder, name, replace }) => {
+      const made = await scaffoldStylePack(await ctx.root(), { ...(folder ? { folder } : {}), ...(name ? { name } : {}), ...(replace ? { replace } : {}) });
+      const lines = [
+        `Made the Style Pack ${made.name} in ${made.folder}: ${made.files.join(", ")}.`,
+        `The Workspace's stylePack is now ${made.source}${made.replaced !== undefined ? `, in place of ${made.replaced}` : ""}.`,
+        "Add its Exemplar Maps with add_exemplar_map.",
+      ];
+      return ctx.reply(lines.join("\n"), { ...made, files: [...made.files] });
+    },
+  );
+
+  tool(
+    "add_exemplar_map",
+    {
+      title: "Add an Exemplar Map to the Style Pack",
+      annotations: ADDITIVE,
+      description: `Records an Exemplar Map in the active Style Pack's exemplars.json: its id, its source map and its provenance (made, edited or approved: a map the mapper made weighs most as evidence, one they admire least). The pack must be a folder in the Workspace (scaffold_style_pack makes one). ${SOURCES} Refused, before anything is written, for an id the pack already lists or a source map that isn't there. Then study it with study_exemplar.`,
+      inputSchema: {
+        id: z.string().min(1).describe("A short id for the map, such as 1-1: letters, digits, dots, hyphens or underscores"),
+        map: z.string().min(1).describe("The source map's path inside the exemplarMaps folder (or absolute), such as Maps/Harbour.SC2Map"),
+        provenance: z.enum(EXEMPLAR_PROVENANCES).describe("made, edited or approved (a map the mapper admires)"),
+        note: z.string().min(1).optional().describe("Anything worth knowing about the map, such as what it reuses"),
+      },
+      outputSchema: { id: z.string(), map: z.string(), provenance: z.enum(EXEMPLAR_PROVENANCES), file: z.string(), source: z.string() },
+    },
+    async ({ id, map, provenance, note }) => {
+      const added = await addExemplarMap(await ctx.workspace(), { id, map, provenance, ...(note ? { note } : {}), machine: ctx.host.machine });
+      return ctx.reply(`Added Exemplar Map ${added.id} (${added.provenance}), from ${added.source}, to ${added.file}. Study it with study_exemplar.`, { ...added });
+    },
+  );
 
   tool(
     "study_exemplar",
