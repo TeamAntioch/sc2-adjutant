@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="Preset" Id="57B93DDF"/>
+        <Item Type="Structure" Id="E8B7FA3E"/>
+        <Item Type="Structure" Id="CF574E75"/>
+    </Root>
+    <Element Type="Preset" Id="57B93DDF">
+        <PresetInteger/>
+        <BaseType Value="int"/>
+        <Item Type="PresetValue" Id="6CE7C64A"/>
+        <Item Type="PresetValue" Id="8603E64C"/>
+    </Element>
+    <Element Type="PresetValue" Id="6CE7C64A">
+    </Element>
+    <Element Type="PresetValue" Id="8603E64C">
+    </Element>
+    <Element Type="Structure" Id="E8B7FA3E">
+        <Variable Type="Variable" Id="B9A28583"/>
+        <Variable Type="Variable" Id="C6EC4B68"/>
+        <Variable Type="Variable" Id="F387699F"/>
+    </Element>
+    <Element Type="Variable" Id="B9A28583">
+        <VariableType>
+            <Type Value="preset"/>
+            <TypeElement Type="Preset" Id="57B93DDF"/>
+        </VariableType>
+        <Value Type="Param" Id="9D4CE5EF"/>
+    </Element>
+    <Element Type="Param" Id="9D4CE5EF">
+        <Preset Type="PresetValue" Id="8603E64C"/>
+    </Element>
+    <Element Type="Variable" Id="C6EC4B68">
+        <VariableType>
+            <Type Value="unit"/>
+        </VariableType>
+        <Value Type="Param" Id="C9B9042F"/>
+    </Element>
+    <Element Type="Param" Id="C9B9042F">
+        <Preset Type="PresetValue" Library="Ntve" Id="D6EA4D09"/>
+    </Element>
+    <Element Type="Variable" Id="F387699F">
+        <VariableType>
+            <Type Value="region"/>
+        </VariableType>
+        <Value Type="Param" Id="040B4E0A"/>
+    </Element>
+    <Element Type="Param" Id="040B4E0A">
+        <Preset Type="PresetValue" Library="Ntve" Id="F5E3F3AD"/>
+    </Element>
+    <Element Type="Structure" Id="CF574E75">
+        <Variable Type="Variable" Id="8FE1F1B5"/>
+        <Variable Type="Variable" Id="F85AAD7F"/>
+        <Variable Type="Variable" Id="FF91E475"/>
+    </Element>
+    <Element Type="Variable" Id="8FE1F1B5">
+        <VariableType>
+            <Type Value="region"/>
+        </VariableType>
+        <Value Type="Param" Id="2648C4E3"/>
+    </Element>
+    <Element Type="Param" Id="2648C4E3">
+        <Preset Type="PresetValue" Library="Ntve" Id="F5E3F3AD"/>
+    </Element>
+    <Element Type="Variable" Id="F85AAD7F">
+        <VariableType>
+            <Type Value="revealer"/>
+        </VariableType>
+        <Value Type="Param" Id="FFD6402F"/>
+    </Element>
+    <Element Type="Param" Id="FFD6402F">
+        <Preset Type="PresetValue" Library="Ntve" Id="151CADD9"/>
+    </Element>
+    <Element Type="Variable" Id="FF91E475">
+        <VariableType>
+            <Type Value="bool"/>
+        </VariableType>
+        <Value Type="Param" Id="33119C0E"/>
+    </Element>
+    <Element Type="Param" Id="33119C0E">
+        <Value>false</Value>
+        <ValueType Type="bool"/>
+    </Element>
+</TriggerData>

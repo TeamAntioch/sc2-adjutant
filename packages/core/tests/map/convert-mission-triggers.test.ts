@@ -323,6 +323,103 @@ describe("a Mission's Kept Trigger Folders", () => {
   }, 60_000);
 });
 
+describe("a Mission's Kept presets, records and custom script", () => {
+  /** Converts `asked` in the Harbour Mission with the cut `cut`, compiles twice and checks the package comes back as the Editor saved it; the Blueprint after converting. */
+  const roundTrip = async (
+    cut: string,
+    asked: readonly string[],
+  ): Promise<{ converted: Awaited<ReturnType<typeof convertMissionTriggers>>; blueprint: Record<string, unknown>; dir: string; record: { entries: unknown[] }; mission: Awaited<ReturnType<typeof harbourWith>> }> => {
+    const mission = await harbourWith(cut);
+    const before = await readPackage(mission.mapDir);
+    const converted = await convertMissionTriggers(mission.workspace, mission.blueprintPath, { triggers: asked });
+    const blueprint = JSON.parse(await readFile(mission.blueprintPath, "utf8"));
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    const record = JSON.parse(await readFile(path.join(path.dirname(mission.blueprintPath), "compile-record.json"), "utf8"));
+    // And again, now that they're Compiled.
+    await compileMission(mission.workspace, mission.blueprintPath, undefined, { savedAt });
+    expect(await readPackage(mission.mapDir)).toEqual(before);
+    return { converted, blueprint, dir: path.dirname(mission.blueprintPath), record, mission };
+  };
+
+  it("converts a Kept preset type, the comment among its values with it, and a global of it, and compiles them back to the same Triggers, Galaxy and names", async () => {
+    const { converted, blueprint, dir, record, mission } = await roundTrip("presets", ["PRESET_MissionPhase", "MissionPhase"]);
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted.map((item) => [item.kind, item.name, item.file])).toEqual([
+      ["global", "MissionPhase", "blueprint.json (triggerVariables)"],
+      ["preset", "PRESET_MissionPhase", "triggers/preset-missionphase.json"],
+    ]);
+    expect(JSON.parse(await readFile(path.join(dir, "triggers", "preset-missionphase.json"), "utf8"))).toEqual({
+      kind: "preset",
+      id: "29218556",
+      name: "PRESET_MissionPhase",
+      baseType: "int",
+      integer: true,
+      values: [
+        { id: "B2E10B25", comment: "Bootylicious Scripting" },
+        { id: "B0F6678E", name: "Tactical" },
+        { id: "54901DD8", name: "Escort" },
+      ],
+    });
+    expect((blueprint.triggerVariables as unknown[])[0]).toEqual({ id: "934BAAFC", name: "MissionPhase", type: { type: "preset", element: "29218556" }, value: { id: "9AC2DB80", preset: "B0F6678E" } });
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "preset", id: "29218556" }));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "galaxy-block", id: "preset-value:ge_PRESET_MissionPhase_Escort" }));
+    // The authoring tool still reaches the preset type and its values by name, now from the Blueprint.
+    const reach = await missionTriggerReach(mission.workspace, mission.blueprintPath);
+    expect(reach.kept.filter((item) => item.type === "Preset")).toEqual([]);
+    expect(missionMapReach(reach, reach.authored.triggers).presets).toEqual([{ id: "29218556", name: "PRESET_MissionPhase", base: "int", bits: false, values: [{ id: "B0F6678E", name: "Tactical" }, { id: "54901DD8", name: "Escort" }] }]);
+  }, 60_000);
+
+  it("converts Kept records, one with a member of the map's preset type, and compiles them back to the same Triggers, Galaxy and names", async () => {
+    const { converted, dir, record } = await roundTrip("records", ["PRESET_GateState", "RECORD_XelNagaGate", "RECORD_Autorevealer"]);
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted.map((item) => [item.kind, item.name])).toEqual([
+      ["preset", "PRESET_GateState"],
+      ["record", "RECORD_XelNagaGate"],
+      ["record", "RECORD_Autorevealer"],
+    ]);
+    const gate = JSON.parse(await readFile(path.join(dir, "triggers", "record-xelnagagate.json"), "utf8"));
+    expect(gate).toMatchObject({ kind: "record", id: "E8B7FA3E", name: "RECORD_XelNagaGate" });
+    expect(gate.members[0]).toEqual({ id: "B9A28583", name: "State", type: { type: "preset", element: "57B93DDF" }, value: { id: "9D4CE5EF", preset: "8603E64C" } });
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "structure", id: "CF574E75" }));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "galaxy-block", id: "structure:gs_RECORD_Autorevealer" }));
+  }, 60_000);
+
+  it("lists no Kept element of a kind that doesn't convert, over each cut", async () => {
+    for (const cut of ["presets", "records", "custom-script-element"]) {
+      const read = (file: string): Promise<string> => readFile(path.join(CUTS, cut, file), "utf8");
+      const conversion = convertKeptTriggers({ triggers: await read("Triggers"), triggerStrings: await read("TriggerStrings.txt"), script: await read("MapScript.galaxy"), gameStrings: new Map() });
+
+      expect(conversion.notYetConvertible).toEqual([]);
+      expect([...conversion.presets.refused, ...conversion.records.refused, ...conversion.customScripts.refused, ...conversion.globals.refused]).toEqual([]);
+    }
+  });
+
+  it("refuses a preset type whose Galaxy the script lacks, naming the block", async () => {
+    const read = (file: string): Promise<string> => readFile(path.join(CUTS, "presets", file), "utf8");
+    const script = (await read("MapScript.galaxy")).replace("const int ge_PRESET_MissionPhase_Escort = 1;\n", "");
+
+    const conversion = convertKeptTriggers({ triggers: await read("Triggers"), triggerStrings: await read("TriggerStrings.txt"), script, gameStrings: new Map() }, { triggers: ["PRESET_MissionPhase"] });
+
+    expect(conversion.presets.refused).toEqual([{ preset: "PRESET_MissionPhase", id: "29218556", reason: "MapScript.galaxy has no preset-value:ge_PRESET_MissionPhase_Escort: save the map in the Editor so it writes one, then convert it" }]);
+  });
+
+  it("converts a Kept custom script, keeping its Galaxy as data, and compiles it back to the same Triggers, Galaxy and names", async () => {
+    const { converted, dir, record } = await roundTrip("custom-script-element", ["Gate Watch"]);
+
+    expect(converted.refused).toEqual([]);
+    expect(converted.converted).toEqual([{ kind: "custom-script", name: "Gate Watch", id: "73E9E84E", file: "triggers/gate-watch.json" }]);
+    const script = JSON.parse(await readFile(path.join(dir, "triggers", "gate-watch.json"), "utf8"));
+    expect(script).toMatchObject({ kind: "custom-script", id: "73E9E84E", name: "Gate Watch", initFunction: "GateWatch_Init" });
+    expect(script.script).toMatch(/^unitgroup GateWatch_gates;\n/);
+    expect(script.script).toContain('    GateWatch_Add("Gate_Thin_NE");\n');
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "custom-script", id: "73E9E84E" }));
+    expect(record.entries).toContainEqual(expect.objectContaining({ kind: "galaxy-block", id: "custom-script:Gate Watch" }));
+  }, 60_000);
+});
+
 describe("a Kept trigger naming its Campaign Mod's globals", () => {
   const CMPN = { id: "cmpn-story", name: "Cmpn-Story", library: "Cmpn" };
 
@@ -430,8 +527,9 @@ describe("convertKeptTriggers", () => {
 
     const conversion = convertKeptTriggers({ ...files, triggers: filed, triggerStrings: `${files.triggerStrings}Category/Name/5A5AF001=Objectives\r\n` });
 
-    // An objective global's Galaxy the renderer doesn't write yet.
-    expect(conversion.globals.refused).toEqual([{ global: "objective", id: "C7C0764E", reason: "its Galaxy can't be written as the Editor does: it holds a local variable of type objective" }]);
+    // An objective global is an int in Galaxy, as the Editor declares it.
+    expect(conversion.globals.refused).toEqual([]);
+    expect(conversion.globals.converted.map((item) => item.id)).toEqual(["C7C0764E"]);
     expect(conversion.folders.converted.map((item) => item.name)).toEqual(["Objectives"]);
     expect(conversion.notYetConvertible).toEqual([]);
   });

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="Preset" Id="29218556"/>
+        <Item Type="Variable" Id="934BAAFC"/>
+    </Root>
+    <Element Type="Preset" Id="29218556">
+        <PresetInteger/>
+        <BaseType Value="int"/>
+        <Item Type="Comment" Id="B2E10B25"/>
+        <Item Type="PresetValue" Id="B0F6678E"/>
+        <Item Type="PresetValue" Id="54901DD8"/>
+    </Element>
+    <Element Type="Comment" Id="B2E10B25">
+        <Comment>
+            Bootylicious Scripting
+        </Comment>
+    </Element>
+    <Element Type="PresetValue" Id="B0F6678E">
+    </Element>
+    <Element Type="PresetValue" Id="54901DD8">
+    </Element>
+    <Element Type="Variable" Id="934BAAFC">
+        <VariableType>
+            <Type Value="preset"/>
+            <TypeElement Type="Preset" Id="29218556"/>
+        </VariableType>
+        <Value Type="Param" Id="9AC2DB80"/>
+    </Element>
+    <Element Type="Param" Id="9AC2DB80">
+        <Preset Type="PresetValue" Id="B0F6678E"/>
+    </Element>
+</TriggerData>

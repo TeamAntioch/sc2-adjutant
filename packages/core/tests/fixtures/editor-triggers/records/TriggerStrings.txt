@@ -1,0 +1,11 @@
+﻿Preset/Name/57B93DDF=PRESET_GateState
+PresetValue/Name/6CE7C64A=Open
+PresetValue/Name/8603E64C=Closed
+Structure/Name/CF574E75=RECORD_Autorevealer
+Structure/Name/E8B7FA3E=RECORD_XelNagaGate
+Variable/Name/8FE1F1B5=Region
+Variable/Name/B9A28583=State
+Variable/Name/C6EC4B68=GateUnit
+Variable/Name/F387699F=GateRegion
+Variable/Name/F85AAD7F=Revealer
+Variable/Name/FF91E475=Active

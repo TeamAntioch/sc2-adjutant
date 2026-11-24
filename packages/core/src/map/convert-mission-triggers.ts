@@ -21,13 +21,13 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { type BlueprintComment, type BlueprintElement, BlueprintFolderItem, type BlueprintFunction, type BlueprintTriggerFolder, BlueprintTriggerFolderSchema, BlueprintFunctionSchema, BlueprintTriggerSchema, type BlueprintTrigger } from "../domain/blueprint-trigger.js";
+import { type BlueprintComment, type BlueprintCustomScript, BlueprintCustomScriptSchema, type BlueprintElement, BlueprintFolderItem, type BlueprintFunction, type BlueprintPreset, BlueprintPresetSchema, type BlueprintRecord, BlueprintRecordSchema, type BlueprintTriggerFolder, BlueprintTriggerFolderSchema, BlueprintFunctionSchema, BlueprintTriggerSchema, type BlueprintTrigger } from "../domain/blueprint-trigger.js";
 import { type GuiCall, type GuiStatement, type GuiVariable, heldIds, isComment, LIBRARY_ITEM_TYPES, MAP_GUI } from "../domain/library-interface.js";
 import { type GameLibrary, gameTriggerLibraries } from "../mods/library-galaxy.js";
 import { difference } from "../mods/equivalence.js";
-import { ElementWriter, mapElements, readMapComment, readMapItem, readMapFunctionWhole, readMapGlobal, readMapTrigger, stringTable, UnconvertibleFunctionError } from "../mods/library-xml.js";
+import { ElementWriter, mapElements, readMapComment, readMapItem, readMapFunctionWhole, readMapGlobal, readMapPreset, readMapTrigger, stringTable, UnconvertibleFunctionError } from "../mods/library-xml.js";
 import { type Workspace, parseMissionBlueprint } from "../plugins/workspace.js";
-import { type AuthoredFunction, type AuthoredTrigger, type AuthoredTriggers, blueprintElementFile, blueprintFunctionIds, blueprintFunctionOf, blueprintFunctionXml, blueprintReferenceProblems, blueprintTriggerIds, blueprintTriggerXml, folderXml, functionDeclaration, readAuthoredTriggers, unknownParts } from "../triggers/blueprint-triggers.js";
+import { type AuthoredFunction, type AuthoredItem, type AuthoredTrigger, type AuthoredTriggers, blueprintCustomScriptXml, blueprintElementFile, blueprintFunctionIds, blueprintFunctionOf, blueprintFunctionXml, blueprintPresetXml, blueprintRecordIds, blueprintRecordXml, blueprintReferenceProblems, blueprintTriggerIds, blueprintTriggerXml, customScriptGalaxy, folderXml, functionDeclaration, readAuthoredTriggers, unknownParts } from "../triggers/blueprint-triggers.js";
 import { KeptGalaxyRenderer, textValueKeys } from "../triggers/kept-trigger-galaxy.js";
 import { blockText, keptElementSpan } from "../triggers/splice-map-script.js";
 import { libraryItems, recordedItemKeys } from "../triggers/splice-triggers.js";
@@ -45,7 +45,7 @@ export type ConvertMissionTriggersOptions = {
 };
 
 /** The kinds of Kept element a Mission's conversion reads into its Blueprint. */
-export type ConvertedKind = "trigger" | "function" | "global" | "comment" | "folder";
+export type ConvertedKind = "trigger" | "function" | "global" | "comment" | "folder" | "preset" | "record" | "custom-script";
 
 export type ConvertedMissionTriggers = {
   /** Each element converted, globals and functions first, each in the package's order: its kind, name, element Id and file (relative to the Blueprint; a global's is the Blueprint itself, its triggerVariables). */
@@ -104,7 +104,22 @@ export type KeptTriggerConversion = {
     readonly converted: readonly { readonly name: string; readonly id: string; readonly folder: BlueprintTriggerFolder }[];
     readonly refused: readonly { readonly folder: string; readonly id: string; readonly reason: string }[];
   };
-  /** Each Kept item of a kind that doesn't convert yet (a preset, a record, …): its type in Triggers, Id and name. Listed only when nothing was asked for. */
+  /** The map's preset types, each that converts (its values and the comments among them with it), and each left Kept with why. */
+  readonly presets: {
+    readonly converted: readonly { readonly name: string; readonly id: string; readonly file: string; readonly preset: BlueprintPreset }[];
+    readonly refused: readonly { readonly preset: string; readonly id: string; readonly reason: string }[];
+  };
+  /** The map's records (Editor Structures), each that converts (its members with it), and each left Kept with why. */
+  readonly records: {
+    readonly converted: readonly { readonly name: string; readonly id: string; readonly file: string; readonly record: BlueprintRecord }[];
+    readonly refused: readonly { readonly record: string; readonly id: string; readonly reason: string }[];
+  };
+  /** The custom script filed among the map's items, each that converts (its script kept as data), and each left Kept with why. */
+  readonly customScripts: {
+    readonly converted: readonly { readonly name: string; readonly id: string; readonly file: string; readonly customScript: BlueprintCustomScript }[];
+    readonly refused: readonly { readonly customScript: string; readonly id: string; readonly reason: string }[];
+  };
+  /** Each Kept item of a kind that doesn't convert yet: its type in Triggers, Id and name. Listed only when nothing was asked for. */
   readonly notYetConvertible: readonly { readonly type: string; readonly id: string; readonly name: string }[];
 };
 
@@ -155,6 +170,9 @@ export function convertKeptTriggers(
     ...authoredGlobals.map((variable) => ({ type: "Variable", file: "triggerVariables", id: variable.id, name: variable.name })),
     ...authoredComments.map(({ file, comment }) => ({ type: "Comment", file, id: comment.id, name: comment.id })),
     ...authored.folders.map((folder) => ({ type: "Category", file: "triggerFolders", id: folder.id, name: folder.name })),
+    ...(authored.presets ?? []).map(({ file, item }) => ({ type: "Preset", file, id: item.id, name: item.name })),
+    ...(authored.records ?? []).map(({ file, item }) => ({ type: "Structure", file, id: item.id, name: item.name })),
+    ...(authored.customScripts ?? []).map(({ file, item }) => ({ type: "CustomScript", file, id: item.id, name: item.name })),
   ];
   const owned = new Set(inBlueprint.map((each) => elementKey(each.type, each.id)));
   const items = [...libraryItems(xml)]
@@ -162,12 +180,15 @@ export function convertKeptTriggers(
     .map(([, item]) => ({ ...item, name: strings.get(`${item.type}/Name/${item.id}`) ?? item.id }));
   const kept = items.filter((item) => CONVERTIBLE.has(item.type));
   const unknown = (asked ?? []).filter((wanted) => !kept.some((item) => item.id === wanted || item.name === wanted) && !inBlueprint.some((each) => each.id === wanted || each.name === wanted));
-  if (unknown.length > 0) throw new Error(`The Map Package has no Kept trigger, function, global or comment ${unknown.join(", ")}`);
+  if (unknown.length > 0) throw new Error(`The Map Package has no Kept trigger, function, global, comment, folder, preset type, record or custom script ${unknown.join(", ")}`);
   const refused: { trigger: string; id: string; reason: string }[] = [];
   const refusedFunctions: { function: string; id: string; reason: string }[] = [];
   const refusedGlobals: { global: string; id: string; reason: string }[] = [];
   const refusedComments: { comment: string; id: string; reason: string }[] = [];
   const refusedFolders: { folder: string; id: string; reason: string }[] = [];
+  const refusedPresets: { preset: string; id: string; reason: string }[] = [];
+  const refusedRecords: { record: string; id: string; reason: string }[] = [];
+  const refusedCustomScripts: { customScript: string; id: string; reason: string }[] = [];
   for (const wanted of asked ?? []) {
     // A name a Kept element still has is that one's: the Blueprint's namesake of another kind isn't asked for.
     const already = kept.some((item) => item.id === wanted || item.name === wanted) ? undefined : inBlueprint.find((each) => each.id === wanted || each.name === wanted);
@@ -177,6 +198,9 @@ export function convertKeptTriggers(
     else if (already.type === "FunctionDef") refusedFunctions.push({ function: already.name, id: already.id, reason });
     else if (already.type === "Variable") refusedGlobals.push({ global: already.name, id: already.id, reason });
     else if (already.type === "Comment") refusedComments.push({ comment: already.name, id: already.id, reason });
+    else if (already.type === "Preset") refusedPresets.push({ preset: already.name, id: already.id, reason });
+    else if (already.type === "Structure") refusedRecords.push({ record: already.name, id: already.id, reason });
+    else if (already.type === "CustomScript") refusedCustomScripts.push({ customScript: already.name, id: already.id, reason });
     else refusedFolders.push({ folder: already.name, id: already.id, reason });
   }
   // A name two kinds share (a folder named for the trigger it files) asks for the first kind of CONVERTIBLE's that has it; an Id for that element.
@@ -190,7 +214,7 @@ export function convertKeptTriggers(
   const texts = textValueKeys(gameStrings.values());
   const renderer = new KeptGalaxyRenderer(file, names, { functions: CORE_PRIMITIVES.functions, presets: CORE_PRIMITIVES.presets }, texts, libraries);
   const keptTriggers = { triggers: xml, names, compiled };
-  const taken = new Set([...authored.triggers, ...authoredFunctions, ...authoredComments].map((each) => each.file.toLowerCase()));
+  const taken = new Set([...authored.triggers, ...authoredFunctions, ...authoredComments, ...(authored.presets ?? []), ...(authored.records ?? []), ...(authored.customScripts ?? [])].map((each) => each.file.toLowerCase()));
   /** The file a converted element of this name would be written to: its name's slug, numbered past any taken. */
   const fileFor = (name: string): string => {
     let slug = fileSlug(name);
@@ -201,16 +225,170 @@ export function convertKeptTriggers(
   const readFunctions: { name: string; id: string; file: string; fn: BlueprintFunction }[] = [];
   const readGlobals: { name: string; id: string; variable: GuiVariable }[] = [];
   const readComments: { name: string; id: string; file: string; comment: BlueprintComment }[] = [];
+  const readPresets: { name: string; id: string; file: string; preset: BlueprintPreset }[] = [];
+  const readRecords: { name: string; id: string; file: string; record: BlueprintRecord }[] = [];
+  const readCustomScripts: { name: string; id: string; file: string; customScript: BlueprintCustomScript }[] = [];
   /** The Blueprint's elements with those converted so far, and `entry`, for a reach check. */
-  const withRead = (entry: { readonly trigger?: AuthoredTrigger; readonly fn?: AuthoredFunction; readonly variable?: GuiVariable }): AuthoredTriggers => ({
+  const withRead = (entry: { readonly trigger?: AuthoredTrigger; readonly fn?: AuthoredFunction; readonly variable?: GuiVariable; readonly record?: AuthoredItem<BlueprintRecord> }): AuthoredTriggers => ({
     ...authored,
     triggers: [...authored.triggers, ...read.map(({ trigger, file: at }) => ({ file: at, trigger })), ...(entry.trigger ? [entry.trigger] : [])],
     functions: [...authoredFunctions, ...readFunctions.map(({ fn, file: at }) => ({ file: at, fn })), ...(entry.fn ? [entry.fn] : [])],
     variables: [...authoredGlobals, ...readGlobals.map(({ variable }) => variable), ...(entry.variable ? [entry.variable] : [])],
+    presets: [...(authored.presets ?? []), ...readPresets.map(({ preset, file: at }) => ({ file: at, item: preset }))],
+    records: [...(authored.records ?? []), ...readRecords.map(({ record, file: at }) => ({ file: at, item: record })), ...(entry.record ? [entry.record] : [])],
   });
   const eol = eolOf(script);
   /** The problems of `by` (a refusal's prefix naming the element) among the reach problems, without it. */
   const ownProblems = (problems: readonly string[], by: string): string[] => problems.filter((problem) => problem.startsWith(by)).map((problem) => problem.slice(by.length));
+  /** The first of `blocks` (each its id in the script and the Galaxy written for it) the Editor's script lacks or has otherwise, as a refusal; undefined where it has each. */
+  const galaxyProblem = (blocks: readonly (readonly [string, string])[]): string | undefined =>
+    blocks.flatMap(([block, written]) => {
+      const saved = blockText(script, block);
+      if (saved === undefined) return [`MapScript.galaxy has no ${block}: save the map in the Editor so it writes one, then convert it`];
+      const differs = difference(`galaxy:MapScript.galaxy:${block}`, saved, written.replace(/\r?\n/g, eolOf(saved)));
+      return differs ? [`its Galaxy would be written otherwise than the Editor's: ${differs}`] : [];
+    })[0];
+  /** Why a schema refuses `value`, as a refusal of `what`; undefined where it takes it. */
+  const schemaProblem = (schema: { safeParse: (value: unknown) => { success: boolean; error?: { issues: readonly { path: readonly PropertyKey[]; message: string }[] } } }, value: unknown, what: string): string | undefined => {
+    const parsed = schema.safeParse(value);
+    return parsed.success ? undefined : `it isn't ${what} a Mission Blueprint holds: ${(parsed.error?.issues ?? []).map((issue) => `${issue.path.join(".") || "(element)"}: ${issue.message}`).join("; ")}`;
+  };
+  /** Reads a Kept item, or refuses it with why. */
+  const reading = <T>(read: () => T, refuse: (reason: string) => void): T | undefined => {
+    try {
+      return read();
+    } catch (error) {
+      if (!(error instanceof UnconvertibleFunctionError)) throw error;
+      refuse(error.reason);
+      return undefined;
+    }
+  };
+
+  // Preset types and records first: a global, a record's member or a function converted beside one may be of it.
+  for (const item of chosen.filter((each) => each.type === "Preset")) {
+    const refuse = (reason: string): void => {
+      refusedPresets.push({ preset: item.name, id: item.id, reason });
+    };
+    const form = reading(() => readMapPreset(elements, strings, item.id), refuse);
+    if (!form) continue;
+    const preset: BlueprintPreset = { kind: "preset", ...form };
+    const problem = schemaProblem(BlueprintPresetSchema, preset, "a preset type");
+    if (problem) {
+      refuse(problem);
+      continue;
+    }
+    const xmlDiffers = difference(`preset:${preset.id}`, item.elements.join("\n"), blueprintPresetXml(preset).join("\n"));
+    if (xmlDiffers) {
+      refuse(`its XML would be written otherwise than the Editor's: ${xmlDiffers}`);
+      continue;
+    }
+    // Its Galaxy as the Editor wrote it: a constant for each value, in Global Preset Declarations.
+    const constants = renderer.renderPreset(preset.id);
+    if (constants === undefined) {
+      refuse(`its Galaxy can't be written as the Editor does: it holds ${unknownParts(renderer.unknown)}`);
+      continue;
+    }
+    const differs = galaxyProblem(constants.map(({ name: constant, line }) => [`preset-value:${constant}`, line] as const));
+    if (differs) {
+      refuse(differs);
+      continue;
+    }
+    const target = fileFor(preset.name);
+    taken.add(target);
+    readPresets.push({ name: preset.name, id: preset.id, file: target, preset });
+  }
+
+  for (const item of chosen.filter((each) => each.type === "Structure")) {
+    const refuse = (reason: string): void => {
+      refusedRecords.push({ record: item.name, id: item.id, reason });
+    };
+    const read = reading(() => readMapItem(elements, strings, "Structure", item.id), refuse);
+    if (!read) continue;
+    if (read.kind !== "structure") {
+      refuse(`it reads as a ${read.kind}, not a record`);
+      continue;
+    }
+    if (read.item.name === undefined) {
+      refuse("it has no name in TriggerStrings.txt, which a Blueprint record has");
+      continue;
+    }
+    const record: BlueprintRecord = { kind: "record", id: read.item.id, name: read.item.name, members: read.item.members };
+    // A member's initial value of text keeps its words in GameStrings, which a record doesn't hold.
+    if (wordsOf(gameStrings, new Set(blueprintRecordIds(record)))) {
+      refuse("a member's initial value holds a text value, whose words a Blueprint record doesn't hold yet");
+      continue;
+    }
+    const problem = schemaProblem(BlueprintRecordSchema, record, "a record");
+    if (problem) {
+      refuse(problem);
+      continue;
+    }
+    const target = fileFor(record.name);
+    const own = ownProblems(blueprintReferenceProblems(withRead({ record: { file: target, item: record } }), keptTriggers, libraries), `the Blueprint record "${record.name}" (${record.id}, ${target}) `);
+    if (own.length > 0) {
+      refuse(outOfReach(own));
+      continue;
+    }
+    const xmlDiffers = difference(`structure:${record.id}`, item.elements.join("\n"), blueprintRecordXml(record).join("\n"));
+    if (xmlDiffers) {
+      refuse(`its XML would be written otherwise than the Editor's: ${xmlDiffers}`);
+      continue;
+    }
+    // Its Galaxy as the Editor wrote it: its struct, in Global Structures.
+    const struct = renderer.renderStructure(record.id);
+    if (struct === undefined) {
+      refuse(`its Galaxy can't be written as the Editor does: it holds ${unknownParts(renderer.unknown)}`);
+      continue;
+    }
+    const differs = galaxyProblem([[`structure:${renderer.structureName(record.id)}`, struct]]);
+    if (differs) {
+      refuse(differs);
+      continue;
+    }
+    taken.add(target);
+    readRecords.push({ name: record.name, id: record.id, file: target, record });
+  }
+
+  // Custom script, kept as data: its XML, and its block and init call in the Custom Script section.
+  for (const item of chosen.filter((each) => each.type === "CustomScript")) {
+    const refuse = (reason: string): void => {
+      refusedCustomScripts.push({ customScript: item.name, id: item.id, reason });
+    };
+    const read = reading(() => readMapItem(elements, strings, "CustomScript", item.id), refuse);
+    if (!read) continue;
+    if (read.kind !== "custom-script") {
+      refuse(`it reads as a ${read.kind}, not custom script`);
+      continue;
+    }
+    const { name, identifier, label, script: text, initFunction } = read.item;
+    if (name === undefined) {
+      refuse("it has no name in TriggerStrings.txt, which Blueprint custom script has: its section's heading is its name");
+      continue;
+    }
+    if (identifier !== undefined || label !== undefined) {
+      refuse(`it has ${identifier !== undefined ? "an <Identifier>" : "a <Label>"}, which Blueprint custom script doesn't hold yet`);
+      continue;
+    }
+    const customScript: BlueprintCustomScript = { kind: "custom-script", id: item.id, name, script: text, ...(initFunction ? { initFunction } : {}) };
+    const problem = schemaProblem(BlueprintCustomScriptSchema, customScript, "custom script");
+    if (problem) {
+      refuse(problem);
+      continue;
+    }
+    const xmlDiffers = difference(`custom-script:${customScript.id}`, item.elements.join("\n"), blueprintCustomScriptXml(customScript).join("\n"));
+    if (xmlDiffers) {
+      refuse(`its XML would be written otherwise than the Editor's: ${xmlDiffers}`);
+      continue;
+    }
+    const differs = galaxyProblem([[`custom-script:${name}`, customScriptGalaxy(customScript)], ...(initFunction ? [[`custom-script-init:${initFunction}`, `    ${initFunction}();\r\n`] as const] : [])]);
+    if (differs) {
+      refuse(differs);
+      continue;
+    }
+    const target = fileFor(name);
+    taken.add(target);
+    readCustomScripts.push({ name, id: customScript.id, file: target, customScript });
+  }
 
   // Globals first, then functions: a trigger or function converted beside one may name it.
   for (const item of chosen.filter((each) => each.type === "Variable")) {
@@ -467,12 +645,15 @@ export function convertKeptTriggers(
     globals: { converted: readGlobals, refused: refusedGlobals },
     comments: { converted: readComments, refused: refusedComments },
     folders: { converted: readFolders, refused: refusedFolders },
+    presets: { converted: readPresets, refused: refusedPresets },
+    records: { converted: readRecords, refused: refusedRecords },
+    customScripts: { converted: readCustomScripts, refused: refusedCustomScripts },
     notYetConvertible,
   };
 }
 
-/** The kinds of Kept item that convert, by their type in Triggers. */
-const CONVERTIBLE = new Set(["Trigger", "FunctionDef", "Variable", "Comment", "Category"]);
+/** The kinds of Kept item that convert, by their type in Triggers: every kind a map's Triggers files in Root or a folder. */
+const CONVERTIBLE = new Set(["Trigger", "FunctionDef", "Variable", "Comment", "Category", "Preset", "Structure", "CustomScript"]);
 
 /** The script's line ending: the Editor writes CRLF, an older one LF. */
 const eolOf = (text: string): string => (text.includes("\r\n") ? "\r\n" : "\n");
@@ -521,7 +702,7 @@ export async function convertMissionTriggers(workspace: Workspace, blueprintPath
   };
   const dir = path.dirname(blueprintPath);
   const listed = new Set((blueprint.triggers ?? []).map((each) => each.toLowerCase()));
-  const { converted: triggers, refused: refusedTriggers, functions, globals, comments, folders } = convertKeptTriggers(files, {
+  const { converted: triggers, refused: refusedTriggers, functions, globals, comments, folders, presets, records, customScripts } = convertKeptTriggers(files, {
     ...(asked ? { triggers: asked } : {}),
     libraries: given ?? (await missionLibraries(workspace, blueprint.dependencies ?? [])),
     ...recordConversionContext(record.entries),
@@ -530,6 +711,9 @@ export async function convertMissionTriggers(workspace: Workspace, blueprintPath
   });
 
   const written = [
+    ...presets.converted.map((item) => ({ kind: "preset" as const, ...item, element: item.preset as BlueprintElement })),
+    ...records.converted.map((item) => ({ kind: "record" as const, ...item, element: item.record as BlueprintElement })),
+    ...customScripts.converted.map((item) => ({ kind: "custom-script" as const, ...item, element: item.customScript as BlueprintElement })),
     ...comments.converted.map((item) => ({ kind: "comment" as const, ...item, element: item.comment as BlueprintElement })),
     ...functions.converted.map((item) => ({ kind: "function" as const, ...item, element: item.fn as BlueprintElement })),
     ...triggers.map((item) => ({ kind: "trigger" as const, ...item, element: item.trigger as BlueprintElement })),
@@ -552,6 +736,9 @@ export async function convertMissionTriggers(workspace: Workspace, blueprintPath
       ...folders.converted.map(({ name, id }) => ({ kind: "folder" as const, name, id, file: "blueprint.json (triggerFolders)" })),
     ],
     refused: [
+      ...presets.refused.map((item) => ({ kind: "preset" as const, element: item.preset, reason: item.reason })),
+      ...records.refused.map((item) => ({ kind: "record" as const, element: item.record, reason: item.reason })),
+      ...customScripts.refused.map((item) => ({ kind: "custom-script" as const, element: item.customScript, reason: item.reason })),
       ...globals.refused.map((item) => ({ kind: "global" as const, element: item.global, reason: item.reason })),
       ...comments.refused.map((item) => ({ kind: "comment" as const, element: item.comment, reason: item.reason })),
       ...functions.refused.map((item) => ({ kind: "function" as const, element: item.function, reason: item.reason })),

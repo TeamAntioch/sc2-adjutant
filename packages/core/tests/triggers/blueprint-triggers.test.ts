@@ -9,7 +9,9 @@ import { describe, expect, it } from "vitest";
 
 import { BlueprintTriggerSchema, type BlueprintTrigger } from "../../src/domain/blueprint-trigger.js";
 import { type GameLibrary, gameTriggerLibraries } from "../../src/mods/library-galaxy.js";
-import { compileBlueprintTriggers, type KeptTriggers } from "../../src/triggers/blueprint-triggers.js";
+import { convertKeptTriggers } from "../../src/map/convert-mission-triggers.js";
+import { type AuthoredTriggers, compileBlueprintTriggers, type KeptTriggers } from "../../src/triggers/blueprint-triggers.js";
+import { scriptBlocks, spliceMapScript } from "../../src/triggers/splice-map-script.js";
 import { triggerStringNames } from "../../src/triggers/triggers-file.js";
 import { writeMapScript } from "../../src/triggers/write-map-script.js";
 import { writeTriggersXml } from "../../src/triggers/write-triggers-xml.js";
@@ -215,5 +217,71 @@ describe("a Blueprint trigger that can't be compiled", () => {
   it("is refused for an Id it gives twice", () => {
     const message = compile({ ...transcribed(), actions: [{ id: "3C30F180", function: "Ntve/00000092" }] });
     expect(message).toContain(`${named} gives the element Id 3C30F180, which it gives twice`);
+  });
+});
+
+describe("a Blueprint's own preset types, records and custom script, new to the map", () => {
+  /** The cut's Kept elements as convert_triggers reads them. */
+  const cut = (name: string): ReturnType<typeof convertKeptTriggers> =>
+    convertKeptTriggers({ triggers: read(`editor-triggers/${name}/Triggers`), triggerStrings: read(`editor-triggers/${name}/TriggerStrings.txt`), script: read(`editor-triggers/${name}/MapScript.galaxy`), gameStrings: new Map() });
+  const records = cut("records");
+  const script = cut("custom-script-element");
+  const authored: AuthoredTriggers = {
+    triggers: [],
+    presets: records.presets.converted.map(({ file, preset }) => ({ file, item: preset })),
+    records: records.records.converted.map(({ file, record }) => ({ file, item: record })),
+    customScripts: script.customScripts.converted.map(({ file, customScript }) => ({ file, item: customScript })),
+    folders: [],
+  };
+  /** A section of the cut's script: from its rules to the next section's. */
+  const section = (name: string, title: string): string => new RegExp(`^//-+\\r?\\n// ${title}\\r?\\n//-+\\r?\\n[\\s\\S]*?(?=^//-+\\r?\\n// (?!Custom Script: )|(?![\\s\\S]))`, "m").exec(crlf(read(`editor-triggers/${name}/MapScript.galaxy`)))![0];
+
+  it("compiles each to the Editor's Triggers XML and Galaxy, in sections of their own the compile's script lacked", () => {
+    expect(records.presets.converted).toHaveLength(1);
+    expect(records.records.converted).toHaveLength(2);
+    expect(script.customScripts.converted).toHaveLength(1);
+
+    const compiled = compileBlueprintTriggers(authored, empty);
+
+    const elements = (name: string): string => crlf(read(`editor-triggers/${name}/Triggers`)).replace(/^[\s\S]*?<\/Root>\r\n/, "").replace("</TriggerData>\r\n", "");
+    expect(compiled.triggers).toContain(`${elements("custom-script-element")}${elements("records")}`);
+    expect(compiled.script).toContain(`${section("records", "Global Structures")}${section("records", "Global Preset Declarations")}${"//".padEnd(100, "-")}\r\n// Trigger Variables\r\n`);
+    expect(compiled.script).toContain(`${section("records", "Global Presets")}${section("custom-script-element", "Custom Script")}`);
+    expect(compiled.script).toContain("    InitLibs();\r\n    InitCustomScript();\r\n    InitTriggers();\r\n");
+    expect(compiled.triggerStrings).toMatchObject({ "Preset/Name/57B93DDF": "PRESET_GateState", "PresetValue/Name/8603E64C": "Closed", "Structure/Name/CF574E75": "RECORD_Autorevealer", "Variable/Name/FF91E475": "Active", "CustomScript/Name/73E9E84E": "Gate Watch" });
+  });
+
+  it("splices their Galaxy into a Kept script with none of their sections, and takes it out again, sections and all", () => {
+    const { script: whole } = compileBlueprintTriggers(authored, empty);
+    const keptScript = writeMapScript({ mapName: "Harbour", triggers: { variables: [], triggers: [{ id: "0000CCCC", name: "Kept Start", events: [], actions: [] }] } });
+
+    const { content, blocks } = spliceMapScript(keptScript, whole, []);
+
+    expect(blocks.map((block) => block.id)).toEqual([
+      "structures",
+      "structure:gs_RECORD_XelNagaGate",
+      "structure:gs_RECORD_Autorevealer",
+      "presets",
+      "preset-declarations",
+      "preset-value:ge_PRESET_GateState_Open",
+      "preset-value:ge_PRESET_GateState_Closed",
+      "custom-script-init-call",
+      "custom-scripts",
+      "custom-script:Gate Watch",
+      "custom-script-init:GateWatch_Init",
+    ]);
+    expect(content).toContain(`${section("records", "Global Structures")}${section("records", "Global Preset Declarations")}`);
+    expect(content).toContain(`${section("records", "Global Presets")}${section("custom-script-element", "Custom Script")}`);
+    expect(spliceMapScript(content, undefined, blocks.map((block) => block.id)).content).toBe(keptScript);
+    // Written whole, the sections are the compile's own too: a later splice takes them out once empty.
+    expect(spliceMapScript(whole, undefined, scriptBlocks(whole).map((block) => block.id)).content).toBe(empty.script);
+  });
+
+  it("is refused for a record's Galaxy name a Kept record has", () => {
+    const keptRecord = kept.triggers.replace("</TriggerData>", '    <Element Type="Structure" Id="0A0A0002">\n    </Element>\n</TriggerData>').replace("    </Root>", '        <Item Type="Structure" Id="0A0A0002"/>\n    </Root>');
+    const names = new Map([...kept.names, ["Structure/0A0A0002", "RECORD_Autorevealer"]]);
+    expect(() => compileBlueprintTriggers(authored, empty, { kept: { ...kept, triggers: keptRecord, names } })).toThrow(
+      'the Blueprint record "RECORD_Autorevealer" (CF574E75, triggers/record-autorevealer.json) would be gs_RECORD_Autorevealer in Galaxy, which the Kept Structure 0A0A0002 already is',
+    );
   });
 });
