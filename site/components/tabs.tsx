@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { inSection, SECTIONS } from "@/lib/site";
 
-/** The top tabs: Install · Tutorials · Tools · Skills · Commands, the current section's marked. */
+/** The top tabs: Install · Tutorials · Tools · Skills · Commands · Utilities, the current section's marked. */
 export function Tabs() {
   const pathname = usePathname();
   return (

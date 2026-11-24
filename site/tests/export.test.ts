@@ -71,6 +71,9 @@ describe("the static export", () => {
   it("has the Anim Testbed page under Utilities, with its screenshots beside it", () => {
     const html = page("utilities/anim-testbed");
     expect(html).toContain('<h2 id="the-spec">The spec</h2>');
+    // The slot kinds are a table, not a run of pipes: the site's MDX has no GFM tables.
+    expect(html).toMatch(/<table class="fields">[\s\S]*<code>impact<\/code>/);
+    expect(html).not.toContain("| Kind |");
     const images = [...html.matchAll(/<img [^>]*src="(\/anim-testbed\/[^"]+)"/g)].map((m) => m[1]!);
     expect(images).toEqual(["/anim-testbed/attack.jpg", "/anim-testbed/impact.jpg", "/anim-testbed/death.jpg", "/anim-testbed/voice.jpg"]);
     for (const image of images) expect(existsSync(new URL(image.slice(1), OUT)), image).toBe(true);

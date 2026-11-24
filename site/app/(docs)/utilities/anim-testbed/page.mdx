@@ -25,13 +25,16 @@ npm install @team-antioch/sc2-adjutant-anim-testbed
 ```
 
 Its `anim-testbed` skill arrives at the next session. Ask Claude for a test map ("audition the Marine's
-attack and death sounds"), or write a spec yourself and build it:
+attack and death sounds"), or write a spec yourself and build it. The spec's `base` is the Mission's Map
+Package, so compile the Mission once first if it has never been compiled:
 
 ```sh
+npm run compile-map -- missions/<id>/blueprint.json
 node node_modules/@team-antioch/sc2-adjutant-anim-testbed/dist/testbed.js missions/<id>/tests/<name>.json
 ```
 
-The map is written under the Mission's git-ignored `output/`. Open it in the Editor and run Test Document.
+Unless the spec says otherwise in `out`, the map is written beside the base map, in the Mission's
+git-ignored `output/`. Open it in the Editor and run Test Document.
 
 ## The dialog
 
@@ -46,13 +49,18 @@ The map is written under the Mission's git-ignored `output/`. Open it in the Edi
 
 A **slot** is what a Play does, by its kind:
 
-| Kind | What plays |
-|---|---|
-| `clip` | The selected clip, with the cues at the unit, timed from the clip's start |
-| `impact` | The clip, with the cues at the target, timed from the moment the attack lands |
-| `hit` | The unit's hit reaction, with the cues |
-| `death` | The unit dies, the cues play where it died, and it comes back |
-| `cues` | The cues alone: voice lines, an ambient loop |
+<table className="fields">
+  <thead>
+    <tr><th>Kind</th><th>What plays</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>clip</code></td><td>The selected clip, with the cues at the unit, timed from the clip's start</td></tr>
+    <tr><td><code>impact</code></td><td>The clip, with the cues at the target, timed from the moment the attack lands</td></tr>
+    <tr><td><code>hit</code></td><td>The unit's hit reaction, with the cues</td></tr>
+    <tr><td><code>death</code></td><td>The unit dies, the cues play where it died, and it comes back</td></tr>
+    <tr><td><code>cues</code></td><td>The cues alone: voice lines, an ambient loop</td></tr>
+  </tbody>
+</table>
 
 <figure>
   <img src="/anim-testbed/impact.jpg" alt="The Zealot selected, slot impact: the Zergling target stands in front of it" />
@@ -120,13 +128,14 @@ lists every key.
 ## What it checks
 
 A missing sound, model or unit fails silently in StarCraft II: it plays nothing and says nothing. So
-the build checks every id before it writes anything, and `--check` stops there:
+the build checks what it can before it writes anything, and `--check` stops there:
 
 - **Sounds, models and units** against the game's own packages, the Workspace's mods, the base map,
   and the spec's own data.
-- **Animations.** Each `AnimPlay` must match one of the model's clips, read from its `.m3` and `.m3a`
-  files or from recorded model animations. An invented word never plays: a clip named `Attack Mega`
-  didn't, and `Spell C` did.
+- **Animations.** Where the build knows the model's clips, read from its `.m3` and `.m3a` files or
+  from recorded model animations, each `AnimPlay` must match one of them. Where it doesn't, as for
+  most stock units, it checks each word against SC2's animation words and warns about one that isn't:
+  an invented word never plays. A clip named `Attack Mega` didn't, and `Spell C` did.
 - **Actors** that the spec's own data defines. sc2-adjutant can't list the game's actors, so an actor
   outside the spec and the Workspace is only a warning.
 
