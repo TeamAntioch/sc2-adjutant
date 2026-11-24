@@ -1,4 +1,4 @@
-// Seven rules about how the Editor reads and writes Triggers and Galaxy (issue #738), each checked
+// Rules about how the Editor reads and writes Triggers and Galaxy (issue #738), each checked
 // against our writers. The facts behind them are in docs/reference/editor-trigger-rules.md.
 import { describe, expect, it } from "vitest";
 
@@ -8,9 +8,17 @@ import { functionXml, libraryElements, libraryTriggersFile, readLibraryFunction,
 import { withCustomScript } from "../../src/triggers/custom-script.js";
 import { NTVE_PRESETS as P } from "../../src/triggers/trigger-catalog.js";
 import { triggerVariable, wait } from "../../src/triggers/trigger-builders.js";
-import type { TriggerDocument } from "../../src/triggers/trigger-model.js";
+import type { TriggerCall, TriggerDocument } from "../../src/triggers/trigger-model.js";
 import { writeMapScript } from "../../src/triggers/write-map-script.js";
 import { writeTriggersXml } from "../../src/triggers/write-triggers-xml.js";
+import { authorTrigger } from "../../src/triggers/author-trigger.js";
+import { blueprintTriggerXml, compileBlueprintTriggers, type KeptTriggers } from "../../src/triggers/blueprint-triggers.js";
+import { BlueprintFunctionSchema } from "../../src/domain/blueprint-trigger.js";
+import { KeptGalaxyRenderer } from "../../src/triggers/kept-trigger-galaxy.js";
+import { CORE_PRIMITIVES, NTVE_FUNCTIONS as F } from "../../src/triggers/trigger-catalog.js";
+import { readTriggersFile } from "../../src/triggers/triggers-file.js";
+import { call, compare, stableElementId } from "../../src/triggers/trigger-builders.js";
+import { cut } from "./authoring-cuts.js";
 
 const scope: LibraryScope = { library: "Hbr1", functions: new Map(), elements: new Map(), strings: new Map() };
 const fn = (extra: object = {}) => LibraryFunctionSchema.parse({ id: "0000F000", name: "Moor", kind: "action", gui: "library/Moor.json", ...extra });
@@ -191,5 +199,174 @@ describe('rule: <Constant/> goes inside <VariableType>; an initial value is <Val
 
     expect(xml).toContain('<VariableType>\n                <Type Value="int"/>\n                <Constant/>\n            </VariableType>\n            <Value Type="Param" Library="Hbr1" Id="0000F601"/>');
     expect(readLibraryFunction(xml, strings, "Hbr1", "0000F000").body?.variables).toEqual(body.variables);
+  });
+});
+
+// The rules below (#45) are how the Editor reads Triggers that our writers rely on; each has the test
+// that keeps them true. The facts behind them are in docs/reference/editor-trigger-rules.md.
+
+/** A trigger written through the authoring tool among a cut's elements, as the Editor's names give it, and its elements' XML. */
+async function authoredXml(input: Parameters<typeof authorTrigger>[0]): Promise<string> {
+  const { files, libraries, map } = await cut("authored-trigger");
+  const { trigger } = authorTrigger(input, { libraries, map, taken: readTriggersFile(files.triggers).ids });
+  return blueprintTriggerXml(trigger).join("\n");
+}
+
+/** The `<Element Type="FunctionCall">` blocks of `xml` whose FunctionDef is `def`. */
+const callsOf = (xml: string, def: string): string[] => xml.split("    <Element ").filter((block) => block.includes(`<FunctionDef Type="FunctionDef" Library="Ntve" Id="${def}"/>`));
+
+describe("rule: a block slot is named by the slot, not the call that holds it", () => {
+  const comparison = { function: "Comparison", params: { "Value 1": true, Operator: "==", "Value 2": true } };
+
+  it("holds for an authored And: the call it holds carries Ntve/00000002", async () => {
+    const xml = await authoredXml({ name: "Both", events: [{ function: "Periodic Event", params: { Duration: 2 } }], conditions: [{ function: "And", blocks: { Conditions: [comparison] } }], actions: [] });
+    const [and] = callsOf(xml, "00000132");
+    const [held] = callsOf(xml, "C439C375");
+
+    expect(and).toBeDefined();
+    expect(and).not.toContain("SubFunctionType");
+    expect(held).toContain('<SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000002"/>');
+  });
+
+  it("holds for an authored Or: the call it holds carries Ntve/00000001", async () => {
+    const xml = await authoredXml({ name: "Either", events: [{ function: "Periodic Event", params: { Duration: 2 } }], conditions: [{ function: "Or", blocks: { Conditions: [comparison] } }], actions: [] });
+
+    expect(xml).toContain('<SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000001"/>');
+    expect(xml).not.toContain('Id="00000002"/>\n        <Parameter');
+  });
+});
+
+describe("rule: a Comment in a block slot carries the slot's SubFunctionType", () => {
+  const body = (sub?: string) => GuiBodySchema.parse({ actions: [{ id: "0000F700", comment: "Gate", ...(sub ? { sub } : {}) }] });
+
+  it("holds for a library function's comment in a slot, and not for one among its own statements", () => {
+    const inSlot = functionXml("Hbr1", fn(), body("Ntve/00000004")).elements.join("\n");
+    const loose = functionXml("Hbr1", fn(), body()).elements.join("\n");
+
+    expect(inSlot).toContain('<Element Type="Comment" Id="0000F700">');
+    expect(inSlot).toContain('<SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>');
+    expect(loose).not.toContain("SubFunctionType");
+  });
+
+  it("holds for a Blueprint trigger's comment in a block's slot", async () => {
+    const xml = await authoredXml({ name: "Gate", events: [{ function: "Periodic Event", params: { Duration: 2 } }], actions: [{ function: "If Then Else", blocks: { Then: [{ comment: "Open" }] } }] });
+    const comment = xml.split("    <Element ").find((block) => block.startsWith('Type="Comment"'));
+
+    expect(comment).toContain('<SubFunctionType Type="SubFuncType" Library="Ntve" Id="00000004"/>');
+  });
+});
+
+describe("rule: a comment's text is on its own indented line inside <Comment>", () => {
+  it("holds for a library function's comment, a multi-line one a line each", () => {
+    const body = GuiBodySchema.parse({ actions: [{ id: "0000F710", comment: "First\nSecond" }] });
+    const xml = functionXml("Hbr1", fn(), body).elements.join("\n");
+
+    expect(xml).toContain("            <Comment>\n                First\n                Second\n            </Comment>");
+    expect(xml).not.toMatch(/<Comment>[^\s]/);
+  });
+
+  it("holds for a Blueprint trigger's comment", async () => {
+    const xml = await authoredXml({ name: "Note", events: [{ function: "Periodic Event", params: { Duration: 2 } }], actions: [{ comment: "Wait here" }] });
+
+    expect(xml).toContain("<Comment>\n            Wait here\n        </Comment>");
+    expect(xml).not.toMatch(/<Comment>[^\s]/);
+  });
+
+  it("holds for a body comment, written as a FunctionCall of Type Comment in its parent's list", () => {
+    const body = GuiBodySchema.parse({ actions: [{ id: "0000F711", comment: "Note" }] });
+
+    expect(functionXml("Hbr1", fn(), body).elements.join("\n")).toContain('<FunctionCall Type="Comment" Library="Hbr1" Id="0000F711"/>');
+  });
+});
+
+describe("rule: a call's parameters are saved in any order; match by ParameterDef", () => {
+  // Wait (Ntve/00000242) holds its Time (419) and Time Type (420); the saves list a call's parameters in either order.
+  const waitXml = (parameters: readonly string[]): string =>
+    [
+      "<TriggerData>",
+      '    <Element Type="FunctionDef" Id="E0000001">',
+      "        <FlagAction/>",
+      '        <FunctionCall Type="FunctionCall" Id="E0000003"/>',
+      "    </Element>",
+      '    <Element Type="FunctionCall" Id="E0000003">',
+      '        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000242"/>',
+      ...parameters.map((id) => `        <Parameter Type="Param" Id="${id}"/>`),
+      "    </Element>",
+      '    <Element Type="Param" Id="E0000004">',
+      '        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000419"/>',
+      "        <Value>1.0</Value>",
+      '        <ValueType Type="fixed"/>',
+      "    </Element>",
+      '    <Element Type="Param" Id="E0000005">',
+      '        <ParameterDef Type="ParamDef" Library="Ntve" Id="00000420"/>',
+      '        <Preset Type="PresetValue" Library="Ntve" Id="00000546"/>',
+      "    </Element>",
+      "</TriggerData>",
+    ].join("\r\n");
+  const render = (xml: string) => {
+    const renderer = new KeptGalaxyRenderer(readTriggersFile(xml), new Map([["FunctionDef/E0000001", "Pause"]]), CORE_PRIMITIVES);
+    return { galaxy: renderer.renderFunction("E0000001"), unknown: renderer.unknown };
+  };
+
+  it("renders a call whose parameters are listed in the reverse of the function's order as it does the usual order", () => {
+    const usual = render(waitXml(["E0000004", "E0000005"]));
+    const reversed = render(waitXml(["E0000005", "E0000004"]));
+
+    expect(usual.unknown).toEqual([]);
+    expect(usual.galaxy).toContain("Wait(1.0,");
+    expect(reversed).toEqual(usual);
+  });
+});
+
+describe("rule: a FunctionDef is filed in Root or a Category, never unfiled", () => {
+  it("holds for a library function: its item line files it, and names its Id", () => {
+    const { itemLine, elements } = functionXml("Hbr1", fn(), GuiBodySchema.parse({}));
+
+    expect(itemLine.trim()).toBe('<Item Type="FunctionDef" Library="Hbr1" Id="0000F000"/>');
+    expect(libraryTriggersFile("Hbr1", [itemLine], elements)).toContain(`<Root>\n${itemLine}\n        </Root>`);
+  });
+
+  it("holds for a Blueprint function with no folder: Root files it, beside each FunctionDef the compile writes", () => {
+    const fnItem = BlueprintFunctionSchema.parse({ kind: "function", id: "0000F800", name: "Reset", functionKind: "action" });
+    const empty = { triggers: writeTriggersXml({ variables: [], triggers: [] }), script: writeMapScript({ mapName: "Test", triggers: { variables: [], triggers: [] } }), names: {} };
+    const kept: KeptTriggers = { triggers: empty.triggers, names: new Map(), compiled: new Set() };
+    const { triggers } = compileBlueprintTriggers({ triggers: [], functions: [{ file: "triggers/reset.json", fn: fnItem }], folders: [] }, empty, { kept });
+    const defined = [...triggers.matchAll(/<Element Type="FunctionDef" Id="([0-9A-F]{8})"/g)].map((match) => match[1]);
+    const filed = [...triggers.matchAll(/<Item Type="FunctionDef" Id="([0-9A-F]{8})"\/>/g)].map((match) => match[1]);
+
+    expect(defined).toContain("0000F800");
+    expect(filed.sort()).toEqual(defined.sort());
+  });
+});
+
+describe("rule: one call element, one parent", () => {
+  const shared = (): TriggerCall => call("shared/picked", F.pickedUnit, {});
+  const twoParams = (value: TriggerCall): TriggerDocument => ({
+    variables: [],
+    triggers: [{ id: "AAAA2001", name: "Twice", events: [], actions: [call("act", F.comparison, { left: { kind: "call", call: value }, operator: { kind: "preset", preset: P.compareEqual }, right: { kind: "call", call: value } })] }],
+  });
+
+  it("is refused in writeTriggersXml where two parameters point at one call, naming the Id and both parents", () => {
+    const value = shared();
+    const action = call("act", F.comparison, {});
+
+    expect(() => writeTriggersXml(twoParams(value))).toThrow(
+      `The call ${value.id} is referenced from two places, the parameter ${stableElementId("act/left/param")} of the call ${action.id} and the parameter ${stableElementId("act/right/param")} of the call ${action.id}: the Editor gives a call one parent, and writes an empty argument where two share one`,
+    );
+  });
+
+  it("is refused where a call is both a trigger's action and a parameter's value", () => {
+    const value = shared();
+    const doc: TriggerDocument = { variables: [], triggers: [{ id: "AAAA2002", name: "Both", events: [], actions: [value, compare("act", { kind: "call", call: value }, P.compareEqual, { kind: "bool", value: true })] }] };
+
+    expect(() => writeTriggersXml(doc)).toThrow(/is referenced from two places, the trigger AAAA2002 and the parameter/);
+  });
+
+  it("writes a call of its own in each place", () => {
+    const doc = twoParams(shared());
+    const action = doc.triggers[0]!.actions[0]!;
+    const right = { ...action, params: { ...action.params, right: { id: action.params.right!.id, value: { kind: "call" as const, call: call("other/picked", F.pickedUnit, {}) } } } };
+
+    expect(() => writeTriggersXml({ ...doc, triggers: [{ ...doc.triggers[0]!, actions: [right] }] })).not.toThrow();
   });
 });
