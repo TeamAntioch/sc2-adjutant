@@ -1,6 +1,6 @@
 # Mood Mixtures
 
-How the exemplar authors dressed each kind of place, as mixtures to generate from rather than layouts to copy (DL-07, DL-08, DL-15). Data: `mixtures.json`; script: `packages/core/scripts/exemplar-analysis/mixtures.mjs`. Extracted 2026-10-27.
+How the exemplar authors dressed each kind of place, as mixtures to generate from rather than layouts to copy (DL-07, DL-08, DL-15). Data: `mixtures.json`; script: `packages/core/scripts/exemplar-analysis/mixtures.mjs`, which applies this pack's maps and moods to core's place-finding (`packages/core/src/study/find-places.ts`). Extracted 2026-10-27.
 
 ## Method
 
