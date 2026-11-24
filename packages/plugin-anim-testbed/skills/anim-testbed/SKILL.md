@@ -1,6 +1,6 @@
 ---
 name: anim-testbed
-description: Builds an animation and sound test map from a spec, with a dialog in the game to pick a unit, clip, slot and variation and play it. Use when the author wants to audition or compare a unit's animations or sounds (attack, hit, death, impact, voice) in the game, to check a new model's clips, or to time sounds against a clip, instead of a one-off test map with chat commands.
+description: Builds an animation and sound test map from a spec, with a dialog in the game to pick a unit, clip, slot and variation and play it. Use whenever the author works on a custom unit, custom sounds or a custom animation, to see and hear it in the game, and when they want to audition or compare a unit's animations or sounds (attack, hit, death, impact, voice), check a new model's clips, or time sounds against a clip.
 ---
 
 The anim-testbed Utility turns one **spec** into a test map. The spec lists the units, their clips, the slots and the variations to compare. The map has a trigger dialog: Unit, Clip, Slot and Variation dropdowns, Play, Stop, Kill, Loop, a Send box, and a readout of each cue as it fires. Build it with `node {{PLUGIN_FOLDER}}/dist/testbed.js <spec.json>`; `--check` validates without writing. The spec format and what the build checks: [README.md]({{PLUGIN_FOLDER}}/README.md). A spec to start from: [examples/stock-units.json]({{PLUGIN_FOLDER}}/examples/stock-units.json).

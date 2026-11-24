@@ -12,7 +12,9 @@ add. It writes nothing from Blizzard anywhere but the test map, which must be in
 
 ## Using it
 
-Install the package beside sc2-adjutant in the Workspace, and list it in the Workspace config's `utilities`:
+A Workspace made by `init` has it already: `init` installs the package and lists `bundled:anim-testbed`
+in the Workspace config's `utilities`. In a Workspace that doesn't have it, install the package beside
+sc2-adjutant and list it:
 
 ```sh
 npm install @team-antioch/sc2-adjutant-anim-testbed

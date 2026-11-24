@@ -54,7 +54,7 @@ describe("initWorkspace", () => {
     expect(await readFile(path.join(root, ".gitignore"), "utf8")).toBe(WORKSPACE_GITIGNORE);
 
     const pkg = await readJson(path.join(root, "package.json"));
-    expect(pkg).toMatchObject({ name: "my-campaign", private: true, type: "module", dependencies: { [CORE_PACKAGE]: "^0.1.0", "@team-antioch/sc2-adjutant-host-macos": "^0.1.0" } });
+    expect(pkg).toMatchObject({ name: "my-campaign", private: true, type: "module", dependencies: { [CORE_PACKAGE]: "^0.1.0", "@team-antioch/sc2-adjutant-host-macos": "^0.1.0", "@team-antioch/sc2-adjutant-anim-testbed": "^0.1.0" } });
     expect((pkg.scripts as Record<string, string>)["compile-map"]).toBe(`node node_modules/${CORE_PACKAGE}/dist/cli/compile-map.js`);
     expect(result).toMatchObject({ root, hostAdapter: "bundled:host-macos", installed: false });
 
@@ -69,11 +69,11 @@ describe("initWorkspace", () => {
   it("depends on the Windows Host Adapter on Windows, and on none on Linux", async () => {
     const base = await scratch();
     await initWorkspace({ folder: path.join(base, "win"), install: false, env: envAt(base), platform: "win32", coreVersion: "0.2.3" });
-    expect((await readJson(path.join(base, "win", "package.json"))).dependencies).toEqual({ [CORE_PACKAGE]: "^0.2.3", "@team-antioch/sc2-adjutant-host-windows": "^0.2.3" });
+    expect((await readJson(path.join(base, "win", "package.json"))).dependencies).toEqual({ [CORE_PACKAGE]: "^0.2.3", "@team-antioch/sc2-adjutant-host-windows": "^0.2.3", "@team-antioch/sc2-adjutant-anim-testbed": "^0.2.3" });
 
     const linux = await scratch();
     const result = await initWorkspace({ folder: path.join(linux, "penguin"), install: false, env: envAt(linux), platform: "linux", coreVersion: "0.2.3" });
-    expect((await readJson(path.join(linux, "penguin", "package.json"))).dependencies).toEqual({ [CORE_PACKAGE]: "^0.2.3" });
+    expect((await readJson(path.join(linux, "penguin", "package.json"))).dependencies).toEqual({ [CORE_PACKAGE]: "^0.2.3", "@team-antioch/sc2-adjutant-anim-testbed": "^0.2.3" });
     expect(result.machineConfig).toEqual({ kind: "no-host", file: envAt(linux).SC2_ADJUTANT_MACHINE_CONFIG, platform: "linux" });
     expect(existsSync(envAt(linux).SC2_ADJUTANT_MACHINE_CONFIG)).toBe(false);
     expect(formatInit(result, "penguin").join("\n")).toContain("No Host Adapter runs on linux");
@@ -128,7 +128,9 @@ describe("initWorkspace", () => {
       },
     });
     expect(installs).toEqual([root]);
-    expect(result).toMatchObject({ installed: true, skills: ["Copied the Plugins' skills into .claude/skills: workshop-retexture"] });
+    // The example's Utility, and the testbed every new Workspace gets (DEFAULT_UTILITIES).
+    expect(result).toMatchObject({ installed: true, skills: ["Copied the Plugins' skills into .claude/skills: workshop-retexture, anim-testbed"] });
+    expect((await readJson(path.join(root, "sc2-adjutant.workspace.json"))).utilities).toEqual(["./utilities/workshop", "bundled:anim-testbed"]);
     const skill = await readFile(path.join(root, ".claude", "skills", "workshop-retexture", "SKILL.md"), "utf8");
     expect(skill).toContain(`${path.join(root, "utilities", "workshop").split(path.sep).join("/")}/retexture.py`);
   });
