@@ -29,8 +29,8 @@ const CORE_VERSION = (JSON.parse(await readFile(path.join(PACKAGES, "core", "pac
 
 /** This platform's Host Adapter, as the Workspace config's `bundled:` name and the package folder it's built from: none on Linux. */
 const HOST = process.platform === "darwin" ? { name: "host-macos", folder: "plugin-host-macos" } : process.platform === "win32" ? { name: "host-windows", folder: "plugin-host-windows" } : undefined;
-/** The packages packed and installed: core, the two Finders it serves tools from, and this platform's Host Adapter. */
-const PACKED = ["core", "doodad-finder", "set-finder", ...(HOST ? [HOST.folder] : [])];
+/** The packages packed and installed: core, the two Finders it serves tools from, the Utilities init gives every Workspace, and this platform's Host Adapter. */
+const PACKED = ["core", "doodad-finder", "set-finder", "plugin-anim-testbed", ...(HOST ? [HOST.folder] : [])];
 
 /** The environment without npm's run-script variables (a nested npm would read `npm test`'s workspace flags) or sc2-adjutant's own settings. */
 function cleanEnv(): Record<string, string> {
@@ -113,8 +113,8 @@ describe("the plugin, with sc2-adjutant installed from its packed tarballs into 
     if (scratch) await rm(scratch, { recursive: true, force: true });
   });
 
-  it("has init write a Workspace that depends on core and this platform's Host Adapter, and name the adapter in the machine config", () => {
-    const expected = [CORE_PACKAGE, ...(HOST ? [`${CORE_PACKAGE}-${HOST.name}`] : [])];
+  it("has init write a Workspace that depends on core, the testbed and this platform's Host Adapter, and name the adapter in the machine config", () => {
+    const expected = [CORE_PACKAGE, `${CORE_PACKAGE}-anim-testbed`, ...(HOST ? [`${CORE_PACKAGE}-${HOST.name}`] : [])];
     expect(Object.keys(initialPackage.dependencies).sort()).toEqual(expected.sort());
     for (const range of Object.values(initialPackage.dependencies)) expect(range).toBe(`^${CORE_VERSION}`);
     if (HOST) expect(machineConfig).toEqual({ hostAdapter: `bundled:${HOST.name}` });
@@ -134,6 +134,12 @@ describe("the plugin, with sc2-adjutant installed from its packed tarballs into 
   it("lists the co-design tools and the Finders' tools", () => {
     expect(tools).toEqual(expect.arrayContaining(["get_session_state", "sign_off_stage", "reopen_stage", "check_workspace", "compile_map", "test_mission", "list_plugins"]));
     expect(tools).toEqual(expect.arrayContaining(["find_doodads", "open_doodad_finder", "find_sets"]));
+  });
+
+  it("loads the testbed, which init lists in the Workspace's utilities, from its tarball", async () => {
+    const reply = await client.callTool({ name: "list_plugins", arguments: {} });
+    const { plugins } = reply.structuredContent as { plugins: { name: string; source: string; roles: string[] }[] };
+    expect(plugins).toEqual(expect.arrayContaining([expect.objectContaining({ name: "anim-testbed", source: "bundled:anim-testbed", roles: ["utility"] })]));
   });
 
   // list_plugins names a bundled Plugin by its config name. Core resolves it from its own folder, in
