@@ -8,9 +8,9 @@ To install it, follow [the install page](https://adjutant.antioch.games/install/
 |---|---|
 | `.claude-plugin/plugin.json` | The manifest. It starts the MCP server as `node ${CLAUDE_PLUGIN_ROOT}/server/start.mjs ${CLAUDE_PROJECT_DIR}` |
 | `server/` | The launcher: it finds the Workspace and sc2-adjutant core, then runs core's server (`sc2-adjutant-mcp`) following the session's working folder |
-| `skills/` | `level-design`, `hero-mission-design`, `encounter-design`, `ally-design`, `exemplar-design`, `style-pack-builder`, `texture-sets`, `doodad-search`, `custom-doodads`, `cinematography`, `boss-design`, `boss-build` and `sound-mix` for Missions, `melee-design` for Melee Maps, and `report-missing-feature` ([below](#reporting-a-missing-feature)) |
+| `skills/` | `level-design`, `hero-mission-design`, `encounter-design`, `ally-design`, `exemplar-design`, `style-pack-builder`, `texture-sets`, `doodad-search`, `custom-doodads`, `cinematography`, `boss-design`, `boss-build` and `sound-mix` for Missions, `melee-design` for Melee Maps, `report-missing-feature` ([below](#reporting-a-missing-feature)), and `update` ([below](#updating)) |
 | `commands/` | The co-design commands below |
-| `hooks/` | The SessionStart hook that copies the Workspace's Plugins' skills into it ([below](#skills-from-the-workspaces-plugins)), and the PostToolUse hook that notices a hand edit inside a compiled package ([below](#reporting-a-missing-feature)) |
+| `hooks/` | The SessionStart hooks that check for a newer release ([below](#updating)) and copy the Workspace's Plugins' skills into it ([below](#skills-from-the-workspaces-plugins)), and the PostToolUse hook that notices a hand edit inside a compiled package ([below](#reporting-a-missing-feature)) |
 
 ## Commands
 
@@ -44,7 +44,13 @@ Core is the first of:
 
 When none holds a built core, the server's error lists where it looked and what to do.
 
-The plugin and core release together, at the same version. When the core it finds has a different major or minor version from the plugin's (`.claude-plugin/plugin.json`), or has no version it can read, the launcher prints a warning to the server's log (`/mcp`), with both versions and how to update each, and starts the server anyway. A different patch version is fine. Update core with `npm update` in the Workspace, and the plugin with `claude plugin update sc2-adjutant@sc2-adjutant`.
+The plugin and core release together, at the same version. When the core it finds has a different major or minor version from the plugin's (`.claude-plugin/plugin.json`), or has no version it can read, the launcher prints a warning to the server's log (`/mcp`), with both versions and how to update each, and starts the server anyway. A different patch version is fine. [Updating](#updating) brings both onto the latest release.
+
+## Updating
+
+At each session start in a Workspace, `hooks/update-check.mjs` compares the plugin's version and the Workspace's core with the newest release, core's `latest` on npm (`server/versions.mjs`). It asks npm at most every 12 hours, caching the answer in the OS's temp folder, and sends nothing but the package's name. When either is behind, the author sees one line saying so and Claude is told to offer the `update` skill once; when both are current, only Claude is told, so it can answer "am I up to date?". Outside a Workspace, offline, or with `SC2_ADJUTANT_NO_UPDATE_CHECK` set, it says nothing.
+
+The `update` skill (`/sc2-adjutant:update`) runs `skills/update/scripts/status.mjs`, which asks npm afresh and names the commands for what's behind. After the author's yes, it updates a plugin installed from the marketplace with `claude plugin marketplace update sc2-adjutant` and `claude plugin update sc2-adjutant@sc2-adjutant`, and the Workspace's sc2-adjutant packages with `npm install <package>@<latest> …`. `npm update` alone isn't enough: the Workspace's `^0.x` ranges never cross a minor version. A plugin or core from a checkout is the author's to pull. Then it asks the author to restart Claude Code, since the new plugin, its server and skills load only at start.
 
 ## When the server doesn't start
 

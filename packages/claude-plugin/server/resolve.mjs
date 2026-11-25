@@ -105,7 +105,8 @@ export function versionWarning({ plugin, core, folder, from }) {
     `- The Claude Code plugin is ${plugin}.`,
     `- It found ${found} in ${folder} (${from}).`,
     "Tools may fail or behave unexpectedly until both are on the same release. To update them:",
-    "- core installed in the Workspace: run npm update in the Workspace folder.",
+    "Ask Claude to run /sc2-adjutant:update, which updates both. Or by hand:",
+    "- core installed in the Workspace: run npm install @team-antioch/sc2-adjutant@latest, with the Workspace's other @team-antioch packages, in the Workspace folder (npm update stays within a 0.x minor version).",
     "- the plugin: run claude plugin update sc2-adjutant@sc2-adjutant, then restart Claude Code.",
     "- a checkout set as core_path: pull it and run npm install there.",
   ].join("\n");

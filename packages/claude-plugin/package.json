@@ -1,7 +1,7 @@
 {
   "name": "sc2-adjutant-claude-plugin",
   "version": "0.1.1",
-  "description": "The sc2-adjutant Claude Code plugin: the MCP server for the Workspace you have open, the co-design skills (level-design, hero-mission-design, encounter-design, ally-design, cinematography, exemplar-design, style-pack-builder, texture-sets, doodad-search, custom-doodads, boss-design, boss-build, sound-mix, melee-design), the report-missing-feature skill and the co-design commands.",
+  "description": "The sc2-adjutant Claude Code plugin: the MCP server for the Workspace you have open, the co-design skills (level-design, hero-mission-design, encounter-design, ally-design, cinematography, exemplar-design, style-pack-builder, texture-sets, doodad-search, custom-doodads, boss-design, boss-build, sound-mix, melee-design), the report-missing-feature and update skills and the co-design commands.",
   "license": "MIT",
   "repository": {
     "type": "git",
