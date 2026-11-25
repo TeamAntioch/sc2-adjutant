@@ -706,8 +706,9 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       stopIfCancelled();
       await request.writeMap?.();
       touchedEditor = true;
-      // Through its component list, as the host's own open does: a folder can open as a packed document.
-      await run("open", ["-g", "-a", context.requirePath("editorPath"), path.join(mapPath, "ComponentList.SC2Components")]);
+      // By the folder, not its ComponentList.SC2Components: opened by its component list, the copy's
+      // Test Document game runs without the tour's script (a black world, no stop ever announced).
+      await run("open", ["-g", "-a", context.requirePath("editorPath"), mapPath]);
       const opened = await waitFor(300, 2, () => mapOpen(mapPath));
       stopIfCancelled();
       if (!opened) {
