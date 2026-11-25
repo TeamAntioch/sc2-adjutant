@@ -45,5 +45,4 @@ A Mission's own doodad can also have a `name`, the same as a Campaign Mod's dood
 
 - A Mission's catalog, which its validation and its compile look ids up in (units, doodads, models, Lights), doesn't include its own declared entries yet. It is the Campaign Mod's layer over the game's, plus the Mission's own doodads ([campaign-catalog.md](./campaign-catalog.md)). A check that looks up an id only the Mission's `entries` declare won't find it there.
 - A Mission's own Characters aren't speakers for its Screenplay yet. Its speakers are matched against the Campaign Mod's Characters, as before.
-- A Mission's `files` that write a whole strings file are compared with the Kept file as it stands, without its Accepted Removals taken out first, which a mod's compile does.
 - An Editor change to a Mission's Set cutscene isn't brought back into its Set by sync, as a mod's is. The compile stops for it as for any Compiled file the Editor changed.

@@ -198,6 +198,16 @@ describe("a Mission Blueprint's Declared Content", () => {
     expect((failure as Error).message).toContain(`the Blueprint removes it (Nothing names it), but strings["${GAME_STRINGS}"] writes it`);
   });
 
+  it("compares a whole strings file its files write with the Kept one less its Accepted Removals, as a mod's compile does", async () => {
+    const extra = "enUS.SC2Data/LocalizedData/ExtraStrings.txt";
+    const { mapPackage, declare, compile } = await keptYard((source) => put(source, extra, "Junk/Old=Left over\r\nKeep/Me=Yes\r\n"));
+    await declare({ files: [{ path: extra, source: "extra.txt" }], removals: [{ item: `string:${extra}:Junk/Old`, reason: "Nothing names it" }] }, { "extra.txt": "Keep/Me=Yes\r\n" });
+
+    await compile();
+
+    expect(await readFile(path.join(mapPackage, ...extra.split("/")), "utf8")).toBe("Keep/Me=Yes\r\n");
+  });
+
   it("fails the Equivalence Check for an Accepted Removal of a key, a line or a file the compile writes, the Mission's own or a whole file's", async () => {
     const mission = await crossing();
     const extra = "enUS.SC2Data/LocalizedData/ExtraStrings.txt";

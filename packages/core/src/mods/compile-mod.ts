@@ -42,7 +42,6 @@ import path from "node:path";
 
 import { type CompileRecord, type CompileRecordEntry, entryName } from "../domain/compile-record.js";
 import { GAME_DATA_DIR, type ModBlueprint, parseRemoval, removalOfLine } from "../domain/mod-blueprint.js";
-import { LOCALIZED_STRINGS_FILE } from "../domain/entry-strings.js";
 import { catalogEntries } from "../map/catalog-entries.js";
 import { scriptLines } from "../script/name-script.js";
 import { type EditorDecisions, EditorChangesError, formatEditorChanges, keptFunctions, TRIGGER_STRINGS } from "../map/editor-changes.js";
@@ -78,7 +77,7 @@ import { UI_COMPONENTS } from "../ui/core-components.js";
 import type { UiComponent } from "../ui/ui-component.js";
 import { fileNamedKeys, textParamValueKeys } from "./owned-strings.js";
 import { modPreloads } from "./preloads.js";
-import { namedIn, stringsWithoutRemovals } from "./removals.js";
+import { namedIn, replaceKeptLessRemovals } from "./removals.js";
 import { soundSetEntries } from "./sound-sets.js";
 
 export { CatalogSchemaError } from "./catalog-schema.js";
@@ -204,18 +203,9 @@ export async function compileMod(blueprintPath: string, options: CompileModOptio
   for (const { item, removal } of removals) {
     if (removal.kind === "file" && ((PACKAGE_FILES as readonly string[]).includes(removal.path) || removal.path.endsWith(".version"))) throw new Error(`removals names ${item}, which the compile generates: it can't be removed`);
   }
-  const removing = new Set(removals.map(({ item }) => item));
   /** The removals a whole strings file's conversion left out of it. */
   const removedWhole = new Set<string>();
-  const replaceKept = (item: string, kept: string | Uint8Array, compiled: string | Uint8Array): boolean => {
-    // A removed item written back fails as that (below), not as a difference too.
-    if (removing.has(item)) return false;
-    const file = item.startsWith("file:") ? item.slice("file:".length) : undefined;
-    if (file === undefined || !LOCALIZED_STRINGS_FILE.test(file)) return check.replaceKept(item, kept, compiled);
-    const less = stringsWithoutRemovals(file, Buffer.from(kept).toString("utf8"), removals.map(({ removal }) => removal));
-    for (const name of less.removed) removedWhole.add(name);
-    return check.replaceKept(item, less.text, compiled);
-  };
+  const replaceKept = replaceKeptLessRemovals(check.replaceKept, removals, removedWhole);
   const output = new PackageOutput(pkg, record, options.decisions, replaceKept, { library: libraryId });
   output.removeKept(removals.map(({ removal }) => removal));
 

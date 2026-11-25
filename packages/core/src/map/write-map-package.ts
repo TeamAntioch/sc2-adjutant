@@ -78,6 +78,7 @@ import { compiledPathing, pathingCutWarnings, pathWidthWarnings } from "./compil
 import { PackageOutput } from "./package-output.js";
 import { type OwnershipPlan, planOwnership } from "./ownership-plan.js";
 import { EquivalenceCheck } from "../mods/equivalence.js";
+import { replaceKeptLessRemovals } from "../mods/removals.js";
 import { declaredItemNames, doodadNameStrings, mergeDeclaredCatalogs, type MissionDeclared, writeDeclaredRest } from "./mission-declared.js";
 import { CUTSCENES_DIR, packageFilesBelow } from "./kept-package.js";
 import { CONVERSATION_DATA, conversationItemNames, conversationParts, keptTriggersName, keptVoiceFile, orphanedParts, ownSounds, relinkCutscene, SOUND_DATA, voicedHere, withoutEntries } from "./mission-conversation.js";
@@ -330,7 +331,8 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
     outputDir,
     options.previousRecord,
     options.decisions,
-    equivalence?.replaceKept,
+    // A whole strings file the Declared Content writes is compared with its Kept original less its Accepted Removals, as a mod's is.
+    equivalence && declared ? replaceKeptLessRemovals(equivalence.replaceKept, declared.removals) : equivalence?.replaceKept,
     {},
     equivalence ? (name) => (conversationItems?.has(name) ?? false) || convertedTriggerParts.has(name) || (declaredItems?.has(name) ?? false) : undefined,
   );

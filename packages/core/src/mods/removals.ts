@@ -16,6 +16,28 @@ import { packageFiles } from "./game-data-files.js";
 import { modPackage, readModBlueprint } from "./workspace-mods.js";
 
 /**
+ * `replaceKept` for a Blueprint with Accepted Removals (a mod's or a Mission's): a removed item
+ * written back fails as that (expectGone), not as a difference too; and a whole strings file is
+ * compared with its Kept original less the keys and lines removed from it, which `removedWhole`
+ * collects by name.
+ */
+export function replaceKeptLessRemovals(
+  replaceKept: (item: string, kept: string | Uint8Array, compiled: string | Uint8Array) => boolean,
+  removals: readonly { readonly item: string; readonly removal: Removal }[],
+  removedWhole: Set<string> = new Set(),
+): (item: string, kept: string | Uint8Array, compiled: string | Uint8Array) => boolean {
+  const removing = new Set(removals.map(({ item }) => item));
+  return (item, kept, compiled) => {
+    if (removing.has(item)) return false;
+    const file = item.startsWith("file:") ? item.slice("file:".length) : undefined;
+    if (file === undefined || !LOCALIZED_STRINGS_FILE.test(file)) return replaceKept(item, kept, compiled);
+    const less = stringsWithoutRemovals(file, Buffer.from(kept).toString("utf8"), removals.map(({ removal }) => removal));
+    for (const name of less.removed) removedWhole.add(name);
+    return replaceKept(item, less.text, compiled);
+  };
+}
+
+/**
  * The Kept strings file `file`'s text less the keys and lines `removals` name in it, what a
  * conversion of the whole file is compared with, and the names of those it had.
  */
