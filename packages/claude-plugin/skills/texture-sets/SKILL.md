@@ -97,7 +97,7 @@ Give the author:
 - The set's sheet, labelled by slot and role, and what each Zone is painted with.
 - The `texture_usage` summary: what is used where, how many textures the map holds now and how many fit, and what could be freed.
 - The boundary render, and what covers each stretch.
-- In-game frames, when the host can capture: after compiling, call `capture_shots` with a Shot over each stretch of the boundary and one over each Zone the set paints, in a single call, and read the frames before you present (a Shot is a rectangle of cells, `rect: [left, bottom, right, top]`; it needs the macOS Host Adapter, so on another machine ask the author for screenshots); pass `lighting` (a Light id) to see the set under the map's Light.
+- In-game frames, when the host can capture: after compiling, call `capture_shots` with a Shot over each stretch of the boundary and one over each Zone the set paints, in a single call, and read the frames before you present (a Shot is a rectangle of cells, `rect: [left, bottom, right, top]`; it needs a Host Adapter with `editor.captureTour`, the macOS or the Windows one, so where it's refused ask the author for screenshots); pass `lighting` (a Light id) to see the set under the map's Light.
 - What to look at in game: the set's boundary (every stretch of it covered, by a wall, a cliff or doodads), the details a picture hides (trim, scale), and how it reads under the map's lighting. Lighting changes a texture's tone more than its picture suggests.
 
 Changes the author asks for (a different base, a warmer trim) go back to step 3 for that role alone.

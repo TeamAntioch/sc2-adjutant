@@ -29,7 +29,7 @@ With no Style Pack active, say so, and work from the Asset Catalog and the autho
 
 ## Critique a look
 
-Work through every lesson in the active pack against the blueprint and, once the map is compiled, what the author sees in the Editor or Test Document. Once the map is compiled, look at it yourself with `capture_shots`: one Shot per Zone, and 10-20-cell Shots of the dressing, in a single call (pass `lighting` to see a Zone under its Light); a Shot is a rectangle of cells (`rect: [left, bottom, right, top]`) and `lighting` takes a Light id. The frames are saved as images you read. It needs the macOS Host Adapter; on another machine, ask the author for screenshots. For each break, report the lesson id, where it breaks, and a concrete fix. A break the author chose on purpose is recorded, not argued. Done when every lesson is marked kept, broken (with a fix) or not applicable.
+Work through every lesson in the active pack against the blueprint and, once the map is compiled, what the author sees in the Editor or Test Document. Once the map is compiled, look at it yourself with `capture_shots`: one Shot per Zone, and 10-20-cell Shots of the dressing, in a single call (pass `lighting` to see a Zone under its Light); a Shot is a rectangle of cells (`rect: [left, bottom, right, top]`) and `lighting` takes a Light id. The frames are saved as images you read. It needs a Host Adapter with `editor.captureTour`, the macOS or the Windows one; where it's refused, ask the author for screenshots. For each break, report the lesson id, where it breaks, and a concrete fix. A break the author chose on purpose is recorded, not argued. Done when every lesson is marked kept, broken (with a fix) or not applicable.
 
 ## Blueprint hooks
 
