@@ -1,8 +1,9 @@
 # anim-testbed, an sc2-adjutant Utility
 
 Audition a unit's animations and sounds in the game with a GUI. One **spec** per test lists the units
-(stock ones, or models of your own), their clips, the slots (attack, hit, death, impact, or any you
-define) and, per unit and slot, the variations to compare. The build turns the spec into a test map:
+(stock ones, or models of your own) with their animations, the **moments** to judge (an attack, its
+impact, a hit, a death, a voice line) and, per unit and moment, the **variations** to compare. The
+build turns the spec into a test map:
 the base map's terrain, the units in a row, a target facing the selected one, and a dialog to pick and
 play.
 
@@ -36,16 +37,21 @@ rebuild that changes a model, quit the Editor first: it keeps a model loaded by 
 
 In the dialog:
 
-1. Pick a **Unit**, a **Clip**, a **Slot** and a **Variation**. The Clip is used by the clip and impact
-   slots, and `*` marks the spec's pick.
-2. Press **Play**. **Stop** cuts the timeline and the sounds. **Kill** kills the unit and respawns it.
-   **Loop** replays the selection.
-3. Watch the readout: it lists the cues with their times, greyed until they fire.
+1. Pick a **Unit**, a **Moment** and a **Variation**. Changing the unit keeps the moment, so one moment
+   can be compared across units. Each moment shows how many variations the unit has for it, and each
+   variation is tagged with what it holds (`[sound]`, `[visual]`, `[anim]`). `*` marks the spec's pick,
+   and "(none: the action alone)" plays the moment with no cues.
+2. For a moment that plays an animation, the **Animation** dropdown shows the one it plays: the
+   variation's, or the unit's for the moment. Pick another to try it.
+3. Press **Play**. **Stop** cuts the timeline and the sounds. **Loop** replays the selection.
+4. Watch the readout: one sentence on what plays ("marine attack: animation attack (1.15 s). Sounds
+   at the unit."), then a timeline in seconds from Play. The animation's strike and land are marker
+   rows, and each cue is greyed until it fires.
 
 **Send** plays the edit box's text as a CSound id at the unit. Text with a space goes to the unit's
 actor, and text starting with `target ` goes to the target's actor.
 
-In chat, `-t <strike> [land]` retimes the selected clip and prints the numbers to copy back into the
+In chat, `-t <strike> [land]` retimes the selected animation and prints the numbers to copy back into the
 spec, `-len <s>` sets its length, and `-help` lists the commands.
 
 `examples/stock-units.json` uses stock units and stock sounds only. It builds on the example Campaign's
@@ -67,37 +73,61 @@ JSON, with `//` comments allowed. Paths are relative to the spec, or `<root>:pat
 | `roots` | `{ "x": "~/private/folder" }`, so a spec names private files (extracted game files, a model's exports) without machine paths |
 | `stage` | `at` [x, y] of the first unit, `gap` between units, `facing` (270: models face as exported), `fog` (false), `player` (0, neutral), and a tour's `cameraDistance` and `cameraShift` |
 | `target` | `{ "unit": "Zergling", "player": 1 }`: stands `reach` in front of the selected unit; impact sounds play on it. Optional |
-| `slots` | Name → `{ "kind": … }`, in dropdown order. Kinds below |
+| `moments` | Name → `{ "do", "at", "from" }`, in dropdown order. Below |
 | `sounds` | CSound id → `{ "parent", "from": folder, "files": [globs], "fields": {…} }`: the map's own sounds, from files the build copies in |
 | `data` | XML files of `<Catalog>` elements (CModel, CActor…, CEffect…), each routed to its catalog in the map |
 | `assets` | `[{ "from", "to": "Assets/…" }]`: other files the data names |
 | `units` | Below |
-| `tour` | The stops a `--capture` build films: `{ "unit", "slot", "clip", "variation", "hold" }` |
+| `tour` | The stops a `--capture` build films: `{ "unit", "moment", "variation", "anim", "hold" }` |
 
-**Slot kinds.**
-- `clip`: the selected clip plays and the cues run at the unit, timed from the clip's start.
-- `impact`: the clip plays and the cues run at the target, timed from the clip's `land`.
-- `hit`: the unit's `hit` reaction plays, cleared after `hitClear` s, with the cues.
-- `death`: the unit is killed, the cues play at the point it died and actor cues go to its corpse. It
-  respawns after `respawn` s. Sounds played on a dead unit are dropped, so they play at a point instead.
-- `cues`: the cues alone.
+**A moment.** Something that happens to a unit that you want to judge. It says what Play does to the
+selected unit, where its sounds play and when cue times start:
 
-A slot with no variations for a unit plays its action alone, so a `clip` slot with none is the way to
-watch a clip.
+- `do`: `play` plays an animation (the variation's, else the unit's for the moment). `kill` kills the
+  unit, plays the sound cues at the point it died and sends actor cues to its corpse; it respawns after
+  `respawn` s (sounds played on a dead unit are dropped, so they play at a point instead). Left out,
+  Play runs the cues alone.
+- `at`: `unit` (the default) or `target`, where the sound cues play. With no target in the spec,
+  `target` is the point in front of the unit. Actor cues always go where they say (`actor`, `target`).
+- `from`: `start` (the default: the animation's start, the death or Play), or the animation's `strike`
+  or `land`. A cue's plain seconds count from it. `strike` and `land` need `do: play`.
+
+| Moment | As do, at, from |
+|---|---|
+| An attack | `{ "do": "play" }` |
+| Its impact | `{ "do": "play", "at": "target", "from": "land" }` |
+| A hit | `{ "do": "play" }`, with the unit's hit animation and its `clear` |
+| A death | `{ "do": "kill" }` |
+| Voice lines | `{}` |
+
+Some spellings are kept for what isn't built yet ([#96](https://github.com/TeamAntioch/sc2-adjutant/issues/96)),
+and the build refuses them: `do: "order <ability>"`, a unit's key as `at` or as a cue's target, and
+`on <event>` as a cue's time or a moment's `from`.
 
 **A unit.** It has a `key` (its name in the dropdown) and either `unit` (a CUnit id) or `new`.
 `new` is `{ "id", "model", "anims": [.m3a], "textures": [folders], "scale", "alias" }`: the build copies
 the files in and adds a CModel, CUnit and CActorUnit for it. Then come `reach` (where the target stands),
-`idle`, `hit`, `hitClear`, `respawn` (4), `clips` and `variations`.
+`idle`, `respawn` (4), `animations` and `moments`.
 
-**A clip.** `{ "name", "play": "AnimPlay Attack Spell,C NonLooping", "strike", "land", "length" }`. The
-length defaults to the model's own clip length where the build can read it.
+**An animation.** Name → `{ "play": "AnimPlay Attack Spell,C NonLooping", "strike", "land", "length",
+"clear" }`. These are facts about the model, so every moment shares them. The length defaults to the
+model's own clip length where the build can read it. `clear` stops it after that many seconds, as a hit
+reaction needs; 0 (the default) lets it finish.
 
-**A variation.** `{ "cues": [...], "note", "label", "pick" }`. A cue is `<what>[@<when>][~<stop>]`:
+**A unit's moment.** Name → `{ "anim", "variations" }`: the animation it plays (the unit's first by
+default) and the candidates to compare. A unit with no variations for a moment still lists it, and
+plays its action alone.
+
+**A variation.** `{ "cues": [...], "note", "label", "pick", "anim" }`. `anim` plays another of the
+unit's animations instead of the moment's, so animations can be compared like sounds. A cue is
+`<what>[@<when>][~<stop>]`:
 
 - `<what>` is a CSound id, `actor <message>` (to the unit), `actor:<child> <message>` (to an actor in
-  its scope, such as one a cue created) or `target <message>`.
-- `<when>` and `<stop>` are seconds, `strike`, `land`, or `strike+0.2`. With no `@` the cue is at 0.
+  its scope, such as one a cue created), `target <message>`, or `effect <id>`: a CEffect from the unit
+  at the target, or at the point in front of it with no target (from the unit's player once it's dead).
+  An effect's damage is real: a target it kills comes back after 2 s.
+- `<when>` and `<stop>` are seconds (from the moment's `from`), `strike`, `land`, or `strike+0.2`.
+  With no `@` the cue is at the moment's zero.
   `~<stop>` fades a sound out then.
 
 ```json
@@ -114,9 +144,9 @@ plays nothing in the game and says nothing:
 - **Sounds and models** against the game's packages (core's `package-entries.json`), the Workspace's
   mods, the base map, and the spec's own data.
 - **Units** against the game's units (core's tech catalog) and the same places.
-- **Actors** named by `Create`, a child actor or a site op, against the spec's own data and the
-  Workspace's mods. Core can't list the game's own actors, so an id outside those is a warning: make
-  sure it's right.
+- **Actors** named by `Create`, a child actor or a site op, and **effects** named by an `effect` cue,
+  against the spec's own data and the Workspace's mods. Core can't list the game's own actors or
+  effects, so an id outside those is a warning: make sure it's right.
 - **Animations.** An `AnimPlay` must match at least one of the model's clips, where the build knows
   them. For a new model it reads them from its `.m3` and `.m3a` files; for a stock unit, from the
   `model-anims.json` files of core and the Workspace. Otherwise each word of the message is checked

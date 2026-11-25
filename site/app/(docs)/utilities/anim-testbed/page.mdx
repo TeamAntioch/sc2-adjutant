@@ -4,7 +4,8 @@ export const metadata = { title: "Anim Testbed" };
 
 Picking a unit's sounds means hearing them with its animation: the grunt at the top of the wind-up, the
 whoosh on the swing, the hit as it lands. The Anim Testbed builds a test map for that from one **spec**.
-The map shows a dialog where you pick a unit, a clip, a slot and a variation, and play it.
+The map shows a dialog where you pick a unit, a moment of its life (an attack, an impact, a death) and
+a variation to try, and play it.
 
 <figure>
   <img src="/anim-testbed/attack.jpg" alt="The testbed's dialog over a Marine, a Zealot and a Zergling: the Marine's attack, variation 2, with its two cues in the readout" />
@@ -43,36 +44,40 @@ Its skill arrives at the next Claude Code session.
 
 ## The dialog
 
-- **Unit**, **Clip**, **Slot** and **Variation** pick what plays. `*` marks the variation the spec
-  recommends.
-- **Play** runs it, **Stop** cuts it off, **Kill** kills the unit and brings it back, and **Loop**
-  replays it.
-- The **readout** lists the cues with their times, grey until each one fires.
+- **Unit**, **Moment** and **Variation** pick what plays. Changing the unit keeps the moment, so you
+  can compare one moment across units. Each variation is tagged with what it holds (sound, visual,
+  animation), `*` marks the one the spec recommends, and "(none)" plays the moment alone.
+- **Animation** appears for a moment that plays one. It starts on the variation's animation, or the
+  unit's for the moment, and you can pick another to try it.
+- **Play** runs it, **Stop** cuts it off, and **Loop** replays it.
+- The **readout** says in one sentence what plays, then lists the cues on a timeline with the
+  animation's strike and land marked. Each cue is grey until it fires.
 - **Send** plays any CSound at the unit, or sends any actor message to it.
 
-A **slot** is what a Play does, by its kind:
+A **moment** is something that happens to a unit that you want to judge. It says three things:
 
 <table className="fields">
   <thead>
-    <tr><th>Kind</th><th>What plays</th></tr>
+    <tr><th>Field</th><th>What it is</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>clip</code></td><td>The selected clip, with the cues at the unit, timed from the clip's start</td></tr>
-    <tr><td><code>impact</code></td><td>The clip, with the cues at the target, timed from the moment the attack lands</td></tr>
-    <tr><td><code>hit</code></td><td>The unit's hit reaction, with the cues</td></tr>
-    <tr><td><code>death</code></td><td>The unit dies, the cues play where it died, and it comes back</td></tr>
-    <tr><td><code>cues</code></td><td>The cues alone: voice lines, an ambient loop</td></tr>
+    <tr><td><code>do</code></td><td><code>play</code> an animation, or <code>kill</code> the unit (it dies and comes back). Left out, Play runs the cues alone: voice lines, an ambient loop</td></tr>
+    <tr><td><code>at</code></td><td>Where the sounds play: <code>unit</code> (the default) or <code>target</code>. A killed unit's sounds play where it died</td></tr>
+    <tr><td><code>from</code></td><td>When cue times start: <code>start</code> (the default), or the animation's <code>strike</code> or <code>land</code>, which need <code>do: play</code></td></tr>
   </tbody>
 </table>
 
+An attack is `{ "do": "play" }`, and its impact is `{ "do": "play", "at": "target", "from": "land" }`.
+A hit is `{ "do": "play" }` with the unit's hit animation, which `clear` stops early.
+
 <figure>
-  <img src="/anim-testbed/impact.jpg" alt="The Zealot selected, slot impact: the Zergling target stands in front of it" />
-  <figcaption>An impact plays on the target, which stands in front of the selected unit. Its cues count from the clip's land time.</figcaption>
+  <img src="/anim-testbed/impact.jpg" alt="The Zealot selected, moment impact: the Zergling target stands in front of it" />
+  <figcaption>An impact moment plays its sounds on the target, which stands in front of the selected unit. They count from the animation's land time.</figcaption>
 </figure>
 
 <figure>
-  <img src="/anim-testbed/death.jpg" alt="The Marauder dying, slot death, variation 2: its death and a body fall at 0.9 s" />
-  <figcaption>A death kills the unit and plays the cues where it fell. A sound played on a dead unit is dropped, so they play at a point instead. The unit comes back after its respawn time.</figcaption>
+  <img src="/anim-testbed/death.jpg" alt="The Marauder dying, moment death, variation 2: its death and a body fall at 0.9 s" />
+  <figcaption>A death moment kills the unit and plays the cues where it fell. A sound played on a dead unit is dropped, so they play at a point instead. The unit comes back after its respawn time.</figcaption>
 </figure>
 
 ## The spec
@@ -87,23 +92,25 @@ builds on the example Campaign's Mission:
   "out": "../output/StockUnits.SC2Map",
   "stage": { "at": [36, 22], "gap": 4, "facing": 270 },
   "target": { "unit": "Zergling", "player": 1 },
-  "slots": {
-    "attack": { "kind": "clip" },
-    "impact": { "kind": "impact" },
-    "death": { "kind": "death" }
+  "moments": {
+    "attack": { "do": "play" },
+    "impact": { "do": "play", "at": "target", "from": "land" },
+    "death": { "do": "kill" }
   },
   "units": [
     {
       "key": "marine",
       "unit": "Marine",
       "reach": 3,
-      "clips": [{ "name": "attack", "play": "AnimPlay Attack Attack NonLooping", "strike": 0.1, "land": 0.15 }],
-      "variations": {
-        "attack": [
+      "animations": {
+        "attack": { "play": "AnimPlay Attack Attack NonLooping", "strike": 0.1, "land": 0.15 }
+      },
+      "moments": {
+        "attack": { "variations": [
           { "cues": ["Marine_AttackLaunch@strike"], "note": "the Marine's own rifle burst", "pick": true },
           { "cues": ["Marine_Stimpack~0.6", "Marine_AttackLaunch@strike+0.05"], "note": "a stim grunt, cut off at 0.6 s, then the burst" }
-        ],
-        "death": [{ "cues": ["Marine_Death", "Marine_Death_BodyFall_A@1.0"], "note": "the death and a body fall" }]
+        ] },
+        "death": { "variations": [{ "cues": ["Marine_Death", "Marine_Death_BodyFall_A@1.0"], "note": "the death and a body fall" }] }
       }
     }
   ]
@@ -114,15 +121,20 @@ builds on the example Campaign's Mission:
 
 - `<what>` is a CSound id, or `actor <message>` to send the unit's actor a message. `actor:<child>`
   sends to an actor in its scope, such as one a cue created, and `target <message>` goes to the target.
-- `<when>` is seconds, `strike`, `land`, or an offset from one of them: `strike+0.05`.
+  `effect <id>` runs a CEffect from the unit at the target: a missile, a damage effect, a search.
+- `<when>` is seconds (from the moment's `from`), `strike`, `land`, or an offset from one of them:
+  `strike+0.05`.
 - `~<stop>` fades a sound out at that time.
 
-Actor cues bring effects into the test as well as sounds: `actor Create MyStumpBurst@0.1`, then
-`actor:MyStumpBurst Destroy@2.1`.
+Actor and effect cues bring visuals into the test as well as sounds: `actor Create MyStumpBurst@0.1`,
+then `actor:MyStumpBurst Destroy@2.1`, or `effect PunisherGrenadesLM@strike`. An effect's
+damage is real, so it can kill the target, which comes back after 2 seconds.
 
 **A unit** is a stock CUnit (`"unit": "Marine"`) or a model of your own (`"new"`, with its `.m3`, its
 `.m3a` files and its texture folders). The build copies a model of your own into the test map and adds
-its unit. Private files, such as sounds extracted from the game, are named through `roots`, so no
+its unit. Its **animations** are named (`"attack"`, `"flinch"`), each with its strike, land and
+length, and its **moments** say which one each moment plays and list the variations to compare. A
+variation can name its own `anim`, so two animations are compared like two sounds. Private files, such as sounds extracted from the game, are named through `roots`, so no
 machine path goes into the spec, and they're copied into the test map only.
 
 The package's [README](https://github.com/TeamAntioch/sc2-adjutant/tree/main/packages/plugin-anim-testbed#the-spec)
@@ -139,12 +151,12 @@ To prevent silent failures on missing assets, the build checks to make sure that
   from recorded model animations, each `AnimPlay` must match one of them. Where it doesn't, as for
   most stock units, it checks each word against SC2's animation words and warns about one that isn't:
   an invented word never plays. A clip named `Attack Mega` didn't, and `Spell C` did.
-- **Actors** that the spec's own data defines. sc2-adjutant can't list the game's actors, so an actor
-  outside the spec and the Workspace is only a warning.
+- **Actors and effects** that the spec's own data defines. sc2-adjutant can't list the game's actors
+  or effects, so one outside the spec and the Workspace is only a warning.
 
 <figure>
-  <img src="/anim-testbed/voice.jpg" alt="The Marine selected, slot voice: a cues slot playing his Yes responses" />
-  <figcaption>A <code>cues</code> slot plays sounds with no animation: here the Marine's Yes responses.</figcaption>
+  <img src="/anim-testbed/voice.jpg" alt="The Marine selected, moment voice: a moment with no do, playing his Yes responses" />
+  <figcaption>A moment with no <code>do</code> plays its cues alone, with no animation: here the Marine's Yes responses.</figcaption>
 </figure>
 
 ## Screenshots of your own
