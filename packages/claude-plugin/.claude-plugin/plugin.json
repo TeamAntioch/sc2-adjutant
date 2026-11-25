@@ -1,7 +1,7 @@
 {
   "name": "sc2-adjutant",
   "version": "0.1.1",
-  "description": "Co-design StarCraft II campaign Missions with sc2-adjutant: its MCP server for the Workspace you have open, the level-design, hero-mission-design, encounter-design, ally-design, exemplar-design, style-pack-builder, texture-sets, doodad-search, custom-doodads, cinematography, boss-design, boss-build and sound-mix skills, the melee-design skill for 1v1 melee maps, the report-missing-feature skill for reporting what sc2-adjutant can't do yet, the update skill for getting onto the latest release, and commands for the co-design session.",
+  "description": "Co-design StarCraft II campaign Missions with sc2-adjutant: its MCP server for the Workspace you have open, the level-design, hero-mission-design, encounter-design, ally-design, exemplar-design, style-pack-builder, texture-sets, doodad-search, custom-doodads, cinematography, boss-design, boss-build, forecast-attacks and sound-mix skills, the melee-design skill for 1v1 melee maps, the report-missing-feature skill for reporting what sc2-adjutant can't do yet, the update skill for getting onto the latest release, and commands for the co-design session.",
   "author": { "name": "TeamAntioch", "url": "https://github.com/TeamAntioch" },
   "homepage": "https://github.com/TeamAntioch/sc2-adjutant",
   "repository": "https://github.com/TeamAntioch/sc2-adjutant",

@@ -50,6 +50,8 @@ The data kit, with the stock entries that already do each piece:
 | Drag a unit to the caster | A launch-missile effect that moves the target | The Viper's `YoinkLaunchMissile` |
 | Teleport | `CEffectTeleport` | `AdeptPhaseShiftTeleport` |
 
+For a dodgeable attack on an ordinary unit (an arc, lane or lobbed circle the target walks out of, on an autocast ability with no triggers), the `forecast-attacks` skill has the full recipe.
+
 In script, add the second channel when the controller commits an attack: a ground indicator or model at the target point, a warning ping, a sound, and on the first cast a transmission. Telegraph lengths come from the plan; lethal attacks warn at least 2 s at Faster.
 
 ## Phases
