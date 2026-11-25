@@ -6,7 +6,7 @@
     {
       "name": "sc2-adjutant",
       "source": "./packages/claude-plugin",
-      "description": "The sc2-adjutant MCP server for the Workspace you have open, the level-design, hero-mission-design, encounter-design, ally-design, exemplar-design, style-pack-builder, texture-sets, doodad-search, custom-doodads, cinematography, boss-design, boss-build and sound-mix skills, the melee-design skill for 1v1 melee maps, the report-missing-feature skill for reporting what sc2-adjutant can't do yet, the update skill for getting onto the latest release, and commands for the co-design session.",
+      "description": "The sc2-adjutant MCP server for the Workspace you have open, the level-design, hero-mission-design, encounter-design, ally-design, exemplar-design, style-pack-builder, texture-sets, doodad-search, custom-doodads, cinematography, boss-design, boss-build, forecast-attacks and sound-mix skills, the melee-design skill for 1v1 melee maps, the report-missing-feature skill for reporting what sc2-adjutant can't do yet, the update skill for getting onto the latest release, and commands for the co-design session.",
       "category": "development",
       "homepage": "https://github.com/TeamAntioch/sc2-adjutant"
     }
