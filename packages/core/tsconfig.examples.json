@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "noEmit": true,
+    "incremental": false,
     "allowImportingTsExtensions": true,
     "erasableSyntaxOnly": true,
     "paths": { "@team-antioch/sc2-adjutant/plugin-sdk": ["./src/plugins/plugin-sdk.ts"] }

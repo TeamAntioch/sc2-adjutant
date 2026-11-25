@@ -9,7 +9,8 @@
     "site"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
+    "build": "npm run build -w packages --if-present",
+    "build:site": "npm run build -w site",
     "prepare": "npm run build",
     "test": "npm test --workspaces --if-present && npm run test:checks",
     "test:checks": "node scripts/check-plugin-imports.mjs && node scripts/check-catalog-moved.mjs && node scripts/check-packs.mjs",
