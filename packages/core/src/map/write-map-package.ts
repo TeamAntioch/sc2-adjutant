@@ -78,6 +78,7 @@ import { compiledPathing, pathingCutWarnings, pathWidthWarnings } from "./compil
 import { PackageOutput } from "./package-output.js";
 import { type OwnershipPlan, planOwnership } from "./ownership-plan.js";
 import { EquivalenceCheck } from "../mods/equivalence.js";
+import { declaredItemNames, doodadNameStrings, mergeDeclaredCatalogs, type MissionDeclared, writeDeclaredRest } from "./mission-declared.js";
 import { CUTSCENES_DIR, packageFilesBelow } from "./kept-package.js";
 import { CONVERSATION_DATA, conversationItemNames, conversationParts, keptTriggersName, keptVoiceFile, orphanedParts, ownSounds, relinkCutscene, SOUND_DATA, voicedHere, withoutEntries } from "./mission-conversation.js";
 import { catalogModelAnims } from "../catalog/model-anims.js";
@@ -157,6 +158,12 @@ export type WriteMapPackageOptions = {
    * a placeholder for it. Core's doodad catalog knows only the game's, so missingDoodadDependencies can't.
    */
   readonly unloadedModDoodads?: { readonly dependency: string; readonly types: ReadonlySet<string> };
+  /**
+   * The Blueprint's Declared Content (domain/declared-content.ts), read from its folder
+   * (readMissionDeclared): merged in beside what the compile writes, as a mod's compile writes it.
+   * Given whenever the Blueprint declares any, or a doodad of its own has a name.
+   */
+  readonly declared?: MissionDeclared;
 };
 
 export type MeleeOptions = {
@@ -314,8 +321,19 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
   const conversationItems = conversation ? conversationItemNames(conversation) : undefined;
   // And the Kept triggers the Blueprint's own convert (ADR-0026), each part named once compileBlueprintTriggers finds them.
   const convertedTriggerParts = new Set<string>();
-  const equivalence = conversation || authored ? new EquivalenceCheck(blueprint.acceptedDifferences ?? [], "Mission Blueprint") : undefined;
-  const out = new PackageOutput(outputDir, options.previousRecord, options.decisions, equivalence?.replaceKept, {}, equivalence ? (name) => (conversationItems?.has(name) ?? false) || convertedTriggerParts.has(name) : undefined);
+  // And the parts the Blueprint's Declared Content writes, under the same check as a mod's.
+  const declared = options.declared;
+  const declaredItems = declared ? declaredItemNames(declared) : undefined;
+  const equivalence = conversation || authored || declared ? new EquivalenceCheck(blueprint.acceptedDifferences, "Mission Blueprint") : undefined;
+  const out = new PackageOutput(
+    outputDir,
+    options.previousRecord,
+    options.decisions,
+    equivalence?.replaceKept,
+    {},
+    equivalence ? (name) => (conversationItems?.has(name) ?? false) || convertedTriggerParts.has(name) || (declaredItems?.has(name) ?? false) : undefined,
+  );
+  if (declared) out.removeKept(declared.removals.map(({ removal }) => removal));
   out.adoptObjects(blueprint.anchors.flatMap((anchor) => (anchor.editorId !== undefined ? [anchor.editorId] : [])));
   // A line with two voice files neither is known to be the placeholder of (host/voice-files.ts).
   const voiceWarnings: string[] = [];
@@ -684,14 +702,18 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
       writesDoodadData = true;
     } else gameDataFiles.push([fileName, ['<?xml version="1.0" encoding="utf-8"?>', "<Catalog>", ...lines, "</Catalog>", ""].join("\r\n")]);
   }
+  // The Blueprint's Declared Content's catalog entries, beside the compile's own (mission-declared.ts).
+  const writesDeclaredData = declared ? mergeDeclaredCatalogs(declared, gameDataFiles, out, plan.owner("doodadCatalogs") === "patch") : false;
   const placedDoodadWarnings: string[] = [];
   const customData = plan.melee ? gameDataFiles.map(([fileName]) => fileName).filter((fileName) => !MELEE_CATALOGS.has(fileName)) : [];
   if (customData.length > 0) throw new Error(`A melee map can't carry ${customData.join(", ")}: the Editor would call it Custom`);
-  if (gameDataFiles.length > 0 || conversation || writesTerrainData || writesDoodadData) {
+  if (gameDataFiles.length > 0 || conversation || writesTerrainData || writesDoodadData || writesDeclaredData) {
     for (const [fileName, content] of gameDataFiles) out.write(`Base.SC2Data/GameData/${fileName}`, content);
     components.push({ type: "gada", path: "GameData" });
   }
-  if (includeTriggers || conversation) {
+  // The doodads' names and the Declared Content's strings are localized text too.
+  const doodadNames = doodadNameStrings(ownDoodads.map((doodad) => ({ id: doodad.id, entries: customDoodadEntries(doodad, options.doodadSwaps?.get(doodad.id)) })));
+  if (includeTriggers || conversation || doodadNames.length > 0 || (declared && Object.keys(declared.strings.files).length > 0)) {
     components.push({ type: "text", path: "GameText", locale: "enUS" });
   }
   components.push({ type: "info", path: "DocumentInfo" }, { type: "mapi", path: "MapInfo" });
@@ -961,6 +983,10 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
     }
   }
 
+  // The rest of the Declared Content, once the compile has queued all its own: strings by key, files whole, the includes list.
+  if (doodadNames.length > 0 && !declared) throw new Error(`${blueprint.id}'s doodads have names: pass its Declared Content (readMissionDeclared) to writeMapPackage, which writes their strings`);
+  const declaredWarnings = declared ? (await writeDeclaredRest(declared, out, { pkg: outputDir, record: options.previousRecord, extraStrings: doodadNames, check: equivalence! })).warnings : [];
+
   for (const component of components) {
     // Cutscenes/Index.version is the Editor's own stamp, written above.
     if (component.type === "cuts") continue;
@@ -983,6 +1009,8 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
     record,
     warnings: [
       ...out.unusedKept.map((entry) => describeUnusedKept(entry, blueprint)),
+      ...(declared?.warnings ?? []),
+      ...declaredWarnings,
       ...relinks,
       ...holdNotes,
       ...removedParts,

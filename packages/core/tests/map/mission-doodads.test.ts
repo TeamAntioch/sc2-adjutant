@@ -114,6 +114,17 @@ describe("a Mission Blueprint's doodads", () => {
     expect(await readFile(path.join(mapPackage, "Base.SC2Data", "GameData", "ActorData.xml"), "utf8")).toBe(before);
   });
 
+  it("write a doodad's name into the map's ObjectStrings, as a Campaign Mod's doodad's is", async () => {
+    const { workspaceRoot, blueprintPath, mapPackage, declare } = await yard();
+    await declare({ doodads: [{ ...RING_DOODAD, name: "Stabilizer Ring" }] });
+
+    await compile(workspaceRoot, blueprintPath);
+
+    const strings = await readFile(path.join(mapPackage, "enUS.SC2Data", "LocalizedData", "ObjectStrings.txt"), "utf8");
+    expect(strings).toContain("Actor/Name/StabilizerRing=Stabilizer Ring\r\n");
+    expect(strings).toContain("Model/Name/StabilizerRing=Stabilizer Ring\r\n");
+  });
+
   it("take a texture the Map Package already holds, and refuse one that is nowhere, naming it", async () => {
     const { workspaceRoot, blueprintPath, mapPackage, declare } = await yard();
     await mkdir(path.join(mapPackage, "Assets", "Textures"), { recursive: true });

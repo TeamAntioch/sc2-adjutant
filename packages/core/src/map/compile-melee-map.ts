@@ -8,6 +8,7 @@
 // melee-checks.ts, melee-status.ts): an error stops the build with nothing written to `outputDir`,
 // and the distance report and its warnings come back with the map.
 
+import { noDeclaredContent } from "../domain/declared-content.js";
 import { randomUUID } from "node:crypto";
 import { existsSync } from "node:fs";
 import { chmod, cp, readdir, readFile, rm } from "node:fs/promises";
@@ -160,5 +161,6 @@ function terrainBlueprint(melee: MeleeMapBlueprint): MissionBlueprint {
     mechanics: [],
     tech: [],
     screenplay: { title: melee.title, scenes: [] },
+    ...noDeclaredContent(),
   };
 }

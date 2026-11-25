@@ -31,7 +31,7 @@ The code is `packages/core/src/domain/character.ts` (the declaration) and `packa
 | `fields` | Its other CharacterData fields (`Race`, `Gender`, `Age`, the rest of `Variations` …), written as a Generic Entry's. | as given |
 | `strings` | The localized strings keyed to its CCharacter, by strings file: `Character/Name/<id>`, `VoiceRef`, `Description`, `Dialect`, and those its fields name (a `Variations` `Name`). `convert-entries` on CharacterData moves them in ([mod-strings.md](./mod-strings.md)). | the strings files' keys |
 
-A speaker is declared once, and so is an `id`. `fields` can't hold `Unit` or a `Variations` `Model`, because `unit` and `model` say them. A character whose `model` is given has one `Variations`. Only a Campaign Mod declares characters.
+A speaker is declared once, and so is an `id`. `fields` can't hold `Unit` or a `Variations` `Model`, because `unit` and `model` say them. A character whose `model` is given has one `Variations`. Of the mods, only a Campaign Mod declares characters. A Mission Blueprint may declare its own too, as Declared Content ([declared-content.md](./declared-content.md)): they go into its map's CharacterData. Its Screenplay's speakers are still matched against the Campaign Mod's.
 
 A CCharacter is written once. A character and a Generic Entry (from `convert-entries`) for the same CCharacter fail the compile, and `convert-entries` leaves a declared character's CCharacter alone, but gives it its strings.
 

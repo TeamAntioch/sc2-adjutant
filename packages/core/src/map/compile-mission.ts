@@ -3,7 +3,7 @@
 
 import path from "node:path";
 
-import { compileCinematics, formatCinematicProblem, loadCinematics } from "../cutscene/cinematic.js";
+import { castModels, compileCinematics, formatCinematicProblem, loadCinematics } from "../cutscene/cinematic.js";
 import { missionCinematicDependencyProblems } from "../cutscene/cinematic-dependencies.js";
 import { missionFeedChannelProblems } from "../cutscene/feed-channels.js";
 import { compileTriggerScenes } from "../cutscene/trigger-scene.js";
@@ -30,6 +30,7 @@ import type { GameLibrary } from "../mods/library-galaxy.js";
 import type { CampaignLibrary } from "../plugins/plugin-api.js";
 import type { UiComponent } from "../ui/ui-component.js";
 import { writeMapPackage, type WriteMapPackageOptions } from "./write-map-package.js";
+import { declaresContent, missionFileFinder, readMissionDeclared } from "./mission-declared.js";
 import { hasAuthoredTriggers, readAuthoredTriggers } from "../triggers/blueprint-triggers.js";
 
 export type CompileMissionOptions = {
@@ -125,6 +126,21 @@ export async function compileMission(workspace: Workspace, blueprintPath: string
   const libraries = await missionLibraries(workspace, dependencies, library);
   // The Blueprint's own trigger elements, each from its file in the Mission's triggers folder (ADR-0026).
   const authoredTriggers = await readAuthoredTriggers(blueprint, blueprintPath);
+  // Its Declared Content (catalog entries, strings, files, Set cutscenes …), read and checked as a mod's is (mission-declared.ts).
+  const declared =
+    declaresContent(blueprint) || blueprint.doodads.some((doodad) => doodad.name !== undefined)
+      ? await readMissionDeclared(blueprint, blueprintPath, {
+          mapPackage: target,
+          assetFiles: async () => missionFileFinder(workspace, modPackages, target, blueprint.files.map(({ path: file }) => file)),
+          models: () => castModels(workspace.catalog),
+        })
+      : undefined;
+  // A Set cutscene is one of the map's Cutscenes, beside the Cinematics: one name, one writer.
+  const cinematicNames = new Map(Object.keys(cutscenes).map((id) => [id.toLowerCase(), id]));
+  for (const { index, name } of declared?.setCutscenes ?? []) {
+    const other = cinematicNames.get(name.toLowerCase());
+    if (other !== undefined) throw new Error(`setCutscenes.${index} writes the cutscene ${name}, which the Cinematic ${other} writes too: a cutscene is a Cinematic or a Set cutscene`);
+  }
   const packageOptions: WriteMapPackageOptions = {
     blueprint,
     outputDir: target,
@@ -137,7 +153,7 @@ export async function compileMission(workspace: Workspace, blueprintPath: string
     derive,
     library,
     libraries,
-    cutscenes: Object.fromEntries(Object.entries(cutscenes).map(([id, { xml }]) => [id, xml])),
+    cutscenes: Object.fromEntries([...Object.entries(cutscenes).map(([id, { xml }]) => [id, xml] as const), ...(declared?.setCutscenes ?? []).map(({ name, xml }) => [name, xml] as const)]),
     // The Lights the Cinematics and the trigger scenes switch to, so a Plugin's among them is written too.
     cinematicLights: [...Object.values(cutscenes).flatMap(({ lights }) => lights), ...triggerScenes.flatMap(({ triggerScene }) => (triggerScene.light ? [triggerScene.light] : []))],
     ...(triggerScenes.length ? { triggerScenes } : {}),
@@ -146,6 +162,7 @@ export async function compileMission(workspace: Workspace, blueprintPath: string
     ...(options.decisions ? { decisions: options.decisions } : {}),
     ...(doodads ? { doodadFiles: doodads.files, doodadSwaps: doodads.swaps } : {}),
     ...(unloadedModDoodads ? { unloadedModDoodads } : {}),
+    ...(declared ? { declared } : {}),
   };
   const written = await writeMapPackage(packageOptions).catch(async (error: unknown) => {
     if (!(error instanceof EditorChangesError) || !recorded) throw error;

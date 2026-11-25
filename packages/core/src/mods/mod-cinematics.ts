@@ -12,6 +12,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { type CastModels, castModels, cinematicLightWarnings, cinematicProblems, type CinematicProblem, formatCinematicProblem, isCinematicError, type LoadedCinematic, loadListedCinematics, measuredLengthsMs, sceneLines, writeChecked } from "../cutscene/cinematic.js";
+import type { DeclaredContent } from "../domain/declared-content.js";
 import type { ModBlueprint } from "../domain/mod-blueprint.js";
 import { type SetData, SetSchema } from "../domain/cinematic-set.js";
 import { cutsceneFile, type ModCinematic, type ModSetCutscene, SET_CUTSCENE_MS } from "../domain/mod-cinematic.js";
@@ -105,10 +106,11 @@ export async function modCutscenes(blueprint: ModBlueprint, blueprintPath: strin
 export type ModSetCutsceneRead = { readonly index: number; readonly entry: ModSetCutscene; readonly setFile: string; readonly set: SetData };
 
 /**
- * The Blueprint's Set cutscenes, each with its Set read from the mod's folder, and every problem met:
- * a Set outside the folder, missing, unreadable or not a Set.
+ * The Blueprint's Set cutscenes, each with its Set read from the Blueprint's folder (a mod's, or a
+ * Mission's: `of` says which), and every problem met: a Set outside the folder, missing,
+ * unreadable or not a Set.
  */
-export async function readModSetCutscenes(blueprint: ModBlueprint, blueprintPath: string): Promise<{ readonly read: readonly ModSetCutsceneRead[]; readonly problems: readonly CinematicProblem[] }> {
+export async function readModSetCutscenes(blueprint: Pick<DeclaredContent, "setCutscenes">, blueprintPath: string, of: "mod" | "Mission" = "mod"): Promise<{ readonly read: readonly ModSetCutsceneRead[]; readonly problems: readonly CinematicProblem[] }> {
   const dir = path.dirname(blueprintPath);
   const read: ModSetCutsceneRead[] = [];
   const problems: CinematicProblem[] = [];
@@ -116,11 +118,11 @@ export async function readModSetCutscenes(blueprint: ModBlueprint, blueprintPath
     const setFile = path.resolve(dir, entry.set);
     const where = { file: blueprintPath, path: `setCutscenes.${index}.set` };
     if (!(await isInside(dir, setFile))) {
-      problems.push({ ...where, message: `${entry.set} is outside the mod's folder` });
+      problems.push({ ...where, message: `${entry.set} is outside the ${of}'s folder` });
       continue;
     }
     if (!existsSync(setFile)) {
-      problems.push({ ...where, message: `The Set ${entry.set} isn't there: import it with import-set --mod first` });
+      problems.push({ ...where, message: `The Set ${entry.set} isn't there: import it with import-set ${of === "mod" ? "--mod" : "--mission"} first` });
       continue;
     }
     let raw: unknown;
@@ -141,8 +143,8 @@ export async function readModSetCutscenes(blueprint: ModBlueprint, blueprintPath
 }
 
 /** The Blueprint's Set cutscenes as their .SC2Cutscene files. Throws with every problem when any can't be written. */
-export async function modSetCutscenes(blueprint: ModBlueprint, blueprintPath: string, models: CastModels): Promise<{ readonly index: number; readonly file: string; readonly xml: string }[]> {
-  const { read, problems } = await readModSetCutscenes(blueprint, blueprintPath);
+export async function modSetCutscenes(blueprint: Pick<DeclaredContent, "setCutscenes">, blueprintPath: string, models: CastModels, of: "mod" | "Mission" = "mod"): Promise<{ readonly index: number; readonly file: string; readonly xml: string }[]> {
+  const { read, problems } = await readModSetCutscenes(blueprint, blueprintPath, of);
   if (problems.length > 0) throw new Error(`The Set cutscenes can't be written: ${problems.map(formatCinematicProblem).join("; ")}`);
   return read.map(({ index, entry, set }) => ({ index, file: cutsceneFile(entry), xml: setCutscene(set, { lengthMs: entry.lengthMs ?? SET_CUTSCENE_MS, models }) }));
 }
