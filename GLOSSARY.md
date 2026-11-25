@@ -19,7 +19,7 @@ The dependency package that holds a Campaign's own art and audio files, such as 
 _Avoid_: Art mod, assets package
 
 **Asset Source**:
-Where one of an Asset Mod's files comes from, as its Mod Blueprint declares it: a file kept in the Workspace, a community asset fetched by its address with its licence, a placeholder generated for it (such as a synthesized voice line), or a file derived from another Asset Source.
+Where one of an Asset Mod's files comes from, as its Mod Blueprint declares it: a file kept in the Workspace, a community asset fetched by its address with its licence, a stock file exported from each machine's game, a placeholder generated for it (such as a synthesized voice line), or a file derived from another Asset Source (such as a recoloured texture).
 _Avoid_: Asset origin, asset reference, raw asset
 
 **Mission**:

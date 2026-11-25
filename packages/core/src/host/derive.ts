@@ -1,4 +1,4 @@
-// The named steps that make one file from another (domain/asset-source.ts's DERIVE_STEPS), with
+// The named steps that encode one file from another (domain/asset-source.ts's EncodeStep), with
 // the machine's ffmpeg: an Asset Mod's derived Asset Sources and a Mission's voice files are both
 // made by them. Each output is kept in a cache keyed by the step and the input's SHA-256, so a
 // repeat compile writes the bytes it wrote before without encoding again, even after the machine's
@@ -11,12 +11,12 @@ import { mkdir, mkdtemp, readFile, rename, rm, stat, writeFile } from "node:fs/p
 import { tmpdir, userInfo } from "node:os";
 import path from "node:path";
 
-import type { DeriveStep } from "../domain/asset-source.js";
+import type { EncodeStep } from "../domain/asset-source.js";
 import type { MachineConfig } from "./machine-config.js";
 import { frameBytes, unsigned8Bit, wavChunks, wavFile, wavSeconds } from "./wav.js";
 
 /** Makes a file by a named step from its source's bytes. */
-export type Derive = (step: DeriveStep, input: Buffer) => Promise<Buffer>;
+export type Derive = (step: EncodeStep, input: Buffer) => Promise<Buffer>;
 
 /** How to install ffmpeg on `platform`: winget's BtbN build on Windows (it has arm64 and libvorbis), else Homebrew's. */
 export function ffmpegInstallHint(platform: NodeJS.Platform = process.platform): string {
@@ -202,7 +202,7 @@ export function runBounded(command: string, args: readonly string[], limits: Run
 }
 
 /** What each step's output is named with in the cache. */
-const STEP_EXTENSIONS: Record<DeriveStep, string> = { "wav-to-ogg": "ogg" };
+const STEP_EXTENSIONS: Record<EncodeStep, string> = { "wav-to-ogg": "ogg" };
 
 /**
  * `derive`, with each output kept in `dir` (`<dir>/<step>/<SHA-256 of the input>.<extension>`,

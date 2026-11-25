@@ -7,7 +7,11 @@
 //                     there once, refused unless the download has the SHA-256 recorded
 //   generated (tts)   the line's placeholder, written by the machine's Host Adapter in the voice its
 //                     character declares (silence without one) into placeholders/ in the mod's folder
-//   derived           its source, made by the named step (wav-to-ogg: ffmpeg, host/derive.ts)
+//   game file         exported from the machine's game by its Host Adapter (model.export, with
+//                     its textures), once a model in a compile, however many files are taken from it
+//   derived           its source, made by the named step: wav-to-ogg with ffmpeg (host/derive.ts);
+//                     retexture (catalog/m3-retexture.ts) and recolour (catalog/dds.ts,
+//                     catalog/recolour.ts) in core
 //
 // For a voice, the recording wins: a line gets a placeholder only when the Blueprint declares no
 // recording for it. Whether a file is committed follows from the Blueprint alone: a file made from
@@ -19,17 +23,26 @@
 import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 
+import { decodeDds, recolourDds } from "../catalog/dds.js";
+import { retextureM3 } from "../catalog/m3-retexture.js";
+import { readM3TexturePaths } from "../catalog/m3-textures.js";
+import { meanChroma, recolourTexel } from "../catalog/recolour.js";
 import {
   type AssetSource,
   type CommunityAssetSource,
+  type GameFileSource,
   isCommitted,
   isCommunityAsset,
   isDerived,
+  isEncoded,
+  isGameFile,
   isGenerated,
+  sameStoragePath,
   type WorkspaceFileSource,
   workspaceFilesOf,
 } from "../domain/asset-source.js";
@@ -177,27 +190,118 @@ export async function makeAssets(plan: AssetPlan, options: MakeAssetsOptions): P
     ...plan.files.flatMap((file) => (file.held ? [file.held] : [])),
   ];
   const out = new Map<string, Buffer>();
-  // Each community archive's members, by its SHA-256, read once however many members are taken from it.
-  const archives: Archives = new Map();
+  // Each community archive's members, by its SHA-256, read once however many members are taken from it; each game model's export, likewise.
+  const made: Made = { placeholders, archives: new Map(), games: new Map(), warnings: [] };
+  // The storage paths this Asset Mod makes, for a retexture's new paths: a package path's part from Assets/ on.
+  const makes = new Set(plan.files.map((file) => sameStoragePath(storagePathOf(file.path))));
   for (const file of plan.files) {
     if (file.held) continue;
     try {
-      out.set(file.path, await make(file.source, options, placeholders, archives));
+      out.set(file.path, await make(file.source, options, made, `The Asset Mod's ${file.from} (${file.path})`));
     } catch (error) {
       throw new Error(`The Asset Mod's ${file.from} (${file.path}): ${error instanceof Error ? error.message : String(error)}`, { cause: error });
     }
+    for (const step of derivedSteps(file.source)) {
+      if (step.derived !== "retexture") continue;
+      const elsewhere = Object.values(step.textures).filter((texture) => !makes.has(sameStoragePath(texture)));
+      if (elsewhere.length > 0) {
+        made.warnings.push(
+          `The Asset Mod's ${file.from} (${file.path}) draws ${elsewhere.join(", ")}, which its Blueprint doesn't declare: the model shows ${elsewhere.length === 1 ? "it" : "them"} only if the package already holds ${elsewhere.length === 1 ? "it" : "them"}, or the game or another mod the map loads has ${elsewhere.length === 1 ? "it" : "them"}`,
+        );
+      }
+    }
   }
-  return { files: out, warnings };
+  return { files: out, warnings: [...warnings, ...made.warnings] };
 }
+
+/** A package path's storage path, from its Assets/ folder on (`Base.SC2Assets/Assets/Textures/x.dds` is `Assets/Textures/x.dds`). */
+const storagePathOf = (packagePath: string): string => /(?:^|\/)(assets\/.*)$/i.exec(packagePath)?.[1] ?? packagePath;
+
+/** The derived steps `source` is made by, outermost first. */
+const derivedSteps = (source: AssetSource): Extract<AssetSource, { derived: string }>[] => (isDerived(source) ? [source, ...derivedSteps(source.from)] : []);
+
+/** What a compile's files are made with: the placeholders, the community archives and game models read so far, and the warnings. */
+type Made = { readonly placeholders: ReadonlyMap<string, string>; readonly archives: Archives; readonly games: GameModels; readonly warnings: string[] };
 
 /** A compile's community archives, each's members by name, keyed by the archive's SHA-256. */
 type Archives = Map<string, Map<string, () => Buffer>>;
+/** A compile's game models, each exported once: its .m3 and the textures it names, by their storage path compared as the game does. */
+type GameModels = Map<string, Promise<{ readonly m3: Buffer; readonly textures: ReadonlyMap<string, Buffer> }>>;
 
-async function make(source: AssetSource, options: MakeAssetsOptions, placeholders: ReadonlyMap<string, string>, archives: Archives): Promise<Buffer> {
-  if (isDerived(source)) return options.derive(source.derived, await make(source.from, options, placeholders, archives));
-  if (isGenerated(source)) return readFile(placeholders.get(source.sound)!);
-  if (isCommunityAsset(source)) return communityAsset(source, options, archives);
+/** The file `source` makes; `where` names the asset, for its warnings. */
+async function make(source: AssetSource, options: MakeAssetsOptions, made: Made, where: string): Promise<Buffer> {
+  if (isEncoded(source)) return options.derive(source.derived, await make(source.from, options, made, where));
+  if (isDerived(source)) {
+    const input = await make(source.from, options, made, where);
+    if (source.derived === "retexture") {
+      try {
+        return Buffer.from(retextureM3(input, source.textures));
+      } catch (error) {
+        throw new Error(`retexture: ${(error as Error).message}`, { cause: error });
+      }
+    }
+    try {
+      const recolour = recolourTexel(source);
+      // Only a hue turn is lost on grey; a saturation or lightness change still does what it says.
+      if (source.hue !== undefined && source.hue % 360 !== 0 && (source.lightness ?? 1) === 1 && meanChroma(decodeDds(input)[0]!.rgba) < GREY) {
+        made.warnings.push(`${where} turns the hue of a texture that is all but grey, which a hue turn barely changes: map it onto a gradient instead`);
+      }
+      return Buffer.from(recolourDds(input, recolour));
+    } catch (error) {
+      throw new Error(`recolour: the texture can't be recoloured, since ${(error as Error).message}`, { cause: error });
+    }
+  }
+  if (isGenerated(source)) return readFile(made.placeholders.get(source.sound)!);
+  if (isCommunityAsset(source)) return communityAsset(source, options, made.archives);
+  if (isGameFile(source)) return gameFile(source, options, made.games);
   return workspaceFile(source, options.modDir);
+}
+
+/** A texture's mean chroma below which a hue shift is warned about. */
+const GREY = 0.02;
+
+/** The game file from the machine's game, its model exported with its textures through the Host Adapter the first time the compile needs it. */
+async function gameFile(source: GameFileSource, options: MakeAssetsOptions, games: GameModels): Promise<Buffer> {
+  const key = sameStoragePath(source.game);
+  let job = games.get(key);
+  if (!job) games.set(key, (job = exportGameModel(source.game, options)));
+  const { m3, textures } = await job;
+  if (source.member === undefined) return m3;
+  const texture = textures.get(sameStoragePath(source.member));
+  if (texture) return texture;
+  const named = readM3TexturePaths(m3);
+  throw new Error(
+    named.some((name) => sameStoragePath(name) === sameStoragePath(source.member!))
+      ? `the game's ${source.game} names ${source.member}, but the Host Adapter's export didn't write it`
+      : `the game's ${source.game} doesn't name ${source.member}: it names ${named.join(", ") || "no texture"}`,
+  );
+}
+
+async function exportGameModel(model: string, options: MakeAssetsOptions): Promise<{ readonly m3: Buffer; readonly textures: ReadonlyMap<string, Buffer> }> {
+  const host = await options.host();
+  if (!host.has("model.export")) {
+    const adapter = host.adapter ? `${host.adapter.name}, from ${host.machine.file}` : "none";
+    throw new Error(`a game file is exported from the game by the machine's Host Adapter, with model.export, and this machine's (${adapter}) doesn't have it`);
+  }
+  const scratch = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-game-file-"));
+  try {
+    const file = path.join(scratch, "model.m3");
+    try {
+      await host.run("model.export", { model, outputPath: file, textures: true });
+    } catch (error) {
+      throw new Error(`the game's ${model} couldn't be exported: ${(error as Error).message}`, { cause: error });
+    }
+    const m3 = await readFile(file);
+    const textures = new Map<string, Buffer>();
+    for (const texture of readM3TexturePaths(m3)) {
+      // model.export writes each texture at its storage path under the model's folder.
+      const written = path.join(scratch, ...texture.split(/[\\/]/));
+      if (existsSync(written)) textures.set(sameStoragePath(texture), await readFile(written));
+    }
+    return { m3, textures };
+  } finally {
+    await rm(scratch, { recursive: true, force: true });
+  }
 }
 
 /** Why this machine doesn't have the Workspace file `source`, if it doesn't: it isn't there, or it's a Git LFS pointer whose file hasn't been pulled. */

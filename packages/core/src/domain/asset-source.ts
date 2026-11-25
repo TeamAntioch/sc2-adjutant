@@ -12,7 +12,14 @@
 //                                            SHA-256 is the archive's)
 //   { generated: "tts", sound }              a placeholder voice for a Sound ID, spoken in the voice
 //                                            its character declares; made on each machine, never committed
-//   { derived: "wav-to-ogg", from }          a file made from another Asset Source by a named step
+//   { game, member? }                        a stock file from the game: the model at `game`, or
+//                                            the texture it names as `member`, exported by the
+//                                            machine's Host Adapter (model.export); made on each
+//                                            machine, never committed (ADR-0027)
+//   { derived: "wav-to-ogg", from }          a file made from another Asset Source by a named step:
+//   { derived: "retexture", from, textures } wav-to-ogg encodes with ffmpeg; retexture points an
+//   { derived: "recolour", from, hue |       .m3's texture paths at other files; recolour shifts a
+//     gradient, saturation?, lightness? }    .dds texture's hue or maps its greyscale onto a gradient
 //
 // `voices` declares a conversation's voice files at once: one per line, the recording when there
 // is one, else a placeholder (a recording wins over a generated placeholder).
@@ -26,8 +33,10 @@ import { CatalogId } from "./mod-screenplay.js";
 const Sha256 = z.string().regex(/^[0-9a-f]{64}$/, "A SHA-256 is 64 lower-case hex digits");
 
 /** The named steps a derived Asset Source can be made by. */
-export const DERIVE_STEPS = ["wav-to-ogg"] as const;
+export const DERIVE_STEPS = ["wav-to-ogg", "retexture", "recolour"] as const;
 export type DeriveStep = (typeof DERIVE_STEPS)[number];
+/** The steps the machine's ffmpeg makes (host/derive.ts); the others are core's own. */
+export type EncodeStep = "wav-to-ogg";
 
 /**
  * Where a Workspace file's content came from, when it isn't the team's own work. Provenance only:
@@ -76,38 +85,120 @@ const CommunityAssetSchema = z
 /** A placeholder generated for a Sound ID: text-to-speech of its line, in its character's voice. */
 const GeneratedSchema = z.object({ generated: z.literal("tts"), sound: CatalogId }).strict();
 
+/** A storage path in the game, as a model names its textures: `Assets/Effects/x/x.m3`, either slash. */
+const StoragePath = z
+  .string()
+  .min(1)
+  .refine((value) => /^assets[\\/]/i.test(value) && !value.split(/[\\/]/).includes(".."), "A game file's path starts Assets/, as the game stores it");
+
+/**
+ * A stock file from the game: the model at `game` (an .m3 storage path), with its animations
+ * merged in, or, as `member`, one texture that model names, as the machine's Host Adapter exports
+ * them (model.export). Blizzard's files stay out of git: each machine exports its own.
+ */
+const GameFileSchema = z
+  .object({
+    game: StoragePath.refine((value) => /\.m3$/i.test(value), "A game file's `game` is a model, an .m3; a texture is the `member` of a model that names it"),
+    member: StoragePath.optional(),
+  })
+  .strict();
+
+export type GameFileSource = z.infer<typeof GameFileSchema>;
 export type WorkspaceFileSource = z.infer<typeof WorkspaceFileSchema>;
 export type CommunityAssetSource = z.infer<typeof CommunityAssetSchema>;
 export type GeneratedSource = z.infer<typeof GeneratedSchema>;
-export type DerivedSource = { readonly derived: DeriveStep; readonly from: AssetSource };
-export type AssetSource = WorkspaceFileSource | CommunityAssetSource | GeneratedSource | DerivedSource;
+/** A file encoded from another by the machine's ffmpeg. */
+export type EncodedSource = { readonly derived: EncodeStep; readonly from: AssetSource };
+/** An .m3 from another, with the texture paths it names as keys of `textures` pointed at their values (storage paths). */
+export type RetextureSource = { readonly derived: "retexture"; readonly from: AssetSource; readonly textures: Readonly<Record<string, string>> };
+/** How a recolour changes a texture: a hue shift, or its greyscale mapped onto a gradient. */
+export type Recolour = {
+  /** Degrees round the colour wheel to turn each texel's hue. */
+  readonly hue?: number | undefined;
+  /** Colours (#rrggbb) from dark to light, evenly spaced, that each texel's brightness is mapped onto; its alpha is kept. */
+  readonly gradient?: readonly string[] | undefined;
+  /** With `hue`: a factor on each texel's saturation (1 keeps it). */
+  readonly saturation?: number | undefined;
+  /** With `hue`: a factor on each texel's lightness (1 keeps it). */
+  readonly lightness?: number | undefined;
+};
+/** A .dds texture from another, recoloured. */
+export type RecolourSource = { readonly derived: "recolour"; readonly from: AssetSource } & Recolour;
+export type DerivedSource = EncodedSource | RetextureSource | RecolourSource;
+export type AssetSource = WorkspaceFileSource | CommunityAssetSource | GeneratedSource | GameFileSource | DerivedSource;
+
+const Colour = z.string().regex(/^#[0-9a-fA-F]{6}$/, "A gradient's colour is #rrggbb");
 
 export const AssetSourceSchema: z.ZodType<AssetSource> = z.lazy(() =>
-  z.union([WorkspaceFileSchema, CommunityAssetSchema, GeneratedSchema, z.object({ derived: z.enum(DERIVE_STEPS), from: AssetSourceSchema }).strict()]),
+  z.union([
+    WorkspaceFileSchema,
+    CommunityAssetSchema,
+    GeneratedSchema,
+    GameFileSchema,
+    z.object({ derived: z.literal("wav-to-ogg"), from: AssetSourceSchema }).strict(),
+    z
+      .object({ derived: z.literal("retexture"), from: AssetSourceSchema, textures: z.record(StoragePath, StoragePath) })
+      .strict()
+      .superRefine((source, context) => {
+        const made = madeFormat(source.from);
+        if (made !== "m3") context.addIssue({ code: "custom", path: ["from"], message: `retexture points an .m3's texture paths elsewhere, but its source makes a .${made || "(no extension)"} file` });
+        if (Object.keys(source.textures).length === 0) context.addIssue({ code: "custom", path: ["textures"], message: "retexture names at least one texture the model names, and the file it draws instead" });
+        const seen = new Map<string, string>();
+        for (const key of Object.keys(source.textures)) {
+          const other = seen.get(sameStoragePath(key));
+          if (other) context.addIssue({ code: "custom", path: ["textures", key], message: `${other} and ${key} are one texture: name it once` });
+          seen.set(sameStoragePath(key), key);
+        }
+      }),
+    z
+      .object({
+        derived: z.literal("recolour"),
+        from: AssetSourceSchema,
+        hue: z.number().min(-360).max(360).optional(),
+        gradient: z.array(Colour).min(2).max(16).optional(),
+        saturation: z.number().min(0).max(4).optional(),
+        lightness: z.number().min(0).max(4).optional(),
+      })
+      .strict()
+      .superRefine((source, context) => {
+        const made = madeFormat(source.from);
+        if (made !== "dds") context.addIssue({ code: "custom", path: ["from"], message: `recolour changes a .dds texture, but its source makes a .${made || "(no extension)"} file` });
+        const hueMode = source.hue !== undefined || source.saturation !== undefined || source.lightness !== undefined;
+        if (hueMode === (source.gradient !== undefined)) {
+          context.addIssue({ code: "custom", path: [], message: "recolour takes a hue shift (hue, with saturation and lightness if wanted) or a gradient, not both and not neither" });
+        }
+      }),
+  ]),
 );
+
+/** A storage path to compare: one slash, any case, as the game matches it. */
+export const sameStoragePath = (storagePath: string): string => storagePath.replace(/\\/g, "/").toLowerCase();
 
 export const isWorkspaceFile = (source: AssetSource): source is WorkspaceFileSource => "file" in source;
 export const isCommunityAsset = (source: AssetSource): source is CommunityAssetSource => "url" in source;
 export const isGenerated = (source: AssetSource): source is GeneratedSource => "generated" in source;
+export const isGameFile = (source: AssetSource): source is GameFileSource => "game" in source;
 export const isDerived = (source: AssetSource): source is DerivedSource => "derived" in source;
+export const isEncoded = (source: AssetSource): source is EncodedSource => isDerived(source) && source.derived === "wav-to-ogg";
 
 /**
  * Whether a file made from `source` is committed with the package: only one made from Workspace
- * files alone. A community asset stays out of git so its licence governs it, and a placeholder is
- * made on each machine.
+ * files alone. A community asset stays out of git so its licence governs it, a game file is
+ * Blizzard's, and a placeholder is made on each machine.
  */
 export const isCommitted = (source: AssetSource): boolean => (isDerived(source) ? isCommitted(source.from) : isWorkspaceFile(source));
 
-/** The extension (lower case, without the dot) of the file `source` makes: its own file's, archive member's or URL's, wav for a placeholder, or its step's. */
+/** The extension (lower case, without the dot) of the file `source` makes: its own file's, archive member's or URL's, wav for a placeholder, its game file's, or its step's. */
 export function madeFormat(source: AssetSource): string {
   if (isDerived(source)) return DERIVED_FORMATS[source.derived];
   if (isGenerated(source)) return "wav";
+  if (isGameFile(source)) return path.extname(source.member ?? source.game).slice(1).toLowerCase();
   const name = isWorkspaceFile(source) ? source.file : (source.member ?? new URL(source.url).pathname);
   return path.extname(name).slice(1).toLowerCase();
 }
 
 /** The format each named step makes. */
-const DERIVED_FORMATS: Record<DeriveStep, string> = { "wav-to-ogg": "ogg" };
+const DERIVED_FORMATS: Record<DeriveStep, string> = { "wav-to-ogg": "ogg", retexture: "m3", recolour: "dds" };
 
 /** The Workspace files `source` is made from. */
 export const workspaceFilesOf = (source: AssetSource): WorkspaceFileSource[] => (isDerived(source) ? workspaceFilesOf(source.from) : isWorkspaceFile(source) ? [source] : []);

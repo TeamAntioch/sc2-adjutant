@@ -750,7 +750,7 @@ async function writeGitignore(dir: string, packageName: string, uncommitted: Rea
   const text = [
     GITIGNORE_HEADER,
     ...(placeholders ? ["# Placeholder voices, and what each was made from", `/${PLACEHOLDERS_DIR}/`] : []),
-    ...(uncommitted.size > 0 ? ["# Community assets (from the machine's cache) and placeholders, in the package", ...[...uncommitted].sort().map((asset) => `/${gitignorePath(packageName)}/${gitignorePath(asset)}`)] : []),
+    ...(uncommitted.size > 0 ? ["# Community assets (from the machine's cache), game files (from the machine's game) and placeholders, in the package", ...[...uncommitted].sort().map((asset) => `/${gitignorePath(packageName)}/${gitignorePath(asset)}`)] : []),
     "",
   ].join("\n");
   if (text !== existing) await writeFile(file, text);

@@ -30,6 +30,8 @@ A doodad in a Mission's or the Campaign Mod's Blueprint `doodads` declares its s
 
 Swap n declares `Prefix` = the replaced file's base name with slot `swap<n>`, a `CTexture` `<id>_Swap<n>` whose slot names the component of the layer the model has that texture in (`swap1.emissive`), or the bare slot for any other layer (`swap2`, the environment map), and `TextureSelectById` on `ActorCreation` and `ModelSwapped` (`packages/core/src/mods/texture-swaps.ts`). A Mission's new textures are in `textures` as above, Kept, a Workspace mod it depends on, or `gameTextures`; a Campaign Mod's are in its Asset Mod (or another mod package it loads) or `gameTextures`. A `gameModel`'s swaps read the game's `.m3` through the Host Adapter's `model.export`.
 
+A swap reaches only a standard material's layers. For a model whose texture is anywhere else, such as many effects, the Asset Mod makes a recoloured copy of the model instead ([asset-sources.md](./asset-sources.md#recoloured-copies-of-stock-models)). Its `recolour` step can also make a swap's `with` texture from the game's own.
+
 Write the XML below by hand for a map no Blueprint compiles, and for what `swaps` doesn't cover: random picks (`TextureSelectBySlot`), swaps a trigger or behaviour sends, and texture groups, through a doodad's `fields`.
 
 ## Sources
