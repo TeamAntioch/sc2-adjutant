@@ -30,7 +30,7 @@ import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { cutEffect, effectSegments, parseVideoStops, type EffectVideoResult } from "../capture/effect-video.js";
-import { batchRange, DEFAULT_HOLD, effectModelData, effectTourScript, batchSeconds, EFFECT_TOUR_BANK, EFFECT_TOUR_INIT, EFFECT_TOUR_SCRIPT_ID, planEffectBatch, type EffectShot, type EffectTourOptions, type TourEffect } from "../capture/effect-tour.js";
+import { batchRange, DEFAULT_HOLD, effectModelData, effectTourScript, batchSeconds, EFFECT_TOUR_BANK, EFFECT_TOUR_INIT, EFFECT_TOUR_SCRIPT_ID, planEffectBatch, type EffectPlacement, type EffectShot, type EffectTourOptions, type HostSites, type TourEffect } from "../capture/effect-tour.js";
 import { hideErrorsDuringTest } from "../capture/capture-copy.js";
 import { runBrokeredCapture } from "../capture/editor-broker-client.js";
 import { readM3Footprint } from "../catalog/m3-footprint.js";
@@ -130,6 +130,12 @@ async function storageFiles(folder: string): Promise<Map<string, string>> {
   return files;
 }
 
+/** Core's data/effect-sites.json: where the game attaches each effect, and the hosts' attachment points. */
+type EffectSites = { readonly hosts: Readonly<Record<string, { readonly model: string; readonly sites: HostSites }>>; readonly effects: Readonly<Record<string, EffectPlacement>> };
+const effectSites = async (): Promise<EffectSites> => JSON.parse(await readFile(new URL("../../data/effect-sites.json", import.meta.url), "utf8")) as EffectSites;
+/** The tour's host, a Marine: its attachment points, which each effect's site is checked against. */
+const hostSites = async (): Promise<HostSites> => (await effectSites()).hosts["Marine"]!.sites;
+
 type Manifest = { readonly batch: number; readonly map: string; readonly effects: readonly TourEffect[]; readonly shots: readonly EffectShot[]; readonly seconds: number };
 
 async function make(args: string[]): Promise<void> {
@@ -146,6 +152,9 @@ async function make(args: string[]): Promise<void> {
   const gameModels = folder
     ? [...files.entries()].filter(([key]) => key.startsWith("assets/effects/") && key.endsWith(".m3")).map(([, full]) => storagePath(full)!).sort()
     : (JSON.parse(await readFile(new URL("../../data/game-models.json", import.meta.url), "utf8")) as string[]);
+  // A folder's models aren't the game's: no actor says where to attach them, so they go at Ref_Origin.
+  const placements = folder ? {} : (await effectSites()).effects;
+  const host = await hostSites();
   const effects: TourEffect[] = [];
   const missing: string[] = [];
   const unreadable: string[] = [];
@@ -161,7 +170,8 @@ async function make(args: string[]): Promise<void> {
     try {
       const data = new Uint8Array(await readFile(found));
       const { min, max } = readM3Footprint(data);
-      effects.push({ file, sequences: readM3Sequences(data), min, max });
+      const placement = placements[file];
+      effects.push({ file, sequences: readM3Sequences(data), min, max, ...(placement ? { placement } : {}) });
     } catch (error) {
       unreadable.push(`${file} (${(error as Error).message})`);
     }
@@ -172,7 +182,7 @@ async function make(args: string[]): Promise<void> {
   let frames = 0;
   const missingTextures = new Set<string>();
   for (let b = 0; b * size < taken.length; b++) {
-    const batch = planEffectBatch(taken.slice(b * size, (b + 1) * size));
+    const batch = planEffectBatch(taken.slice(b * size, (b + 1) * size), host);
     const name = `batch-${String(b + 1).padStart(2, "0")}`;
     const dir = path.join(out, name);
     const map = path.join(dir, `effect-tour-${String(b + 1).padStart(2, "0")}.SC2Map`);
@@ -271,7 +281,7 @@ async function capture(out: string, args: string[]): Promise<void> {
     // Written on every capture, so the script matches this run's options: a --freeze run doesn't
     // leave the next one frozen too, and --video saves a mark before each attach.
     const options: EffectTourOptions = { freeze, video };
-    await writeFile(path.join(map, "Triggers"), withCustomScript(undefined, EFFECT_TOUR_SCRIPT_ID, effectTourScript(planEffectBatch(manifest.effects), options), EFFECT_TOUR_INIT));
+    await writeFile(path.join(map, "Triggers"), withCustomScript(undefined, EFFECT_TOUR_SCRIPT_ID, effectTourScript(planEffectBatch(manifest.effects, await hostSites()), options), EFFECT_TOUR_INIT));
     await rm(framesDir, { recursive: true, force: true });
     const started = Date.now();
     console.log(`${name}: filming ${manifest.effects.length} effects, ${manifest.shots.length} frames (about ${Math.ceil(manifest.seconds / 60)} min once the game is up)`);
