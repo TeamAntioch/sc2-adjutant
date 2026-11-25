@@ -23,7 +23,7 @@ For each map, get from the mapper its path, a short id and its **provenance**: `
 
 ## 3. Study the maps and find their places
 
-Run `study_exemplar`, then `find_places` with no `ids`, so the mixtures file holds every map's places. Read each map's study through its `study-<id>` resource. Its layer images (`textures.png`, `elevation.png`, `doodads.png` and the rest, in `exemplar-maps/<id>/`) are what you look at when a map has no frames. Count each map's places from the mixtures file (`exemplar-maps/mixtures.json`, each place's `map`); the `find_places` reply gives only the total. The maps with few or no places are the maps to offer grid tours for.
+Run `study_exemplar` once for each map, with that map's id alone in `ids`, so no call grows with the pack and outlasts the client's timeout. Then run `find_places` with no `ids`, so the mixtures file holds every map's places. Read each map's study through its `study-<id>` resource. Its layer images (`textures.png`, `elevation.png`, `doodads.png` and the rest, in `exemplar-maps/<id>/`) are what you look at when a map has no frames. Count each map's places from the mixtures file (`exemplar-maps/mixtures.json`, each place's `map`); the `find_places` reply gives only the total. The maps with few or no places are the maps to offer grid tours for.
 
 **Done when** every map has a study, you have each map's count of places, and you have the list of thinly dressed maps.
 

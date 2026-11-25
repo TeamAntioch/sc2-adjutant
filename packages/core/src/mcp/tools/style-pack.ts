@@ -17,11 +17,8 @@ import { realPathOf } from "../../util/inside.js";
 import { oneAtATime } from "./mission-files.js";
 import { ADDITIVE, DESTRUCTIVE, READ_ONLY, type RefusedWithout, toolGroup } from "./tool-group.js";
 
-const IdsSchema = z
-  .array(z.string().min(1))
-  .min(1)
-  .optional()
-  .describe("The Exemplar Maps to work on, by their ids in the pack's exemplars.json; every one the pack lists when not given");
+const RequiredIdsSchema = z.array(z.string().min(1)).min(1);
+const IdsSchema = RequiredIdsSchema.optional().describe("The Exemplar Maps to work on, by their ids in the pack's exemplars.json; every one the pack lists when not given");
 
 const SOURCES =
   "Source maps are read from the folder the machine config's exemplarMaps names, else the Workspace config's exemplarMaps (relative to the Workspace, for a folder that travels with it).";
@@ -121,13 +118,13 @@ export function registerStylePackTools(server: McpServer, ctx: CallContext, { ca
     {
       title: "Study Exemplar Maps",
       annotations: DESTRUCTIVE,
-      description: `Builds the Map Study of one or more of the active Style Pack's Exemplar Maps: study.json (measurements of its texturing, cliffs, doodads, lighting and composition) and its layer images, written into the pack's exemplar-maps/<id>/ over any study already there. ${SOURCES} Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.`,
-      inputSchema: { ids: IdsSchema },
+      description: `Builds the Map Study of one or more of the active Style Pack's Exemplar Maps: study.json (measurements of its texturing, cliffs, doodads, lighting and composition) and its layer images, written into the pack's exemplar-maps/<id>/ over any study already there. Each map takes seconds, and a call that studied a whole pack could outlast the client's timeout, so study a few maps per call and call again for the rest. ${SOURCES} Refused, before anything is written, for an id the pack doesn't list or a source map that isn't there.`,
+      inputSchema: { ids: RequiredIdsSchema.describe("The Exemplar Maps to study, by their ids in the pack's exemplars.json: at least one, a few at most") },
       outputSchema: { studied: z.array(z.object({ id: z.string(), studyDir: z.string(), images: z.array(z.string()) })) },
     },
     async ({ ids }) => {
       const workspace = await ctx.workspace();
-      const studied = await studyExemplars(workspace, { ...(ids ? { ids } : {}), machine: ctx.host.machine });
+      const studied = await studyExemplars(workspace, { ids, machine: ctx.host.machine });
       const lines = studied.map(({ id, studyDir, images, seconds }) => `${id}: study.json and ${images.join(", ")} in ${studyDir} (${seconds.toFixed(1)}s)`);
       return ctx.reply(lines.join("\n"), { studied: studied.map(({ id, studyDir, images }) => ({ id, studyDir, images: [...images] })) });
     },

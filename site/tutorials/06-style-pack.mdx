@@ -76,7 +76,10 @@ Each map's **provenance** is `made`, `edited` or `approved`. It's the one thing 
 <Objective id="study" title="Study the maps and find their places">
 
 <Claude>
-<ToolCall name="study_exemplar" args={{}}>builds each map's Map Study: its measurements and layer images</ToolCall>
+<ToolCall name="study_exemplar" args={{ ids: ["harbour"] }}>builds Harbour's Map Study: its measurements and layer images</ToolCall>
+<ToolCall name="study_exemplar" args={{ ids: ["foundry"] }} />
+<ToolCall name="study_exemplar" args={{ ids: ["outpost"] }} />
+<ToolCall name="study_exemplar" args={{ ids: ["relic"] }} />
 
 <ToolCall name="find_places" args={{}}>finds each map's dressed places and writes them to the mixtures file</ToolCall>
 
@@ -85,7 +88,7 @@ All four are studied. The maps hold 76 dressed places: Harbour 31, Foundry 24, R
 
 <You>Yes, a grid tour of Outpost too.</You>
 
-A **Map Study** is a map's look as measurements: its texturing, cliffs, doodad dressing, lighting and composition. [`study_exemplar`](/tools/study_exemplar/) writes it as `study.json` in `exemplar-maps/<id>/`, beside its layer images: the map from above as textures, elevation, doodads and more. They're what Claude looks at for a map with no frames.
+A **Map Study** is a map's look as measurements: its texturing, cliffs, doodad dressing, lighting and composition. [`study_exemplar`](/tools/study_exemplar/) writes it as `study.json` in `exemplar-maps/<id>/`, beside its layer images: the map from above as textures, elevation, doodads and more. They're what Claude looks at for a map with no frames. Claude studies one map per call, so no call grows with the pack and outlasts the client's timeout.
 
 A **place** is a cluster of doodads: doodads within 2.5 cells of each other, with a wide cluster split into 16-cell tiles, and anything under 8 visible doodads dropped. [`find_places`](/tools/find_places/) records each place's centre, size and what it's made of in `exemplar-maps/mixtures.json`: its **motifs**, such as machinery, cargo, rock or vegetation, as shares of its doodads, and its most-used types. The places are where the in-game captures look, and what moods are made of. Claude always runs it over every map, since it rewrites the file for the maps it's given alone.
 

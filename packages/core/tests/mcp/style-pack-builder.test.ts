@@ -81,8 +81,8 @@ describe("a dry run of the style-pack-builder skill", () => {
     await call(client, "add_exemplar_map", { id: "plaza", map: "Plaza.SC2Map", provenance: "made" });
     await call(client, "add_exemplar_map", { id: "square", map: "Square.SC2Map", provenance: "edited", note: "a copy of plaza" });
 
-    // 3. Study and find places.
-    await call(client, "study_exemplar");
+    // 3. Study each map in a call of its own, then find every map's places.
+    for (const id of ["plaza", "square"]) await call(client, "study_exemplar", { ids: [id] });
     expect((await call(client, "find_places")).structuredContent).toMatchObject({ maps: ["plaza", "square"], places: 2, moods: {} });
 
     // 4. Capture: this machine can't, so the run goes on from the studies.

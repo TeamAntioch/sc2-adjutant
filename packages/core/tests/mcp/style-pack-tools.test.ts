@@ -47,8 +47,20 @@ describe("study_exemplar", () => {
     const studies = async () => (await client.listResources()).resources.map((resource) => resource.uri).filter((uri) => uri.includes("/knowledge/study-"));
     expect(await studies()).toEqual([]);
 
-    await client.callTool({ name: "study_exemplar", arguments: {} });
+    await client.callTool({ name: "study_exemplar", arguments: { ids: ["plaza"] } });
     expect(await studies()).toEqual(["sc2-adjutant://plugins/studio-style/knowledge/study-plaza"]);
+  });
+
+  it("refuses a call that names no maps, so no call grows with the pack, and writes nothing", async () => {
+    const root = await studio();
+    const client = await connect(root);
+
+    for (const args of [{}, { ids: [] }]) {
+      const reply = await client.callTool({ name: "study_exemplar", arguments: args });
+      expect(reply.isError).toBe(true);
+      expect(text(reply)).toContain("ids");
+    }
+    expect(existsSync(path.join(exemplarDir(root), "plaza"))).toBe(false);
   });
 
   it("refuses an id the pack doesn't list, naming it and the pack's ids, and writes nothing", async () => {
@@ -65,7 +77,7 @@ describe("study_exemplar", () => {
     const root = await copyOf("studio");
     const client = await connect(root);
 
-    const reply = await client.callTool({ name: "study_exemplar", arguments: {} });
+    const reply = await client.callTool({ name: "study_exemplar", arguments: { ids: ["plaza"] } });
     expect(reply.isError).toBe(true);
     expect(text(reply)).toContain(`No source map for Exemplar Map plaza (${path.join(root, "exemplar-sources/Plaza.SC2Map")})`);
     expect(text(reply)).toContain("set exemplarMaps");
@@ -78,7 +90,7 @@ describe("study_exemplar", () => {
     await writeFile(config, JSON.stringify(rest));
     const client = await connect(root);
 
-    const reply = await client.callTool({ name: "study_exemplar", arguments: {} });
+    const reply = await client.callTool({ name: "study_exemplar", arguments: { ids: ["plaza"] } });
     expect(reply.isError).toBe(true);
     expect(text(reply)).toMatch(/set exemplarMaps in the machine config .*, or SC2_ADJUTANT_EXEMPLAR_MAPS/);
   });
@@ -180,7 +192,7 @@ describe("exemplar_report", () => {
   it("reports every measure of the pack's studies against the shipped baseline, naming the missions it couldn't measure", async () => {
     const root = await studio();
     const client = await connect(root);
-    await client.callTool({ name: "study_exemplar", arguments: {} });
+    await client.callTool({ name: "study_exemplar", arguments: { ids: ["plaza"] } });
 
     const reply = await client.callTool({ name: "exemplar_report", arguments: {} });
     expect(reply.isError, text(reply)).toBeFalsy();
