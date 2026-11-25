@@ -2,7 +2,7 @@
 
 An Asset Mod holds a Campaign's art and audio files and nothing else ([ADR-0011](../adr/0011-mods-from-mod-blueprints.md)). The tooling can't make a model or record a voice, so the mod is assembled: its Mod Blueprint names the **Asset Source** of each file, and `compile-mod` makes each file from it, in place in the committed package. A file the Blueprint doesn't name stays Kept, as Import left it.
 
-## The four kinds
+## The five kinds
 
 ```jsonc
 // mods/<asset mod>/blueprint.json
@@ -15,6 +15,8 @@ An Asset Mod holds a Campaign's art and audio files and nothing else ([ADR-0011]
   { "path": "Base.SC2Assets/Assets/Textures/Crane_Diffuse.dds", "source": { "url": "https://…/crane-pack.zip", "version": "1.2", "licence": "CC-BY-4.0", "sha256": "…", "member": "Crane Pack/Assets/Textures/Crane_Diffuse.dds" } },
   // A generated placeholder: text-to-speech of a Sound ID's line, in its character's voice.
   { "path": "Base.SC2Assets/Assets/Sounds/Radio.wav", "source": { "generated": "tts", "sound": "H-01-003-DOCKHAND" } },
+  // A game file: a stock model, or a texture it names as its member, exported from this machine's game.
+  { "path": "Base.SC2Assets/Assets/Textures/PsiStorm_Copy.dds", "source": { "game": "Assets/Effects/PsiStorm/PsiStorm.m3", "member": "Assets/Textures/PsiStorm_Diffuse.dds" } },
   // A derived file: another Asset Source, made by a named step.
   { "path": "Base.SC2Assets/Assets/Sounds/Gull.ogg", "source": { "derived": "wav-to-ogg", "from": { "file": "sounds/Gull.wav", "sha256": "…" } } }
 ]
@@ -25,7 +27,28 @@ An Asset Mod holds a Campaign's art and audio files and nothing else ([ADR-0011]
 | Workspace file | the file in the mod's folder, refused unless its SHA-256 is the recorded one (`check-workspace` reports it too) | yes |
 | community asset | `<cacheDir>/community-assets/<sha256>/<name>` in the machine's cache, fetched there the first time; a download with another SHA-256 is refused and not cached | no |
 | generated | `mods/<id>/placeholders/<Sound>.wav`, written by the machine's Host Adapter (`tts.speak`, the macOS one uses `say`) in the voice the speaker's [character](./characters.md) declares, or silence of the line's length on a machine that can't speak or when speaking a line fails (with a warning; a placeholder it spoke before is kept); a manifest there skips unchanged lines and makes a changed one again, as `npm run tts` does for a Mission | no |
-| derived | its source, made by the step: `wav-to-ogg` encodes Vorbis with ffmpeg (libvorbis when ffmpeg has it, else its own encoder, in stereo), with no metadata, so the same input gives the same file; each output is cached by its input's SHA-256 in `<cacheDir>/derived/` (the system's temporary folder without a cacheDir), so it is encoded once, and a Mission's voice files are made by the same step ([screenplay-format.md](../screenplay-format.md#voice-files)). ffmpeg's own Vorbis encoder never finishes a WAV with no samples: it writes output, about 1.2 MB a second, until it is killed, and ignores SIGTERM, so the step gives it one silent sample frame instead. Every run is bounded, so a run that goes wrong some other way is stopped: a timeout of a minute plus twice the input's length, then SIGKILL; an output cap the kernel enforces (`ulimit -f`), well past what the input could make; and the run is killed when the process that started it ends, however it ends | as its source |
+| game file | the machine's game, through its Host Adapter's `model.export` with the model's textures ([ADR-0027](../adr/0027-stock-files-made-on-each-machine.md)): exported once a compile however many files are taken from the model. A `member` the model doesn't name is refused, listing the ones it does, and so is a machine whose Host Adapter has no `model.export` | no |
+| derived | its source, made by the step: `retexture` and `recolour` (below), or `wav-to-ogg`, which encodes Vorbis with ffmpeg (libvorbis when ffmpeg has it, else its own encoder, in stereo), with no metadata, so the same input gives the same file; each output is cached by its input's SHA-256 in `<cacheDir>/derived/` (the system's temporary folder without a cacheDir), so it is encoded once, and a Mission's voice files are made by the same step ([screenplay-format.md](../screenplay-format.md#voice-files)). ffmpeg's own Vorbis encoder never finishes a WAV with no samples: it writes output, about 1.2 MB a second, until it is killed, and ignores SIGTERM, so the step gives it one silent sample frame instead. Every run is bounded, so a run that goes wrong some other way is stopped: a timeout of a minute plus twice the input's length, then SIGKILL; an output cap the kernel enforces (`ulimit -f`), well past what the input could make; and the run is killed when the process that started it ends, however it ends | as its source |
+
+### Recoloured copies of stock models
+
+A texture swap changes a stock model's texture without a copy, but only in a standard material's layer ([texture-swaps.md](./texture-swaps.md)). For any other model, such as an effect, the Asset Mod makes a copy: the model with its texture paths pointed at new files (`retexture`), and each new texture recoloured from the stock one (`recolour`). A Campaign Mod's `CModel` then names the copy's path.
+
+```jsonc
+{ "path": "Base.SC2Assets/Assets/Effects/RedStorm/RedStorm.m3",
+  "source": { "derived": "retexture", "from": { "game": "Assets/Effects/Protoss/PsiStorm/PsiStorm.m3" },
+              "textures": { "Assets/Textures/PsiEnergy2.dds": "Assets/Textures/RedStorm_PsiEnergy2.dds", … } } },
+{ "path": "Base.SC2Assets/Assets/Textures/RedStorm_PsiEnergy2.dds",
+  "source": { "derived": "recolour", "hue": 110,
+              "from": { "game": "Assets/Effects/Protoss/PsiStorm/PsiStorm.m3", "member": "Assets/Textures/PsiEnergy2.dds" } } }
+```
+
+**Checked in the game** (`capture_shots` on the Mac client, 2026-11-25): this Psionic Storm, with its ten coloured textures (of the 14 it names) each recoloured at `hue: 110`, played its Stand beside the stock model, pink-red beside blue, with no model or texture error in the game's log. Its two all-but-grey textures (`DoubleGrad1.dds`, `Shockwave_FX_6.dds`) were left stock, and its `Radius2.dds` and `Radius2_Strength.dds` aren't written by `model.export`, so they can't be taken as members. A truer red than pink needs a larger turn, or a gradient for the white-hot core. The test map is rebuilt by `build_recolour_map.py` in the Terrain Test Mission's `output/recolour/` in its Workspace, from an Asset Mod compiled in a throwaway Workspace beside it.
+
+- **retexture** takes an `.m3` and maps texture paths its layers name (any case, either slash) to new storage paths of any length (`catalog/m3-retexture.ts`). A path no layer names is refused, listing the ones they do. The compile warns about a new path the Asset Mod doesn't make, since the model shows it only if the game or another loaded mod has it.
+- **recolour** takes a `.dds` and either turns each texel's hue by `hue` degrees, optionally scaling its HSL `saturation` and `lightness`, or maps its brightness onto a `gradient` of 2 to 16 `#rrggbb` colours from dark to light. Use one mode or the other, not both. It reads DXT1, DXT3, DXT5 and 24- or 32-bit uncompressed textures, every mip level and cube face, and writes the same format back: an alpha half is copied byte for byte, DXT1's transparent texels stay transparent, and the colour half is encoded again the same way every time (`catalog/dds.ts`). BC4/BC5, DX10 and volume textures are refused by name. A hue shift of a texture that is all but grey changes almost nothing, so the compile warns and suggests a gradient, which is how a greyscale effect texture is tinted.
+
+A file made from a game file is uncommitted, whatever steps it goes through.
 
 The SHA-256 is the hash Git LFS stores a file by, so a Workspace file and the same file in the package are one LFS object.
 
@@ -77,7 +100,7 @@ Whether a voice file is committed follows from the Blueprint, never from what th
 
 ## Kept out of git
 
-A file made from anything but Workspace files (a community asset, a placeholder, or one derived from them) is **uncommitted**: each machine makes its own, so it's on the compile record as `{ "kind": "uncommitted", "path" }`, without a fingerprint, and a fresh clone that doesn't have it gets it from the next compile without it counting as an Editor change. The compile writes `mods/<id>/.gitignore`, beginning `# Written by compile-mod`, listing `placeholders/` and each uncommitted package file (its `*`, `?`, `[` and `\` escaped, so each pattern matches that file alone), and removes it when there's nothing left to ignore. A `.gitignore` there that the author wrote is left alone, and a compile that would make uncommitted files beside it stops before writing anything. A compile that stops still leaves the placeholders it spoke in `placeholders/`, and the community assets it fetched in the cache.
+A file made from anything but Workspace files (a community asset, a game file, a placeholder, or one derived from them) is **uncommitted**: each machine makes its own, so it's on the compile record as `{ "kind": "uncommitted", "path" }`, without a fingerprint, and a fresh clone that doesn't have it gets it from the next compile without it counting as an Editor change. The compile writes `mods/<id>/.gitignore`, beginning `# Written by compile-mod`, listing `placeholders/` and each uncommitted package file (its `*`, `?`, `[` and `\` escaped, so each pattern matches that file alone), and removes it when there's nothing left to ignore. A `.gitignore` there that the author wrote is left alone, and a compile that would make uncommitted files beside it stops before writing anything. A compile that stops still leaves the placeholders it spoke in `placeholders/`, and the community assets it fetched in the cache.
 
 A file git already tracks stays tracked, since `.gitignore` doesn't untrack one, such as a Kept file the Import committed that a placeholder now stands in for. The compile warns about each, with the `git rm --cached` that untracks it, since otherwise the next commit records this machine's file over the one git has.
 

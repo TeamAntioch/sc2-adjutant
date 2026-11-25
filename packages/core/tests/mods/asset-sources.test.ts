@@ -28,6 +28,10 @@ import { screenplay, setAct } from "./harbour-chats.js";
 import { declareRecordings, harbourWithArt, inArt, RECORDING, sha256, SOUND_DATA, SOUND_ENTRY, SOUND_SET, SOUNDS, VOICE, VOICE_FOLDER } from "./harbour-art.js";
 import { binary, cleanupMods, declare, type Mod, put } from "./mod-fixture.js";
 import { zip } from "./zip-fixture.js";
+import { readM3MaterialTextures } from "../../src/catalog/m3-textures.js";
+import { decodeDds } from "../../src/catalog/dds.js";
+import { m3 } from "../fixtures/m3.js";
+import { BGRA, bgra, dds } from "../fixtures/dds.js";
 
 afterEach(cleanupMods);
 
@@ -409,6 +413,104 @@ describe("a derived Asset Source", () => {
     expect((await inArt(art, "Base.SC2Assets/Assets/Sounds/gull.ogg")).toString()).toBe("OggS RIFF a gull's cry");
     // Made from Workspace files alone, it's committed with the package.
     expect(compiled.record.entries).toContainEqual(expect.objectContaining({ kind: "file", path: "Base.SC2Assets/Assets/Sounds/gull.ogg" }));
+  });
+});
+
+describe("a game file", () => {
+  const STORM = "Assets/Effects/PsiStorm/PsiStorm.m3";
+  const DIFFUSE = "Assets\\Textures\\PsiStorm_Diffuse.dds";
+  const RED_M3 = "Base.SC2Assets/Assets/Effects/RedStorm/RedStorm.m3";
+  const RED_DIFFUSE = "Base.SC2Assets/Assets/Textures/RedStorm_Diffuse.dds";
+  const model = m3([], { bounds: { min: [-1, -1, 0], max: [1, 1, 2] }, materials: [{ blendMode: 2 }], materialLayers: [{ name: "storm", layers: { 0: DIFFUSE } }] });
+  const purple = dds({ width: 2, height: 1, format: BGRA }, bgra(2, 1, (x) => [128, 0, 255, 100 + x]));
+  const grey = dds({ width: 1, height: 1, format: BGRA }, bgra(1, 1, () => [128, 128, 128, 255]));
+
+  /** A machine whose Host Adapter exports the game's PsiStorm model and its texture, recording each export. */
+  function gameHost(exported: string[] = [], texture = purple): Host {
+    const host = speakingHost();
+    return {
+      ...host,
+      has: (name) => name === "model.export" || host.has(name),
+      run: (async (name: string, request: { model: string; outputPath: string; textures?: boolean }) => {
+        if (name !== "model.export") return host.run(name as "tts.speak", request as never);
+        exported.push(request.model);
+        if (request.model !== STORM) throw new Error(`the viewer couldn't open ${request.model}`);
+        await put(request.outputPath, Buffer.from(model));
+        if (request.textures) await put(path.join(path.dirname(request.outputPath), "Assets", "Textures", "PsiStorm_Diffuse.dds"), Buffer.from(texture));
+      }) as Host["run"],
+    };
+  }
+
+  const recoloured = {
+    assets: [
+      { path: RED_M3, source: { derived: "retexture", from: { game: STORM }, textures: { [DIFFUSE]: "Assets/Textures/RedStorm_Diffuse.dds" } } },
+      { path: RED_DIFFUSE, source: { derived: "recolour", hue: 90, from: { game: STORM, member: DIFFUSE } } },
+    ],
+  };
+
+  it("makes a recoloured copy of a stock model from one export, kept out of git", async () => {
+    const { art } = await harbourWithArt();
+    await declare(art, recoloured);
+    const exported: string[] = [];
+
+    const compiled = await compileMod(art.blueprintPath, { host: gameHost(exported), derive });
+
+    expect(exported).toEqual([STORM]);
+    expect(readM3MaterialTextures(await inArt(art, RED_M3))[0]!.layers).toEqual([{ slot: "diffuse", texture: "Assets/Textures/RedStorm_Diffuse.dds" }]);
+    const [r, g, b, a] = decodeDds(await inArt(art, RED_DIFFUSE))[0]!.rgba;
+    expect([r! > 200, Math.max(g!, b!) < 20, a]).toEqual([true, true, 100]);
+    expect(compiled.record.entries).toContainEqual({ kind: "uncommitted", path: RED_M3 });
+    expect(compiled.record.entries).toContainEqual({ kind: "uncommitted", path: RED_DIFFUSE });
+    expect(await readFile(path.join(art.modDir, ".gitignore"), "utf8")).toContain(RED_M3);
+    expect(compiled.warnings.join("\n")).not.toMatch(/doesn't declare/);
+  });
+
+  it("warns when a retextured model draws a file the Asset Mod doesn't make", async () => {
+    const { art } = await harbourWithArt();
+    await declare(art, { assets: [recoloured.assets[0]] });
+
+    const compiled = await compileMod(art.blueprintPath, { host: gameHost(), derive });
+
+    expect(compiled.warnings).toContainEqual(expect.stringMatching(/draws Assets\/Textures\/RedStorm_Diffuse\.dds, which its Blueprint doesn't declare/));
+  });
+
+  it("warns when a hue shift is given a grey texture, which it barely changes", async () => {
+    const { art } = await harbourWithArt();
+    await declare(art, { assets: [recoloured.assets[1]] });
+
+    const compiled = await compileMod(art.blueprintPath, { host: gameHost([], grey), derive });
+
+    expect(compiled.warnings).toContainEqual(expect.stringMatching(/assets\.0 \(Base\.SC2Assets\/Assets\/Textures\/RedStorm_Diffuse\.dds\) turns the hue of a texture that is all but grey.*gradient/));
+
+    // A lightness change does what it says on grey, so it isn't warned about.
+    await declare(art, { assets: [{ ...recoloured.assets[1], source: { derived: "recolour", lightness: 0.5, from: recoloured.assets[1]!.source.from } }] });
+    const darker = await compileMod(art.blueprintPath, { host: gameHost([], grey), derive });
+    expect(darker.warnings.join("\n")).not.toMatch(/all but grey/);
+  });
+
+  it("refuses a texture the model doesn't name, and a machine that can't export", async () => {
+    const { art } = await harbourWithArt();
+    await declare(art, { assets: [{ path: RED_DIFFUSE, source: { game: STORM, member: "Assets/Textures/Other.dds" } }] });
+    await expect(compileMod(art.blueprintPath, { host: gameHost(), derive })).rejects.toThrow(/assets\.0 .*doesn't name Assets\/Textures\/Other\.dds: it names Assets\\Textures\\PsiStorm_Diffuse\.dds/);
+
+    await declare(art, recoloured);
+    await expect(compileMod(art.blueprintPath, { host: speakingHost(), derive })).rejects.toThrow(/exported from the game by the machine's Host Adapter, with model\.export/);
+  });
+
+  it("refuses a retexture of a texture the model's layers don't name", async () => {
+    const { art } = await harbourWithArt();
+    await declare(art, { assets: [{ ...recoloured.assets[0], source: { ...recoloured.assets[0]!.source, textures: { "Assets/Textures/Nope.dds": "Assets/Textures/X.dds" } } }] });
+    await expect(compileMod(art.blueprintPath, { host: gameHost(), derive })).rejects.toThrow(/retexture: the model's layers don't name Assets\/Textures\/Nope\.dds/);
+  });
+
+  it("is refused by the Blueprint when a step's source makes the wrong kind of file, or a recolour has both modes", async () => {
+    const { art } = await harbourWithArt();
+    await declare(art, { assets: [{ path: RED_M3, source: { derived: "retexture", from: { game: STORM, member: DIFFUSE }, textures: { [DIFFUSE]: "Assets/Textures/X.dds" } } }] });
+    await expect(compileMod(art.blueprintPath, { host: gameHost(), derive })).rejects.toThrow(/retexture points an \.m3's texture paths elsewhere, but its source makes a \.dds file/);
+    await declare(art, { assets: [{ path: RED_DIFFUSE, source: { derived: "recolour", hue: 90, gradient: ["#000000", "#ffffff"], from: { game: STORM, member: DIFFUSE } } }] });
+    await expect(compileMod(art.blueprintPath, { host: gameHost(), derive })).rejects.toThrow(/a hue shift .* or a gradient, not both and not neither/);
+    await declare(art, { assets: [{ path: RED_DIFFUSE, source: { game: "Assets/Textures/PsiStorm_Diffuse.dds" } }] });
+    await expect(compileMod(art.blueprintPath, { host: gameHost(), derive })).rejects.toThrow(/`game` is a model, an \.m3/);
   });
 });
 

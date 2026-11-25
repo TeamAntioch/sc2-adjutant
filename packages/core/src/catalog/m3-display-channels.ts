@@ -8,7 +8,7 @@
 import { m3Index } from "./m3-sequences.js";
 
 /** A LAYR's size by version. */
-const LAYR_SIZE: Readonly<Record<number, number>> = { 20: 356, 21: 356, 22: 356, 23: 428, 24: 436, 25: 468, 26: 464 };
+export const LAYR_SIZE: Readonly<Record<number, number>> = { 20: 356, 21: 356, 22: 356, 23: 428, 24: 436, 25: 468, 26: 464 };
 const channelAt = (version: number): number => (version >= 24 ? 100 : 92);
 
 /** The channels an MD34 .m3's layers show, each once, lowest first; none for a model that isn't a display. */
