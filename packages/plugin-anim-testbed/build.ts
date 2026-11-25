@@ -22,6 +22,7 @@ import {
   writeMapScript,
 } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
+import { sectionNames, tuneBankName } from "./tune.ts";
 import { MOMENT_ATS, MOMENT_DOS, MOMENT_FROMS, type MomentDo, type Spec, type SpecMoment, type SpecUnit, readSpec } from "./spec.ts";
 
 /** The runtime the spec's data is put into. */
@@ -561,6 +562,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   let maxCuesVar = 1;
   let nv = 0;
   let nq = 0;
+  const sections = sectionNames(spec.units);
   for (const [ui, unit] of spec.units.entries()) {
     const clips = clipsOf.get(ui);
     if (unit.idle) checkAnim(unit.idle, `${unit.key} idle`, clips);
@@ -578,7 +580,8 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
       const secs = checkAnim(anim.play, `${unit.key} animation "${name}"`, clips);
       const land = anim.land ?? anim.strike;
       const length = anim.length ?? secs ?? Math.max(land, anim.clear) + 1;
-      data.push(`    Tb_A(${ui}, ${ai}, ${gstr(name)}, ${gstr(anim.play)}, ${gfix(anim.strike)}, ${gfix(land)}, ${gfix(length)}, ${gfix(anim.clear)});`);
+      const linked = anim.land === undefined ? "true" : "false";
+      data.push(`    Tb_A(${ui}, ${ai}, ${gstr(name)}, ${gstr(anim.play)}, ${gfix(anim.strike)}, ${gfix(land)}, ${gfix(length)}, ${gfix(anim.clear)}, ${linked}, ${gstr(sections[ui]![ai]!)});`);
     }
     for (const name of Object.keys(unit.moments)) if (!momentIndex.has(name)) report.errors.push(`${unit.key}: moment "${name}", which the spec doesn't define`);
     for (const [momentName, info] of momentIndex) {
@@ -670,6 +673,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     `const int TB_NT = ${maxCuesVar + 2};`,
     `const int TB_NTOUR = ${Math.max(1, ntour)};`,
     `const string TB_TOUR_BANK = ${gstr(TOUR_BANK)};`,
+    `const string TB_TUNE_BANK = ${gstr(tuneBankName(name))};`,
     `const fixed TB_X = ${gfix(stage.at[0])};`,
     `const fixed TB_Y = ${gfix(stage.at[1])};`,
     `const fixed TB_GAP = ${gfix(stage.gap)};`,

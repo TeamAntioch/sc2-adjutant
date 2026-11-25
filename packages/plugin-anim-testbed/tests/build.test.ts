@@ -122,7 +122,8 @@ describe("buildTestbed", () => {
     expect(mapScript).toContain('Tb_M(2, "death", 2, 0, 0);');
     expect(mapScript).toContain('Tb_M(3, "voice", 0, 0, 0);');
     // Each unit's animations, its animation for each moment, and each variation tagged by what it holds.
-    expect(mapScript).toContain('Tb_A(0, 0, "attack", "AnimPlay Attack Attack NonLooping", 0.1, 0.15, 1.15, 0.0);');
+    expect(mapScript).toContain('Tb_A(0, 0, "attack", "AnimPlay Attack Attack NonLooping", 0.1, 0.15, 1.15, 0.0, false, "marine_attack");');
+    expect(mapScript).toContain('const string TB_TUNE_BANK = "AnimTuneStockUnits";');
     expect(mapScript).toContain("Tb_UM(0, 1, 0);");
     expect(mapScript).toContain('Tb_V(0, 0, "the Marine\'s own rifle burst  [sound]", "the Marine\'s own rifle burst", true, -1);');
     expect(mapScript).toContain("Tb_Init();");
@@ -200,7 +201,7 @@ describe("buildTestbed", () => {
     });
     const good = await buildTestbed(spec, { workspace: null, check: true });
     expect(good.report.errors).toEqual([]);
-    expect(good.script).toContain('Tb_A(0, 1, "flinch", "AnimPlay Damage Damage NonLooping", 0.0, 0.0, 1.4, 0.4);');
+    expect(good.script).toContain('Tb_A(0, 1, "flinch", "AnimPlay Damage Damage NonLooping", 0.0, 0.0, 1.4, 0.4, true, "marine_flinch");');
     expect(good.script).toContain("Tb_UM(0, 4, 1);");
     expect(good.script).toContain('Tb_V(0, 0, "the flinch instead  [anim]", "the flinch instead", false, 1);');
     await editSpec(spec, (s) => {

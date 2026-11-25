@@ -47,12 +47,35 @@ In the dialog:
 4. Watch the readout: one sentence on what plays ("marine attack: animation attack (1.15 s). Sounds
    at the unit."), then a timeline in seconds from Play. The animation's strike and land are marker
    rows, and each cue is greyed until it fires.
+5. Retime the animation with **Strike** and **Land**, under the Animation dropdown: each press moves
+   the time by 0.05 s, and Play plays it. A time that differs from the spec's turns gold. Where the spec
+   leaves `land` out, it follows the strike ("= strike") until the land is stepped itself. The times are
+   clamped: 0 ≤ strike ≤ land ≤ length, and a strike stepped past the land pushes it.
 
 **Send** plays the edit box's text as a CSound id at the unit. Text with a space goes to the unit's
 actor, and text starting with `target ` goes to the target's actor.
 
-In chat, `-t <strike> [land]` retimes the selected animation and prints the numbers to copy back into the
-spec, `-len <s>` sets its length, and `-help` lists the commands.
+In chat, `-t <strike> [land]` sets the selected animation's times, `-len <s>` its length (it has no
+stepper), and `-help` lists the commands. They are clamped like the steppers, and say when they were.
+
+### Retimes back into the spec
+
+Every retime is saved straight away to a bank named after the spec (`stock-units` saves
+`AnimTuneStockUnits.SC2Bank`), with what the build gave each time. After quitting the game:
+
+```sh
+node node_modules/@team-antioch/sc2-adjutant-anim-testbed/dist/testbed.js <spec.json> --apply [--bank <file>]
+```
+
+- It finds the bank under the game's Banks folder, which the Host Adapter names (`game.banksDir`). With
+  more than one, or a Host that can't name the folder, give it with `--bank`.
+- It writes each changed `strike`, `land` and `length` into the spec in place, keeping its comments and
+  layout, and prints each (`marine / attack: strike 0.10 → 0.15`). A `land` left out stays out while it
+  follows the strike.
+- A time the spec has changed since the build is skipped and said, as is an animation the spec no
+  longer has. These stay in the bank; what was written leaves it, and the bank goes once empty.
+- A new game starts from the spec's times and leaves the bank alone, so retimes from several games add up
+  until `--apply`.
 
 `examples/stock-units.json` uses stock units and stock sounds only. It builds on the example Campaign's
 Mission:
@@ -169,6 +192,7 @@ come from the example's tour.
 | Path | What it is |
 |---|---|
 | `testbed.ts` | The command |
+| `tune.ts` | The tuning bank, and `--apply`'s edit of the spec |
 | `build.ts` | The checks and the map |
 | `spec.ts` | The spec's schema |
 | `runtime/testbed.galaxy` | The map's script. The build fills in its CONSTANTS and DATA marker lines |

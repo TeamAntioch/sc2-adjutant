@@ -35,6 +35,9 @@ const int TB_BASE_STRIKE = 1;
 const int TB_BASE_LAND = 2;
 
 const fixed TB_TARGET_RESPAWN = 2.0;  // how long after an effect kills the target it comes back
+const int TB_DLG_H = 745;             // the dialog's height
+const fixed TB_STEP = 0.05;           // a strike or land stepper press (a cue's Wait resolves to a game loop, 1/16 s)
+const string TB_GOLD = "d8b45a";      // a marker row, and a tuned value
 
 // Units
 string[TB_NU] tb_uName;
@@ -52,6 +55,12 @@ fixed[TB_NU][TB_NA] tb_aStrike;
 fixed[TB_NU][TB_NA] tb_aLand;
 fixed[TB_NU][TB_NA] tb_aLen;
 fixed[TB_NU][TB_NA] tb_aClear;   // 0: let it finish
+// What the build gave each animation, so a tuned one shows (gold) and the bank records both
+fixed[TB_NU][TB_NA] tb_aStrike0;
+fixed[TB_NU][TB_NA] tb_aLand0;
+fixed[TB_NU][TB_NA] tb_aLen0;
+bool[TB_NU][TB_NA] tb_aLink;     // land follows strike: the spec left land out, and it hasn't been stepped
+string[TB_NU][TB_NA] tb_aSec;    // its section in the tuning bank
 
 // Moments, and each unit's animation for each
 string[TB_NM] tb_mName;
@@ -103,12 +112,22 @@ unit tb_target;
 
 // The GUI
 int tb_dlg;
+bank tb_bank;                    // the tuning bank, TB_TUNE_BANK: never cleared here, only by --apply
 int tb_unitPd;
 int tb_momPd;
 int tb_varPd;
 int tb_note;
 int tb_animLabel;
 int tb_animPd;
+int tb_sLabel;                   // the stepper row: Strike [-] 0.10 [+]   Land [-] 0.10 [+]  = strike
+int tb_sDown;
+int tb_sVal;
+int tb_sUp;
+int tb_lLabel;
+int tb_lDown;
+int tb_lVal;
+int tb_lUp;
+int tb_lLink;
 int tb_play;
 int tb_stop;
 int tb_loop;
@@ -137,13 +156,19 @@ void Tb_U (int u, string name, string type, fixed reach, string idle, fixed resp
     tb_uRespawn[u] = respawn;
 }
 
-void Tb_A (int u, int a, string name, string play, fixed strike, fixed land, fixed len, fixed clear) {
+// linked: the spec leaves land out, so it follows the strike. sec: its section in the tuning bank.
+void Tb_A (int u, int a, string name, string play, fixed strike, fixed land, fixed len, fixed clear, bool linked, string sec) {
     tb_aName[u][a] = name;
     tb_aPlay[u][a] = play;
     tb_aStrike[u][a] = strike;
     tb_aLand[u][a] = land;
     tb_aLen[u][a] = len;
     tb_aClear[u][a] = clear;
+    tb_aStrike0[u][a] = strike;
+    tb_aLand0[u][a] = land;
+    tb_aLen0[u][a] = len;
+    tb_aLink[u][a] = linked;
+    tb_aSec[u][a] = sec;
     if (tb_uNAnim[u] < a + 1) { tb_uNAnim[u] = a + 1; }
 }
 
@@ -279,7 +304,7 @@ void Tb_ShowRead () {
     string s = tb_head + "<n/>t = " + Tb_F(tb_clock);
     int i;
     for (i = 0; i < tb_nrow; i += 1) {
-        if (tb_rowMark[i]) { s = s + "<n/><c val=\"d8b45a\">" + tb_row[i] + "</c>"; }
+        if (tb_rowMark[i]) { s = s + "<n/><c val=\"" + TB_GOLD + "\">" + tb_row[i] + "</c>"; }
         else if (tb_fired[i]) { s = s + "<n/>" + tb_row[i]; }
         else { s = s + "<n/><c val=\"8a8a8a\">" + tb_row[i] + "</c>"; }
     }
@@ -542,6 +567,99 @@ void Tb_Stop () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Retiming: the steppers and -t / -len. Every change is saved to the tuning bank, with what the build
+// gave, for `testbed.js <spec> --apply` to write into the spec after the game.
+//--------------------------------------------------------------------------------------------------
+
+// To the nearest 0.001 s, so steps of 0.05 don't drift in fixed point.
+fixed Tb_R (fixed f) {
+    return IntToFixed(RoundI(f * 1000.0)) / 1000.0;
+}
+
+bool Tb_Tuned (fixed now, fixed built) {
+    return AbsF(now - built) >= 0.0005;
+}
+
+// The selected animation's times, the way a stepper value shows them: gold once tuned.
+string Tb_TuneText (fixed now, fixed built) {
+    if (Tb_Tuned(now, built)) { return "<c val=\"" + TB_GOLD + "\">" + Tb_F(now) + "</c>"; }
+    return Tb_F(now);
+}
+
+// The stepper row: shown with the Animation block, when the unit has an animation to retime.
+void Tb_ShowTune () {
+    int u = tb_cur;
+    int a = tb_anim;
+    bool show = Tb_Plays() && tb_uNAnim[u] > 0;
+    DialogControlSetVisible(tb_sLabel, PlayerGroupAll(), show);
+    DialogControlSetVisible(tb_sDown, PlayerGroupAll(), show);
+    DialogControlSetVisible(tb_sVal, PlayerGroupAll(), show);
+    DialogControlSetVisible(tb_sUp, PlayerGroupAll(), show);
+    DialogControlSetVisible(tb_lLabel, PlayerGroupAll(), show);
+    DialogControlSetVisible(tb_lDown, PlayerGroupAll(), show);
+    DialogControlSetVisible(tb_lVal, PlayerGroupAll(), show);
+    DialogControlSetVisible(tb_lUp, PlayerGroupAll(), show);
+    DialogControlSetVisible(tb_lLink, PlayerGroupAll(), show && tb_aLink[u][a]);
+    if (!show) { return; }
+    Tb_Text(tb_sVal, Tb_TuneText(tb_aStrike[u][a], tb_aStrike0[u][a]));
+    Tb_Text(tb_lVal, Tb_TuneText(tb_aLand[u][a], tb_aLand0[u][a]));
+}
+
+// Saves the selected animation's times, and what the build gave them, in its section of the bank.
+void Tb_SaveTune () {
+    int u = tb_cur;
+    int a = tb_anim;
+    string sec = tb_aSec[u][a];
+    BankValueSetFromString(tb_bank, sec, "unit", tb_uName[u]);
+    BankValueSetFromString(tb_bank, sec, "anim", tb_aName[u][a]);
+    BankValueSetFromFixed(tb_bank, sec, "strike", tb_aStrike[u][a]);
+    BankValueSetFromFixed(tb_bank, sec, "strikeBuilt", tb_aStrike0[u][a]);
+    BankValueSetFromFixed(tb_bank, sec, "land", tb_aLand[u][a]);
+    BankValueSetFromFixed(tb_bank, sec, "landBuilt", tb_aLand0[u][a]);
+    BankValueSetFromFixed(tb_bank, sec, "length", tb_aLen[u][a]);
+    BankValueSetFromFixed(tb_bank, sec, "lengthBuilt", tb_aLen0[u][a]);
+    BankSave(tb_bank);
+}
+
+// Retimes the selected animation: a land given (setLand) breaks its link to the strike. Clamped to
+// 0 <= strike <= land <= length; a strike pushed past the land pushes it. Saves, then shows it.
+// Returns what the clamps changed ("" when nothing), for -t and -len to say.
+string Tb_Retime (fixed strike, fixed land, bool setLand, fixed len) {
+    int u = tb_cur;
+    int a = tb_anim;
+    string said = "";
+    fixed s = Tb_R(strike);
+    fixed l = Tb_R(land);
+    fixed n = Tb_R(len);
+    if (n < 0.05) { n = 0.05; said = said + ", length raised to 0.05"; }
+    if (setLand) { tb_aLink[u][a] = false; }
+    if (s < 0.0) { s = 0.0; said = said + ", strike raised to 0"; }
+    if (s > n) { s = n; said = said + ", strike held to the length"; }
+    if (tb_aLink[u][a]) { l = s; }
+    else {
+        if (l < s && setLand) { said = said + ", land raised to the strike"; }
+        if (l < s) { l = s; }
+        if (l > n) { l = n; said = said + ", land held to the length"; }
+    }
+    tb_aStrike[u][a] = s;
+    tb_aLand[u][a] = l;
+    tb_aLen[u][a] = n;
+    Tb_SaveTune();
+    Tb_ShowTune();
+    Tb_ReadReset();
+    if (said == "") { return ""; }
+    return StringSub(said, 3, StringLength(said));
+}
+
+// A stepper press: no message, and no play; Play plays.
+void Tb_Step (bool strike, fixed by) {
+    int u = tb_cur;
+    int a = tb_anim;
+    if (strike) { Tb_Retime(tb_aStrike[u][a] + by, tb_aLand[u][a], false, tb_aLen[u][a]); }
+    else { Tb_Retime(tb_aStrike[u][a], tb_aLand[u][a] + by, true, tb_aLen[u][a]); }
+}
+
+//--------------------------------------------------------------------------------------------------
 // The GUI
 //--------------------------------------------------------------------------------------------------
 
@@ -558,6 +676,7 @@ void Tb_FillAnims () {
     }
     if (tb_uNAnim[tb_cur] == 0) { DialogControlAddItem(tb_animPd, PlayerGroupAll(), StringToText("(no animations)")); }
     DialogControlSelectItem(tb_animPd, PlayerGroupAll(), tb_anim + 1);
+    Tb_ShowTune();
 }
 
 // The unit and moment's variations, the pick marked *, then "(none)". Starts on the pick.
@@ -638,12 +757,16 @@ bool Tb_OnEvent (bool testConds, bool runActions) {
         }
         else if (c == tb_animPd) {
             sel = DialogControlGetSelectedItem(c, 1) - 1;
-            if (sel >= 0 && sel < tb_uNAnim[tb_cur] && sel != tb_anim) { tb_anim = sel; Tb_ReadReset(); }
+            if (sel >= 0 && sel < tb_uNAnim[tb_cur] && sel != tb_anim) { tb_anim = sel; Tb_ShowTune(); Tb_ReadReset(); }
         }
     }
     else if (e == c_triggerControlEventTypeClick) {
         if (c == tb_play) { Tb_Play(true); }
         else if (c == tb_stop) { Tb_Stop(); }
+        else if (c == tb_sDown) { Tb_Step(true, -TB_STEP); }
+        else if (c == tb_sUp) { Tb_Step(true, TB_STEP); }
+        else if (c == tb_lDown) { Tb_Step(false, -TB_STEP); }
+        else if (c == tb_lUp) { Tb_Step(false, TB_STEP); }
         else if (c == tb_send) {
             s = DialogControlGetPropertyAsString(tb_edit, c_triggerControlPropertyEditText, 1);
             if (StringWord(s, 1) == "target" && tb_target != null) {
@@ -680,7 +803,8 @@ bool Tb_Loop (bool testConds, bool runActions) {
 void Tb_Help () {
     Tb_Msg("Testbed: pick a unit, a moment and a variation, then Play. * marks the spec's pick.");
     Tb_Msg("Send: a CSound id plays at the unit; text with a space goes to its actor; 'target <msg>' goes to the target's actor.");
-    Tb_Msg("-t <strike> [land]: retime the selected animation   -len <s>: its length   -help: this");
+    Tb_Msg("Strike and Land: step the selected animation's times; -t <strike> [land] sets them, -len <s> its length   -help: this");
+    Tb_Msg("Retimes are saved: after quitting, run testbed.js <spec> --apply to write them into the spec.");
 }
 
 bool Tb_Chat (bool testConds, bool runActions) {
@@ -690,18 +814,17 @@ bool Tb_Chat (bool testConds, bool runActions) {
     string w3 = StringWord(msg, 3);
     int u = tb_cur;
     int a = tb_anim;
-    if (w1 == "-help") { Tb_Help(); }
-    else if (tb_uNAnim[u] == 0) { return true; }
-    else if (w1 == "-t" && w2 != "") {
-        tb_aStrike[u][a] = StringToFixed(w2);
-        if (w3 != "") { tb_aLand[u][a] = StringToFixed(w3); }
-        Tb_Msg(tb_uName[u] + " / " + tb_aName[u][a] + ": \"strike\": " + Tb_F(tb_aStrike[u][a]) + ", \"land\": " + Tb_F(tb_aLand[u][a]));
-        Tb_ReadReset();
+    string said = "";
+    if (w1 == "-help") { Tb_Help(); return true; }
+    if (tb_uNAnim[u] == 0) { return true; }
+    if (w1 == "-t" && w2 != "") {
+        if (w3 != "") { said = Tb_Retime(StringToFixed(w2), StringToFixed(w3), true, tb_aLen[u][a]); }
+        else { said = Tb_Retime(StringToFixed(w2), tb_aLand[u][a], false, tb_aLen[u][a]); }
     }
-    else if (w1 == "-len" && w2 != "") {
-        tb_aLen[u][a] = StringToFixed(w2);
-        Tb_ReadReset();
-    }
+    else if (w1 == "-len" && w2 != "") { said = Tb_Retime(tb_aStrike[u][a], tb_aLand[u][a], false, StringToFixed(w2)); }
+    else { return true; }
+    if (said != "") { said = " (" + said + ")"; }
+    Tb_Msg(tb_uName[u] + " / " + tb_aName[u][a] + ": strike " + Tb_F(tb_aStrike[u][a]) + ", land " + Tb_F(tb_aLand[u][a]) + ", length " + Tb_F(tb_aLen[u][a]) + said + ". Saved for --apply.");
     return true;
 }
 
@@ -709,7 +832,7 @@ void Tb_Gui () {
     trigger t = TriggerCreate("Tb_OnEvent");
     int i;
     int y = 70;
-    tb_dlg = DialogCreate(500, 700, c_anchorTopLeft, 20, 60, false);
+    tb_dlg = DialogCreate(500, TB_DLG_H, c_anchorTopLeft, 20, 60, false);
     DialogSetTitle(tb_dlg, StringToText(TB_TITLE));
 
     Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5), "Unit");
@@ -730,15 +853,28 @@ void Tb_Gui () {
     tb_animLabel = Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5);
     Tb_Text(tb_animLabel, "Animation");
     tb_animPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
+    y += 45;
+    tb_sLabel = Tb_Ctl(c_triggerControlTypeLabel, 60, 30, 30, y + 5);
+    Tb_Text(tb_sLabel, "Strike");
+    tb_sDown = Tb_Button("-", 34, 90, y);
+    tb_sVal = Tb_Ctl(c_triggerControlTypeLabel, 48, 30, 130, y + 5);
+    tb_sUp = Tb_Button("+", 34, 178, y);
+    tb_lLabel = Tb_Ctl(c_triggerControlTypeLabel, 50, 30, 226, y + 5);
+    Tb_Text(tb_lLabel, "Land");
+    tb_lDown = Tb_Button("-", 34, 276, y);
+    tb_lVal = Tb_Ctl(c_triggerControlTypeLabel, 48, 30, 316, y + 5);
+    tb_lUp = Tb_Button("+", 34, 364, y);
+    tb_lLink = Tb_Ctl(c_triggerControlTypeLabel, 70, 30, 404, y + 5);
+    Tb_Text(tb_lLink, "= strike");
     y += 50;
     tb_play = Tb_Button("Play", 90, 30, y);
     tb_stop = Tb_Button("Stop", 90, 125, y);
     tb_loop = Tb_Ctl(c_triggerControlTypeCheckBox, 30, 30, 235, y + 5);
     Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 70, 30, 270, y + 8), "Loop");
     y += 55;
-    tb_read = Tb_Ctl(c_triggerControlTypeLabel, 440, 700 - y - 100, 30, y);
-    tb_edit = Tb_Ctl(c_triggerControlTypeEditBox, 340, 40, 30, 700 - 85);
-    tb_send = Tb_Button("Send", 90, 380, 700 - 85);
+    tb_read = Tb_Ctl(c_triggerControlTypeLabel, 440, TB_DLG_H - y - 100, 30, y);
+    tb_edit = Tb_Ctl(c_triggerControlTypeEditBox, 340, 40, 30, TB_DLG_H - 85);
+    tb_send = Tb_Button("Send", 90, 380, TB_DLG_H - 85);
 
     Tb_FillMoments();
     TriggerAddEventDialogControl(t, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
@@ -774,6 +910,7 @@ bool Tb_Tour (bool testConds, bool runActions) {
         if (tb_tA[i] >= 0) {
             tb_anim = tb_tA[i];
             DialogControlSelectItem(tb_animPd, PlayerGroupAll(), tb_anim + 1);
+            Tb_ShowTune();
         }
         Tb_ReadReset();
         Wait(0.5, c_timeGame);
@@ -816,6 +953,7 @@ bool Tb_Start (bool testConds, bool runActions) {
         VisEnable(c_visTypeFog, false);
     }
     Tb_Data();
+    tb_bank = BankLoad(TB_TUNE_BANK, 1);
     for (u = 0; u < TB_NU; u += 1) { Tb_Spawn(u); }
     if (TB_TARGET != "") {
         Tb_SpawnTarget();

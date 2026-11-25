@@ -49,10 +49,23 @@ Its skill arrives at the next Claude Code session.
   animation), `*` marks the one the spec recommends, and "(none)" plays the moment alone.
 - **Animation** appears for a moment that plays one. It starts on the variation's animation, or the
   unit's for the moment, and you can pick another to try it.
+- **Strike** and **Land**, under it, step the animation's two times by 0.05 s. A time you've changed
+  turns gold, and Play plays it. Where the spec leaves the land out, it follows the strike ("= strike")
+  until you step the land itself. In chat, `-t <strike> [land]` sets exact times and `-len <s>` the
+  length.
 - **Play** runs it, **Stop** cuts it off, and **Loop** replays it.
 - The **readout** says in one sentence what plays, then lists the cues on a timeline with the
   animation's strike and land marked. Each cue is grey until it fires.
 - **Send** plays any CSound at the unit, or sends any actor message to it.
+
+Retimes are saved as you make them. After you quit the game, write them into the spec:
+
+```sh
+node node_modules/@team-antioch/sc2-adjutant-anim-testbed/dist/testbed.js missions/<id>/tests/<name>.json --apply
+```
+
+It changes only the numbers you moved, keeping the spec's comments and layout, and prints each one. A
+number you've also changed in the spec since the build is left alone, and it says so.
 
 A **moment** is something that happens to a unit that you want to judge. It says three things:
 
