@@ -19,7 +19,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import type { CastModels } from "../cutscene/cinematic.js";
-import { type DeclaredContent, GAME_DATA_DIR, parseRemoval, type Removal } from "../domain/declared-content.js";
+import { type DeclaredContent, GAME_DATA_DIR, parseRemoval, type Removal, removalOfLine } from "../domain/declared-content.js";
 import { LOCALIZED_STRINGS_FILE } from "../domain/entry-strings.js";
 import { findPackageFile } from "../catalog/package-files.js";
 import { characterEntry } from "../mods/characters.js";
@@ -27,7 +27,7 @@ import { type FoundFile, samePath } from "../mods/custom-doodads.js";
 import type { Workspace } from "../plugins/workspace.js";
 import { type AssetFiles, genericEntries, includesListFor, ownedStringsProblems, readRawEntries, StringsTable } from "../mods/declared-parts.js";
 import type { EquivalenceCheck } from "../mods/equivalence.js";
-import { includedCatalogs, includesFile, INCLUDES_FILE, packageFiles, standardCatalogFile } from "../mods/game-data-files.js";
+import { includedCatalogs, includesFile, INCLUDES_FILE, listedCatalogs, packageFiles, standardCatalogFile } from "../mods/game-data-files.js";
 import { entryXml, type GenericEntry, genericEntryKey } from "../mods/generic-entries.js";
 import { DESC_INDEX, descIndexLayouts, isDescIndex, isLayout } from "../mods/mod-package-files.js";
 import { modSetCutscenes } from "../mods/mod-cinematics.js";
@@ -161,6 +161,7 @@ export function declaredItemNames(declared: MissionDeclared): Set<string> {
   for (const [file, texts] of declared.catalogs) for (const entry of catalogEntries(`<Catalog>${texts.join("\n")}</Catalog>`)) names.add(`catalog-entry:${file}:${entry.key}`);
   for (const [file, keys] of Object.entries(declared.strings.files)) for (const key of Object.keys(keys)) names.add(`string:${file}:${key}`);
   for (const { path: file } of declared.files) names.add(`file:${file}`);
+  for (const { name } of declared.setCutscenes) names.add(`file:Base.SC2Data/Cutscenes/${name}.SC2Cutscene`);
   return names;
 }
 
@@ -206,6 +207,11 @@ function spliceEntries(content: string, lines: readonly string[], file: string, 
   return `${content.slice(0, end)}${lines.map((line) => line.replace(/\r?\n/g, eol)).join(eol)}${eol}${content.slice(end)}`;
 }
 
+/** The path `file` is queued at on `out`, in any case: the game reads its files in any case. */
+function queuedAs(out: PackageOutput, file: string): string | undefined {
+  return out.queuedFiles().find((other) => other.toLowerCase() === file.toLowerCase());
+}
+
 /** Queues `texts` in the catalog file `file`, merged by entry: after the entries the compile queued there already, if any. */
 function appendQueued(out: PackageOutput, file: string, texts: readonly string[], by: string): void {
   const queued = out.queued(file);
@@ -223,19 +229,25 @@ function appendQueued(out: PackageOutput, file: string, texts: readonly string[]
  * key differently) or merged by key beside the Kept ones; its files, whole, and the DescIndex
  * loading their layouts; the includes list; its Set cutscenes are the compile's Cutscenes already.
  * `extraStrings` are strings of the compile's own Blueprint parts that go in by key the same way
- * (its doodads' names). `check` is told of each Accepted Removal the Blueprint writes back.
+ * (its doodads' names). `check` is told of each Accepted Removal the Blueprint writes back. Returns
+ * the names the Equivalence Check gives each part it wrote, which it checks when one is converted
+ * from Kept; `declared` is left as it was, so a second compile with it writes the same.
  */
 export async function writeDeclaredRest(
   declared: MissionDeclared,
   out: PackageOutput,
   { pkg, record, extraStrings, check }: { readonly pkg: string; readonly record: CompileRecord | undefined; readonly extraStrings: readonly { readonly by: string; readonly strings: Readonly<Record<string, Readonly<Record<string, string>>>> }[]; readonly check: EquivalenceCheck },
-): Promise<{ readonly warnings: readonly string[] }> {
-  const table = declared.strings;
-  for (const { by, strings } of extraStrings) for (const [file, keys] of Object.entries(strings)) table.add(file, keys, by);
-  for (const [file, keys] of Object.entries(table.files)) {
+): Promise<{ readonly warnings: readonly string[]; readonly items: ReadonlySet<string> }> {
+  const items = new Set<string>();
+  const table = declared.strings.copy();
+  for (const { by, strings } of extraStrings) for (const [asked, keys] of Object.entries(strings)) table.add(asked, keys, by);
+  for (const [asked, keys] of Object.entries(table.files)) {
     if (Object.keys(keys).length === 0) continue;
+    const whole = declared.files.find(({ path: other }) => other.toLowerCase() === asked.toLowerCase());
+    if (whole) throw new Error(`${table.writerOf(asked)} give strings in ${asked}, which ${whole.by} writes whole: leave it to one of them`);
+    const file = queuedAs(out, asked) ?? asked;
     const queued = out.queued(file);
-    if (queued && queued.kind !== "strings") throw new Error(`${table.writerOf(file)} give strings in ${file}, which the Mission's compile writes whole: leave it to one of them`);
+    if (queued && queued.kind !== "strings") throw new Error(`${table.writerOf(asked)} give strings in ${file}, which the Mission's compile writes whole: leave it to one of them`);
     const own: Record<string, string> = {};
     if (queued) {
       for (const line of stringLines(Buffer.from(queued.content as string | Uint8Array).toString("utf8")).lines) {
@@ -244,22 +256,27 @@ export async function writeDeclaredRest(
       }
     }
     for (const [key, value] of Object.entries(keys)) {
-      if (own[key] !== undefined && own[key] !== value) throw new Error(`${key} in ${file} is written twice, differently: by the Mission's compile and by ${table.keyWriter(file, key) ?? table.writerOf(file)}; leave it to one of them`);
+      if (own[key] !== undefined && own[key] !== value) throw new Error(`${key} in ${file} is written twice, differently: by the Mission's compile and by ${table.keyWriter(asked, key) ?? table.writerOf(asked)}; leave it to one of them`);
       own[key] = value;
+      items.add(`string:${file}:${key}`);
     }
     out.write(file, writeStringsFile(own), "strings");
   }
   for (const { path: file, content, by } of declared.files) {
-    if (out.queued(file)) throw new Error(`${by} writes ${file}, which the Mission's compile writes: a file has one writer`);
+    const other = queuedAs(out, file);
+    if (other) throw new Error(`${by} writes ${file}, which the Mission's compile writes${other === file ? "" : ` (as ${other})`}: a file has one writer`);
     out.write(file, content, "file");
+    items.add(`file:${file}`);
   }
   const layouts = descIndexLayouts(declared.files.map(({ path: file }) => file));
   const existing = await packageFiles(pkg).catch(() => [] as string[]);
   if (layouts.length > 0) {
     // As the package spells it, so a Kept one is replaced.
     const file = existing.find((name) => isDescIndex(name)) ?? DESC_INDEX;
-    if (out.queued(file)) throw new Error(`The Blueprint's files have layouts, whose DescIndex the compile generates, but the Mission's compile writes ${file} already`);
+    const other = queuedAs(out, file);
+    if (other) throw new Error(`The Blueprint's files have layouts, whose DescIndex the compile generates, but the Mission's compile writes ${other} already`);
     out.write(file, descIndex(layouts), "file");
+    items.add(`file:${file}`);
   }
 
   // The includes list, from the Blueprint's includes and the catalog files it writes outside the standard ones, as a mod's.
@@ -270,9 +287,10 @@ export async function writeDeclaredRest(
   const ownsList = declared.includes !== undefined || (listWriter === undefined && (listFile === undefined || wroteList));
   const written = new Map([...declared.catalogs].map(([file]) => [file, declared.catalogWriters.get(file)!] as const));
   if (!ownsList) {
-    const kept = await includedCatalogs(pkg, existing);
+    // The list the Blueprint's files write, else the package's own.
+    const kept = listWriter ? new Set(listedCatalogs(Buffer.from(listWriter.content).toString("utf8")).map((file) => file.toLowerCase())) : await includedCatalogs(pkg, existing);
     for (const [file, by] of written) {
-      if (existing.includes(file) || standardCatalogFile(file) || kept.has(file.toLowerCase())) continue;
+      if ((!listWriter && existing.includes(file)) || standardCatalogFile(file) || kept.has(file.toLowerCase())) continue;
       throw new Error(`${by} writes ${file}, which the package's includes list doesn't name: give the Blueprint its includes (the catalog files the list names, in load order), and the compile adds it to the list`);
     }
   } else {
@@ -282,20 +300,30 @@ export async function writeDeclaredRest(
       ...(record?.entries ?? []).flatMap((entry) => (entry.kind === "file" && !queued.has(entry.path) ? [entry.path] : [])),
     ];
     const list = await includesListFor(declared.includes ?? [], { pkg, listFile, existing, queued, removed });
-    if (list.files.length > 0) out.write(listFile ?? INCLUDES_FILE, list.text, "file");
+    if (list.files.length > 0) {
+      out.write(listFile ?? INCLUDES_FILE, list.text, "file");
+      items.add(`file:${listFile ?? INCLUDES_FILE}`);
+    }
     warnings.push(...list.warnings);
   }
 
-  // The check expects each removal gone: a part the Blueprint still writes there fails it, in any spelling of a file.
+  // The check expects each removal gone: a part the compile still writes there fails it, the
+  // Blueprint's or the Mission's own, in any spelling of a file.
+  const writerOf = (file: string): string => declared.files.find(({ path: other }) => other.toLowerCase() === file.toLowerCase())?.by ?? (file.toLowerCase() === (listFile ?? INCLUDES_FILE).toLowerCase() && items.has(`file:${listFile ?? INCLUDES_FILE}`) ? "the Blueprint's includes" : "the Mission's compile");
   for (const { item, reason, removal } of declared.removals) {
+    const file = queuedAs(out, removal.kind === "file" ? removal.path : removal.file);
+    if (file === undefined) continue;
     if (removal.kind === "file") {
-      const by = declared.files.find(({ path: file }) => file.toLowerCase() === removal.path.toLowerCase())?.by;
-      if (by) check.expectGone(item, reason, by);
-    } else if (removal.kind === "string" && table.files[removal.file]?.[removal.key] !== undefined) {
-      check.expectGone(item, reason, table.keyWriter(removal.file, removal.key) ?? table.writerOf(removal.file));
+      check.expectGone(item, reason, writerOf(file));
+      continue;
     }
+    // A key or keyless line in a strings file the compile writes, merged by key or whole.
+    const content = out.queued(file)!.content;
+    const lines = stringLines(Buffer.from(content as string | Uint8Array).toString("utf8"), { keyless: true }).lines;
+    if (!lines.some((line) => removalOfLine(removal.file, line, [removal]) !== undefined)) continue;
+    check.expectGone(item, reason, (removal.kind === "string" ? table.keyWriter(removal.file, removal.key) : undefined) ?? writerOf(file));
   }
-  return { warnings };
+  return { warnings, items };
 }
 
 /** The strings a Mission's own doodads' names give (ObjectStrings), by what gives each. */

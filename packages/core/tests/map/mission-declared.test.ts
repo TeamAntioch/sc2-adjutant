@@ -53,6 +53,37 @@ async function crossing() {
   return { workspaceRoot, blueprintPath, declare, compile };
 }
 
+/**
+ * The Mission `yard`, imported, every part of its package Kept: Ashen Crossing compiled elsewhere,
+ * `keep` adding to that package before the import. `declare` adds fields to its Blueprint.
+ */
+async function keptYard(keep: (source: string) => Promise<void>) {
+  root = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-mission-declared-"));
+  const workspaceRoot = path.join(root, "workspace");
+  await cp(CROSSING, workspaceRoot, { recursive: true });
+  const source = path.join(root, "elsewhere", "Yard.SC2Map");
+  await compileMission(await loadWorkspace(workspaceRoot), path.join(workspaceRoot, "missions", "ashen-crossing", "blueprint.json"), source, { savedAt });
+  await rm(path.join(workspaceRoot, "missions", "ashen-crossing"), { recursive: true });
+  await keep(source);
+  const { blueprintPath, mapPackage } = await importMap(await loadWorkspace(workspaceRoot), source, "yard", { title: "Yard" });
+  const imported = JSON.parse(await readFile(blueprintPath, "utf8"));
+  const declare = async (fields: Record<string, unknown>, sources: Record<string, string> = {}): Promise<void> => {
+    for (const [file, content] of Object.entries(sources)) {
+      await mkdir(path.dirname(path.join(path.dirname(blueprintPath), file)), { recursive: true });
+      await writeFile(path.join(path.dirname(blueprintPath), file), content);
+    }
+    await writeFile(blueprintPath, JSON.stringify({ ...imported, ...fields }, null, 2));
+  };
+  const compile = async () => compileMission(await loadWorkspace(workspaceRoot), blueprintPath, undefined, { savedAt });
+  return { blueprintPath, mapPackage, declare, compile };
+}
+
+/** Puts `content` at `file` in the package at `pkg`. */
+async function put(pkg: string, file: string, content: string): Promise<void> {
+  await mkdir(path.dirname(path.join(pkg, ...file.split("/"))), { recursive: true });
+  await writeFile(path.join(pkg, ...file.split("/")), content);
+}
+
 /** The compile's Map Package for the Mission at `blueprintPath`. */
 const mapPackageOf = (blueprintPath: string): Promise<string> => missionMapPackage(blueprintPath);
 
@@ -116,6 +147,31 @@ describe("a Mission Blueprint's Declared Content", () => {
     await expect(mission.compile()).rejects.toThrow("The Mission Blueprint writes Base.SC2Data/GameData/unitdata.xml twice, in gameData.0 and in gameData.1: a file has one writer");
   });
 
+  it("refuses a file the Mission's compile writes in another case", async () => {
+    const mission = await crossing();
+    await mission.declare({ files: [{ path: "mapscript.galaxy", source: "map.galaxy" }] }, { "map.galaxy": "" });
+    await expect(mission.compile()).rejects.toThrow("files.0 writes mapscript.galaxy, which the Mission's compile writes (as MapScript.galaxy): a file has one writer");
+  });
+
+  it("names both of the Blueprint's writers of a strings file it gives strings in and writes whole", async () => {
+    const mission = await crossing();
+    await mission.declare({ strings: { [GAME_STRINGS]: { "Unit/Name/Gull": "Gull" } }, files: [{ path: GAME_STRINGS, source: "strings.txt" }] }, { "strings.txt": "Unit/Name/Gull=Gull\r\n" });
+    await expect(mission.compile()).rejects.toThrow(`strings["${GAME_STRINGS}"] give strings in ${GAME_STRINGS}, which files.0 writes whole: leave it to one of them`);
+  });
+
+  it("checks its catalog files against the includes list its files write, when it gives no includes", async () => {
+    const mission = await crossing();
+    const gulls = "Base.SC2Data/GameData/Birds/GullData.xml";
+    const list = '<?xml version="1.0" encoding="utf-8"?>\r\n<Includes>\r\n    <Catalog path="GameData/Birds/GullData.xml"/>\r\n</Includes>\r\n';
+    await mission.declare({ gameData: [{ file: gulls, source: "a.xml" }], files: [{ path: "Base.SC2Data/GameData.xml", source: "GameData.xml" }] }, { "a.xml": GULL, "GameData.xml": list });
+
+    await mission.compile();
+
+    const pkg = await mapPackageOf(mission.blueprintPath);
+    expect(await readFile(path.join(pkg, "Base.SC2Data", "GameData.xml"), "utf8")).toBe(list);
+    expect(catalogEntries(await readFile(path.join(pkg, ...gulls.split("/")), "utf8")).map((entry) => entry.key)).toEqual(["CUnit:Gull"]);
+  });
+
   it("refuses a source outside the Mission's folder, and a raw entry with no id", async () => {
     const mission = await crossing();
     await mission.declare({ entries: [{ source: "../elsewhere.json" }] });
@@ -126,18 +182,10 @@ describe("a Mission Blueprint's Declared Content", () => {
   });
 
   it("drops an Accepted Removal from a Kept strings file, and fails the Equivalence Check when it writes the item back", async () => {
-    root = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-mission-declared-"));
-    const workspaceRoot = path.join(root, "workspace");
-    await cp(CROSSING, workspaceRoot, { recursive: true });
-    const source = path.join(root, "elsewhere", "Yard.SC2Map");
-    await compileMission(await loadWorkspace(workspaceRoot), path.join(workspaceRoot, "missions", "ashen-crossing", "blueprint.json"), source, { savedAt });
-    await rm(path.join(workspaceRoot, "missions", "ashen-crossing"), { recursive: true });
-    const keptStrings = path.join(source, ...GAME_STRINGS.split("/"));
-    await writeFile(keptStrings, `${await readFile(keptStrings, "utf8")}Junk/Old=Left over\r\n`);
-    const { blueprintPath, mapPackage } = await importMap(await loadWorkspace(workspaceRoot), source, "yard", { title: "Yard" });
-    const imported = JSON.parse(await readFile(blueprintPath, "utf8"));
-    const declare = (fields: Record<string, unknown>) => writeFile(blueprintPath, JSON.stringify({ ...imported, ...fields }, null, 2));
-    const compile = async () => compileMission(await loadWorkspace(workspaceRoot), blueprintPath, undefined, { savedAt });
+    const { mapPackage, declare, compile } = await keptYard(async (source) => {
+      const keptStrings = path.join(source, ...GAME_STRINGS.split("/"));
+      await writeFile(keptStrings, `${await readFile(keptStrings, "utf8")}Junk/Old=Left over\r\n`);
+    });
     const removal = { item: `string:${GAME_STRINGS}:Junk/Old`, reason: "Nothing names it" };
 
     await declare({ removals: [removal] });
@@ -148,6 +196,48 @@ describe("a Mission Blueprint's Declared Content", () => {
     const failure = await compile().catch((error: unknown) => error);
     expect(failure).toBeInstanceOf(EquivalenceError);
     expect((failure as Error).message).toContain(`the Blueprint removes it (Nothing names it), but strings["${GAME_STRINGS}"] writes it`);
+  });
+
+  it("fails the Equivalence Check for an Accepted Removal of a key, a line or a file the compile writes, the Mission's own or a whole file's", async () => {
+    const mission = await crossing();
+    const extra = "enUS.SC2Data/LocalizedData/ExtraStrings.txt";
+    const failure = async (removals: readonly string[], fields: Record<string, unknown> = {}, sources: Record<string, string> = {}) => {
+      await mission.declare({ ...fields, removals: removals.map((item) => ({ item, reason: "Unused" })) }, sources);
+      const error = await mission.compile().catch((caught: unknown) => caught);
+      expect(error).toBeInstanceOf(EquivalenceError);
+      return (error as Error).message;
+    };
+
+    expect(await failure([`string:${GAME_STRINGS}:DocInfo/Name`])).toContain("the Blueprint removes it (Unused), but the Mission's compile writes it");
+    expect(await failure(["file:mapscript.galaxy"])).toContain("the Blueprint removes it (Unused), but the Mission's compile writes it");
+    const whole = { files: [{ path: extra, source: "extra.txt" }] };
+    const message = await failure([`string:${extra}:Junk/Old`, `line:${extra}:// Old notes`], whole, { "extra.txt": "// Old notes\r\nJunk/Old=Left over\r\n" });
+    expect(message).toContain(`string:${extra}:Junk/Old: the Blueprint removes it (Unused), but files.0 writes it`);
+    expect(message).toContain(`line:${extra}:// Old notes: the Blueprint removes it (Unused), but files.0 writes it`);
+  });
+
+  it("converts a Kept includes list or Set cutscene it writes over, under its Accepted Differences", async () => {
+    const wharfFile = "Base.SC2Data/Cutscenes/Set - Wharf.SC2Cutscene";
+    const { mapPackage, declare, compile } = await keptYard(async (source) => {
+      await put(source, "Base.SC2Data/GameData.xml", '<?xml version="1.0" encoding="utf-8"?>\r\n<Includes>\r\n</Includes>\r\n');
+      await put(source, wharfFile, '<?xml version="1.0" encoding="utf-8"?>\r\n<Cutscene/>\r\n');
+    });
+    const gulls = "Base.SC2Data/GameData/Birds/GullData.xml";
+    const wharf = { name: "Wharf", lights: ["WharfDay"], pieces: [{ model: "WharfDeck", at: [0, 0, 0] }], marks: [], cameras: [{ name: "Wide", target: [0, 0, 1.5], distance: 10, pitch: 10, yaw: 180, fov: 40 }], lamps: [], sounds: [] };
+    const fields = { gameData: [{ file: gulls, source: "a.xml" }], includes: [gulls], setCutscenes: [{ cutscene: "Set - Wharf", set: "sets/wharf.json" }] };
+    const sources = { "a.xml": GULL, "sets/wharf.json": JSON.stringify(wharf) };
+
+    await declare(fields, sources);
+    const refused = await compile().catch((error: unknown) => error);
+    expect(refused).toBeInstanceOf(EquivalenceError);
+    expect((refused as Error).message).toContain("file:Base.SC2Data/GameData.xml");
+    expect((refused as Error).message).toContain(`file:${wharfFile}`);
+
+    const accepted = [`file:Base.SC2Data/GameData.xml`, `file:${wharfFile}`].map((item) => ({ item, reason: "The Blueprint writes it now" }));
+    await declare({ ...fields, acceptedDifferences: accepted }, sources);
+    await compile();
+    expect(await readFile(path.join(mapPackage, "Base.SC2Data", "GameData.xml"), "utf8")).toContain('path="GameData/Birds/GullData.xml"');
+    expect(await readFile(path.join(mapPackage, ...wharfFile.split("/")), "utf8")).toContain("WharfDeck");
   });
 });
 

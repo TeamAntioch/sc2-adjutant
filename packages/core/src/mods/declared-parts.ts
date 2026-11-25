@@ -124,6 +124,15 @@ export class StringsTable {
     }
   }
 
+  /** A copy to add to, leaving this table as it is. */
+  copy(): StringsTable {
+    const table = new StringsTable(this.own);
+    for (const [file, keys] of Object.entries(this.files)) table.files[file] = { ...keys };
+    for (const [file, by] of this.fileBy) table.fileBy.set(file, by);
+    for (const [key, by] of this.keyBy) table.keyBy.set(key, by);
+    return table;
+  }
+
   /** Who writes `file`: its writers, or the Blueprint's strings. */
   writerOf(file: string): string {
     return this.fileBy.get(file) ?? `strings["${file}"]`;

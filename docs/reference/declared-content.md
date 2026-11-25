@@ -12,7 +12,7 @@ A Mission Blueprint declares the same Declared Content a Mod Blueprint does ([AD
 | `files` | files written whole, and the strings a file names as `@<key>` | whole; layouts with CRLF endings, and a DescIndex that loads them |
 | `setCutscenes` | Sets in the Blueprint's folder, written as cutscenes with no shots | among the map's Cutscenes, beside its Cinematics |
 | `acceptedDifferences` | the Equivalence Check's Accepted Differences | as a mod's |
-| `removals` | Accepted Removals | dropped from the package; the check expects each one gone |
+| `removals` | Accepted Removals | dropped from the package; the check expects each one gone, so removing a key, line or file the compile still writes (the Blueprint's or the Mission's own) fails it |
 
 Sources are files in the Blueprint's folder: `missions/<id>/` for a Mission.
 
@@ -25,7 +25,7 @@ Every part is read and checked the way a mod's compile reads and checks it (`pac
 - **Files** are written whole.
 - **Set cutscenes** are written among the Cinematics' cutscenes, under `Base.SC2Data/Cutscenes/`.
 
-One part has one writer. The compile refuses a key, an entry, a file or a cutscene name that the Mission's own compile also writes, and the refusal names both writers: for example `DocInfo/Name`, which comes from the Mission's `title`, or `MapScript.galaxy`. Each Kept part the Declared Content writes over is converted under the Equivalence Check, the same as for a mod.
+One part has one writer. The compile refuses a key, an entry, a file or a cutscene name that the Mission's own compile also writes, and the refusal names both writers: for example `DocInfo/Name`, which comes from the Mission's `title`, or `MapScript.galaxy`. Each Kept part the Declared Content writes over is converted under the Equivalence Check, the same as for a mod: its entries, strings and files, the includes list, the DescIndex, its Set cutscenes and its doodads' names. Files are compared in any case, as the game reads them.
 
 A Mission's own doodad can also have a `name`, the same as a Campaign Mod's doodad. It is written into the map's ObjectStrings (`Actor/Name/<id>`, `Model/Name/<id>`).
 

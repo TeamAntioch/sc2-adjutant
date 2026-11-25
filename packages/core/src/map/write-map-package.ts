@@ -323,6 +323,7 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
   const convertedTriggerParts = new Set<string>();
   // And the parts the Blueprint's Declared Content writes, under the same check as a mod's.
   const declared = options.declared;
+  // Filled in as they are written; the check asks once the compile finishes.
   const declaredItems = declared ? declaredItemNames(declared) : undefined;
   const equivalence = conversation || authored || declared ? new EquivalenceCheck(blueprint.acceptedDifferences, "Mission Blueprint") : undefined;
   const out = new PackageOutput(
@@ -985,7 +986,9 @@ export async function writeMapPackage(given: WriteMapPackageOptions): Promise<{ 
 
   // The rest of the Declared Content, once the compile has queued all its own: strings by key, files whole, the includes list.
   if (doodadNames.length > 0 && !declared) throw new Error(`${blueprint.id}'s doodads have names: pass its Declared Content (readMissionDeclared) to writeMapPackage, which writes their strings`);
-  const declaredWarnings = declared ? (await writeDeclaredRest(declared, out, { pkg: outputDir, record: options.previousRecord, extraStrings: doodadNames, check: equivalence! })).warnings : [];
+  const declaredRest = declared ? await writeDeclaredRest(declared, out, { pkg: outputDir, record: options.previousRecord, extraStrings: doodadNames, check: equivalence! }) : undefined;
+  for (const item of declaredRest?.items ?? []) declaredItems!.add(item);
+  const declaredWarnings = declaredRest?.warnings ?? [];
 
   for (const component of components) {
     // Cutscenes/Index.version is the Editor's own stamp, written above.

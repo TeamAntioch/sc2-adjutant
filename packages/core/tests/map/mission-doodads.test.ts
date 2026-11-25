@@ -47,7 +47,7 @@ afterEach(cleanupMods);
  * The Mission `yard`, imported, every part of its package Kept: Ashen Crossing compiled elsewhere,
  * with the ring placed in its Objects, `data` as its ModelData and the ring's files in the Mission's art/.
  */
-async function yard(data?: string) {
+async function yard(data?: string, objectStrings?: string) {
   root = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-mission-doodads-"));
   const workspaceRoot = path.join(root, "workspace");
   await cp(CROSSING, workspaceRoot, { recursive: true });
@@ -59,6 +59,10 @@ async function yard(data?: string) {
   if (data) {
     await mkdir(path.join(source, "Base.SC2Data", "GameData"), { recursive: true });
     await writeFile(path.join(source, "Base.SC2Data", "GameData", "ModelData.xml"), data);
+  }
+  if (objectStrings) {
+    await mkdir(path.join(source, "enUS.SC2Data", "LocalizedData"), { recursive: true });
+    await writeFile(path.join(source, "enUS.SC2Data", "LocalizedData", "ObjectStrings.txt"), objectStrings);
   }
   const { blueprintPath, mapPackage } = await importMap(await loadWorkspace(workspaceRoot), source, "yard", { title: "Yard" });
   const missionDir = path.dirname(blueprintPath);
@@ -123,6 +127,18 @@ describe("a Mission Blueprint's doodads", () => {
     const strings = await readFile(path.join(mapPackage, "enUS.SC2Data", "LocalizedData", "ObjectStrings.txt"), "utf8");
     expect(strings).toContain("Actor/Name/StabilizerRing=Stabilizer Ring\r\n");
     expect(strings).toContain("Model/Name/StabilizerRing=Stabilizer Ring\r\n");
+  });
+
+  it("convert a Kept ObjectStrings name a doodad's name writes over, under the Blueprint's Accepted Differences", async () => {
+    const { workspaceRoot, blueprintPath, mapPackage, declare } = await yard(undefined, "Model/Name/StabilizerRing=Old Ring\r\n");
+    const item = "string:enUS.SC2Data/LocalizedData/ObjectStrings.txt:Model/Name/StabilizerRing";
+    await declare({ doodads: [{ ...RING_DOODAD, name: "Stabilizer Ring" }] });
+    await expect(compile(workspaceRoot, blueprintPath)).rejects.toThrow(item);
+
+    await declare({ doodads: [{ ...RING_DOODAD, name: "Stabilizer Ring" }], acceptedDifferences: [{ item, reason: "The doodad's name now" }] });
+    await compile(workspaceRoot, blueprintPath);
+
+    expect(await readFile(path.join(mapPackage, "enUS.SC2Data", "LocalizedData", "ObjectStrings.txt"), "utf8")).toContain("Model/Name/StabilizerRing=Stabilizer Ring\r\n");
   });
 
   it("take a texture the Map Package already holds, and refuse one that is nowhere, naming it", async () => {
