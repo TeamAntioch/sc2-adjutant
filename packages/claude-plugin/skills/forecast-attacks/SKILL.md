@@ -58,6 +58,7 @@ Done when each attack's chain compiles and its marker, windup, strike and hit ar
 
 - A melee unit follows the nearest enemy while that enemy's melee slot is free, and circles it otherwise.
 - A ranged unit follows the ranged rule.
+- Either kind backs off from an enemy that comes within 2 cells, a melee unit only while another unit holds the slot.
 - Hold the driver while winding.
 - The unit actor animates the windup and strike from behaviour events.
 
