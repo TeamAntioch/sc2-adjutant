@@ -308,31 +308,43 @@ describe("reopen_stage", () => {
 });
 
 describe("next-step hints", () => {
-  it("point build tool replies at the next step for the Mission's Stage", async () => {
-    const root = await copyOf("field");
-    const client = await connect(root);
-    const nextLine = async (name: string, args: Record<string, unknown> = {}) => {
+  // One test per Stage, each on its own copied Workspace: compiles and previews are slow on Windows (#99).
+  const signedOffTo = async (stage: number) => {
+    const client = await connect(await copyOf("field"));
+    for (let signed = 1; signed < stage; signed++) expect((await signOff(client, signed)).isError).toBeFalsy();
+    return async (name: string, args: Record<string, unknown> = {}) => {
       const reply = await client.callTool({ name, arguments: { mission: "lava-field", ...args } });
       expect(reply.isError).toBeFalsy();
       return text(reply).split("\n").find((line) => line.startsWith("Next ("));
     };
-    const move = { zone: "field", dx: 0, dy: 0 };
+  };
+  const move = { zone: "field", dx: 0, dy: 0 };
 
+  it("point build tool replies at Beats at Stage 1", async () => {
+    const nextLine = await signedOffTo(1);
     for (const name of ["compile_map", "check_layout", "preview"]) expect(await nextLine(name)).toMatch(/^Next \(Stage 1\): .*Beats/);
     expect(await nextLine("move_zone", move)).toMatch(/^Next \(Stage 1\)/);
+  });
 
-    await signOff(client, 1);
+  it("point build tool replies at preview, check_layout and sign-off at Stage 2", async () => {
+    const nextLine = await signedOffTo(2);
     expect(await nextLine("move_zone", move)).toMatch(/^Next \(Stage 2\): .*preview.*check_layout.*sign_off_stage/);
     expect(await nextLine("compile_map")).toMatch(/^Next \(Stage 2\): .*Terrain waits/);
+  });
 
-    await signOff(client, 2);
+  it("point build tool replies at Anchors at Stage 3", async () => {
+    const nextLine = await signedOffTo(3);
     expect(await nextLine("preview")).toMatch(/^Next \(Stage 3\): .*Anchors/);
+  });
 
-    await signOff(client, 3);
+  it("point build tool replies at test_mission and the Test Document at Stage 4", async () => {
+    const nextLine = await signedOffTo(4);
     expect(await nextLine("compile_map")).toMatch(/^Next \(Stage 4\): .*test_mission.*Test Document/);
     expect(await nextLine("test_mission")).toMatch(/^Next \(Stage 4\)/);
+  });
 
-    await signOff(client, 4);
+  it("point build tool replies past the Stages once every Stage is signed off", async () => {
+    const nextLine = await signedOffTo(5);
     expect(await nextLine("check_layout")).toMatch(/^Next \(every Stage signed off\)/);
   });
 });
