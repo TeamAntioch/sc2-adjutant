@@ -369,6 +369,292 @@
       }
     ]
   },
+  "HotSRaptor": {
+    "file": "Assets/Units/Zerg/ZerglingEx1A/ZerglingEx1A.m3",
+    "anims": [
+      {
+        "name": "Stand",
+        "durationMs": 3000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack",
+        "durationMs": 533,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Burrow",
+        "durationMs": 1334,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unburrow",
+        "durationMs": 1333,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand 01",
+        "durationMs": 3334,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Fidget",
+        "durationMs": 3667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack 01",
+        "durationMs": 533,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Attack 02",
+        "durationMs": 533,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Walk",
+        "durationMs": 2000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Left",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Right",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Morph Start",
+        "durationMs": 1333,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Dance",
+        "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Victory",
+        "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Walk 01",
+        "durationMs": 2000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Unload End",
+        "durationMs": 1500,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unload",
+        "durationMs": 34,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Jump Start",
+        "durationMs": 133,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Jump",
+        "durationMs": 667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Jump End",
+        "durationMs": 234,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Flail",
+        "durationMs": 1333,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Birth",
+        "durationMs": 833,
+        "moveSpeed": 0,
+        "looping": false
+      }
+    ]
+  },
+  "Hydralisk": {
+    "file": "Assets/Units/Zerg/Hydralisk/Hydralisk.m3",
+    "anims": [
+      {
+        "name": "Walk",
+        "durationMs": 1667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand",
+        "durationMs": 2667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Burrow",
+        "durationMs": 2000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unburrow",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Walk 02",
+        "durationMs": 1667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack 01",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Fidget 01",
+        "durationMs": 5333,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Fidget",
+        "durationMs": 5333,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack Cover",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Attack Cover 01",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Work End",
+        "durationMs": 500,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Attack Superior",
+        "durationMs": 1667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack Inferior",
+        "durationMs": 1833,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Left",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Right",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Dance",
+        "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Dance 01",
+        "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Victory",
+        "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Victory 01",
+        "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand 02",
+        "durationMs": 2433,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand 03",
+        "durationMs": 3000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Unload End",
+        "durationMs": 1500,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unload",
+        "durationMs": 33,
+        "moveSpeed": 0,
+        "looping": false
+      }
+    ]
+  },
   "Immortal_Purifier_Collection": {
     "file": "Assets/Units/Protoss/Immortal_Purifier_Collection/Immortal_Purifier_Collection.m3",
     "anims": [
@@ -934,6 +1220,173 @@
       {
         "name": "GLstand",
         "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": true
+      }
+    ]
+  },
+  "Roach": {
+    "file": "Assets/Units/Zerg/Roach/Roach.m3",
+    "anims": [
+      {
+        "name": "Stand",
+        "durationMs": 2000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack Cover",
+        "durationMs": 666,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack Cover 01",
+        "durationMs": 667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack Cover 02",
+        "durationMs": 667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Fidget",
+        "durationMs": 2666,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack Cover 03",
+        "durationMs": 667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Burrow",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unburrow",
+        "durationMs": 666,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Walk 01",
+        "durationMs": 667,
+        "moveSpeed": 225,
+        "looping": true
+      },
+      {
+        "name": "Stand Left",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Right",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Walk",
+        "durationMs": 434,
+        "moveSpeed": 225,
+        "looping": true
+      },
+      {
+        "name": "Attack",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Burrow",
+        "durationMs": 333,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Walk Burrow",
+        "durationMs": 1000,
+        "moveSpeed": 120,
+        "looping": true
+      },
+      {
+        "name": "Walk Start",
+        "durationMs": 533,
+        "moveSpeed": 225,
+        "looping": false
+      },
+      {
+        "name": "Stand Start",
+        "durationMs": 1167,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Walk Start 01",
+        "durationMs": 533,
+        "moveSpeed": 225,
+        "looping": false
+      },
+      {
+        "name": "Walk Left Start",
+        "durationMs": 534,
+        "moveSpeed": 225,
+        "looping": false
+      },
+      {
+        "name": "Walk Right Start",
+        "durationMs": 533,
+        "moveSpeed": 225,
+        "looping": false
+      },
+      {
+        "name": "Stand Burrow Left",
+        "durationMs": 333,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Burrow Right",
+        "durationMs": 334,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Right Ready",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Left Ready",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Ready",
+        "durationMs": 2000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Unload End",
+        "durationMs": 1500,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unload",
+        "durationMs": 33,
         "moveSpeed": 0,
         "looping": true
       }
@@ -4419,6 +4872,107 @@
       {
         "name": "Flail",
         "durationMs": 833,
+        "moveSpeed": 0,
+        "looping": true
+      }
+    ]
+  },
+  "Zergling": {
+    "file": "Assets/Units/Zerg/Zergling/Zergling.m3",
+    "anims": [
+      {
+        "name": "Stand",
+        "durationMs": 3000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack",
+        "durationMs": 533,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Burrow",
+        "durationMs": 1334,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unburrow",
+        "durationMs": 1333,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand 01",
+        "durationMs": 3334,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Fidget",
+        "durationMs": 3667,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Attack 01",
+        "durationMs": 533,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Attack 02",
+        "durationMs": 533,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Walk",
+        "durationMs": 2000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Left",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Right",
+        "durationMs": 1000,
+        "moveSpeed": 0,
+        "looping": true
+      },
+      {
+        "name": "Stand Morph Start",
+        "durationMs": 1333,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Dance",
+        "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Stand Victory",
+        "durationMs": 5000,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unload End",
+        "durationMs": 1500,
+        "moveSpeed": 0,
+        "looping": false
+      },
+      {
+        "name": "Unload",
+        "durationMs": 34,
         "moveSpeed": 0,
         "looping": true
       }
