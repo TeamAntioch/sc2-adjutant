@@ -1,35 +1,65 @@
-// A testbed spec: one test's units, clips, slots and variations (README.md, "The spec").
+// A testbed spec: one test's units, their animations, the moments and the variations (README.md, "The spec").
 import { z } from "zod";
 
 const seconds = z.number().finite();
 const ID = /^[A-Za-z_][\w]*$/;
 
-export const SLOT_KINDS = ["clip", "impact", "hit", "death", "cues"] as const;
-export type SlotKind = (typeof SLOT_KINDS)[number];
+/** What a moment's Play does to the selected unit: plays an animation, or kills it. None: the cues alone. */
+export const MOMENT_DOS = ["play", "kill"] as const;
+export type MomentDo = (typeof MOMENT_DOS)[number];
+/** Where a moment's sounds play. A unit's key is reserved for several units (#96). */
+export const MOMENT_ATS = ["unit", "target"] as const;
+/** A moment's cue time zero. `strike` and `land` are the animation's, so they need `do: play`. */
+export const MOMENT_FROMS = ["start", "strike", "land"] as const;
+
+/**
+ * A moment: something that happens to a unit that you want to judge (an attack, its impact, a death).
+ * It says what Play does, where the sounds play and when cue times start. Each is a string so the
+ * build can tell a reserved spelling (`order <ability>`, a unit's key, `on <event>`: #96) from a typo.
+ */
+const MomentSchema = z
+  .object({
+    do: z.string().optional(),
+    at: z.string().default("unit"),
+    from: z.string().default("start"),
+  })
+  .strict();
 
 const VariationSchema = z
   .object({
-    /** Each `<what>[@<when>][~<stop>]`: a CSound id, or `actor[:<child>] <message>` or `target[:<child>] <message>`. */
+    /** Each `<what>[@<when>][~<stop>]`: a CSound id, `actor[:<child>] <message>`, `target[:<child>] <message>` or `effect <CEffect id>`. */
     cues: z.array(z.string().min(1)).default([]),
     note: z.string().optional(),
     /** Its name in the dropdown; the start of the note by default. */
     label: z.string().optional(),
     /** The one the dropdown starts on, marked `*`. */
     pick: z.boolean().optional(),
+    /** An animation of the unit's to play instead of the moment's. */
+    anim: z.string().optional(),
   })
   .strict();
 
-const ClipSchema = z
+const AnimationSchema = z
   .object({
-    name: z.string().min(1),
     /** The actor message that plays it: `AnimPlay Attack Spell,C NonLooping`. */
     play: z.string().min(1),
-    /** When the swing or throw goes, in seconds from the clip's start. */
+    /** When the swing or throw goes, in seconds from its start. */
     strike: seconds.default(0),
-    /** When it lands on the target: an impact slot's zero. The strike by default. */
+    /** When it lands on the target: the zero of a moment `from: land`. The strike by default. */
     land: seconds.optional(),
-    /** How long the clip runs, for Loop; the model's own length when it can be read. */
+    /** How long it runs, for Loop; the model's own length when it can be read. */
     length: seconds.positive().optional(),
+    /** Clears it after this long (a hit reaction); 0 lets it finish. */
+    clear: z.number().nonnegative().default(0),
+  })
+  .strict();
+
+/** A unit's part in a moment: the animation it plays and the variations to compare. */
+const UnitMomentSchema = z
+  .object({
+    /** One of the unit's animations; its first by default. */
+    anim: z.string().optional(),
+    variations: z.array(VariationSchema).default([]),
   })
   .strict();
 
@@ -58,15 +88,12 @@ const UnitSchema = z
     reach: z.number().nonnegative().default(1.5),
     /** The actor message of its idle, sent after it spawns. */
     idle: z.string().optional(),
-    /** The actor message of its hit reaction, for a hit slot. */
-    hit: z.string().optional(),
-    /** Clears the hit reaction after this long; 0 lets it finish. */
-    hitClear: z.number().nonnegative().default(0),
     /** How long after a death it comes back. */
     respawn: z.number().nonnegative().default(4),
-    clips: z.array(ClipSchema).default([]),
-    /** Per slot, the variations to compare. */
-    variations: z.record(z.string(), z.array(VariationSchema)).default({}),
+    /** Its animations by name, in dropdown order. A hit reaction is one with `clear`. */
+    animations: z.record(z.string().min(1), AnimationSchema).default({}),
+    /** Per moment, the animation it plays and the variations to compare. */
+    moments: z.record(z.string(), UnitMomentSchema).default({}),
   })
   .strict()
   .refine((unit) => (unit.unit === undefined) !== (unit.new === undefined), { message: 'Give a unit "unit" (a CUnit id) or "new" (a model), not both' });
@@ -86,9 +113,9 @@ const SoundSchema = z
 const TourStopSchema = z
   .object({
     unit: z.string(),
-    /** A clip's name or its place from 1; the unit's first by default. */
-    clip: z.union([z.string(), z.number().int().positive()]).optional(),
-    slot: z.string(),
+    moment: z.string(),
+    /** One of the unit's animations, instead of the variation's or the moment's. */
+    anim: z.string().optional(),
     /** Its place from 1; the pick by default. */
     variation: z.number().int().positive().optional(),
     /** How long after Play the frame is taken. */
@@ -123,7 +150,8 @@ export const SpecSchema = z
       .strict()
       .nullable()
       .optional(),
-    slots: z.record(z.string(), z.object({ kind: z.enum(SLOT_KINDS) }).strict()),
+    /** The moments, in dropdown order. */
+    moments: z.record(z.string(), MomentSchema),
     sounds: z.record(z.string().regex(ID), SoundSchema).default({}),
     /** XML files of <Catalog> elements, each routed to its catalog. */
     data: z.array(z.string()).default([]),
@@ -136,6 +164,7 @@ export const SpecSchema = z
   .strict();
 
 export type Spec = z.infer<typeof SpecSchema>;
+export type SpecMoment = Spec["moments"][string];
 export type SpecUnit = Spec["units"][number];
 
 /** A spec's text as JSON, with // comments allowed on their own lines and after a value. */

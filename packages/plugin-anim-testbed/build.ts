@@ -22,7 +22,7 @@ import {
   writeMapScript,
 } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
-import { type SlotKind, type Spec, type SpecUnit, readSpec } from "./spec.ts";
+import { MOMENT_ATS, MOMENT_DOS, MOMENT_FROMS, type MomentDo, type Spec, type SpecMoment, type SpecUnit, readSpec } from "./spec.ts";
 
 /** The runtime the spec's data is put into. */
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -32,11 +32,15 @@ export const INIT_FUNC = "Tb_Init";
 /** The bank a --capture build's tour announces its stops in. */
 export const TOUR_BANK = "AnimTestbed";
 
-const KIND_CODE: Record<SlotKind, number> = { clip: 0, impact: 1, hit: 2, death: 3, cues: 4 };
+const DO_CODE: Record<MomentDo | "none", number> = { none: 0, play: 1, kill: 2 };
+const AT_CODE = { unit: 0, target: 1 } as const;
 const BASE = { start: 0, strike: 1, land: 2 } as const;
 const CUE_SOUND = 0;
 const CUE_ACTOR = 1;
 const CUE_TARGET = 2;
+const CUE_EFFECT = 3;
+/** Said of a spelling kept for several units, abilities and actor events, which aren't built yet. */
+const NOT_BUILT = "not built yet (#96)";
 
 // AnimPlay flags, and SC2's own animation words beyond what a recorded clip name holds. A word that is
 // neither and in no known clip name is likely invented: a clip named "Attack Mega" never played.
@@ -65,7 +69,7 @@ export type BuildResult = {
   readonly script?: string;
   readonly name: string;
   readonly built: boolean;
-  readonly counts: { readonly units: number; readonly slots: number; readonly variations: number; readonly cues: number; readonly files: number };
+  readonly counts: { readonly units: number; readonly moments: number; readonly variations: number; readonly cues: number; readonly files: number };
 };
 
 // ---------------------------------------------------------------------------------------------------
@@ -83,10 +87,14 @@ export function parseTime(text: string, defaultBase: number): { base: number; at
   return { base: BASE[name], at: Number(m[2] ?? 0) };
 }
 
-/** A cue string `<what>[@<when>][~<stop>]`, or a problem with it. */
-export function parseCue(cue: string, defaultBase: number): { cue?: Cue; problem?: string } {
+/** Whether a time is `on <event>`, the spelling kept for actor events. */
+const isEventTime = (text: string | undefined): boolean => text !== undefined && /^\s*on\s/.test(text);
+
+/** A cue string `<what>[@<when>][~<stop>]`, or a problem with it. `unitKeys` are the spec's units, whose keys are kept as cue targets. */
+export function parseCue(cue: string, defaultBase: number, unitKeys: ReadonlySet<string> = new Set()): { cue?: Cue; problem?: string } {
   const m = /^(.*?)(?:@([^@~]*))?(?:~([^@~]*))?$/.exec(cue)!;
   const what = m[1]!.trim();
+  if (isEventTime(m[2]) || isEventTime(m[3])) return { problem: `"${cue}": a time "on <event>" is kept for actor events, ${NOT_BUILT}` };
   const at = parseTime(m[2] ?? "0", defaultBase);
   if (!at) return { problem: `"${m[2]}" in "${cue}" is not a time (seconds, strike, land, or strike+0.2)` };
   let stopBase = -1;
@@ -97,22 +105,62 @@ export function parseCue(cue: string, defaultBase: number): { cue?: Cue; problem
     stopBase = s.base;
     stop = s.at;
   }
-  const actor = /^(actor|target)(?::(\S+))?\s+(.+)$/.exec(what);
+  const actor = /^(actor|target|effect)(?::(\S+))?\s+(.+)$/.exec(what);
   if (actor && stopBase >= 0) return { problem: `"${cue}" has a stop (~), which only a sound can have` };
+  if (actor?.[1] === "effect") {
+    const id = actor[3]!.trim();
+    if (actor[2] !== undefined || !/^[A-Za-z_][\w]*$/.test(id)) return { problem: `"${cue}" is not "effect <CEffect id>"` };
+    return { cue: { kind: CUE_EFFECT, text: id, child: "", base: at.base, at: at.at, stopBase, stop } };
+  }
   if (actor) return { cue: { kind: actor[1] === "actor" ? CUE_ACTOR : CUE_TARGET, text: actor[3]!.trim(), child: actor[2] ?? "", base: at.base, at: at.at, stopBase, stop } };
-  if (!/^[A-Za-z_][\w]*$/.test(what)) return { problem: `"${cue}" is neither a CSound id nor "actor <message>"` };
+  const keyed = /^([^\s:]+)(?::\S+)?\s/.exec(what);
+  if (keyed && unitKeys.has(keyed[1]!)) return { problem: `"${cue}": a unit's key as a cue's target is kept for several units, ${NOT_BUILT}` };
+  if (!/^[A-Za-z_][\w]*$/.test(what)) return { problem: `"${cue}" is neither a CSound id, "actor <message>", "target <message>" nor "effect <id>"` };
   return { cue: { kind: CUE_SOUND, text: what, child: "", base: at.base, at: at.at, stopBase, stop } };
+}
+
+// ---------------------------------------------------------------------------------------------------
+// Moments
+
+export type Moment = { do: MomentDo | "none"; at: keyof typeof AT_CODE; from: keyof typeof BASE };
+
+/** A moment's do, at and from, or the problems with them. `unitKeys` are kept as `at` values for several units. */
+export function readMoment(name: string, def: SpecMoment, unitKeys: ReadonlySet<string>): { moment?: Moment; problems: string[] } {
+  const problems: string[] = [];
+  const doText = def.do?.trim();
+  if (doText !== undefined && /^order(\s|$)/.test(doText)) problems.push(`moment ${name}: do "${doText}" is kept for a unit's abilities, ${NOT_BUILT}`);
+  else if (doText === "hit") problems.push(`moment ${name}: do "hit" is gone: give the unit a hit animation with "clear", and play it with do "play"`);
+  else if (doText !== undefined && !(MOMENT_DOS as readonly string[]).includes(doText)) problems.push(`moment ${name}: do "${doText}" is not one of ${MOMENT_DOS.join(", ")} (or none, for the cues alone)`);
+  const at = def.at.trim();
+  if (unitKeys.has(at) && !(MOMENT_ATS as readonly string[]).includes(at)) problems.push(`moment ${name}: at "${at}", a unit's key, is kept for several units, ${NOT_BUILT}`);
+  else if (!(MOMENT_ATS as readonly string[]).includes(at)) problems.push(`moment ${name}: at "${at}" is not one of ${MOMENT_ATS.join(", ")}`);
+  const from = def.from.trim();
+  if (isEventTime(from)) problems.push(`moment ${name}: from "${from}" is kept for actor events, ${NOT_BUILT}`);
+  else if (!(MOMENT_FROMS as readonly string[]).includes(from)) problems.push(`moment ${name}: from "${from}" is not one of ${MOMENT_FROMS.join(", ")}`);
+  else if (from !== "start" && doText !== "play") problems.push(`moment ${name}: from "${from}" is an animation's time, so it needs do "play"`);
+  if (problems.length) return { problems };
+  return { moment: { do: (doText as MomentDo | undefined) ?? "none", at: at as Moment["at"], from: from as Moment["from"] }, problems };
+}
+
+/** What a variation holds, for its dropdown entry: `[sound]`, `[visual]`, `[anim]` or a mix. */
+export function variationTags(cues: readonly Cue[], anim: boolean): string {
+  const tags: string[] = [];
+  if (cues.some((cue) => cue.kind === CUE_SOUND)) tags.push("sound");
+  if (cues.some((cue) => cue.kind !== CUE_SOUND)) tags.push("visual");
+  if (anim) tags.push("anim");
+  return tags.length ? `[${tags.join(" + ")}]` : "";
 }
 
 // ---------------------------------------------------------------------------------------------------
 // Ids the game and the Workspace have
 
-type Family = "actor" | "model" | "unit" | "sound";
-const family = (cls: string): Family | undefined => (cls.startsWith("CActor") ? "actor" : ({ CModel: "model", CUnit: "unit", CSound: "sound" } as Record<string, Family>)[cls]);
+type Family = "actor" | "effect" | "model" | "unit" | "sound";
+const family = (cls: string): Family | undefined =>
+  cls.startsWith("CActor") ? "actor" : cls.startsWith("CEffect") ? "effect" : ({ CModel: "model", CUnit: "unit", CSound: "sound" } as Record<string, Family>)[cls];
 
 /** Ids of the data the build can read itself: the Workspace's mods, the base map and the spec's own. */
 class OwnData {
-  readonly ids: Record<Family, Set<string>> = { actor: new Set(), model: new Set(), unit: new Set(), sound: new Set() };
+  readonly ids: Record<Family, Set<string>> = { actor: new Set(), effect: new Set(), model: new Set(), unit: new Set(), sound: new Set() };
   /** CUnit id to the CModel its CActorUnit shows. */
   readonly unitModel = new Map<string, string>();
 
@@ -257,7 +305,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   const folder = path.dirname(absSpec);
   const read = readSpec(await readFile(absSpec, "utf8"));
   const name0 = path.basename(absSpec, path.extname(absSpec));
-  const empty = { units: 0, slots: 0, variations: 0, cues: 0, files: 0 };
+  const empty = { units: 0, moments: 0, variations: 0, cues: 0, files: 0 };
   if (!read.spec) {
     report.errors.push(...read.problems);
     return { report, outMap: "", scriptPath: "", name: name0, built: false, counts: empty };
@@ -496,52 +544,69 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     return undefined;
   };
 
-  // ---- Slots, clips, variations, cues
-  const slots = Object.entries(spec.slots);
-  const slotIndex = new Map(slots.map(([slot, def], i) => [slot, { index: i, kind: def.kind }]));
-  const data: string[] = slots.map(([slot, def], i) => `    Tb_S(${i}, ${gstr(slot)}, ${KIND_CODE[def.kind]});`);
-  let maxClips = 1;
+  // ---- Moments, animations, variations, cues
+  const moments = Object.entries(spec.moments);
+  const momentIndex = new Map<string, { index: number; moment: Moment }>();
+  const data: string[] = [];
+  for (const [i, [name, def]] of moments.entries()) {
+    const { moment, problems } = readMoment(name, def, keys);
+    report.errors.push(...problems);
+    // A moment with a problem stands in as the cues alone, so its variations are still checked.
+    const m = moment ?? { do: "none", at: "unit", from: "start" };
+    if (m.at === "target" && !target) report.notes.push(`moment ${name}: its sounds go to the target, but the spec has none, so they play at the point in front of the unit`);
+    momentIndex.set(name, { index: i, moment: m });
+    data.push(`    Tb_M(${i}, ${gstr(name)}, ${DO_CODE[m.do]}, ${AT_CODE[m.at]}, ${BASE[m.from]});`);
+  }
+  let maxAnims = 1;
   let maxCuesVar = 1;
   let nv = 0;
   let nq = 0;
   for (const [ui, unit] of spec.units.entries()) {
     const clips = clipsOf.get(ui);
-    for (const field of ["idle", "hit"] as const) if (unit[field]) checkAnim(unit[field]!, `${unit.key} ${field}`, clips);
+    if (unit.idle) checkAnim(unit.idle, `${unit.key} idle`, clips);
     const unitId = unit.new?.id ?? unit.unit!;
-    data.push(`    Tb_U(${ui}, ${gstr(unit.key)}, ${gstr(unitId)}, ${gfix(unit.reach)}, ${gstr(unit.idle ?? "")}, ${gstr(unit.hit ?? "")}, ${gfix(unit.hitClear)}, ${gfix(unit.respawn)});`);
-    maxClips = Math.max(maxClips, unit.clips.length);
-    for (const [ci, clip] of unit.clips.entries()) {
-      const secs = checkAnim(clip.play, `${unit.key} clip "${clip.name}"`, clips);
-      const land = clip.land ?? clip.strike;
-      const length = clip.length ?? secs ?? land + 1;
-      data.push(`    Tb_C(${ui}, ${ci}, ${gstr(clip.name)}, ${gstr(clip.play)}, ${gfix(clip.strike)}, ${gfix(land)}, ${gfix(length)});`);
+    data.push(`    Tb_U(${ui}, ${gstr(unit.key)}, ${gstr(unitId)}, ${gfix(unit.reach)}, ${gstr(unit.idle ?? "")}, ${gfix(unit.respawn)});`);
+    const animNames = Object.keys(unit.animations);
+    /** An animation's place in the unit's list, or -1 with an error. */
+    const animAt = (name: string, where: string): number => {
+      const ai = animNames.indexOf(name);
+      if (ai < 0) report.errors.push(`${where}: ${unit.key} has no animation "${name}"${animNames.length ? ` (it has ${animNames.join(", ")})` : ""}`);
+      return ai;
+    };
+    maxAnims = Math.max(maxAnims, animNames.length);
+    for (const [ai, [name, anim]] of Object.entries(unit.animations).entries()) {
+      const secs = checkAnim(anim.play, `${unit.key} animation "${name}"`, clips);
+      const land = anim.land ?? anim.strike;
+      const length = anim.length ?? secs ?? Math.max(land, anim.clear) + 1;
+      data.push(`    Tb_A(${ui}, ${ai}, ${gstr(name)}, ${gstr(anim.play)}, ${gfix(anim.strike)}, ${gfix(land)}, ${gfix(length)}, ${gfix(anim.clear)});`);
     }
-    for (const [slot, variations] of Object.entries(unit.variations)) {
-      const info = slotIndex.get(slot);
-      if (!info) {
-        report.errors.push(`${unit.key}: variations for slot "${slot}", which the spec doesn't define`);
-        continue;
-      }
-      const usesClip = info.kind === "clip" || info.kind === "impact";
-      if (usesClip && unit.clips.length === 0) report.errors.push(`${unit.key}: slot ${slot} plays the selected clip, but ${unit.key} has no clips`);
-      const defaultBase = info.kind === "impact" ? BASE.land : BASE.start;
-      if (variations.filter((v) => v.pick).length > 1) report.warnings.push(`${unit.key} ${slot}: more than one variation is the pick; the dropdown starts on the last`);
+    for (const name of Object.keys(unit.moments)) if (!momentIndex.has(name)) report.errors.push(`${unit.key}: moment "${name}", which the spec doesn't define`);
+    for (const [momentName, info] of momentIndex) {
+      const part = unit.moments[momentName];
+      const plays = info.moment.do === "play";
+      if (part && plays && animNames.length === 0) report.errors.push(`${unit.key}: moment ${momentName} plays an animation, but ${unit.key} has none`);
+      if (part?.anim !== undefined && !plays) report.errors.push(`${unit.key} ${momentName}: an "anim", but the moment plays none`);
+      const momentAnim = part?.anim !== undefined ? Math.max(0, animAt(part.anim, `${unit.key} ${momentName}`)) : 0;
+      data.push(`    Tb_UM(${ui}, ${info.index}, ${momentAnim});`);
+      const variations = part?.variations ?? [];
+      const defaultBase = BASE[info.moment.from];
+      if (variations.filter((v) => v.pick).length > 1) report.warnings.push(`${unit.key} ${momentName}: more than one variation is the pick; the dropdown starts on the last`);
       for (const [vi, variation] of variations.entries()) {
-        const where = `${unit.key} ${slot} ${vi + 1}`;
-        const note = variation.note ?? "";
-        const label = variation.label ?? (note ? (note.length > 44 ? `${note.slice(0, 44)}…` : note) : variation.cues.join(" ").slice(0, 44));
-        data.push(`    Tb_V(${ui}, ${info.index}, ${gstr(label)}, ${gstr(note)}, ${variation.pick ? "true" : "false"});`);
-        nv++;
-        maxCuesVar = Math.max(maxCuesVar, variation.cues.length);
+        const where = `${unit.key} ${momentName} ${vi + 1}`;
+        if (variation.anim !== undefined && !plays) report.errors.push(`${where}: an "anim", but moment ${momentName} plays none`);
+        const vAnim = variation.anim !== undefined ? animAt(variation.anim, where) : -1;
+        const cues: Cue[] = [];
         for (const text of variation.cues) {
-          const { cue, problem } = parseCue(text, defaultBase);
+          const { cue, problem } = parseCue(text, defaultBase, keys);
           if (!cue) {
             report.errors.push(`${where}: ${problem}`);
             continue;
           }
-          if (!usesClip && (cue.base !== BASE.start || cue.stopBase > BASE.start)) report.warnings.push(`${where}: "${text}" is timed from the clip, but slot ${slot} plays no clip (the selected clip's times are used)`);
+          if (!plays && (cue.base !== BASE.start || cue.stopBase > BASE.start)) report.warnings.push(`${where}: "${text}" is timed from an animation, but moment ${momentName} plays none (the selected animation's times are used)`);
           if (cue.kind === CUE_SOUND) {
             if (!hasSound(cue.text)) report.errors.push(`${where}: no CSound "${cue.text}" in the game or the Workspace`);
+          } else if (cue.kind === CUE_EFFECT) {
+            if (!own.ids.effect.has(cue.text)) report.warnings.push(`${where}: "${cue.text}" is not one of the spec's or the Workspace's effects; check it is the game's (core can't list the game's effects)`);
           } else {
             if (cue.kind === CUE_TARGET && !target) report.errors.push(`${where}: "${text}" goes to the target, but the spec has none`);
             if (cue.child && !own.ids.actor.has(cue.child)) report.warnings.push(`${where}: the child actor "${cue.child}" is not one of the spec's or the Workspace's actors; check it is the game's`);
@@ -549,12 +614,18 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
             if (words[0]?.toLowerCase() === "create" && words[1] && !own.ids.actor.has(words[1])) report.warnings.push(`${where}: "${words[1]}" is not one of the spec's or the Workspace's actors; check it is the game's`);
             if (cue.kind === CUE_ACTOR && !cue.child) checkAnim(cue.text, where, clips);
           }
-          data.push(`    Tb_Q(${cue.kind}, ${gstr(cue.text)}, ${gstr(cue.child)}, ${cue.base}, ${gfix(cue.at)}, ${cue.stopBase}, ${gfix(cue.stop)});`);
-          nq++;
+          cues.push(cue);
         }
+        const note = variation.note ?? "";
+        const label = variation.label ?? (note ? (note.length > 40 ? `${note.slice(0, 40)}…` : note) : variation.cues.join(" ").slice(0, 40));
+        const tags = variationTags(cues, variation.anim !== undefined);
+        data.push(`    Tb_V(${ui}, ${info.index}, ${gstr(tags ? `${label}  ${tags}` : label)}, ${gstr(note)}, ${variation.pick ? "true" : "false"}, ${vAnim});`);
+        nv++;
+        maxCuesVar = Math.max(maxCuesVar, cues.length);
+        for (const cue of cues) data.push(`    Tb_Q(${cue.kind}, ${gstr(cue.text)}, ${gstr(cue.child)}, ${cue.base}, ${gfix(cue.at)}, ${cue.stopBase}, ${gfix(cue.stop)});`);
+        nq += cues.length;
       }
     }
-    if (unit.variations && Object.keys(unit.variations).some((slot) => slotIndex.get(slot)?.kind === "hit") && !unit.hit) report.notes.push(`${unit.key}: it has no hit reaction ("hit"), so its hit slot plays the sounds alone`);
   }
 
   // ---- The tour
@@ -563,18 +634,18 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     if (spec.tour.length === 0) report.errors.push("the spec has no tour to capture");
     for (const [ti, stop] of spec.tour.entries()) {
       const ui = spec.units.findIndex((u) => u.key === stop.unit);
-      const info = slotIndex.get(stop.slot);
+      const info = momentIndex.get(stop.moment);
       if (ui < 0 || !info) {
-        report.errors.push(`tour stop ${ti + 1}: ${ui < 0 ? `no unit "${stop.unit}"` : `no slot "${stop.slot}"`}`);
+        report.errors.push(`tour stop ${ti + 1}: ${ui < 0 ? `no unit "${stop.unit}"` : `no moment "${stop.moment}"`}`);
         continue;
       }
       const unit = spec.units[ui]!;
-      const ci = stop.clip === undefined ? 0 : typeof stop.clip === "number" ? stop.clip - 1 : unit.clips.findIndex((c) => c.name === stop.clip);
-      if (ci < 0 || (stop.clip !== undefined && ci >= unit.clips.length)) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no clip ${String(stop.clip)}`);
-      const variations = unit.variations[stop.slot] ?? [];
+      const ai = stop.anim === undefined ? -1 : Object.keys(unit.animations).indexOf(stop.anim);
+      if (stop.anim !== undefined && ai < 0) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no animation "${stop.anim}"`);
+      const variations = unit.moments[stop.moment]?.variations ?? [];
       const vi = stop.variation !== undefined ? stop.variation - 1 : Math.max(0, variations.findLastIndex((v) => v.pick));
-      if (stop.variation !== undefined && vi >= variations.length) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no ${stop.slot} variation ${stop.variation}`);
-      data.push(`    Tb_T(${ui}, ${Math.max(0, ci)}, ${info.index}, ${variations.length ? vi : -1}, ${gfix(stop.hold)});`);
+      if (stop.variation !== undefined && vi >= variations.length) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no ${stop.moment} variation ${stop.variation}`);
+      data.push(`    Tb_T(${ui}, ${info.index}, ${ai}, ${variations.length ? vi : -1}, ${gfix(stop.hold)});`);
       ntour++;
     }
   }
@@ -592,11 +663,11 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   const stage = spec.stage;
   const consts = [
     `const int TB_NU = ${spec.units.length};`,
-    `const int TB_NC = ${maxClips};`,
-    `const int TB_NS = ${Math.max(1, slots.length)};`,
+    `const int TB_NA = ${maxAnims};`,
+    `const int TB_NM = ${Math.max(1, moments.length)};`,
     `const int TB_NV = ${Math.max(1, nv)};`,
     `const int TB_NQ = ${Math.max(1, nq)};`,
-    `const int TB_NT = ${maxCuesVar};`,
+    `const int TB_NT = ${maxCuesVar + 2};`,
     `const int TB_NTOUR = ${Math.max(1, ntour)};`,
     `const string TB_TOUR_BANK = ${gstr(TOUR_BANK)};`,
     `const fixed TB_X = ${gfix(stage.at[0])};`,
@@ -632,7 +703,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
 
   // A message repeated (one site op on several actors) is said once.
   for (const list of [report.errors, report.warnings, report.notes]) list.splice(0, list.length, ...new Set(list));
-  const counts = { units: spec.units.length, slots: slots.length, variations: nv, cues: nq, files: copies.length };
+  const counts = { units: spec.units.length, moments: moments.length, variations: nv, cues: nq, files: copies.length };
   if (report.errors.length || options.check) return { report, outMap, scriptPath, script, name, built: false, counts };
 
   // ---- Write the map
@@ -664,12 +735,12 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
 export function reportLines(result: BuildResult): string[] {
   const { counts, report } = result;
   return [
-    `${result.name}: ${counts.units} units, ${counts.slots} slots, ${counts.variations} variations, ${counts.cues} cues, ${counts.files} files to copy`,
+    `${result.name}: ${counts.units} units, ${counts.moments} moments, ${counts.variations} variations, ${counts.cues} cues, ${counts.files} files to copy`,
     ...report.notes.map((n) => `  ${n}`),
     ...report.warnings.map((w) => `warning: ${w}`),
     ...report.errors.map((e) => `error: ${e}`),
   ];
 }
 
-/** The SlotKind type, for callers. */
-export type { SlotKind, SpecUnit };
+/** The spec's types, for callers. */
+export type { MomentDo, SpecMoment, SpecUnit };

@@ -9,58 +9,87 @@
   // The open ground of the Mission's Ash Flats.
   "stage": { "at": [36, 22], "gap": 4, "facing": 270 },
   "target": { "unit": "Zergling", "player": 1 },
-  "slots": {
-    "attack": { "kind": "clip" },
-    "impact": { "kind": "impact" },
-    "death": { "kind": "death" },
-    "voice": { "kind": "cues" }
+  // Each moment: what Play does to the unit, where its sounds play, and when cue times start.
+  "moments": {
+    "attack": { "do": "play" },
+    "impact": { "do": "play", "at": "target", "from": "land" },
+    "death": { "do": "kill" },
+    "voice": {}
   },
   "units": [
     {
       "key": "marine",
       "unit": "Marine",
       "reach": 3,
-      "clips": [{ "name": "attack", "play": "AnimPlay Attack Attack NonLooping", "strike": 0.1, "land": 0.15 }],
-      "variations": {
-        "attack": [
-          { "cues": ["Marine_AttackLaunch@strike"], "note": "the Marine's own rifle burst", "pick": true },
-          { "cues": ["Marine_Stimpack~0.6", "Marine_AttackLaunch@strike+0.05"], "note": "a stim grunt, cut off at 0.6 s, then the burst" }
-        ],
-        "impact": [
-          { "cues": ["Marine_AttackImpact"], "note": "the Marine's own bullet hits", "pick": true },
-          { "cues": ["Protoss_ShieldImpact", "Marine_AttackImpact@0.03"], "note": "a shield hit layered over the bullet hits" }
-        ],
-        "death": [
-          { "cues": ["Marine_Death"], "note": "the Marine's own death", "pick": true },
-          { "cues": ["Marine_Death", "Marine_Death_BodyFall_A@1.0"], "note": "the death and a body fall as he lands" },
-          { "cues": ["Marine_DeathFXEviscerate"], "note": "the eviscerate death sound" }
-        ],
-        "voice": [
-          { "cues": ["Marine_Yes"], "note": "his Yes responses", "pick": true },
-          { "cues": ["Marine_What"], "note": "his What responses" },
-          { "cues": ["Marine_Pissed"], "note": "his Pissed responses" }
-        ]
+      "animations": {
+        "attack": { "play": "AnimPlay Attack Attack NonLooping", "strike": 0.1, "land": 0.15 }
+      },
+      "moments": {
+        "attack": {
+          "variations": [
+            { "cues": ["Marine_AttackLaunch@strike"], "note": "the Marine's own rifle burst", "pick": true },
+            {
+              "cues": ["Marine_Stimpack~0.6", "Marine_AttackLaunch@strike+0.05"],
+              "note": "a stim grunt, cut off at 0.6 s, then the burst"
+            }
+          ]
+        },
+        "impact": {
+          "variations": [
+            { "cues": ["Marine_AttackImpact"], "note": "the Marine's own bullet hits", "pick": true },
+            {
+              "cues": ["Protoss_ShieldImpact", "Marine_AttackImpact@0.03"],
+              "note": "a shield hit layered over the bullet hits"
+            }
+          ]
+        },
+        "death": {
+          "variations": [
+            { "cues": ["Marine_Death"], "note": "the Marine's own death", "pick": true },
+            { "cues": ["Marine_Death", "Marine_Death_BodyFall_A@1.0"], "note": "the death and a body fall as he lands" },
+            { "cues": ["Marine_DeathFXEviscerate"], "note": "the eviscerate death sound" }
+          ]
+        },
+        "voice": {
+          "variations": [
+            { "cues": ["Marine_Yes"], "note": "his Yes responses", "pick": true },
+            { "cues": ["Marine_What"], "note": "his What responses" },
+            { "cues": ["Marine_Pissed"], "note": "his Pissed responses" }
+          ]
+        }
       }
     },
     {
       "key": "zealot",
       "unit": "Zealot",
       "reach": 1.2,
-      "clips": [{ "name": "attack", "play": "AnimPlay Attack Attack NonLooping", "strike": 0.25, "land": 0.3 }],
-      "variations": {
-        "attack": [
-          { "cues": ["Zealot_AttackLaunch@strike"], "note": "the Zealot's own blade swing", "pick": true },
-          { "cues": ["Zealot_Charge", "Zealot_AttackLaunch@strike"], "note": "the charge cry before the swing" }
-        ],
-        "impact": [
-          { "cues": ["Zealot_AttackImpact"], "note": "the Zealot's own blade hit", "pick": true },
-          { "cues": ["Protoss_AttackImpactMediumSlice"], "note": "a medium Protoss slice" }
-        ],
-        "death": [{ "cues": ["Zealot_Death"], "note": "the Zealot's own death", "pick": true }],
-        "voice": [
-          { "cues": ["Zealot_Yes"], "note": "his Yes responses", "pick": true },
-          { "cues": ["Zealot_Ready"], "note": "his Ready response" }
-        ]
+      "animations": {
+        "attack": { "play": "AnimPlay Attack Attack NonLooping", "strike": 0.25, "land": 0.3 }
+      },
+      "moments": {
+        "attack": {
+          "variations": [
+            { "cues": ["Zealot_AttackLaunch@strike"], "note": "the Zealot's own blade swing", "pick": true },
+            { "cues": ["Zealot_Charge", "Zealot_AttackLaunch@strike"], "note": "the charge cry before the swing" }
+          ]
+        },
+        "impact": {
+          "variations": [
+            { "cues": ["Zealot_AttackImpact"], "note": "the Zealot's own blade hit", "pick": true },
+            { "cues": ["Protoss_AttackImpactMediumSlice"], "note": "a medium Protoss slice" }
+          ]
+        },
+        "death": {
+          "variations": [
+            { "cues": ["Zealot_Death"], "note": "the Zealot's own death", "pick": true }
+          ]
+        },
+        "voice": {
+          "variations": [
+            { "cues": ["Zealot_Yes"], "note": "his Yes responses", "pick": true },
+            { "cues": ["Zealot_Ready"], "note": "his Ready response" }
+          ]
+        }
       }
     },
     {
@@ -68,23 +97,39 @@
       "unit": "Marauder",
       "reach": 3,
       "respawn": 3,
-      "clips": [{ "name": "attack", "play": "AnimPlay Attack Attack NonLooping", "strike": 0.2, "land": 0.6 }],
-      "variations": {
-        "attack": [{ "cues": ["Marauder_AttackLaunch@strike"], "note": "the Marauder's own grenade launch", "pick": true }],
-        "impact": [{ "cues": ["Marauder_AttackImpact"], "note": "the grenade landing, 0.4 s after the launch", "pick": true }],
-        "death": [
-          { "cues": ["Marauder_Death"], "note": "the Marauder's own death", "pick": true },
-          { "cues": ["Marauder_Death", "Marine_Death_BodyFall_B@0.9"], "note": "the death and a body fall" }
-        ],
-        "voice": [{ "cues": ["Marauder_Yes"], "note": "his Yes responses", "pick": true }]
+      "animations": {
+        "attack": { "play": "AnimPlay Attack Attack NonLooping", "strike": 0.2, "land": 0.6 }
+      },
+      "moments": {
+        "attack": {
+          "variations": [
+            { "cues": ["Marauder_AttackLaunch@strike"], "note": "the Marauder's own grenade launch", "pick": true }
+          ]
+        },
+        "impact": {
+          "variations": [
+            { "cues": ["Marauder_AttackImpact"], "note": "the grenade landing, 0.4 s after the launch", "pick": true }
+          ]
+        },
+        "death": {
+          "variations": [
+            { "cues": ["Marauder_Death"], "note": "the Marauder's own death", "pick": true },
+            { "cues": ["Marauder_Death", "Marine_Death_BodyFall_B@0.9"], "note": "the death and a body fall" }
+          ]
+        },
+        "voice": {
+          "variations": [
+            { "cues": ["Marauder_Yes"], "note": "his Yes responses", "pick": true }
+          ]
+        }
       }
     }
   ],
   // What a --capture build films: each stop's state, played, then a frame after its hold.
   "tour": [
-    { "unit": "marine", "slot": "attack", "variation": 2, "hold": 0.5 },
-    { "unit": "zealot", "slot": "impact", "hold": 0.6 },
-    { "unit": "marauder", "slot": "death", "variation": 2, "hold": 1.2 },
-    { "unit": "marine", "slot": "voice", "hold": 0.4 }
+    { "unit": "marine", "moment": "attack", "variation": 2, "hold": 0.5 },
+    { "unit": "zealot", "moment": "impact", "hold": 0.6 },
+    { "unit": "marauder", "moment": "death", "variation": 2, "hold": 1.2 },
+    { "unit": "marine", "moment": "voice", "hold": 0.4 }
   ]
 }
