@@ -18,6 +18,7 @@ One set per Mod. Each slot kind (`Melee`, `Ranged`) gets its own buff, validator
 |---|---|---|
 | `ForecastIncoming<Kind>` | `CBehaviorBuff` | Hidden, `MaxStackCount` 1, `Duration` = windup + quiet (3.25) |
 | `ForecastSlotFree<Kind>` | `CValidatorUnitCompareBehaviorCount` | `Behavior` the buff above, `Compare` LT, `Value` 1 |
+| `ForecastSlotTaken<Kind>` | `CValidatorUnitCompareBehaviorCount` | the same buff, `Compare` GE, `Value` 1 |
 | `ForecastIncoming<Kind>Apply` | `CEffectApplyBehavior` | on the target |
 | `ForecastWinding` | `CBehaviorBuff` | Hidden, `Duration` windup + 0.5 (a backstop; the release removes it). `ModifyFlags` SuppressMoving, SuppressTurning, DisableAbils; `StateFlags` SuppressAttack |
 | `ForecastWindingApply` / `ForecastWindingRemove` | `CEffectApplyBehavior` / `CEffectRemoveBehavior` | `WhichUnit` Caster |
@@ -96,9 +97,9 @@ A line the target steps out of. This is the Adept glaive pattern.
 
 ### Lobbed circle
 
-- **Missile:** `CEffectLaunchMissile` at `CasterUnit` → TargetPoint, `AmmoUnit` a stock lob (`AcidSalivaWeapon`), with an `AdaptableParabola` mover (speed 10).
+- **Missile:** `CEffectLaunchMissile` at `CasterUnit` → TargetPoint, `AmmoUnit` a stock lob (`AcidSalivaWeapon`), with a `CMoverMissile` whose `MotionPhases` has `Driver` Ballistic, `Gravity` 40 and `FlightTime` 0.5. A fixed flight time lands every lob on the same beat, whatever the distance.
 - **Hit:** its `ImpactEffect` is a circle `CEffectEnumArea` (radius 1.5, `ExtendByUnitRadius`).
-- **Timing:** shorten the CP's `ExpireDelay` by the flight time (1.25 instead of 1.75), so the landing comes at about the windup.
+- **Timing:** set the CP's `ExpireDelay` to the windup minus the flight time (1.25), and launch the lob on its expiry, so the shot lands at 1.75 s. The marker's bracket closes on the hit's search, so it stays until the shot lands.
 
 ## Markers
 
@@ -127,6 +128,8 @@ A permanent hidden `CBehaviorBuff` with `Period` 0.25, whose `PeriodicEffect` mo
 - **Seek:** a `CEffectEnumArea` at CasterUnit, radius 10, `MaxCount` 1, `TargetSorts` TSDistance, for the nearest enemy.
 - **Approach:** a switch. If the enemy's melee slot is free, issue `move` on TargetUnit. Otherwise circle.
 - **Circle:** a set validated by a 1.5 s hidden `Circling` buff being absent. It applies the buff and creates a one-shot persistent at TargetUnit with `Flags` RandomOffset and eight `PeriodicOffsetArray` points on a 3-cell ring. Its periodic effect issues `move` on TargetPoint.
+
+**Back off (both kinds):** the first case of the driver's switch. While an enemy is within 2 cells (`CValidatorLocationEnumArea`, GE 1), seek it and order a move to a persistent at TargetUnit with `OffsetVectorEndLocation` CasterUnit and `InitialOffset` `"0,-4,0"`, a point 4 cells from the enemy on the far side of the caster. A melee unit backs off only while the enemy's melee slot is taken (`ForecastSlotTakenMelee`), so the unit striking keeps its place.
 
 **Ranged (the ranged rule):**
 - **Hold or seek:** a switch. While an enemy is within range (`CValidatorLocationEnumArea`, radius = range, GE 1), issue `stop`, validated by a `CValidatorUnitOrderQueue` (`AbilLink` move, `Find` 1), so only a walking unit is stopped. Otherwise seek the nearest enemy within about range × 2.
