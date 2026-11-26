@@ -68,17 +68,44 @@ export type CompiledMission = {
  * (missionMapPackage). The Mission's own package is merged by its compile record (ADR-0010), which
  * the compile then rewrites; any other folder is written whole and leaves the record alone. With
  * `copy`, `outputDir` gets a fresh copy of the committed package and its record, merged as the
- * package is in place, and the copy's own record, beside it, is rewritten instead.
+ * package is in place, and the copy's own record, beside it, is rewritten instead; a copy compile
+ * that stops leaves the folder as it was.
  */
 export async function compileMission(workspace: Workspace, blueprintPath: string, outputDir: string | undefined, options: CompileMissionOptions = {}): Promise<CompiledMission> {
   const blueprint = await parseMissionBlueprint(workspace, blueprintPath);
   const inPlace = await missionMapPackage(blueprintPath);
-  if (options.copy && outputDir === undefined) throw new Error(`A compile into a copy of ${blueprint.id}'s Map Package needs the folder to copy it to`);
-  const copy = options.copy && outputDir !== undefined ? await prepareMissionCopy(blueprintPath, blueprint.id, outputDir) : undefined;
-  const target = outputDir ?? inPlace;
-  const recorded = copy !== undefined || path.resolve(target) === path.resolve(inPlace);
-  const recordFile = copy?.record ?? compileRecordPath(blueprintPath);
-  const previousRecord = recorded ? await readCompileRecordAt(recordFile) : undefined;
+  if (!options.copy) {
+    const target = outputDir ?? inPlace;
+    const recorded = path.resolve(target) === path.resolve(inPlace);
+    return compileInto(workspace, blueprintPath, blueprint, target, recorded ? { file: compileRecordPath(blueprintPath), syncFrom: target } : undefined, options);
+  }
+  if (outputDir === undefined) throw new Error(`A compile into a copy of ${blueprint.id}'s Map Package needs the folder to copy it to`);
+  const copy = await prepareMissionCopy(blueprintPath, blueprint.id, outputDir);
+  try {
+    // What the Editor changed is in the committed package, where sync would bring it back from.
+    const compiled = await compileInto(workspace, blueprintPath, blueprint, copy.mapPackage, { file: copy.record, syncFrom: inPlace }, options);
+    await copy.keep();
+    return compiled;
+  } catch (error) {
+    await copy.undo();
+    throw error;
+  }
+}
+
+/**
+ * Compiles into `target`, merged by the compile record in `record.file` when given (and rewriting
+ * it), or written whole when not. `record.syncFrom` is the package sync reads, to say which of
+ * the Editor's changes it brings back.
+ */
+async function compileInto(
+  workspace: Workspace,
+  blueprintPath: string,
+  blueprint: MissionBlueprint,
+  target: string,
+  record: { readonly file: string; readonly syncFrom: string } | undefined,
+  options: CompileMissionOptions,
+): Promise<CompiledMission> {
+  const previousRecord = record ? await readCompileRecordAt(record.file) : undefined;
   const reference = blueprint.screenplay.script;
   // The Screenplay is read from inside the Workspace only, as a pull writes it.
   if (reference && !(await isInside(workspace.root, path.resolve(path.dirname(blueprintPath), reference.source)))) {
@@ -156,7 +183,7 @@ export async function compileMission(workspace: Workspace, blueprintPath: string
     blueprint,
     outputDir: target,
     ...(previousRecord ? { previousRecord } : {}),
-    ...(recorded ? { saveRecord: (record: CompileRecord) => saveCompileRecordAt(recordFile, record) } : {}),
+    ...(record ? { saveRecord: (written: CompileRecord) => saveCompileRecordAt(record.file, written) } : {}),
     includeObjects: true,
     includeRegions: true,
     includeTriggers: true,
@@ -176,8 +203,8 @@ export async function compileMission(workspace: Workspace, blueprintPath: string
     ...(declared ? { declared } : {}),
   };
   const written = await writeMapPackage(packageOptions).catch(async (error: unknown) => {
-    if (!(error instanceof EditorChangesError) || !recorded) throw error;
-    throw new EditorChangesError(error.changes, formatEditorChanges(error.changes, await syncable(workspace, blueprintPath, target, packageOptions, error), blueprint));
+    if (!(error instanceof EditorChangesError) || !record) throw error;
+    throw new EditorChangesError(error.changes, formatEditorChanges(error.changes, await syncable(workspace, blueprintPath, record.syncFrom, packageOptions, error), blueprint));
   });
   const warnings = [
     ...(doodads?.warnings ?? []),

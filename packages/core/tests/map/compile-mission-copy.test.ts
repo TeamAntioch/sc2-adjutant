@@ -123,6 +123,22 @@ describe("compiling a Mission into a copy", () => {
     expect(await readFile(path.join(copy, "Objects"), "utf8")).toContain(KEPT);
   }, 60_000);
 
+  it("leaves an earlier copy as it was when the compile into its replacement stops", async () => {
+    const { workspace, mission, blueprintPath, committed, copy } = await compiledCrossing();
+    await compileMission(workspace, blueprintPath, copy, { savedAt, copy: true });
+    const before = await readTree(path.dirname(copy));
+    const objects = path.join(committed, "Objects");
+    await writeFile(objects, (await readFile(objects, "utf8")).replace(/(<ObjectDoodad Id="\d+"[^>]*Rotation=")[^"]*"/, (_, head: string) => `${head}1.234"`));
+
+    await expect(compileMission(workspace, blueprintPath, copy, { savedAt, copy: true })).rejects.toBeInstanceOf(EditorChangesError);
+    expect(await readTree(path.dirname(copy))).toEqual(before);
+
+    // And a first copy that stops leaves nothing behind.
+    const fresh = path.join(mission, "output", "2", "Ashen-Crossing-b.SC2Map");
+    await expect(compileMission(workspace, blueprintPath, fresh, { savedAt, copy: true })).rejects.toBeInstanceOf(EditorChangesError);
+    expect(await readdir(path.dirname(fresh))).toEqual([]);
+  }, 60_000);
+
   it("refuses a folder that holds anything but a copy of the same Mission, the committed package, and a folder beside the Blueprint", async () => {
     const { workspace, mission, blueprintPath, committed, copy } = await compiledCrossing();
     const before = await committedFiles(mission);
@@ -134,8 +150,9 @@ describe("compiling a Mission into a copy", () => {
     await writeFile(path.join(path.dirname(copy), "Ashen-Crossing-a-wider.copy.json"), JSON.stringify({ mission: "another-mission" }));
     await expect(compileMission(workspace, blueprintPath, copy, { savedAt, copy: true })).rejects.toThrow(/is a copy of the Mission another-mission/);
 
-    await expect(compileMission(workspace, blueprintPath, committed, { savedAt, copy: true })).rejects.toThrow(/committed Map Package, or inside it/);
-    await expect(compileMission(workspace, blueprintPath, path.join(mission, "Second.SC2Map"), { savedAt, copy: true })).rejects.toThrow(/beside .* Blueprint/);
+    for (const outside of [committed, path.join(mission, "Second.SC2Map"), path.join(root!, "missions", "another-mission", "Copy.SC2Map")]) {
+      await expect(compileMission(workspace, blueprintPath, outside, { savedAt, copy: true })).rejects.toThrow(/isn't under ashen_crossing's output folder/);
+    }
     await expect(compileMission(workspace, blueprintPath, undefined, { savedAt, copy: true })).rejects.toThrow(/needs the folder to copy it to/);
     expect(await committedFiles(mission)).toEqual(before);
   }, 60_000);

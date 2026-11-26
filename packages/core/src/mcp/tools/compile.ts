@@ -123,7 +123,7 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
           .boolean()
           .optional()
           .describe(
-            "Compile into a copy of the Mission's committed package at outputDir (a .SC2Map folder, such as <mission folder>/output/<round>/<Name>-<label>.SC2Map) instead of writing it whole: the committed package and its compile record are copied there, the copy's record as <Name>-<label>.compile-record.json beside it, and the compile merges into the copy as it would in place, so Kept Content and Kept terrain stay and the Editor-changes stop applies, while the committed package and its record are left byte for byte. An earlier copy of the same Mission at outputDir is replaced with a fresh one; a folder holding anything else is refused",
+            "Compile into a copy of the Mission's committed package at outputDir (a .SC2Map folder under the Mission's git-ignored output folder, such as <mission folder>/output/<round>/<Name>-<label>.SC2Map) instead of writing it whole: the committed package and its compile record are copied there, the copy's record as <Name>-<label>.compile-record.json beside it, and the compile merges into the copy as it would in place, so Kept Content and Kept terrain stay and the Editor-changes stop applies, while the committed package and its record are left byte for byte. An earlier copy of the same Mission at outputDir is replaced with a fresh one (kept as it was if the compile stops); a folder holding anything else is refused",
           ),
         refresh: z.boolean().optional().describe("Close the map in the Editor first when the author has it open and its document has no unsaved changes, compile, then open it again, instead of refusing"),
         ...DECISION_INPUTS,
@@ -146,7 +146,10 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
       if (open) return ctx.fail(open.text);
       let compiled;
       try {
-        compiled = await oneAtATime(await realPathOf(target), () => compileMission(workspace, blueprintPath, target, { host: ctx.host, decisions: editorDecisions(choices), ...(copy ? { copy } : {}) }));
+        const compile = () => compileMission(workspace, blueprintPath, target, { host: ctx.host, decisions: editorDecisions(choices), ...(copy ? { copy } : {}) });
+        // A copy is taken from the committed package, so it waits for any compile into that too.
+        const committed = copy ? await realPathOf(await missionMapPackage(blueprintPath)) : undefined;
+        compiled = await oneAtATime(await realPathOf(target), committed ? () => oneAtATime(committed, compile) : compile);
       } catch (error) {
         // A compile that stops writes nothing: the author's map goes back as it was.
         if (closed) await reopenMap(ctx.host, target);
