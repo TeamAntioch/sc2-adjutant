@@ -86,5 +86,7 @@ describe("shotsForZones", () => {
     await shotsForZones(blueprintPath, ["yard"], { set: "washes" });
     await expect(shotsForZones(blueprintPath, ["yard"], { set: "washes" })).rejects.toThrow(/already has its Shots/);
     await expect(shotsForZones(blueprintPath, ["moat"], { set: "other" })).rejects.toThrow(/No Zone moat.*yard/);
+    // Asked twice, one Zone would give two Shots of one place, which a retake couldn't tell apart.
+    await expect(shotsForZones(blueprintPath, ["yard", "yard"], { set: "twice" })).rejects.toThrow(/Zones yard and yard give the same Shot/);
   });
 });

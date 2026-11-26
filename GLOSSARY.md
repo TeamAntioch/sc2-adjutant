@@ -200,6 +200,10 @@ _Avoid_: Camera area, view bounds
 A rectangle of a map, in cells, that one in-game frame must show whole, with an optional pitch and yaw: the least the frame shows, since its 16:9 frame shows more on its long side. Its camera is fitted to it, farther for a bigger one, and a Shot the camera can't frame whole is still captured and marked so. A Shot is not Camera Bounds: it says what a picture shows, not where play lets the camera go. Nor is it a cutscene's camera shot, an entry in a Cinematic's or a Trigger Scene's shot list (ADR-0009, ADR-0013): a Shot is a still of the map, taken outside any cutscene.
 _Avoid_: Screenshot area, view, capture rect; "shot" for a cutscene's camera shot
 
+**Still Review**:
+The author judging versions of a map from the same Shots, captured on each version and laid side by side on a page published as an artifact, where they pick the best version per Shot, tag it and leave notes. A **set** fixes the Shots (`shots_for_zones` gives one per Zone); each **round** of it is one page (`build_still_review`), and its feedback (`record_still_feedback`) is shown beside each Shot in the next round. Every frame is checked against a reference capture first, so a frame of the wrong place (captured late, after the camera moved on) is left off the page and retaken.
+_Avoid_: Screenshot comparison, A/B page
+
 **Generating Zone**:
 A Zone beside Kept ground whose ground the compile writes: its cells are Compiled Content on the compile record, and every cell round them stays Kept. It meets the Kept ground at a seam, at the Kept cliff level where a Connection crosses, and leaves Kept objects on its ground in place, moved with the ground. A hand edit to its cells in the Editor is kept or discarded at the next compile, cell by cell.
 _Avoid_: Generated block, new section, regenerated area

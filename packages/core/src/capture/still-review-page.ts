@@ -121,7 +121,7 @@ const SCRIPT = `
 (function () {
   "use strict";
   var data = JSON.parse(document.getElementById("review-data").textContent);
-  var NO_CHANGE = "no-change";
+  var NO_CHANGE = data.noChange;
   var TAG_NAMES = { "too-busy": "Too busy", "too-flat": "Too flat", "seams": "Seams", "wrong-colour": "Wrong colour", "good": "Good" };
   var WHY = { missing: "No frame", late: "Captured late, so left off", wrong: "Shows another Shot's place, so left off" };
   var $ = function (id) { return document.getElementById(id); };
@@ -298,18 +298,27 @@ const SCRIPT = `
     w.next = null;
     if (json === w.last) { settle(); return; }
     w.busy = true;
-    db.doc(path).set(body).then(function () { w.last = json; }, function (error) {
-      var code = error && error.code;
-      if (code === "invalid_argument" || code === "revoked" || code === "not_granted" || code === "capability_disabled" || code === "capability_removed") { setWritable(false); saveState("Can't save here: your changes stay on this screen only."); }
-      else if (code === "quota_exceeded") saveState("The review's storage is full, so this change wasn't saved.");
-      else if (!w.next) { w.next = body; setTimeout(function () { flush(path); }, 1000 + Math.random() * 1000); }
-    }).then(function () { w.busy = false; if (w.next) flush(path); else settle(); });
-  }
-  function settle() {
-    var waiting = Object.keys(writers).some(function (path) { var w = writers[path]; return w.busy || w.next; });
-    if (!waiting && writable) saveState("Saved");
+    // A transient failure is retried once, after a short random wait; any other is reported, and
+    // the next change to the document writes it again.
+    var attempt = function (retried) {
+      return db.doc(path).set(body).then(function () { w.last = json; w.failed = null; }, function (error) {
+        var code = error && error.code;
+        if ((code === "unavailable" || !code) && !retried) return new Promise(function (resolve) { setTimeout(resolve, 500 + Math.random() * 1000); }).then(function () { return attempt(true); });
+        if (code === "invalid_argument" || code === "transform_error" || code === "revoked" || code === "not_granted" || code === "capability_disabled" || code === "capability_removed") { setWritable(false); w.failed = "Can't save here: your changes stay on this screen only."; }
+        else if (code === "quota_exceeded") w.failed = "The review's storage is full, so this change wasn't saved.";
+        else if (code === "resource_exhausted") w.failed = "Too many saves at once: this change wasn't saved. Make it again in a moment.";
+        else w.failed = "This change wasn't saved: the connection dropped. Make it again to retry.";
+      });
+    };
+    attempt(false).then(function () { w.busy = false; if (w.next) flush(path); else settle(); });
   }
   var pending = function (path) { var w = writers[path]; return !!(w && (w.busy || w.next)); };
+  function settle() {
+    var paths = Object.keys(writers);
+    if (paths.some(pending)) return;
+    var failure = paths.map(function (path) { return writers[path].failed; }).filter(Boolean)[0];
+    saveState(failure || (writable ? "Saved" : "Read-only"));
+  }
   function change(n, patch, typing) {
     if (!writable) return;
     var f = feedback.shots[n];
@@ -345,14 +354,25 @@ const SCRIPT = `
     var timer = setTimeout(function () { saveState("Saved feedback can't be reached yet; what you see may be out of date."); }, 10000);
     var landed = function (which, snap) {
       if (!snap.metadata.fromCache) confirmed[which] = true;
-      if (confirmed.shots && confirmed.overall && confirmed.status) { clearTimeout(timer); if (!Object.keys(writers).some(pending)) saveState(writable ? "Saved" : "Read-only"); }
+      if (confirmed.shots && confirmed.overall && confirmed.status) { clearTimeout(timer); settle(); }
     };
     var failed = function (error) {
       clearTimeout(timer);
       if (error && error.code === "revoked") { setWritable(false); saveState("Read-only"); }
       else saveState("Saved feedback stopped updating; reload the page to see others' changes.");
     };
-    db.collection("shots").onSnapshot(function (snap) {
+    // Each listener is opened once; one the page's host dropped (unavailable) is opened again, once.
+    var listen = function (ref, next) {
+      var reopened = false;
+      var open = function () {
+        ref.onSnapshot(next, function (error) {
+          if (error && error.code === "unavailable" && !reopened) { reopened = true; open(); return; }
+          failed(error);
+        });
+      };
+      open();
+    };
+    listen(db.collection("shots"), function (snap) {
       snap.docs.forEach(function (doc) {
         var n = Number(doc.id);
         if (!feedback.shots[n] || !doc.exists || pending("shots/" + doc.id)) return;
@@ -363,8 +383,8 @@ const SCRIPT = `
         showShot(n);
       });
       landed("shots", snap);
-    }, failed);
-    db.doc("review/overall").onSnapshot(function (doc) {
+    });
+    listen(db.doc("review/overall"), function (doc) {
       if (doc.exists && !pending("review/overall")) {
         var body = doc.data() || {};
         feedback.overall = { note: typeof body.note === "string" ? body.note : "" };
@@ -372,15 +392,15 @@ const SCRIPT = `
         showReview();
       }
       landed("overall", doc);
-    }, failed);
-    db.doc("review/status").onSnapshot(function (doc) {
+    });
+    listen(db.doc("review/status"), function (doc) {
       if (doc.exists && !pending("review/status")) {
         feedback.status = { done: (doc.data() || {}).done === true };
         writer("review/status").last = JSON.stringify(feedback.status);
         showReview();
       }
       landed("status", doc);
-    }, failed);
+    });
   }
 })();
 `;

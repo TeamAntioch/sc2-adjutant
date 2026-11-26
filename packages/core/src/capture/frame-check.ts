@@ -21,11 +21,11 @@ export const WRONG_MARGIN = 0.2;
 /** A frame scoring below this against its own Shot, and not wrong, is unconfirmed. */
 export const CONFIRMED = 0.4;
 
-export type FrameStatus = "ok" | "wrong" | "unconfirmed";
+export type CheckStatus = "ok" | "wrong" | "unconfirmed";
 
 export type FrameCheck = {
   readonly shot: number;
-  readonly status: FrameStatus;
+  readonly status: CheckStatus;
   /** Its score against its own Shot's reference frame; absent when the reference has none. */
   readonly own?: number;
   /** Its best match among the other Shots' reference frames. */
@@ -53,12 +53,34 @@ export async function frameSignature(file: string): Promise<Float64Array> {
 
 const correlation = (a: Float64Array, b: Float64Array): number => a.reduce((sum, value, i) => sum + value * b[i]!, 0);
 
-/** Checks each frame against the reference's frames, by Shot number. */
+const round = (score: number) => Math.round(score * 100) / 100;
+
+/**
+ * Checks each frame against the reference's frames, by Shot number. The reference is checked
+ * first: where two of its frames show one place, the earlier Shot's is taken as wrong (a late frame
+ * shows a place the tour reached after it) and left out of the reference, so a frame of that Shot
+ * can't be confirmed. A reference frame given as a frame is ok, unless it is that wrong one.
+ */
 export async function checkFrames(reference: ReadonlyMap<number, string>, frames: readonly { readonly shot: number; readonly file: string }[]): Promise<FrameCheck[]> {
   const signatures = new Map<number, Float64Array>();
   for (const [shot, file] of reference) signatures.set(shot, await frameSignature(file));
+  const wrongInReference = new Map<number, { shot: number; score: number }>();
+  for (const [shot, signature] of signatures) {
+    for (const [later, laterSignature] of signatures) {
+      if (later <= shot) continue;
+      const score = correlation(signature, laterSignature);
+      if (score >= WRONG_MATCH && score > (wrongInReference.get(shot)?.score ?? -1)) wrongInReference.set(shot, { shot: later, score: round(score) });
+    }
+  }
+  for (const shot of wrongInReference.keys()) signatures.delete(shot);
+
   const checks: FrameCheck[] = [];
   for (const { shot, file } of frames) {
+    if (reference.get(shot) === file) {
+      const match = wrongInReference.get(shot);
+      checks.push(match ? { shot, status: "wrong", match } : { shot, status: "ok", own: 1 });
+      continue;
+    }
     const signature = await frameSignature(file);
     const ownSignature = signatures.get(shot);
     const own = ownSignature ? correlation(signature, ownSignature) : undefined;
@@ -69,8 +91,7 @@ export async function checkFrames(reference: ReadonlyMap<number, string>, frames
       if (!match || score > match.score) match = { shot: other, score };
     }
     const wrong = match !== undefined && match.score >= WRONG_MATCH && match.score - (own ?? 0) >= WRONG_MARGIN;
-    const status: FrameStatus = wrong ? "wrong" : own !== undefined && own >= CONFIRMED ? "ok" : "unconfirmed";
-    const round = (score: number) => Math.round(score * 100) / 100;
+    const status: CheckStatus = wrong ? "wrong" : own !== undefined && own >= CONFIRMED ? "ok" : "unconfirmed";
     checks.push({ shot, status, ...(own !== undefined ? { own: round(own) } : {}), ...(match ? { match: { shot: match.shot, score: round(match.score) } } : {}) });
   }
   return checks;

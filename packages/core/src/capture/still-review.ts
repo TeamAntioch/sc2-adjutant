@@ -6,7 +6,7 @@
 // missions/<id>/output/stills/<set>/<round>/ for a Mission, gets:
 //
 // - review.json: every Shot's frames with their status, the problems, the retakes to make and the summary;
-// - frames/: the frames the page shows, at most 1600 px wide, as <version>-<shot>.jpg;
+// - frames/: the frames the page shows, at most 1600 px wide, as <version's number>-<shot>.jpg;
 // - index.html: the page (still-review-page.ts), published as an artifact with them beside it.
 //
 // The author's choices on the page are kept in the artifact's db; recordStillFeedback writes the
@@ -21,6 +21,7 @@ import { z } from "zod";
 
 import { checkFrames, type FrameCheck } from "./frame-check.js";
 import { checkCaptureName } from "./stop-tour.js";
+import { missionStillsDir } from "./zone-shots.js";
 import { stillReviewPage } from "./still-review-page.js";
 
 /** The widest frame the page gets. */
@@ -130,7 +131,7 @@ const FeedbackSchema = z.object({
 export type StillFeedback = z.infer<typeof FeedbackSchema>;
 
 /** The folder a target's sets go in. */
-const stillsDirOf = (target: BuildStillReviewOptions["target"]): string => ("blueprintPath" in target ? path.join(path.dirname(target.blueprintPath), "output", "stills") : path.resolve(target.folder));
+const stillsDirOf = (target: BuildStillReviewOptions["target"]): string => ("blueprintPath" in target ? missionStillsDir(target.blueprintPath) : path.resolve(target.folder));
 
 const placeKey = (shot: Pick<StillShotSpec, "rect" | "pitch" | "yaw">): string => JSON.stringify([shot.rect, shot.pitch, shot.yaw]);
 const named = (shot: { shot: number; label?: string | undefined }): string => (shot.label ? `Shot ${shot.shot} (${shot.label})` : `Shot ${shot.shot}`);
@@ -176,7 +177,12 @@ export async function buildStillReview(options: BuildStillReviewOptions): Promis
   // The set's Shots are the first capture's: every other capture's Shots must be among them.
   const first = capture(versions[0]!.captures[0]!);
   const setShots = first.shots.map(({ shot, rect, pitch, yaw, label }) => ({ shot, rect, pitch, yaw, ...(label !== undefined ? { label } : {}) }));
-  const byPlace = new Map(setShots.map((shot) => [placeKey(shot), shot.shot]));
+  const byPlace = new Map<string, number>();
+  for (const shot of setShots) {
+    const twin = byPlace.get(placeKey(shot));
+    if (twin !== undefined) throw new Error(`${versions[0]!.captures[0]}'s Shots ${twin} and ${shot.shot} frame the same place, so a retake can't tell them apart: give each Shot its own rect`);
+    byPlace.set(placeKey(shot), shot.shot);
+  }
   /** A capture's frames by set Shot: its file, or why it has none. */
   const framesOf = (folder: string): Map<number, { file: string } | { lacks: "missing" | "late" }> => {
     const frames = new Map<number, { file: string } | { lacks: "missing" | "late" }>();
@@ -209,7 +215,8 @@ export async function buildStillReview(options: BuildStillReviewOptions): Promis
         const sofar = found.get(shot);
         if (sofar?.frame) continue;
         const check: FrameCheck | undefined = checks.get(shot);
-        const status: FrameStatus = "file" in entry ? check!.status : entry.lacks;
+        if ("file" in entry && !check) throw new Error(`${folder}'s frame of Shot ${shot} wasn't checked`);
+        const status: FrameStatus = check ? check.status : (entry as { lacks: "missing" | "late" }).lacks;
         const scores = check ? { ...(check.own !== undefined ? { own: check.own } : {}), ...(check.match ? { match: check.match } : {}) } : {};
         if (status === "ok" || status === "unconfirmed") {
           const copy = `frames/${v + 1}-${String(shot).padStart(2, "0")}.jpg`;
@@ -274,6 +281,8 @@ export type StillPageData = Omit<StillReview, "versions" | "reference" | "shots"
   readonly versions: readonly { readonly label: string; readonly note?: string }[];
   readonly shots: readonly (Omit<StillReviewShot, "frames"> & { readonly frames: readonly Omit<StillFrame, "capture">[] })[];
   readonly tags: readonly string[];
+  /** The best pick that says no version is better. */
+  readonly noChange: string;
 };
 
 function pageDataOf(review: StillReview): StillPageData {
@@ -283,6 +292,7 @@ function pageDataOf(review: StillReview): StillPageData {
     versions: versions.map(({ captures: _captures, ...version }) => version),
     shots: shots.map((shot) => ({ ...shot, frames: shot.frames.map(({ capture: _capture, ...entry }) => entry) })),
     tags: STILL_TAGS,
+    noChange: NO_CHANGE,
   };
 }
 
@@ -330,7 +340,9 @@ export async function recordStillFeedback(roundDir: string, rows: readonly Still
       if (!shot) throw new Error(`Row ${row.path}: round ${review.round} has no Shot ${number}`);
       const { best, tags, note } = ShotRowSchema.parse(row.data);
       if (best && !picks.has(best)) throw new Error(`Row ${row.path}: best is ${best}, not one of ${[...picks].join(", ")}`);
-      shots.set(number, { shot: number, ...(shot.label !== undefined ? { label: shot.label } : {}), best, tags: tags.filter((tag) => (STILL_TAGS as readonly string[]).includes(tag)), note });
+      const unknown = tags.filter((tag) => !(STILL_TAGS as readonly string[]).includes(tag));
+      if (unknown.length) throw new Error(`Row ${row.path}: tags ${unknown.join(", ")} aren't the page's (${STILL_TAGS.join(", ")})`);
+      shots.set(number, { shot: number, ...(shot.label !== undefined ? { label: shot.label } : {}), best, tags, note });
     } else if (row.path === "review/overall") {
       overall = typeof row.data.note === "string" ? row.data.note : "";
     } else if (row.path === "review/status") {

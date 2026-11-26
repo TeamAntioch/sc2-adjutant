@@ -61,6 +61,25 @@ describe("checkFrames", () => {
     ]);
   });
 
+  it("finds a wrong frame in the reference itself, and doesn't check other frames against it", async () => {
+    const folder = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-frame-check-"));
+    folders.push(folder);
+    const reference = await referenceFrames(folder);
+    // The reference's Shot 2 shows Shot 3's place.
+    reference.set(2, await frame(groundImage, PLACES[2], path.join(folder, "ref-2-wrong.jpg")));
+    const checks = await checkFrames(reference, [
+      { shot: 1, file: reference.get(1)! },
+      { shot: 2, file: reference.get(2)! },
+      // Another version's right frame of Shot 2: nothing in the reference can confirm it.
+      { shot: 2, file: await frame(groundImage, PLACES[1], path.join(folder, "2.jpg")) },
+    ]);
+    expect(checks.map(({ shot, status }) => ({ shot, status }))).toEqual([
+      { shot: 1, status: "ok" },
+      { shot: 2, status: "wrong" },
+      { shot: 2, status: "unconfirmed" },
+    ]);
+  });
+
   it("can't confirm a frame whose Shot the reference lacks, unless it matches another Shot", async () => {
     const folder = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-frame-check-"));
     folders.push(folder);

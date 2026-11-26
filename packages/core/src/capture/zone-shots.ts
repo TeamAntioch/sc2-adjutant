@@ -40,8 +40,8 @@ export type ShotsForZonesResult = {
 /** All a Zone needs here: the rest of the Blueprint isn't read, so a Blueprint mid-edit still gives its Shots. */
 const ZonesSchema = z.object({ zones: z.array(z.object({ id: z.string(), polygon: z.array(z.object({ x: z.number(), y: z.number() })).min(3) }).passthrough()) }).passthrough();
 
-/** The set's folder: where its shots.json and its rounds go. */
-export const stillSetDir = (blueprintPath: string, set: string): string => path.join(path.dirname(blueprintPath), "output", "stills", set);
+/** A Mission's Still Review sets' folder: git-ignored, under its output/. */
+export const missionStillsDir = (blueprintPath: string): string => path.join(path.dirname(blueprintPath), "output", "stills");
 
 /** Writes the set's Shots, one per Zone in `zoneIds`, as above. */
 export async function shotsForZones(blueprintPath: string, zoneIds: readonly string[], options: ShotsForZonesOptions): Promise<ShotsForZonesResult> {
@@ -49,7 +49,7 @@ export async function shotsForZones(blueprintPath: string, zoneIds: readonly str
   if (zoneIds.length === 0) throw new Error("A set needs at least one Zone");
   const [width, height] = options.size ?? STILL_SHOT_SIZE;
   if (!(width > 0 && height > 0)) throw new Error(`A Shot's size is [width, height] in cells, both above 0, not [${width}, ${height}]`);
-  const file = path.join(stillSetDir(blueprintPath, options.set), "shots.json");
+  const file = path.join(missionStillsDir(blueprintPath), options.set, "shots.json");
   if (existsSync(file)) throw new Error(`The set ${options.set} already has its Shots (${file}): every round of a set uses the same Shots, so name a new set, or move that one first`);
 
   const parsed = ZonesSchema.safeParse(await readRawBlueprint(blueprintPath));
@@ -66,6 +66,15 @@ export async function shotsForZones(blueprintPath: string, zoneIds: readonly str
     const rect = rectAround(zonePoint(zone.polygon), [width, height], playableBounds);
     return { rect, ...(options.pitch !== undefined ? { pitch: options.pitch } : {}), label: id };
   });
+
+  // A retake is matched to its Shot by place, so no two Shots of a set may share one.
+  const places = new Map<string, string>();
+  for (const shot of shots) {
+    const key = JSON.stringify([shot.rect, shot.pitch]);
+    const twin = places.get(key);
+    if (twin !== undefined) throw new Error(`Zones ${twin} and ${shot.label} give the same Shot [${shot.rect.join(", ")}]: leave one out, or give a smaller size`);
+    places.set(key, shot.label!);
+  }
 
   await mkdir(path.dirname(file), { recursive: true });
   const mission = path.basename(path.dirname(blueprintPath));
