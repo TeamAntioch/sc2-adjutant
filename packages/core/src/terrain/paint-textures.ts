@@ -63,8 +63,9 @@ const RAMP_BLEND_CELLS = 3;
  * A stark texture (pebbles, lumpy moss, pitted creep, roots: textureStarkness, from its picture's
  * contrast and the catalog's accent note) reads at full strength long before its weight gets
  * there, so it gets less ground and smaller spots. At full starkness its noise is STARK_SCALE times
- * finer, its threshold STARK_RARITY higher and its fade STARK_FEATHER; a texture part-way stark is
- * part-way there.
+ * finer, its threshold STARK_RARITY higher, its fade STARK_FEATHER and its core only STARK_STRENGTH
+ * of a texel, so the zone's own texture shows through it; a texture part-way stark is part-way
+ * there.
  *
  * Beside a block of another texture set every patch fades out over SET_EDGE_FADE cells: a set's
  * edge is a cut along the block line, and a wash cut there shows as a step in its own texture.
@@ -75,6 +76,7 @@ const MOTTLE_DEPTH = 0.12;
 const STARK_SCALE = 2;
 const STARK_RARITY = 0.18;
 const STARK_FEATHER = 0.12;
+const STARK_STRENGTH = 0.5;
 const SET_EDGE_FADE = 2;
 
 /** Variety patched into a zone's ground: the patch noise's period (cells), and the noise it takes to start one. */
@@ -455,7 +457,7 @@ export function cellTextureLayers(
         const threshold = patches.threshold + STARK_RARITY * stark;
         if (n <= threshold) return;
         const rise = Math.min(1, (n - threshold) / (PATCH_FEATHER + (STARK_FEATHER - PATCH_FEATHER) * stark));
-        const share = fade * rise * rise * (3 - 2 * rise);
+        const share = fade * rise * rise * (3 - 2 * rise) * (1 - (1 - STARK_STRENGTH) * stark);
         total += share;
         own.push({ layer, share });
       });

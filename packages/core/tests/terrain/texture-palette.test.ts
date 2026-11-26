@@ -194,6 +194,11 @@ describe("texture palette", () => {
     expect(weight("BelShirDirtLightEx2")).toBeGreaterThan(0.1);
     expect(weight("ShakurasCity2")).toBeGreaterThan(0.005);
     expect(weight("ShakurasCity2")).toBeLessThan(weight("BelShirDirtLightEx2") / 2);
+    // Even at its core a stark texture takes about half a cell, so the grass shows through it.
+    let most = 0;
+    for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) if (openMain(x, y)) most = Math.max(most, painted.textureWeights[(y * W + x) * 8 + names.indexOf("ShakurasCity2")]!);
+    expect(most).toBeGreaterThanOrEqual(5);
+    expect(most).toBeLessThanOrEqual(9);
   });
 
   describe("bands (DL-01, DL-02)", () => {
@@ -222,8 +227,8 @@ describe("texture palette", () => {
     it("patches a band with its own variety at full strength", () => {
       const { painted, names } = paint(blueprint({ ...palette, high: { texture: "MarSaraDarkSand", variety: ["MarSaraBlackenedRock"] } }));
       const share = shares(painted, names, 42, 42, 54, 54);
-      // A wash on a 12-cell mesa: over a twentieth of its ground by weight.
-      expect(share("MarSaraBlackenedRock")).toBeGreaterThan(0.05);
+      // A wash on a 12-cell mesa, of a texture stark enough to be painted lightly.
+      expect(share("MarSaraBlackenedRock")).toBeGreaterThan(0.02);
       expect(share("MarSaraSand") + share("MarSaraRocky")).toBe(0);
     });
 
