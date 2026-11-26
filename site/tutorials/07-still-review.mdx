@@ -45,7 +45,7 @@ A place that isn't a whole Zone, such as a door or one statue, gets a Shot added
 
 <Objective id="capture" title="Compile the second version and capture both" needs="editor.captureTour">
 
-A **version** is one state of the map, with a short label and a note of what changed. The committed Map Package is `before`. The Blueprint as it stands now, with your change, is the second version. Claude commits your change on a branch of its own, `still/ground-r1-washes`, so each version's change stays apart and a rejected one is dropped whole. Then it compiles that Blueprint into a copy of the committed package under the Mission's git-ignored `output/`. The copy keeps everything you made in the Editor, so the two versions differ by your change alone. It never compiles in place: an in-place compile rewrites the committed package, which is yours, and the Editor may have it open.
+A **version** is one state of the map, with a short label and a note of what changed. The committed Map Package is `before`. The Blueprint as it stands now, with your change, is the second version. Your change isn't committed yet, which is what Claude needs: it switches to a new branch, `still/ground-r1-washes`, which takes the change along, and commits it there. So each version's change stays apart, and a rejected one is dropped whole. Then it compiles that Blueprint into a copy of the committed package under the Mission's git-ignored `output/`. The copy keeps everything you made in the Editor, so the two versions differ by your change alone. If you changed something the compile wrote, the compile stops to ask whether to keep or discard it: keep it, so the copy matches `before`. It never compiles in place: an in-place compile rewrites the committed package, which is yours, and the Editor may have it open.
 
 <Claude>
 <ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r1/Ashfall-Relay-ground-washes.SC2Map", copy: true }}>
@@ -287,6 +287,6 @@ Every frame is on the page. Here's round 2 of `ground`.
 
 Round 2's page has three versions side by side, and under each Shot a line with what you said in round 1: its best version, its tags and your note. Under Overall is your note on round 1. Review it as before, and press Done reviewing. Each round is its own artifact, so round 1's page stays as you left it.
 
-When a version wins every Shot you care about, it's the one to keep. Claude merges its branch, compiles it in place, as in [Your first Mission](/tutorials/first-mission/), so the committed Map Package is that version, and commits the package with its compile record. Then it deletes the set's branches. The rounds, copies, captures and pages stay under `output/`, out of git.
+When a version wins every Shot you care about, it's the one to keep. Claude merges its branch, compiles it in place, as in [Your first Mission](/tutorials/first-mission/), so the committed Map Package is that version, and commits the package with its compile record. Placeholder voice files the compile wrote stay untracked. Then it deletes the set's branches, asking first for one that holds your own change if that version wasn't kept. The rounds, copies and pages stay under `output/`, out of git, with the committed map's captures. The other versions' captures stay in `cacheDir`.
 
 </Objective>
