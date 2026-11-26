@@ -17,7 +17,7 @@ Say which places you want to see. Claude turns each into one of the Mission's Zo
 <You>Show me the landing pad, the ash flats, the mesa and the relay station in game, before and after my change to the flats.</You>
 
 <Claude>
-Those are the Mission's four Zones. One Shot each, 30×17 cells, centred on the Zone's ground:
+Those are the Mission's four Zones. One Shot each, 30×17 cells, centred on the Zone's ground where the Playable Area allows:
 
 1. **pad:** the Landing Pad, where the Sergeant starts.
 2. **flats:** the Ash Flats, the change you made.
@@ -34,7 +34,7 @@ I'll save them as the set `ground`. Every round of the set uses these Shots, so 
   picks a Shot per Zone and writes them to the set's shots.json
 </ToolCall>
 
-The set has its four Shots, in `missions/ashfall-relay/output/stills/ground/shots.json`.
+The set has its four Shots, in `missions/ashfall-relay/output/stills/ground/shots.json`. This map's Playable Area cuts off its edges and most of the Mesa, so the pad, mesa and relay Shots were moved in to stay inside it. Each takes in part of the Ash Flats, so your change will show at their edges too.
 </Claude>
 
 [`shots_for_zones`](/tools/shots_for_zones/) centres each Shot on its Zone's pole of inaccessibility, the point inside the Zone farthest from its edge, so a Shot of a bent Zone stays on its ground. It moves a Shot in from the map's edge to keep it inside the Playable Area, which is why it reads the Mission's compiled package. `size` makes every Shot of the set bigger or smaller. It never overwrites a set's `shots.json`: a new place means a new set.
@@ -108,7 +108,7 @@ Each call sends every Shot of the set, in the order of its `shots.json`. A Missi
 A **late** frame is one the game took after the camera had moved on, as on a loaded machine: it would show another Shot's place, so it's dropped. Before building the page, Claude opens each frame of the reference capture, `before`'s, since every frame is checked against it and a wrong one there makes the right ones look wrong.
 
 <Claude>
-The four `before` frames show their places: the pad, the flats, the mesa and the relay.
+The four `before` frames show their Shots' places: the pad, the flats, the mesa and the relay, each as its Shot frames it.
 
 <ToolCall
   name="build_still_review"
@@ -222,15 +222,21 @@ Round 1 of `ground`, as you left it:
 Overall: TODO(author), your note on the round. Is that right?
 </Claude>
 
-<You>That's right. Fix the flats.</You>
+<You>That's right.</You>
 
-[`record_still_feedback`](/tools/record_still_feedback/) writes `feedback.json`, which the next round reads, and `feedback.md`, the same for you to read. Claude acts on the feedback only after you confirm its summary. It says what it would change in the Blueprint for each note, and changes it only on your yes. The change is a new version for a next round, not a fix to this one.
+<Claude>
+For your note on the flats, I'd change the Ash Flats in the Blueprint: TODO(author), the change follows from the author's note. The other Shots stay as they are. Shall I make that the next version, `washes-2`?
+</Claude>
+
+<You>Yes.</You>
+
+[`record_still_feedback`](/tools/record_still_feedback/) writes `feedback.json`, which the next round reads, and `feedback.md`, the same for you to read. Claude acts on the feedback only after you confirm its summary. It says what it would change in the Blueprint for each note, as above, and changes it only on your yes. The change is a new version for a next round, not a fix to this one.
 
 </Objective>
 
 <Objective id="round-2" title="Round 2, beside round 1's notes" needs="editor.captureTour">
 
-The next round reuses the set's Shots and every capture already on disk, so only the new version is compiled and captured. Here Claude has changed the flats in the Blueprint for your note, and calls the new version `washes-2`.
+The next round reuses the set's Shots and every capture already on disk, so only the new version is compiled and captured. Claude has made the change you said yes to in the Blueprint, as the version `washes-2`.
 
 <Claude>
 <ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r2/Ashfall-Relay-ground-washes-2.SC2Map" }}>

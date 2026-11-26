@@ -28,7 +28,7 @@ Product knowledge another author's assistant would need (Editor and Host behavio
 
 ## Tutorials
 
-Every feature a mapper uses can be learnt from a tutorial. A change that adds one comes with a new tutorial under `site/tutorials/`, or a change to an existing one, in the same change. Its tool calls are checked against the server's tools by the site's reference script (`site/scripts/tutorials.ts`).
+Every feature a mapper uses can be learnt from a tutorial. A change that adds one comes with a new tutorial under `site/tutorials/`, or a change to an existing one, in the same change. Its tool calls are checked against the server's tools by the site's reference script, `npm run reference` in `site/` (the checks are in `site/scripts/tutorials.ts`).
 
 ## No Claude-written lines
 
