@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { parseGames } from "../games.ts";
 
 describe("reading the process table", () => {
-  it("takes the game's processes with their start times, and nothing else", () => {
+  it("takes the game's processes with their start times and commands, and nothing else", () => {
     const ps = [
       "  501 Tue Nov 24 10:00:00 2026 /Applications/StarCraft II/Versions/Base95841/SC2.app/Contents/MacOS/SC2 -run Test/EditorTest.SC2Map",
       "  777 Mon Nov  3 09:05:09 2026 /Applications/StarCraft II/Versions/Base95841/SC2.app/Contents/MacOS/SC2 -displaymode 0",
@@ -12,8 +12,8 @@ describe("reading the process table", () => {
       "  910 Tue Nov 24 10:00:01 2026 /usr/bin/tail -f MacOS/SC2",
     ].join("\n");
     expect(parseGames(ps)).toEqual([
-      { pid: 501, startedAt: "Tue Nov 24 10:00:00 2026" },
-      { pid: 777, startedAt: "Mon Nov  3 09:05:09 2026" },
+      { pid: 501, startedAt: "Tue Nov 24 10:00:00 2026", command: "/Applications/StarCraft II/Versions/Base95841/SC2.app/Contents/MacOS/SC2 -run Test/EditorTest.SC2Map" },
+      { pid: 777, startedAt: "Mon Nov  3 09:05:09 2026", command: "/Applications/StarCraft II/Versions/Base95841/SC2.app/Contents/MacOS/SC2 -displaymode 0" },
     ]);
   });
 });

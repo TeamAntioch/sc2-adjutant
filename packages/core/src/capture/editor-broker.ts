@@ -11,7 +11,9 @@
 // the same queue; after a Test Document it holds the queue until that game quits (game.list, else
 // game.running). It records each game a job starts, by pid and start time: a capture's is the
 // tool's, quit by pid and gracefully once the job ends or fails (game.quit); a Test Document's is the
-// author's to play, never quit, and a capture refuses while any game it didn't start runs. An editor job marked ifIdle is refused while anything
+// author's to play, never quit, and a capture refuses while any game it didn't start runs, unless
+// its settings say quitOtherGames (effect-tour capture --quit-other-games, for unattended runs):
+// then the host quits every game first, logging each. An editor job marked ifIdle is refused while anything
 // runs or waits, with what that is, for test_mission, which can't wait out a capture.
 // Its log has each job's start, end and progress lines, so one job's "running" always follows the
 // last one's "done" or "failed": the record of what the Editor was doing when a capture went wrong.

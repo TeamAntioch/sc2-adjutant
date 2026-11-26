@@ -19,7 +19,7 @@ import { existsSync } from "node:fs";
 import { appendFile, mkdir, readFile, rm } from "node:fs/promises";
 import path from "node:path";
 
-import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type GameProcess, type HostContext, ownedGame, quitOwnedGame, refuseForeignGame } from "@team-antioch/sc2-adjutant/plugin-sdk";
+import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type GameProcess, type HostContext, ownedGame, quitForeignGames, quitOwnedGame, refuseForeignGame } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
 import { bankFile, captureCopies, type TourWorld, watchTour } from "./capture-tour-windows.ts";
 import { documentsOf } from "./editor-windows.ts";
@@ -242,8 +242,9 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       leftover = await bankNow(bank);
     } else {
       await rm(bank, { force: true });
-      // Nothing is quit here: a game already running isn't this capture's.
-      await refuseForeignGame(system);
+      // A game already running isn't this capture's: it refuses, unless the request says to quit it.
+      if (request.quitOtherGames) await quitForeignGames(system, log);
+      else await refuseForeignGame(system);
       // A copy left open by an earlier run would be tested as it was: opening only brings it forward.
       if (await isOpen(editor, mapPath)) {
         log("closing a stale copy");

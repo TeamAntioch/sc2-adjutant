@@ -2,7 +2,7 @@
 // nothing real is quit. A pid is trusted only with its start time.
 import { describe, expect, it } from "vitest";
 
-import { type GameSystem, ownedGame, quitOwnedGame, refuseForeignGame } from "../../src/host/game-ownership.js";
+import { type GameSystem, ownedGame, quitForeignGames, quitOwnedGame, refuseForeignGame } from "../../src/host/game-ownership.js";
 import type { GameProcess } from "../../src/plugins/plugin-api.js";
 
 /** A machine with a process table. `exitsOn` is what ends a game: the quit key, or Yes; never, for a game that hangs. */
@@ -38,6 +38,49 @@ describe("refusing a game the capture didn't start", () => {
   it("refuses while any game runs, and passes with none", async () => {
     await expect(refuseForeignGame(fake([authors]).system)).rejects.toThrow("A game is running that this tool didn't start. Quit it, or capture with `attach`.");
     await expect(refuseForeignGame(fake([]).system)).resolves.toBeUndefined();
+  });
+});
+
+describe("quitting the games a capture didn't start, when asked to (quitOtherGames)", () => {
+  const leftOver: GameProcess = { ...authors, command: "/Applications/StarCraft II/Versions/Base95841/SC2.app/Contents/MacOS/SC2 -run Test/EditorTest.SC2Map" };
+
+  it("quits each one gracefully, logging its pid and command, and then lets the capture start", async () => {
+    const machine = fake([leftOver, { pid: 778, startedAt: "Tue Nov 24 09:30:00 2026" }]);
+    const log: string[] = [];
+    await quitForeignGames(machine.system, (line) => log.push(line));
+    expect(machine.presses).toEqual(["quit 777", "yes 777", "quit 778", "yes 778"]);
+    expect(machine.killed).toEqual([]);
+    expect(machine.table).toEqual([]);
+    expect(log).toEqual([
+      "quitting game 777, which this tool didn't start (quitOtherGames): /Applications/StarCraft II/Versions/Base95841/SC2.app/Contents/MacOS/SC2 -run Test/EditorTest.SC2Map",
+      "game 777 quit gracefully (quit request, then Yes)",
+      "game 777: closed",
+      "quitting game 778, which this tool didn't start (quitOtherGames): command not known",
+      "game 778 quit gracefully (quit request, then Yes)",
+      "game 778: closed",
+    ]);
+  });
+
+  it("kills a game that hangs after the grace period", async () => {
+    const machine = fake([leftOver], "never");
+    const log: string[] = [];
+    await quitForeignGames(machine.system, (line) => log.push(line), 3);
+    expect(machine.killed).toEqual([777]);
+    expect(log.at(-1)).toBe("game 777: killed");
+  });
+
+  it("does nothing with no game running", async () => {
+    const machine = fake([]);
+    const log: string[] = [];
+    await quitForeignGames(machine.system, (line) => log.push(line));
+    expect(machine.presses).toEqual([]);
+    expect(log).toEqual([]);
+  });
+
+  it("still refuses when a game outlives the kill, so the capture's first game is its own", async () => {
+    const machine = fake([leftOver], "never");
+    machine.system.kill = async () => undefined;
+    await expect(quitForeignGames(machine.system, () => undefined, 1)).rejects.toThrow("A game is running that this tool didn't start. Quit it, or capture with `attach`. One was still running after quitting every game.");
   });
 });
 

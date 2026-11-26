@@ -23,7 +23,7 @@ import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 
-import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type GameProcess, type HostContext, ownedGame, quitOwnedGame, refuseForeignGame } from "@team-antioch/sc2-adjutant/plugin-sdk";
+import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type GameProcess, type HostContext, ownedGame, quitForeignGames, quitOwnedGame, refuseForeignGame } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
 import { macSystem } from "./games.ts";
 
@@ -695,8 +695,9 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       leftover = existsSync(bankFile) ? await readFile(bankFile, "utf8") : undefined;
     } else {
       await rm(bankFile, { force: true });
-      // Nothing is quit here: a game already running isn't this capture's.
-      await refuseForeignGame(macSystem);
+      // A game already running isn't this capture's: it refuses, unless the request says to quit it.
+      if (request.quitOtherGames) await quitForeignGames(macSystem, log);
+      else await refuseForeignGame(macSystem);
       // A copy left open by an earlier run would be tested as it was: opening only brings it forward.
       if (await mapOpen(mapPath)) {
         log("closing a stale copy");

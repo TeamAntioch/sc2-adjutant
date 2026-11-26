@@ -19,15 +19,15 @@ import { hostContext } from "../host/machine-config.js";
 import type { CaptureTourRequest, CaptureTourResult, GameProcess } from "../plugins/plugin-api.js";
 import type { CaptureCopyOptions } from "./capture-copy.js";
 
-/** The protocol both ends speak; a broker built from another version refuses the job. 2: editor jobs. 3: a Test Document's bank fixture. 4: the games it recorded, in its status. 5: a capture result's games and start time, for its logs. */
-export const BROKER_PROTOCOL = 5;
+/** The protocol both ends speak; a broker built from another version refuses the job. 2: editor jobs. 3: a Test Document's bank fixture. 4: the games it recorded, in its status. 5: a capture result's games and start time, for its logs. 6: quitOtherGames, which an older broker would drop. */
+export const BROKER_PROTOCOL = 6;
 
 /** The Editor actions the broker runs between captures: each clicks the Editor's menus or brings it forward. */
 export const BROKERED_EDITOR_ACTIONS = ["editor.open", "editor.refresh", "editor.testDocument", "editor.save"] as const;
 export type BrokeredEditorAction = (typeof BROKERED_EDITOR_ACTIONS)[number];
 
-/** How a tour is captured: the frames' naming and size, and how long to wait for the game. */
-export type TourSettings = Pick<CaptureTourRequest, "frameDigits" | "recordKeys" | "width" | "quality" | "startSeconds" | "pressSpaceAfterSeconds" | "video">;
+/** How a tour is captured: the frames' naming and size, how long to wait for the game, and whether a game already running is quit. */
+export type TourSettings = Pick<CaptureTourRequest, "frameDigits" | "recordKeys" | "width" | "quality" | "startSeconds" | "pressSpaceAfterSeconds" | "video" | "quitOtherGames">;
 
 /**
  * A capture job. `tour`: a capture copy of `source` whose Triggers are the camera tour of `copy`

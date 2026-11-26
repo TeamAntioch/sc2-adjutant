@@ -9,13 +9,13 @@ import type { GameProcess, GameSystem } from "@team-antioch/sc2-adjutant/plugin-
 
 const run = promisify(execFile);
 
-/** The game processes in `ps -axww -o pid=,lstart=,command=` output: the start time is `lstart`'s, as printed, and only compared. */
+/** The game processes in `ps -axww -o pid=,lstart=,command=` output: the start time is `lstart`'s, as printed, and only compared; the command is kept for the log. */
 export function parseGames(output: string): GameProcess[] {
   const games: GameProcess[] = [];
   for (const line of output.split("\n")) {
     const match = /^\s*(\d+)\s+(\w{3} \w{3}\s+\d+ \d\d:\d\d:\d\d \d{4})\s+(.*)$/.exec(line);
     // The same test pgrep made: the game's executable inside its bundle, followed by its arguments.
-    if (match && match[3]!.includes("MacOS/SC2 ")) games.push({ pid: Number(match[1]), startedAt: match[2]! });
+    if (match && match[3]!.includes("MacOS/SC2 ")) games.push({ pid: Number(match[1]), startedAt: match[2]!, command: match[3]!.trim() });
   }
   return games;
 }
