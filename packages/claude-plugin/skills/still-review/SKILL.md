@@ -21,17 +21,17 @@ Done when the author has OK'd the list and the set's `shots.json` holds every Sh
 
 A version is one state of the map, with a short `label` (`before`, `washes`) and a note of what changed. The Mission's committed Map Package is usually `before`. It needs no compile: capture it as it stands, with `capture_shots`' `mission`.
 
-Keep each version's Blueprint change on its own git branch, so versions don't mix and a rejected one is undone whole. The Workspace is a git repo. Ask the author before you start if it has uncommitted changes. For each version:
+Keep each version's change on its own git branch, so versions don't mix and a rejected one is undone whole. The Workspace is a git repo. Before the first version, note the Workspace's branch (`git branch --show-current`). If `git status` shows changes, ask the author to commit them or set them aside first. Don't start while anything under `missions/<id>/` is uncommitted, or their work would ride into a version. For each version:
 
-1. `git switch -c still/<set>-<label>`, from the Workspace's branch (or, for a version that builds on an earlier one, from that version's branch).
-2. Make the change in `missions/<id>/blueprint.json` and commit only that file: `git commit missions/<id>/blueprint.json -m "Still Review <set>: <label>"`.
-3. Compile it (below), then `git switch -` back before the next version's change.
+1. Branch from the Workspace's branch, or from the branch of the earlier version this one builds on: `git switch -c still/<set>-<round>-<label> <from>`. The round in the name lets a later round revise a label.
+2. Make the change (the Blueprint, and any file it adds, such as a custom doodad's model), then commit every file the version changed: `git add <files>`, then `git commit -m "Still Review <set> <round>: <label>"`.
+3. Compile it (below), then switch back by name, `git switch <the Workspace's branch>`, before the next version's change.
 
-The copy compile changes nothing that git tracks, so switching branches is safe. Once the author picks, merge the winning branch into the Workspace's branch and compile in place, with the author's OK, so the committed package is that version. Delete every other branch with `git branch -D still/<set>-<label>`.
+A copy compile writes only under `output/`, which git ignores, and placeholder voice files into the Screenplay's `audioDir` for lines that have none. Leave those placeholders untracked. Keep every branch until the set is finished (step 6).
 
-Compile every other version into a copy of the committed package under the Mission's git-ignored output: `compile_map` with `copy: true` and `outputDir` set to `missions/<id>/output/<round>/<Name>-<set>-<label>.SC2Map` (in a checkout, `npm run compile-map -- missions/<id>/blueprint.json <output-dir> --copy`). The copy starts from the committed package and its compile record, and the compile merges into it as it would in place. So the version keeps the author's Kept Content (their doodads, units, regions, strings, Kept triggers and Kept terrain) and differs from `before` by the change alone. It writes the copy's own record (`<Name>-<set>-<label>.compile-record.json`) and a `.copy.json` note beside it, and leaves the committed package and its record as they are. Compiling the same version again replaces its copy. Never compile in place, and never use an `outputDir` without `copy`. An in-place compile rewrites the committed Map Package, which is the author's, and the Editor may have it open. Without `copy`, the version is written whole from the Blueprint, without the Kept Content, and that compile is refused for a Mission with Kept terrain.
+Compile every other version into a copy of the committed package under the Mission's git-ignored output: `compile_map` with `copy: true` and `outputDir` set to `missions/<id>/output/<round>/<Name>-<set>-<label>.SC2Map` (in a checkout, `npm run compile-map -- missions/<id>/blueprint.json <output-dir> --copy`). The copy starts from the committed package and its compile record, and the compile merges into it as it would in place. So the version keeps the author's Kept Content (their doodads, units, regions, strings, Kept triggers and Kept terrain) and differs from `before` by the change alone. It writes the copy's own record (`<Name>-<set>-<label>.compile-record.json`) and a `.copy.json` note beside it, and leaves the committed package and its record as they are. Compiling the same version again replaces its copy. Never compile a version in place, and never use an `outputDir` without `copy`. An in-place compile rewrites the committed Map Package, which is the author's, and the Editor may have it open. Without `copy`, the version is written whole from the Blueprint, without the Kept Content, and that compile is refused for a Mission with Kept terrain.
 
-When the compile stops on Compiled Content the author changed in the Editor, the changes are in the committed package. Ask the author to keep or discard each one, as `compile_map`'s description says, and compile again with `copy`. Their answers shape this copy only, not the committed package.
+When the compile stops on Compiled Content the author changed in the Editor, those changes are in the committed package, and so in `before`. Ask the author to keep or discard each one, as `compile_map`'s description says, and recommend keep. A kept change stays in the copy as `before` has it. A discarded one makes the version differ from `before` by more than its change. Give every version of the set the same answers, and compile again with `copy`. The answers shape the copies only, not the committed package.
 
 A Workspace whose core comes through a link to an sc2-adjutant checkout: a compile that fails because that checkout is mid-rebuild (missing `dist` files, a module not found) fails for a moment only. Wait a minute and compile again, keeping the link as it is.
 
@@ -91,4 +91,12 @@ Read the feedback when the author says they're done, or when the db's `review/st
 
 Act on the feedback only after the author confirms the summary. A change for a next round is a new version: back to step 2, the same set, the next round name, and this round as `previous`.
 
-Done when the feedback is recorded and the author has confirmed the summary.
+When the author says the set is finished, ask which version to keep. Different Shots may favour different versions. Then the author picks one, or asks for a version that combines them, which is a next round. "No change" keeps `before`. For a kept version, with the author's OK:
+
+1. On the Workspace's branch, `git merge still/<set>-<round>-<label>`.
+2. Compile in place (`compile_map` with no `outputDir`), so the committed package is that version.
+3. Commit the package and its `compile-record.json`: `git add missions/<id>/<Name>.SC2Map missions/<id>/compile-record.json`, then `git commit -m "Compile <label> from Still Review <set>"`.
+
+Then delete the set's branches: `git branch -D` each `still/<set>-…` branch.
+
+Done when the feedback is recorded and the author has confirmed the summary, and, once the set is finished, the kept version is merged, compiled and committed and the set's branches are gone.
