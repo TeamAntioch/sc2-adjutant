@@ -284,6 +284,15 @@ describe("the tutorials", () => {
     expect(stylePack.skills).toEqual(expect.arrayContaining(["style-pack-builder", "exemplar-design"]));
   });
 
+  it("lists the Still Review tutorial seventh, calling every Still Review tool, with only its captures needing a Host Adapter", () => {
+    const stills = tutorial("still-review");
+    expect(stills).toMatchObject({ number: 7, title: "Reviewing stills in game", file: "07-still-review.mdx" });
+    expect(stills.tools).toEqual(expect.arrayContaining(["shots_for_zones", "capture_shots", "build_still_review", "record_still_feedback"]));
+    expect(stills.objectives.filter((objective) => objective.needs.length > 0).map((objective) => objective.id)).toEqual(["capture", "retake", "round-2"]);
+    expect(stills.objectives.filter((objective) => objective.needs.length > 0).every((objective) => objective.needs.join() === "editor.captureTour")).toBe(true);
+    expect(stills.skills).toEqual(["still-review"]);
+  });
+
   it("lists under each skill the tutorials that link to its page, and only those", () => {
     for (const skill of reference.skills) {
       const linking = reference.tutorials.filter((candidate) => candidate.skills.includes(skill.slug)).map((candidate) => candidate.slug);

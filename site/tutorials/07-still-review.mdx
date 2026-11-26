@@ -1,0 +1,286 @@
+export const meta = {
+  title: "Reviewing stills in game",
+  summary: "Name a Mission's places, capture the same in-game Shots on two versions of its map, retake a late frame, judge them side by side on a published page, and have your picks and notes read back for the next round.",
+  minutes: 30,
+};
+
+You'll compare two versions of *Ashfall Relay* in game, place by place. This is a **Still Review**: the same **Shots** captured on each version of the map, laid side by side on a page published as an artifact, and your verdict on each Shot read back. A **set** fixes the Shots for one comparison. Each **round** of the set is one page, and the next round shows the last one's feedback beside each Shot.
+
+The [`still-review`](/skills/still-review/) skill runs it. Use the Workspace from [Your first Mission](/tutorials/first-mission/), with *Ashfall Relay*'s Map Package compiled in place. Here you have changed the look of the Ash Flats in its Blueprint since that compile, so the committed package is the version before the change. The captures need a Host Adapter that can run camera tours.
+
+The turns below are written by hand. Claude's words will differ in your session, and so will what the captures find, since they come from your machine and your map. The picks, tags and notes shown are examples: on your page they're yours. The tool calls are the ones Claude makes.
+
+<Objective id="shots" title="Name the places">
+
+Say which places you want to see. Claude turns each into one of the Mission's Zones.
+
+<You>Show me the landing pad, the ash flats, the mesa and the relay station in game, before and after my change to the flats.</You>
+
+<Claude>
+Those are the Mission's four Zones. One Shot each, 30×17 cells, centred on the Zone's ground:
+
+1. **pad:** the Landing Pad, where the Sergeant starts.
+2. **flats:** the Ash Flats, the change you made.
+3. **mesa:** the Mesa above the flats.
+4. **relay:** the Relay Station.
+
+I'll save them as the set `ground`. Every round of the set uses these Shots, so the versions always compare the same places. OK?
+</Claude>
+
+<You>OK.</You>
+
+<Claude>
+<ToolCall name="shots_for_zones" args={{ mission: "ashfall-relay", zones: ["pad", "flats", "mesa", "relay"], set: "ground" }}>
+  picks a Shot per Zone and writes them to the set's shots.json
+</ToolCall>
+
+The set has its four Shots, in `missions/ashfall-relay/output/stills/ground/shots.json`.
+</Claude>
+
+[`shots_for_zones`](/tools/shots_for_zones/) centres each Shot on its Zone's pole of inaccessibility, the point inside the Zone farthest from its edge, so a Shot of a bent Zone stays on its ground. It moves a Shot in from the map's edge to keep it inside the Playable Area, which is why it reads the Mission's compiled package. `size` makes every Shot of the set bigger or smaller. It never overwrites a set's `shots.json`: a new place means a new set.
+
+A place that isn't a whole Zone, such as a door or one statue, gets a Shot added to `shots.json` by hand, before the first capture: Claude centres it on an Anchor or a point of the Zone.
+
+</Objective>
+
+<Objective id="capture" title="Compile the second version and capture both" needs="editor.captureTour">
+
+A **version** is one state of the map, with a short label and a note of what changed. The committed Map Package is `before`. The Blueprint as it stands now, with your change, is compiled to its own package under the Mission's git-ignored `output/`, never in place: an in-place compile rewrites the committed package, which is yours, and the Editor may have it open.
+
+<Claude>
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r1/Ashfall-Relay-ground-washes.SC2Map" }}>
+  compiles the Blueprint with your change to its own package, leaving the committed one as it is
+</ToolCall>
+
+The second version is compiled. I'll call it `washes`. Before I capture, three things:
+
+- It takes about three minutes per version, plus a few seconds per Shot: about seven minutes for both.
+- The Editor comes to the front and runs the map.
+- Leave the screen alone until it's done: a click or a key press lands in the game.
+
+Which lighting should I capture in? A capture runs a copy of the map with none of its triggers, so lighting a trigger sets doesn't show. Give me a Light id, or I'll use the tileset's default.
+</Claude>
+
+<You>The tileset's default. Go.</You>
+
+<Claude>
+<ToolCall
+  name="capture_shots"
+  args={{
+    mission: "ashfall-relay",
+    shots: [
+      { rect: [10, 23.5, 40, 40.5], label: "pad" },
+      { rect: [33, 11.5, 63, 28.5], label: "flats" },
+      { rect: [33, 27, 63, 44], label: "mesa" },
+      { rect: [56, 23.5, 86, 40.5], label: "relay" },
+    ],
+    name: "ground-before",
+  }}
+>
+  captures the set's four Shots on the committed Map Package
+</ToolCall>
+
+<ToolCall
+  name="capture_shots"
+  args={{
+    mapPath: "missions/ashfall-relay/output/r1/Ashfall-Relay-ground-washes.SC2Map",
+    shots: [
+      { rect: [10, 23.5, 40, 40.5], label: "pad" },
+      { rect: [33, 11.5, 63, 28.5], label: "flats" },
+      { rect: [33, 27, 63, 44], label: "mesa" },
+      { rect: [56, 23.5, 86, 40.5], label: "relay" },
+    ],
+    name: "ground-washes",
+  }}
+>
+  captures the same four Shots on the compiled version
+</ToolCall>
+
+Both versions are captured. `before` has all four frames. `washes` came back with the mesa listed as late.
+</Claude>
+
+Each call sends every Shot of the set, in the order of its `shots.json`. A Mission's own package puts its frames in `missions/ashfall-relay/output/shots/<name>/`; another Map Package, given as `mapPath`, puts them in the machine's `cacheDir`, under `shots/<name>/`. Each reply gives the folder as `outputDir`, which is what the next steps pass on: here `cacheDir` is `/Users/you/Library/Caches/sc2-adjutant`. Every capture goes through one Editor Broker, one at a time. A call that outlasts its wait comes back with a job id, and Claude calls [`capture_shots`](/tools/capture_shots/) again with `job` to wait for it. Use the same lighting for every version and every round of a set, or the versions differ by light, not by your change.
+
+</Objective>
+
+<Objective id="retake" title="Retake a late frame" needs="editor.captureTour">
+
+A **late** frame is one the game took after the camera had moved on, as on a loaded machine: it would show another Shot's place, so it's dropped. Before building the page, Claude opens each frame of the reference capture, `before`'s, since every frame is checked against it and a wrong one there makes the right ones look wrong.
+
+<Claude>
+The four `before` frames show their places: the pad, the flats, the mesa and the relay.
+
+<ToolCall
+  name="build_still_review"
+  args={{
+    mission: "ashfall-relay",
+    set: "ground",
+    round: "r1",
+    versions: [
+      { label: "before", note: "The committed map", captures: ["missions/ashfall-relay/output/shots/ground-before"] },
+      { label: "washes", note: "The Ash Flats changed", captures: ["/Users/you/Library/Caches/sc2-adjutant/shots/ground-washes"] },
+    ],
+  }}
+>
+  checks every frame against the reference capture and lays the round out on a page
+</ToolCall>
+
+One problem: `washes`, Shot 3 (mesa), was captured late, so the page leaves it off with the gap labelled. Shall I retake just that Shot on `washes`, in the same lighting? It's about three minutes again.
+</Claude>
+
+<You>Yes, retake it.</You>
+
+<Claude>
+<ToolCall
+  name="capture_shots"
+  args={{
+    mapPath: "missions/ashfall-relay/output/r1/Ashfall-Relay-ground-washes.SC2Map",
+    shots: [{ rect: [33, 27, 63, 44], pitch: 75, yaw: 0, label: "mesa" }],
+    name: "ground-washes-retake",
+  }}
+>
+  retakes the one Shot the reply's retakes named, on that version's map
+</ToolCall>
+
+<ToolCall
+  name="build_still_review"
+  args={{
+    mission: "ashfall-relay",
+    set: "ground",
+    round: "r1",
+    versions: [
+      { label: "before", note: "The committed map", captures: ["missions/ashfall-relay/output/shots/ground-before"] },
+      {
+        label: "washes",
+        note: "The Ash Flats changed",
+        captures: ["/Users/you/Library/Caches/sc2-adjutant/shots/ground-washes", "/Users/you/Library/Caches/sc2-adjutant/shots/ground-washes-retake"],
+      },
+    ],
+  }}
+>
+  builds the round again, with the retake after the version's first capture
+</ToolCall>
+
+Every frame is on the page.
+</Claude>
+
+A version's `captures` are its `capture_shots` folders, absolute or relative to the Workspace: a full capture first, then any retakes, each filling only the Shots the earlier ones lack, matched by place. [`build_still_review`](/tools/build_still_review/)'s reply names the exact Shots to retake per version in its `retakes`. It also catches a **wrong** frame, one that shows another Shot's place, and a **missing** one, with no frame. An **unconfirmed** frame stays on the page with a badge: nothing in the reference matches it well, as after a big repaint, so look at it before you trust it. Rebuilding replaces the round until its feedback is recorded.
+
+The round is in `missions/ashfall-relay/output/stills/ground/r1/`: `review.json`, the frames in `frames/`, and the page, `index.html`.
+
+</Objective>
+
+<Objective id="review" title="Review the page">
+
+Claude publishes the page with its Artifact tool, as a new artifact for the round: `index.html`, with every file of `frames/` beside it, and the page's database and viewer capabilities, where it keeps your picks. Only those files go out. `review.json`, the feedback files and the tools' replies name paths on your machine, so they stay local. Claude gives you the link.
+
+<Claude>
+Here's round 1 of `ground`. For each Shot, pick the best version, or no change, tag it and leave a note. Then press "Done reviewing" at the end. If the frames are dark, "Lift shadows" brightens them all for judging the ground.
+</Claude>
+
+On the page:
+
+- **Side by side** shows each Shot's versions in a row. **Flip** shows one version at a time in the same place, so a change stands out: the buttons, or keys 1 to 9, pick the version. Click a frame to see it full size.
+- **Lift shadows** brightens every frame. It changes only how the page shows them.
+- Under each Shot, pick its **best** version, or **No change**, choose any **tags** (Too busy, Too flat, Seams, Wrong colour, Good) and write a **note**.
+- Under **Overall**, a note on the whole round. Then press **Done reviewing**.
+
+Each choice is saved as you make it. Say, as an example, that you pick `washes` for the flats and tag it Seams, leave the other Shots alone, and write this note:
+
+```text
+TODO(author): the author's own note on the flats Shot
+```
+
+</Objective>
+
+<Objective id="feedback" title="Have the feedback read back">
+
+<You>Done.</You>
+
+Claude reads the page's database with its ArtifactData tool, every document in `shots` and in `review`, and records them in the round's folder.
+
+<Claude>
+<ToolCall
+  name="record_still_feedback"
+  args={{
+    round: "missions/ashfall-relay/output/stills/ground/r1",
+    rows: [
+      { path: "shots/2", data: { best: "washes", tags: ["seams"], note: "TODO(author): the author's own note on the flats Shot" } },
+      { path: "review/overall", data: { note: "TODO(author): the author's own note on the round" } },
+      { path: "review/status", data: { done: true } },
+    ],
+  }}
+>
+  writes feedback.json and feedback.md in the round's folder
+</ToolCall>
+
+Round 1 of `ground`, as you left it:
+
+- **flats:** `washes` is better, tagged Seams. In your words: TODO(author), the note above.
+- **pad**, **mesa** and **relay:** no feedback.
+
+Overall: TODO(author), your note on the round. Is that right?
+</Claude>
+
+<You>That's right. Fix the flats.</You>
+
+[`record_still_feedback`](/tools/record_still_feedback/) writes `feedback.json`, which the next round reads, and `feedback.md`, the same for you to read. Claude acts on the feedback only after you confirm its summary. It says what it would change in the Blueprint for each note, and changes it only on your yes. The change is a new version for a next round, not a fix to this one.
+
+</Objective>
+
+<Objective id="round-2" title="Round 2, beside round 1's notes" needs="editor.captureTour">
+
+The next round reuses the set's Shots and every capture already on disk, so only the new version is compiled and captured. Here Claude has changed the flats in the Blueprint for your note, and calls the new version `washes-2`.
+
+<Claude>
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r2/Ashfall-Relay-ground-washes-2.SC2Map" }}>
+  compiles the changed Blueprint to the next round's package
+</ToolCall>
+
+One more capture, about three minutes: leave the screen alone until it's done. Same lighting as round 1, the tileset's default.
+
+<ToolCall
+  name="capture_shots"
+  args={{
+    mapPath: "missions/ashfall-relay/output/r2/Ashfall-Relay-ground-washes-2.SC2Map",
+    shots: [
+      { rect: [10, 23.5, 40, 40.5], label: "pad" },
+      { rect: [33, 11.5, 63, 28.5], label: "flats" },
+      { rect: [33, 27, 63, 44], label: "mesa" },
+      { rect: [56, 23.5, 86, 40.5], label: "relay" },
+    ],
+    name: "ground-washes-2",
+  }}
+>
+  captures the set's four Shots on the new version
+</ToolCall>
+
+<ToolCall
+  name="build_still_review"
+  args={{
+    mission: "ashfall-relay",
+    set: "ground",
+    round: "r2",
+    versions: [
+      { label: "before", note: "The committed map", captures: ["missions/ashfall-relay/output/shots/ground-before"] },
+      {
+        label: "washes",
+        note: "The Ash Flats changed",
+        captures: ["/Users/you/Library/Caches/sc2-adjutant/shots/ground-washes", "/Users/you/Library/Caches/sc2-adjutant/shots/ground-washes-retake"],
+      },
+      { label: "washes-2", note: "The flats changed again, for round 1's note", captures: ["/Users/you/Library/Caches/sc2-adjutant/shots/ground-washes-2"] },
+    ],
+    previous: "missions/ashfall-relay/output/stills/ground/r1",
+  }}
+>
+  builds round 2, with round 1's feedback beside each Shot
+</ToolCall>
+
+Every frame is on the page. Here's round 2 of `ground`.
+</Claude>
+
+Round 2's page has three versions side by side, and under each Shot a line with what you said in round 1: its best version, its tags and your note. Under Overall is your note on round 1. Review it as before, and press Done reviewing. Each round is its own artifact, so round 1's page stays as you left it.
+
+When a version wins every Shot you care about, it's the one to keep: compile it in place, as in [Your first Mission](/tutorials/first-mission/), so the committed Map Package is that version. The rounds, captures and pages stay under `output/`, out of git.
+
+</Objective>
