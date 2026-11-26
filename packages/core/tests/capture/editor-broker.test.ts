@@ -4,6 +4,7 @@
 // from another's. The broker runs in this process, on a socket in a temp folder.
 import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import net from "node:net";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -540,6 +541,20 @@ describe("the Editor Broker", () => {
       expect(t.quits).toEqual(["501"]);
     });
 
+    it("quits the test game the queue is held for when a waiting capture says quitOtherGames, and logs it", async () => {
+      const t = await setup({ processes: true });
+      await t.start();
+      const [mission, alpha] = [await t.map("Mission"), await t.map("Alpha")];
+      await testDocument(t, mission);
+      const base = t.job(alpha, "a", [40]) as Extract<CaptureJob, { kind: "tour" }>;
+      const result = await runCaptureJob({ ...base, settings: { ...base.settings, quitOtherGames: true } }, { socketPath: t.socketPath });
+      expect(result.end).toBe("done");
+      // The author's game first, for the hold; then the capture's own, once it is done.
+      expect(t.quits).toEqual(["500", "501"]);
+      expect(t.brokerLog.some((line) => /quitting game 500, the author's test game the queue is held for, for job \w+ \(quitOtherGames\)/.test(line))).toBe(true);
+      expect(t.brokerLog.some((line) => line.endsWith("the test game quit"))).toBe(true);
+    });
+
     it("records what the author's game changed in the banks once that game, and not just any, quits", async () => {
       const t = await setup({ processes: true });
       await t.start();
@@ -572,6 +587,39 @@ describe("the Editor Broker", () => {
       await expect(runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath })).rejects.toThrow("the tour failed");
       expect(t.quits).toEqual([]);
       expect(t.table).toEqual([{ pid: 500, startedAt: "someone-else" }]);
+    });
+  });
+
+  describe("a broker of another protocol", () => {
+    /** A broker from an older build on the socket: it refuses `refusals` jobs as every protocol does, then exits. */
+    const oldBroker = (socketPath: string, refusals = 1) =>
+      new Promise<net.Server>((resolve) => {
+        let left = refusals;
+        const server = net.createServer((socket) => {
+          socket.on("error", () => undefined);
+          socket.once("data", () => {
+            socket.end(`${JSON.stringify({ type: "failed", message: "The Editor Broker running (pid 4242) speaks protocol 5, not 6: let it idle out, or stop it" })}\n`);
+            if (--left === 0) server.close();
+          });
+        });
+        server.listen(socketPath, () => resolve(server));
+      });
+
+    it("refuses the job at once", async () => {
+      const t = await setup();
+      const server = await oldBroker(t.socketPath);
+      await expect(runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath })).rejects.toThrow(/speaks protocol 5, not 6/);
+      server.close();
+    });
+
+    it("is waited out by a quitOtherGames job, never stopped, and the job runs on the broker started after it", async () => {
+      const t = await setup();
+      await oldBroker(t.socketPath, 2);
+      const base = t.job(await t.map("Alpha"), "a", [40]) as Extract<CaptureJob, { kind: "tour" }>;
+      const log: string[] = [];
+      const result = await runCaptureJob({ ...base, settings: { ...base.settings, quitOtherGames: true } }, { socketPath: t.socketPath, start: () => t.start(), otherProtocolRetryMs: 20, log: (line) => log.push(line) });
+      expect(result.end).toBe("done");
+      expect(log.filter((line) => line.includes("Waiting for it to idle out (quitOtherGames)"))).toHaveLength(1);
     });
   });
 

@@ -23,7 +23,9 @@
 //     what's over before a screenshot is taken, such as an impact's burst of particles.
 //     A game already running that the tool didn't start stops the capture, since it may be the
 //     author's. With --quit-other-games, for an unattended run, each batch quits any such game
-//     first (the quit request, Yes, then a kill after 20 s), logging its pid and command.
+//     first (the quit request, Yes, then a kill after 20 s), logging its pid and command; the
+//     Editor Broker quits a Test Document game it holds its queue for, and a broker of another
+//     protocol is waited out (asked again every minute) rather than failing the run.
 //   npm run effect-tour -- pick <out> [--batches <a>-<b>]
 //     cuts the clips and picks the frames again from each batch's recording, and rewrites the index
 //     of each batch filmed to its end.

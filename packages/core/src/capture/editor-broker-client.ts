@@ -169,9 +169,39 @@ export type RunCaptureJobOptions = {
 /** How long a client waits for a broker it started to answer. */
 const START_SECONDS = 20;
 
-/** Runs `job` on the broker at `socketPath`, starting one with `start` when none answers; resolves when the job is done. */
-export async function runCaptureJob(job: Exclude<CaptureJob, { kind: "editor" }>, options: RunCaptureJobOptions): Promise<CaptureJobResult> {
-  return (await submit(job, options)) as CaptureJobResult;
+/** How often a quitOtherGames job asks again while a broker of another protocol answers: it exits 10 minutes after it goes idle. */
+const OTHER_PROTOCOL_RETRY_MS = 60 * 1000;
+/** How a broker of another protocol refuses a job; every protocol words it so (editor-broker.ts). */
+const OTHER_PROTOCOL = /^The Editor Broker running \(pid \d+\) speaks protocol \d+, not \d+/;
+
+/**
+ * Runs `job` on the broker at `socketPath`, starting one with `start` when none answers; resolves
+ * when the job is done. A broker built from another version refuses the job; with quitOtherGames,
+ * for an unattended run, the job waits it out instead, asking again every minute until a broker of
+ * this protocol takes it. That broker is never stopped: it may be running another client's capture.
+ */
+export async function runCaptureJob(job: Exclude<CaptureJob, { kind: "editor" }>, options: RunCaptureJobOptions & { readonly otherProtocolRetryMs?: number }): Promise<CaptureJobResult> {
+  let told = false;
+  for (;;) {
+    try {
+      return (await submit(job, options)) as CaptureJobResult;
+    } catch (error) {
+      const message = (error as Error).message;
+      if (!job.settings.quitOtherGames || !OTHER_PROTOCOL.test(message) || options.signal?.aborted) throw error;
+      if (!told) options.log?.(`${message}. Waiting for it to idle out (quitOtherGames), asking again every ${Math.round((options.otherProtocolRetryMs ?? OTHER_PROTOCOL_RETRY_MS) / 1000)} s`);
+      told = true;
+      await new Promise<void>((resolve) => {
+        const timer = setTimeout(done, options.otherProtocolRetryMs ?? OTHER_PROTOCOL_RETRY_MS);
+        options.signal?.addEventListener("abort", done, { once: true });
+        function done() {
+          clearTimeout(timer);
+          options.signal?.removeEventListener("abort", done);
+          resolve();
+        }
+      });
+      if (options.signal?.aborted) throw new Error("the capture job was cancelled");
+    }
+  }
 }
 
 /** Runs an editor job on the broker at `socketPath`; runEditorAction for a host's own broker. */
