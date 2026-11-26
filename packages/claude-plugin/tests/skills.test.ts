@@ -70,8 +70,8 @@ const authorSpecific = (text: string, patterns: readonly RegExp[] = AUTHOR_SPECI
 const packFileReads = (text: string) => matches(PACK_FILE_READS, text);
 
 describe("the shipped skills", () => {
-  it("are level-design, hero-mission-design, encounter-design, ally-design, cinematography, exemplar-design, style-pack-builder, texture-sets, doodad-search, custom-doodads, boss-design, boss-build, forecast-attacks, melee-design, report-missing-feature, sound-mix and update", () => {
-    expect(skills.sort()).toEqual(["ally-design", "boss-build", "boss-design", "cinematography", "custom-doodads", "doodad-search", "encounter-design", "exemplar-design", "forecast-attacks", "hero-mission-design", "level-design", "melee-design", "report-missing-feature", "sound-mix", "style-pack-builder", "texture-sets", "update"]);
+  it("are level-design, hero-mission-design, encounter-design, ally-design, cinematography, exemplar-design, style-pack-builder, texture-sets, doodad-search, custom-doodads, boss-design, boss-build, forecast-attacks, melee-design, report-missing-feature, sound-mix, still-review and update", () => {
+    expect(skills.sort()).toEqual(["ally-design", "boss-build", "boss-design", "cinematography", "custom-doodads", "doodad-search", "encounter-design", "exemplar-design", "forecast-attacks", "hero-mission-design", "level-design", "melee-design", "report-missing-feature", "sound-mix", "still-review", "style-pack-builder", "texture-sets", "update"]);
   });
 
   // The plugin's descriptions and READMEs list the skills by hand: each must name every one, and
