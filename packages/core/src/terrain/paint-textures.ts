@@ -20,7 +20,7 @@
 //   onto the other, so the two match exactly whatever the blurs' rounding.
 
 import { blueprintCatalog, layerSource } from "../catalog/catalog-layer.js";
-import { isKnownTexture, textureIsAccent, textureTone } from "../catalog/tileset-textures.js";
+import { isKnownTexture, textureStarkness, textureTone } from "../catalog/tileset-textures.js";
 import { type MissionBlueprint, type PaletteBand, paletteBands, paletteTextures, type TexturePalette } from "../domain/mission-blueprint.js";
 import { blueprintPlugins, type CliffTexturePair, type StyleRuleSlots } from "../plugins/plugin-api.js";
 import { containsPoint } from "./rasterize.js";
@@ -60,9 +60,11 @@ const RAMP_BLEND_CELLS = 3;
  * dim light. Measured on the Antioch pack's natural-ground Exemplar Maps, half to nine tenths of
  * open cells hold two or more textures.
  *
- * A texture the catalog calls an accent (pits, roots, cracks) reads at full strength long before
- * its weight gets there, so it goes down as dabs instead: a finer noise (the period over
- * ACCENT_SCALE), a higher threshold (by ACCENT_RARITY) and a short fade, on top of the washes.
+ * A stark texture (pebbles, lumpy moss, pitted creep, roots: textureStarkness, from its picture's
+ * contrast and the catalog's accent note) reads at full strength long before its weight gets
+ * there, so it gets less ground and smaller spots. At full starkness its noise is STARK_SCALE times
+ * finer, its threshold STARK_RARITY higher and its fade STARK_FEATHER; a texture part-way stark is
+ * part-way there.
  *
  * Beside a block of another texture set every patch fades out over SET_EDGE_FADE cells: a set's
  * edge is a cut along the block line, and a wash cut there shows as a step in its own texture.
@@ -70,9 +72,9 @@ const RAMP_BLEND_CELLS = 3;
 const PATCH_FEATHER = 0.25;
 const MOTTLE_PERIOD = 3;
 const MOTTLE_DEPTH = 0.12;
-const ACCENT_SCALE = 1.5;
-const ACCENT_RARITY = 0.1;
-const ACCENT_FEATHER = 0.1;
+const STARK_SCALE = 2;
+const STARK_RARITY = 0.18;
+const STARK_FEATHER = 0.12;
 const SET_EDGE_FADE = 2;
 
 /** Variety patched into a zone's ground: the patch noise's period (cells), and the noise it takes to start one. */
@@ -425,8 +427,7 @@ export function cellTextureLayers(
   const built = new Uint8Array(cells);
   const shares: (Float32Array | undefined)[] = new Array(Math.max(8, plan.layerNames.length)).fill(undefined);
   const sharesOf = (layer: number): Float32Array => (shares[layer] ??= new Float32Array(cells));
-  const accentLayers = plan.layerNames.map((name) => textureIsAccent(name));
-  const isAccent = (layer: number): boolean => accentLayers[layer] ?? false;
+  const starkness = plan.layerNames.map((name) => textureStarkness(name));
   const edgeFade = plan.sets && setEdgeFade(plan.sets, width, height);
   for (let i = 0; i < cells; i++) {
     const zone = source[i]!;
@@ -444,34 +445,25 @@ export function cellTextureLayers(
       const y = Math.floor(i / width) + 0.5;
       const fine = symmetricNoise((px, py) => valueNoise(px / MOTTLE_PERIOD, py / MOTTLE_PERIOD, 977), symmetry, 1)(x, y);
       const fade = edgeFade ? edgeFade[i]! : 1;
-      // Washes first, sharing the ground between them when they overlap; then the accents' dabs, which take their share from everything under them.
-      let accents = 0;
+      // Each variety texture's wash, sharing the ground between them where they overlap.
       const own: { layer: number; share: number }[] = [];
       patches.layers.forEach((layer, index) => {
         if (layer === base || fade === 0) return;
-        const accent = isAccent(layer);
-        const period = accent ? patches.period / ACCENT_SCALE : patches.period;
+        const stark = starkness[layer] ?? 0;
+        const period = patches.period / (1 + (STARK_SCALE - 1) * stark);
         const n = symmetricNoise((px, py) => patchNoise(px, py, index, period), symmetry, 1)(x, y) + MOTTLE_DEPTH * fine;
-        const threshold = patches.threshold + (accent ? ACCENT_RARITY : 0);
+        const threshold = patches.threshold + STARK_RARITY * stark;
         if (n <= threshold) return;
-        const rise = Math.min(1, (n - threshold) / (accent ? ACCENT_FEATHER : PATCH_FEATHER));
+        const rise = Math.min(1, (n - threshold) / (PATCH_FEATHER + (STARK_FEATHER - PATCH_FEATHER) * stark));
         const share = fade * rise * rise * (3 - 2 * rise);
-        if (accent) accents = Math.max(accents, share);
-        else total += share;
-        own.push({ layer, share: accent ? -share : share });
+        total += share;
+        own.push({ layer, share });
       });
-      const washScale = (total > 1 ? 1 / total : 1) * (1 - accents);
-      let accentLeft = accents;
+      const scale = total > 1 ? 1 / total : 1;
       total = 0;
       let best = 0;
-      // The strongest accent takes its share; a weaker one under it shows only where the stronger leaves room (none: they share one peak).
-      for (const entry of own.sort((a, b) => a.share - b.share)) {
-        let share: number;
-        if (entry.share < 0) {
-          share = Math.min(-entry.share, accentLeft);
-          accentLeft -= share;
-        } else share = entry.share * washScale;
-        if (share <= 0) continue;
+      for (const entry of own) {
+        const share = entry.share * scale;
         sharesOf(entry.layer)[i]! += share;
         total += share;
         if (share > best) {
@@ -931,7 +923,11 @@ export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, sy
     // is blurred on its own and renormalised, and replaces only the narrow blend's same-group share,
     // so different groups keep the narrow seam between them. Round a ramp every texture is one
     // group (ANY_GROUP, which no rule's group name can be), so a ramp still fades into the ground at its foot.
-    const groupOf = (layer: number): string => plan.blendGroups[layer]!;
+    // A stark variety texture keeps to its dabs: on its own in a group, the wide blend doesn't spread
+    // it, since even a thin spread of it reads as the texture itself.
+    const starkVariety = new Set<number>();
+    for (const patches of plan.zonePatches) for (const layer of patches?.layers ?? []) if (textureStarkness(plan.layerNames[layer]!) >= 0.5) starkVariety.add(layer);
+    const groupOf = (layer: number): string => (starkVariety.has(layer) ? `stark variety ${layer}` : plan.blendGroups[layer]!);
     const cellGroup: (string | typeof ANY_GROUP)[] = Array.from(layers, (layer, cell) => (nearRamp[cell] ? ANY_GROUP : groupOf(layer)));
     const cellScratch = new Float32Array(width * height);
     /** The wide blend's blur, in place. */

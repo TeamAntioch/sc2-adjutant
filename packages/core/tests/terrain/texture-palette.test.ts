@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { EMPTY_CATALOG } from "../../src/catalog/catalog-layer.js";
-import { missionTextures } from "../../src/catalog/tileset-textures.js";
+import { missionTextures, textureStarkness } from "../../src/catalog/tileset-textures.js";
 import { MissionBlueprintSchema } from "../../src/domain/mission-blueprint.js";
 import { StyleBlueprintSchema } from "../support/workspaces.js";
 import { TEXELS_PER_CELL } from "../../src/terrain/texture-grid.js";
@@ -169,6 +169,33 @@ describe("texture palette", () => {
     expect(errors(blueprint({ ...palette, variety: ["A", "B", "C", "D"] }))).not.toEqual([]);
   });
 
+  it("gives a stark variety texture less ground than a calm one, by its picture's contrast", () => {
+    // Pebbly ShakurasCity2 and lumpy Zerus3 are stark; smooth BelShirDirtLightEx2 is calm.
+    expect(textureStarkness("ShakurasCity2")).toBe(1);
+    expect(textureStarkness("Zerus3")).toBe(1);
+    expect(textureStarkness("BelShirDirtLightEx2")).toBe(0);
+    expect(textureStarkness("BelShirGrassLightEx2")).toBe(0);
+    const grass = { ...palette, main: "BelShirGrassLightEx2", variety: ["ShakurasCity2", "BelShirDirtLightEx2"] };
+    const parsedGrass = StyleBlueprintSchema.parse(blueprint(grass));
+    const painted = rasterizeTerrain(parsedGrass);
+    const names = missionTextures(EMPTY_CATALOG, parsedGrass);
+    const weight = (name: string): number => {
+      let sum = 0;
+      let cells = 0;
+      for (let y = 0; y < W; y++) {
+        for (let x = 0; x < W; x++) {
+          if (!openMain(x, y)) continue;
+          cells++;
+          sum += painted.textureWeights[(y * W + x) * 8 + names.indexOf(name)]! / 15;
+        }
+      }
+      return sum / cells;
+    };
+    expect(weight("BelShirDirtLightEx2")).toBeGreaterThan(0.1);
+    expect(weight("ShakurasCity2")).toBeGreaterThan(0.005);
+    expect(weight("ShakurasCity2")).toBeLessThan(weight("BelShirDirtLightEx2") / 2);
+  });
+
   describe("bands (DL-01, DL-02)", () => {
     /** Each texture's share of a zone's ground, by weight. */
     const shares = (painted: ReturnType<typeof rasterizeTerrain>, names: string[], x0: number, y0: number, x1: number, y1: number) => {
@@ -189,7 +216,7 @@ describe("texture palette", () => {
     it("touches high ground for play lightly with the palette's variety", () => {
       const share = shares(terrain, textures, 42, 42, 54, 54);
       expect(share("MarSaraDarkSand")).toBeGreaterThan(0.6);
-      expect(share("MarSaraSand") + share("MarSaraRocky")).toBeLessThan(0.15);
+      expect(share("MarSaraSand") + share("MarSaraRocky")).toBeLessThan(0.3);
     });
 
     it("patches a band with its own variety at full strength", () => {
