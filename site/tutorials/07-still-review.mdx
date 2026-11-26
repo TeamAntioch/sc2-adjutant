@@ -45,11 +45,11 @@ A place that isn't a whole Zone, such as a door or one statue, gets a Shot added
 
 <Objective id="capture" title="Compile the second version and capture both" needs="editor.captureTour">
 
-A **version** is one state of the map, with a short label and a note of what changed. The committed Map Package is `before`. The Blueprint as it stands now, with your change, is compiled to its own package under the Mission's git-ignored `output/`, never in place: an in-place compile rewrites the committed package, which is yours, and the Editor may have it open.
+A **version** is one state of the map, with a short label and a note of what changed. The committed Map Package is `before`. The Blueprint as it stands now, with your change, is the second version. Claude commits your change on a branch of its own, `still/ground-r1-washes`, so each version's change stays apart and a rejected one is dropped whole. Then it compiles that Blueprint into a copy of the committed package under the Mission's git-ignored `output/`. The copy keeps everything you made in the Editor, so the two versions differ by your change alone. It never compiles in place: an in-place compile rewrites the committed package, which is yours, and the Editor may have it open.
 
 <Claude>
-<ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r1/Ashfall-Relay-ground-washes.SC2Map" }}>
-  compiles the Blueprint with your change to its own package, leaving the committed one as it is
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r1/Ashfall-Relay-ground-washes.SC2Map", copy: true }}>
+  copies the committed package and compiles the Blueprint with your change into the copy, leaving the committed one as it is
 </ToolCall>
 
 The second version is compiled. I'll call it `washes`. Before I capture, three things:
@@ -236,11 +236,11 @@ For your note on the flats, I'd change the Ash Flats in the Blueprint: TODO(auth
 
 <Objective id="round-2" title="Round 2, beside round 1's notes" needs="editor.captureTour">
 
-The next round reuses the set's Shots and every capture already on disk, so only the new version is compiled and captured. Claude has made the change you said yes to in the Blueprint, as the version `washes-2`.
+The next round reuses the set's Shots and every capture already on disk, so only the new version is compiled and captured. Claude has made the change you said yes to in the Blueprint, as the version `washes-2`, committed on its own branch, `still/ground-r2-washes-2`, from `washes`'s.
 
 <Claude>
-<ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r2/Ashfall-Relay-ground-washes-2.SC2Map" }}>
-  compiles the changed Blueprint to the next round's package
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r2/Ashfall-Relay-ground-washes-2.SC2Map", copy: true }}>
+  compiles the changed Blueprint into a fresh copy of the committed package, for the next round
 </ToolCall>
 
 One more capture, about three minutes: leave the screen alone until it's done. Same lighting as round 1, the tileset's default.
@@ -287,6 +287,6 @@ Every frame is on the page. Here's round 2 of `ground`.
 
 Round 2's page has three versions side by side, and under each Shot a line with what you said in round 1: its best version, its tags and your note. Under Overall is your note on round 1. Review it as before, and press Done reviewing. Each round is its own artifact, so round 1's page stays as you left it.
 
-When a version wins every Shot you care about, it's the one to keep: compile it in place, as in [Your first Mission](/tutorials/first-mission/), so the committed Map Package is that version. The rounds, captures and pages stay under `output/`, out of git.
+When a version wins every Shot you care about, it's the one to keep. Claude merges its branch, compiles it in place, as in [Your first Mission](/tutorials/first-mission/), so the committed Map Package is that version, and commits the package with its compile record. Then it deletes the set's branches. The rounds, copies, captures and pages stay under `output/`, out of git.
 
 </Objective>
