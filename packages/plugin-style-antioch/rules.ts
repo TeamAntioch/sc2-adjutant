@@ -107,15 +107,15 @@ const wildLipsAndWear: StyleRule = {
 };
 
 /**
- * DL-01: natural ground for play is never one texture. Patches of variety texture, at a feature
- * size of 14 cells: at full strength (the main level, or a band with its own variety) the main
- * texture keeps about half the ground; as light touches (a band borrowing the palette's variety)
- * the variety takes about an eighth.
+ * DL-01: natural ground for play is never one texture. Washes of variety texture, at a feature
+ * size of 12 cells: at full strength (the main level, or a band with its own variety) the main
+ * texture keeps about two thirds of the ground by weight and most cells hold two textures; as
+ * light touches (a band borrowing the palette's variety) the variety is a faint tint here and there.
  */
 const neverOneTexture: StyleRule = {
   id: "never-one-texture",
   lesson: "DL-01",
-  varietyPatches: { period: 14, threshold: 0.15, touchThreshold: 0.5 },
+  varietyPatches: { period: 12, threshold: 0.05, touchThreshold: 0.4 },
 };
 
 /**
