@@ -307,8 +307,10 @@ describe("reopen_stage", () => {
   });
 });
 
-describe("next-step hints", () => {
-  // One test per Stage, each on its own copied Workspace: compiles and previews are slow on Windows (#99).
+// One test per Stage, each on its own copied Workspace: compiles and previews are slow on Windows (#99).
+// Stage 1's test, the file's first compile and preview, takes about 5 s on the Windows runners and
+// has still passed 30 s on a slow one, so these get 90 s.
+describe("next-step hints", { timeout: 90_000 }, () => {
   const signedOffTo = async (stage: number) => {
     const client = await connect(await copyOf("field"));
     for (let signed = 1; signed < stage; signed++) expect((await signOff(client, signed)).isError).toBeFalsy();
