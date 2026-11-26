@@ -21,7 +21,7 @@ Done when the author has OK'd the list and the set's `shots.json` holds every Sh
 
 A version is one state of the map, with a short `label` (`before`, `washes`) and a note of what changed. The Mission's committed Map Package is usually `before`. It needs no compile: capture it as it stands, with `capture_shots`' `mission`.
 
-Keep each version's change on its own git branch, so versions don't mix and a rejected one is undone whole. The Workspace is a git repo. Before the first version, note the Workspace's branch (`git branch --show-current`). If `git status` shows changes, ask the author to commit them or set them aside first. Don't start while anything under `missions/<id>/` is uncommitted, or their work would ride into a version. For each version:
+Keep each version's change on its own git branch, so versions don't mix and a rejected one is undone whole. The Workspace is a git repo. Before the first version, note the Workspace's branch (`git branch --show-current`). If `git status` shows changes, ask the author to commit them or set them aside first. Don't start while anything under `missions/<id>/` is uncommitted, or their work would ride into a version. The exception is the author's own uncommitted change when it is the change under review: it becomes the first version, since `git switch -c` takes it along to the version's branch, where you commit it. A change to review that is already committed on the Workspace's branch is in every branch made from it, and in no version alone. Ask the author before reviewing it that way, and branch from the commit before it instead. For each version:
 
 1. Branch from the Workspace's branch, or from the branch of the earlier version this one builds on: `git switch -c still/<set>-<round>-<label> <from>`. The round in the name lets a later round revise a label.
 2. Make the change (the Blueprint, and any file it adds, such as a custom doodad's model), then commit every file the version changed: `git add <files>`, then `git commit -m "Still Review <set> <round>: <label>"`.
@@ -97,6 +97,6 @@ When the author says the set is finished, ask which version to keep. Different S
 2. Compile in place (`compile_map` with no `outputDir`), so the committed package is that version.
 3. Commit the package and its `compile-record.json`: `git add missions/<id>/<Name>.SC2Map missions/<id>/compile-record.json`, then `git commit -m "Compile <label> from Still Review <set>"`.
 
-Then delete the set's branches: `git branch -D` each `still/<set>-…` branch.
+Then delete the set's branches: `git branch -D` each `still/<set>-…` branch. A branch holding the author's own change that wasn't kept goes only with their OK, since it is the last copy of that work.
 
 Done when the feedback is recorded and the author has confirmed the summary, and, once the set is finished, the kept version is merged, compiled and committed and the set's branches are gone.
