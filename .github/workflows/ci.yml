@@ -74,6 +74,17 @@ jobs:
         shell: bash
         timeout-minutes: 30
         run: bash scripts/test-except-core.sh
+      # Only this part runs every build and lint, so only it saves Turborepo's cache (the setup
+      # action restores it), pruned to the entries it used.
+      - name: Prune Turborepo's cache to what this job used
+        if: always() && matrix.part == 'rest'
+        run: node scripts/prune-turbo-cache.mjs
+      - name: Save Turborepo's cache
+        if: always() && matrix.part == 'rest'
+        uses: actions/cache/save@v4
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Save vitest's results
         if: always()
         uses: actions/cache/save@v4
@@ -136,6 +147,15 @@ jobs:
       - name: Test every package but core, then run the checks
         timeout-minutes: 15
         run: bash scripts/test-except-core.sh
+      - name: Prune Turborepo's cache to what this job used
+        if: always()
+        run: node scripts/prune-turbo-cache.mjs
+      - name: Save Turborepo's cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Save vitest's results
         if: always()
         uses: actions/cache/save@v4
