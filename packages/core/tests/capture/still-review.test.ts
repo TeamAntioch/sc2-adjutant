@@ -149,6 +149,8 @@ describe("buildStillReview", () => {
     );
     // No path on this machine, nor the maps the retakes name.
     expect(await readFile(path.join(roundDir, "index.html"), "utf8")).not.toMatch(new RegExp(`${shotsDir}|/maps/|${roundDir}`));
+    // It hides [hidden] itself, so its lightbox stays shut when opened from disk, outside the artifact's skeleton.
+    expect(await readFile(path.join(roundDir, "index.html"), "utf8")).toContain("[hidden] { display: none !important; }");
   });
 
   it("fills a version's lacking Shots from its retakes, matched by place, not number", async () => {

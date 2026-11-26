@@ -59,6 +59,8 @@ const STYLE = `
   --bg: #111418; --surface: #1a1e24; --fg: #e6e9ed; --muted: #9aa3ae; --line: #2e343c;
   --accent: #7ea6ff; --accent-fg: #0d1117; --warn: #f0b45a; --warn-bg: #3a2a10; --gap: #20252c; color-scheme: dark }
 body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--font); }
+/* The artifact's skeleton hides [hidden] too; this keeps the lightbox shut when index.html is opened from disk. */
+[hidden] { display: none !important; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
 .wrap { max-width: 1400px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; }
