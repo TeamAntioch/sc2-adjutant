@@ -13,7 +13,8 @@
 // tool's, quit by pid and gracefully once the job ends or fails (game.quit); a Test Document's is the
 // author's to play, never quit, and a capture refuses while any game it didn't start runs, unless
 // its settings say quitOtherGames (effect-tour capture --quit-other-games, for unattended runs):
-// then the host quits every game first, logging each. An editor job marked ifIdle is refused while anything
+// then the host quits every game first, logging each, and a Test Document game the queue is held
+// for is quit too (game.quit), so the hold ends. An editor job marked ifIdle is refused while anything
 // runs or waits, with what that is, for test_mission, which can't wait out a capture.
 // Its log has each job's start, end and progress lines, so one job's "running" always follows the
 // last one's "done" or "failed": the record of what the Editor was doing when a capture went wrong.
@@ -343,8 +344,19 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
     const stillPlaying = async (): Promise<boolean> => (before ? ((await listGames()) ?? []).some((game) => started.some((each) => sameGame(each, game))) : host.run("game.running", {}));
     holding = true;
     record("holding the queue until the test game quits");
+    // Each held game is asked to quit once, for a waiting job that says quitOtherGames; one that outlives it is held for as before.
+    const askedToQuit = new Set<GameProcess>();
+    let toldUnlisted = false;
     try {
-      while (!closing && (await stillPlaying())) await new Promise((resolve) => setTimeout(resolve, holdPollMs));
+      while (!closing && (await stillPlaying())) {
+        const asker = queue.find((each) => each.job.kind !== "editor" && each.job.settings.quitOtherGames);
+        if (asker && !before && !toldUnlisted) {
+          toldUnlisted = true;
+          record(`job ${asker.id} asks to quit the test game (quitOtherGames), but the Host Adapter can't list games, so which one is unknown: still holding`);
+        }
+        if (asker) await quitHeldGames(started.filter((game) => !askedToQuit.has(game)), asker.id, askedToQuit, record);
+        await new Promise((resolve) => setTimeout(resolve, holdPollMs));
+      }
       record("the test game quit");
       // A closing broker leaves a fixture run `running`: bank_changes puts the author's banks back once the game has quit.
       if (snapshot && !closing) await recordBankChanges(snapshot, record);
@@ -354,6 +366,28 @@ export async function startEditorBroker(options: EditorBrokerOptions): Promise<E
     } finally {
       holding = false;
       games = games.filter((record) => record.job !== entry.id);
+    }
+  }
+
+  /**
+   * Quits the test games the queue is held for, for job `asker`, which says quitOtherGames: an
+   * unattended capture would otherwise wait as long as the author's game runs. Gracefully, then by
+   * kill (game.quit), each game's pid logged. A host that can't quit one leaves the hold as it was.
+   */
+  async function quitHeldGames(held: readonly GameProcess[], asker: string, asked: Set<GameProcess>, record: (line: string) => void): Promise<void> {
+    for (const game of held) {
+      asked.add(game);
+      if (!host.has("game.quit")) {
+        record(`job ${asker} asks to quit game ${game.pid} (quitOtherGames), but the Host Adapter can't quit a game: still holding`);
+        continue;
+      }
+      record(`quitting game ${game.pid}, the author's test game the queue is held for, for job ${asker} (quitOtherGames)`);
+      try {
+        const how = await host.run("game.quit", { game, log: (line) => record(`quitting game ${game.pid}: ${line}`) });
+        record(`game ${game.pid}: ${how}`);
+      } catch (error) {
+        record(`couldn't quit game ${game.pid}: ${(error as Error).message}`);
+      }
     }
   }
 
