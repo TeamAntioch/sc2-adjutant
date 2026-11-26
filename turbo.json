@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "envMode": "loose",
+  "globalEnv": [
+    "SC2_CATALOG_STAMP"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build",
+        "@team-antioch/sc2-adjutant#build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "build",
+        "^build",
+        "@team-antioch/sc2-adjutant#build"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "build",
+        "^build"
+      ],
+      "cache": false
+    }
+  }
+}

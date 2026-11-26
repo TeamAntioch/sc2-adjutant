@@ -33,6 +33,19 @@ runs:
             ;;
         esac
         ffmpeg -hide_banner -encoders | grep -i vorbis
+    # Turborepo's cache of each package's build and lint, so npm ci's build (the root's prepare
+    # script) restores the packages a change didn't touch. Restored from the newest earlier save.
+    # Only the job that runs every build and lint saves it, pruned to what that job used
+    # (scripts/prune-turbo-cache.mjs, from the summaries TURBO_RUN_SUMMARY makes each run write), so
+    # it holds one commit's entries and doesn't grow.
+    - name: Restore Turborepo's cache
+      uses: actions/cache/restore@v4
+      with:
+        path: .turbo/cache
+        key: turbo-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: turbo-${{ runner.os }}-
+    - shell: bash
+      run: echo "TURBO_RUN_SUMMARY=true" >> "$GITHUB_ENV"
     - shell: bash
       run: npm ci
     - name: Check nothing moved is back, and the pinned, published packages are what's installed

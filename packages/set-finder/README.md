@@ -29,7 +29,7 @@ The vectors (`sets-vectors-*.json`), payload logs (`ranker-payloads/set-finder-*
 
 ## Testing it
 
-The test asks are the package's: `npm run test-set-asks` in sc2-asset-catalog runs them on the published sets. This package's tests (`npm test -w @team-antioch/sc2-adjutant-set-finder`) check the layers and `find_sets` with made-up sets, a fake embedder and a fake Jev.
+The test asks are the package's: `npm run test-set-asks` in sc2-asset-catalog runs them on the published sets. This package's tests (`npm run turbo -- run test --filter=@team-antioch/sc2-adjutant-set-finder`, from the repo root, which builds what they need first) check the layers and `find_sets` with made-up sets, a fake embedder and a fake Jev.
 
 ## For agents
 

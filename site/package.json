@@ -10,7 +10,7 @@
     "build": "npm run reference && next build && pagefind --site out",
     "serve": "node scripts/serve.mjs",
     "lint": "next typegen && tsc --noEmit",
-    "test": "npm run build && vitest run"
+    "test": "vitest run"
   },
   "dependencies": {
     "@fontsource/chakra-petch": "5.2.7",

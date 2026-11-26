@@ -1,0 +1,11 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": { "dependsOn": [] },
+    "lint": { "dependsOn": ["build"] },
+    "test": {
+      "dependsOn": ["@team-antioch/sc2-adjutant#build", "@team-antioch/sc2-adjutant-doodad-finder#build", "@team-antioch/sc2-adjutant-set-finder#build", "@team-antioch/sc2-adjutant-anim-testbed#build", "@team-antioch/sc2-adjutant-host-macos#build", "@team-antioch/sc2-adjutant-host-windows#build", "@team-antioch/sc2-adjutant-style-antioch#build"]
+    }
+  }
+}

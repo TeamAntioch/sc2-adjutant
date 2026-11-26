@@ -21,10 +21,10 @@
     "scripts"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && node -e \"const fs = require('node:fs'); fs.cpSync('helpers', 'dist/helpers', { recursive: true }); fs.writeFileSync('dist/.built', '')\"",
+    "build": "tsc -p tsconfig.json && node -e \"require('node:fs').cpSync('helpers', 'dist/helpers', { recursive: true })\" && node ../core/scripts/write-built-stamp.mjs",
     "prepack": "npm run build",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "test": "npm run build && vitest run"
+    "test": "vitest run"
   },
   "engines": {
     "node": ">=22.18"

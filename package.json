@@ -9,17 +9,17 @@
     "site"
   ],
   "scripts": {
-    "build": "npm run build -w packages --if-present",
-    "build:site": "npm run build -w site",
+    "build": "node scripts/turbo.mjs run build --filter=./packages/* --output-logs=errors-only 1>&2",
+    "build:site": "node scripts/turbo.mjs run build --filter=sc2-adjutant-site",
     "prepare": "npm run build",
-    "test": "npm test --workspaces --if-present && npm run test:checks",
+    "test": "node scripts/turbo.mjs run test --concurrency=1 && npm run test:checks",
     "test:checks": "node scripts/check-plugin-imports.mjs && node scripts/check-catalog-moved.mjs && node scripts/check-packs.mjs",
     "check-packs": "npm run build && node scripts/check-packs.mjs",
     "link-catalog": "node scripts/link-catalog.mjs link",
     "unlink-catalog": "node scripts/link-catalog.mjs unlink",
     "test:watch": "npm run test:watch -w packages/core",
     "update-golden": "npm run update-golden --workspaces --if-present",
-    "lint": "npm run build -w packages/core && npm run lint --workspaces --if-present && node scripts/check-plugin-imports.mjs && node scripts/check-catalog-moved.mjs",
+    "lint": "node scripts/turbo.mjs run lint && node scripts/check-plugin-imports.mjs && node scripts/check-catalog-moved.mjs",
     "generate-terrain": "npm run build && node packages/core/dist/cli/generate-terrain.js",
     "compile-map": "npm run build && node packages/core/dist/cli/compile-map.js",
     "import-map": "npm run build && node packages/core/dist/cli/import-map.js",
@@ -89,9 +89,20 @@
     "game-cards": "npm run build && node packages/core/dist/cli/game-cards.js",
     "capture-sets": "npm run build && node packages/core/dist/cli/capture-sets.js",
     "capture-edit": "npm run build && node packages/core/dist/cli/capture-edit.js",
-    "capture-shots": "npm run build && node packages/core/dist/cli/capture-shots.js"
+    "capture-shots": "npm run build && node packages/core/dist/cli/capture-shots.js",
+    "turbo": "node scripts/turbo.mjs"
   },
   "engines": {
     "node": ">=22.18"
+  },
+  "devDependencies": {
+    "turbo": "2.11.13"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "^11.5.1",
+      "onFail": "ignore"
+    }
   }
 }

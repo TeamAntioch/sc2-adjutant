@@ -20,3 +20,6 @@ packages/doodad-finder/.cache/
 # Skills an agent installs into a checkout (`npx skills add`). The repo ships only its own skills.
 .agents/
 skills-lock.json
+
+# Turborepo's local cache and task logs
+.turbo/
