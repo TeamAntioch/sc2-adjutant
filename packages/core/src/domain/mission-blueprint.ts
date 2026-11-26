@@ -11,6 +11,8 @@ import { mechanicContext } from "../plugins/mechanic-context.js";
 import { stableObjectId } from "../map/stable-object-id.js";
 import { VOICE_FORMATS } from "./asset-source.js";
 import { NAMED_ID, NAMED_ID_RULE } from "./named-id.js";
+import { slugId } from "./slug-id.js";
+import { DeclaredContentShape } from "./declared-content.js";
 import { type Collection, idEntries, idsOf, unknownIdIssue } from "./reference-graph.js";
 import { UNEXPLORED_AREAS } from "./unexplored-areas.js";
 import { CatalogId } from "./mod-screenplay.js";
@@ -24,8 +26,8 @@ import { isKnownCliffSet } from "../catalog/tileset-cliff-sets.js";
 import { isKnownTexture, isKnownTileset } from "../catalog/tileset-textures.js";
 import { containsPoint } from "../terrain/polygon.js";
 
-/** An id: lowercase letters, digits, hyphens and underscores, starting with a letter. */
-export const slugId = z.string().min(1).regex(/^[a-z][a-z0-9_-]*$/, "Use lowercase letters, numbers, hyphens, or underscores");
+/** An id: lowercase letters, digits, hyphens and underscores, starting with a letter (domain/slug-id.ts). */
+export { slugId };
 
 const PositionSchema = z
   .object({
@@ -2192,11 +2194,14 @@ const CoreBlueprintSchema = z
     /** The Trigger Folders the Blueprint's own triggers and globals are filed in; one no folder files goes in Root. */
     triggerFolders: z.array(BlueprintTriggerFolderSchema).optional(),
     /**
-     * Differences from the Kept originals that the first compile of a converted part writes over
-     * (the Equivalence Check, as a mod's): each item, as the check names it, and why the author
-     * means it. convert-screenplay lists them, and names them with --accept.
+     * The Declared Content a Mod Blueprint declares the same way (domain/declared-content.ts):
+     * catalog entries, the includes list, Characters, strings, files written whole, Set cutscenes,
+     * and the Equivalence Check's Accepted Differences and Removals, each compiled into the Map
+     * Package as a mod's compile writes it into the mod (src/mods/declared-parts.ts), beside what
+     * the Mission's compile generates. convert-screenplay lists a converted part's Accepted
+     * Differences, and names them with --accept.
      */
-    acceptedDifferences: z.array(z.object({ item: z.string().min(1), reason: z.string().min(1) }).strict()).optional(),
+    ...DeclaredContentShape,
     placements: z.array(PlacementSchema).default([]),
     /** The mission's own Doodad Composite recipes (DL-07); they win over the Style Pack's shared library on an id clash. */
     composites: z.array(CompositeSchema).default([]),

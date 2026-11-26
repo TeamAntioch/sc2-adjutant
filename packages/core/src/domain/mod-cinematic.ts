@@ -8,7 +8,7 @@ import path from "node:path";
 
 import { z } from "zod";
 
-import { slugId } from "./mission-blueprint.js";
+import { slugId } from "./slug-id.js";
 import { CatalogId } from "./mod-screenplay.js";
 
 /** Where a mod's cutscenes sit in its package. */

@@ -115,10 +115,10 @@ const MissionFile = z
  * A Mission's own custom doodad: its model and the textures it ships are files in the Mission's
  * folder, written into the Map Package at their storage paths, beside its CModel and CActorDoodad.
  * A texture the model names that isn't among them is found in the Map Package (a Kept file), in the
- * Workspace's mod packages, or listed in `gameTextures`. The Editor's palette shows it by its id.
+ * Workspace's mod packages, or listed in `gameTextures`. The Editor's palette shows it by its
+ * `name`, written into the map's ObjectStrings, or by its id without one.
  */
-export const MissionDoodadSchema = CustomDoodadSchema.omit({ name: true })
-  .extend({
+export const MissionDoodadSchema = CustomDoodadSchema.extend({
     /** The model's file in the Mission's folder, such as `art/Ring.m3`; none for a gameModel. */
     source: MissionFile.optional(),
     /** The textures it ships, each file in the Mission's folder: by the storage path the model names (`Assets/Textures/Ring_Diff.dds`), or a swap's `with`. */

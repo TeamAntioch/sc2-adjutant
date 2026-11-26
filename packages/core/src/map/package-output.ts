@@ -145,6 +145,16 @@ export class PackageOutput {
     for (const key of keys) this.placed.add(key);
   }
 
+  /** What is queued at `file`, and how it merges: undefined when nothing is (or the file is kept). */
+  queued(file: string): { readonly content: PackageContent; readonly kind: PackageFileKind } | undefined {
+    return this.files.get(file);
+  }
+
+  /** The files queued so far, by their path in the package. */
+  queuedFiles(): string[] {
+    return [...this.files.keys()];
+  }
+
   /** Queues `content` at `file` (a path inside the package, forward slashes), merged as `kind` says. */
   write(file: string, content: PackageContent, kind: PackageFileKind = "file"): void {
     if (this.kept.has(file)) return;
@@ -210,12 +220,13 @@ export class PackageOutput {
   }
 
   /**
-   * Drops these Kept items on finish (a mod's Accepted Removals): a strings file's key or line with
-   * no key, from its file as it merges, or a file. One the compile writes isn't dropped: the caller
-   * refuses that first. What finish dropped is in removedKept.
+   * Drops these Kept items on finish (Accepted Removals, or a converted conversation's orphans), as
+   * well as any named before: a strings file's key or line with no key, from its file as it merges,
+   * or a file. One the compile writes isn't dropped: the caller refuses that first. What finish
+   * dropped is in removedKept.
    */
   removeKept(removals: readonly Removal[]): void {
-    this.removals = removals;
+    this.removals = [...this.removals, ...removals];
   }
 
   /**

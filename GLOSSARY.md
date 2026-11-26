@@ -73,7 +73,7 @@ _Avoid_: Set file, room cutscene
 ### Mission Design & Compilation
 
 **Mission Blueprint**:
-The structured specification of a Mission—covering spatial layout, terrain palette, placed entities, mechanics, objectives, and dialogue wiring—that is co-designed with the author and compiled into a Map Package.
+The structured specification of a Mission—covering spatial layout, terrain palette, placed entities, mechanics, objectives, and dialogue wiring—that is co-designed with the author and compiled into a Map Package. Beside its map data it declares the same Declared Content a Mod Blueprint does.
 _Avoid_: Manifest, config, map spec
 
 **Co-design Stage**:
@@ -91,6 +91,10 @@ _Avoid_: Generated content, Blueprint layer
 **Mod Blueprint**:
 The structured specification of a Campaign Mod or an Asset Mod, kept in the Workspace, that owns the mod's Compiled Content: for a Campaign Mod its game data, characters, conversations, cutscenes and UI; for an Asset Mod the Asset Source of each of its files.
 _Avoid_: Mod spec, mod config
+
+**Declared Content**:
+The parts a Mod Blueprint and a Mission Blueprint declare the same way, from one schema: catalog entries (raw and Generic Entries), the includes list, Characters, strings, files written whole, Set Cutscenes, and Accepted Differences and Removals. A part moves between a Mission and its Campaign Mod by moving its declaration and its source file. The Mod Blueprint's other fields are a mod's by nature or have a Mission counterpart of its own shape.
+_Avoid_: Shared fields, common content
 
 **Kept Content**:
 The parts of a Mission's Map Package, or of a Campaign Mod or Asset Mod, that the package itself owns, such as hand-sculpted terrain, Editor-placed doodads, hand-made triggers, cutscenes or game data. A compile leaves them as it found them, and they are edited in place. A part may stay Kept Content for good; it becomes Compiled Content only when a change calls for the Blueprint.
