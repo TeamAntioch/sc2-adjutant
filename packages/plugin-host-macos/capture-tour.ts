@@ -18,7 +18,7 @@
 
 import { execFile, spawn } from "node:child_process";
 import { existsSync } from "node:fs";
-import { appendFile, mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { appendFile, mkdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
@@ -757,6 +757,7 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
 
     let last = 0;
     let frames = 0;
+    const late: number[] = [];
     let watch: StopWatch = { since: Date.now(), lastPress: 0 };
     let warnedNoWindow = false;
     let end: CaptureTourResult["end"] = "never started";
@@ -796,6 +797,8 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
         end = "game exited";
         break;
       }
+      // When the game saved the bank, read before its content: a save in between only makes the stop's hold look earlier.
+      const savedAt = existsSync(bankFile) ? (await stat(bankFile).catch(() => undefined))?.mtimeMs : undefined;
       const bank = existsSync(bankFile) ? await readFile(bankFile, "utf8") : "";
       if (leftover !== undefined && bank !== leftover) leftover = undefined;
       const stop = leftover === undefined ? bankValue(bank, "stop", "int") : undefined;
@@ -836,12 +839,14 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
       const frame = path.join(request.outputDir, `${stop.padStart(request.frameDigits, "0")}.jpg`);
       // Captured losslessly, then cropped, scaled and encoded as JPEG once.
       const raw = `${frame}.capture.png`;
-      try {
-        await run("screencapture", ["-x", "-o", "-t", "png", "-l", window, raw]);
-      } catch {
+      const shot = await shootStop(raw, savedAt, request.holdSeconds, { screenshot: (file) => run("screencapture", ["-x", "-o", "-t", "png", "-l", window, file]), now: Date.now, remove: (file) => rm(file, { force: true }) });
+      if (shot.taken === "failed") continue;
+      last = Number(stop);
+      if (shot.taken === "late") {
+        late.push(last);
+        log(`stop ${stop}: captured ${shot.by.toFixed(1)} s after its hold ended, so the camera may have moved on: dropped as late`);
         continue;
       }
-      last = Number(stop);
       frames++;
       log(`stop ${stop}`);
       if (request.recordKeys) {
@@ -854,7 +859,7 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
           .finally(() => rm(raw, { force: true })),
       );
     }
-    return { frames, end };
+    return { frames, end, late };
   } finally {
     // Whatever went wrong recording, the rest still runs: the shrinks, quitting the game, closing the map.
     await recording?.stop().catch((error: unknown) => log(`couldn't finish the recording: ${(error as Error).message}`));
@@ -869,6 +874,33 @@ export async function captureTour(request: CaptureTourRequest, context: HostCont
     }
     awake.kill();
   }
+}
+
+/** What a stop's screenshot needs: taking it, the clock (ms) and removing a file; the watch loop's are screencapture, Date.now and rm. */
+export interface StopShooter {
+  readonly screenshot: (file: string) => Promise<unknown>;
+  readonly now: () => number;
+  readonly remove: (file: string) => Promise<unknown>;
+}
+
+/**
+ * Screenshots a stop to `file`. "failed" when the screenshot fails, for the next poll to try again;
+ * "late", the screenshot removed, when it finished more than `holdSeconds` after the bank's save at
+ * `savedAt` (ms): the map holds each stop that long after announcing it, in real time that can only
+ * run long, so a later frame may show the next stop's place (spec #122). Without a hold or a save
+ * time, every screenshot is kept. The Windows adapter's watchTour (lateBy) uses the same rule.
+ */
+export async function shootStop(file: string, savedAt: number | undefined, holdSeconds: number | undefined, shooter: StopShooter): Promise<{ readonly taken: "kept" | "failed" } | { readonly taken: "late"; readonly by: number }> {
+  try {
+    await shooter.screenshot(file);
+  } catch {
+    return { taken: "failed" };
+  }
+  if (savedAt === undefined || holdSeconds === undefined) return { taken: "kept" };
+  const by = (shooter.now() - savedAt) / 1000 - holdSeconds;
+  if (by <= 0) return { taken: "kept" };
+  await shooter.remove(file);
+  return { taken: "late", by };
 }
 
 /** The watch loop's clock for time without a stop: when it last saw one, and when it last pressed Space. */

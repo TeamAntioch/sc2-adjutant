@@ -16,6 +16,12 @@ const TOUR_SCRIPT_ID = "E7700001";
 const TOUR_INIT = "ExTour_Init";
 /** The most stops a tour's arrays hold. */
 const MAX_STOPS = 1024;
+/**
+ * How long the tour holds each stop after announcing it, in seconds of real time, before it pans
+ * on: the trigger's exTourHold, and the hold the Editor Broker asks the host to time each frame
+ * against (`CaptureTourRequest.holdSeconds`), so a frame taken after the camera moved is dropped.
+ */
+export const TOUR_HOLD_SECONDS = 2.5;
 
 /** A stop's camera: see `CaptureCopyOptions.cameras`. */
 export type TourCamera = { readonly distance: number; readonly pitch: number; readonly yawOffset: number };
@@ -155,7 +161,7 @@ include "TriggerLibs/NativeLib"
 // Each stop is announced by saving bank "${TOUR_BANK}" with key "stop" so an outside watcher can screenshot.
 const fixed exTourStepX = 18.0;
 const fixed exTourStepY = 12.0;
-const fixed exTourHold = 2.5;
+const fixed exTourHold = ${fixed(TOUR_HOLD_SECONDS, 2)};
 const fixed exTourSettle = 2.0;
 const fixed exTourInset = 8.0;
 const int exTourMax = ${MAX_STOPS};

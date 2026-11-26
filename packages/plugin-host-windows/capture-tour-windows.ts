@@ -33,10 +33,15 @@ const SPACE_EVERY_SECONDS = 10;
 /** What the watch does to the game and the machine; the adapter's is in capture-tour.ts. */
 export type TourWorld = {
   readonly gameRunning: () => Promise<boolean>;
-  /** The bank file's content, or "" when there's none. */
-  readonly readBank: () => Promise<string>;
+  /**
+   * The bank file's content, "" when there's none, and when the game saved it (its modified time,
+   * in ms on the `now` clock), taken before the content so a save in between only makes it earlier.
+   */
+  readonly readBank: () => Promise<{ readonly text: string; readonly savedAt?: number }>;
   /** Captures the game's window to this frame; false when there was no window or the capture failed. */
   readonly capture: (frame: string) => Promise<boolean>;
+  /** Deletes a frame captured too late to trust. */
+  readonly discard: (frame: string) => Promise<void>;
   readonly pressSpace: () => Promise<void>;
   /** Appends a line to stops.txt. */
   readonly record: (line: string) => Promise<void>;
@@ -46,7 +51,7 @@ export type TourWorld = {
   readonly log: (line: string) => void;
 };
 
-export type TourWatch = Pick<CaptureTourRequest, "outputDir" | "frameDigits" | "recordKeys" | "startSeconds" | "pressSpaceAfterSeconds"> & {
+export type TourWatch = Pick<CaptureTourRequest, "outputDir" | "frameDigits" | "recordKeys" | "startSeconds" | "pressSpaceAfterSeconds" | "holdSeconds"> & {
   /** The bank as an earlier run left it, attached to a game already running: ignored until the game saves it again. */
   readonly leftover?: string;
 };
@@ -56,6 +61,8 @@ export type TourWatch = Pick<CaptureTourRequest, "outputDir" | "frameDigits" | "
  * stop, and records it in stops.txt when `recordKeys` are given. Ends "done" at stop -1, "game
  * exited" when the game quits first, and "never started" with no stop within `startSeconds`, having
  * pressed Space every 10 s after `pressSpaceAfterSeconds`, for a loading screen that waits for it.
+ * With `holdSeconds`, a frame whose capture finished after the bank's save plus the hold is
+ * deleted and its stop listed as late, not taken again: the camera may have moved on.
  */
 export async function watchTour(watch: TourWatch, world: TourWorld): Promise<CaptureTourResult> {
   // When the watch began, until the first stop comes; then undefined.
@@ -63,14 +70,15 @@ export async function watchTour(watch: TourWatch, world: TourWorld): Promise<Cap
   let leftover = watch.leftover;
   let last = 0;
   let frames = 0;
+  const late: number[] = [];
   let lastSpace: number | undefined;
   for (;;) {
     await world.wait(POLL_SECONDS);
     if (!(await world.gameRunning())) {
       world.log(`game exited at stop ${last}`);
-      return { frames, end: "game exited" };
+      return { frames, end: "game exited", late };
     }
-    const bank = await world.readBank();
+    const { text: bank, savedAt } = await world.readBank();
     if (leftover !== undefined && bank !== leftover) leftover = undefined;
     const stop = leftover === undefined ? bankValue(bank, "stop", "int") : undefined;
     if (stop === undefined) {
@@ -84,22 +92,43 @@ export async function watchTour(watch: TourWatch, world: TourWorld): Promise<Cap
       }
       if (waited > watch.startSeconds) {
         world.log("the tour never started");
-        return { frames, end: "never started" };
+        return { frames, end: "never started", late };
       }
       continue;
     }
     waiting = undefined;
     if (stop === "-1") {
       world.log(`tour done (${frames} stops)`);
-      return { frames, end: "done" };
+      return { frames, end: "done", late };
     }
     if (Number(stop) === last) continue;
-    if (!(await world.capture(path.join(watch.outputDir, frameName(stop, watch.frameDigits))))) continue;
+    const frame = path.join(watch.outputDir, frameName(stop, watch.frameDigits));
+    if (!(await world.capture(frame))) continue;
     last = Number(stop);
+    const over = lateBy(savedAt, world.now(), watch.holdSeconds);
+    if (over !== undefined) {
+      await world.discard(frame);
+      late.push(last);
+      world.log(`stop ${stop}: captured ${over.toFixed(1)} s after its hold ended, so the camera may have moved on: dropped as late`);
+      continue;
+    }
     frames++;
     world.log(`stop ${stop}`);
     if (watch.recordKeys) await world.record(stopsLine(stop, bank, watch.recordKeys));
   }
+}
+
+/**
+ * How many seconds after its stop's hold a capture that finished at `finished` (ms) ended, the hold
+ * running `holdSeconds` from the bank's save at `savedAt` (ms); undefined when it ended inside the
+ * hold, or there's no hold or save time to judge by. The game's wait is real time and only runs
+ * long, so a capture inside the window can't show a camera that moved on. The macOS adapter's
+ * shootStop uses the same rule.
+ */
+export function lateBy(savedAt: number | undefined, finished: number, holdSeconds: number | undefined): number | undefined {
+  if (savedAt === undefined || holdSeconds === undefined) return undefined;
+  const over = (finished - savedAt) / 1000 - holdSeconds;
+  return over > 0 ? over : undefined;
 }
 
 /**

@@ -116,6 +116,8 @@ describe("captureExemplarTours", () => {
         quality: 80,
         startSeconds: 300,
         pressSpaceAfterSeconds: 30,
+        // The capture copy's tour holds each stop 2.5 s after announcing it.
+        holdSeconds: 2.5,
       },
       expect.objectContaining({ mapPath: expect.stringMatching(/[\\/]capture[\\/]maps[\\/]Antioch 1-1 places-Night-\w+\.SC2Map$/), outputDir: path.join(captures, "1-1", "captures", "places-Night") }),
     ]);

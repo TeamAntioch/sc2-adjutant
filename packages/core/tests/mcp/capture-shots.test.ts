@@ -93,6 +93,26 @@ describe("capture_shots", () => {
     expect(text(reply)).toContain(`Captured 2 Shots in ${outputDir}`);
   });
 
+  it("lists a Shot the host captured late apart from missing ones, with no frame (#123)", async () => {
+    const { cacheDir, client } = await setup();
+    // The studio host reports stop 1 as captured after its hold.
+    await writeFile(path.join(cacheDir, "tour-stops.txt"), "1 late\n2\n");
+    const reply = await client.callTool({ name: "capture_shots", arguments: { mission: "lava-field", shots: SHOTS, name: "late" } });
+
+    expect(reply.isError).toBeFalsy();
+    expect(reply.structuredContent).toMatchObject({
+      state: "done",
+      late: ["1 (North gate)"],
+      missing: [],
+      shots: [
+        { shot: 1, label: "North gate", frame: null, late: true },
+        { shot: 2, frame: expect.stringMatching(/02\.jpg$/) },
+      ],
+    });
+    expect((reply.structuredContent as { shots: { late?: true }[] }).shots[1]!.late).toBeUndefined();
+    expect(text(reply)).toContain("Shot 1 (North gate) was captured late, after the camera moved on: retake it");
+  });
+
   it("returns a job id when the wait runs out, and collects the frames with it once the job is done", async () => {
     const { cacheDir, client, mapPackage, release } = await setup({ held: true, captureWaitMs: 300 });
     const first = await client.callTool({ name: "capture_shots", arguments: { mapPath: mapPackage, shots: SHOTS, name: "slow" } });

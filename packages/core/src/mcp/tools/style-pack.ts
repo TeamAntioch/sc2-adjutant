@@ -209,7 +209,7 @@ export function registerStylePackTools(server: McpServer, ctx: CallContext, { ca
         job: z.string(),
         place: z.string().optional(),
         captureDir: z.string().optional(),
-        tours: z.array(z.object({ id: z.string(), label: z.string(), outcome: z.string(), frames: z.number().int(), reason: z.string().optional() })).optional(),
+        tours: z.array(z.object({ id: z.string(), label: z.string(), outcome: z.string(), frames: z.number().int(), late: z.array(z.number().int()).optional(), reason: z.string().optional() })).optional(),
         withoutPlaces: z.array(z.string()).optional(),
         frames: z.object({ made: z.number().int(), removed: z.number().int(), kept: z.number().int(), unreadable: z.array(z.string()) }).optional(),
       },
@@ -266,7 +266,7 @@ export function registerStylePackTools(server: McpServer, ctx: CallContext, { ca
     const { captureDir, outcomes, withoutPlaces, frames } = state.result;
     const lines = [
       `Tours in ${captureDir}:`,
-      ...outcomes.map((tour) => `${tour.id}/${tour.label}: ${tour.outcome}${tour.outcome === "failed" ? `: ${tour.reason}` : tour.outcome === "already captured" ? "" : `, ${tour.frames} frames`}`),
+      ...outcomes.map((tour) => `${tour.id}/${tour.label}: ${tour.outcome}${tour.outcome === "failed" ? `: ${tour.reason}` : tour.outcome === "already captured" ? "" : `, ${tour.frames} frames${tour.late ? `, ${tour.late.length} dropped as captured late (after the camera moved on)` : ""}`}`),
       ...(outcomes.length === 0 ? ["None to take."] : []),
       ...(withoutPlaces.length ? [`No places for ${withoutPlaces.join(", ")} in the mixtures file, so no place tour: run find_places, or capture grid tours.`] : []),
       `1000px frames in <id>/frames/: ${frames.made} made, ${frames.removed} removed, ${frames.kept} in all.`,

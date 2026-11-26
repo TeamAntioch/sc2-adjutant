@@ -48,6 +48,8 @@ export type CapturedView = TourView & {
   readonly area: number;
   /** Its frame's file name. */
   readonly frame: string;
+  /** Its frame was captured after the tour's camera moved on, so it was dropped: capture again. */
+  readonly late?: true;
 };
 
 export type CaptureKeptAreasResult = {
@@ -58,6 +60,8 @@ export type CaptureKeptAreasResult = {
   readonly frames: readonly string[];
   /** The views with no frame, by label: the game stopped first. */
   readonly missing: readonly string[];
+  /** The views whose frame was captured after the camera moved on and dropped, by label. */
+  readonly late: readonly string[];
   /** The views that show only part of their ground, by label (see `TourView.whole`). */
   readonly partial: readonly string[];
   readonly outputDir: string;
@@ -117,7 +121,7 @@ export async function captureKeptAreas(workspace: Workspace, blueprintPath: stri
   for (const target of areas) masks.push(resolveTarget(target, context));
 
   const prefix = (n: number) => (masks.length > 1 ? `a${n}-` : "");
-  const views: CapturedView[] = masks.flatMap((mask, i) => planAreaTour(insideBounds(mask), info.playableBounds, mask.reach).map((view) => ({ ...view, area: i + 1 })))
+  const planned: CapturedView[] = masks.flatMap((mask, i) => planAreaTour(insideBounds(mask), info.playableBounds, mask.reach).map((view) => ({ ...view, area: i + 1 })))
     .map((view, i) => ({ ...view, stop: i + 1, frame: `${String(i + 1).padStart(2, "0")}-${prefix(view.area)}${view.label}.jpg` }));
 
   const missionId = path.basename(path.dirname(blueprintPath));
@@ -131,8 +135,8 @@ export async function captureKeptAreas(workspace: Workspace, blueprintPath: stri
     source: mapPackage,
     label: name,
     copy: {
-      stops: views.map((view) => view.target),
-      cameras: views.map(({ distance, pitch, yawOffset }) => ({ distance, pitch, yawOffset })),
+      stops: planned.map((view) => view.target),
+      cameras: planned.map(({ distance, pitch, yawOffset }) => ({ distance, pitch, yawOffset })),
       ...(options.lighting ? { lighting: options.lighting } : {}),
     },
     outputDir,
@@ -140,9 +144,12 @@ export async function captureKeptAreas(workspace: Workspace, blueprintPath: stri
   });
   const { copy } = result;
 
-  const named = await nameFrames(outputDir, views);
+  const named = await nameFrames(outputDir, planned);
   const frames = named.filter((frame) => frame !== null);
-  const missing = views.filter((_, i) => named[i] === null).map((view) => `${prefix(view.area)}${view.label}`);
+  const lateStops = new Set(result.late);
+  const views = planned.map((view, i) => (named[i] === null && lateStops.has(view.stop) ? { ...view, late: true as const } : view));
+  const missing = views.filter((view, i) => named[i] === null && !view.late).map((view) => `${prefix(view.area)}${view.label}`);
+  const late = views.filter((view) => view.late).map((view) => `${prefix(view.area)}${view.label}`);
   await mkdir(outputDir, { recursive: true });
   await writeFile(
     path.join(outputDir, "views.json"),
@@ -151,9 +158,9 @@ export async function captureKeptAreas(workspace: Workspace, blueprintPath: stri
 
   const partial = views.filter((view) => !view.whole).map((view) => `${prefix(view.area)}${view.label}`);
   const what = masks.length > 1 ? `${masks.length} areas` : masks[0]!.label;
-  const summary = tourSummary(`Captured ${frames.length} view${frames.length === 1 ? "" : "s"} of ${what} in ${outputDir}`, result.end, missing, partial, { its: "ground", why: "too big for the views, or at the map's edge" });
+  const summary = tourSummary(`Captured ${frames.length} view${frames.length === 1 ? "" : "s"} of ${what} in ${outputDir}`, result.end, missing, partial, { its: "ground", why: "too big for the views, or at the map's edge" }, { names: late, noun: "view" });
   log(summary);
-  return { summary, end: result.end, views, frames, missing, partial, outputDir, copy };
+  return { summary, end: result.end, views, frames, missing, late, partial, outputDir, copy };
 }
 
 /** The bounding rectangle of the cells inside the area. */

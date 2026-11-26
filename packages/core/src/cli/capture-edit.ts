@@ -62,7 +62,7 @@ async function main(): Promise<void> {
     console.log(`${view.frame}: (${view.target[0].toFixed(1)}, ${view.target[1].toFixed(1)}), ${camera}`);
   }
   console.log(result.summary);
-  if (result.end !== "done" || result.missing.length > 0) process.exitCode = 1;
+  if (result.end !== "done" || result.missing.length > 0 || result.late.length > 0) process.exitCode = 1;
 }
 
 main().catch((error: unknown) => {

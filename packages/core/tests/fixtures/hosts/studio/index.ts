@@ -1,7 +1,8 @@
 // A test Host Adapter for the bulk jobs: it renders and exports models and captures camera tours,
 // recording each request in host.log in the machine's cache folder. Its "game install" is the
 // cache's game/ folder: a model exists when a file sits at its storage path there. A tour captures
-// the stops listed one per line in the cache's tour-stops.txt (1 and 2 when there is none). A model file
+// the stops listed one per line in the cache's tour-stops.txt (1 and 2 when there is none), a line
+// "<stop> late" being a stop it reports late, with no frame. A model file
 // holding "garbled" exists but doesn't draw. A render's `packages` are read before the game, as
 // findPackageFile reads them.
 import { appendFile, copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
@@ -37,14 +38,17 @@ const plugin: PluginCode = {
       // Like a real one, it writes the map only once no stale copy is open.
       if (!request.attach) await writeMap?.();
       const listed = await readFile(path.join(cache, "tour-stops.txt"), "utf8").catch(() => "1\n2\n");
-      const stops = listed.split("\n").filter(Boolean).map(Number);
+      const lines = listed.split("\n").filter(Boolean);
+      // A line "<stop> late" is a stop captured after its hold: no frame, and listed late.
+      const stops = lines.filter((line) => !line.endsWith(" late")).map(Number);
+      const late = lines.filter((line) => line.endsWith(" late")).map((line) => Number(line.split(" ")[0]));
       await mkdir(request.outputDir, { recursive: true });
       for (const stop of stops) {
         await writeFile(path.join(request.outputDir, `${String(stop).padStart(request.frameDigits, "0")}.jpg`), `frame ${stop}\n`);
         if (request.recordKeys) await appendFile(path.join(request.outputDir, "stops.txt"), `${stop} ${request.recordKeys.map(() => "1.5").join(" ")}\n`);
         request.log?.(`stop ${stop}`);
       }
-      return { frames: stops.length, end: "done" };
+      return { frames: stops.length, end: "done", late };
     },
   },
 };
