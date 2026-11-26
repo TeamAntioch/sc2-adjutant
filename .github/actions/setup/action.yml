@@ -25,6 +25,14 @@ runs:
           Windows) choco install ffmpeg -y --no-progress ;;
         esac
         ffmpeg -hide_banner -encoders | grep -i vorbis
+    # Turborepo's cache of each package's build, so npm ci's build (the root's prepare script)
+    # restores the packages a change didn't touch. Saved at the job's end under this commit.
+    - name: Cache Turborepo's builds
+      uses: actions/cache@v4
+      with:
+        path: .turbo/cache
+        key: turbo-${{ runner.os }}-${{ github.sha }}
+        restore-keys: turbo-${{ runner.os }}-
     - shell: bash
       run: npm ci
     - name: Check nothing moved is back, and the pinned, published packages are what's installed
