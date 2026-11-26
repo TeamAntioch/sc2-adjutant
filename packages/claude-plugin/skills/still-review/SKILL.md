@@ -11,7 +11,7 @@ The tools are on the sc2-adjutant MCP server: `shots_for_zones`, `capture_shots`
 
 Turn each place the author names into a Zone of the Mission's Blueprint (`get_blueprint` lists them). One Shot frames one Zone, 30×17 cells by default (`size` changes it for the whole set), centred on the Zone's ground. Where a Zone is too big for one Shot, or the place is a single spot (a door, a statue), give it a hand-made Shot (below). Show the author the list, one line per Shot: its label and what it is meant to show. Then save the set with `shots_for_zones` (`mission`, `zones` in the order the page should show them, `set`, optional `size` and `pitch`). It writes `missions/<id>/output/stills/<set>/shots.json` and refuses to overwrite one, since every round of a set must frame the same places.
 
-A Shot that isn't a whole Zone's: add it to that `shots.json` by hand, before the first capture, as `{ "rect": [left, bottom, right, top], "pitch": 75, "label": "<name>" }`, the set's size in cells, centred on the Anchor's position. After the first capture, the set's Shots are fixed. A new place means a new set.
+A Shot that isn't a whole Zone's: add it to the `shots` array of that `shots.json` by hand, before the first capture, as `{ "rect": [left, bottom, right, top], "pitch": <the set's pitch>, "label": "<name>" }`: the set's size in cells, centred on the spot (an Anchor's position, or a point of the Zone, from `get_blueprint`), and inside the Playable Area. After the first capture, the set's Shots are fixed. A new place means a new set.
 
 On a later round, reuse the set's `shots.json` as it is.
 
@@ -21,13 +21,13 @@ Done when the author has OK'd the list and the set's `shots.json` holds every Sh
 
 A version is one state of the map, with a short `label` (`before`, `washes`) and a note of what changed. The Mission's committed Map Package is usually `before`, captured as it stands with `capture_shots`' `mission`.
 
-Compile every other version to its own package under the Mission's git-ignored output: `compile_map` with `outputDir` set to `missions/<id>/output/<round>/<Name>-<label>.SC2Map` (in a checkout, `npm run compile-map -- <blueprint> <output-dir>`). Compile there, never in place: an in-place compile rewrites the committed Map Package, which is the author's, and the Editor may have it open.
+Compile every other version to its own package under the Mission's git-ignored output: `compile_map` with `outputDir` set to `missions/<id>/output/<round>/<Name>-<set>-<label>.SC2Map` (in a checkout, `npm run compile-map -- <blueprint> <output-dir>`). Compile there, never in place: an in-place compile rewrites the committed Map Package, which is the author's, and the Editor may have it open.
 
 A Workspace whose core comes through a link to an sc2-adjutant checkout: a compile that fails because that checkout is mid-rebuild (missing `dist` files, a module not found) fails for a moment only. Wait a minute and compile again, keeping the link as it is.
 
 Reuse every capture already on disk: a version captured in an earlier round keeps its folder, so only new versions are captured.
 
-Done when each new version has its own compiled package, and each version is either compiled or already captured.
+Done when every version is either captured already or compiled to its own package.
 
 ## 3. Capture
 
@@ -41,7 +41,7 @@ Ask which lighting to capture in. A capture runs a copy of the map with none of 
 
 Capture each version with `capture_shots`: every Shot of the set's `shots.json`, in its order, in one call, with `mission` for the committed package or `mapPath` for a compiled version, and a `name` that says the set and version (`<set>-<label>`). A call that outlasts its wait returns a job id: call `capture_shots({ job })` to wait again.
 
-**An old Editor Broker.** Every capture goes through one Editor Broker on the machine, started by whichever capture found none. One built from an older sc2-adjutant refuses every job, with "The Editor Broker running (pid N) speaks protocol M, not K: let it idle out, or stop it". It idles out ten minutes after its last job. Tell the author, then either wait those ten minutes and capture again, or, with the author's OK, stop it with `kill N` (the pid in the message) and capture again: the next capture starts a broker from the current build. Ask first, because another session may be using it.
+**An old Editor Broker.** Every capture goes through one Editor Broker on the machine, started by whichever capture found none. One built from an older sc2-adjutant refuses every job, with "The Editor Broker running (pid N) speaks protocol M, not K: let it idle out, or stop it". It idles out ten minutes after its last client hangs up, and every capture tried meanwhile restarts that clock. Tell the author, then either wait the ten minutes without capturing and capture again, or, with the author's OK, stop it with `kill N` (the pid in the message) and capture again: the next capture starts a broker from the current build. Ask first, because another session may be using it.
 
 Done when every version has a capture folder, and you have the `missing` and `late` lists of each.
 
@@ -75,7 +75,7 @@ Done when the author has the link.
 
 Read the feedback when the author says they're done, or when the db's `review/status` says `{ done: true }`.
 
-1. Read the page's db with ArtifactData: `list` on the collection `shots`, then on `review`, with the `url` the publish gave, following `next_cursor` to the end. Each document is a row `{ path: "<collection>/<id>", data }`: `shots/<n>` is `{ best, tags, note }`, `review/overall` is `{ note }`, `review/status` is `{ done }`.
+1. Read the page's db with ArtifactData: `list` on the collection `shots`, then on `review`, with the `url` the publish gave, to the last page (pass each reply's `next_cursor` as `query.cursor`). Turn each document into a row `{ path: "<collection>/<id>", data }` from its collection and id: `shots/<n>` is `{ best, tags, note }`, `review/overall` is `{ note }`, `review/status` is `{ done }`.
 2. Record every row with `record_still_feedback` (`round`: the `roundDir`, `rows`). It writes `feedback.json` and `feedback.md` in the round's folder, which the next round's `previous` reads.
 3. Sum the round up for the author, one line per Shot that has feedback: which version won (or no change), the tags, and what is wrong and where, in their words. End with the overall note.
 
