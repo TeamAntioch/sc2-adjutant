@@ -1,10 +1,37 @@
 {
   "$schema": "https://turborepo.com/schema.json",
-  "extends": ["//"],
+  "extends": [
+    "//"
+  ],
   "tasks": {
     "build": {
-      "dependsOn": ["@team-antioch/sc2-adjutant#build", "@team-antioch/sc2-adjutant-doodad-finder#build", "@team-antioch/sc2-adjutant-set-finder#build", "@team-antioch/sc2-adjutant-anim-testbed#build", "@team-antioch/sc2-adjutant-host-macos#build", "@team-antioch/sc2-adjutant-host-windows#build", "@team-antioch/sc2-adjutant-style-antioch#build"],
-      "outputs": [".next/**", "!.next/cache/**", "out/**", ".generated/**"]
+      "dependsOn": [
+        "@team-antioch/sc2-adjutant#build",
+        "@team-antioch/sc2-adjutant-doodad-finder#build",
+        "@team-antioch/sc2-adjutant-set-finder#build",
+        "@team-antioch/sc2-adjutant-anim-testbed#build",
+        "@team-antioch/sc2-adjutant-host-macos#build",
+        "@team-antioch/sc2-adjutant-host-windows#build",
+        "@team-antioch/sc2-adjutant-style-antioch#build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/package.json",
+        "$TURBO_ROOT$/packages/claude-plugin/**",
+        "$TURBO_ROOT$/packages/*/sc2-adjutant-plugin.json",
+        "$TURBO_ROOT$/packages/core/examples/**"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "out/**",
+        ".generated/**"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "@team-antioch/sc2-adjutant#build"
+      ]
     }
   }
 }

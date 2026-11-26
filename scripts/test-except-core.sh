@@ -4,5 +4,5 @@
 # (cached from npm ci's build) and runs one package's tests at a time, as the runners are small.
 set -euo pipefail
 
-npx turbo run test --filter='!@team-antioch/sc2-adjutant' --concurrency=1
+node scripts/turbo.mjs run test --filter='!@team-antioch/sc2-adjutant' --concurrency=1
 npm run test:checks
