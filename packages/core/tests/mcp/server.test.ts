@@ -245,7 +245,7 @@ describe("compile_map", () => {
     expect(reply.isError).toBeFalsy();
     expect(reply.structuredContent).toMatchObject({ outputDir: copy });
     expect(await readFile(path.join(copy, "Objects"), "utf8")).toContain(kept);
-    expect(await readdir(path.join(mission, "output", "1"))).toEqual(["Lava-Field-a-b.SC2Map", "Lava-Field-a-b.compile-record.json", "Lava-Field-a-b.copy.json"]);
+    expect((await readdir(path.join(mission, "output", "1"))).sort()).toEqual(["Lava-Field-a-b.SC2Map", "Lava-Field-a-b.compile-record.json", "Lava-Field-a-b.copy.json"].sort());
     expect([await readFile(objects, "utf8"), await readFile(path.join(mission, "compile-record.json"), "utf8")]).toEqual(committed);
 
     const bare = await client.callTool({ name: "compile_map", arguments: { mission: "lava-field", copy: true } });
