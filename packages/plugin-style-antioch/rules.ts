@@ -115,7 +115,7 @@ const wildLipsAndWear: StyleRule = {
 const neverOneTexture: StyleRule = {
   id: "never-one-texture",
   lesson: "DL-01",
-  varietyPatches: { period: 12, threshold: 0.05, touchThreshold: 0.4 },
+  varietyPatches: { period: 12, threshold: 0.12, touchThreshold: 0.25 },
 };
 
 /**

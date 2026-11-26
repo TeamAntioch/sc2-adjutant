@@ -50,19 +50,22 @@ function blueprint(cave: Record<string, unknown> = {}, extra: Record<string, unk
   };
 }
 
-/** The compiled terrain, and each texture's share of a rectangle's cells (by each cell's dominant texture, read in its block's set). */
+/** The compiled terrain, and each texture's share of a rectangle's ground by weight, read in each cell's block's set. */
 function painted(raw: ReturnType<typeof blueprint>) {
   const terrain = rasterizeTerrain(StyleBlueprintSchema.parse(raw));
   const sets = terrain.textureSets!.plan.textures;
-  const dominant = (x: number, y: number): string => {
-    const weights = [...terrain.textureWeights.subarray((y * W + x) * 8, (y * W + x) * 8 + 8)];
-    const set = sets.blockSets[Math.floor(y / 8) * sets.blocksPerRow + Math.floor(x / 8)]!;
-    return sets.slots[set * 8 + weights.indexOf(Math.max(...weights))]!;
-  };
   const shares = (x0: number, y0: number, x1: number, y1: number) => {
-    const counts = new Map<string, number>();
-    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) counts.set(dominant(x, y), (counts.get(dominant(x, y)) ?? 0) + 1);
-    return (name: string): number => (counts.get(name) ?? 0) / ((x1 - x0) * (y1 - y0));
+    const weights = new Map<string, number>();
+    for (let y = y0; y < y1; y++) {
+      for (let x = x0; x < x1; x++) {
+        const set = sets.blockSets[Math.floor(y / 8) * sets.blocksPerRow + Math.floor(x / 8)]!;
+        for (let layer = 0; layer < 8; layer++) {
+          const name = sets.slots[set * 8 + layer]!;
+          weights.set(name, (weights.get(name) ?? 0) + terrain.textureWeights[(y * W + x) * 8 + layer]! / 15);
+        }
+      }
+    }
+    return (name: string): number => (weights.get(name) ?? 0) / ((x1 - x0) * (y1 - y0));
   };
   return { terrain, shares };
 }
@@ -103,9 +106,11 @@ describe("a texture set's palette", () => {
     // The cave's main level is 2, where most of its Zones' cells are: the mesa, west of the peak.
     expect(terrain.textureSets!.plan.textures.setCount).toBe(3);
     const mesa = shares(24, 24, 40, 64);
-    expect(mesa("AgriaDirtRough")).toBeGreaterThan(0.3);
-    expect(mesa("AgriaDirtRough")).toBeLessThan(0.85);
-    expect(mesa("Zerus5")).toBeGreaterThan(0.15);
+    // Zerus5 (tangled roots) is an accent by its catalog description, so it goes down as dabs, not washes.
+    expect(mesa("AgriaDirtRough")).toBeGreaterThan(0.8);
+    expect(mesa("AgriaDirtRough")).toBeLessThan(0.99);
+    expect(mesa("Zerus5")).toBeGreaterThan(0.02);
+    expect(mesa("Zerus5")).toBeLessThan(0.15);
   });
 
   it("paints a level above the set's main level its high band, with light touches of the variety (DL-02)", () => {
@@ -120,7 +125,7 @@ describe("a texture set's palette", () => {
 
   it("paints a Zone its list names from that set, though its level is another set's", () => {
     const shelf = shares(8, 8, 24, 16);
-    expect(shelf("BelShirGrassLightEx2") + shelf("Zerus3")).toBe(1);
+    expect(shelf("BelShirGrassLightEx2") + shelf("Zerus3")).toBeCloseTo(1, 6);
     expect(shelf("Zerus3")).toBeGreaterThan(0);
   });
 

@@ -94,7 +94,7 @@ describe("texture palette", () => {
     expect(share("MarSaraRocky")).toBeGreaterThan(0.05);
   });
 
-  it("makes a variety patch a wash, not a swap: the main texture shows through it, and most open cells hold two textures", () => {
+  it("makes a variety patch a wash, not a swap: most open cells hold two textures, and few lose the main one altogether", () => {
     let open = 0;
     let mixed = 0;
     let solid = 0;
@@ -108,7 +108,9 @@ describe("texture palette", () => {
       }
     }
     expect(mixed / open).toBeGreaterThan(0.5);
-    expect(solid / open).toBeLessThan(0.02);
+    // A wash has a core at full strength, so it still reads in dim light.
+    expect(solid / open).toBeGreaterThan(0);
+    expect(solid / open).toBeLessThan(0.1);
   });
 
   it("paints each zone its one texture, with no advice, when no Style Pack is active", () => {
@@ -187,13 +189,13 @@ describe("texture palette", () => {
     it("touches high ground for play lightly with the palette's variety", () => {
       const share = shares(terrain, textures, 42, 42, 54, 54);
       expect(share("MarSaraDarkSand")).toBeGreaterThan(0.6);
-      expect(share("MarSaraSand") + share("MarSaraRocky")).toBeLessThan(0.05);
+      expect(share("MarSaraSand") + share("MarSaraRocky")).toBeLessThan(0.15);
     });
 
     it("patches a band with its own variety at full strength", () => {
       const { painted, names } = paint(blueprint({ ...palette, high: { texture: "MarSaraDarkSand", variety: ["MarSaraBlackenedRock"] } }));
       const share = shares(painted, names, 42, 42, 54, 54);
-      // A wash on a 12-cell mesa: a twentieth of its ground by weight, where a light touch leaves under a hundredth.
+      // A wash on a 12-cell mesa: over a twentieth of its ground by weight.
       expect(share("MarSaraBlackenedRock")).toBeGreaterThan(0.05);
       expect(share("MarSaraSand") + share("MarSaraRocky")).toBe(0);
     });

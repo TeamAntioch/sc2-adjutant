@@ -20,7 +20,7 @@
 //   onto the other, so the two match exactly whatever the blurs' rounding.
 
 import { blueprintCatalog, layerSource } from "../catalog/catalog-layer.js";
-import { isKnownTexture, textureTone } from "../catalog/tileset-textures.js";
+import { isKnownTexture, textureIsAccent, textureTone } from "../catalog/tileset-textures.js";
 import { type MissionBlueprint, type PaletteBand, paletteBands, paletteTextures, type TexturePalette } from "../domain/mission-blueprint.js";
 import { blueprintPlugins, type CliffTexturePair, type StyleRuleSlots } from "../plugins/plugin-api.js";
 import { containsPoint } from "./rasterize.js";
@@ -54,15 +54,26 @@ const CRISP_REACH_CELLS = 2 * WIDE_BLUR_CELLS;
 const RAMP_BLEND_CELLS = 3;
 
 /**
- * A variety patch is a wash, not a swap: its texture fades in over this much noise above the
- * threshold, never passes this share of a texel (so the zone's own texture shows through), and is
- * thinned by a finer noise of this period (cells) and depth. Measured on the Antioch pack's
- * natural-ground Exemplar Maps, half to nine tenths of open cells hold two or more textures.
+ * A variety patch is a wash, not a swap. Its texture fades in over PATCH_FEATHER of noise above
+ * the threshold to a core at full strength, and a finer noise (MOTTLE_PERIOD cells) moves the
+ * threshold by up to MOTTLE_DEPTH, so the edge is soft and broken while the core still reads in
+ * dim light. Measured on the Antioch pack's natural-ground Exemplar Maps, half to nine tenths of
+ * open cells hold two or more textures.
+ *
+ * A texture the catalog calls an accent (pits, roots, cracks) reads at full strength long before
+ * its weight gets there, so it goes down as dabs instead: a finer noise (the period over
+ * ACCENT_SCALE), a higher threshold (by ACCENT_RARITY) and a short fade, on top of the washes.
+ *
+ * Beside a block of another texture set every patch fades out over SET_EDGE_FADE cells: a set's
+ * edge is a cut along the block line, and a wash cut there shows as a step in its own texture.
  */
 const PATCH_FEATHER = 0.25;
-const PATCH_STRENGTH = 0.85;
 const MOTTLE_PERIOD = 3;
-const MOTTLE_DEPTH = 0.5;
+const MOTTLE_DEPTH = 0.12;
+const ACCENT_SCALE = 1.5;
+const ACCENT_RARITY = 0.1;
+const ACCENT_FEATHER = 0.1;
+const SET_EDGE_FADE = 2;
 
 /** Variety patched into a zone's ground: the patch noise's period (cells), and the noise it takes to start one. */
 export type ZonePatches = { readonly layers: readonly number[]; readonly period: number; readonly threshold: number };
@@ -414,6 +425,9 @@ export function cellTextureLayers(
   const built = new Uint8Array(cells);
   const shares: (Float32Array | undefined)[] = new Array(Math.max(8, plan.layerNames.length)).fill(undefined);
   const sharesOf = (layer: number): Float32Array => (shares[layer] ??= new Float32Array(cells));
+  const accentLayers = plan.layerNames.map((name) => textureIsAccent(name));
+  const isAccent = (layer: number): boolean => accentLayers[layer] ?? false;
+  const edgeFade = plan.sets && setEdgeFade(plan.sets, width, height);
   for (let i = 0; i < cells; i++) {
     const zone = source[i]!;
     if (zone < 0) {
@@ -429,26 +443,43 @@ export function cellTextureLayers(
       const x = (i % width) + 0.5;
       const y = Math.floor(i / width) + 0.5;
       const fine = symmetricNoise((px, py) => valueNoise(px / MOTTLE_PERIOD, py / MOTTLE_PERIOD, 977), symmetry, 1)(x, y);
-      const mottle = Math.min(1, Math.max(0, 1 - MOTTLE_DEPTH * (0.5 - fine)));
-      let best = 0;
+      const fade = edgeFade ? edgeFade[i]! : 1;
+      // Washes first, sharing the ground between them when they overlap; then the accents' dabs, which take their share from everything under them.
+      let accents = 0;
+      const own: { layer: number; share: number }[] = [];
       patches.layers.forEach((layer, index) => {
-        if (layer === base) return;
-        const n = symmetricNoise((px, py) => patchNoise(px, py, index, patches.period), symmetry, 1)(x, y);
-        if (n <= patches.threshold) return;
-        const rise = Math.min(1, (n - patches.threshold) / PATCH_FEATHER);
-        const share = PATCH_STRENGTH * rise * rise * (3 - 2 * rise) * mottle;
-        sharesOf(layer)[i]! += share;
+        if (layer === base || fade === 0) return;
+        const accent = isAccent(layer);
+        const period = accent ? patches.period / ACCENT_SCALE : patches.period;
+        const n = symmetricNoise((px, py) => patchNoise(px, py, index, period), symmetry, 1)(x, y) + MOTTLE_DEPTH * fine;
+        const threshold = patches.threshold + (accent ? ACCENT_RARITY : 0);
+        if (n <= threshold) return;
+        const rise = Math.min(1, (n - threshold) / (accent ? ACCENT_FEATHER : PATCH_FEATHER));
+        const share = fade * rise * rise * (3 - 2 * rise);
+        if (accent) accents = Math.max(accents, share);
+        else total += share;
+        own.push({ layer, share: accent ? -share : share });
+      });
+      const washScale = (total > 1 ? 1 / total : 1) * (1 - accents);
+      let accentLeft = accents;
+      total = 0;
+      let best = 0;
+      // The strongest accent takes its share; a weaker one under it shows only where the stronger leaves room (none: they share one peak).
+      for (const entry of own.sort((a, b) => a.share - b.share)) {
+        let share: number;
+        if (entry.share < 0) {
+          share = Math.min(-entry.share, accentLeft);
+          accentLeft -= share;
+        } else share = entry.share * washScale;
+        if (share <= 0) continue;
+        sharesOf(entry.layer)[i]! += share;
         total += share;
         if (share > best) {
           best = share;
-          layers[i] = layer;
+          layers[i] = entry.layer;
         }
-      });
-      if (total > PATCH_STRENGTH) {
-        for (const layer of new Set(patches.layers)) if (layer !== base) sharesOf(layer)[i]! *= PATCH_STRENGTH / total;
-        best *= PATCH_STRENGTH / total;
-        total = PATCH_STRENGTH;
       }
+      total = Math.min(1, total);
       if (best < 1 - total) layers[i] = base;
     }
     sharesOf(base)[i]! += 1 - total;
@@ -519,6 +550,33 @@ function snapToSets(layers: Int8Array, plan: TexturePlan, width: number): void {
     const layer = most ?? plan.layerNames.indexOf(sets.names[set]!.find((name) => name !== "")!);
     for (const cell of off) layers[cell] = layer;
   }
+}
+
+/** How much of a patch each cell keeps beside a block of another texture set: 0 at the block line, 1 from SET_EDGE_FADE cells in. */
+function setEdgeFade(sets: PlanSets, width: number, height: number): Float32Array {
+  const fade = new Float32Array(width * height).fill(1);
+  const rows = Math.ceil(height / CELLS_PER_BLOCK);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const bx = Math.floor(x / CELLS_PER_BLOCK);
+      const by = Math.floor(y / CELLS_PER_BLOCK);
+      const set = sets.blockSets[by * sets.blocksPerRow + bx];
+      let nearest = SET_EDGE_FADE;
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          const nx = bx + dx;
+          const ny = by + dy;
+          if ((dx === 0 && dy === 0) || nx < 0 || ny < 0 || nx >= sets.blocksPerRow || ny >= rows || sets.blockSets[ny * sets.blocksPerRow + nx] === set) continue;
+          // The cell centre's distance to that block's nearest edge.
+          const gapX = dx === 0 ? 0 : dx < 0 ? x + 0.5 - bx * CELLS_PER_BLOCK : (bx + 1) * CELLS_PER_BLOCK - (x + 0.5);
+          const gapY = dy === 0 ? 0 : dy < 0 ? y + 0.5 - by * CELLS_PER_BLOCK : (by + 1) * CELLS_PER_BLOCK - (y + 0.5);
+          nearest = Math.min(nearest, Math.max(gapX, gapY));
+        }
+      }
+      fade[y * width + x] = Math.max(0, Math.min(1, (nearest - 0.5) / (SET_EDGE_FADE - 0.5)));
+    }
+  }
+  return fade;
 }
 
 /**

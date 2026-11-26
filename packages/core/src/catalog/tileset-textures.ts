@@ -15,6 +15,11 @@ export function textureTone(id: string): string | undefined {
   return getStockTexture(id)?.description?.tone;
 }
 
+/** Whether a texture is an accent by its catalog description: a bold look (pits, roots, cracks) to use in small amounts. */
+export function textureIsAccent(id: string): boolean {
+  return getStockTexture(id)?.description?.suits?.includes("accent") ?? false;
+}
+
 /** Whether a texture is man-made (its catalog kind is `built`): paving, plating, grating. */
 export function isBuiltTexture(id: string): boolean {
   return getStockTexture(id)?.description?.kind === "built";
