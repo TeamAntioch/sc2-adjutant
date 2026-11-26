@@ -230,6 +230,29 @@ describe("compile_map", () => {
     expect(await readdir(path.join(root, "..build", "Lava.SC2Map"))).toContain("MapScript.galaxy");
   });
 
+  it("with copy, compiles into a copy of the committed package, keeping its Kept Content and leaving it and its record alone", async () => {
+    const root = await copyOf("field");
+    const client = await connect(root);
+    await client.callTool({ name: "compile_map", arguments: { mission: "lava-field" } });
+    const mission = path.join(root, "missions", "lava-field");
+    const objects = path.join(mission, "Lava-Field.SC2Map", "Objects");
+    const kept = `    <ObjectDoodad Id="4444" Position="10,10,8" Rotation="0" Scale="1,1,1" Type="Rock"/>`;
+    await writeFile(objects, (await readFile(objects, "utf8")).replace("</PlacedObjects>", `${kept}\n</PlacedObjects>`));
+    const committed = [await readFile(objects, "utf8"), await readFile(path.join(mission, "compile-record.json"), "utf8")];
+
+    const reply = await client.callTool({ name: "compile_map", arguments: { mission: "lava-field", outputDir: "missions/lava-field/output/1/Lava-Field-a-b.SC2Map", copy: true } });
+    const copy = path.join(mission, "output", "1", "Lava-Field-a-b.SC2Map");
+    expect(reply.isError).toBeFalsy();
+    expect(reply.structuredContent).toMatchObject({ outputDir: copy });
+    expect(await readFile(path.join(copy, "Objects"), "utf8")).toContain(kept);
+    expect(await readdir(path.join(mission, "output", "1"))).toEqual(["Lava-Field-a-b.SC2Map", "Lava-Field-a-b.compile-record.json", "Lava-Field-a-b.copy.json"]);
+    expect([await readFile(objects, "utf8"), await readFile(path.join(mission, "compile-record.json"), "utf8")]).toEqual(committed);
+
+    const bare = await client.callTool({ name: "compile_map", arguments: { mission: "lava-field", copy: true } });
+    expect(bare.isError).toBe(true);
+    expect(text(bare)).toMatch(/copy needs an outputDir/);
+  });
+
   it("refuses an output folder outside the Workspace", async () => {
     const root = await copyOf("field");
     const client = await connect(root);

@@ -1,11 +1,12 @@
-// The compile-map CLI's arguments (compile-map.ts): the Blueprint, an optional output folder, and
-// the author's decisions on Compiled Content changed in the Editor (src/map/editor-changes.ts).
+// The compile-map CLI's arguments (compile-map.ts): the Blueprint, an optional output folder (with
+// --copy, a copy of the committed package to compile into), and the author's decisions on Compiled Content changed in the Editor (src/map/editor-changes.ts).
 
 import { type EditorDecisions, editorDecisions } from "../map/editor-changes.js";
 
-export const COMPILE_MAP_USAGE = "Usage: compile-map <blueprint.json> [<output-dir>] [--keep <entry>]... [--discard <entry>]... [--keep-all | --discard-all]";
+export const COMPILE_MAP_USAGE = "Usage: compile-map <blueprint.json> [<output-dir> [--copy]] [--keep <entry>]... [--discard <entry>]... [--keep-all | --discard-all]";
 
-export type CompileMapArgs = { readonly blueprintPath: string; readonly outputDir?: string; readonly decisions: EditorDecisions };
+/** `copy`: compile into a copy of the Mission's committed package at the output folder (compileMission's `copy`). */
+export type CompileMapArgs = { readonly blueprintPath: string; readonly outputDir?: string; readonly copy?: true; readonly decisions: EditorDecisions };
 
 /** The positional arguments and the author's decisions (--keep, --discard, --keep-all, --discard-all), shared with compile-mod. */
 export function parseDecisionArgs(argv: readonly string[], usage: string): { readonly positional: readonly string[]; readonly decisions: EditorDecisions } {
@@ -34,8 +35,13 @@ export function parseDecisionArgs(argv: readonly string[], usage: string): { rea
 }
 
 export function parseCompileMapArgs(argv: readonly string[]): CompileMapArgs {
-  const { positional, decisions } = parseDecisionArgs(argv, COMPILE_MAP_USAGE);
+  const copy = argv.includes("--copy");
+  const { positional, decisions } = parseDecisionArgs(
+    argv.filter((arg) => arg !== "--copy"),
+    COMPILE_MAP_USAGE,
+  );
   const [blueprintPath, outputDir] = positional;
   if (!blueprintPath || positional.length > 2) throw new Error(COMPILE_MAP_USAGE);
-  return { blueprintPath, ...(outputDir ? { outputDir } : {}), decisions };
+  if (copy && !outputDir) throw new Error(`--copy needs an output folder, the copy of the Mission's Map Package to compile into. ${COMPILE_MAP_USAGE}`);
+  return { blueprintPath, ...(outputDir ? { outputDir } : {}), ...(copy ? { copy: true as const } : {}), decisions };
 }

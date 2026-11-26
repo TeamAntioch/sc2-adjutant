@@ -109,7 +109,7 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
       title: "Compile a Mission",
       annotations: DESTRUCTIVE,
       description:
-        "Compiles a Mission's Blueprint into a Map Package the Galaxy Editor opens, with its terrain, objects, regions and triggers. By default it compiles in place, into the Mission's committed package beside its Blueprint: the compile record there (compile-record.json) lists what the last compile wrote, which is replaced, and everything else in the package (Kept Content, such as the author's own doodads, units, regions and strings) is left byte for byte. Kept triggers stay beside the compiled ones, their XML and Galaxy as the Editor wrote them. When the author has changed Compiled Content in the Editor since the last compile, the compile stops, writing nothing, and lists each change by entry (object:<id>, region:<id>, trigger:<id>, string:<file>:<key>, file:<path>): run sync first for what it brings back (moved Anchors, redrawn regions), and for the rest ask the author whether to keep each one (it stays as the Editor left it and leaves the record, as Kept Content the Blueprint no longer writes) or discard it (overwritten), then compile again with keep, discard, keepAll or discardAll. A Screenplay line with no voice file (<sound id>.ogg or .wav in the Screenplay's audioDir) gets a placeholder at its final path: spoken when the machine's Host Adapter can speak, silent otherwise. Voice files go into the package as .ogg, a .wav encoded with ffmpeg, unless screenplay.script.voiceFormat is wav. Returns where it wrote the package and any warnings for the author. Refuses, writing nothing, while the Editor has the package open (when the machine's Host Adapter can tell): ask the author to close the map in the Editor without saving, then compile again. With refresh, an open map is instead closed from the Editor's File menu (never saved, and refused while the Editor's title shows unsaved changes), the package is compiled, and the same map is opened again; it needs the Editor in front, so it refuses when the author is in another app.",
+        "Compiles a Mission's Blueprint into a Map Package the Galaxy Editor opens, with its terrain, objects, regions and triggers. By default it compiles in place, into the Mission's committed package beside its Blueprint: the compile record there (compile-record.json) lists what the last compile wrote, which is replaced, and everything else in the package (Kept Content, such as the author's own doodads, units, regions and strings) is left byte for byte. Kept triggers stay beside the compiled ones, their XML and Galaxy as the Editor wrote them. When the author has changed Compiled Content in the Editor since the last compile, the compile stops, writing nothing, and lists each change by entry (object:<id>, region:<id>, trigger:<id>, string:<file>:<key>, file:<path>): run sync first for what it brings back (moved Anchors, redrawn regions), and for the rest ask the author whether to keep each one (it stays as the Editor left it and leaves the record, as Kept Content the Blueprint no longer writes) or discard it (overwritten), then compile again with keep, discard, keepAll or discardAll. Any other outputDir is written whole from the Blueprint, without Kept Content, and is refused for a Mission with Kept terrain or Kept References; with copy, outputDir instead gets a fresh copy of the committed package, compiled into as in place, Kept Content and all, while the committed package and its record stay as they were: for versions to compare side by side, such as a Still Review's. A Screenplay line with no voice file (<sound id>.ogg or .wav in the Screenplay's audioDir) gets a placeholder at its final path: spoken when the machine's Host Adapter can speak, silent otherwise. Voice files go into the package as .ogg, a .wav encoded with ffmpeg, unless screenplay.script.voiceFormat is wav. Returns where it wrote the package and any warnings for the author. Refuses, writing nothing, while the Editor has the package open (when the machine's Host Adapter can tell): ask the author to close the map in the Editor without saving, then compile again. With refresh, an open map is instead closed from the Editor's File menu (never saved, and refused while the Editor's title shows unsaved changes), the package is compiled, and the same map is opened again; it needs the Editor in front, so it refuses when the author is in another app.",
       inputSchema: {
         mission: MissionSchema,
         outputDir: z
@@ -117,14 +117,21 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
           .min(1)
           .optional()
           .describe(
-            "Where to write the Map Package: a folder inside the Workspace, relative to its root, written whole. By default the Mission's committed package, <mission folder>/<Name>.SC2Map, compiled in place",
+            "Where to write the Map Package: a folder inside the Workspace, relative to its root, written whole (or, with copy, a copy of the committed package). By default the Mission's committed package, <mission folder>/<Name>.SC2Map, compiled in place",
+          ),
+        copy: z
+          .boolean()
+          .optional()
+          .describe(
+            "Compile into a copy of the Mission's committed package at outputDir (a .SC2Map folder, such as <mission folder>/output/<round>/<Name>-<label>.SC2Map) instead of writing it whole: the committed package and its compile record are copied there, the copy's record as <Name>-<label>.compile-record.json beside it, and the compile merges into the copy as it would in place, so Kept Content and Kept terrain stay and the Editor-changes stop applies, while the committed package and its record are left byte for byte. An earlier copy of the same Mission at outputDir is replaced with a fresh one; a folder holding anything else is refused",
           ),
         refresh: z.boolean().optional().describe("Close the map in the Editor first when the author has it open and its document has no unsaved changes, compile, then open it again, instead of refusing"),
         ...DECISION_INPUTS,
       },
       outputSchema: { outputDir: z.string(), warnings: z.array(z.string()) },
     },
-    async ({ mission, outputDir, refresh, ...choices }) => {
+    async ({ mission, outputDir, copy, refresh, ...choices }) => {
+      if (copy && !outputDir) return ctx.fail("copy needs an outputDir, the folder to copy the Mission's committed Map Package to and compile into, such as missions/<mission>/output/1/<Name>-<label>.SC2Map");
       const workspace = await ctx.workspace();
       const blueprintPath = await missionBlueprintPath(workspace, mission);
       const target = outputDir ? await insideWorkspace(workspace.root, outputDir) : await missionMapPackage(blueprintPath);
@@ -139,7 +146,7 @@ export function registerCompileTools(server: McpServer, ctx: CallContext): void 
       if (open) return ctx.fail(open.text);
       let compiled;
       try {
-        compiled = await oneAtATime(await realPathOf(target), () => compileMission(workspace, blueprintPath, target, { host: ctx.host, decisions: editorDecisions(choices) }));
+        compiled = await oneAtATime(await realPathOf(target), () => compileMission(workspace, blueprintPath, target, { host: ctx.host, decisions: editorDecisions(choices), ...(copy ? { copy } : {}) }));
       } catch (error) {
         // A compile that stops writes nothing: the author's map goes back as it was.
         if (closed) await reopenMap(ctx.host, target);

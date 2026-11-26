@@ -19,6 +19,11 @@ describe("compile-map's arguments", () => {
     expect(parseCompileMapArgs(["b.json"])).toEqual({ blueprintPath: "b.json", decisions: {} });
   });
 
+  it("take --copy with an output folder, to compile into a copy of the committed package", () => {
+    expect(parseCompileMapArgs(["b.json", "out/1/A.SC2Map", "--copy", "--keep-all"])).toEqual({ blueprintPath: "b.json", outputDir: "out/1/A.SC2Map", copy: true, decisions: { keep: "all" } });
+    expect(() => parseCompileMapArgs(["b.json", "--copy"])).toThrow(/--copy needs an output folder/);
+  });
+
   it("refuse --keep-all with --discard-all, a flag with no entry, an unknown flag, and no Blueprint", () => {
     expect(() => parseCompileMapArgs(["b.json", "--keep-all", "--discard-all"])).toThrow(/--keep-all or --discard-all .*not both/);
     expect(() => parseCompileMapArgs(["b.json", "--keep"])).toThrow(/--keep needs an entry/);
