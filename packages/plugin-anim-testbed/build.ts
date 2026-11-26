@@ -22,7 +22,7 @@ import {
   writeMapScript,
 } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
-import { MOMENT_ATS, MOMENT_DOS, MOMENT_FROMS, type MomentDo, type Spec, type SpecMoment, type SpecUnit, readSpec } from "./spec.ts";
+import { ELEMENT_KINDS, type Spec, type SpecElement, type SpecUnit, readSpec } from "./spec.ts";
 
 /** The runtime the spec's data is put into. */
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -32,13 +32,8 @@ export const INIT_FUNC = "Tb_Init";
 /** The bank a --capture build's tour announces its stops in. */
 export const TOUR_BANK = "AnimTestbed";
 
-const DO_CODE: Record<MomentDo | "none", number> = { none: 0, play: 1, kill: 2 };
-const AT_CODE = { unit: 0, target: 1 } as const;
-const BASE = { start: 0, strike: 1, land: 2 } as const;
-const CUE_SOUND = 0;
-const CUE_ACTOR = 1;
-const CUE_TARGET = 2;
-const CUE_EFFECT = 3;
+const KIND_CODE = { anim: 0, sound: 1, effect: 2, actor: 3, kill: 4 } as const;
+const ON_CODE = { unit: 0, target: 1, child: 2 } as const;
 /** Said of a spelling kept for several units, abilities and actor events, which aren't built yet. */
 const NOT_BUILT = "not built yet (#96)";
 
@@ -69,86 +64,74 @@ export type BuildResult = {
   readonly script?: string;
   readonly name: string;
   readonly built: boolean;
-  readonly counts: { readonly units: number; readonly moments: number; readonly variations: number; readonly cues: number; readonly files: number };
+  readonly counts: { readonly units: number; readonly moments: number; readonly variations: number; readonly elements: number; readonly files: number };
 };
 
 // ---------------------------------------------------------------------------------------------------
-// Cues and times
+// Elements
 
-type Cue = { kind: number; text: string; child: string; base: number; at: number; stopBase: number; stop: number };
+export type ElementKind = keyof typeof KIND_CODE;
+/** An element as the map plays it: what, where, when. `stop` is -1 for none. */
+export type Element = { kind: ElementKind; what: string; on: keyof typeof ON_CODE; child: string; at: number; stop: number; muted: boolean };
 
-/** '1.2' gives the default base and 1.2; 'strike' (or 'hit') the strike and 0; 'land-0.1' the land and -0.1. */
-export function parseTime(text: string, defaultBase: number): { base: number; at: number } | undefined {
-  const t = text.replace(/\s+/g, "");
-  if (/^-?\d*\.?\d+$/.test(t)) return { base: defaultBase, at: Number(t) };
-  const m = /^(start|strike|hit|land)([+-]\d*\.?\d+)?$/.exec(t);
-  if (!m) return undefined;
-  const name = m[1] === "hit" ? "strike" : (m[1] as keyof typeof BASE);
-  return { base: BASE[name], at: Number(m[2] ?? 0) };
-}
+const ID_RE = /^[A-Za-z_][\w]*$/;
 
-/** Whether a time is `on <event>`, the spelling kept for actor events. */
-const isEventTime = (text: string | undefined): boolean => text !== undefined && /^\s*on\s/.test(text);
-
-/** A cue string `<what>[@<when>][~<stop>]`, or a problem with it. `unitKeys` are the spec's units, whose keys are kept as cue targets. */
-export function parseCue(cue: string, defaultBase: number, unitKeys: ReadonlySet<string> = new Set()): { cue?: Cue; problem?: string } {
-  const m = /^(.*?)(?:@([^@~]*))?(?:~([^@~]*))?$/.exec(cue)!;
-  const what = m[1]!.trim();
-  if (isEventTime(m[2]) || isEventTime(m[3])) return { problem: `"${cue}": a time "on <event>" is kept for actor events, ${NOT_BUILT}` };
-  const at = parseTime(m[2] ?? "0", defaultBase);
-  if (!at) return { problem: `"${m[2]}" in "${cue}" is not a time (seconds, strike, land, or strike+0.2)` };
-  let stopBase = -1;
-  let stop = 0;
-  if (m[3] !== undefined) {
-    const s = parseTime(m[3], defaultBase);
-    if (!s) return { problem: `"${m[3]}" in "${cue}" is not a time (seconds, strike, land, or strike+0.2)` };
-    stopBase = s.base;
-    stop = s.at;
+/**
+ * An element of a timeline, or the problem with it: exactly one kind, a time in seconds, a stop only on
+ * a sound or an animation and after its time, and `on` where the kind allows it. `unitKeys` are the
+ * spec's units, whose keys are kept as `on` values for several units (#96).
+ */
+export function readElement(el: SpecElement, unitKeys: ReadonlySet<string> = new Set()): { element?: Element; problem?: string } {
+  const kinds = ELEMENT_KINDS.filter((k) => el[k] !== undefined);
+  if (kinds.includes("order")) return { problem: `"order" is kept for a unit's abilities, ${NOT_BUILT}` };
+  if (kinds.length !== 1) return { problem: kinds.length ? `it is ${kinds.join(" and ")}: give one of ${ELEMENT_KINDS.slice(0, 5).join(", ")}` : `it says no kind: give one of ${ELEMENT_KINDS.slice(0, 5).join(", ")}` };
+  const kind = kinds[0] as ElementKind;
+  if (typeof el.at === "string") return { problem: /^\s*on\s/.test(el.at) ? `at "${el.at}" is kept for actor events, ${NOT_BUILT}` : `at "${el.at}" is not a time: give seconds from Play (strike and land are only shown now)` };
+  const at = el.at;
+  let stop = -1;
+  if (el.stop !== undefined) {
+    if (kind !== "sound" && kind !== "anim") return { problem: `a ${kind} has no stop: only a sound (its fade) or an animation (its clear) does` };
+    if (el.stop <= at) return { problem: `its stop, ${el.stop}, is not after its time, ${at}` };
+    stop = el.stop;
   }
-  const actor = /^(actor|target|effect)(?::(\S+))?\s+(.+)$/.exec(what);
-  if (actor && stopBase >= 0) return { problem: `"${cue}" has a stop (~), which only a sound can have` };
-  if (actor?.[1] === "effect") {
-    const id = actor[3]!.trim();
-    if (actor[2] !== undefined || !/^[A-Za-z_][\w]*$/.test(id)) return { problem: `"${cue}" is not "effect <CEffect id>"` };
-    return { cue: { kind: CUE_EFFECT, text: id, child: "", base: at.base, at: at.at, stopBase, stop } };
+  const on = el.on?.trim() ?? "unit";
+  let where: Element["on"] = "unit";
+  let child = "";
+  if (on === "target") where = "target";
+  else if (on !== "unit") {
+    if (unitKeys.has(on)) return { problem: `on "${on}", a unit's key, is kept for several units, ${NOT_BUILT}` };
+    if (kind !== "actor") return { problem: `on "${on}": only an actor message goes to a child actor` };
+    if (!ID_RE.test(on)) return { problem: `on "${on}" is neither unit, target nor an actor id` };
+    where = "child";
+    child = on;
   }
-  if (actor) return { cue: { kind: actor[1] === "actor" ? CUE_ACTOR : CUE_TARGET, text: actor[3]!.trim(), child: actor[2] ?? "", base: at.base, at: at.at, stopBase, stop } };
-  const keyed = /^([^\s:]+)(?::\S+)?\s/.exec(what);
-  if (keyed && unitKeys.has(keyed[1]!)) return { problem: `"${cue}": a unit's key as a cue's target is kept for several units, ${NOT_BUILT}` };
-  if (!/^[A-Za-z_][\w]*$/.test(what)) return { problem: `"${cue}" is neither a CSound id, "actor <message>", "target <message>" nor "effect <id>"` };
-  return { cue: { kind: CUE_SOUND, text: what, child: "", base: at.base, at: at.at, stopBase, stop } };
+  if (where === "target" && kind !== "sound" && kind !== "actor") return { problem: `a ${kind} can't go on the target: ${kind === "effect" ? "an effect always goes from the unit at the target" : "it is the unit's"}` };
+  const what = kind === "kill" ? "" : String(el[kind]).trim();
+  if ((kind === "sound" || kind === "effect") && !ID_RE.test(what)) return { problem: `"${what}" is not a ${kind === "sound" ? "CSound" : "CEffect"} id` };
+  return { element: { kind, what, on: where, child, at, stop, muted: el.muted === true } };
 }
 
-// ---------------------------------------------------------------------------------------------------
-// Moments
-
-export type Moment = { do: MomentDo | "none"; at: keyof typeof AT_CODE; from: keyof typeof BASE };
-
-/** A moment's do, at and from, or the problems with them. `unitKeys` are kept as `at` values for several units. */
-export function readMoment(name: string, def: SpecMoment, unitKeys: ReadonlySet<string>): { moment?: Moment; problems: string[] } {
-  const problems: string[] = [];
-  const doText = def.do?.trim();
-  if (doText !== undefined && /^order(\s|$)/.test(doText)) problems.push(`moment ${name}: do "${doText}" is kept for a unit's abilities, ${NOT_BUILT}`);
-  else if (doText === "hit") problems.push(`moment ${name}: do "hit" is gone: give the unit a hit animation with "clear", and play it with do "play"`);
-  else if (doText !== undefined && !(MOMENT_DOS as readonly string[]).includes(doText)) problems.push(`moment ${name}: do "${doText}" is not one of ${MOMENT_DOS.join(", ")} (or none, for the cues alone)`);
-  const at = def.at.trim();
-  if (unitKeys.has(at) && !(MOMENT_ATS as readonly string[]).includes(at)) problems.push(`moment ${name}: at "${at}", a unit's key, is kept for several units, ${NOT_BUILT}`);
-  else if (!(MOMENT_ATS as readonly string[]).includes(at)) problems.push(`moment ${name}: at "${at}" is not one of ${MOMENT_ATS.join(", ")}`);
-  const from = def.from.trim();
-  if (isEventTime(from)) problems.push(`moment ${name}: from "${from}" is kept for actor events, ${NOT_BUILT}`);
-  else if (!(MOMENT_FROMS as readonly string[]).includes(from)) problems.push(`moment ${name}: from "${from}" is not one of ${MOMENT_FROMS.join(", ")}`);
-  else if (from !== "start" && doText !== "play") problems.push(`moment ${name}: from "${from}" is an animation's time, so it needs do "play"`);
-  if (problems.length) return { problems };
-  return { moment: { do: (doText as MomentDo | undefined) ?? "none", at: at as Moment["at"], from: from as Moment["from"] }, problems };
-}
-
-/** What a variation holds, for its dropdown entry: `[sound]`, `[visual]`, `[anim]` or a mix. */
-export function variationTags(cues: readonly Cue[], anim: boolean): string {
+/** What a variation holds, for its dropdown entry: `[anim + sound + visual]` or a part of it. */
+export function variationTags(elements: readonly Element[]): string {
   const tags: string[] = [];
-  if (cues.some((cue) => cue.kind === CUE_SOUND)) tags.push("sound");
-  if (cues.some((cue) => cue.kind !== CUE_SOUND)) tags.push("visual");
-  if (anim) tags.push("anim");
+  if (elements.some((e) => e.kind === "anim")) tags.push("anim");
+  if (elements.some((e) => e.kind === "sound")) tags.push("sound");
+  if (elements.some((e) => e.kind === "effect" || e.kind === "actor" || e.kind === "kill")) tags.push("visual");
   return tags.length ? `[${tags.join(" + ")}]` : "";
+}
+
+/** The moments' names in dropdown order: the spec's list, else the order the units first name them. */
+export function momentNames(spec: Pick<Spec, "moments" | "units">): { names: string[]; problems: string[] } {
+  const named = [...new Set(spec.units.flatMap((u) => Object.keys(u.moments)))];
+  if (!spec.moments) return { names: named, problems: [] };
+  const problems: string[] = [];
+  const seen = new Set<string>();
+  for (const name of spec.moments) {
+    if (seen.has(name)) problems.push(`moments: "${name}" is listed twice`);
+    seen.add(name);
+  }
+  for (const name of named) if (!seen.has(name)) problems.push(`moments: a unit has moment "${name}", which the list leaves out`);
+  return { names: [...seen], problems };
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -305,7 +288,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   const folder = path.dirname(absSpec);
   const read = readSpec(await readFile(absSpec, "utf8"));
   const name0 = path.basename(absSpec, path.extname(absSpec));
-  const empty = { units: 0, moments: 0, variations: 0, cues: 0, files: 0 };
+  const empty = { units: 0, moments: 0, variations: 0, elements: 0, files: 0 };
   if (!read.spec) {
     report.errors.push(...read.problems);
     return { report, outMap: "", scriptPath: "", name: name0, built: false, counts: empty };
@@ -544,86 +527,77 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     return undefined;
   };
 
-  // ---- Moments, animations, variations, cues
-  const moments = Object.entries(spec.moments);
-  const momentIndex = new Map<string, { index: number; moment: Moment }>();
+  // ---- Moments, animations, variations, elements
+  const listed = momentNames(spec);
+  report.errors.push(...listed.problems);
+  const moments = listed.names;
+  const momentIndex = new Map(moments.map((name, i) => [name, i]));
   const data: string[] = [];
-  for (const [i, [name, def]] of moments.entries()) {
-    const { moment, problems } = readMoment(name, def, keys);
-    report.errors.push(...problems);
-    // A moment with a problem stands in as the cues alone, so its variations are still checked.
-    const m = moment ?? { do: "none", at: "unit", from: "start" };
-    if (m.at === "target" && !target) report.notes.push(`moment ${name}: its sounds go to the target, but the spec has none, so they play at the point in front of the unit`);
-    momentIndex.set(name, { index: i, moment: m });
-    data.push(`    Tb_M(${i}, ${gstr(name)}, ${DO_CODE[m.do]}, ${AT_CODE[m.at]}, ${BASE[m.from]});`);
+  for (const [i, name] of moments.entries()) {
+    data.push(`    Tb_M(${i}, ${gstr(name)});`);
+    if (!spec.units.some((u) => (u.moments[name]?.variations.length ?? 0) > 0)) report.warnings.push(`moment ${name}: no unit has a variation for it`);
   }
   let maxAnims = 1;
-  let maxCuesVar = 1;
+  let maxElements = 1;
   let nv = 0;
-  let nq = 0;
+  let ne = 0;
   for (const [ui, unit] of spec.units.entries()) {
     const clips = clipsOf.get(ui);
     if (unit.idle) checkAnim(unit.idle, `${unit.key} idle`, clips);
     const unitId = unit.new?.id ?? unit.unit!;
     data.push(`    Tb_U(${ui}, ${gstr(unit.key)}, ${gstr(unitId)}, ${gfix(unit.reach)}, ${gstr(unit.idle ?? "")}, ${gfix(unit.respawn)});`);
     const animNames = Object.keys(unit.animations);
-    /** An animation's place in the unit's list, or -1 with an error. */
-    const animAt = (name: string, where: string): number => {
-      const ai = animNames.indexOf(name);
-      if (ai < 0) report.errors.push(`${where}: ${unit.key} has no animation "${name}"${animNames.length ? ` (it has ${animNames.join(", ")})` : ""}`);
-      return ai;
-    };
     maxAnims = Math.max(maxAnims, animNames.length);
     for (const [ai, [name, anim]] of Object.entries(unit.animations).entries()) {
       const secs = checkAnim(anim.play, `${unit.key} animation "${name}"`, clips);
       const land = anim.land ?? anim.strike;
-      const length = anim.length ?? secs ?? Math.max(land, anim.clear) + 1;
-      data.push(`    Tb_A(${ui}, ${ai}, ${gstr(name)}, ${gstr(anim.play)}, ${gfix(anim.strike)}, ${gfix(land)}, ${gfix(length)}, ${gfix(anim.clear)});`);
+      const length = anim.length ?? secs ?? Math.max(land, 0) + 1;
+      data.push(`    Tb_A(${ui}, ${ai}, ${gstr(name)}, ${gstr(anim.play)}, ${gfix(anim.strike)}, ${gfix(land)}, ${gfix(length)});`);
     }
-    for (const name of Object.keys(unit.moments)) if (!momentIndex.has(name)) report.errors.push(`${unit.key}: moment "${name}", which the spec doesn't define`);
-    for (const [momentName, info] of momentIndex) {
-      const part = unit.moments[momentName];
-      const plays = info.moment.do === "play";
-      if (part && plays && animNames.length === 0) report.errors.push(`${unit.key}: moment ${momentName} plays an animation, but ${unit.key} has none`);
-      if (part?.anim !== undefined && !plays) report.errors.push(`${unit.key} ${momentName}: an "anim", but the moment plays none`);
-      const momentAnim = part?.anim !== undefined ? Math.max(0, animAt(part.anim, `${unit.key} ${momentName}`)) : 0;
-      data.push(`    Tb_UM(${ui}, ${info.index}, ${momentAnim});`);
-      const variations = part?.variations ?? [];
-      const defaultBase = BASE[info.moment.from];
-      if (variations.filter((v) => v.pick).length > 1) report.warnings.push(`${unit.key} ${momentName}: more than one variation is the pick; the dropdown starts on the last`);
-      for (const [vi, variation] of variations.entries()) {
+    for (const [momentName, part] of Object.entries(unit.moments)) {
+      const mi = momentIndex.get(momentName);
+      if (mi === undefined) continue;
+      if (part.variations.filter((v) => v.pick).length > 1) report.warnings.push(`${unit.key} ${momentName}: more than one variation is the pick; the dropdown starts on the last`);
+      for (const [vi, variation] of part.variations.entries()) {
         const where = `${unit.key} ${momentName} ${vi + 1}`;
-        if (variation.anim !== undefined && !plays) report.errors.push(`${where}: an "anim", but moment ${momentName} plays none`);
-        const vAnim = variation.anim !== undefined ? animAt(variation.anim, where) : -1;
-        const cues: Cue[] = [];
-        for (const text of variation.cues) {
-          const { cue, problem } = parseCue(text, defaultBase, keys);
-          if (!cue) {
-            report.errors.push(`${where}: ${problem}`);
+        if (variation.elements.length === 0) report.warnings.push(`${where}: no elements, so Play does nothing`);
+        const elements: Element[] = [];
+        for (const [ei, el] of variation.elements.entries()) {
+          const at = `${where}, element ${ei + 1}`;
+          const { element, problem } = readElement(el, keys);
+          if (!element) {
+            report.errors.push(`${at}: ${problem}`);
             continue;
           }
-          if (!plays && (cue.base !== BASE.start || cue.stopBase > BASE.start)) report.warnings.push(`${where}: "${text}" is timed from an animation, but moment ${momentName} plays none (the selected animation's times are used)`);
-          if (cue.kind === CUE_SOUND) {
-            if (!hasSound(cue.text)) report.errors.push(`${where}: no CSound "${cue.text}" in the game or the Workspace`);
-          } else if (cue.kind === CUE_EFFECT) {
-            if (!own.ids.effect.has(cue.text)) report.warnings.push(`${where}: "${cue.text}" is not one of the spec's or the Workspace's effects; check it is the game's (core can't list the game's effects)`);
-          } else {
-            if (cue.kind === CUE_TARGET && !target) report.errors.push(`${where}: "${text}" goes to the target, but the spec has none`);
-            if (cue.child && !own.ids.actor.has(cue.child)) report.warnings.push(`${where}: the child actor "${cue.child}" is not one of the spec's or the Workspace's actors; check it is the game's`);
-            const words = cue.text.split(/\s+/);
-            if (words[0]?.toLowerCase() === "create" && words[1] && !own.ids.actor.has(words[1])) report.warnings.push(`${where}: "${words[1]}" is not one of the spec's or the Workspace's actors; check it is the game's`);
-            if (cue.kind === CUE_ACTOR && !cue.child) checkAnim(cue.text, where, clips);
+          if (element.kind === "anim" && !animNames.includes(element.what)) {
+            report.errors.push(`${at}: ${unit.key} has no animation "${element.what}"${animNames.length ? ` (it has ${animNames.join(", ")})` : ""}`);
+            continue;
           }
-          cues.push(cue);
+          if (element.kind === "sound" && !hasSound(element.what)) report.errors.push(`${at}: no CSound "${element.what}" in the game or the Workspace`);
+          if (element.kind === "effect" && !own.ids.effect.has(element.what)) report.warnings.push(`${at}: "${element.what}" is not one of the spec's or the Workspace's effects; check it is the game's (core can't list the game's effects)`);
+          if (element.on === "target" && !target) {
+            if (element.kind === "actor") report.errors.push(`${at}: it goes on the target, but the spec has none`);
+            else report.notes.push(`${at}: it goes on the target, but the spec has none, so it plays at the point in front of the unit`);
+          }
+          if (element.kind === "actor") {
+            if (element.child && !own.ids.actor.has(element.child)) report.warnings.push(`${at}: the child actor "${element.child}" is not one of the spec's or the Workspace's actors; check it is the game's`);
+            const words = element.what.split(/\s+/);
+            if (words[0]?.toLowerCase() === "create" && words[1] && !own.ids.actor.has(words[1])) report.warnings.push(`${at}: "${words[1]}" is not one of the spec's or the Workspace's actors; check it is the game's`);
+            if (element.on === "unit") checkAnim(element.what, at, clips);
+          }
+          elements.push(element);
         }
+        if (elements.filter((e) => e.kind === "kill").length > 1) report.errors.push(`${where}: more than one kill`);
         const note = variation.note ?? "";
-        const label = variation.label ?? (note ? (note.length > 40 ? `${note.slice(0, 40)}…` : note) : variation.cues.join(" ").slice(0, 40));
-        const tags = variationTags(cues, variation.anim !== undefined);
-        data.push(`    Tb_V(${ui}, ${info.index}, ${gstr(tags ? `${label}  ${tags}` : label)}, ${gstr(note)}, ${variation.pick ? "true" : "false"}, ${vAnim});`);
+        const label = variation.label ?? (note ? (note.length > 40 ? `${note.slice(0, 40)}…` : note) : elements.map((e) => e.what || e.kind).join(" ").slice(0, 40));
+        data.push(`    Tb_V(${ui}, ${mi}, ${gstr(label)}, ${gstr(note)}, ${variation.pick ? "true" : "false"});`);
         nv++;
-        maxCuesVar = Math.max(maxCuesVar, cues.length);
-        for (const cue of cues) data.push(`    Tb_Q(${cue.kind}, ${gstr(cue.text)}, ${gstr(cue.child)}, ${cue.base}, ${gfix(cue.at)}, ${cue.stopBase}, ${gfix(cue.stop)});`);
-        nq += cues.length;
+        maxElements = Math.max(maxElements, elements.length);
+        for (const e of elements) {
+          const ai = e.kind === "anim" ? animNames.indexOf(e.what) : -1;
+          data.push(`    Tb_E(${KIND_CODE[e.kind]}, ${gstr(e.what)}, ${ai}, ${ON_CODE[e.on]}, ${gstr(e.child)}, ${gfix(e.at)}, ${gfix(e.stop)}, ${e.muted ? "true" : "false"});`);
+        }
+        ne += elements.length;
       }
     }
   }
@@ -634,18 +608,16 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     if (spec.tour.length === 0) report.errors.push("the spec has no tour to capture");
     for (const [ti, stop] of spec.tour.entries()) {
       const ui = spec.units.findIndex((u) => u.key === stop.unit);
-      const info = momentIndex.get(stop.moment);
-      if (ui < 0 || !info) {
+      const mi = momentIndex.get(stop.moment);
+      if (ui < 0 || mi === undefined) {
         report.errors.push(`tour stop ${ti + 1}: ${ui < 0 ? `no unit "${stop.unit}"` : `no moment "${stop.moment}"`}`);
         continue;
       }
       const unit = spec.units[ui]!;
-      const ai = stop.anim === undefined ? -1 : Object.keys(unit.animations).indexOf(stop.anim);
-      if (stop.anim !== undefined && ai < 0) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no animation "${stop.anim}"`);
       const variations = unit.moments[stop.moment]?.variations ?? [];
       const vi = stop.variation !== undefined ? stop.variation - 1 : Math.max(0, variations.findLastIndex((v) => v.pick));
       if (stop.variation !== undefined && vi >= variations.length) report.errors.push(`tour stop ${ti + 1}: ${unit.key} has no ${stop.moment} variation ${stop.variation}`);
-      data.push(`    Tb_T(${ui}, ${info.index}, ${ai}, ${variations.length ? vi : -1}, ${gfix(stop.hold)});`);
+      data.push(`    Tb_T(${ui}, ${mi}, ${variations.length ? vi : -1}, ${gfix(stop.hold)});`);
       ntour++;
     }
   }
@@ -666,8 +638,9 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     `const int TB_NA = ${maxAnims};`,
     `const int TB_NM = ${Math.max(1, moments.length)};`,
     `const int TB_NV = ${Math.max(1, nv)};`,
-    `const int TB_NQ = ${Math.max(1, nq)};`,
-    `const int TB_NT = ${maxCuesVar + 2};`,
+    `const int TB_NE = ${Math.max(1, ne)};`,
+    `const int TB_NEV = ${maxElements};`,
+    `const int TB_NT = ${maxElements * 3};`,
     `const int TB_NTOUR = ${Math.max(1, ntour)};`,
     `const string TB_TOUR_BANK = ${gstr(TOUR_BANK)};`,
     `const fixed TB_X = ${gfix(stage.at[0])};`,
@@ -703,7 +676,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
 
   // A message repeated (one site op on several actors) is said once.
   for (const list of [report.errors, report.warnings, report.notes]) list.splice(0, list.length, ...new Set(list));
-  const counts = { units: spec.units.length, moments: moments.length, variations: nv, cues: nq, files: copies.length };
+  const counts = { units: spec.units.length, moments: moments.length, variations: nv, elements: ne, files: copies.length };
   if (report.errors.length || options.check) return { report, outMap, scriptPath, script, name, built: false, counts };
 
   // ---- Write the map
@@ -735,7 +708,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
 export function reportLines(result: BuildResult): string[] {
   const { counts, report } = result;
   return [
-    `${result.name}: ${counts.units} units, ${counts.moments} moments, ${counts.variations} variations, ${counts.cues} cues, ${counts.files} files to copy`,
+    `${result.name}: ${counts.units} units, ${counts.moments} moments, ${counts.variations} variations, ${counts.elements} elements, ${counts.files} files to copy`,
     ...report.notes.map((n) => `  ${n}`),
     ...report.warnings.map((w) => `warning: ${w}`),
     ...report.errors.map((e) => `error: ${e}`),
@@ -743,4 +716,4 @@ export function reportLines(result: BuildResult): string[] {
 }
 
 /** The spec's types, for callers. */
-export type { MomentDo, SpecMoment, SpecUnit };
+export type { SpecElement, SpecUnit };
