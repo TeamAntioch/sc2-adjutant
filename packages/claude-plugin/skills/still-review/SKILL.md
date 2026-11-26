@@ -19,15 +19,25 @@ Done when the author has OK'd the list and the set's `shots.json` holds every Sh
 
 ## 2. Versions
 
-A version is one state of the map, with a short `label` (`before`, `washes`) and a note of what changed. The Mission's committed Map Package is usually `before`, captured as it stands with `capture_shots`' `mission`.
+A version is one state of the map, with a short `label` (`before`, `washes`) and a note of what changed. The Mission's committed Map Package is usually `before`. It needs no compile: capture it as it stands, with `capture_shots`' `mission`.
 
-Compile every other version to its own package under the Mission's git-ignored output: `compile_map` with `outputDir` set to `missions/<id>/output/<round>/<Name>-<set>-<label>.SC2Map` (in a checkout, `npm run compile-map -- <blueprint> <output-dir>`). Compile there, never in place: an in-place compile rewrites the committed Map Package, which is the author's, and the Editor may have it open.
+Keep each version's Blueprint change on its own git branch, so versions don't mix and a rejected one is undone whole. The Workspace is a git repo. Ask the author before you start if it has uncommitted changes. For each version:
+
+1. `git switch -c still/<set>-<label>`, from the Workspace's branch (or, for a version that builds on an earlier one, from that version's branch).
+2. Make the change in `missions/<id>/blueprint.json` and commit only that file: `git commit missions/<id>/blueprint.json -m "Still Review <set>: <label>"`.
+3. Compile it (below), then `git switch -` back before the next version's change.
+
+The copy compile changes nothing that git tracks, so switching branches is safe. Once the author picks, merge the winning branch into the Workspace's branch and compile in place, with the author's OK, so the committed package is that version. Delete every other branch with `git branch -D still/<set>-<label>`.
+
+Compile every other version into a copy of the committed package under the Mission's git-ignored output: `compile_map` with `copy: true` and `outputDir` set to `missions/<id>/output/<round>/<Name>-<set>-<label>.SC2Map` (in a checkout, `npm run compile-map -- missions/<id>/blueprint.json <output-dir> --copy`). The copy starts from the committed package and its compile record, and the compile merges into it as it would in place. So the version keeps the author's Kept Content (their doodads, units, regions, strings, Kept triggers and Kept terrain) and differs from `before` by the change alone. It writes the copy's own record (`<Name>-<set>-<label>.compile-record.json`) and a `.copy.json` note beside it, and leaves the committed package and its record as they are. Compiling the same version again replaces its copy. Never compile in place, and never use an `outputDir` without `copy`. An in-place compile rewrites the committed Map Package, which is the author's, and the Editor may have it open. Without `copy`, the version is written whole from the Blueprint, without the Kept Content, and that compile is refused for a Mission with Kept terrain.
+
+When the compile stops on Compiled Content the author changed in the Editor, the changes are in the committed package. Ask the author to keep or discard each one, as `compile_map`'s description says, and compile again with `copy`. Their answers shape this copy only, not the committed package.
 
 A Workspace whose core comes through a link to an sc2-adjutant checkout: a compile that fails because that checkout is mid-rebuild (missing `dist` files, a module not found) fails for a moment only. Wait a minute and compile again, keeping the link as it is.
 
 Reuse every capture already on disk: a version captured in an earlier round keeps its folder, so only new versions are captured.
 
-Done when every version is either captured already or compiled to its own package.
+Done when every version is either captured already or compiled into its own copy, from its own committed branch.
 
 ## 3. Capture
 
