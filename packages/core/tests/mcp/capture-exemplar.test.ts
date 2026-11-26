@@ -125,7 +125,10 @@ describe("capture_exemplar", () => {
     expect(text(second)).toContain(`Capture job ${waiting.job} is still going`);
 
     await release();
-    const collected = await client.callTool({ name: "capture_exemplar", arguments: { job: waiting.job } });
+    // The tour still writes its frames after the release; a slow runner can pass the 300 ms wait doing it.
+    let collected;
+    do collected = await client.callTool({ name: "capture_exemplar", arguments: { job: waiting.job } });
+    while ((collected.structuredContent as Reply).state === "waiting");
     expect(collected.structuredContent).toMatchObject({ state: "done", job: waiting.job, tours: [{ label: "places-Day", outcome: "done", frames: 2 }] });
 
     // A rerun skips the tour that has frames.

@@ -108,15 +108,23 @@ describe("capture_shots", () => {
     const second = await client.callTool({ name: "capture_shots", arguments: { mapPath: other, shots: SHOTS, name: "next" } });
     expect(second.structuredContent).toMatchObject({ state: "waiting", place: "1 of 1 in the queue" });
 
+    // The job still writes its frames after the release; a slow runner can pass the 300 ms wait doing it.
+    const collect = async (job: string) => {
+      let reply;
+      do reply = await client.callTool({ name: "capture_shots", arguments: { job } });
+      while ((reply.structuredContent as Reply).state === "waiting");
+      return reply;
+    };
+
     await release();
-    const collected = await client.callTool({ name: "capture_shots", arguments: { job: waiting.job } });
+    const collected = await collect(waiting.job);
     const outputDir = path.join(cacheDir, "shots", "slow");
     expect(collected.structuredContent).toMatchObject({ state: "done", job: waiting.job, outputDir, frames: [path.join(outputDir, "01-north-gate.jpg"), path.join(outputDir, "02.jpg")] });
     // Collecting it again gives the same frames.
     expect((await client.callTool({ name: "capture_shots", arguments: { job: waiting.job } })).structuredContent).toMatchObject({ state: "done", outputDir });
 
     await release();
-    const next = await client.callTool({ name: "capture_shots", arguments: { job: (second.structuredContent as Reply).job } });
+    const next = await collect((second.structuredContent as Reply).job);
     expect(next.structuredContent).toMatchObject({ state: "done", outputDir: path.join(cacheDir, "shots", "next") });
   });
 
