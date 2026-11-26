@@ -533,7 +533,12 @@ export const CAPTURE_MAPS_FOLDER = "capture/maps";
  * once its process exits, so the start time (as the host reads it; compared only for equality) says
  * whether a recorded game is still the one that was started.
  */
-export type GameProcess = { readonly pid: number; readonly startedAt: string };
+export type GameProcess = {
+  readonly pid: number;
+  readonly startedAt: string;
+  /** The process's command line, where the host reads it: logged when a game is quit, never compared. */
+  readonly command?: string;
+};
 
 /** What a capture says when another game is running: one it didn't start isn't its to quit. */
 export const FOREIGN_GAME_REFUSAL = "A game is running that this tool didn't start. Quit it, or capture with `attach`.";
@@ -575,6 +580,13 @@ export type CaptureTourRequest = {
   readonly writeMap?: () => Promise<unknown>;
   /** The game is already running the map (the author started it): only watch, and leave the Editor alone. */
   readonly attach?: boolean;
+  /**
+   * Quit every game already running instead of refusing (FOREIGN_GAME_REFUSAL): the quit request,
+   * Yes, then a kill after a timeout, each game's pid and command logged. Off by default, since a
+   * game the tool didn't start is the author's; for an unattended run (effect-tour capture
+   * --quit-other-games) that a game left open shouldn't stop. Ignored with `attach`.
+   */
+  readonly quitOtherGames?: boolean;
   /**
    * Called once with the game this tour started, as soon as it is found, so the Editor Broker
    * records it as the tool's to quit (and quits it if the tour fails or is cancelled).

@@ -36,7 +36,7 @@ async function setup({ before, processes }: { before?: Tour; processes?: boolean
   let running = 0;
   let overlapped = false;
   // With `processes`, a fake process table: game.list and game.quit work on it, and a tour refuses
-  // while a game runs, starts one it leaves running, and reports it.
+  // while a game runs (or, asked to quitOtherGames, quits it first), starts one it leaves running, and reports it.
   const table: GameProcess[] = [];
   const quits: string[] = [];
   const closeGames: (readonly GameProcess[] | undefined)[] = [];
@@ -50,6 +50,7 @@ async function setup({ before, processes }: { before?: Tour; processes?: boolean
     running++;
     if (running > 1) overlapped = true;
     if (processes && !request.attach) {
+      if (request.quitOtherGames) for (const other of table.splice(0)) quits.push(`other ${other.pid}`);
       if (table.length > 0) {
         running--;
         throw new Error(FOREIGN_GAME_REFUSAL);
@@ -511,6 +512,17 @@ describe("the Editor Broker", () => {
       await expect(runCaptureJob(t.job(await t.map("Alpha"), "a", [40]), { socketPath: t.socketPath })).rejects.toThrow(FOREIGN_GAME_REFUSAL);
       expect(t.table).toEqual([foreign]);
       expect(t.quits).toEqual([]);
+    });
+
+    it("hands quitOtherGames on to the host, which quits the game it didn't start and captures", async () => {
+      const t = await setup({ processes: true });
+      await t.start();
+      const foreign = t.spawnGame();
+      const base = t.job(await t.map("Alpha"), "a", [40]) as Extract<CaptureJob, { kind: "tour" }>;
+      const result = await runCaptureJob({ ...base, settings: { ...base.settings, quitOtherGames: true } }, { socketPath: t.socketPath });
+      expect(result.end).toBe("done");
+      expect(t.quits).toEqual([`other ${foreign.pid}`, String(foreign.pid + 1)]);
+      expect(t.table).toEqual([]);
     });
 
     it("records a Test Document's game as the author's, holds the queue for it, and never quits it", async () => {

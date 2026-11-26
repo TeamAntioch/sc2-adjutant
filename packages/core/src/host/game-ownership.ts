@@ -40,8 +40,23 @@ export async function refuseForeignGame(system: GameSystem): Promise<void> {
 }
 
 /**
+ * Quits every running game, for a capture run with `quitOtherGames` (effect-tour capture
+ * --quit-other-games): an unattended run that would rather lose a game left open than fail. Each is
+ * quit as quitOwnedGame quits the capture's own (the quit request, Yes, then a kill after
+ * `graceSeconds`), its pid and command logged first. Then it refuses as refuseForeignGame does if any
+ * game still runs, so the capture's first game is still its own.
+ */
+export async function quitForeignGames(system: GameSystem, log: (line: string) => void, graceSeconds = QUIT_GRACE_SECONDS): Promise<void> {
+  for (const game of await system.list()) {
+    log(`quitting game ${game.pid}, which this tool didn't start (quitOtherGames): ${game.command ?? "command not known"}`);
+    log(`game ${game.pid}: ${await quitOwnedGame(game, system, log, graceSeconds)}`);
+  }
+  if ((await system.list()).length > 0) throw new Error(`${FOREIGN_GAME_REFUSAL} One was still running after quitting every game.`);
+}
+
+/**
  * The game a capture started, once there is one. Before the capture starts any, none ran
- * (refuseForeignGame), so the first game that appears is its own: recorded through `onStarted`, and
+ * (refuseForeignGame, or quitForeignGames), so the first game that appears is its own: recorded through `onStarted`, and
  * from then on the only one `running` asks about.
  */
 export function ownedGame(system: GameSystem, onStarted?: (game: GameProcess) => void) {

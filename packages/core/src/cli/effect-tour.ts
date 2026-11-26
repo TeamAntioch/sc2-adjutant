@@ -14,13 +14,16 @@
 //     films every .m3 under <folder>/Assets/Effects instead, models not in the game (Heroes of the
 //     Storm's, converted for StarCraft II): each batch map imports its models, at their paths under
 //     <folder>, and the textures they name, from <folder>/Assets/Textures.
-//   npm run effect-tour -- capture <out> [--batches <a>-<b>] [--freeze] [--redo]
+//   npm run effect-tour -- capture <out> [--batches <a>-<b>] [--freeze] [--video] [--redo] [--quit-other-games]
 //     films each batch through the Editor Broker (Test Document; the game's window is
 //     screenshotted at each frame), into <out>/batch-NN/frames/, and writes its index.html. A
 //     batch with its index.html is skipped unless --redo, so a stopped run carries on where it was.
 //     With --video the game window is recorded too (frames/video.mp4, 1600x900, about 18 MB a minute): each
 //     effect gets a clip (clips/<n>.mp4) and the frames where most is on screen (peaks/), for
 //     what's over before a screenshot is taken, such as an impact's burst of particles.
+//     A game already running that the tool didn't start stops the capture, since it may be the
+//     author's. With --quit-other-games, for an unattended run, each batch quits any such game
+//     first (the quit request, Yes, then a kill after 20 s), logging its pid and command.
 //   npm run effect-tour -- pick <out> [--batches <a>-<b>]
 //     cuts the clips and picks the frames again from each batch's recording, and rewrites the index
 //     of each batch filmed to its end.
@@ -46,7 +49,7 @@ import { withCustomScript } from "../triggers/custom-script.js";
 const USAGE = [
   "Usage: effect-tour base [<folder>]",
   "       effect-tour make --models <folder> --base <map> --out <folder> [--batch <n>] [--only <regex>] [--limit <n>]",
-  "       effect-tour capture <out> [--batches <a>-<b>] [--freeze] [--video] [--redo]",
+  "       effect-tour capture <out> [--batches <a>-<b>] [--freeze] [--video] [--redo] [--quit-other-games]",
   "       effect-tour pick <out> [--batches <a>-<b>]",
 ].join("\n");
 
@@ -260,6 +263,7 @@ async function capture(out: string, args: string[]): Promise<void> {
   const freeze = flag(args, "freeze");
   const video = flag(args, "video");
   const redo = flag(args, "redo");
+  const quitOtherGames = flag(args, "quit-other-games");
   const [from, to] = batchRange(range);
   const host = await loadHost(await loadMachineConfig());
   requireCapability(host, "editor.captureTour", "Filming effects");
@@ -293,7 +297,7 @@ async function capture(out: string, args: string[]): Promise<void> {
         label: name,
         copy: true,
         bank: EFFECT_TOUR_BANK,
-        settings: { frameDigits: 4, width: 1600, quality: 85, startSeconds: 450, pressSpaceAfterSeconds: 90, ...(video ? { video: VIDEO_SETTINGS } : {}) },
+        settings: { frameDigits: 4, width: 1600, quality: 85, startSeconds: 450, pressSpaceAfterSeconds: 90, ...(video ? { video: VIDEO_SETTINGS } : {}), ...(quitOtherGames ? { quitOtherGames: true } : {}) },
         outputDir: framesDir,
       },
       { log: (line) => console.log(`  ${line}`) },
