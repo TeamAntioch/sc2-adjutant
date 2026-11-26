@@ -1,4 +1,4 @@
-// The capture and cutscene tools: dressing captures, in-game Shots, cutscenes and set imports, and placeholder voices.
+// The capture and cutscene tools: dressing captures, in-game Shots and Still Reviews of them (stills.ts), cutscenes and set imports, and placeholder voices.
 
 import path from "node:path";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -21,6 +21,7 @@ import { MissionSchema, IssueSchema, MapSchema } from "./schemas.js";
 import { stageHint, insideWorkspace, existingMapPackage, oneAtATime, readingMapToEdit } from "./mission-files.js";
 import { describeHandoff, editorHasOpen, TEST_BUDGET_SECONDS, TEST_MIN_SECONDS, testInGame } from "./editor-handoff.js";
 import { type CallContext } from "../call-context.js";
+import { registerStillTools } from "./stills.js";
 import { ADDITIVE, DESTRUCTIVE, type RefusedWithout, toolGroup } from "./tool-group.js";
 
 /** The Mission's Screenplay script and its voice folder, or an error when it has none. */
@@ -36,7 +37,7 @@ async function missionScript(workspace: Workspace, blueprintPath: string): Promi
 }
 
 /** The tools registerCaptureTools can register, the capture group: speak_placeholder_voices only on a Host that can run tts.speak. */
-export const CAPTURE_TOOLS = ["speak_placeholder_voices", "capture_composite", "capture_shots", "freeze_set_piece", "compile_cutscene", "import_set"] as const;
+export const CAPTURE_TOOLS = ["speak_placeholder_voices", "capture_composite", "capture_shots", "freeze_set_piece", "compile_cutscene", "import_set", "shots_for_zones", "build_still_review", "record_still_feedback"] as const;
 
 /** The group's tools listed on every machine but refused where the Host Adapter lacks these capabilities. */
 export const CAPTURE_REFUSED_WITHOUT = { capture_shots: ["editor.captureTour"] } as const satisfies RefusedWithout<(typeof CAPTURE_TOOLS)[number]>;
@@ -194,6 +195,8 @@ export function registerCaptureTools(server: McpServer, ctx: CallContext, { capt
       return shotsReply(id, await shotJobs.wait(id, captureWaitMs, extra.signal));
     },
   );
+
+  registerStillTools(tool, ctx);
 
   /** capture_shots's reply for a job where it stands. */
   async function shotsReply(job: string, state: JobState<CaptureShotsResult & { readonly logs: RunLogReport }> | undefined) {
