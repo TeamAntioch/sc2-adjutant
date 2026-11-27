@@ -23,6 +23,7 @@ import {
 } from "@team-antioch/sc2-adjutant/plugin-sdk";
 
 import { ELEMENT_KINDS, type Spec, type SpecElement, type SpecUnit, readSpec } from "./spec.ts";
+import { type ElementKey, sectionNames, tuneBankName } from "./tune.ts";
 
 /** The runtime the spec's data is put into. */
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -34,6 +35,8 @@ export const TOUR_BANK = "AnimTestbed";
 
 const KIND_CODE = { anim: 0, sound: 1, effect: 2, actor: 3, kill: 4 } as const;
 const ON_CODE = { unit: 0, target: 1, child: 2 } as const;
+/** How many of a variation's elements the dialog shows a row for (TB_ROWS); the rest still play. */
+export const DIALOG_ROWS = 10;
 /** Said of a spelling kept for several units, abilities and actor events, which aren't built yet. */
 const NOT_BUILT = "not built yet (#96)";
 
@@ -63,6 +66,8 @@ export type BuildResult = {
   readonly scriptPath: string;
   readonly script?: string;
   readonly name: string;
+  /** The bank the map saves its tunings in, for --apply. */
+  readonly tuneBank: string;
   readonly built: boolean;
   readonly counts: { readonly units: number; readonly moments: number; readonly variations: number; readonly elements: number; readonly files: number };
 };
@@ -291,7 +296,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   const empty = { units: 0, moments: 0, variations: 0, elements: 0, files: 0 };
   if (!read.spec) {
     report.errors.push(...read.problems);
-    return { report, outMap: "", scriptPath: "", name: name0, built: false, counts: empty };
+    return { report, outMap: "", scriptPath: "", name: name0, tuneBank: tuneBankName(name0), built: false, counts: empty };
   }
   const spec: Spec = read.spec;
   const walk = (value: unknown, at: string): void => {
@@ -309,13 +314,14 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     return path.resolve(folder, p.replace(/^~(?=$|[\\/])/, os.homedir()));
   };
   const name = spec.name ?? name0;
+  const tuneBank = tuneBankName(name);
   const base = resolve(spec.base);
   // By default beside the base map, in its folder's output/: a Mission's Map Package's, which a Workspace's .gitignore keeps out of commits.
   const outMap = spec.out !== undefined ? resolve(spec.out) : path.join(path.dirname(base), "output", `${name}.SC2Map`);
   const scriptPath = path.join(path.dirname(outMap), `${name}.testbed.galaxy`);
   const fail = (message: string): BuildResult => {
     report.errors.push(message);
-    return { report, outMap, scriptPath, name, built: false, counts: empty };
+    return { report, outMap, scriptPath, name, tuneBank, built: false, counts: empty };
   };
   if (!existsSync(path.join(base, "MapInfo"))) return fail(`${base} is not an Editor-saved map folder (no MapInfo)`);
   if (!outMap.split(path.sep).slice(0, -1).includes("output")) return fail(`${outMap} is not inside an output/ folder`);
@@ -541,6 +547,8 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   let maxElements = 1;
   let nv = 0;
   let ne = 0;
+  /** Each element's Tb_E line, waiting for its bank section, which needs every element's key. */
+  const pending: { line: number; call: string; key: ElementKey }[] = [];
   for (const [ui, unit] of spec.units.entries()) {
     const clips = clipsOf.get(ui);
     if (unit.idle) checkAnim(unit.idle, `${unit.key} idle`, clips);
@@ -561,6 +569,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
       for (const [vi, variation] of part.variations.entries()) {
         const where = `${unit.key} ${momentName} ${vi + 1}`;
         if (variation.elements.length === 0) report.warnings.push(`${where}: no elements, so Play does nothing`);
+        if (variation.elements.length > DIALOG_ROWS) report.warnings.push(`${where}: ${variation.elements.length} elements, and the dialog shows the first ${DIALOG_ROWS}; the rest play but can't be tuned in the game`);
         const elements: Element[] = [];
         for (const [ei, el] of variation.elements.entries()) {
           const at = `${where}, element ${ei + 1}`;
@@ -593,14 +602,22 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
         data.push(`    Tb_V(${ui}, ${mi}, ${gstr(label)}, ${gstr(note)}, ${variation.pick ? "true" : "false"});`);
         nv++;
         maxElements = Math.max(maxElements, elements.length);
+        const seen = new Map<string, number>();
         for (const e of elements) {
           const ai = e.kind === "anim" ? animNames.indexOf(e.what) : -1;
-          data.push(`    Tb_E(${KIND_CODE[e.kind]}, ${gstr(e.what)}, ${ai}, ${ON_CODE[e.on]}, ${gstr(e.child)}, ${gfix(e.at)}, ${gfix(e.stop)}, ${e.muted ? "true" : "false"});`);
+          const occurrence = (seen.get(`${e.kind} ${e.what}`) ?? 0) + 1;
+          seen.set(`${e.kind} ${e.what}`, occurrence);
+          const call = `    Tb_E(${KIND_CODE[e.kind]}, ${gstr(e.what)}, ${ai}, ${ON_CODE[e.on]}, ${gstr(e.child)}, ${gfix(e.at)}, ${gfix(e.stop)}, ${e.muted ? "true" : "false"}, ${occurrence}, `;
+          pending.push({ line: data.length, call, key: { unit: unit.key, moment: momentName, variation: vi + 1, kind: e.kind, id: e.what, occurrence } });
+          data.push("");
         }
         ne += elements.length;
       }
     }
   }
+
+  const sections = sectionNames(pending.map((p) => p.key));
+  for (const [i, p] of pending.entries()) data[p.line] = `${p.call}${gstr(sections[i]!)});`;
 
   // ---- The tour
   let ntour = 0;
@@ -640,9 +657,9 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     `const int TB_NV = ${Math.max(1, nv)};`,
     `const int TB_NE = ${Math.max(1, ne)};`,
     `const int TB_NEV = ${maxElements};`,
-    `const int TB_NT = ${maxElements * 3};`,
     `const int TB_NTOUR = ${Math.max(1, ntour)};`,
     `const string TB_TOUR_BANK = ${gstr(TOUR_BANK)};`,
+    `const string TB_TUNE_BANK = ${gstr(tuneBank)};`,
     `const fixed TB_X = ${gfix(stage.at[0])};`,
     `const fixed TB_Y = ${gfix(stage.at[1])};`,
     `const fixed TB_GAP = ${gfix(stage.gap)};`,
@@ -677,7 +694,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   // A message repeated (one site op on several actors) is said once.
   for (const list of [report.errors, report.warnings, report.notes]) list.splice(0, list.length, ...new Set(list));
   const counts = { units: spec.units.length, moments: moments.length, variations: nv, elements: ne, files: copies.length };
-  if (report.errors.length || options.check) return { report, outMap, scriptPath, script, name, built: false, counts };
+  if (report.errors.length || options.check) return { report, outMap, scriptPath, script, name, tuneBank, built: false, counts };
 
   // ---- Write the map
   await rm(outMap, { recursive: true, force: true });
@@ -701,7 +718,7 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
     const at = xml.lastIndexOf("</Catalog>");
     await writeFile(file, `${xml.slice(0, at)}${parts.join("")}${xml.slice(at)}`);
   }
-  return { report, outMap, scriptPath, script, name, built: true, counts };
+  return { report, outMap, scriptPath, script, name, tuneBank, built: true, counts };
 }
 
 /** A build's report as lines for a terminal. */

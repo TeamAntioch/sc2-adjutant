@@ -143,10 +143,10 @@ export const SpecSchema = z
         player: z.number().int().min(0).max(15).default(0),
         /** A tour's camera: its distance from each stop's unit, and how far left of it it looks, so the unit shows right of the dialog. */
         cameraDistance: z.number().positive().default(22),
-        cameraShift: z.number().default(3.5),
+        cameraShift: z.number().default(7),
       })
       .strict()
-      .default({ at: [64, 64], gap: 4, facing: 270, fog: false, player: 0, cameraDistance: 22, cameraShift: 3.5 }),
+      .default({ at: [64, 64], gap: 4, facing: 270, fog: false, player: 0, cameraDistance: 22, cameraShift: 7 }),
     target: z
       .object({ unit: z.string().regex(ID), player: z.number().int().min(0).max(15).default(1) })
       .strict()

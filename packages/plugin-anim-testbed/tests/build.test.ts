@@ -1,4 +1,4 @@
-// The build: cues and times, a map from the stock example, and the checks that stop a build.
+// The build: elements and times, a map from the stock example, and the checks that stop a build.
 import { existsSync } from "node:fs";
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -96,10 +96,10 @@ describe("buildTestbed", () => {
     expect(mapScript).toContain('Tb_M(0, "attack");');
     expect(mapScript).toContain('Tb_M(3, "voice");');
     expect(mapScript).toContain('Tb_A(0, 0, "attack", "AnimPlay Attack Attack NonLooping", 0.1, 0.15, 1.15);');
-    expect(result.script).toContain('Tb_V(0, 0, "the Marine\'s own rifle burst", "the Marine\'s own rifle burst", true);\n    Tb_E(0, "attack", 0, 0, "", 0.0, -1.0, false);\n    Tb_E(1, "Marine_AttackLaunch", -1, 0, "", 0.1, -1.0, false);');
-    expect(mapScript).toContain('Tb_E(1, "Marine_Stimpack", -1, 0, "", 0.0, 0.6, false);');
-    expect(mapScript).toContain('Tb_E(1, "Marine_AttackImpact", -1, 1, "", 0.15, -1.0, false);');
-    expect(mapScript).toContain('Tb_E(4, "", -1, 0, "", 0.0, -1.0, false);');
+    expect(result.script).toMatch(/Tb_V\(0, 0, "the Marine's own rifle burst", "the Marine's own rifle burst", true\);\n {4}Tb_E\(0, "attack", 0, 0, "", 0\.0, -1\.0, false, 1, "e[0-9a-f]{8}"\);\n {4}Tb_E\(1, "Marine_AttackLaunch", -1, 0, "", 0\.1, -1\.0, false, 1, "e[0-9a-f]{8}"\);/);
+    expect(mapScript).toContain('Tb_E(1, "Marine_Stimpack", -1, 0, "", 0.0, 0.6, false, 1, "e');
+    expect(mapScript).toContain('Tb_E(1, "Marine_AttackImpact", -1, 1, "", 0.15, -1.0, false, 1, "e');
+    expect(mapScript).toContain('Tb_E(4, "", -1, 0, "", 0.0, -1.0, false, 1, "e');
     expect(mapScript).toContain("Tb_Init();");
     // The base map's own data is kept.
     expect(await readFile(path.join(outMap, "Base.SC2Data", "GameData", "UnitData.xml"), "utf8")).toContain('<CUnit id="Kept"/>');
@@ -154,7 +154,7 @@ describe("buildTestbed", () => {
     const result = await buildTestbed(spec, { workspace: null, check: true });
     expect(result.report.errors).toEqual([]);
     expect(result.report.warnings).toEqual([expect.stringMatching(/"Marauder_StockGuess" is not one of the spec's or the Workspace's effects/)]);
-    expect(result.script).toContain('Tb_E(2, "TestPunch", -1, 0, "", 0.1, -1.0, false);');
+    expect(result.script).toContain('Tb_E(2, "TestPunch", -1, 0, "", 0.1, -1.0, false, 1, "e');
   });
 
   it("plays another of the unit's animations in a variation, cleared at its stop, and tags it", async () => {
@@ -166,7 +166,23 @@ describe("buildTestbed", () => {
     const result = await buildTestbed(spec, { workspace: null, check: true });
     expect(result.report.errors).toEqual([]);
     expect(result.script).toContain('Tb_A(0, 1, "flinch", "AnimPlay Damage Damage NonLooping", 0.0, 0.0, 1.0);');
-    expect(result.script).toContain('Tb_E(0, "flinch", 1, 0, "", 0.0, 0.4, false);');
+    expect(result.script).toContain('Tb_E(0, "flinch", 1, 0, "", 0.0, 0.4, false, 1, "e');
+  });
+
+  it("names the tuning bank, counts a repeated element's occurrence, gives each its own section and warns past the dialog's rows", async () => {
+    const { spec } = await mission();
+    await editSpec(spec, (s) => {
+      s.units[0].moments.attack.variations.push({ elements: Array.from({ length: 11 }, (_, i) => ({ sound: "Marine_Yes", at: i / 10 })) });
+    });
+    const result = await buildTestbed(spec, { workspace: null, check: true });
+    expect(result.report.errors).toEqual([]);
+    expect(result.tuneBank).toBe("AnimTuneStockUnits");
+    expect(result.script).toContain('const string TB_TUNE_BANK = "AnimTuneStockUnits";');
+    expect(result.script).toContain('Tb_E(1, "Marine_Yes", -1, 0, "", 0.1, -1.0, false, 2, "e');
+    const sections = [...result.script!.matchAll(/Tb_E\(.*, "(e[0-9a-f]{8}(?:_\d+)?)"\);/g)].map((m) => m[1]);
+    expect(sections.length).toBe(result.counts.elements);
+    expect(new Set(sections).size).toBe(sections.length);
+    expect(result.report.warnings).toContain("marine attack 3: 11 elements, and the dialog shows the first 10; the rest play but can't be tuned in the game");
   });
 
   it("refuses the old moment definitions and cues, saying where they went", async () => {
