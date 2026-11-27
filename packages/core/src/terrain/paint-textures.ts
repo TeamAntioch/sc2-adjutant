@@ -27,6 +27,21 @@ import { applyPaintRegions, ditherThreshold, quantizeDithered, rasterisePaintReg
 import { containsPoint } from "./rasterize.js";
 import { type Rot180, sourceCell, symmetricNoise } from "./symmetry.js";
 import { blockOf, blockOrigin, CELLS_PER_BLOCK, TEXELS_PER_CELL as GRID_TEXELS_PER_CELL } from "./texture-grid.js";
+import {
+  latticeValue,
+  MOTTLE_DEPTH,
+  MOTTLE_PERIOD,
+  MOTTLE_SEED,
+  PATCH_FEATHER,
+  patchNoise,
+  SET_EDGE_FADE,
+  setEdgeFadeAt,
+  STARK_FEATHER,
+  STARK_RARITY,
+  STARK_SCALE,
+  STARK_STRENGTH,
+  valueNoise,
+} from "./variety-patches.js";
 
 /** The blend group round a ramp: every texture at once. A symbol, so no group a rule names can be it. */
 const ANY_GROUP = Symbol("any blend group");
@@ -54,31 +69,7 @@ const CRISP_REACH_CELLS = 2 * WIDE_BLUR_CELLS;
 /** Cells round a ramp that always get the wide blend. */
 const RAMP_BLEND_CELLS = 3;
 
-/**
- * A variety patch is a wash, not a swap. Its texture fades in over PATCH_FEATHER of noise above
- * the threshold to a core at full strength, and a finer noise (MOTTLE_PERIOD cells) moves the
- * threshold by up to MOTTLE_DEPTH, so the edge is soft and broken while the core still reads in
- * dim light. Measured on the Antioch pack's natural-ground Exemplar Maps, half to nine tenths of
- * open cells hold two or more textures.
- *
- * A stark texture (pebbles, lumpy moss, pitted creep, roots: textureStarkness, from its picture's
- * contrast and the catalog's accent note) reads at full strength long before its weight gets
- * there, so it gets less ground and smaller spots. At full starkness its noise is STARK_SCALE times
- * finer, its threshold STARK_RARITY higher, its fade STARK_FEATHER and its core only STARK_STRENGTH
- * of a texel, so the zone's own texture shows through it; a texture part-way stark is part-way
- * there.
- *
- * Beside a block of another texture set every patch fades out over SET_EDGE_FADE cells: a set's
- * edge is a cut along the block line, and a wash cut there shows as a step in its own texture.
- */
-const PATCH_FEATHER = 0.25;
-const MOTTLE_PERIOD = 3;
-const MOTTLE_DEPTH = 0.12;
-const STARK_SCALE = 2;
-const STARK_RARITY = 0.18;
-const STARK_FEATHER = 0.12;
-const STARK_STRENGTH = 0.5;
-const SET_EDGE_FADE = 2;
+// A variety patch's wash, its starkness rules and its fade beside another set: variety-patches.ts.
 
 /** Variety patched into a zone's ground: the patch noise's period (cells), and the noise it takes to start one. */
 export type ZonePatches = { readonly layers: readonly number[]; readonly period: number; readonly threshold: number };
@@ -455,7 +446,7 @@ export function cellTextureLayers(
     if (patches) {
       const x = (i % width) + 0.5;
       const y = Math.floor(i / width) + 0.5;
-      const fine = symmetricNoise((px, py) => valueNoise(px / MOTTLE_PERIOD, py / MOTTLE_PERIOD, 977), symmetry, 1)(x, y);
+      const fine = symmetricNoise((px, py) => valueNoise(px / MOTTLE_PERIOD, py / MOTTLE_PERIOD, MOTTLE_SEED), symmetry, 1)(x, y);
       const fade = edgeFade ? edgeFade[i]! : 1;
       // Each variety texture's wash, sharing the ground between them where they overlap.
       const own: { layer: number; share: number }[] = [];
@@ -577,30 +568,11 @@ function setEdgeFade(sets: PlanSets, width: number, height: number): Float32Arra
           nearest = Math.min(nearest, Math.max(gapX, gapY));
         }
       }
-      fade[y * width + x] = Math.max(0, Math.min(1, (nearest - 0.5) / (SET_EDGE_FADE - 0.5)));
+      fade[y * width + x] = setEdgeFadeAt(nearest);
     }
   }
   return fade;
 }
-
-/**
- * Noise shaping variety patches: three scales, each on a lattice turned to its own angle, so the
- * patches' edges don't follow the square grid value noise is built on.
- */
-function patchNoise(x: number, y: number, index: number, period: number): number {
-  return PATCH_OCTAVES.reduce((sum, { weight, scale, angle }, octave) => {
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    const u = ((x * cos - y * sin) * scale) / period;
-    const v = ((x * sin + y * cos) * scale) / period;
-    return sum + weight * valueNoise(u, v, 300 + 10 * index + octave);
-  }, 0);
-}
-const PATCH_OCTAVES = [
-  { weight: 0.45, scale: 1, angle: 0.5 },
-  { weight: 0.35, scale: 2.6, angle: 1.3 },
-  { weight: 0.2, scale: 6, angle: 2.2 },
-];
 
 /** Turns the source side's weights (below the centre) onto the other side's cells and texels. */
 function turnWeights(symmetry: Rot180, width: number, height: number, textureWeights: Uint8Array, texelWeights: Uint8Array): void {
@@ -619,29 +591,6 @@ function turnWeights(symmetry: Rot180, width: number, height: number, textureWei
       }
     }
   }
-}
-
-/** Smooth value noise in [-1, 1]: bilinear between hashed lattice values, smoothstep-eased. */
-function valueNoise(x: number, y: number, seed: number): number {
-  const x0 = Math.floor(x);
-  const y0 = Math.floor(y);
-  const fx = x - x0;
-  const fy = y - y0;
-  const sx = fx * fx * (3 - 2 * fx);
-  const sy = fy * fy * (3 - 2 * fy);
-  const salt = Math.imul(seed, 2147483647);
-  const v00 = latticeValue(x0, y0, salt);
-  const v01 = latticeValue(x0, y0 + 1, salt);
-  const top = v00 + (latticeValue(x0 + 1, y0, salt) - v00) * sx;
-  const bottom = v01 + (latticeValue(x0 + 1, y0 + 1, salt) - v01) * sx;
-  return top + (bottom - top) * sy;
-}
-
-/** A lattice point's hashed value in [-1, 1]; `salt` is the seed, hashed (Math.imul(seed, 2147483647)). */
-function latticeValue(ix: number, iy: number, salt: number): number {
-  let h = Math.imul(ix, 374761393) ^ Math.imul(iy, 668265263) ^ salt;
-  h = Math.imul(h ^ (h >>> 13), 1274126177);
-  return (((h ^ (h >>> 16)) >>> 0) / 4294967295) * 2 - 1;
 }
 
 /**
@@ -824,6 +773,7 @@ function paintRegionsOver(blueprint: MissionBlueprint, plan: TexturePlan, owner:
     setOf: (x, y) => (sets ? sets.blockSets[blockOf(sets.blocksPerRow, x, y)]! : 0),
     setTextures: (set) => (sets ? sets.names[set]! : plan.layerNames.slice(0, 8)),
     setLabel: (set) => (set === 0 ? "the map's textures (set 0)" : `texture set ${sets?.ids[set] ?? set}`),
+    patchPeriod: plan.rules.varietyPatches?.period,
   });
 }
 

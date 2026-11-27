@@ -30,7 +30,7 @@ import { type CompileRecordEntry, fingerprint } from "../domain/compile-record.j
 import { generatingZones, type MissionBlueprint } from "../domain/mission-blueprint.js";
 import { expandDressing, type PlacedDoodad, type PlacedSetPiece } from "../dressing/expand-dressing.js";
 import { readObjectsXml } from "../map/read-objects-xml.js";
-import { bindLikeOriginal } from "../plugins/plugin-api.js";
+import { bindLikeOriginal, blueprintPlugins } from "../plugins/plugin-api.js";
 import { vertexHeightAt } from "../study/terrain-grid.js";
 import { type CornerGrid } from "../terrain/cliffs.js";
 import { hiddenCellMask, unownedHiddenWarning, writeHiddenBit } from "../terrain/hidden-cells.js";
@@ -400,6 +400,7 @@ function keptSetPieces(blueprint: MissionBlueprint): MissionBlueprint | undefine
  * texture that set lacks is refused, which the schema can't tell for a Zone in no texture set.
  */
 function keptPaintRegions(blueprint: MissionBlueprint, textures: KeptTextures, zones: MissionBlueprint["zones"], owner: Int16Array, owned: Uint8Array): RasterisedRegion[] {
+  if (!blueprint.paintRegions?.length) return [];
   try {
     return rasterisePaintRegions(blueprint.paintRegions, {
       width: textures.width,
@@ -411,6 +412,7 @@ function keptPaintRegions(blueprint: MissionBlueprint, textures: KeptTextures, z
       setTextures: (set) => setTextures(textures, set),
       setLabel: (set) => `texture set ${set} (${textures.sets[set] || "unnamed"})`,
       paints: (cell) => owned[cell] === 1,
+      patchPeriod: blueprintPlugins(blueprint).styleRules().varietyPatches?.period,
     });
   } catch (error) {
     throw new Error(`${error instanceof Error ? error.message : String(error)}. ${FOOT}`, { cause: error });

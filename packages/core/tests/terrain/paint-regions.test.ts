@@ -124,13 +124,85 @@ describe("a Paint Region's other textures", () => {
       expect(cellShare(painted.texelWeights, x, y, DIRT)).toBeCloseTo((cellShare(without.texelWeights, x, y, DIRT) / ground) * 0.6, 1);
     });
   });
+});
 
-  it("a texture with an area share keeps its palette strength, within what the weights leave, until area shares are painted (#135)", () => {
-    const painted = rasterizeTerrain(blueprint([{ id: "sandy", polygon: rect(8, 8, 24, 24), mix: [{ texture: "MarSaraRocky", weight: 0.2 }, { texture: "MarSaraSand", share: 0.3 }] }]));
-    inner((x, y) => {
-      expect(cellShare(painted.texelWeights, x, y, SAND)).toBeCloseTo(Math.min(0.8, cellShare(without.texelWeights, x, y, SAND)), 1);
-      expect(cellShare(painted.texelWeights, x, y, ROCKY)).toBeCloseTo(0.2, 2);
+/** Over the texels of cells x0..x1-1 × y0..y1-1, a layer's mean share (0..1), and the fractions of texels where it is 0 (`bare`) or within a weight of `full` (`core`). */
+function texelShares(texelWeights: Uint8Array, [x0, y0, x1, y1]: readonly number[], layer: number, full = 1): { mean: number; bare: number; core: number } {
+  let [sum, bare, core, count] = [0, 0, 0, 0];
+  for (let ty = y0! * TEXELS; ty < y1! * TEXELS; ty++) {
+    for (let tx = x0! * TEXELS; tx < x1! * TEXELS; tx++) {
+      const weight = texelWeights[(ty * W * TEXELS + tx) * 8 + layer]! / 15;
+      sum += weight;
+      if (weight === 0) bare++;
+      if (weight >= full - 1 / 15 - 1e-9) core++;
+      count++;
+    }
+  }
+  return { mean: sum / count, bare: bare / count, core: core / count };
+}
+
+describe("a Paint Region's area share", () => {
+  const DARK = MAP.indexOf("MarSaraDarkSand");
+  // The region is cells 8-23; past its 2-cell falloff, cells 10-21.
+  const CORE = [10, 10, 22, 22];
+  const region = (mix: unknown[]) => ({ id: "sandy", polygon: rect(8, 8, 24, 24), mix });
+
+  // The measure: the texture's mean weight over the region's texels past the falloff, within 0.01.
+  for (const share of [0.05, 0.2, 0.4]) {
+    it(`paints patches holding ${share} of the region past its falloff, as washes with a full-strength core`, () => {
+      const painted = rasterizeTerrain(blueprint([region([{ texture: "MarSaraDarkSand", share }])]));
+      const { mean, bare, core } = texelShares(painted.texelWeights, CORE, DARK);
+      expect(Math.abs(mean - share)).toBeLessThanOrEqual(0.01);
+      // Patches, not a tint: some ground has none of it, and some holds it in full.
+      expect(bare).toBeGreaterThan(0.2);
+      expect(core).toBeGreaterThan(share / 4);
     });
+  }
+
+  it("works with blend weights in the same region: the weight holds in every cell, under and around the patches, which take what it leaves from the rest", () => {
+    const CRACKED = MAP.indexOf("MarSaraDirtCracked");
+    const mix = [{ texture: "MarSaraRocky", weight: 0.15 }, { texture: "MarSaraDarkSand", share: 0.2 }, { texture: "MarSaraDirtCracked" }];
+    const painted = rasterizeTerrain(blueprint([region(mix)]));
+    for (let y = 10; y < 22; y++) for (let x = 10; x < 22; x++) expect(cellShare(painted.texelWeights, x, y, ROCKY)).toBeCloseTo(0.15, 2);
+    // A patch's core holds all the weight leaves: 0.85.
+    const dark = texelShares(painted.texelWeights, CORE, DARK, 0.85);
+    expect(Math.abs(dark.mean - 0.2)).toBeLessThanOrEqual(0.01);
+    expect(dark.core).toBeGreaterThan(0.05);
+    expect(dark.bare).toBeGreaterThan(0.2);
+    // Weights, share and rest add up to the region's paint.
+    expect(Math.abs(texelShares(painted.texelWeights, CORE, CRACKED).mean - 0.65)).toBeLessThanOrEqual(0.01);
+  });
+
+  it("shares the ground between two shares where their patches overlap, each meeting its own share", () => {
+    const SAND = MAP.indexOf("MarSaraSand");
+    const painted = rasterizeTerrain(blueprint([region([{ texture: "MarSaraDarkSand", share: 0.3 }, { texture: "MarSaraSand", share: 0.3 }])]));
+    expect(Math.abs(texelShares(painted.texelWeights, CORE, DARK).mean - 0.3)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(texelShares(painted.texelWeights, CORE, SAND).mean - 0.3)).toBeLessThanOrEqual(0.01);
+  });
+
+  it("fades out beside a block of another texture set, as the variety painter's patches do, and still meets its share", () => {
+    // The cave set holds MarSaraDarkSand too, on its layer 3; its blocks start at x 32.
+    const cave = [...CAVE, "MarSaraDarkSand"];
+    const across = { id: "across", polygon: rect(8, 8, 56, 24), mix: [{ texture: "MarSaraDarkSand", share: 0.4 }] };
+    const painted = rasterizeTerrain(blueprint([across], { textureSets: [{ id: "cave", textures: cave, zones: ["mesa"] }] }));
+    /** Dark sand's weight (0..1) at a texel, on its layer in the texel's set. */
+    const dark = (tx: number, ty: number) => painted.texelWeights[(ty * W * TEXELS + tx) * 8 + (tx < 32 * TEXELS ? DARK : 3)]! / 15;
+    let [atLine, nearLine, most] = [0, 0, 0];
+    for (let ty = 10 * TEXELS; ty < 22 * TEXELS; ty++) {
+      for (let tx = 10 * TEXELS; tx < 54 * TEXELS; tx++) {
+        const d = Math.abs((tx + 0.5) / TEXELS - 32);
+        if (d < 0.5) atLine = Math.max(atLine, dark(tx, ty));
+        else if (d < 1.25) nearLine = Math.max(nearLine, dark(tx, ty));
+        else if (d >= 2) most = Math.max(most, dark(tx, ty));
+      }
+    }
+    // None within half a cell of the block line, at most half its core a cell and a quarter away, whole from 2 cells on.
+    expect(atLine).toBe(0);
+    expect(nearLine).toBeLessThanOrEqual(0.5 + 1 / 15);
+    expect(most).toBe(1);
+    // Past the 2-cell falloff, cells 10-53, on both sets' layers.
+    const mean = (texelShares(painted.texelWeights, [10, 10, 32, 22], DARK).mean * 22 + texelShares(painted.texelWeights, [32, 10, 54, 22], 3).mean * 22) / 44;
+    expect(Math.abs(mean - 0.4)).toBeLessThanOrEqual(0.01);
   });
 });
 

@@ -6,7 +6,9 @@
 //   (ownedCells, less the cells the compile record says the author kept); on a generated map, every cell, each in the last Zone listed whose polygon holds it.
 // - **Blend weight.** A texture's mean layer weight (out of 15) over the region's full-strength
 //   texels, past its falloff, and over all of its texels.
-// - **Area share.** The fraction of the region's cells the texture is the dominant texture of.
+// - **Area share.** As the compile calibrates its patches (paint-regions.ts): the texture's mean layer
+//   weight over the region's full-strength texels, past its falloff. Beside it, for every texture, the
+//   fraction of the region's cells it is the dominant texture of.
 // Both read the masks' raw weights. On LotV height-blended textures what shows isn't linear in them
 // (ADR-0028, decision 2), so they say what the compile painted, not what the eye sees.
 
@@ -46,7 +48,7 @@ export type MixUsage = {
   /** Mean blend weight over all the region's texels. */
   readonly weight: number;
   /** The fraction of the region's cells it is the dominant texture of. */
-  readonly share: number;
+  readonly dominant: number;
 };
 
 export type RegionUsage =
@@ -114,7 +116,7 @@ function measureRegion(region: RasterisedRegion, mix: readonly PaintMix[], textu
       target: entry.weight !== undefined ? { weight: entry.weight } : entry.share !== undefined ? { share: entry.share } : { rest: true as const },
       coreWeight: coreTexels ? sums[i]!.core / coreTexels : undefined,
       weight: sums[i]!.all / texels,
-      share: sums[i]!.dominant / cells,
+      dominant: sums[i]!.dominant / cells,
     })),
   };
 }
@@ -124,7 +126,7 @@ const percent = (fraction: number) => `${Number((fraction * 100).toFixed(1))}%`;
 /** The regions' section of texture_usage's report. */
 export function describeRegionUsage(regions: readonly RegionUsage[]): string[] {
   if (regions.length === 0) return [];
-  const lines = ["", "Paint Regions, as painted (blend weight: the mean raw layer weight past the falloff, and over the whole region; area share: the cells it is the dominant texture of):"];
+  const lines = ["", "Paint Regions, as painted (the mean raw layer weight past the falloff, and over the whole region; an area share is calibrated to the first; and the cells each texture is dominant in):"];
   for (const region of regions) {
     if ("unmeasured" in region) {
       lines.push(`  ${region.id}: not measured: ${region.unmeasured}`);
@@ -133,8 +135,9 @@ export function describeRegionUsage(regions: readonly RegionUsage[]): string[] {
     lines.push(`  ${region.id}: ${region.cells} cell${region.cells === 1 ? "" : "s"}, ${region.coreCells} past the falloff`);
     for (const entry of region.mix) {
       const asked = "weight" in entry.target ? `weight ${entry.target.weight}` : "share" in entry.target ? `share ${entry.target.share}` : "the rest";
-      const core = entry.coreWeight === undefined ? "no cell past the falloff" : `${percent(entry.coreWeight)} past the falloff`;
-      lines.push(`    ${entry.texture}: asked ${asked}; painted weight ${core}, ${percent(entry.weight)} over the region; dominant in ${percent(entry.share)} of its cells`);
+      const measure = "share" in entry.target ? "share" : "weight";
+      const core = entry.coreWeight === undefined ? "no cell past the falloff" : `${percent(entry.coreWeight)} past the falloff${measure === "share" ? " (its mean weight)" : ""}`;
+      lines.push(`    ${entry.texture}: asked ${asked}; painted ${measure} ${core}, ${percent(entry.weight)} over the region; dominant in ${percent(entry.dominant)} of its cells`);
     }
   }
   return lines;

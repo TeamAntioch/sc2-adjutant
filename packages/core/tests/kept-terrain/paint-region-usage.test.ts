@@ -76,9 +76,28 @@ describe("Paint Regions beside Kept ground", { timeout: 180_000 }, () => {
     expect(rock!.weight).toBeLessThan(0.15);
     expect(rock!.weight).toBeGreaterThan(0.1);
     // At 15% it is the dominant texture of no cell.
-    expect(rock!.share).toBe(0);
+    expect(rock!.dominant).toBe(0);
     expect(text).toContain("Paint Regions");
     expect(text).toMatch(/worn: 144 cells, 100 past the falloff\n {4}MeinhoffRock: asked weight 0.15; painted weight 15(\.\d)?% past the falloff/);
+  });
+
+  it("measure an area share as the compile calibrates it: the texture's mean weight past the falloff", async () => {
+    fixture = await keptGround();
+    await withZones(fixture);
+    const saved = await missionPaintRegion(fixture.workspace, fixture.blueprintPath, { id: "rocky", rect: [16, 58, 28, 70], mix: [{ texture: "MeinhoffRock", share: 0.2 }], falloff: 1 });
+    expect(saved.saved).toBe(true);
+    await compileMission(fixture.workspace, fixture.blueprintPath, undefined, { savedAt });
+
+    const { regions, text } = await missionTextureUsage(fixture.workspace, fixture.blueprintPath);
+    const rocky = regions[0]!;
+    if ("unmeasured" in rocky) throw new Error(rocky.unmeasured);
+    const [rock] = rocky.mix;
+    expect(rock!.target).toEqual({ share: 0.2 });
+    expect(Math.abs(rock!.coreWeight! - 0.2)).toBeLessThanOrEqual(0.01);
+    // Its patches' cores hold it whole, so it is the dominant texture of some cells and not of others.
+    expect(rock!.dominant).toBeGreaterThan(0);
+    expect(rock!.dominant).toBeLessThan(0.5);
+    expect(text).toMatch(/MeinhoffRock: asked share 0.2; painted share (19\.\d|20(\.\d)?|21)% past the falloff \(its mean weight\)/);
   });
 });
 
@@ -100,7 +119,7 @@ describe("Paint Regions on a generated map", { timeout: 180_000 }, () => {
     expect(rest!.target).toEqual({ rest: true });
     expect(rest!.coreWeight).toBeCloseTo(0.85, 2);
     // Dominant in every cell past the falloff at least.
-    expect(rest!.share).toBeGreaterThanOrEqual(144 / 256);
-    expect(stone!.share).toBe(0);
+    expect(rest!.dominant).toBeGreaterThanOrEqual(144 / 256);
+    expect(stone!.dominant).toBe(0);
   });
 });

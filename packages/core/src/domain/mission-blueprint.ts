@@ -1858,7 +1858,8 @@ export type TextureSet = z.infer<typeof TextureSetSchema>;
 /**
  * One texture of a Paint Region's mix (ADR-0028), with its amount given one of two ways, or none:
  * - `weight`, a blend weight: that fraction of the texture's layer in every cell of the region.
- * - `share`, an area share: patches of the texture covering about that fraction of the region.
+ * - `share`, an area share: patches of the texture covering about that fraction of the region, measured
+ *   as its mean weight past the region's falloff, so the weights, shares and rest add up to its paint.
  * - neither: the texture takes what the others leave. A mix has at most one of these.
  */
 export const PaintMixSchema = z
@@ -2185,7 +2186,7 @@ const CoreBlueprintSchema = z
     /**
      * Paint Regions (ADR-0028): polygons, or Zones', each with a texture mix of blend weights, area
      * shares and one texture taking the rest, painted in order over the Zone palettes, feathered
-     * at their edges (terrain/paint-regions.ts). Area shares paint at their palette strength until #135.
+     * at their edges (terrain/paint-regions.ts). Area shares are the variety painter's patches, calibrated per region.
      */
     paintRegions: z.array(PaintRegionSchema).optional(),
     /** Map-wide dressing: cliff feet first (DL-05); set pieces are `set-piece` placements. */

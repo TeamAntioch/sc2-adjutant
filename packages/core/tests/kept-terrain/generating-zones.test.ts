@@ -489,6 +489,26 @@ describe("beside Kept ground of two texture sets", { timeout: 120_000 }, () => {
     }
   });
 
+  it("paints a Paint Region's area share as patches holding that share past its falloff", async () => {
+    fixture = await keptGround();
+    await withZones(fixture, { elevation: 2, connections: [], texture: "BelShirGrassLight" }, { paintRegions: [{ id: "dirt", zone: "new_block", mix: [{ texture: "BelShirDirtLight", share: 0.2 }] }] });
+    const masks = readT3TextureMasks((await generate(fixture))().files.t3TextureMasks as Buffer);
+    // Past the 2-cell falloff: cells 16-27 × 58-69. BelShirDirtLight is set 0's layer 0.
+    let [sum, bare, whole, count] = [0, 0, 0, 0];
+    for (let ty = 58 * 8; ty < 70 * 8; ty++) {
+      for (let tx = 16 * 8; tx < 28 * 8; tx++) {
+        const weight = masks.layers[0]![ty * masks.maskWidth + tx]!;
+        sum += weight / 15;
+        if (weight === 0) bare++;
+        if (weight >= 14) whole++;
+        count++;
+      }
+    }
+    expect(Math.abs(sum / count - 0.2)).toBeLessThanOrEqual(0.01);
+    expect(bare / count).toBeGreaterThan(0.2);
+    expect(whole / count).toBeGreaterThan(0.05);
+  });
+
   it("paints the later of two overlapping Paint Regions where they overlap", async () => {
     fixture = await keptGround();
     const regions = [

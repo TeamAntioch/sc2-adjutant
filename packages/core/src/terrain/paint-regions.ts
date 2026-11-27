@@ -10,23 +10,44 @@
 //   the texel's middle at the masks' 8 texels per cell). It never reaches past them.
 // - **Mix.** At full strength a texture with a blend weight holds that fraction of the texel's
 //   layers. A texture with no amount takes what's left; with none, the ground's other textures
-//   are scaled to fill it. A texture with an area share keeps its palette strength for now (#135).
-//   A region naming a texture the set of a cell it paints lacks is refused.
+//   are scaled to fill it. A region naming a texture the set of a cell it paints lacks is refused.
+// - **Area shares** (#135) are the variety painter's patches (variety-patches.ts): a wash over
+//   PATCH_FEATHER of noise above a threshold, to a core holding all the weights leave, broken by
+//   the mottle. A stark texture gets noise up to STARK_SCALE times finer and a shorter fade; its
+//   core stays whole, since the author asked for that amount of it. Patches fade out over
+//   SET_EDGE_FADE cells beside a block of another texture set. Two shares' washes share the ground
+//   where they overlap. The blend weights hold under and around the patches, which take their
+//   ground from what the weights leave.
+// - **Calibration.** A share is measured as the texture's mean weight over the region's texels past
+//   its falloff (paint-region-usage.ts reports it so): with no weights, the fraction of the ground
+//   its patches cover, soft edges counting part. Each region's thresholds are found by bisection
+//   so that measure meets the shares, on the texels past the falloff (every texel of a region with
+//   none). So the weights, the shares and the rest add up to the region's paint, as the mix's
+//   "at most 1" rule reads them. A share the ground can't hold (most of its core beside another
+//   set) gets the most it can.
 // - **Weights.** A painted texel's shares are rounded to 15 by quantizeDithered, so a weight of 0.15
 //   (2.25 of 15) comes out as 2 in some texels and 3 in others, and the cell holds 15% on average.
 
+import { textureStarkness } from "../catalog/tileset-textures.js";
 import type { MissionBlueprint, PaintRegion } from "../domain/mission-blueprint.js";
 import { containsPoint } from "./polygon.js";
-import { distanceToCell, feather, FULL_WEIGHT as FULL, LAYERS, TEXELS_PER_CELL } from "./texture-grid.js";
+import { CELLS_PER_BLOCK, distanceToCell, feather, FULL_WEIGHT as FULL, LAYERS, TEXELS_PER_CELL } from "./texture-grid.js";
+import { MOTTLE_DEPTH, MOTTLE_PERIOD, MOTTLE_SEED, PATCH_FEATHER, patchNoise, SET_EDGE_FADE, setEdgeFadeAt, STARK_FEATHER, STARK_SCALE, valueNoise } from "./variety-patches.js";
 
 /** A region's default falloff, in cells. */
 export const DEFAULT_FALLOFF = 2;
+/** An area share's patch period (cells) when the Style Pack gives no `varietyPatches`: the Antioch pack's. */
+export const DEFAULT_PATCH_PERIOD = 12;
+/** The most texels a region's calibration samples, evenly spread over those past its falloff. */
+const CALIBRATION_SAMPLES = 1 << 16;
+/** Seeds an area share's patch noise apart from the palette's variety (indices 0-3): 8 + its place among the mix's shares. */
+const SHARE_NOISE_INDEX = 8;
 
 /** A region's mix on one texture set's 8 layers. */
 export type SetMix = {
   /** The blend weight on each layer, NaN for a layer the mix gives none. */
   readonly weights: Float64Array;
-  /** Layers with an area share: painted at their palette strength until #135. */
+  /** The layer of each area share, in the mix's order: `shares[k]` is painted by the region's `patches[k]`. */
   readonly shares: readonly number[];
   /** The layer taking what the others leave, -1 for none (the ground's other textures share it). */
   readonly rest: number;
@@ -48,6 +69,17 @@ export type RasterisedRegion = {
   readonly strength: Float32Array;
   /** The mix on each set its cells are on, by set index. */
   readonly mixBySet: ReadonlyMap<number, SetMix>;
+  /** Each area share's patches, in the mix's order. */
+  readonly patches: readonly SharePatches[];
+  /** Over the bounds' texels, as `strength`: what a patch keeps beside a block of another set; undefined when no cell is near one. */
+  readonly setFade: Float32Array | undefined;
+};
+
+/** One area share's patches over a region: the noise at each texel (as `strength`), the threshold calibrated to the share, and the wash's fade. */
+export type SharePatches = {
+  readonly noise: Float32Array;
+  readonly threshold: number;
+  readonly feather: number;
 };
 
 /** What rasterisePaintRegions needs of the map it paints. */
@@ -65,6 +97,8 @@ export type PaintRegionGround = {
   readonly setLabel: (set: number) => string;
   /** Whether a region may paint a cell at all (beside Kept ground, a generating Zone's); every cell when left out. */
   readonly paints?: (cell: number) => boolean;
+  /** An area share's patch period (cells): the Style Pack's `varietyPatches` period, DEFAULT_PATCH_PERIOD when left out. */
+  readonly patchPeriod?: number | undefined;
 };
 
 /**
@@ -106,7 +140,156 @@ function rasteriseRegion(region: PaintRegion, ground: PaintRegionGround): Raster
       if (!mixBySet.has(set)) mixBySet.set(set, setMix(region, ground.setTextures(set), ground.setLabel(set)));
     }
   }
-  return { id: region.id, cells, ...bounds, strength: regionStrength(cells, width, height, bounds, region.falloff ?? DEFAULT_FALLOFF), mixBySet };
+  const strength = regionStrength(cells, width, height, bounds, region.falloff ?? DEFAULT_FALLOFF);
+  const setFade = region.mix.some((entry) => entry.share !== undefined) ? setEdgeFade(cells, bounds, ground) : undefined;
+  return { id: region.id, cells, ...bounds, strength, mixBySet, patches: sharePatches(region, cells, width, bounds, strength, setFade, ground.patchPeriod ?? DEFAULT_PATCH_PERIOD), setFade };
+}
+
+type Bounds = { readonly x: number; readonly y: number; readonly width: number; readonly height: number };
+
+/** Calls `visit` for each texel of the region's cells: its index over the bounds, and its middle in map cells. */
+function eachTexel(cells: Uint8Array, width: number, bounds: Bounds, visit: (local: number, px: number, py: number) => void): void {
+  const strengthWidth = bounds.width * TEXELS_PER_CELL;
+  for (let cy = bounds.y; cy < bounds.y + bounds.height; cy++) {
+    for (let cx = bounds.x; cx < bounds.x + bounds.width; cx++) {
+      if (!cells[cy * width + cx]) continue;
+      for (let ty = 0; ty < TEXELS_PER_CELL; ty++) {
+        const row = ((cy - bounds.y) * TEXELS_PER_CELL + ty) * strengthWidth + (cx - bounds.x) * TEXELS_PER_CELL;
+        for (let tx = 0; tx < TEXELS_PER_CELL; tx++) visit(row + tx, cx + (tx + 0.5) / TEXELS_PER_CELL, cy + (ty + 0.5) / TEXELS_PER_CELL);
+      }
+    }
+  }
+}
+
+/**
+ * What a patch keeps at each texel beside a block of another set, as the variety painter's
+ * setEdgeFade does per cell: by the distance from the texel's middle to the nearest line of a
+ * neighbouring block (sides and corners) on another set. Undefined when no cell's block has one.
+ */
+function setEdgeFade(cells: Uint8Array, bounds: Bounds, ground: PaintRegionGround): Float32Array | undefined {
+  const { width, height } = ground;
+  // Each block's neighbours on another set, as [dx, dy].
+  const others = new Map<number, [number, number][]>();
+  const blocksPerRow = Math.ceil(width / CELLS_PER_BLOCK);
+  const otherNeighbours = (bx: number, by: number): [number, number][] => {
+    const key = by * blocksPerRow + bx;
+    let found = others.get(key);
+    if (found) return found;
+    found = [];
+    const set = ground.setOf(bx * CELLS_PER_BLOCK, by * CELLS_PER_BLOCK);
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        const nx = (bx + dx) * CELLS_PER_BLOCK;
+        const ny = (by + dy) * CELLS_PER_BLOCK;
+        if ((dx === 0 && dy === 0) || nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+        if (ground.setOf(nx, ny) !== set) found.push([dx, dy]);
+      }
+    }
+    others.set(key, found);
+    return found;
+  };
+  const fade = new Float32Array(bounds.width * TEXELS_PER_CELL * bounds.height * TEXELS_PER_CELL).fill(1);
+  let any = false;
+  eachTexel(cells, width, bounds, (local, px, py) => {
+    const bx = Math.floor(px / CELLS_PER_BLOCK);
+    const by = Math.floor(py / CELLS_PER_BLOCK);
+    const near = otherNeighbours(bx, by);
+    if (near.length === 0) return;
+    let nearest = SET_EDGE_FADE;
+    for (const [dx, dy] of near) {
+      const gapX = dx === 0 ? 0 : dx < 0 ? px - bx * CELLS_PER_BLOCK : (bx + 1) * CELLS_PER_BLOCK - px;
+      const gapY = dy === 0 ? 0 : dy < 0 ? py - by * CELLS_PER_BLOCK : (by + 1) * CELLS_PER_BLOCK - py;
+      nearest = Math.min(nearest, Math.max(gapX, gapY));
+    }
+    fade[local] = setEdgeFadeAt(nearest);
+    any ||= fade[local]! < 1;
+  });
+  return any ? fade : undefined;
+}
+
+/** The region's area shares' patches: each texel's noise, and the thresholds calibrated so each share's measure meets it (see the file's head). */
+function sharePatches(region: PaintRegion, cells: Uint8Array, width: number, bounds: Bounds, strength: Float32Array, setFade: Float32Array | undefined, period: number): SharePatches[] {
+  const entries = region.mix.filter((entry) => entry.share !== undefined);
+  if (entries.length === 0) return [];
+  const mottle = new Float32Array(strength.length);
+  const texels: number[] = [];
+  eachTexel(cells, width, bounds, (local, px, py) => {
+    mottle[local] = MOTTLE_DEPTH * valueNoise(px / MOTTLE_PERIOD, py / MOTTLE_PERIOD, MOTTLE_SEED);
+    texels.push(local);
+  });
+  const shapes = entries.map((entry, k) => {
+    const stark = textureStarkness(entry.texture);
+    const own = period / (1 + (STARK_SCALE - 1) * stark);
+    const noise = new Float32Array(strength.length);
+    eachTexel(cells, width, bounds, (local, px, py) => {
+      noise[local] = patchNoise(px, py, SHARE_NOISE_INDEX + k, own) + mottle[local]!;
+    });
+    return { noise, feather: PATCH_FEATHER + (STARK_FEATHER - PATCH_FEATHER) * stark };
+  });
+  const core = texels.filter((local) => strength[local]! >= 1 - 1e-6);
+  const pool = core.length > 0 ? core : texels;
+  const step = Math.max(1, Math.ceil(pool.length / CALIBRATION_SAMPLES));
+  const samples = pool.filter((_, i) => i % step === 0);
+  const thresholds = calibrate(
+    entries.map((entry) => entry.share!),
+    available(region),
+    shapes.map(({ noise, feather }) => ({ noise: Float64Array.from(samples, (local) => noise[local]!), feather })),
+    Float64Array.from(samples, (local) => setFade?.[local] ?? 1),
+  );
+  return shapes.map((shape, k) => ({ ...shape, threshold: thresholds[k]! }));
+}
+
+/** What a region's blend weights leave, for its shares and the rest. */
+const available = (region: PaintRegion): number => Math.max(0, 1 - region.mix.reduce((sum, entry) => sum + (entry.weight ?? 0), 0));
+
+/** A patch's wash at a texel: 0 at the threshold, rising by smoothstep over its fade to its core, times its fade beside another set. */
+function wash(noise: number, threshold: number, fade: number, setFade: number): number {
+  if (noise <= threshold) return 0;
+  const rise = Math.min(1, (noise - threshold) / fade);
+  return setFade * rise * rise * (3 - 2 * rise);
+}
+
+/**
+ * The thresholds putting each share's mean (over the samples) at its target, where a texel holds
+ * `available` × its wash, the washes scaled down to share the ground where they sum past 1, as
+ * mixInto paints them. Each threshold by bisection, the others held, a few rounds for washes that overlap.
+ */
+function calibrate(targets: readonly number[], avail: number, shapes: readonly { readonly noise: Float64Array; readonly feather: number }[], setFade: Float64Array): number[] {
+  const count = setFade.length;
+  const thresholds = shapes.map(() => Number.POSITIVE_INFINITY);
+  if (count === 0 || avail <= 0) return thresholds;
+  const washes = shapes.map(() => new Float64Array(count));
+  const fill = (k: number) => {
+    const { noise, feather } = shapes[k]!;
+    for (let i = 0; i < count; i++) washes[k]![i] = wash(noise[i]!, thresholds[k]!, feather, setFade[i]!);
+  };
+  const measure = (k: number): number => {
+    let sum = 0;
+    for (let i = 0; i < count; i++) {
+      let total = 0;
+      for (const w of washes) total += w[i]!;
+      sum += total > 1 ? washes[k]![i]! / total : washes[k]![i]!;
+    }
+    return (avail * sum) / count;
+  };
+  const rounds = shapes.length === 1 ? 1 : 6;
+  for (let round = 0; round < rounds; round++) {
+    shapes.forEach(({ noise, feather }, k) => {
+      let [lo, hi] = [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY];
+      for (const n of noise) [lo, hi] = [Math.min(lo, n), Math.max(hi, n)];
+      // At lo every sample is at its core; at hi none has any.
+      lo -= feather;
+      for (let step = 0; step < 40; step++) {
+        thresholds[k] = (lo + hi) / 2;
+        fill(k);
+        if (measure(k) > targets[k]!) lo = thresholds[k]!;
+        else hi = thresholds[k]!;
+      }
+      thresholds[k] = (lo + hi) / 2;
+      fill(k);
+    });
+  }
+  return thresholds;
 }
 
 /** A region's mix on a set's layers, refused when the set lacks one of its textures. */
@@ -170,17 +353,24 @@ function regionStrength(cells: Uint8Array, width: number, height: number, bounds
   return strength;
 }
 
-/** A region's strength at a map texel, 0 outside its cells. */
-export function regionStrengthAt(region: RasterisedRegion, tx: number, ty: number): number {
+/** A map texel's index over a region's bounds (into `strength`, `setFade` and a patch's `noise`), -1 outside them. */
+function localTexel(region: RasterisedRegion, tx: number, ty: number): number {
   const lx = tx - region.x * TEXELS_PER_CELL;
   const ly = ty - region.y * TEXELS_PER_CELL;
   const strengthWidth = region.width * TEXELS_PER_CELL;
-  if (lx < 0 || ly < 0 || lx >= strengthWidth || ly >= region.height * TEXELS_PER_CELL) return 0;
-  return region.strength[ly * strengthWidth + lx]!;
+  if (lx < 0 || ly < 0 || lx >= strengthWidth || ly >= region.height * TEXELS_PER_CELL) return -1;
+  return ly * strengthWidth + lx;
 }
 
-/** Scratch for mixInto: the texel's mix at full strength. */
+/** A region's strength at a map texel, 0 outside its cells. */
+export function regionStrengthAt(region: RasterisedRegion, tx: number, ty: number): number {
+  const local = localTexel(region, tx, ty);
+  return local < 0 ? 0 : region.strength[local]!;
+}
+
+/** Scratch for mixInto: the texel's mix at full strength, and each share's wash. */
 const TARGET = new Float64Array(LAYERS);
+const WASHES = new Float64Array(LAYERS);
 
 /**
  * Lays the regions, in order, over a texel's shares (8 layers of its cell's set, summing to 1), in
@@ -189,16 +379,18 @@ const TARGET = new Float64Array(LAYERS);
 export function applyPaintRegions(regions: readonly RasterisedRegion[], shares: Float64Array, tx: number, ty: number, set: number): boolean {
   let painted = false;
   for (const region of regions) {
-    const strength = regionStrengthAt(region, tx, ty);
+    const local = localTexel(region, tx, ty);
+    if (local < 0) continue;
+    const strength = region.strength[local]!;
     if (strength <= 0) continue;
-    mixInto(shares, region.mixBySet.get(set)!, strength);
+    mixInto(shares, region.mixBySet.get(set)!, strength, region, local);
     painted = true;
   }
   return painted;
 }
 
-/** The shares moved `strength` of the way to the mix over them (see the file's head). */
-function mixInto(shares: Float64Array, mix: SetMix, strength: number): void {
+/** The shares moved `strength` of the way to the mix over them, at the region's texel `local` (see the file's head). */
+function mixInto(shares: Float64Array, mix: SetMix, strength: number, region: RasterisedRegion, local: number): void {
   const target = TARGET;
   let fixed = 0;
   for (let layer = 0; layer < LAYERS; layer++) {
@@ -206,12 +398,22 @@ function mixInto(shares: Float64Array, mix: SetMix, strength: number): void {
     target[layer] = Number.isNaN(weight) ? 0 : weight;
     fixed += target[layer]!;
   }
-  // An area share keeps its palette strength, within what the weights leave.
+  // Each area share's wash, of what the weights leave; overlapping washes share it (calibrate's arithmetic).
+  const avail = Math.max(0, 1 - fixed);
+  const setFade = region.setFade ? region.setFade[local]! : 1;
+  let washed = 0;
+  for (let k = 0; k < mix.shares.length; k++) {
+    const patches = region.patches[k]!;
+    WASHES[k] = wash(patches.noise[local]!, patches.threshold, patches.feather, setFade);
+    washed += WASHES[k]!;
+  }
+  const scale = washed > 1 ? avail / washed : avail;
   let kept = 0;
-  for (const layer of mix.shares) kept += shares[layer]!;
-  const keep = kept > 0 && kept > 1 - fixed ? Math.max(0, 1 - fixed) / kept : 1;
-  for (const layer of mix.shares) target[layer] = shares[layer]! * keep;
-  const left = Math.max(0, 1 - fixed - kept * keep);
+  for (let k = 0; k < mix.shares.length; k++) {
+    target[mix.shares[k]!] = WASHES[k]! * scale;
+    kept += WASHES[k]! * scale;
+  }
+  const left = Math.max(0, avail - kept);
   if (mix.rest >= 0) target[mix.rest] = left;
   else {
     // The ground's other textures fill what's left, each in proportion; with none (the ground is the
