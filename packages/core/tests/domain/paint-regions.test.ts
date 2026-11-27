@@ -127,7 +127,7 @@ describe("a Paint Region's textures", () => {
     const zones = blueprint([]).zones.map((zone) => ({ ...zone, terrain: zone.id === "mesa" ? "generate" : "kept" }));
     const kept = (region: Record<string, unknown>) => blueprint([{ id: "patch", mix: [{ texture: "AiurRock", weight: 0.5 }], ...region }], { zones, texturePalette: undefined, textures: undefined });
     expect(issues(kept({ polygon: rect(24, 4, 40, 12) }))).toEqual([]);
-    expect(issues(kept({ zone: "field" }))).toEqual(["paintRegions.0.zone: Zone field is drawn over Kept ground: only a generating Zone ("terrain": "generate") is painted by a Paint Region"]);
+    expect(issues(kept({ zone: "field" }))).toEqual([`paintRegions.0.zone: Zone field is drawn over Kept ground: only a generating Zone ("terrain": "generate") is painted by a Paint Region`]);
   });
 });
 
