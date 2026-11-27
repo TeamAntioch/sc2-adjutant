@@ -320,6 +320,42 @@ export const CLIP_QUALITY = 90;
 /** The largest clip written, in bytes: a clip of an effect is seconds long, a few MB at CLIP_QUALITY. */
 const CLIP_MAX_BYTES = 200 * 1024 * 1024;
 
+/** How long a trail's clip keeps of its host before the trail first shows. */
+const TRAIL_LEAD = 0.3;
+
+/** The time in the recording of `seconds` into `spans` joined; past their end, the last span's end. */
+export function recordingTime(spans: readonly ClipSpan[], seconds: number): number {
+  let left = seconds;
+  for (const span of spans) {
+    if (left < span.to - span.from) return span.from + left;
+    left -= span.to - span.from;
+  }
+  return spans[spans.length - 1]?.to ?? seconds;
+}
+
+/**
+ * A trail's clip, without what shows nothing: given each scored frame's time in the recording and
+ * its new bright (brightScores), the move starts TRAIL_LEAD before the trail first shows, and an
+ * attach, Destroy or Death span with no frame over TRAIL_FLOOR is dropped. A missile or a ribbon
+ * model draws nothing until it moves, so these were a bare host. When the move shows nothing
+ * either (a dark or faint trail, which new bright can't see), the spans are kept as they are.
+ */
+export function trimToTrail(spans: readonly ClipSpan[], trail: ClipSpan, scored: readonly { readonly time: number; readonly score: number }[]): ClipSpan[] {
+  const onset = scored.find((each) => each.time >= trail.from && each.time < trail.to && each.score >= TRAIL_FLOOR)?.time;
+  if (onset === undefined) return [...spans];
+  const shows = (from: number, to: number) => scored.some((each) => each.time >= from && each.time < to && each.score >= TRAIL_FLOOR);
+  const kept: ClipSpan[] = [];
+  for (const span of spans) {
+    if (span.parts.includes("move")) {
+      const from = Math.max(span.from, onset - TRAIL_LEAD);
+      kept.push(shows(span.from, from) ? span : { ...span, from });
+    } else if (shows(span.from, span.to)) {
+      kept.push(span);
+    }
+  }
+  return kept;
+}
+
 /**
  * Cuts `segment` of `video` into `<outDir>/clips/<name>.mp4`, keeping `cut`'s spans joined in
  * order (the whole segment by default), and writes its peak frames as `<outDir>/peaks/<name>-<n>.jpg`.
@@ -327,62 +363,73 @@ const CLIP_MAX_BYTES = 200 * 1024 * 1024;
  * It is encoded again, not copied: a copy can only start at a keyframe, the recorder's come about a
  * second apart, and the bare pad before an attach can be as short as 0.3 s, so a copied clip would
  * start on the previous effect. The peaks are searched in the clip's spans up to `cut.searchEnd`,
- * so each one's seconds are into the clip; a cut with a `trail` keeps TRAIL_PEAKS of them for the
- * frames of the move with the most new bright on screen, where the camera moves too.
+ * so each one's seconds are into the clip. A cut with a `trail` keeps TRAIL_PEAKS of them for the
+ * frames of the move with the most new bright on screen, where the camera moves too, and is trimmed
+ * of the spans that show nothing (trimToTrail); with its attach dropped, all its picks are of the trail.
  */
 export async function cutEffect(video: string, segment: EffectSegment, outDir: string, name: string, cut: EffectCut = wholeCut(segment), options: CutOptions = {}): Promise<EffectVideoResult> {
-  const spans = cut.spans.length ? cut.spans : wholeCut(segment).spans;
-  const start = spans[0]!.from;
-  const reach = spans[spans.length - 1]!.to - start;
-  const searched = spansUntil(spans, cut.searchEnd);
-  const search = searched.length ? searched : [{ ...spans[0]!, to: Math.min(spans[0]!.to, start + 0.1) }];
-  const searchReach = search[search.length - 1]!.to - start;
-  const searchSeconds = Math.max(0.1, search.reduce((sum, span) => sum + span.to - span.from, 0));
+  const planned = cut.spans.length ? cut.spans : wholeCut(segment).spans;
+  const start = planned[0]!.from;
+  const searched = spansUntil(planned, cut.searchEnd);
+  // A trail's clip is probed whole, to see which of its spans show anything; the rest only as far as they're searched.
+  const probe = cut.trail ? [...planned] : searched.length ? searched : [{ ...planned[0]!, to: Math.min(planned[0]!.to, start + 0.1) }];
+  const probeReach = probe[probe.length - 1]!.to - start;
+  const probeSeconds = Math.max(0.1, probe.reduce((sum, span) => sum + span.to - span.from, 0));
   const run = (args: string[], limit: ReturnType<typeof limits>) => (options.nice ? runBounded("nice", ["-n", "10", "ffmpeg", ...args], limit) : runBounded("ffmpeg", args, limit));
   const clips = path.join(outDir, "clips");
   const peaksDir = path.join(outDir, "peaks");
   await mkdir(clips, { recursive: true });
   await mkdir(peaksDir, { recursive: true });
   const clip = path.join(clips, `${name}.mp4`);
-  const at = ["-ss", start.toFixed(3), "-t", reach.toFixed(3)];
-  await run(["-v", "error", "-y", ...at, "-i", video, "-an", "-filter_complex", joinFilter(spans, start), "-map", "[joined]", "-c:v", "hevc_videotoolbox", "-q:v", String(CLIP_QUALITY), "-tag:v", "hvc1", "-fs", String(CLIP_MAX_BYTES), clip], limits(reach, CLIP_MAX_BYTES));
 
   const scratch = await mkdtemp(path.join(os.tmpdir(), "effect-video-"));
   try {
     const raw = path.join(scratch, "frames.gray");
     const frameBytes = PROBE_WIDTH * PROBE_HEIGHT;
-    const frameCount = Math.ceil(searchSeconds * PROBE_FPS + 2);
+    const frameCount = Math.ceil(probeSeconds * PROBE_FPS + 2);
     // One decode for both: the small grey frames that are scored and the full frames to keep, from
     // the same resampled stream, so a picked frame is the one scored. Seeking for each picked frame
     // instead can land a frame off in a recording whose frames come unevenly, and a burst lasts three.
     await run(
       [
-        "-v", "error", "-y", "-ss", start.toFixed(3), "-t", searchReach.toFixed(3), "-i", video, "-an",
-        "-filter_complex", `${joinFilter(search, start)};[joined]fps=${PROBE_FPS},split=2[probe][full];[probe]scale=${PROBE_WIDTH}:${PROBE_HEIGHT},format=gray[grey]`,
+        "-v", "error", "-y", "-ss", start.toFixed(3), "-t", probeReach.toFixed(3), "-i", video, "-an",
+        "-filter_complex", `${joinFilter(probe, start)};[joined]fps=${PROBE_FPS},split=2[probe][full];[probe]scale=${PROBE_WIDTH}:${PROBE_HEIGHT},format=gray[grey]`,
         "-map", "[grey]", "-f", "rawvideo", raw,
         "-map", "[full]", "-q:v", "3", path.join(scratch, "%05d.jpg"),
       ],
-      limits(searchReach, frameCount * (frameBytes + 2 * 1024 * 1024)),
+      limits(probeReach, frameCount * (frameBytes + 2 * 1024 * 1024)),
     );
     const frames = new Uint8Array(await readFile(raw));
     const scores = changeScores(frames, frameBytes);
+    const times = scores.map((_, frame) => recordingTime(probe, frame / PROBE_FPS));
     const gap = Math.round(PEAK_GAP * PROBE_FPS);
+    let spans: readonly ClipSpan[] = planned;
     let picked: number[];
     if (cut.trail) {
-      const [from, to] = joinedPlace(search, cut.trail.from, cut.trail.to);
-      const moving = (frame: number) => frame / PROBE_FPS >= from && frame / PROBE_FPS < to;
+      const trail = cut.trail;
       const bright = brightScores(frames, frameBytes);
-      const trailFrames = pickPeaks(bright.map((score, frame) => (moving(frame) ? score : -1)), TRAIL_PEAKS, gap, TRAIL_FLOOR);
-      const others = pickPeaks(scores.map((score, frame) => (moving(frame) ? -1 : score)), PEAKS - trailFrames.length, gap, CHANGE_FLOOR);
+      spans = trimToTrail(planned, trail, times.map((time, frame) => ({ time, score: bright[frame]! })));
+      const inClip = (frame: number) => spans.some((span) => times[frame]! >= span.from && times[frame]! < span.to);
+      const moving = (frame: number) => times[frame]! >= trail.from && times[frame]! < trail.to;
+      const before = (frame: number) => times[frame]! < cut.searchEnd && !moving(frame) && inClip(frame);
+      // With its bare attach dropped, all its picks are of the trail.
+      const room = scores.some((_, frame) => before(frame)) ? TRAIL_PEAKS : PEAKS;
+      const trailFrames = pickPeaks(bright.map((score, frame) => (moving(frame) && inClip(frame) ? score : -1)), room, gap, TRAIL_FLOOR);
+      const others = pickPeaks(scores.map((score, frame) => (before(frame) ? score : -1)), PEAKS - trailFrames.length, gap, CHANGE_FLOOR);
       picked = [...trailFrames, ...others].sort((a, b) => a - b);
     } else {
       picked = pickPeaks(scores, PEAKS, gap, CHANGE_FLOOR);
     }
+    const clipStart = spans[0]!.from;
+    const reach = spans[spans.length - 1]!.to - clipStart;
+    await run(["-v", "error", "-y", "-ss", clipStart.toFixed(3), "-t", reach.toFixed(3), "-i", video, "-an", "-filter_complex", joinFilter(spans, clipStart), "-map", "[joined]", "-c:v", "hevc_videotoolbox", "-q:v", String(CLIP_QUALITY), "-tag:v", "hvc1", "-fs", String(CLIP_MAX_BYTES), clip], limits(reach, CLIP_MAX_BYTES));
     const peaks: { file: string; seconds: number }[] = [];
     for (const [n, frame] of picked.entries()) {
       const file = path.join(peaksDir, `${name}-${n + 1}.jpg`);
       await rename(path.join(scratch, `${String(frame + 1).padStart(5, "0")}.jpg`), file).catch(() => copyFile(path.join(scratch, `${String(frame + 1).padStart(5, "0")}.jpg`), file));
-      peaks.push({ file, seconds: frame / PROBE_FPS });
+      // Into the clip as cut: the same as into the probe unless a trail's spans were trimmed.
+      const time = times[frame]!;
+      peaks.push({ file, seconds: joinedPlace(spans, time, time + 1e-6)[0] });
     }
     return { effect: segment.effect, clip, spans, peaks };
   } finally {

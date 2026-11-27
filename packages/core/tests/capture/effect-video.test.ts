@@ -8,7 +8,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import type { EffectShot } from "../../src/capture/effect-tour.js";
-import { BASE_AFTER_MARK, brightScores, changeScores, cutEffect, effectCut, effectSegments, joinedPlace, parseVideoStops, pickPeaks, spansUntil } from "../../src/capture/effect-video.js";
+import { BASE_AFTER_MARK, brightScores, changeScores, cutEffect, effectCut, effectSegments, joinedPlace, parseVideoStops, pickPeaks, recordingTime, spansUntil, trimToTrail } from "../../src/capture/effect-video.js";
 
 const shot = (stop: number, effect: number, label: EffectShot["label"]): EffectShot => ({ stop, effect, file: `Assets/Effects/E${effect}.m3`, label });
 
@@ -117,6 +117,38 @@ describe("spansUntil and joinedPlace", () => {
     expect(spansUntil(spans, 11)).toEqual([{ ...spans[0], to: 11 }]);
     expect(joinedPlace(spans, 15, 18)).toEqual([2, 5]);
     expect(joinedPlace(spans, 11, 16)).toEqual([1, 3]);
+  });
+});
+
+describe("trimToTrail", () => {
+  const attach = { parts: ["attach" as const], from: 10, to: 12 };
+  const move = { parts: ["move" as const], from: 14, to: 17 };
+  const destroy = { parts: ["destroy" as const], from: 18, to: 19 };
+  const spans = [attach, move, destroy];
+  // A frame every 0.1 s of each span, bright only from 15 s to 16.5 s.
+  const scored = (bright: (time: number) => boolean) =>
+    spans.flatMap((span) => Array.from({ length: Math.round((span.to - span.from) * 10) }, (_, n) => span.from + n / 10)).map((time) => ({ time, score: bright(time) ? 0.2 : 0 }));
+
+  it("drops the spans that show nothing and starts the move a little before the trail", () => {
+    const trimmed = trimToTrail(spans, move, scored((time) => time >= 15 && time < 16.5));
+    expect(trimmed.map((span) => span.parts[0])).toEqual(["move"]);
+    expect(trimmed[0]!.from).toBeCloseTo(14.7);
+    expect(trimmed[0]!.to).toBe(17);
+  });
+
+  it("keeps a span that shows something", () => {
+    const trimmed = trimToTrail(spans, move, scored((time) => (time >= 15 && time < 16.5) || (time >= 10.5 && time < 11)));
+    expect(trimmed.map((span) => span.parts[0])).toEqual(["attach", "move"]);
+  });
+
+  it("keeps every span when the move shows nothing either", () => {
+    expect(trimToTrail(spans, move, scored(() => false))).toEqual(spans);
+  });
+
+  it("places a time into joined spans back in the recording", () => {
+    expect(recordingTime(spans, 0.5)).toBe(10.5);
+    expect(recordingTime(spans, 2.5)).toBe(14.5);
+    expect(recordingTime(spans, 99)).toBe(19);
   });
 });
 

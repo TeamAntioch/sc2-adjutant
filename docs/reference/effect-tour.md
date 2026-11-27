@@ -39,6 +39,8 @@ Each event's time is reckoned from the stop of the frame that follows it, less t
 
 The picked frames are searched in the clip's spans, so each one's time (its caption in `index.html`) is into the clip. For most effects the search runs to the stand frame, before the host moves. A missile, or a model with ribbons, forms its trail only while it moves, so its search runs through the move too, and two of its four picks are kept for the moving frames with the most new bright pixels. A plain change from the base frame can't find a trail there, since the camera pulls back and follows the host and the whole ground shifts.
 
+A missile, and most ribbon models, draw nothing until they move, so their attach spans showed only a bare host. When a trail's move shows new bright pixels, its clip is trimmed (`trimToTrail`): the move starts 0.3 s before the trail first shows, and an attach, Destroy or Death span with no new bright pixels is dropped. With its attach dropped, all four picks are of the trail. When the move shows no new bright pixels either (a dark or faint trail, which this score can't see), the clip keeps all its spans. Other effects keep their attach: an impact fires in its first 100 ms.
+
 ## Video quality and size
 
 `capture --video` records the game window and cuts a clip for each effect from that recording. The gallery publishes a web-encoded copy of each clip, so the clips are masters and should lose as little as they can.
