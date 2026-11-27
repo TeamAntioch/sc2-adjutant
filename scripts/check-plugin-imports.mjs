@@ -44,6 +44,22 @@ async function pluginFolders() {
 
 const skipped = (file) => file.split(path.sep).some((part) => part === "tests" || part === "node_modules") || /^vitest\.config\.[cm]?ts$/.test(path.basename(file));
 
+/**
+ * The files under `folder`, as paths relative to it, never entering a `tests` or `node_modules`
+ * folder. pnpm links the workspace's packages into each other's node_modules (core and the Doodad
+ * Finder each link the other), and `readdir`'s `recursive` follows those links round for ever.
+ */
+async function filesUnder(folder, relative = "") {
+  const files = [];
+  for (const entry of await readdir(path.join(folder, relative), { withFileTypes: true })) {
+    const file = path.join(relative, entry.name);
+    if (entry.isDirectory()) {
+      if (!skipped(file)) files.push(...(await filesUnder(folder, file)));
+    } else if (entry.isFile()) files.push(file);
+  }
+  return files;
+}
+
 function selfCheck() {
   const plugin = path.join(ROOT, "packages/plugin-example");
   const found = coreImportsOutsideSdk(
@@ -76,7 +92,7 @@ selfCheck();
 const problems = [];
 let checked = 0;
 for (const folder of await pluginFolders()) {
-  const files = (await readdir(path.join(ROOT, folder), { recursive: true })).filter((file) => file.endsWith(".ts") && !file.endsWith(".d.ts") && !skipped(file));
+  const files = (await filesUnder(path.join(ROOT, folder))).filter((file) => file.endsWith(".ts") && !file.endsWith(".d.ts") && !skipped(file));
   for (const file of files) {
     for (const statement of coreImportsOutsideSdk(await readFile(path.join(ROOT, folder, file), "utf8"), path.join(ROOT, folder, file), path.join(ROOT, folder))) problems.push(`${folder}/${file}: ${statement}`);
     checked++;
