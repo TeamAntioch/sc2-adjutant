@@ -408,6 +408,7 @@ void Tb_Restore () {
     int e;
     int n = 0;
     tb_bank = BankLoad(TB_TUNE_BANK, 1);
+    BankWait(tb_bank);           // a bank the map doesn't preload is read in the background: empty until this
     for (e = 0; e < tb_ne; e += 1) {
         s = tb_eSec[e];
         if (Tb_SectionIs(s, e)) {
@@ -1017,6 +1018,7 @@ bool Tb_OnEvent (bool testConds, bool runActions) {
     else if (c == tb_reset) { Tb_Reset(); }
     else if (c == tb_send) {
         s = DialogControlGetPropertyAsString(tb_edit, c_triggerControlPropertyEditText, 1);
+        if (s == "") { return true; }
         if (StringWord(s, 1) == "target" && tb_target != null) {
             ActorSend(Tb_Actor(tb_target), StringSub(s, 8, StringLength(s)));
             Tb_Msg("target actor: " + StringSub(s, 8, StringLength(s)));
@@ -1145,6 +1147,7 @@ void Tb_Gui () {
 bool Tb_Tour (bool testConds, bool runActions) {
     bank b = BankLoad(TB_TOUR_BANK, 1);
     int i;
+    BankWait(b);
     Wait(4.0, c_timeGame);       // let the window settle before the first frame
     for (i = 0; i < tb_ntour; i += 1) {
         tb_cur = tb_tU[i];
@@ -1199,7 +1202,7 @@ bool Tb_Start (bool testConds, bool runActions) {
     Tb_Data();
     // A tour films the build's own times, not the bank's.
     if (tb_ntour == 0) { Tb_Restore(); }
-    else { tb_bank = BankLoad(TB_TUNE_BANK, 1); }
+    else { tb_bank = BankLoad(TB_TUNE_BANK, 1); BankWait(tb_bank); }
     for (u = 0; u < TB_NU; u += 1) { Tb_Spawn(u); }
     if (TB_TARGET != "") {
         Tb_SpawnTarget();

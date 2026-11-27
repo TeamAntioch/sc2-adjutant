@@ -30,6 +30,48 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const RUNTIME_PATH = path.join(HERE, path.basename(HERE) === "dist" ? ".." : ".", "runtime", "testbed.galaxy");
 export const SCRIPT_ID = "E7710200";
 export const INIT_FUNC = "Tb_Init";
+
+/**
+ * A bank the map doesn't preload reads as empty at map init, so a tuning saved in one game never
+ * came back in the next. The Editor preloads the banks its package's BankList.xml names, and writes
+ * that list from the Preload Bank actions (Ntve's BankPreload, which compiles to no statement) when
+ * it saves, Test Document's save too. So the map gets both: the list, and a Map Initialization
+ * trigger that preloads each bank for player 1.
+ */
+export function withBankPreloads(triggers: string, banks: readonly string[]): string {
+  const id = (n: number) => (0xe7710300 + n).toString(16).toUpperCase();
+  const items: string[] = [];
+  const elements = [`    <Element Type="Trigger" Id="${id(0)}">`, `        <Event Type="FunctionCall" Id="${id(1)}"/>`];
+  banks.forEach((_, i) => elements.push(`        <Action Type="FunctionCall" Id="${id(10 + 3 * i)}"/>`));
+  elements.push("    </Element>", `    <Element Type="FunctionCall" Id="${id(1)}">`, '        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>', "    </Element>");
+  banks.forEach((bank, i) => {
+    const [call, name, player] = [id(10 + 3 * i), id(11 + 3 * i), id(12 + 3 * i)];
+    elements.push(
+      `    <Element Type="FunctionCall" Id="${call}">`,
+      '        <FunctionDef Type="FunctionDef" Library="Ntve" Id="7D278C76"/>',
+      `        <Parameter Type="Param" Id="${name}"/>`,
+      `        <Parameter Type="Param" Id="${player}"/>`,
+      "    </Element>",
+      `    <Element Type="Param" Id="${name}">`,
+      '        <ParameterDef Type="ParamDef" Library="Ntve" Id="437A2BAF"/>',
+      `        <Value>${bank}</Value>`,
+      '        <ValueType Type="string"/>',
+      "    </Element>",
+      `    <Element Type="Param" Id="${player}">`,
+      '        <ParameterDef Type="ParamDef" Library="Ntve" Id="6B3940B7"/>',
+      "        <Value>1</Value>",
+      '        <ValueType Type="int"/>',
+      "    </Element>",
+    );
+  });
+  items.push(`        <Item Type="Trigger" Id="${id(0)}"/>`);
+  return triggers.replace("    </Root>", `${items.join("\n")}\n    </Root>`).replace("</TriggerData>", `${elements.join("\n")}\n</TriggerData>`);
+}
+
+/** The package's BankList.xml: the banks the game preloads for player 1. */
+export function bankList(banks: readonly string[]): string {
+  return ['<?xml version="1.0" encoding="utf-8"?>', "<BankList>", ...banks.map((b) => `    <Bank Name="${b}" Player="1"/>`), "</BankList>", ""].join("\n");
+}
 /** The bank a --capture build's tour announces its stops in. */
 export const TOUR_BANK = "AnimTestbed";
 
@@ -699,7 +741,8 @@ export async function buildTestbed(specPath: string, options: BuildOptions = {})
   // ---- Write the map
   await rm(outMap, { recursive: true, force: true });
   await cp(base, outMap, { recursive: true });
-  await writeFile(path.join(outMap, "Triggers"), withCustomScript(undefined, SCRIPT_ID, script, INIT_FUNC));
+  await writeFile(path.join(outMap, "Triggers"), withBankPreloads(withCustomScript(undefined, SCRIPT_ID, script, INIT_FUNC), [tuneBank, TOUR_BANK]));
+  await writeFile(path.join(outMap, "BankList.xml"), bankList([tuneBank, TOUR_BANK]));
   // Test Document runs MapScript.galaxy as it is, so the script goes there too, in an empty map script.
   const emptyScript = writeMapScript({ mapName: name, triggers: { variables: [], triggers: [] } });
   await writeFile(path.join(outMap, "MapScript.galaxy"), withCustomScriptInMapScript(emptyScript, SCRIPT_ID, script, INIT_FUNC));

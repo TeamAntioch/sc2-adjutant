@@ -90,6 +90,13 @@ describe("buildTestbed", () => {
     expect(result.counts).toMatchObject({ units: 3, moments: 4, variations: 22, elements: 43, files: 0 });
     const triggers = await readFile(path.join(outMap, "Triggers"), "utf8");
     expect(triggers).toContain(`<InitFunc>${INIT_FUNC}</InitFunc>`);
+    // The banks are preloaded, or a game reads them as empty at map init: a Map Initialization
+    // trigger with a Preload Bank for each, from which the Editor writes BankList.xml, and the list.
+    expect(triggers).toMatch(/<Item Type="Trigger" Id="E7710300"\/>\n {4}<\/Root>/);
+    expect(triggers).toContain('<FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>');
+    expect(triggers.match(/Library="Ntve" Id="7D278C76"/g)).toHaveLength(2);
+    expect(triggers).toContain(`<Value>${result.tuneBank}</Value>`);
+    expect(await readFile(path.join(outMap, "BankList.xml"), "utf8")).toContain(`<Bank Name="${result.tuneBank}" Player="1"/>`);
     const mapScript = await readFile(path.join(outMap, "MapScript.galaxy"), "utf8");
     expect(mapScript).toContain('Tb_U(0, "marine", "Marine"');
     // Moments are names; each variation is followed by its elements: kind, what, animation, place, child, at, stop, muted.
