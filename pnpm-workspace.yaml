@@ -9,3 +9,10 @@ nodeLinker: hoisted
 # The plugins' peer dependency on core and the site's dependency on it are the workspace's core,
 # never the published one, as they were under npm workspaces.
 linkWorkspacePackages: true
+
+# The dependencies whose install scripts run, as npm ran them. pnpm runs no others, and in CI an
+# unlisted one with an install script fails the install (ERR_PNPM_IGNORED_BUILDS).
+allowBuilds:
+  esbuild: true
+  onnxruntime-node: true
+  protobufjs: true
