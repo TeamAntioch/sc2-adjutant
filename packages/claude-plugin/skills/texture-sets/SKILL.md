@@ -102,4 +102,18 @@ Give the author:
 
 For the author to judge the set in game against the map before it, or two candidate sets against each other, run a Still Review with the `still-review` skill.
 
-Changes the author asks for (a different base, a warmer trim) go back to step 3 for that role alone.
+Changes the author asks for (a different base, a warmer trim) go back to step 3 for that role alone. A note about how much of a texture shows in part of the map ("a hint of stone along the wall") is a Paint Region (below).
+
+## Paint Regions: how much of a texture, where
+
+A palette or a set names textures with no amounts. To say how much of a texture shows in part of the map, write a **Paint Region** with `paint_region` (ADR-0028): an outline (a Zone, a `rect` of cells, or a box on a Still Review frame) and a mix that overrides the Zones' palette inside it, feathered over `falloff` cells (2 by default). Each mix entry is one of:
+
+- **Blend weight**, `{ texture, weight }`: that fraction of the texture's layer in every cell. Use it for a texture *through* the ground, everywhere in the region: a hint of grime over the floor, the grass a little greyer.
+- **Area share**, `{ texture, share }`: patches of the texture over about that fraction of the region, the variety painter's washes with full-strength cores. Use it for *some places* being the texture: rubble over a fifth of the ground, a few patches of sand.
+- `{ texture }`: takes what the others leave, at most one. Without it, the ground the Zone's palette paints fills the rest.
+
+Weights and shares together are at most 1. A note like "15% stone" can mean either: ask the author whether they mean a hint in every cell or patches over 15% of the ground. Each texture must be in the texture set of every cell the region paints, and `paint_region` refuses one that isn't, naming the set and its textures.
+
+**On height-blended textures a low weight shows as crevice patches, not a tint.** On a LotV tileset that turns height blending on (BelShirEx2, CharEx2, MarSaraEx2, Slayn and others), the game multiplies each layer's weight by its texture's height map and cuts any layer well below the strongest. A stone at weight 0.15 then shows in the other textures' crevices, in patches, and covers less than 15%. Over a texture with no height map (every Liberty and Swarm texture) it can vanish, and above about half weight the stronger texture takes nearly every texel. So on such ground a low weight gives "peeking through the cracks", and an even tint comes from a base texture closer in tone. On a tileset with it off (`KorhalCityEx2`, the default) a weight blends evenly, as a tint. Which tilesets and textures do it, a proposed list still awaiting the author's confirmation, is in sc2-adjutant's `docs/reference/height-blending.md`: check the map's tileset there before saying how a weight will look.
+
+After a compile, `texture_usage` lists each region's textures as painted beside what its mix asked: a weight or a share as the mean layer weight past the falloff, and the cells each texture is dominant in. These are the weights in the masks, before height blending, so on a height-blended texture less can show in game than it reports. Judge the look in game with a Still Review (the `still-review` skill), which also turns a review note into a region.

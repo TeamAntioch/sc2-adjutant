@@ -293,6 +293,14 @@ describe("the tutorials", () => {
     expect(stills.skills).toEqual(["still-review"]);
   });
 
+  it("lists the Paint Region tutorial eighth, writing a region from a Still Review frame and judging it in the next round", () => {
+    const regions = tutorial("paint-region");
+    expect(regions).toMatchObject({ number: 8, title: "From a note to a Paint Region", file: "08-paint-region.mdx" });
+    expect(regions.tools).toEqual(expect.arrayContaining(["paint_region", "compile_map", "capture_shots", "build_still_review", "record_still_feedback", "texture_usage"]));
+    expect(regions.objectives.filter((objective) => objective.needs.length > 0).every((objective) => objective.needs.join() === "editor.captureTour")).toBe(true);
+    expect(regions.skills).toEqual(expect.arrayContaining(["still-review", "texture-sets"]));
+  });
+
   it("lists under each skill the tutorials that link to its page, and only those", () => {
     for (const skill of reference.skills) {
       const linking = reference.tutorials.filter((candidate) => candidate.skills.includes(skill.slug)).map((candidate) => candidate.slug);
