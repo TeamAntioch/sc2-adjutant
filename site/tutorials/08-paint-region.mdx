@@ -1,0 +1,180 @@
+export const meta = {
+  title: "From a note to a Paint Region",
+  summary: "Turn a Still Review note about the ground into a Paint Region, from a box on the Shot's frame, choosing a blend weight or an area share, then judge it beside the note in the next round and measure it once it's kept.",
+  minutes: 20,
+};
+
+A note on a Still Review page often says how much of a texture should show, and where: more of one texture in part of a Shot, less of another along a wall. A Zone's texture palette has no amounts, so Claude writes the note as a **Paint Region**: an outline on the map with a texture mix that overrides the Zone's palette inside it, feathered at its edge. Then the next round shows it beside the note that asked for it.
+
+This picks up where [Reviewing stills in game](/tutorials/still-review/) left off: the set `ground` of *Ashfall Relay*, with round 2 reviewed and its feedback not yet read back. The [`still-review`](/skills/still-review/) skill runs the rounds, and the [`texture-sets`](/skills/texture-sets/) skill says when a texture gets a blend weight and when an area share. The captures need a Host Adapter that can run camera tours.
+
+The turns below are written by hand, as in the last tutorial. Your notes are yours, so they're left as placeholders here. The box and the mix in the tool calls are an example of what the tools take, not what your note asks for.
+
+<Objective id="note" title="Read the note back">
+
+<You>Done with round 2.</You>
+
+Claude reads round 2's page back, as at the end of the last tutorial, and records it.
+
+<Claude>
+<ToolCall
+  name="record_still_feedback"
+  args={{
+    round: "missions/ashfall-relay/output/stills/ground/r2",
+    rows: [
+      { path: "shots/2", data: { best: "washes-2", tags: [], note: "TODO(author): the author's own note on the flats Shot, about how much of a texture shows and where" } },
+      { path: "review/overall", data: { note: "TODO(author): the author's own note on round 2" } },
+      { path: "review/status", data: { done: true } },
+    ],
+  }}
+>
+  writes feedback.json and feedback.md in round 2's folder
+</ToolCall>
+
+Round 2 of `ground`:
+
+- **flats:** `washes-2` is best. In your words: TODO(author), the note above.
+- **pad**, **mesa** and **relay:** no feedback.
+
+Overall: TODO(author), your note on round 2. Is that right?
+</Claude>
+
+<You>That's right.</You>
+
+Your note asks for an amount of a texture in part of the Shot, so Claude proposes a Paint Region. First it settles what kind of amount you mean, since the same number reads two ways:
+
+- A **blend weight** is that fraction of the texture's layer in every cell: a texture *through* the ground, everywhere in the region, like a tint.
+- An **area share** is patches of the texture over about that fraction of the region, each with a full-strength core and a soft edge: *some places* are that texture.
+
+<Claude>
+For your note I'd add a Paint Region over the part of the flats Shot it names: TODO(author), the place, texture and amount follow from the author's note. Do you want that texture as patches over part of that ground, or a little of it through every cell?
+</Claude>
+
+<You>Patches.</You>
+
+*Ashfall Relay* sets no tileset, so it is on `KorhalCityEx2`, which has height blending off: a blend weight there should show evenly, as a tint (read from the game's data, not yet checked in game). On a LotV tileset with height blending on, such as `BelShirEx2` or `CharEx2`, a low weight shows instead as patches in the other textures' crevices, and less of it than the weight says. The `texture-sets` skill names those tilesets, and Claude says so before you judge a weight on one.
+
+</Objective>
+
+<Objective id="region" title="Mark the place and write the region">
+
+The change is the next version, `rubble`, on its own branch from `washes-2`'s: `still/ground-r3-rubble`. Claude writes the region with [`paint_region`](/tools/paint_region/). Its outline here is a box on the flats Shot's frame, as fractions of the frame from its top-left corner: `[left, top, right, bottom]`. The review page has no drawing tool, so Claude reads the place from your note and the frame, and tells you the box in words before it writes.
+
+<Claude>
+On the flats frame I'll take the left 40% of the lower half: from the left edge to 0.4 across, from halfway down to the bottom. Every version frames that Shot through the same camera, so I'll use `before`'s capture.
+
+<ToolCall
+  name="paint_region"
+  args={{
+    mission: "ashfall-relay",
+    id: "flats-rubble",
+    frame: { capture: "ground-before", shot: "flats", box: [0, 0.5, 0.4, 1] },
+    mix: [{ texture: "KorhalCityEx2_8", share: 0.2 }],
+    levels: [1],
+  }}
+>
+  turns the box into cells through the Shot's camera and saves the region in the Blueprint
+</ToolCall>
+
+The region `flats-rubble` is saved: rubble patches over about 20% of that ground, the rest left to the flats' palette, fading in over 2 cells from its edge. `levels: [1]` keeps it off the mesa above. I've committed it on `still/ground-r3-rubble`.
+</Claude>
+
+The box becomes cells through the Shot's camera in the capture's `shots.json`, on flat ground at the camera target's height, so on steep relief it drifts a little. It's saved as the region's `polygon`, a few lines of JSON you can read in the Blueprint and in a diff.
+
+A region's outline can come two other ways. `zone` takes a Zone's polygon, and the region follows the Zone when it moves: use it when the note is about a whole Shot's Zone. `rect` takes a rectangle of cells, `[left, bottom, right, top]`, as a Shot's own rect. The mix may hold up to 8 textures, each with a `weight`, a `share` or neither; the one with neither takes what the others leave, and the weights and shares together are at most 1. Each texture must be in the texture set of every cell the region paints: `paint_region` checks the mix before it saves, and refuses one that isn't, naming the set and its textures.
+
+</Objective>
+
+<Objective id="round-3" title="Judge it beside the note" needs="editor.captureTour">
+
+Round 3 reuses the set's Shots and every capture on disk, so only `rubble` is compiled and captured.
+
+<Claude>
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay", outputDir: "missions/ashfall-relay/output/r3/Ashfall-Relay-ground-rubble.SC2Map", copy: true }}>
+  compiles the Blueprint with the region into a fresh copy of the committed package
+</ToolCall>
+
+One capture, about three minutes: leave the screen alone until it's done. Same lighting as before, the tileset's default.
+
+<ToolCall
+  name="capture_shots"
+  args={{
+    mapPath: "missions/ashfall-relay/output/r3/Ashfall-Relay-ground-rubble.SC2Map",
+    shots: [
+      { rect: [10, 23.5, 40, 40.5], label: "pad" },
+      { rect: [33, 11.5, 63, 28.5], label: "flats" },
+      { rect: [33, 27, 63, 44], label: "mesa" },
+      { rect: [56, 23.5, 86, 40.5], label: "relay" },
+    ],
+    name: "ground-rubble",
+  }}
+>
+  captures the set's four Shots on the new version
+</ToolCall>
+
+<ToolCall
+  name="build_still_review"
+  args={{
+    mission: "ashfall-relay",
+    set: "ground",
+    round: "r3",
+    versions: [
+      { label: "before", note: "The committed map", captures: ["missions/ashfall-relay/output/shots/ground-before"] },
+      { label: "washes-2", note: "Round 2's best for the flats", captures: ["/Users/you/Library/Caches/sc2-adjutant/shots/ground-washes-2"] },
+      { label: "rubble", note: "washes-2, with a Paint Region of rubble patches for round 2's note", captures: ["/Users/you/Library/Caches/sc2-adjutant/shots/ground-rubble"] },
+    ],
+    previous: "missions/ashfall-relay/output/stills/ground/r2",
+  }}
+>
+  builds round 3, with round 2's feedback beside each Shot
+</ToolCall>
+
+Every frame is on the page. Here's round 3 of `ground`: the flats Shot shows your round 2 note under it.
+</Claude>
+
+Judge the flats Shot against the note beside it: is the texture where the note said, and about as much of it? Flip between `washes-2` and `rubble` to see the region's edge fade in. Pick, tag and note as before, then press Done reviewing.
+
+<You>Done.</You>
+
+<Claude>
+<ToolCall
+  name="record_still_feedback"
+  args={{
+    round: "missions/ashfall-relay/output/stills/ground/r3",
+    rows: [
+      { path: "shots/2", data: { best: "rubble", tags: ["good"], note: "TODO(author): the author's own note on the flats Shot in round 3" } },
+      { path: "review/status", data: { done: true } },
+    ],
+  }}
+>
+  writes round 3's feedback
+</ToolCall>
+
+Round 3: **flats**, `rubble` is best, tagged Good. In your words: TODO(author), the note above. Is that right?
+</Claude>
+
+<You>Yes. Keep rubble, the set's finished.</You>
+
+If the region needs another try, such as a smaller box or less of the texture, Claude calls `paint_region` again with the same `id` on the next version's branch, giving only what changes: what it leaves out stays. That version goes into round 4, as `rubble` went into round 3.
+
+</Objective>
+
+<Objective id="measure" title="Keep it and measure it">
+
+Claude keeps `rubble` as the last tutorial kept a version: it merges `still/ground-r3-rubble`, compiles in place, commits the Map Package with its compile record, and deletes the set's branches.
+
+<Claude>
+<ToolCall name="compile_map" args={{ mission: "ashfall-relay" }}>
+  compiles the kept version in place, so the committed Map Package is that version
+</ToolCall>
+
+<ToolCall name="texture_usage" args={{ mission: "ashfall-relay" }}>
+  measures each Paint Region's textures as painted, beside what its mix asked
+</ToolCall>
+
+The committed package is `rubble` now. Under Paint Regions, `texture_usage` reports `flats-rubble`: the cells it paints, how many are past its 2-cell falloff, and for `KorhalCityEx2_8` the share it asked beside the share painted there, with the fraction of its cells the rubble is the dominant texture of.
+</Claude>
+
+[`texture_usage`](/tools/texture_usage/) reads the committed Map Package, which is why the region is measured only now: during the rounds, each version was a copy, and the frames were the measure. A share is measured as the texture's mean layer weight over the region's ground past its falloff, the measure the compile calibrates its patches to. These are the weights the compile painted. On a height-blended texture, less can show in game than the report says, so the frames stay the judge.
+
+</Objective>

@@ -34,7 +34,8 @@ import { z } from "zod";
 import { isKnownTexture } from "../catalog/tileset-textures.js";
 import { readT3TerrainXml } from "../terrain/read-t3-terrain-xml.js";
 import { readT3TextureMasks, type T3TextureMasks } from "../terrain/read-t3-texture-masks.js";
-import { blockOf, blockOrigin, CELLS_PER_BLOCK, LAYERS, SETS, TEXELS_PER_CELL } from "../terrain/texture-grid.js";
+import { blockOf, blockOrigin, CELLS_PER_BLOCK, distanceToCell, feather, FULL_WEIGHT, LAYERS, SETS, TEXELS_PER_CELL } from "../terrain/texture-grid.js";
+import { applyPaintRegions, ditherThreshold, quantizeDithered, type RasterisedRegion } from "../terrain/paint-regions.js";
 import type { AreaMask, CellRect } from "./area.js";
 
 const MASK_HEADER = 64;
@@ -43,7 +44,7 @@ export const SYNC_HEADER = 20;
 const TEXELS_PER_TILE = 64;
 const BYTES_PER_TILE = (TEXELS_PER_TILE * TEXELS_PER_TILE) / 2;
 const TEXELS_PER_BLOCK = CELLS_PER_BLOCK * TEXELS_PER_CELL;
-const FULL = 15;
+const FULL = FULL_WEIGHT;
 /** The Editor leaves this many texels unpainted on each side of a boundary between sets. */
 const SET_BAND = 2;
 /** How deep, in texels from a boundary between sets, a texture counts as meeting the other side. */
@@ -295,6 +296,46 @@ export function paintSlot(textures: KeptTextures, mask: AreaMask, target: PaintT
   return { masks: after, changedTexels, texelCount, changedCells, touchedCells, dominant, nowDominant, offSetBlocks: [...offSet].sort((a, b) => a - b) };
 }
 
+/**
+ * Paints a rasterised Paint Region (terrain/paint-regions.ts) over the masks: each texel it reaches
+ * moved towards its mix on its block's set by its strength there, rounded to 15 by dithering. Its
+ * cells are a generating Zone's own, so it paints up to a boundary between sets.
+ */
+export function paintRegionStroke(textures: KeptTextures, region: RasterisedRegion): PaintStroke {
+  const { width, masks } = textures;
+  const layers = masks.layers.map((layer) => Uint8Array.from(layer));
+  const changedTexels = new Uint8Array(masks.maskWidth * masks.maskHeight);
+  const changedCells = new Uint8Array(width * textures.height);
+  const shares = new Float64Array(LAYERS);
+  const next = new Uint8Array(LAYERS);
+  const regions = [region];
+  let texelCount = 0;
+  for (let y = region.y * TEXELS_PER_CELL; y < (region.y + region.height) * TEXELS_PER_CELL; y++) {
+    const cellY = Math.floor(y / TEXELS_PER_CELL);
+    let set = -1;
+    for (let x = region.x * TEXELS_PER_CELL; x < (region.x + region.width) * TEXELS_PER_CELL; x++) {
+      const t = y * masks.maskWidth + x;
+      const cellX = Math.floor(x / TEXELS_PER_CELL);
+      // A cell's set, once per cell along the row.
+      if (x % TEXELS_PER_CELL === 0 || set < 0) set = cellSet(textures, cellX, cellY);
+      for (let l = 0; l < LAYERS; l++) shares[l] = layers[l]![t]! / FULL;
+      if (!applyPaintRegions(regions, shares, x, y, set)) continue;
+      quantizeDithered(shares, next, 0, ditherThreshold(x, y));
+      let changed = false;
+      for (let l = 0; l < LAYERS; l++) changed ||= next[l] !== layers[l]![t];
+      if (!changed) continue;
+      for (let l = 0; l < LAYERS; l++) layers[l]![t] = next[l]!;
+      changedTexels[t] = 1;
+      changedCells[cellY * width + cellX] = 1;
+      texelCount++;
+    }
+  }
+  const after = { ...masks, layers };
+  const dominant = new Map<number, number>();
+  for (let cell = 0; cell < changedCells.length; cell++) if (changedCells[cell]) dominant.set(cell, dominantLayer(after, width, cell));
+  return { masks: after, changedTexels, texelCount, changedCells, touchedCells: Uint8Array.from(region.cells), dominant, nowDominant: 0, offSetBlocks: [] };
+}
+
 /** Whether a texel of a block of another set lies within {@link SET_BAND} texels of (x, y). */
 function nearOtherSet(textures: KeptTextures, x: number, y: number, set: number): boolean {
   const inX = x % TEXELS_PER_BLOCK;
@@ -351,10 +392,8 @@ function texelStrength(mask: AreaMask): { strength: Float32Array; reach: CellRec
           const px = cx + (tx + 0.5) / TEXELS_PER_CELL;
           const py = cy + (ty + 0.5) / TEXELS_PER_CELL;
           let d = Infinity;
-          for (const [ix, iy] of near) d = Math.min(d, Math.hypot(Math.max(ix - px, 0, px - ix - 1), Math.max(iy - py, 0, py - iy - 1)));
-          if (d >= falloff) continue;
-          const s = d / falloff;
-          out[t] = 1 - s * s * (3 - 2 * s);
+          for (const [ix, iy] of near) d = Math.min(d, distanceToCell(px, py, ix, iy));
+          out[t] = feather(d, falloff);
         }
       }
     }

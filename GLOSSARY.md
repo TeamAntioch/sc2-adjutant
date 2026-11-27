@@ -168,6 +168,10 @@ _Avoid_: Terrain patch, sculpt
 One of a map's up to 8 sets of 8 terrain textures. Each 8×8-cell block of the map draws on one set, and the Editor allows 16 different textures across them all. A Mission can declare sets of its own in its Blueprint (`textureSets`): each holds textures from any tileset, and is painted over the generating Zones it lists or that stand at its `levels` (any Zone, on a fully generated map, where a `palette` of its own gives them bands and variety), whose blocks the compile moves onto it (ADR-0016).
 _Avoid_: Tileset (a tileset is the game's own bundle of lighting, cliffs and default textures; a set's name only names one), palette (the `texturePalette` of a generated map)
 
+**Paint Region**:
+A polygon in a Mission Blueprint (`paintRegions`), or a Zone's polygon, with a texture mix that overrides its Zones' palette inside it. Each texture in the mix has a blend weight (that fraction of its layer in every cell), an area share (patches covering about that fraction of the region), or no amount, for the one texture that takes what the others leave. The compile paints the Zone palettes, then the regions in order, each feathered at its edge. A region names only textures of the texture set its cells are on (ADR-0028).
+_Avoid_: Paint area, texture region, mask (a Paint Region is a polygon, not a bitmap)
+
 **Beat**:
 A distinct narrative and gameplay phase within a Mission's progression, bounded by trigger conditions, objectives, and story scenes.
 _Avoid_: Phase, act, stage, step

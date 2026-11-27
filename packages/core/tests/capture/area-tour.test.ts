@@ -3,7 +3,7 @@
 // with no game.
 import { describe, expect, it } from "vitest";
 
-import { cameraFootprint, fitRect, framesDisc, framesRect, PLAYER_CAMERA, planAreaTour, type TourView } from "../../src/capture/area-tour.js";
+import { cameraFootprint, fitRect, frameToGround, framesDisc, framesRect, PLAYER_CAMERA, planAreaTour, type TourView } from "../../src/capture/area-tour.js";
 import { containsPoint } from "../../src/terrain/rasterize.js";
 
 const BOUNDS = [0, 0, 256, 256] as const;
@@ -163,5 +163,33 @@ describe("fitRect", () => {
     const clamped = fitRect(rect, { pitch: 75, yawOffset: 0 }, [20, 20, 236, 236]);
     expect(clamped.target).toEqual([20, 20]);
     expect(clamped.whole).toBe(false);
+  });
+});
+
+describe("frameToGround", () => {
+  const topDown = { target: [50, 50] as const, distance: 40, pitch: 90, yawOffset: 0, fov: PLAYER_CAMERA.fov };
+  const close = (point: { x: number; y: number }, digits = 4) => ({ x: expect.closeTo(point.x, digits), y: expect.closeTo(point.y, digits) });
+
+  it("puts the frame's middle on the camera's target, at any pitch", () => {
+    expect(frameToGround(topDown, 0.5, 0.5)).toEqual(close({ x: 50, y: 50 }));
+    const player = { target: [100, 80] as const, ...PLAYER_CAMERA, yawOffset: 30 };
+    expect(frameToGround(player, 0.5, 0.5)).toEqual(close({ x: 100, y: 80 }));
+  });
+
+  it("looking straight down from 40 at the default field of view, sees 9.9 cells north and south and 17.6 east and west, north at the top", () => {
+    // tan(27.7995° / 2) × 40 = 9.899, and the 16:9 frame 17.598 each side.
+    expect(frameToGround(topDown, 0, 0)).toEqual(close({ x: 32.4, y: 59.9 }, 1));
+    expect(frameToGround(topDown, 1, 1)).toEqual(close({ x: 67.6, y: 40.1 }, 1));
+    // Turned 90° it looks west: the frame's top is west, its left south.
+    expect(frameToGround({ ...topDown, yawOffset: 90 }, 0, 0)).toEqual(close({ x: 40.1, y: 32.4 }, 1));
+  });
+
+  it("maps the frame's corners onto the camera's footprint at the player's pitch", () => {
+    const camera = { target: [120, 60] as const, ...PLAYER_CAMERA, yawOffset: -20 };
+    const [nearLeft, nearRight, farRight, farLeft] = cameraFootprint(camera);
+    expect(frameToGround(camera, 0, 1)).toEqual(close(nearLeft!));
+    expect(frameToGround(camera, 1, 1)).toEqual(close(nearRight!));
+    expect(frameToGround(camera, 1, 0)).toEqual(close(farRight!));
+    expect(frameToGround(camera, 0, 0)).toEqual(close(farLeft!));
   });
 });

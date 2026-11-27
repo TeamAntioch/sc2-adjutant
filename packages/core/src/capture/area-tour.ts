@@ -76,6 +76,28 @@ export function cameraFootprint(camera: Camera): XY[] {
   return [at(near.ahead, -near.halfWidth), at(near.ahead, near.halfWidth), at(far.ahead, far.halfWidth), at(far.ahead, -far.halfWidth)];
 }
 
+/**
+ * The ground point, in cells, a point of the camera's frame shows: `u` across from its left edge
+ * and `v` down from its top, each 0..1, on flat ground at the target's height, as cameraFootprint
+ * reads it (relief and cliffs aren't counted). The frame's corners are the footprint's.
+ */
+export function frameToGround(camera: Camera, u: number, v: number): XY {
+  const { forward, right } = axes(camera.yawOffset);
+  const pitch = rad(camera.pitch);
+  const tanHalf = Math.tan(rad((camera.fov ?? PLAYER_CAMERA.fov) / 2));
+  const height = camera.distance * Math.sin(pitch);
+  const back = camera.distance * Math.cos(pitch);
+  // The ray through the frame point, as the camera sees it: up the frame tilts it towards level.
+  const up = (1 - 2 * v) * tanHalf;
+  const side = (2 * u - 1) * tanHalf * ASPECT;
+  const down = Math.sin(pitch) - up * Math.cos(pitch);
+  if (down <= 0) throw new Error(`That point of the frame is at or above the horizon (camera pitched ${camera.pitch}°)`);
+  const reach = height / down;
+  const ahead = reach * (Math.cos(pitch) + up * Math.sin(pitch)) - back;
+  const across = reach * side;
+  return { x: camera.target[0] + forward.x * ahead + right.x * across, y: camera.target[1] + forward.y * ahead + right.y * across };
+}
+
 /** Whether the camera sees the whole rectangle. */
 export function framesRect(camera: Camera, rect: CellRect): boolean {
   const footprint = cameraFootprint(camera);

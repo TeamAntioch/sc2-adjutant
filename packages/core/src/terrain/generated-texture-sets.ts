@@ -17,7 +17,7 @@ import { Buffer } from "node:buffer";
 
 import { type MissionBlueprint, textureSetMapSizeMessage, textureSetOfZone } from "../domain/mission-blueprint.js";
 import { type KeptTextures, SYNC_HEADER } from "../kept-terrain/paint-brushes.js";
-import { blockLabel, blockOrigin, CELLS_PER_BLOCK, LAYERS, SETS, TEXELS_PER_CELL } from "./texture-grid.js";
+import { blockLabel, blockOrigin, blockSet, CELLS_PER_BLOCK, LAYERS, SETS, TEXELS_PER_CELL } from "./texture-grid.js";
 import { planTextureSets, type TextureSetPlan } from "../kept-terrain/texture-sets.js";
 import { writeT3SyncTextureInfo } from "./write-t3-sync-texture-info.js";
 
@@ -88,10 +88,7 @@ export function generatedTextureSets(blueprint: MissionBlueprint, textures: read
     const { x: bx, y: by } = blockOrigin(block, blocksPerRow);
     const blockCells: number[] = [];
     for (let y = by; y < by + CELLS_PER_BLOCK; y++) for (let x = bx; x < bx + CELLS_PER_BLOCK; x++) if (owner[y * width + x]! >= 0) blockCells.push(y * width + x);
-    const counts = new Array<number>(sets.length + 1).fill(0);
-    for (const cell of blockCells) counts[ownSet(cell)]!++;
-    // The first set with the most cells: set 0, then textureSets' order, on a tie.
-    const winner = counts.indexOf(Math.max(...counts));
+    const winner = blockSet(blockCells.map(ownSet), sets.length + 1);
     const over = new Map<string, number>();
     for (const cell of blockCells) {
       if (ownSet(cell) === winner) {

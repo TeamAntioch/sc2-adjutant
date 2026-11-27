@@ -91,6 +91,12 @@ Read the feedback when the author says they're done, or when the db's `review/st
 
 Act on the feedback only after the author confirms the summary. A change for a next round is a new version: back to step 2, the same set, the next round name, and this round as `previous`.
 
+**A note on how much of a texture shows becomes a Paint Region** ("less of the dark stone", "a bit of rubble along the wall on the left"). Write it as the next version's change, on its branch (step 2), with `paint_region`:
+
+1. **Where.** Turn the place the note names into an outline. A whole Shot's Zone: `zone`, so the region follows the Zone. A part of a frame: `frame`, `{ capture, shot, box }`, with `box` as `[left, top, right, bottom]` fractions of the frame from its top-left corner, and `capture` the reference version's capture: its name when it is a capture of the Mission's own package (under the Mission's `output/shots`), else the path of its `shots.json` (a compiled copy's capture is under the machine's `cacheDir`). Every version frames the Shot through the same camera, so any version's frame gives the same ground. The page has no drawing tool, so read the place from the note's words and the frame, and before writing describe the box to the author in words (the left third, lower half), or take the box they marked on a copy of the full-size frame. A spot known in cells: `rect`, `[left, bottom, right, top]`.
+2. **How much.** A blend weight or an area share, chosen as the `texture-sets` skill says, which also says where a low weight shows as crevice patches, not a tint: tell the author before they judge one there. Ask the author when the note could mean either.
+3. **Judge it in the next round.** Compile the version into a copy and capture it, as for any version. The round shows its frames beside the note that asked for it. `texture_usage` reads the committed package, so it measures the region only once its version is the kept one, compiled in place; until then the frames are the measure.
+
 When the author says the set is finished, ask which version to keep. Different Shots may favour different versions. Then the author picks one, or asks for a version that combines them, which is a next round. "No change" keeps `before`. For a kept version, with the author's OK:
 
 1. On the Workspace's branch, `git merge still/<set>-<round>-<label>`.

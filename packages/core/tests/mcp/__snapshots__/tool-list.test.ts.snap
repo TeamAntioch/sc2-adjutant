@@ -5697,7 +5697,7 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "destructiveHint": false,
       "readOnlyHint": true,
     },
-    "description": "Returns a Mission's Blueprint as stored (JSON, before defaults are filled in), or the part a JSON Pointer names, with any reasons it doesn't validate. Edit it with patch_blueprint, or with set_zone_polygon, move_zone and move_anchor.",
+    "description": "Returns a Mission's Blueprint as stored (JSON, before defaults are filled in), or the part a JSON Pointer names, with any reasons it doesn't validate. Edit it with patch_blueprint, or with set_zone_polygon, move_zone, move_anchor and paint_region.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -7004,6 +7004,222 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "type": "object",
     },
     "title": "Outline a trigger in the Editor's terms",
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Adds a Paint Region to a Mission's Blueprint, or edits one (ADR-0028): a polygon whose texture mix overrides its Zones' palette inside it, feathered at its edge. Its outline comes from one of: zone, a Zone's polygon (the region follows the Zone); rect, a rectangle of cells; or frame, a box on a Still Review frame from capture_shots, turned into cells through that Shot's camera in shots.json on flat ground at the camera target's height, and clipped to the map. Each mix entry gives a texture a blend weight (that fraction of its layer in every cell), an area share (patches over about that fraction of the region), or nothing (it takes what the others leave; at most one). Weights and shares together are at most 1. Editing an existing region, leave out what stays: its outline, mix, falloff or levels. The mix is checked before anything is saved: each texture must be in the texture set of every cell the region paints (beside Kept ground, the set the Map Package has the cells' blocks on). Compile, then texture_usage measures each region's textures as painted beside what it asked.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "falloff": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number",
+            },
+            {
+              "type": "null",
+            },
+          ],
+          "description": "Cells inward over which the mix fades in: 2 by default, 0 a hard edge; null removes it",
+        },
+        "frame": {
+          "additionalProperties": false,
+          "description": "Outline: a box marked on a Still Review frame",
+          "properties": {
+            "box": {
+              "additionalItems": false,
+              "description": "[left, top, right, bottom] on the frame, as fractions of its width and height from its top-left corner (0..1)",
+              "items": [
+                {
+                  "type": "number",
+                },
+                {
+                  "type": "number",
+                },
+                {
+                  "type": "number",
+                },
+                {
+                  "type": "number",
+                },
+              ],
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array",
+            },
+            "capture": {
+              "description": "The capture: its name (its folder in the Mission's output/shots), or the path of its shots.json from the Mission's folder",
+              "minLength": 1,
+              "type": "string",
+            },
+            "shot": {
+              "anyOf": [
+                {
+                  "maximum": 9007199254740991,
+                  "minimum": 1,
+                  "type": "integer",
+                },
+                {
+                  "minLength": 1,
+                  "type": "string",
+                },
+              ],
+              "description": "The Shot: its number, or its label",
+            },
+          },
+          "required": [
+            "capture",
+            "shot",
+            "box",
+          ],
+          "type": "object",
+        },
+        "id": {
+          "description": "The Paint Region's id: a new one adds it",
+          "minLength": 1,
+          "type": "string",
+        },
+        "levels": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 15,
+                "minimum": 0,
+                "type": "integer",
+              },
+              "minItems": 1,
+              "type": "array",
+            },
+            {
+              "type": "null",
+            },
+          ],
+          "description": "The cliff levels it paints; null paints every level",
+        },
+        "mission": {
+          "description": "The Mission's folder name in the Workspace's missions folder",
+          "minLength": 1,
+          "type": "string",
+        },
+        "mix": {
+          "description": "The textures and their amounts; a new region needs one",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "share": {
+                "description": "Area share: patches over about that fraction of the region",
+                "exclusiveMinimum": 0,
+                "maximum": 1,
+                "type": "number",
+              },
+              "texture": {
+                "description": "A texture of the region's texture set",
+                "minLength": 1,
+                "type": "string",
+              },
+              "weight": {
+                "description": "Blend weight: that fraction of its layer in every cell",
+                "exclusiveMinimum": 0,
+                "maximum": 1,
+                "type": "number",
+              },
+            },
+            "required": [
+              "texture",
+            ],
+            "type": "object",
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "type": "array",
+        },
+        "rect": {
+          "additionalItems": false,
+          "description": "Outline: [left, bottom, right, top], in cells",
+          "items": [
+            {
+              "type": "number",
+            },
+            {
+              "type": "number",
+            },
+            {
+              "type": "number",
+            },
+            {
+              "type": "number",
+            },
+          ],
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+        "zone": {
+          "description": "Outline: this Zone's polygon",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "required": [
+        "mission",
+        "id",
+      ],
+      "type": "object",
+    },
+    "name": "paint_region",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "issues": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "message": {
+                "type": "string",
+              },
+              "path": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "path",
+              "message",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+        "notes": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "saved": {
+          "type": "boolean",
+        },
+      },
+      "required": [
+        "saved",
+        "notes",
+        "issues",
+      ],
+      "type": "object",
+    },
+    "title": "Write a Paint Region",
   },
   {
     "annotations": {
@@ -9764,7 +9980,7 @@ exports[`the tool list > is the same on a bare machine 1`] = `
       "destructiveHint": false,
       "readOnlyHint": true,
     },
-    "description": "Reports what each texture slot of a Mission's Map Package paints, read from the package (ADR-0016): for each texture set (one per 8×8-cell block) and each of its 8 slots, the texture, the cells it is the dominant texture of, by Zone (a generating Zone's own cells, else the Kept Zone whose polygon holds them, else "(no Zone)"), and the cells with any weight of it; which slots are empty or painted nowhere; and how many more different textures fit under the Editor's 16. With a proposal (textures and the generating Zones it would paint, or set: the id of one of the Blueprint's textureSets), also: which of its textures the map has already (they cost nothing towards the 16), which are new, whether it fits, which layers the Kept ground in its Zones' blocks uses (the set must hold those textures on those layers, or the compile refuses), a slot order that meets them, which slots only those Zones use (emptying them after the move frees room), and textures that would meet themselves across the set's boundary, whatever their slots. It also lists each stretch of boundary between texture sets that needs cover, as a run of cells along an 8-cell block edge with the set and texture on each side: a hard cut where different textures meet, an artifact where a texture meets itself (whatever slot it has in each set); stretches under a cliff are left out. With render: true, it shows them over the ground round them, as the paint brushes' renders do (hard cuts red, artifacts magenta, cliff cells darkened): one image to each cluster of stretches, so sets far apart each get a readable view, with the cells each image shows. Reads only.",
+    "description": "Reports what each texture slot of a Mission's Map Package paints, read from the package (ADR-0016): for each texture set (one per 8×8-cell block) and each of its 8 slots, the texture, the cells it is the dominant texture of, by Zone (a generating Zone's own cells, else the Kept Zone whose polygon holds them, else "(no Zone)"), and the cells with any weight of it; which slots are empty or painted nowhere; and how many more different textures fit under the Editor's 16. With a proposal (textures and the generating Zones it would paint, or set: the id of one of the Blueprint's textureSets), also: which of its textures the map has already (they cost nothing towards the 16), which are new, whether it fits, which layers the Kept ground in its Zones' blocks uses (the set must hold those textures on those layers, or the compile refuses), a slot order that meets them, which slots only those Zones use (emptying them after the move frees room), and textures that would meet themselves across the set's boundary, whatever their slots. It also lists each stretch of boundary between texture sets that needs cover, as a run of cells along an 8-cell block edge with the set and texture on each side: a hard cut where different textures meet, an artifact where a texture meets itself (whatever slot it has in each set); stretches under a cliff are left out. With render: true, it shows them over the ground round them, as the paint brushes' renders do (hard cuts red, artifacts magenta, cliff cells darkened): one image to each cluster of stretches, so sets far apart each get a readable view, with the cells each image shows. For each of the Blueprint's Paint Regions (ADR-0028), it measures each texture of the region's mix as painted, beside what the mix asked (a blend weight, an area share or the rest): its mean blend weight over the region's texels past the falloff and over the whole region (an area share is measured as the first, the measure the compile calibrates its patches to), and the fraction of the region's cells it is the dominant texture of. A region the package can't show (no cell painted, or a texture its cells' set lacks) is listed as not measured, with why: compile after changing a region. Reads only.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -16943,7 +17159,7 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "destructiveHint": false,
       "readOnlyHint": true,
     },
-    "description": "Returns a Mission's Blueprint as stored (JSON, before defaults are filled in), or the part a JSON Pointer names, with any reasons it doesn't validate. Edit it with patch_blueprint, or with set_zone_polygon, move_zone and move_anchor.",
+    "description": "Returns a Mission's Blueprint as stored (JSON, before defaults are filled in), or the part a JSON Pointer names, with any reasons it doesn't validate. Edit it with patch_blueprint, or with set_zone_polygon, move_zone, move_anchor and paint_region.",
     "execution": {
       "taskSupport": "forbidden",
     },
@@ -18393,6 +18609,222 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "type": "object",
     },
     "title": "Outline a trigger in the Editor's terms",
+  },
+  {
+    "annotations": {
+      "destructiveHint": true,
+      "readOnlyHint": false,
+    },
+    "description": "Adds a Paint Region to a Mission's Blueprint, or edits one (ADR-0028): a polygon whose texture mix overrides its Zones' palette inside it, feathered at its edge. Its outline comes from one of: zone, a Zone's polygon (the region follows the Zone); rect, a rectangle of cells; or frame, a box on a Still Review frame from capture_shots, turned into cells through that Shot's camera in shots.json on flat ground at the camera target's height, and clipped to the map. Each mix entry gives a texture a blend weight (that fraction of its layer in every cell), an area share (patches over about that fraction of the region), or nothing (it takes what the others leave; at most one). Weights and shares together are at most 1. Editing an existing region, leave out what stays: its outline, mix, falloff or levels. The mix is checked before anything is saved: each texture must be in the texture set of every cell the region paints (beside Kept ground, the set the Map Package has the cells' blocks on). Compile, then texture_usage measures each region's textures as painted beside what it asked.",
+    "execution": {
+      "taskSupport": "forbidden",
+    },
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "properties": {
+        "falloff": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number",
+            },
+            {
+              "type": "null",
+            },
+          ],
+          "description": "Cells inward over which the mix fades in: 2 by default, 0 a hard edge; null removes it",
+        },
+        "frame": {
+          "additionalProperties": false,
+          "description": "Outline: a box marked on a Still Review frame",
+          "properties": {
+            "box": {
+              "additionalItems": false,
+              "description": "[left, top, right, bottom] on the frame, as fractions of its width and height from its top-left corner (0..1)",
+              "items": [
+                {
+                  "type": "number",
+                },
+                {
+                  "type": "number",
+                },
+                {
+                  "type": "number",
+                },
+                {
+                  "type": "number",
+                },
+              ],
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array",
+            },
+            "capture": {
+              "description": "The capture: its name (its folder in the Mission's output/shots), or the path of its shots.json from the Mission's folder",
+              "minLength": 1,
+              "type": "string",
+            },
+            "shot": {
+              "anyOf": [
+                {
+                  "maximum": 9007199254740991,
+                  "minimum": 1,
+                  "type": "integer",
+                },
+                {
+                  "minLength": 1,
+                  "type": "string",
+                },
+              ],
+              "description": "The Shot: its number, or its label",
+            },
+          },
+          "required": [
+            "capture",
+            "shot",
+            "box",
+          ],
+          "type": "object",
+        },
+        "id": {
+          "description": "The Paint Region's id: a new one adds it",
+          "minLength": 1,
+          "type": "string",
+        },
+        "levels": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 15,
+                "minimum": 0,
+                "type": "integer",
+              },
+              "minItems": 1,
+              "type": "array",
+            },
+            {
+              "type": "null",
+            },
+          ],
+          "description": "The cliff levels it paints; null paints every level",
+        },
+        "mission": {
+          "description": "The Mission's folder name in the Workspace's missions folder",
+          "minLength": 1,
+          "type": "string",
+        },
+        "mix": {
+          "description": "The textures and their amounts; a new region needs one",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "share": {
+                "description": "Area share: patches over about that fraction of the region",
+                "exclusiveMinimum": 0,
+                "maximum": 1,
+                "type": "number",
+              },
+              "texture": {
+                "description": "A texture of the region's texture set",
+                "minLength": 1,
+                "type": "string",
+              },
+              "weight": {
+                "description": "Blend weight: that fraction of its layer in every cell",
+                "exclusiveMinimum": 0,
+                "maximum": 1,
+                "type": "number",
+              },
+            },
+            "required": [
+              "texture",
+            ],
+            "type": "object",
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "type": "array",
+        },
+        "rect": {
+          "additionalItems": false,
+          "description": "Outline: [left, bottom, right, top], in cells",
+          "items": [
+            {
+              "type": "number",
+            },
+            {
+              "type": "number",
+            },
+            {
+              "type": "number",
+            },
+            {
+              "type": "number",
+            },
+          ],
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array",
+        },
+        "workspace": {
+          "description": "The Workspace this call is about, when it isn't the one the session is in: its folder, a git worktree of it, or any folder inside either (such as a Mission's), absolute. The nearest folder at or above it that holds the Workspace config serves, so a Mission that exists only in a worktree is read and written there, not in the main checkout. Without it the session's working folder serves (the MCP roots), else the Workspace the server started with",
+          "minLength": 1,
+          "type": "string",
+        },
+        "zone": {
+          "description": "Outline: this Zone's polygon",
+          "minLength": 1,
+          "type": "string",
+        },
+      },
+      "required": [
+        "mission",
+        "id",
+      ],
+      "type": "object",
+    },
+    "name": "paint_region",
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "additionalProperties": false,
+      "properties": {
+        "issues": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "message": {
+                "type": "string",
+              },
+              "path": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "path",
+              "message",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+        "notes": {
+          "items": {
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "saved": {
+          "type": "boolean",
+        },
+      },
+      "required": [
+        "saved",
+        "notes",
+        "issues",
+      ],
+      "type": "object",
+    },
+    "title": "Write a Paint Region",
   },
   {
     "annotations": {
@@ -21215,7 +21647,7 @@ exports[`the tool list > is the same on a machine that can do everything, with b
       "destructiveHint": false,
       "readOnlyHint": true,
     },
-    "description": "Reports what each texture slot of a Mission's Map Package paints, read from the package (ADR-0016): for each texture set (one per 8×8-cell block) and each of its 8 slots, the texture, the cells it is the dominant texture of, by Zone (a generating Zone's own cells, else the Kept Zone whose polygon holds them, else "(no Zone)"), and the cells with any weight of it; which slots are empty or painted nowhere; and how many more different textures fit under the Editor's 16. With a proposal (textures and the generating Zones it would paint, or set: the id of one of the Blueprint's textureSets), also: which of its textures the map has already (they cost nothing towards the 16), which are new, whether it fits, which layers the Kept ground in its Zones' blocks uses (the set must hold those textures on those layers, or the compile refuses), a slot order that meets them, which slots only those Zones use (emptying them after the move frees room), and textures that would meet themselves across the set's boundary, whatever their slots. It also lists each stretch of boundary between texture sets that needs cover, as a run of cells along an 8-cell block edge with the set and texture on each side: a hard cut where different textures meet, an artifact where a texture meets itself (whatever slot it has in each set); stretches under a cliff are left out. With render: true, it shows them over the ground round them, as the paint brushes' renders do (hard cuts red, artifacts magenta, cliff cells darkened): one image to each cluster of stretches, so sets far apart each get a readable view, with the cells each image shows. Reads only.",
+    "description": "Reports what each texture slot of a Mission's Map Package paints, read from the package (ADR-0016): for each texture set (one per 8×8-cell block) and each of its 8 slots, the texture, the cells it is the dominant texture of, by Zone (a generating Zone's own cells, else the Kept Zone whose polygon holds them, else "(no Zone)"), and the cells with any weight of it; which slots are empty or painted nowhere; and how many more different textures fit under the Editor's 16. With a proposal (textures and the generating Zones it would paint, or set: the id of one of the Blueprint's textureSets), also: which of its textures the map has already (they cost nothing towards the 16), which are new, whether it fits, which layers the Kept ground in its Zones' blocks uses (the set must hold those textures on those layers, or the compile refuses), a slot order that meets them, which slots only those Zones use (emptying them after the move frees room), and textures that would meet themselves across the set's boundary, whatever their slots. It also lists each stretch of boundary between texture sets that needs cover, as a run of cells along an 8-cell block edge with the set and texture on each side: a hard cut where different textures meet, an artifact where a texture meets itself (whatever slot it has in each set); stretches under a cliff are left out. With render: true, it shows them over the ground round them, as the paint brushes' renders do (hard cuts red, artifacts magenta, cliff cells darkened): one image to each cluster of stretches, so sets far apart each get a readable view, with the cells each image shows. For each of the Blueprint's Paint Regions (ADR-0028), it measures each texture of the region's mix as painted, beside what the mix asked (a blend weight, an area share or the rest): its mean blend weight over the region's texels past the falloff and over the whole region (an area share is measured as the first, the measure the compile calibrates its patches to), and the fraction of the region's cells it is the dominant texture of. A region the package can't show (no cell painted, or a texture its cells' set lacks) is listed as not measured, with why: compile after changing a region. Reads only.",
     "execution": {
       "taskSupport": "forbidden",
     },
