@@ -18,6 +18,8 @@ The recipes are proven in game on Zergling, Hydralisk and Roach copies. Entry sh
 - **Driver**: a permanent periodic buff that only moves the unit (follow, circle, hold, approach). It never attacks; the autocast ability does.
 - **Ranged rule**: a ranged unit walks to one cell inside its attack range and holds there while an enemy is in range.
 - **Stagger**: the attacker is stunned when its strike finds the target mid-dodge, if the Workspace has a dodge behaviour. Dodging through an attack is rewarded.
+- **Kind**: whether a forecast is **aimed** or **area**, which decides who sees its marker and who it can hit when AI-driven units (an ally squad, a partner hero) fight beside the player's hero. See section 3a.
+- **Controlled hero**: the unit the player is driving at the moment, marked by a behaviour the Workspace names (the hero switch moves it).
 
 ## 1. Decide with the author
 
@@ -32,6 +34,7 @@ Ask each, one at a time, with the default:
 | Windup length | 1.75 s |
 | What do held-back melee units do? | Circle the target at about 3 cells until its melee slot frees |
 | Does dodging stagger the attacker? | Yes, when the Workspace has a dodge behaviour on its heroes; name it |
+| Aimed or area, for each attack? (only when AI-driven units fight beside the player's hero) | Aimed for quick, narrow attacks (a pounce, a lane, a swipe); area for anything that lands on the ground (a lobbed circle). Name the controlled hero's behaviour |
 
 This step is done when every row has an answer.
 
@@ -54,6 +57,17 @@ Per attack, in this order ([RECIPES.md § Forecast](RECIPES.md#forecast)):
 
 Done when each attack's chain compiles and its marker, windup, strike and hit are all named entries.
 
+## 3a. Aimed and area attacks (with AI-driven allies)
+
+Skip this when only the player's units are ever targeted. Where AI-driven units fight beside the player's hero, a marker for every attack on every ally clutters the screen, and a hidden marker that can still hurt the player breaks the promise that every attack is readable. So each forecast declares a kind:
+
+- **Aimed:** the marker shows only when the target is the controlled hero. Aimed at anything else, the attack runs an unmarked twin of its windup persistent, and its hit switch never damages the controlled hero (an extra case that does nothing on it), so the player can't be hit by an attack they couldn't see. AI-driven units in the shape are hit as usual.
+- **Area:** the marker always shows, whoever the target, and the strike hits everything in the shape, the controlled hero included.
+
+Build an aimed attack's commit as a switch on the target: the controlled hero's behaviour picks the marked persistent, anything else the unmarked one. Both release the same way. When the player switches heroes mid-windup, the Workspace's switch reveals or hides the windups already running on the two heroes. That belongs to the Workspace's hero switch, not to this skill's data. Not yet proven in game.
+
+The attacker's windup animation and the hit itself always show, so an attack on an ally never lands unannounced.
+
 ## 4. Build the driver and the unit
 
 - A melee unit follows the nearest enemy while that enemy's melee slot is free, and circles it otherwise.
@@ -71,6 +85,7 @@ Place the units against a hero in a flat test Mission and play it. Check, per at
 - the marker appears at commit and faces or sits where the strike lands;
 - the unit holds still through the windup;
 - walking out before the strike takes no damage, and standing in takes the full hit;
+- with kinds (3a): an aimed attack on an ally shows no marker and doesn't hurt the controlled hero standing in it; an area attack shows its marker on any target and hits everyone;
 - melee and ranged units take turns on one target, with a quiet gap;
 - ranged units hold one cell inside range.
 
