@@ -37,6 +37,7 @@
     "tune-kept": "pnpm run build && node packages/core/dist/cli/tune-kept.js",
     "edit-terrain": "pnpm run build && node packages/core/dist/cli/edit-terrain.js",
     "texture-usage": "pnpm run build && node packages/core/dist/cli/texture-usage.js",
+    "paint-region": "pnpm run build && node packages/core/dist/cli/paint-region.js",
     "texture-sheet": "pnpm run build && node packages/core/dist/cli/texture-sheet.js",
     "search-doodads": "pnpm run build && node packages/core/dist/cli/search-doodads.js",
     "doodad-finder": "pnpm run build && node packages/doodad-finder/dist/adjutant/cli.js",

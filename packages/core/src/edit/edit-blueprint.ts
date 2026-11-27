@@ -29,9 +29,15 @@ export type Edit = (raw: Raw) => { readonly raw: Raw; readonly notes: readonly s
 
 /**
  * Applies `edit` to the stored Blueprint and saves the result if it validates. `edit` gets a copy
- * it may change; it throws `EditRefused` to refuse.
+ * it may change; it throws `EditRefused` to refuse. `check` refuses a Blueprint that validates with
+ * the issues it gives, for what the schema can't see, such as the Map Package.
  */
-export async function editMissionBlueprint(workspace: Workspace, blueprintPath: string, edit: Edit): Promise<EditResult> {
+export async function editMissionBlueprint(
+  workspace: Workspace,
+  blueprintPath: string,
+  edit: Edit,
+  { check }: { readonly check?: (blueprint: MissionBlueprint) => Promise<readonly BlueprintIssue[]> } = {},
+): Promise<EditResult> {
   const stored = await readRawBlueprint(blueprintPath);
   let edited: ReturnType<Edit>;
   try {
@@ -43,6 +49,8 @@ export async function editMissionBlueprint(workspace: Workspace, blueprintPath: 
   const { raw, notes } = edited;
   const result = validateMissionBlueprint(workspace, raw, await missionCatalogFor(workspace.catalog, blueprintPath));
   if (!result.success) return { saved: false, issues: result.issues };
+  const issues = check ? await check(result.blueprint) : [];
+  if (issues.length) return { saved: false, issues };
   await replaceFile(blueprintPath, `${JSON.stringify(raw, null, 2)}\n`);
   const already = new Set(misplacedAnchors(stored));
   const misplaced = misplacedAnchors(raw).filter((anchor) => !already.has(anchor));

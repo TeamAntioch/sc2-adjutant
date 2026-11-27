@@ -4,7 +4,8 @@ import path from "node:path";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
-import { type Edit, editMissionBlueprint, jsonPatchEdit, moveAnchorEdit, moveZoneEdit, setZonePolygonEdit } from "../../edit/edit-blueprint.js";
+import { type Edit, editMissionBlueprint, type EditResult, jsonPatchEdit, moveAnchorEdit, moveZoneEdit, setZonePolygonEdit } from "../../edit/edit-blueprint.js";
+import { missionPaintRegion } from "../../edit/paint-region-edit.js";
 import { JsonPatchOperationSchema, readPointer } from "../../edit/json-patch.js";
 import { checkMissionLayout, formatLayoutReport } from "../../layout/check-mission.js";
 import { CHECK_STATUSES } from "../../layout/checks.js";
@@ -22,7 +23,7 @@ import { librariesInReach } from "../../mods/library-reach.js";
 import { DEFAULT_DEPENDENCIES } from "../../map/write-document-info-xml.js";
 import { missionMapPackage } from "../../map/mission-package.js";
 import { generateTerrain } from "../../map/generate-terrain.js";
-import { formatIssue, missionBlueprintPath, parseMissionBlueprint, readRawBlueprint, validateMissionBlueprint } from "../../plugins/workspace.js";
+import { formatIssue, missionBlueprintPath, parseMissionBlueprint, readRawBlueprint, validateMissionBlueprint, type Workspace } from "../../plugins/workspace.js";
 import { copySkills, formatSkillCopy } from "../../plugins/plugin-skills.js";
 import { renderSvgToPng } from "../../preview/render-png.js";
 import { writePreview } from "../../preview/write-preview.js";
@@ -40,7 +41,7 @@ import { type CallContext } from "../call-context.js";
 import { ADDITIVE, DESTRUCTIVE, READ_ONLY, toolGroup } from "./tool-group.js";
 
 /** The tools registerBlueprintTools can register, the Blueprint group. */
-export const BLUEPRINT_TOOLS = ["check_layout", "get_blueprint", "patch_blueprint", "set_zone_polygon", "move_zone", "move_anchor", "preview", "generate_terrain", "sync", "sync_mod", "edit_kept_objects", "survey", "outline_kept_trigger", "outline_trigger", "search_trigger_functions", "write_blueprint_trigger", "tune_kept_triggers", "edit_kept_terrain"] as const;
+export const BLUEPRINT_TOOLS = ["check_layout", "get_blueprint", "patch_blueprint", "set_zone_polygon", "move_zone", "move_anchor", "paint_region", "preview", "generate_terrain", "sync", "sync_mod", "edit_kept_objects", "survey", "outline_kept_trigger", "outline_trigger", "search_trigger_functions", "write_blueprint_trigger", "tune_kept_triggers", "edit_kept_terrain"] as const;
 
 export function registerBlueprintTools(server: McpServer, ctx: CallContext): void {
   const tool = toolGroup(server, BLUEPRINT_TOOLS);
@@ -78,7 +79,7 @@ export function registerBlueprintTools(server: McpServer, ctx: CallContext): voi
       title: "Read a Mission Blueprint",
       annotations: READ_ONLY,
       description:
-        "Returns a Mission's Blueprint as stored (JSON, before defaults are filled in), or the part a JSON Pointer names, with any reasons it doesn't validate. Edit it with patch_blueprint, or with set_zone_polygon, move_zone and move_anchor.",
+        "Returns a Mission's Blueprint as stored (JSON, before defaults are filled in), or the part a JSON Pointer names, with any reasons it doesn't validate. Edit it with patch_blueprint, or with set_zone_polygon, move_zone, move_anchor and paint_region.",
       inputSchema: {
         mission: MissionSchema,
         pointer: z.string().optional().describe('A JSON Pointer to return only that part, such as "/zones/2" or "/mechanics"'),
@@ -98,10 +99,12 @@ export function registerBlueprintTools(server: McpServer, ctx: CallContext): voi
   );
 
   /** Runs `edit` on a Mission's Blueprint, one edit of a file at a time, and replies with what was saved or why not. */
-  const editTool = async (mission: string, edit: Edit) => {
+  const editTool = (mission: string, edit: Edit) => savingTool(mission, (workspace, blueprintPath) => editMissionBlueprint(workspace, blueprintPath, edit));
+  /** Runs a Blueprint edit that saves through editMissionBlueprint, as editTool does. */
+  const savingTool = async (mission: string, run: (workspace: Workspace, blueprintPath: string) => Promise<EditResult>) => {
     const workspace = await ctx.workspace();
     const blueprintPath = await missionBlueprintPath(workspace, mission);
-    const result = await oneAtATime(`edit:${await writeTarget(blueprintPath)}`, () => editMissionBlueprint(workspace, blueprintPath, edit));
+    const result = await oneAtATime(`edit:${await writeTarget(blueprintPath)}`, () => run(workspace, blueprintPath));
     if (!result.saved) return ctx.refused(blueprintPath, result.issues, {});
     const lines = [`Saved ${blueprintPath}.`, ...result.notes, await stageHint(blueprintPath)];
     return ctx.reply(lines.join("\n"), { saved: true, notes: [...result.notes], issues: [] });
@@ -163,6 +166,50 @@ export function registerBlueprintTools(server: McpServer, ctx: CallContext): voi
       outputSchema: EditOutputSchema,
     },
     ({ mission, anchor, position, zone }) => editTool(mission, moveAnchorEdit(anchor, position, zone)),
+  );
+
+  const box = (what: string) => z.tuple([z.number().finite(), z.number().finite(), z.number().finite(), z.number().finite()]).describe(what);
+  tool(
+    "paint_region",
+    {
+      title: "Write a Paint Region",
+      annotations: DESTRUCTIVE,
+      description:
+        "Adds a Paint Region to a Mission's Blueprint, or edits one (ADR-0028): a polygon whose texture mix overrides its Zones' palette inside it, feathered at its edge. Its outline comes from one of: zone, a Zone's polygon (the region follows the Zone); rect, a rectangle of cells; or frame, a box on a Still Review frame from capture_shots, turned into cells through that Shot's camera in shots.json on flat ground at the camera target's height, and clipped to the map. Each mix entry gives a texture a blend weight (that fraction of its layer in every cell), an area share (patches over about that fraction of the region), or nothing (it takes what the others leave; at most one). Weights and shares together are at most 1. Editing an existing region, leave out what stays: its outline, mix, falloff or levels. The mix is checked before anything is saved: each texture must be in the texture set of every cell the region paints (beside Kept ground, the set the Map Package has the cells' blocks on). Compile, then texture_usage measures each region's textures as painted beside what it asked.",
+      inputSchema: {
+        mission: MissionSchema,
+        id: z.string().min(1).describe("The Paint Region's id: a new one adds it"),
+        zone: z.string().min(1).optional().describe("Outline: this Zone's polygon"),
+        rect: box("Outline: [left, bottom, right, top], in cells").optional(),
+        frame: z
+          .object({
+            capture: z.string().min(1).describe("The capture: its name (its folder in the Mission's output/shots), or the path of its shots.json from the Mission's folder"),
+            shot: z.union([z.number().int().min(1), z.string().min(1)]).describe("The Shot: its number, or its label"),
+            box: box("[left, top, right, bottom] on the frame, as fractions of its width and height from its top-left corner (0..1)"),
+          })
+          .strict()
+          .optional()
+          .describe("Outline: a box marked on a Still Review frame"),
+        mix: z
+          .array(
+            z
+              .object({
+                texture: z.string().min(1).describe("A texture of the region's texture set"),
+                weight: z.number().gt(0).max(1).optional().describe("Blend weight: that fraction of its layer in every cell"),
+                share: z.number().gt(0).max(1).optional().describe("Area share: patches over about that fraction of the region"),
+              })
+              .strict(),
+          )
+          .min(1)
+          .max(8)
+          .optional()
+          .describe("The textures and their amounts; a new region needs one"),
+        falloff: z.number().min(0).nullable().optional().describe("Cells inward over which the mix fades in: 2 by default, 0 a hard edge; null removes it"),
+        levels: z.array(z.number().int().min(0).max(15)).min(1).nullable().optional().describe("The cliff levels it paints; null paints every level"),
+      },
+      outputSchema: EditOutputSchema,
+    },
+    ({ mission, ...request }) => savingTool(mission, (workspace, blueprintPath) => missionPaintRegion(workspace, blueprintPath, request)),
   );
 
   tool(
