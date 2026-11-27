@@ -11,10 +11,12 @@ inputs:
 runs:
   using: composite
   steps:
+    # pnpm at the version package.json's packageManager names, before setup-node, whose pnpm cache needs it.
+    - uses: pnpm/action-setup@v4
     - uses: actions/setup-node@v4
       with:
         node-version: 24
-        cache: npm
+        cache: pnpm
     # A compile turns placeholder voices into Ogg Vorbis with ffmpeg, as on an author's machine.
     # Windows takes BtbN's 9.0 build (the one ffmpegInstallHint names) straight from GitHub's
     # releases: Chocolatey's feed answered 503 often enough to fail the job before any test ran.
@@ -33,7 +35,7 @@ runs:
             ;;
         esac
         ffmpeg -hide_banner -encoders | grep -i vorbis
-    # Turborepo's cache of each package's build and lint, so npm ci's build (the root's prepare
+    # Turborepo's cache of each package's build and lint, so pnpm install's build (the root's prepare
     # script) restores the packages a change didn't touch. Restored from the newest earlier save.
     # Only the job that runs every build and lint saves it, pruned to what that job used
     # (scripts/prune-turbo-cache.mjs, from the summaries TURBO_RUN_SUMMARY makes each run write), so
@@ -47,12 +49,12 @@ runs:
     - shell: bash
       run: echo "TURBO_RUN_SUMMARY=true" >> "$GITHUB_ENV"
     - shell: bash
-      run: npm ci
+      run: pnpm install --frozen-lockfile
     - name: Check nothing moved is back, and the pinned, published packages are what's installed
       shell: bash
       run: node scripts/check-catalog-moved.mjs --installed
     # Vitest's record of each test file's last duration, so it starts the longest first. Restored
-    # after npm ci, which deletes node_modules.
+    # after pnpm install, which may replace node_modules.
     - name: Restore vitest's results
       uses: actions/cache/restore@v4
       with:

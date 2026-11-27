@@ -17,7 +17,7 @@ A match means the text is the same as the Editor's, line for line. It doesn't me
 Build core first; the script imports from `packages/core/dist`. Then name the package folders, as many as you like, maps and mods mixed:
 
 ```
-npm run build -w @team-antioch/sc2-adjutant
+pnpm --filter @team-antioch/sc2-adjutant run build
 node packages/core/scripts/trigger-coverage.mjs [--out <dir>] <map or mod package folder>...
 ```
 

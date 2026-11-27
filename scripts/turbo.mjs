@@ -1,12 +1,12 @@
 // Runs Turborepo with SC2_CATALOG_STAMP set, which turbo.json's globalEnv puts in every task's hash.
 // The stamp says which sc2-asset-catalog packages are installed: the published ones (their
-// versions), or a linked sibling checkout's (`npm run link-catalog`), in which case it covers every
+// versions), or a linked sibling checkout's (`pnpm run link-catalog`), in which case it covers every
 // file in their dist/ by path, size and time. So a cached build or lint against the published
 // packages is never replayed while they are linked, and rebuilding the sibling invalidates the cache,
 // though no file of this repo changed. Turbo can't hash those files itself: it skips node_modules.
 //
 // The root's build, lint and test run turbo through this script, and so should anything else that
-// wants their cache: `npm run turbo -- run test --filter=<package>`. A bare `npx turbo` has no stamp,
+// wants their cache: `pnpm run turbo run test --filter=<package>`. A bare `pnpm exec turbo` has no stamp,
 // so it misses that cache.
 //
 // Usage, from the repo root: node scripts/turbo.mjs <turbo arguments>

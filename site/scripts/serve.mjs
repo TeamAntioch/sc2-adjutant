@@ -1,5 +1,5 @@
 // Serves the static export in site/out/ on http://localhost:3975 (or --port N), to look at a build
-// before it deploys: `npm run build -w site && npm run serve -w site`. The pages link their assets
+// before it deploys: `pnpm --filter sc2-adjutant-site run build && pnpm --filter sc2-adjutant-site run serve`. The pages link their assets
 // from the site's root (/_next/...), so they need a server; opening the files directly shows them
 // unstyled.
 import { createReadStream } from "node:fs";
@@ -41,7 +41,7 @@ createServer(async (request, response) => {
   const status = file ? 200 : 404;
   const served = file ?? (await resolve("/404.html"));
   if (!served) {
-    response.writeHead(404).end("Not found. Run `npm run build -w site` first.");
+    response.writeHead(404).end("Not found. Run `pnpm --filter sc2-adjutant-site run build` first.");
     return;
   }
   response.writeHead(status, { "content-type": TYPES[path.extname(served)] ?? "application/octet-stream" });

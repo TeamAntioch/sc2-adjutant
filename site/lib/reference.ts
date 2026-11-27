@@ -17,7 +17,7 @@ export function reference(): Reference {
     try {
       cached = JSON.parse(readFileSync(FILE, "utf8")) as Reference;
     } catch (error) {
-      throw new Error(`No tool reference at ${FILE}: run \`npm run reference -w site\` (the site build runs it first)`, { cause: error });
+      throw new Error(`No tool reference at ${FILE}: run \`pnpm --filter sc2-adjutant-site run reference\` (the site build runs it first)`, { cause: error });
     }
   }
   return cached;

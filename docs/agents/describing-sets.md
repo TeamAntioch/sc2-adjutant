@@ -21,7 +21,7 @@ lighting and mood. A file under about 60 KB is a black frame: skip it.
 
 ## Asking for more pictures
 
-Run from the sc2-adjutant checkout, after `npm run build -w @team-antioch/sc2-adjutant`:
+Run from the sc2-adjutant checkout, after `pnpm --filter @team-antioch/sc2-adjutant run build`:
 
     node packages/core/dist/cli/set-shots.js <set id> --blender <Blender 4.5 program> <what>
 

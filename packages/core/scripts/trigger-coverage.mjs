@@ -28,7 +28,7 @@
 //   "// Automatic Variable Declarations" line, is first taken to the current Editor's forms
 //   (asCurrentEditor), and a function that matches only then is counted apart.
 //
-// Usage, with the core package built (npm run build -w @team-antioch/sc2-adjutant):
+// Usage, with the core package built (pnpm --filter @team-antioch/sc2-adjutant run build):
 //   node packages/core/scripts/trigger-coverage.mjs [--out <dir>] <package folder>...
 // It prints the report as Markdown; --out also writes report.md and report.json there.
 

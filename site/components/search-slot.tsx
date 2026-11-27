@@ -2,7 +2,7 @@
 
 // Search (#983), in every page's shell: the box in the header, or ⌘K (Ctrl+K off a Mac), opens a
 // dialog that searches the Pagefind index the build wrote to /pagefind/. Each hit shows its kind.
-// The index exists only in a build (`npm run build -w site`), so under `next dev` the dialog says so.
+// The index exists only in a build (`pnpm --filter sc2-adjutant-site run build`), so under `next dev` the dialog says so.
 import Link from "next/link";
 import { type KeyboardEvent as ReactKeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 
@@ -180,7 +180,7 @@ export function SearchSlot() {
           <p aria-live="polite" className={state === "unavailable" || (query.trim() && hits.length === 0 && state === "ready") ? "p-4 text-sm text-slate-400" : "sr-only"}>
             {state === "unavailable" ? (
               <>
-                Search needs the built site: run <code>npm run build -w site</code>, then <code>npm run serve -w site</code>.
+                Search needs the built site: run <code>pnpm --filter sc2-adjutant-site run build</code>, then <code>pnpm --filter sc2-adjutant-site run serve</code>.
               </>
             ) : !query.trim() || state === "searching" ? (
               ""

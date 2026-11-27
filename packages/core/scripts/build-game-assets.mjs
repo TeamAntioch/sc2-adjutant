@@ -8,7 +8,7 @@
 // stock mod names it. A texture only a model's own .m3 names is not in it. game-models.json stays the list a `gameModel` doodad is checked against;
 // this one is wider, for the warning on a Generic Entry's path.
 //
-// Usage: npm run build -w packages/core && node packages/core/scripts/build-game-assets.mjs <path to the sc2-game-data clone>
+// Usage: pnpm --filter @team-antioch/sc2-adjutant run build && node packages/core/scripts/build-game-assets.mjs <path to the sc2-game-data clone>
 
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";

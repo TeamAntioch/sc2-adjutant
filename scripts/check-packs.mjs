@@ -1,7 +1,7 @@
-// Run by `npm run check-packs` and at the end of `npm test`: what each public package's tarball
+// Run by `pnpm run check-packs` and at the end of `pnpm test`: what each public package's tarball
 // would hold, from `npm pack --dry-run`. A package fails when its tarball is over the size limit,
 // when a file it needs to load is missing from it, or when it holds a path that must not ship. It
-// packs the built packages, so build first (`npm run check-packs` does).
+// packs the built packages, so build first (`pnpm run check-packs` does).
 //
 // A file a package needs: its package.json's main, bin and exports targets (other than patterns),
 // and, for a Plugin, its manifest's entry and the files its contributions name (knowledge, prompts,
@@ -244,6 +244,6 @@ for (const name of PUBLIC_PACKAGES) {
   if (problems.length === 0) console.log(`packages/${name}: ${pack.files.length} files, ${megabytes(pack.size)}`);
 }
 if (failures.length > 0) {
-  console.error(`A public package wouldn't pack as it should (built first? npm run check-packs builds):\n${failures.map((failure) => `  ${failure}`).join("\n")}`);
+  console.error(`A public package wouldn't pack as it should (built first? pnpm run check-packs builds):\n${failures.map((failure) => `  ${failure}`).join("\n")}`);
   process.exitCode = 1;
 }

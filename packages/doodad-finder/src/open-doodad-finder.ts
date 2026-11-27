@@ -203,7 +203,7 @@ async function prerequisites(checks: Checks, workspace: string | undefined): Pro
       name: "package",
       ok: !stale,
       note: stale
-        ? "the doodad-finder package is installed, but core's src changed since its last build, and the Finder runs core's dist: run `npm run build -w @team-antioch/sc2-adjutant` for the change to show"
+        ? "the doodad-finder package is installed, but core's src changed since its last build, and the Finder runs core's dist: run `pnpm --filter @team-antioch/sc2-adjutant run build` for the change to show"
         : "the doodad-finder package is installed, and core is built",
     },
     { name: "Workspace", ok: workspace !== undefined, note: workspace ?? `no Workspace: core's catalogs only, and ${researchArchiveDirIfSet() ? "Doodad Searches go to the research archive" : "no Doodad Searches, since SC2_RESEARCH_DIR isn't set"}` },

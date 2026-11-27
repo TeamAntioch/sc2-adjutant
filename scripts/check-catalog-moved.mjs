@@ -1,10 +1,10 @@
-// Run by `npm run lint` and `npm test`: the doodad catalog, the Doodad Finder (ADR-0022, #679), the
+// Run by `pnpm run lint` and `pnpm test`: the doodad catalog, the Doodad Finder (ADR-0022, #679), the
 // Set Finder (#796, #802) and the texture, decal and cliff catalogs (#827, #828, #829) now live in the public TeamAntioch/sc2-asset-catalog, and
 // sc2-adjutant depends on its published packages, pinned. This fails when a module that moved there
 // is back in core, packages/doodad-finder or packages/set-finder, or when a pin isn't an exact
 // version or the packages' pins disagree.
 // With --installed (CI), it also fails when node_modules holds anything but the pinned, published
-// packages: a sibling checkout linked with `npm run link-catalog`, or another version.
+// packages: a sibling checkout linked with `pnpm run link-catalog`, or another version.
 import { existsSync, lstatSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -102,11 +102,11 @@ function installedProblems(pins) {
   const problems = [];
   for (const [name, version] of pins) {
     const folder = path.join(ROOT, "node_modules", name);
-    if (!existsSync(folder)) problems.push(`${name} isn't installed: run npm ci`);
-    else if (lstatSync(folder).isSymbolicLink()) problems.push(`${name} is linked to a checkout (npm run link-catalog): run npm run unlink-catalog`);
+    if (!existsSync(folder)) problems.push(`${name} isn't installed: run pnpm install`);
+    else if (lstatSync(folder).isSymbolicLink()) problems.push(`${name} is linked to a checkout (pnpm run link-catalog): run pnpm run unlink-catalog`);
     else {
       const installed = JSON.parse(readFileSync(path.join(folder, "package.json"), "utf8")).version;
-      if (installed !== version) problems.push(`${name} ${installed} is installed, not the pinned ${version}: run npm ci`);
+      if (installed !== version) problems.push(`${name} ${installed} is installed, not the pinned ${version}: run pnpm install`);
     }
   }
   return problems;

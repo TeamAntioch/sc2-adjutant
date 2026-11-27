@@ -77,7 +77,7 @@ After a game patch, or to change the builder:
 # 1. A CASC extractor, named in SC2_CASC_TOOL (tools/README.md)
 # 2. The schema: the script extracts the storage's catalogs, headers, Editor strings and build id
 #    (about 125 MB) into a scratch folder, then reads them; it needs core built, for its XML reader
-npm run build -w @team-antioch/sc2-adjutant
+pnpm --filter @team-antioch/sc2-adjutant run build
 node packages/core/scripts/build-catalog-schema.mjs "/Applications/StarCraft II"
 ```
 

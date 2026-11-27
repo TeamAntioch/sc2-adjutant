@@ -19,8 +19,8 @@ Name each stack after its area, and each branch `<stack>/<ticket>-<slug>`, for e
 Core's golden test (`packages/core/tests/golden/reference-missions.test.ts`) compiles two frozen versions of a reference Mission in a fixture Workspace (`packages/core/tests/fixtures/workspaces/reference`), through its own Campaign Pack, Campaign Mod, the Antioch Style Pack and hazard, and compares every file of each Map Package, and the warnings, with that version's `golden.json`. `npm run update-golden` rewrites them. The fixture is frozen: change its Missions or its Campaign Pack only as an intended golden update. The Style Pack isn't frozen with it, so a change to its rules is one too.
 
 - A ticket that moves code without meaning to change output keeps the golden green as it stands. A red golden there is a bug in the layer, not a golden to regenerate.
-- A ticket that changes output on purpose runs `npm run update-golden`, commits `golden.json` in its own layer, and names the changed files and why in the PR body.
-- A rebase conflict in `golden.json` takes either side, finishes the rebase, then reruns `npm run update-golden` in that layer and rebases upstack.
+- A ticket that changes output on purpose runs `pnpm run update-golden`, commits `golden.json` in its own layer, and names the changed files and why in the PR body.
+- A rebase conflict in `golden.json` takes either side, finishes the rebase, then reruns `pnpm run update-golden` in that layer and rebases upstack.
 
 ## Review and merge
 

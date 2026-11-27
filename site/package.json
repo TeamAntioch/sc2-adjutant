@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "reference": "node scripts/reference.ts",
-    "dev": "npm run reference && next dev",
-    "build": "npm run reference && next build && pagefind --site out",
+    "dev": "pnpm run reference && next dev",
+    "build": "pnpm run reference && next build && pagefind --site out",
     "serve": "node scripts/serve.mjs",
     "lint": "next typegen && tsc --noEmit",
     "test": "vitest run"

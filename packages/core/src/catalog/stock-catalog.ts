@@ -104,7 +104,7 @@ const comparable = (storagePath: string): string => storagePath.replace(/\\/g, "
 
 /** The model paths in a game-models.json; a missing or damaged one is refused, naming it and how to make it again. */
 export function readGameModelPaths(file: string = GAME_MODELS_PATH): string[] {
-  const again = "make it again with `npm run build -w packages/core && node packages/core/scripts/build-game-models.mjs`";
+  const again = "make it again with `pnpm --filter @team-antioch/sc2-adjutant run build && node packages/core/scripts/build-game-models.mjs`";
   let paths: unknown;
   try {
     paths = JSON.parse(readFileSync(file, "utf8"));

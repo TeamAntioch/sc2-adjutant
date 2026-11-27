@@ -26,7 +26,7 @@
 //
 // Usage: with a CASC extractor named in SC2_CASC_TOOL (tools/README.md),
 //   node packages/core/scripts/build-catalog-schema.mjs "/Applications/StarCraft II"
-// It needs the core package built (npm run build -w @team-antioch/sc2-adjutant) for its XML reader and the
+// It needs the core package built (pnpm --filter @team-antioch/sc2-adjutant run build) for its XML reader and the
 // value rules the compile checks with.
 
 import { readdir, readFile, writeFile } from "node:fs/promises";

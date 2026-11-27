@@ -144,7 +144,7 @@ describe("open_doodad_finder's prerequisites", () => {
 
     expect(result.action).toBe("started");
     const note = (name: string) => result.checks.find((check) => check.name === name);
-    expect(note("package")).toMatchObject({ ok: false, note: expect.stringContaining("npm run build -w @team-antioch/sc2-adjutant") });
+    expect(note("package")).toMatchObject({ ok: false, note: expect.stringContaining("pnpm --filter @team-antioch/sc2-adjutant run build") });
     expect(note("Workspace")).toEqual({ name: "Workspace", ok: true, note: dir });
     expect(note("embeddings model")).toMatchObject({ ok: false, note: expect.stringContaining("downloads about 34 MB and embeds every card, around 20 s") });
     expect(note("Jev")).toMatchObject({ ok: false, note: expect.stringContaining("no TypeSafe key: run `npx @team-antioch/sc2-doodad-finder login`, or set TYPESAFE_API_KEY") });
