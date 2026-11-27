@@ -22,7 +22,7 @@ import { readMissionScript, scriptLines } from "../script/name-script.js";
 import type { VoicedScript } from "../cutscene/cinematic.js";
 import { keptVoiceFile, playedSound, voicedHere, voicedScript } from "./mission-conversation.js";
 import { isInside } from "../util/inside.js";
-import { missionMapPackage, readCompileRecord, saveCompileRecord } from "./mission-package.js";
+import { compileRecordPath, missionMapPackage, prepareMissionCopy, readCompileRecordAt, saveCompileRecordAt } from "./mission-package.js";
 import { type EditorDecisions, EditorChangesError, formatEditorChanges } from "./editor-changes.js";
 import { workspaceLibrary } from "../mods/library.js";
 import { librariesInReach, refusedLibrary } from "../mods/library-reach.js";
@@ -46,6 +46,12 @@ export type CompileMissionOptions = {
   readonly derive?: Derive;
   /** The UI Components the Mission's uiActions and its Campaign Mod's `ui` come from; core's when not given. */
   readonly uiComponents?: readonly UiComponent[];
+  /**
+   * Compile into a copy of the Mission's committed Map Package at `outputDir`, merged by a copy of
+   * its compile record as an in-place compile is, so Kept Content stays; the committed package and
+   * record are left alone (prepareMissionCopy).
+   */
+  readonly copy?: boolean;
 };
 
 export type CompiledMission = {
@@ -60,14 +66,46 @@ export type CompiledMission = {
 /**
  * Compiles into `outputDir`, or by default into the Mission's committed Map Package
  * (missionMapPackage). The Mission's own package is merged by its compile record (ADR-0010), which
- * the compile then rewrites; any other folder is written whole and leaves the record alone.
+ * the compile then rewrites; any other folder is written whole and leaves the record alone. With
+ * `copy`, `outputDir` gets a fresh copy of the committed package and its record, merged as the
+ * package is in place, and the copy's own record, beside it, is rewritten instead; a copy compile
+ * that stops leaves the folder as it was.
  */
 export async function compileMission(workspace: Workspace, blueprintPath: string, outputDir: string | undefined, options: CompileMissionOptions = {}): Promise<CompiledMission> {
   const blueprint = await parseMissionBlueprint(workspace, blueprintPath);
   const inPlace = await missionMapPackage(blueprintPath);
-  const target = outputDir ?? inPlace;
-  const recorded = path.resolve(target) === path.resolve(inPlace);
-  const previousRecord = recorded ? await readCompileRecord(blueprintPath) : undefined;
+  if (!options.copy) {
+    const target = outputDir ?? inPlace;
+    const recorded = path.resolve(target) === path.resolve(inPlace);
+    return compileInto(workspace, blueprintPath, blueprint, target, recorded ? { file: compileRecordPath(blueprintPath), syncFrom: target } : undefined, options);
+  }
+  if (outputDir === undefined) throw new Error(`A compile into a copy of ${blueprint.id}'s Map Package needs the folder to copy it to`);
+  const copy = await prepareMissionCopy(blueprintPath, blueprint.id, outputDir);
+  try {
+    // What the Editor changed is in the committed package, where sync would bring it back from.
+    const compiled = await compileInto(workspace, blueprintPath, blueprint, copy.mapPackage, { file: copy.record, syncFrom: inPlace }, options);
+    await copy.keep();
+    return compiled;
+  } catch (error) {
+    await copy.undo();
+    throw error;
+  }
+}
+
+/**
+ * Compiles into `target`, merged by the compile record in `record.file` when given (and rewriting
+ * it), or written whole when not. `record.syncFrom` is the package sync reads, to say which of
+ * the Editor's changes it brings back.
+ */
+async function compileInto(
+  workspace: Workspace,
+  blueprintPath: string,
+  blueprint: MissionBlueprint,
+  target: string,
+  record: { readonly file: string; readonly syncFrom: string } | undefined,
+  options: CompileMissionOptions,
+): Promise<CompiledMission> {
+  const previousRecord = record ? await readCompileRecordAt(record.file) : undefined;
   const reference = blueprint.screenplay.script;
   // The Screenplay is read from inside the Workspace only, as a pull writes it.
   if (reference && !(await isInside(workspace.root, path.resolve(path.dirname(blueprintPath), reference.source)))) {
@@ -145,7 +183,7 @@ export async function compileMission(workspace: Workspace, blueprintPath: string
     blueprint,
     outputDir: target,
     ...(previousRecord ? { previousRecord } : {}),
-    ...(recorded ? { saveRecord: (record: CompileRecord) => saveCompileRecord(blueprintPath, record) } : {}),
+    ...(record ? { saveRecord: (written: CompileRecord) => saveCompileRecordAt(record.file, written) } : {}),
     includeObjects: true,
     includeRegions: true,
     includeTriggers: true,
@@ -165,8 +203,8 @@ export async function compileMission(workspace: Workspace, blueprintPath: string
     ...(declared ? { declared } : {}),
   };
   const written = await writeMapPackage(packageOptions).catch(async (error: unknown) => {
-    if (!(error instanceof EditorChangesError) || !recorded) throw error;
-    throw new EditorChangesError(error.changes, formatEditorChanges(error.changes, await syncable(workspace, blueprintPath, target, packageOptions, error), blueprint));
+    if (!(error instanceof EditorChangesError) || !record) throw error;
+    throw new EditorChangesError(error.changes, formatEditorChanges(error.changes, await syncable(workspace, blueprintPath, record.syncFrom, packageOptions, error), blueprint));
   });
   const warnings = [
     ...(doodads?.warnings ?? []),

@@ -103,7 +103,14 @@ export type CaptureExemplarToursOptions = {
 };
 
 export type ExemplarTourOutcome =
-  | { readonly id: string; readonly label: string; readonly outcome: CaptureTourResult["end"] | "already captured"; readonly frames: number }
+  | {
+      readonly id: string;
+      readonly label: string;
+      readonly outcome: CaptureTourResult["end"] | "already captured";
+      readonly frames: number;
+      /** Stops whose frame was captured after the tour's camera moved on and dropped; absent when none. */
+      readonly late?: readonly number[];
+    }
   | { readonly id: string; readonly label: string; readonly outcome: "failed"; readonly frames: 0; readonly reason: string };
 
 /** Captures each tour that has no frames yet, so reruns resume; a failed tour doesn't stop the rest. */
@@ -143,8 +150,9 @@ export async function captureExemplarTours(host: Host, tours: readonly ExemplarT
         },
         { log: (line) => log(`${tour.id}/${tour.label}: ${line}`), ...(options.onQueued ? { onQueued: options.onQueued } : {}), ...(options.signal ? { signal: options.signal } : {}) },
       );
-      log(`${tour.id}/${tour.label}: ${result.end}, ${result.frames} frames`);
-      outcomes.push({ id: tour.id, label: tour.label, outcome: result.end, frames: result.frames });
+      const late = result.late ?? [];
+      log(`${tour.id}/${tour.label}: ${result.end}, ${result.frames} frames${late.length ? `; stops ${late.join(", ")} captured late, after the camera moved on, and dropped` : ""}`);
+      outcomes.push({ id: tour.id, label: tour.label, outcome: result.end, frames: result.frames, ...(late.length ? { late } : {}) });
     } catch (error) {
       if (options.signal?.aborted) throw error;
       const reason = error instanceof Error ? error.message : String(error);

@@ -17,6 +17,7 @@ import { parseArgs } from "node:util";
 
 import { brokerSocketPath, editorBrokerStatus } from "../capture/editor-broker-client.js";
 import { captureShots, type Shot } from "../capture/shots.js";
+import { shotsReport } from "./capture-shots-report.js";
 import { loadHost } from "../host/host.js";
 import { hostContext, loadMachineConfig } from "../host/machine-config.js";
 
@@ -47,11 +48,9 @@ async function main(): Promise<void> {
   const host = await loadHost(await loadMachineConfig());
   const log = (line: string) => console.log(`[${new Date().toTimeString().slice(0, 8)}] ${line}`);
   const result = await captureShots(source, shots, { host, log, ...(values.name ? { name: values.name } : {}), ...(values.lighting ? { lighting: values.lighting } : {}) });
-  for (const shot of result.shots) {
-    console.log(`${shot.frame ?? `(no frame for ${shot.shot})`}: [${shot.rect.join(", ")}], ${shot.camera.distance.toFixed(0)} away, pitch ${shot.pitch}${shot.yaw ? `, turned ${shot.yaw}°` : ""}${shot.whole ? "" : ", partial"}`);
-  }
-  console.log(result.summary);
-  if (result.end !== "done" || result.missing.length > 0) process.exitCode = 1;
+  const report = shotsReport(result);
+  for (const line of report.lines) console.log(line);
+  if (report.exitCode) process.exitCode = report.exitCode;
 }
 
 main().catch((error: unknown) => {

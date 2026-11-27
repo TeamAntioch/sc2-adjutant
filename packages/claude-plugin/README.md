@@ -8,7 +8,7 @@ To install it, follow [the install page](https://adjutant.antioch.games/install/
 |---|---|
 | `.claude-plugin/plugin.json` | The manifest. It starts the MCP server as `node ${CLAUDE_PLUGIN_ROOT}/server/start.mjs ${CLAUDE_PROJECT_DIR}` |
 | `server/` | The launcher: it finds the Workspace and sc2-adjutant core, then runs core's server (`sc2-adjutant-mcp`) following the session's working folder |
-| `skills/` | `level-design`, `hero-mission-design`, `encounter-design`, `ally-design`, `exemplar-design`, `style-pack-builder`, `texture-sets`, `doodad-search`, `custom-doodads`, `cinematography`, `boss-design`, `boss-build`, `forecast-attacks` and `sound-mix` for Missions, `melee-design` for Melee Maps, `report-missing-feature` ([below](#reporting-a-missing-feature)), and `update` ([below](#updating)) |
+| `skills/` | `level-design`, `hero-mission-design`, `encounter-design`, `ally-design`, `exemplar-design`, `style-pack-builder`, `texture-sets`, `doodad-search`, `custom-doodads`, `cinematography`, `boss-design`, `boss-build`, `forecast-attacks`, `sound-mix` and `still-review` for Missions, `melee-design` for Melee Maps, `report-missing-feature` ([below](#reporting-a-missing-feature)), and `update` ([below](#updating)) |
 | `commands/` | The co-design commands below |
 | `hooks/` | The SessionStart hooks that check for a newer release ([below](#updating)) and copy the Workspace's Plugins' skills into it ([below](#skills-from-the-workspaces-plugins)), and the PostToolUse hook that notices a hand edit inside a compiled package ([below](#reporting-a-missing-feature)) |
 

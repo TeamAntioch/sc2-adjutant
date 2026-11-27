@@ -29,7 +29,7 @@ afterEach(async () => {
 type Tour = (request: CaptureTourRequest) => Promise<CaptureTourResult | void>;
 
 /** A host whose tour runs `before` (to hold it or fail it), then writes a frame per stop; it records every call. */
-async function setup({ before, processes }: { before?: Tour; processes?: boolean } = {}) {
+async function setup({ before, processes, late = [] }: { before?: Tour; processes?: boolean; late?: readonly number[] } = {}) {
   const folder = await mkdtemp(path.join(tmpdir(), "broker-"));
   folders.push(folder);
   const cacheDir = path.join(folder, "cache");
@@ -41,6 +41,8 @@ async function setup({ before, processes }: { before?: Tour; processes?: boolean
   const table: GameProcess[] = [];
   const quits: string[] = [];
   const closeGames: (readonly GameProcess[] | undefined)[] = [];
+  // Each tour's hold, as the request gave it.
+  const holds: (number | undefined)[] = [];
   let nextPid = 500;
   const spawnGame = (): GameProcess => {
     const game = { pid: nextPid++, startedAt: `start-${nextPid}` };
@@ -59,6 +61,7 @@ async function setup({ before, processes }: { before?: Tour; processes?: boolean
       request.onGameStarted?.(spawnGame());
     }
     calls.push(`tour ${path.basename(request.mapPath)}`);
+    holds.push(request.holdSeconds);
     try {
       const early = await before?.(request);
       if (early) return early;
@@ -66,13 +69,16 @@ async function setup({ before, processes }: { before?: Tour; processes?: boolean
       const triggers = (await readFile(path.join(request.mapPath, "Triggers"), "utf8")).replace(/&quot;/g, '"');
       const xs = [...triggers.matchAll(/exTourX\[(\d+)\] = ([\d.]+);/g)].map((match) => match[2]!);
       await mkdir(request.outputDir, { recursive: true });
+      // The stops in `late` were captured after their hold: no frame, and listed late.
       for (const [i, x] of xs.entries()) {
+        if (late.includes(i + 1)) continue;
         const stop = String(i + 1).padStart(request.frameDigits, "0");
         await writeFile(path.join(request.outputDir, `${stop}.jpg`), `x=${x}`);
         await writeFile(path.join(request.outputDir, "stops.txt"), `${i + 1} ${x} 1.5\n`, { flag: "a" });
         request.log?.(`stop ${i + 1}`);
       }
-      return { frames: xs.length, end: "done" };
+      const lateHere = late.filter((stop) => stop <= xs.length);
+      return { frames: xs.length - lateHere.length, end: "done", late: lateHere };
     } finally {
       running--;
     }
@@ -146,7 +152,7 @@ async function setup({ before, processes }: { before?: Tour; processes?: boolean
     outputDir: path.join(folder, "out", label),
     ...extra,
   });
-  return { folder, cacheDir, host, socketPath, start, map, job, calls, brokerLog, overlapped: () => overlapped, quitGame: () => (game = false), table, quits, closeGames, spawnGame };
+  return { folder, cacheDir, host, socketPath, start, map, job, calls, holds, brokerLog, overlapped: () => overlapped, quitGame: () => (game = false), table, quits, closeGames, spawnGame };
 }
 
 /** A promise and the function that settles it. */
@@ -231,6 +237,27 @@ describe("the Editor Broker", () => {
     expect(await readFile(path.join(out("b"), "01.jpg"), "utf8")).toBe("x=43.00");
     expect(await readFile(path.join(out("b"), "stops.txt"), "utf8")).toBe("1 43.00 1.5\n");
     expect(await readFile(path.join(out("a"), "stops.txt"), "utf8")).toBe("1 41.00 1.5\n2 42.00 1.5\n");
+  });
+
+  it("asks the host to time a capture copy's frames against its tour's hold, and gives each merged job its own late stops", async () => {
+    const hold = gate();
+    // The merged tour's stops 2 and 3: a's second and b's first.
+    const t = await setup({ late: [2, 3], before: async (request) => (request.mapPath.includes("Other") ? hold.opened : undefined) });
+    await t.start();
+    const [other, yard] = [await t.map("Other"), await t.map("Yard")];
+    const blocker = runCaptureJob(t.job(other, "o", [40]), { socketPath: t.socketPath });
+    await until(() => t.calls.some((call) => call.startsWith("tour Other")));
+    const first = runCaptureJob(t.job(yard, "a", [41, 42]), { socketPath: t.socketPath });
+    await until(queued(t.socketPath, 1));
+    const second = runCaptureJob(t.job(yard, "b", [43]), { socketPath: t.socketPath });
+    await until(queued(t.socketPath, 2));
+    hold.open();
+    const [, a, b] = await Promise.all([blocker, first, second]);
+
+    expect(t.holds).toEqual([2.5, 2.5]);
+    expect([a.late, b.late]).toEqual([[2], [1]]);
+    expect([a.frames, b.frames]).toEqual([1, 0]);
+    expect(await readdir(path.join(t.folder, "out", "a"))).toContain("01.jpg");
   });
 
   it("closes the copies after a failing job, reports it in the status, and runs the next", async () => {

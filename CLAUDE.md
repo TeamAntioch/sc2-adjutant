@@ -26,6 +26,10 @@ The doodad catalog and the Doodad Finder are the public repo TeamAntioch/sc2-ass
 
 Product knowledge another author's assistant would need (Editor and Host behaviour, SC2 file-format and engine facts, cutscene and camera rules, taste) is documented in the repo: `docs/reference/`, a skill, a Host Adapter's docs or a Style Pack's knowledge. Assistant memory holds only what is personal to one author. When in doubt, document.
 
+## Tutorials
+
+Every feature a mapper uses can be learnt from a tutorial. A change that adds one comes with a new tutorial under `site/tutorials/`, or a change to an existing one, in the same change. Its tool calls are checked against the server's tools by the site's reference script, `npm run reference` in `site/` (the checks are in `site/scripts/tutorials.ts`).
+
 ## No Claude-written lines
 
 Never write dialogue, Screenplay lines or scene text for this repo, not even for a tutorial, example, test fixture or doc. Use public-domain text copied word for word, with its source named (tutorial 4 uses *Hamlet* from Project Gutenberg), or lines the author gives you. Where neither exists yet, leave a `TODO(author)` placeholder. Anything derived from the lines, such as line counts, timings and shot lists, waits for the real text.

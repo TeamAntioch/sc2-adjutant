@@ -561,6 +561,14 @@ export type CaptureTourRequest = {
   /** How long to wait for the first stop once the game runs, in seconds, before giving up. */
   readonly startSeconds: number;
   /**
+   * How long the map holds each stop after saving the bank that announces it, in seconds of real
+   * time, before the camera moves on: a tour's `Wait(<hold>, c_timeReal)` after its BankSave.
+   * Given, a frame whose capture finished later than the bank file's modified time plus the hold
+   * may show the next place, so it is deleted and its stop listed in the result's `late`. Left
+   * out, for a map whose stops hold for no fixed time, every frame is kept.
+   */
+  readonly holdSeconds?: number;
+  /**
    * Records the game window as well, from when it appears until the tour ends: `video.mp4` in
    * `outputDir`, `width` pixels wide at up to `fps` frames a second, at `quality` (0-1, the
    * encoder's constant-quality setting; the Host Adapter picks one when it isn't given), with `video-stops.txt` giving
@@ -607,6 +615,11 @@ export type CaptureTourResult = {
   readonly frames: number;
   /** Why the tour stopped: the map announced its end, the game quit first, or no stop was announced in time. */
   readonly end: "done" | "game exited" | "never started";
+  /**
+   * The stops whose frame was captured after the stop's hold (`holdSeconds`) and deleted, in tour
+   * order. Optional, so a Host Adapter written before it still fits: core reads none as none late.
+   */
+  readonly late?: readonly number[];
 };
 
 /**

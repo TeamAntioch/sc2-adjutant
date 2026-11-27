@@ -27,23 +27,26 @@ afterEach(async () => {
   await Promise.all(folders.splice(0).map((folder) => rm(folder, { recursive: true, force: true })));
 });
 
-async function setup({ adapter = true, stops = 2 } = {}) {
+async function setup({ adapter = true, stops = 2, late = [] as number[] } = {}) {
   const folder = await mkdtemp(path.join(tmpdir(), "sc2-adjutant-shots-"));
   folders.push(folder);
   const cacheDir = path.join(folder, "cache");
   await mkdir(cacheDir, { recursive: true });
-  await writeFile(path.join(cacheDir, "tour-stops.txt"), Array.from({ length: stops }, (_, i) => `${i + 1}\n`).join(""));
+  await writeFile(path.join(cacheDir, "tour-stops.txt"), Array.from({ length: stops }, (_, i) => `${i + 1}${late.includes(i + 1) ? " late" : ""}\n`).join(""));
   const file = path.join(folder, "machine.json");
   await writeFile(file, JSON.stringify({ hostAdapter: adapter ? studio : "none", cacheDir }));
   const config = await loadMachineConfig({ file, env: {} });
   const loaded = adapter ? await loadHost(config) : bareHost(config);
   // Reads the capture copy's Triggers while the tour runs: a finished capture removes the copy.
-  const seen: { triggers?: string } = {};
+  const seen: { triggers?: string; holdSeconds?: number } = {};
   const host: typeof loaded = {
     ...loaded,
     run: (async (name: Parameters<typeof loaded.run>[0], request: Parameters<typeof loaded.run>[1]) => {
       const result = await loaded.run(name, request as never);
-      if (name === "editor.captureTour") seen.triggers = (await readFile(path.join((request as { mapPath: string }).mapPath, "Triggers"), "utf8")).replace(/&quot;/g, '"');
+      if (name === "editor.captureTour") {
+        seen.triggers = (await readFile(path.join((request as { mapPath: string }).mapPath, "Triggers"), "utf8")).replace(/&quot;/g, '"');
+        seen.holdSeconds = (request as { holdSeconds?: number }).holdSeconds;
+      }
       return result;
     }) as typeof loaded.run,
   };
@@ -125,6 +128,33 @@ describe("captureShots", () => {
     const json = JSON.parse(await readFile(path.join(outputDir, "shots.json"), "utf8"));
     expect(json.mission).toBeUndefined();
     expect(json.shots.map((shot: { frame: string | null }) => shot.frame)).toEqual(["01-north-gate.jpg", null]);
+  });
+
+  it("asks the host to time each frame against the hold the tour's trigger gives each stop", async () => {
+    const { host, blueprintPath, seen } = await setup();
+    await captureShots({ blueprintPath }, SHOTS, { host, name: "hold" });
+    const hold = /const fixed exTourHold = ([\d.]+);/.exec(seen.triggers ?? "")?.[1];
+    expect(Number(hold)).toBe(2.5);
+    expect(seen.holdSeconds).toBe(Number(hold));
+  });
+
+  it("reports a Shot the host captured late apart from missing ones: in shots.json, the result and the summary", async () => {
+    const { host, missionDir, blueprintPath } = await setup({ stops: 3, late: [1] });
+    const three = [...SHOTS, { rect: [30, 30, 40, 40] as const, label: "tunnel" }];
+    const result = await captureShots({ blueprintPath }, three, { host, name: "late" });
+    const outputDir = path.join(missionDir, "output", "shots", "late");
+    expect(result.late).toEqual(["1 (North gate)"]);
+    expect(result.missing).toEqual([]);
+    expect(result.frames.map((frame) => path.basename(frame))).toEqual(["02.jpg", "03-tunnel.jpg"]);
+    const json = JSON.parse(await readFile(path.join(outputDir, "shots.json"), "utf8"));
+    expect(json.shots.map((shot: { frame: string | null; late?: boolean }) => [shot.frame, shot.late])).toEqual([
+      [null, true],
+      ["02.jpg", undefined],
+      ["03-tunnel.jpg", undefined],
+    ]);
+    expect(result.summary).toBe(
+      `Captured 2 Shots in ${outputDir}; Shot 1 (North gate) was captured late, after the camera moved on: retake it; 2 shows only part of its rectangle (too big for the camera, or at the map's edge)`,
+    );
   });
 
   it("refuses a host without editor.captureTour, a bad Shot, and a folder that already holds Shots", async () => {

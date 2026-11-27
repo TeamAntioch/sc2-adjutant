@@ -1,4 +1,4 @@
-// The capture and cutscene tools: dressing captures, in-game Shots, cutscenes and set imports, and placeholder voices.
+// The capture and cutscene tools: dressing captures, in-game Shots and Still Reviews of them (stills.ts), cutscenes and set imports, and placeholder voices.
 
 import path from "node:path";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -21,6 +21,7 @@ import { MissionSchema, IssueSchema, MapSchema } from "./schemas.js";
 import { stageHint, insideWorkspace, existingMapPackage, oneAtATime, readingMapToEdit } from "./mission-files.js";
 import { describeHandoff, editorHasOpen, TEST_BUDGET_SECONDS, TEST_MIN_SECONDS, testInGame } from "./editor-handoff.js";
 import { type CallContext } from "../call-context.js";
+import { registerStillTools } from "./stills.js";
 import { ADDITIVE, DESTRUCTIVE, type RefusedWithout, toolGroup } from "./tool-group.js";
 
 /** The Mission's Screenplay script and its voice folder, or an error when it has none. */
@@ -36,7 +37,7 @@ async function missionScript(workspace: Workspace, blueprintPath: string): Promi
 }
 
 /** The tools registerCaptureTools can register, the capture group: speak_placeholder_voices only on a Host that can run tts.speak. */
-export const CAPTURE_TOOLS = ["speak_placeholder_voices", "capture_composite", "capture_shots", "freeze_set_piece", "compile_cutscene", "import_set"] as const;
+export const CAPTURE_TOOLS = ["speak_placeholder_voices", "capture_composite", "capture_shots", "freeze_set_piece", "compile_cutscene", "import_set", "shots_for_zones", "build_still_review", "record_still_feedback"] as const;
 
 /** The group's tools listed on every machine but refused where the Host Adapter lacks these capabilities. */
 export const CAPTURE_REFUSED_WITHOUT = { capture_shots: ["editor.captureTour"] } as const satisfies RefusedWithout<(typeof CAPTURE_TOOLS)[number]>;
@@ -128,7 +129,7 @@ export function registerCaptureTools(server: McpServer, ctx: CallContext, { capt
     {
       title: "Capture Shots in game",
       annotations: ADDITIVE,
-      description: `Takes in-game screenshots of parts of a map, one frame per Shot. A Shot is a rectangle of the map in cells, rect: [left, bottom, right, top], that its frame shows whole, with an optional pitch (degrees down from level: 75 by default, a high view; 56 is the player's camera) and yaw (degrees turned from the game camera's own, which looks north; 0 by default), and a label that names its frame. Use it to see how a map looks in the game itself (ground, cliffs, dressing, water, lighting, a layout's sight lines), not in a preview render or the Editor. Size each rectangle to what you want to judge: the camera moves back until the rectangle fits, so about 10-20 cells shows detail, 30-50 cells a Zone, and more an overview; the 16:9 frame shows more than the rectangle on its long side. A rectangle too big for the farthest camera, or at the map's edge where the camera can't centre on it, is still captured and listed as partial (whole: false). Send every Shot you need in one call: starting the game takes minutes, each Shot after that a few seconds. The game runs a capture copy of the map with none of the map's own triggers: the map as placed, revealed with no fog, no UI, no trigger-set lighting (pass lighting, a Light id, to set one), no trigger-spawned units and no trigger-made actor changes. Give mission for a Mission's own Map Package (frames in missions/<id>/output/shots/<name>/, git-ignored) or mapPath for any Map Package (frames in the machine's cacheDir, shots/<name>/); name is the folder, the time by default. Every capture on the machine goes through one Editor Broker, one at a time, so a call may wait behind others. It waits up to ${waitLength}; a job not done by then comes back as state waiting with a job id: call capture_shots({ job }) to wait again and collect the frames, or hear the job's place in the queue. capture_shots({ job, cancel: true }) cancels a job no longer wanted, waiting or running (a running one quits the game and closes its copy first), and stopping a call cancels the job it waits on. After the game quits it reads the game's logs and reports any crash, each distinct error with its count and which no known-error list (known-errors.json at the Workspace root, and the Mission's own beside its Blueprint) knows; propose a pattern for the author to add, never add one. Returns the frames' paths and shots.json, which gives each Shot's rectangle, camera and whether its frame shows it whole; look at the frames with your file-reading tool. Needs a Host Adapter with the editor.captureTour capability, and an awake screen; the Editor comes to the front while it runs, so check the author isn't mid-task in it.`,
+      description: `Takes in-game screenshots of parts of a map, one frame per Shot. A Shot is a rectangle of the map in cells, rect: [left, bottom, right, top], that its frame shows whole, with an optional pitch (degrees down from level: 75 by default, a high view; 56 is the player's camera) and yaw (degrees turned from the game camera's own, which looks north; 0 by default), and a label that names its frame. Use it to see how a map looks in the game itself (ground, cliffs, dressing, water, lighting, a layout's sight lines), not in a preview render or the Editor. Size each rectangle to what you want to judge: the camera moves back until the rectangle fits, so about 10-20 cells shows detail, 30-50 cells a Zone, and more an overview; the 16:9 frame shows more than the rectangle on its long side. A rectangle too big for the farthest camera, or at the map's edge where the camera can't centre on it, is still captured and listed as partial (whole: false). A Shot whose frame the host took after the tour's camera had moved on (a loaded machine) has no frame and is listed as late (late: true), apart from missing ones: it would have shown another Shot's place, so retake those Shots. Send every Shot you need in one call: starting the game takes minutes, each Shot after that a few seconds. The game runs a capture copy of the map with none of the map's own triggers: the map as placed, revealed with no fog, no UI, no trigger-set lighting (pass lighting, a Light id, to set one), no trigger-spawned units and no trigger-made actor changes. Give mission for a Mission's own Map Package (frames in missions/<id>/output/shots/<name>/, git-ignored) or mapPath for any Map Package (frames in the machine's cacheDir, shots/<name>/); name is the folder, the time by default. Every capture on the machine goes through one Editor Broker, one at a time, so a call may wait behind others. It waits up to ${waitLength}; a job not done by then comes back as state waiting with a job id: call capture_shots({ job }) to wait again and collect the frames, or hear the job's place in the queue. capture_shots({ job, cancel: true }) cancels a job no longer wanted, waiting or running (a running one quits the game and closes its copy first), and stopping a call cancels the job it waits on. After the game quits it reads the game's logs and reports any crash, each distinct error with its count and which no known-error list (known-errors.json at the Workspace root, and the Mission's own beside its Blueprint) knows; propose a pattern for the author to add, never add one. Returns the frames' paths and shots.json, which gives each Shot's rectangle, camera and whether its frame shows it whole; look at the frames with your file-reading tool. Needs a Host Adapter with the editor.captureTour capability, and an awake screen; the Editor comes to the front while it runs, so check the author isn't mid-task in it.`,
       inputSchema: {
         mission: MissionSchema.optional(),
         mapPath: z.string().min(1).optional().describe("Any Map Package, instead of a Mission: an absolute path, or one relative to the Workspace's root"),
@@ -146,8 +147,10 @@ export function registerCaptureTools(server: McpServer, ctx: CallContext, { capt
         outputDir: z.string().optional(),
         frames: z.array(z.string()).optional(),
         shotsJson: z.string().optional(),
-        shots: z.array(z.object({ shot: z.number().int(), label: z.string().optional(), frame: z.string().nullable(), whole: z.boolean() })).optional(),
+        shots: z.array(z.object({ shot: z.number().int(), label: z.string().optional(), frame: z.string().nullable(), whole: z.boolean(), late: z.literal(true).optional() })).optional(),
         missing: z.array(z.string()).optional(),
+        /** The Shots captured after the camera moved on, their frames dropped: retake them. */
+        late: z.array(z.string()).optional(),
         partial: z.array(z.string()).optional(),
         end: z.string().optional(),
         /** The game's logs for this capture, read after it quit: crashes, each distinct error with its count, and which no known-error list knows (new). */
@@ -193,6 +196,8 @@ export function registerCaptureTools(server: McpServer, ctx: CallContext, { capt
     },
   );
 
+  registerStillTools(tool, ctx);
+
   /** capture_shots's reply for a job where it stands. */
   async function shotsReply(job: string, state: JobState<CaptureShotsResult & { readonly logs: RunLogReport }> | undefined) {
     if (!state) return ctx.fail(`No capture job ${job} on this server: it never started here, or finished over an hour ago (its frames and shots.json stay in its folder), or the server restarted, which drops a job still waiting.`);
@@ -207,9 +212,9 @@ export function registerCaptureTools(server: McpServer, ctx: CallContext, { capt
     }
     const { result } = state;
     const shotsJson = path.join(result.outputDir, "shots.json");
-    const shots = result.shots.map(({ shot, label, frame, whole }) => ({ shot, ...(label ? { label } : {}), frame: frame === null ? null : path.join(result.outputDir, frame), whole }));
+    const shots = result.shots.map(({ shot, label, frame, whole, late }) => ({ shot, ...(label ? { label } : {}), frame: frame === null ? null : path.join(result.outputDir, frame), whole, ...(late ? { late } : {}) }));
     const logLines = formatRunLogReport(result.logs, "Game logs");
-    return ctx.reply([result.summary, ...result.frames, `What each shows: ${shotsJson}`, ...logLines].join("\n"), { state: "done" as const, job, outputDir: result.outputDir, frames: [...result.frames], shotsJson, shots, missing: [...result.missing], partial: [...result.partial], end: result.end, gameLogs: result.logs });
+    return ctx.reply([result.summary, ...result.frames, `What each shows: ${shotsJson}`, ...logLines].join("\n"), { state: "done" as const, job, outputDir: result.outputDir, frames: [...result.frames], shotsJson, shots, missing: [...result.missing], late: [...result.late], partial: [...result.partial], end: result.end, gameLogs: result.logs });
   }
 
   tool(

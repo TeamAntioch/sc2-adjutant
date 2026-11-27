@@ -48,18 +48,26 @@ describe("a capture tour's bank and frames", () => {
   });
 });
 
-/** A game whose bank holds each of `banks` from its time (seconds after the watch starts), and exits at `exitAt`. */
-function fakeGame(banks: readonly (readonly [number, string])[], options: { exitAt?: number; captureFails?: readonly string[] } = {}) {
+/**
+ * A game whose bank holds each of `banks` from its time (seconds after the watch starts), saved
+ * then, and exits at `exitAt`. Each capture takes `captureSeconds` (0 by default) of the clock.
+ */
+function fakeGame(banks: readonly (readonly [number, string])[], options: { exitAt?: number; captureFails?: readonly string[]; captureSeconds?: number } = {}) {
   let now = 0;
   const frames: string[] = [];
+  const discarded: string[] = [];
   const lines: string[] = [];
   const log: string[] = [];
   const spaces: number[] = [];
   const failing = new Set(options.captureFails ?? []);
   const world: TourWorld = {
     gameRunning: async () => options.exitAt === undefined || now < options.exitAt * 1000,
-    readBank: async () => banks.filter(([at]) => at * 1000 <= now).at(-1)?.[1] ?? "",
+    readBank: async () => {
+      const saved = banks.filter(([at]) => at * 1000 <= now).at(-1);
+      return saved ? { text: saved[1], savedAt: saved[0] * 1000 } : { text: "" };
+    },
     capture: async (frame) => {
+      now += (options.captureSeconds ?? 0) * 1000;
       if (failing.delete(path.basename(frame))) return false;
       frames.push(frame);
       return true;
@@ -73,10 +81,13 @@ function fakeGame(banks: readonly (readonly [number, string])[], options: { exit
     wait: async (seconds) => {
       now += seconds * 1000;
     },
+    discard: async (frame) => {
+      discarded.push(frame);
+    },
     now: () => now,
     log: (line) => log.push(line),
   };
-  return { world, frames, lines, log, spaces };
+  return { world, frames, discarded, lines, log, spaces };
 }
 
 const SETTINGS = { outputDir: "C:\\frames", frameDigits: 3, startSeconds: 60, pressSpaceAfterSeconds: 30 } as const;
@@ -89,7 +100,7 @@ describe("watching a capture tour", () => {
       [7, bank(3, "12", "22")],
       [10, bank(-1)],
     ]);
-    expect(await watchTour({ ...SETTINGS, recordKeys: ["x", "y"] }, game.world)).toEqual({ frames: 3, end: "done" });
+    expect(await watchTour({ ...SETTINGS, recordKeys: ["x", "y"] }, game.world)).toEqual({ frames: 3, end: "done", late: [] });
     expect(game.frames).toEqual(["001.jpg", "002.jpg", "003.jpg"].map((frame) => path.join("C:\\frames", frame)));
     expect(game.lines).toEqual(["1 10 20\n", "2 11 21\n", "3 12 22\n"]);
     expect(game.spaces).toEqual([]);
@@ -100,7 +111,7 @@ describe("watching a capture tour", () => {
       [1, bank(1)],
       [2, bank(-1)],
     ]);
-    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "done" });
+    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "done", late: [] });
     expect(game.lines).toEqual([]);
   });
 
@@ -112,19 +123,19 @@ describe("watching a capture tour", () => {
       ],
       { captureFails: ["001.jpg"] },
     );
-    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "done" });
+    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "done", late: [] });
     expect(game.frames).toEqual([path.join("C:\\frames", "001.jpg")]);
   });
 
   it("ends 'game exited' when the game quits before -1", async () => {
     const game = fakeGame([[1, bank(1)]], { exitAt: 5 });
-    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "game exited" });
+    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "game exited", late: [] });
     expect(game.log).toContain("game exited at stop 1");
   });
 
   it("presses Space every 10 s after pressSpaceAfterSeconds with no stop, and gives up after startSeconds", async () => {
     const game = fakeGame([]);
-    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 0, end: "never started" });
+    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 0, end: "never started", late: [] });
     expect(game.spaces).toEqual([30, 40, 50, 60]);
     expect(game.log).toContain("the tour never started");
   });
@@ -134,7 +145,7 @@ describe("watching a capture tour", () => {
       [35, bank(1)],
       [80, bank(-1)],
     ]);
-    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "done" });
+    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "done", late: [] });
     expect(game.spaces).toEqual([30]);
   });
 
@@ -145,8 +156,62 @@ describe("watching a capture tour", () => {
       [75, bank(2)],
       [76, bank(-1)],
     ]);
-    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 2, end: "done" });
+    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 2, end: "done", late: [] });
     expect(game.spaces).toEqual([]);
+  });
+
+  it("keeps a frame whose capture ends inside its stop's hold, timed from the bank's save", async () => {
+    // Saved at 1 s and held 2.5 s: the poll at 1 s captures until 2.5 s, inside the hold (to 3.5 s).
+    const game = fakeGame(
+      [
+        [1, bank(1)],
+        [6, bank(-1)],
+      ],
+      { captureSeconds: 1.5 },
+    );
+    expect(await watchTour({ ...SETTINGS, holdSeconds: 2.5, recordKeys: ["x"] }, game.world)).toEqual({ frames: 1, end: "done", late: [] });
+    expect(game.discarded).toEqual([]);
+    expect(game.lines).toEqual(["1 40.5\n"]);
+  });
+
+  it("drops a frame whose capture ends after its stop's hold, lists the stop as late and doesn't take it again", async () => {
+    // Saved at 1 s and held 2.5 s: the poll at 1 s captures until 4 s, after the camera moved on at 3.5 s.
+    const game = fakeGame(
+      [
+        [1, bank(1)],
+        [5, bank(2)],
+        [12, bank(-1)],
+      ],
+      { captureSeconds: 3 },
+    );
+    expect(await watchTour({ ...SETTINGS, holdSeconds: 2.5, recordKeys: ["x"] }, game.world)).toEqual({ frames: 0, end: "done", late: [1, 2] });
+    expect(game.frames).toEqual(["001.jpg", "002.jpg"].map((frame) => path.join("C:\\frames", frame)));
+    expect(game.discarded).toEqual(game.frames);
+    expect(game.lines).toEqual([]);
+    expect(game.log).toContain("stop 1: captured 0.5 s after its hold ended, so the camera may have moved on: dropped as late");
+  });
+
+  it("drops a stop as late when its capture failed until after the hold", async () => {
+    const game = fakeGame(
+      [
+        [1, bank(1)],
+        [9, bank(-1)],
+      ],
+      { captureSeconds: 1.5, captureFails: ["001.jpg"] },
+    );
+    expect(await watchTour({ ...SETTINGS, holdSeconds: 2.5 }, game.world)).toEqual({ frames: 0, end: "done", late: [1] });
+  });
+
+  it("keeps every frame when the request gives no hold", async () => {
+    const game = fakeGame(
+      [
+        [1, bank(1)],
+        [9, bank(-1)],
+      ],
+      { captureSeconds: 5 },
+    );
+    expect(await watchTour(SETTINGS, game.world)).toEqual({ frames: 1, end: "done", late: [] });
+    expect(game.discarded).toEqual([]);
   });
 
   it("ignores what an earlier run left in the bank until the game saves it again, when attached", async () => {
@@ -156,7 +221,7 @@ describe("watching a capture tour", () => {
       [3, bank(1)],
       [6, bank(-1)],
     ]);
-    expect(await watchTour({ ...SETTINGS, leftover: left }, game.world)).toEqual({ frames: 1, end: "done" });
+    expect(await watchTour({ ...SETTINGS, leftover: left }, game.world)).toEqual({ frames: 1, end: "done", late: [] });
   });
 });
 

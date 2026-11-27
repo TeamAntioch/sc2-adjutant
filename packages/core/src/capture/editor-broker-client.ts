@@ -19,8 +19,8 @@ import { hostContext } from "../host/machine-config.js";
 import type { CaptureTourRequest, CaptureTourResult, GameProcess } from "../plugins/plugin-api.js";
 import type { CaptureCopyOptions } from "./capture-copy.js";
 
-/** The protocol both ends speak; a broker built from another version refuses the job. 2: editor jobs. 3: a Test Document's bank fixture. 4: the games it recorded, in its status. 5: a capture result's games and start time, for its logs. 6: quitOtherGames, which an older broker would drop. */
-export const BROKER_PROTOCOL = 6;
+/** The protocol both ends speak; a broker built from another version refuses the job. 2: editor jobs. 3: a Test Document's bank fixture. 4: the games it recorded, in its status. 5: a capture result's games and start time, for its logs. 6: quitOtherGames, which an older broker would drop. 7: a tour's hold, and the late stops in its result. */
+export const BROKER_PROTOCOL = 7;
 
 /** The Editor actions the broker runs between captures: each clicks the Editor's menus or brings it forward. */
 export const BROKERED_EDITOR_ACTIONS = ["editor.open", "editor.refresh", "editor.testDocument", "editor.save"] as const;

@@ -90,6 +90,8 @@
     "capture-sets": "npm run build && node packages/core/dist/cli/capture-sets.js",
     "capture-edit": "npm run build && node packages/core/dist/cli/capture-edit.js",
     "capture-shots": "npm run build && node packages/core/dist/cli/capture-shots.js",
+    "shots-for-zones": "npm run build && node packages/core/dist/cli/shots-for-zones.js",
+    "still-review": "npm run build && node packages/core/dist/cli/still-review.js",
     "turbo": "node scripts/turbo.mjs"
   },
   "engines": {

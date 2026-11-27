@@ -64,8 +64,10 @@ export type CaptureShotsOptions = {
 export type CapturedShot = {
   /** The Shot, from 1. */
   readonly shot: number;
-  /** Its frame's file name, or null when the game stopped first. */
+  /** Its frame's file name, or null when the game stopped first or it was captured late. */
   readonly frame: string | null;
+  /** Its frame was captured after the tour's camera moved on, so it was dropped: retake it. */
+  readonly late?: true;
   readonly rect: readonly [number, number, number, number];
   readonly pitch: number;
   readonly yaw: number;
@@ -81,8 +83,10 @@ export type CaptureShotsResult = {
   readonly shots: readonly CapturedShot[];
   /** Absolute paths of the frames captured, in Shot order. */
   readonly frames: readonly string[];
-  /** The Shots with no frame, by number and label. */
+  /** The Shots with no frame, by number and label, apart from the late ones. */
   readonly missing: readonly string[];
+  /** The Shots whose frame was captured after the camera moved on and dropped, by number and label: retake them. */
+  readonly late: readonly string[];
   /** The Shots whose frame shows only part of the rectangle, by number and label. */
   readonly partial: readonly string[];
   readonly outputDir: string;
@@ -155,14 +159,16 @@ export async function captureShots(source: ShotsSource, shots: readonly Shot[], 
   const coveredBy = "blueprintPath" in source ? await coverageOf(source.blueprintPath, FIRST_PACKAGE_STAGE) : undefined;
 
   const paths = await nameFrames(outputDir, planned.map((shot) => ({ stop: shot.shot, frame: shot.frame })));
-  const captured: CapturedShot[] = planned.map((shot, i) => (paths[i] === null ? { ...shot, frame: null } : shot));
+  const lateShots = new Set(result.late);
+  const captured: CapturedShot[] = planned.map((shot, i) => (paths[i] !== null ? shot : lateShots.has(shot.shot) ? { ...shot, frame: null, late: true } : { ...shot, frame: null }));
   const frames = paths.filter((frame) => frame !== null);
-  const missing = planned.filter((_, i) => paths[i] === null).map(named);
+  const missing = captured.filter((shot) => shot.frame === null && !shot.late).map(named);
+  const late = captured.filter((shot) => shot.late).map(named);
   await mkdir(outputDir, { recursive: true });
   await writeFile(path.join(outputDir, "shots.json"), `${JSON.stringify({ ...(mission ? { mission } : {}), map: mapPackage, copy, end: result.end, ...(coveredBy ? { covers: coveredBy } : {}), shots: captured }, null, 2)}\n`);
 
   const partial = planned.filter((shot) => !shot.whole).map(named);
-  const summary = tourSummary(`Captured ${frames.length} Shot${frames.length === 1 ? "" : "s"} in ${outputDir}`, result.end, missing, partial, { its: "rectangle", why: "too big for the camera, or at the map's edge" });
+  const summary = tourSummary(`Captured ${frames.length} Shot${frames.length === 1 ? "" : "s"} in ${outputDir}`, result.end, missing, partial, { its: "rectangle", why: "too big for the camera, or at the map's edge" }, { names: late, noun: "Shot" });
   log(summary);
-  return { summary, end: result.end, shots: captured, frames, missing, partial, outputDir, copy, run: { games: result.games, ...(result.startedAt ? { startedAt: result.startedAt } : {}) } };
+  return { summary, end: result.end, shots: captured, frames, missing, late, partial, outputDir, copy, run: { games: result.games, ...(result.startedAt ? { startedAt: result.startedAt } : {}) } };
 }

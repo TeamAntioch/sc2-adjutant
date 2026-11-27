@@ -1,6 +1,6 @@
 // The capture tour's world on Windows: a helper that fails for a moment neither ends the tour nor
 // loses the bank, and one that keeps failing ends it rather than watch forever.
-import { mkdir, mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -49,13 +49,24 @@ describe("the capture tour's world", () => {
 
   it("keeps the bank as last read when a read fails, and the leftover until then", async () => {
     const { world, bank, lines } = await brokenWorld("leftover");
-    expect(await world.readBank()).toBe("");
-    // A folder in the bank's place can't be read as a file.
+    expect(await world.readBank()).toEqual({ text: "" });
+    // A folder in the bank's place can't be read as a file: the read keeps the last content, and its time.
     await mkdir(bank);
-    expect(await world.readBank()).toBe("");
+    expect(await world.readBank()).toEqual({ text: "" });
     expect(lines.some((line) => line.startsWith("couldn't read the bank: "))).toBe(true);
     const kept = await brokenWorld("leftover");
     await mkdir(kept.bank);
-    expect(await kept.world.readBank()).toBe("leftover");
+    expect(await kept.world.readBank()).toEqual({ text: "leftover" });
+  });
+
+  it("gives the bank's save time with its content, and keeps the two together when a later read fails", async () => {
+    const { world, bank } = await brokenWorld("");
+    await writeFile(bank, "stop 1");
+    const savedAt = (await stat(bank)).mtimeMs;
+    expect(await world.readBank()).toEqual({ text: "stop 1", savedAt });
+    // The game saves again, but this read fails: stop 1 is never timed by the newer save.
+    await rm(bank);
+    await mkdir(bank);
+    expect(await world.readBank()).toEqual({ text: "stop 1", savedAt });
   });
 });

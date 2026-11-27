@@ -35,7 +35,8 @@ export async function refuseUsedFolder(outputDir: string, record: string, holds:
 /**
  * Runs a camera tour of the copy's stops on a capture copy of `source`, through the Editor Broker:
  * the broker names the copy for `label` and the job, writes it, and removes it once the tour is
- * done. The result's `copy` is that copy.
+ * done. The result's `copy` is that copy. The copy's tour holds each stop for TOUR_HOLD_SECONDS,
+ * and the host drops a frame taken after it: such stops come back in `late`, with no frame.
  */
 export async function runStopTour(
   host: Host,
@@ -53,7 +54,7 @@ export async function runStopTour(
     },
     { log: request.log, ...(request.onQueued ? { onQueued: request.onQueued } : {}), ...(request.signal ? { signal: request.signal } : {}) },
   );
-  return { frames: result.frames, end: result.end, copy: result.copy!, games: result.games ?? [], ...(result.startedAt ? { startedAt: result.startedAt } : {}) };
+  return { frames: result.frames, end: result.end, late: result.late ?? [], copy: result.copy!, games: result.games ?? [], ...(result.startedAt ? { startedAt: result.startedAt } : {}) };
 }
 
 /** Gives each stop's frame (the host names them by stop) its planned name: the frames' paths, null for a stop with none. */
@@ -71,12 +72,25 @@ export async function nameFrames(outputDir: string, stops: readonly { readonly s
   return frames;
 }
 
-/** A capture's summary: `head`, then how the tour ended early, the stops with no frame and those that show only part of what they frame. */
-export function tourSummary(head: string, end: CaptureTourResult["end"], missing: readonly string[], partial: readonly string[], partialWhat: { readonly its: string; readonly why: string }): string {
+/**
+ * A capture's summary: `head`, then how the tour ended early, the stops with no frame, those
+ * captured late (`late.names`, each a `late.noun`: "Shot") and those that show only part of what
+ * they frame.
+ */
+export function tourSummary(
+  head: string,
+  end: CaptureTourResult["end"],
+  missing: readonly string[],
+  partial: readonly string[],
+  partialWhat: { readonly its: string; readonly why: string },
+  late: { readonly names: readonly string[]; readonly noun: string } = { names: [], noun: "stop" },
+): string {
+  const one = late.names.length === 1;
   return [
     head,
     ...(end === "done" ? [] : [`: the tour ended early (${end})`]),
     ...(missing.length ? [`; no frame for ${missing.join(", ")}`] : []),
+    ...(late.names.length ? [`; ${late.noun}${one ? "" : "s"} ${late.names.join(", ")} ${one ? "was" : "were"} captured late, after the camera moved on: retake ${one ? "it" : "them"}`] : []),
     ...(partial.length ? [`; ${partial.join(", ")} show${partial.length === 1 ? "s" : ""} only part of ${partial.length === 1 ? "its" : "their"} ${partialWhat.its} (${partialWhat.why})`] : []),
   ].join("");
 }

@@ -16,7 +16,7 @@
 
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
-import { appendFile, mkdir, readFile, rm } from "node:fs/promises";
+import { appendFile, mkdir, readFile, rm, stat } from "node:fs/promises";
 import path from "node:path";
 
 import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type CaptureTourResult, type GameProcess, type HostContext, ownedGame, quitForeignGames, quitOwnedGame, refuseForeignGame } from "@team-antioch/sc2-adjutant/plugin-sdk";
@@ -147,7 +147,9 @@ export function gameWorld(
   let window: string | undefined;
   let running = true;
   let failedChecks = 0;
-  let lastBank = leftover ?? "";
+  // The bank as last read, with its save time from the same read: a failed read keeps both, so a
+  // stale content is never timed by a newer save.
+  let lastBank: { text: string; savedAt?: number } = { text: leftover ?? "" };
   const gameWindow = async (): Promise<string | undefined> => (window ??= gameWindows(await topWindows(editor.exe))[0]?.hwnd);
   return {
     // A helper run or a read that fails says nothing: the game is taken as still running, and the
@@ -165,9 +167,11 @@ export function gameWorld(
       return running;
     },
     readBank: async () => {
-      if (!existsSync(bank)) return (lastBank = "");
+      if (!existsSync(bank)) return (lastBank = { text: "" });
       try {
-        lastBank = await readFile(bank, "utf8");
+        // Its time first: a save between the two only makes the stop's hold look earlier.
+        const savedAt = (await stat(bank)).mtimeMs;
+        lastBank = { text: await readFile(bank, "utf8"), savedAt };
       } catch (error) {
         warn(`couldn't read the bank: ${(error as Error).message}`);
       }
@@ -196,6 +200,7 @@ export function gameWorld(
         return false;
       }
     },
+    discard: (frame) => rm(frame, { force: true }),
     pressSpace: async () => {
       const game = await gameWindow();
       if (game) await runHelper(editor.exe, ["space", game]).catch((error: unknown) => log(`couldn't press Space: ${(error as Error).message}`));

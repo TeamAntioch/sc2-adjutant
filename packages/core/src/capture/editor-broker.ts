@@ -28,7 +28,7 @@ import type { Host } from "../host/host.js";
 import { hostContext } from "../host/machine-config.js";
 import { CAPTURE_MAPS_FOLDER, type CaptureTourRequest, type GameProcess } from "../plugins/plugin-api.js";
 import { discardBankRun, finishBankRun, restoreBankRun, snapshotBanks, unrestoredFixtureRun, type BankRun } from "./bank-snapshots.js";
-import { makeCaptureCopy, TOUR_BANK } from "./capture-copy.js";
+import { makeCaptureCopy, TOUR_BANK, TOUR_HOLD_SECONDS } from "./capture-copy.js";
 import {
   BROKER_PROTOCOL,
   type BrokerGameSummary,
@@ -526,6 +526,9 @@ async function runBatch(host: Host, batch: readonly Entry[], record: (line: stri
     frameDigits,
     ...(writeMap ? { writeMap } : {}),
     ...(job.kind === "map" && job.attach ? { attach: true } : {}),
+    // A capture copy's tour holds each stop TOUR_HOLD_SECONDS after announcing it, so the host drops
+    // a frame taken later. A map's own script holds its stops for no time the broker knows.
+    ...(job.kind === "tour" ? { holdSeconds: TOUR_HOLD_SECONDS } : {}),
     log,
     signal,
     onGameStarted,
@@ -535,7 +538,9 @@ async function runBatch(host: Host, batch: readonly Entry[], record: (line: stri
   try {
     const result = await host.run("editor.captureTour", request);
     end = result.end;
-    results = merged ? await splitFrames(scratch, batch, result.end) : [result];
+    // A Host Adapter built before `late` sends none.
+    const late = result.late ?? [];
+    results = merged ? await splitFrames(scratch, batch, result.end, late) : [{ ...result, late }];
   } finally {
     if (merged) await rm(scratch, { recursive: true, force: true });
   }
@@ -551,8 +556,8 @@ class BankFixtureError extends Error {}
 
 const capture = (entry: Entry) => entry.job as Exclude<CaptureJob, { kind: "editor" }>;
 
-/** Moves a merged tour's frames, and its stops.txt lines, to each job's folder, numbered from 1 for each job. */
-async function splitFrames(scratch: string, batch: readonly Entry[], end: CaptureJobResult["end"]): Promise<CaptureJobResult[]> {
+/** Moves a merged tour's frames, and its stops.txt lines, to each job's folder, numbered from 1 for each job, and gives each job its own late stops. */
+async function splitFrames(scratch: string, batch: readonly Entry[], end: CaptureJobResult["end"], late: readonly number[]): Promise<CaptureJobResult[]> {
   const owners: { entry: Entry; stop: number }[] = [];
   for (const entry of batch) for (let stop = 1; stop <= stopCount(entry.job); stop++) owners.push({ entry, stop });
   const lines = existsSync(path.join(scratch, "stops.txt")) ? (await readFile(path.join(scratch, "stops.txt"), "utf8")).split("\n").filter(Boolean) : [];
@@ -567,13 +572,14 @@ async function splitFrames(scratch: string, batch: readonly Entry[], end: Captur
     frames.set(entry, frames.get(entry)! + 1);
   }
   for (const line of lines) {
-    const [global, ...rest] = line.split(" ");
-    const owner = owners[Number(global) - 1];
+    const [mergedStop, ...rest] = line.split(" ");
+    const owner = owners[Number(mergedStop) - 1];
     if (!owner) continue;
     await mkdir(capture(owner.entry).outputDir, { recursive: true });
     await appendFile(path.join(capture(owner.entry).outputDir, "stops.txt"), `${[owner.stop, ...rest].join(" ")}\n`);
   }
-  return batch.map((entry) => ({ frames: frames.get(entry)!, end }));
+  const lateOf = (entry: Entry) => late.flatMap((mergedStop) => (owners[mergedStop - 1]?.entry === entry ? [owners[mergedStop - 1]!.stop] : []));
+  return batch.map((entry) => ({ frames: frames.get(entry)!, end, late: lateOf(entry) }));
 }
 
 /** Renames a file, copying it where the two folders are on different volumes. */
