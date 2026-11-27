@@ -30,7 +30,7 @@
 // or from a folder that already holds the game's data extracted (one with its mods folder, in any
 // case), such as a game-data mirror:
 //   node packages/core/scripts/build-trigger-libraries.mjs ~/sc2-game-data
-// It needs the core package built (npm run build -w @team-antioch/sc2-adjutant) for its XML reader.
+// It needs the core package built (pnpm --filter @team-antioch/sc2-adjutant run build) for its XML reader.
 
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";

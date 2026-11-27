@@ -11,7 +11,7 @@ Set one version, say `0.1.1`, in every one of these:
 - the plugin's `packages/claude-plugin/.claude-plugin/plugin.json` and `packages/claude-plugin/package.json`
 - on a minor or major bump, each package's `peerDependencies` range on core (`^0.1.0` to `^0.2.0`)
 
-Then run `npm install` so `package-lock.json` matches.
+Then run `pnpm install` so `pnpm-lock.yaml` matches.
 
 The Publish workflow's pull-request run checks all of the above (`node scripts/publish-packages.mjs check`, which you can also run locally), then runs `npm publish --dry-run` for each package.
 
@@ -25,7 +25,7 @@ git tag v0.1.1
 git push origin v0.1.1
 ```
 
-The tag starts the Publish workflow (`.github/workflows/publish.yml`). It refuses a tag that isn't `v` and the packages' version, runs `npm ci`, the build and the tests, then publishes each package in order through npm's trusted publishing, so no token is needed. A package whose version is already on npm is skipped, so a run that failed partway can be re-run.
+The tag starts the Publish workflow (`.github/workflows/publish.yml`). It refuses a tag that isn't `v` and the packages' version, runs `pnpm install`, the build and the tests, then publishes each package in order through npm's trusted publishing, so no token is needed. A package whose version is already on npm is skipped, so a run that failed partway can be re-run.
 
 Watch it with `gh run watch`, then check one package with `npm view @team-antioch/sc2-adjutant version`.
 

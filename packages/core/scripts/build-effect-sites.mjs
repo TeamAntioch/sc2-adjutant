@@ -22,7 +22,7 @@
 // race mods, then the campaigns, later entries overriding earlier ones.
 //
 // Usage: with a CASC extractor named in SC2_CASC_TOOL (tools/README.md) and core built
-// (npm run build -w @team-antioch/sc2-adjutant):
+// (pnpm --filter @team-antioch/sc2-adjutant run build):
 //   node packages/core/scripts/build-effect-sites.mjs "/Applications/StarCraft II"
 
 import { existsSync } from "node:fs";

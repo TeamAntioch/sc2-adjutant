@@ -5,7 +5,7 @@
 // as its numbered files (<name>_00.m3 and on). A doodad with `gameModel` names one of these, or a
 // doodad's model in data/doodad-models.json, and the compile refuses any other path.
 //
-// Usage: npm run build -w packages/core && node packages/core/scripts/build-game-models.mjs
+// Usage: pnpm --filter @team-antioch/sc2-adjutant run build && node packages/core/scripts/build-game-models.mjs
 
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import os from "node:os";

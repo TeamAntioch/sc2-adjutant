@@ -1,0 +1,11 @@
+packages:
+  - packages/*
+  - site
+
+# A flat node_modules, as npm made: scripts/link-catalog.mjs, scripts/check-catalog-moved.mjs and
+# scripts/turbo.mjs find the catalog packages at the root's node_modules/@team-antioch/.
+nodeLinker: hoisted
+
+# The plugins' peer dependency on core and the site's dependency on it are the workspace's core,
+# never the published one, as they were under npm workspaces.
+linkWorkspacePackages: true

@@ -210,7 +210,7 @@ The rules, each checked against a Campaign Mod's Editor-saved `Lib<id>.galaxy`:
 The game's definitions are in `packages/core/data/trigger-libraries.json`, generated from the install's CASC storage. Ntve comes from `mods/core.sc2mod/base.sc2data/triggerlibs/nativelib.triggerlib` and Hots from `mods/swarm.sc2mod/base.sc2data/triggerlibs/swarmlib.sc2lib`. To refresh it after a patch, with a CASC extractor named in `SC2_CASC_TOOL` ([tools/README.md](../../tools/README.md)), run:
 
 ```sh
-npm run build -w @team-antioch/sc2-adjutant && node packages/core/scripts/build-trigger-libraries.mjs "/Applications/StarCraft II"   # extracts both with SC2_CASC_TOOL (tools/README.md)
+pnpm --filter @team-antioch/sc2-adjutant run build && node packages/core/scripts/build-trigger-libraries.mjs "/Applications/StarCraft II"   # extracts both with SC2_CASC_TOOL (tools/README.md)
 ```
 
 Given a folder that already holds the game's data extracted (one with its `mods` folder, in any case), such as a game-data mirror, the script reads it in place and needs no extractor.

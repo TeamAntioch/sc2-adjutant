@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json && node ../core/scripts/write-built-stamp.mjs",
-    "prepack": "npm run build",
+    "prepack": "pnpm run build",
     "lint": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run"
   },

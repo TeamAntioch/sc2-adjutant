@@ -91,7 +91,7 @@ export function Objective({ id, title, tutorial, children }: { id?: string; titl
   const anchor = objectiveId(id, title);
   const index = tutorial.objectives.findIndex((objective) => objective.id === anchor);
   const step = tutorial.objectives[index];
-  if (!step) throw new Error(`${tutorial.file}: no objective ${anchor} in the reference; run npm run reference -w site`);
+  if (!step) throw new Error(`${tutorial.file}: no objective ${anchor} in the reference; run pnpm --filter sc2-adjutant-site run reference`);
   return (
     <section id={step.id} className="scroll-mt-20 border-t border-sky-400/15 pt-7 first:border-t-0">
       <div className="font-display text-[11px] font-medium uppercase tracking-[0.3em] text-cyan-400/80">

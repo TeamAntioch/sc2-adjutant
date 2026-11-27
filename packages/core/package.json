@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "prepack": "npm run build",
+    "prepack": "pnpm run build",
     "test": "vitest run",
     "test:watch": "vitest",
     "update-golden": "vitest run tests/golden -u",

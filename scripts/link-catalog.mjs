@@ -3,17 +3,17 @@
 // sc2-doodad-finder and sc2-set-finder, pinned. This swaps them, in node_modules only, for a sibling
 // sc2-asset-catalog checkout's packages, and back:
 //
-//   npm run link-catalog [-- --from <checkout>]   link ../sc2-asset-catalog's packages (built first)
-//   npm run unlink-catalog                       put the published packages back
+//   pnpm run link-catalog [--from <checkout>]     link ../sc2-asset-catalog's packages (built first)
+//   pnpm run unlink-catalog                       put the published packages back
 //   node scripts/link-catalog.mjs status          say which are linked
 //
 // The sibling is ../sc2-asset-catalog beside this checkout, or beside the main checkout when this is
 // a linked worktree. Linking builds it (`npm ci` there first when it has no node_modules), keeps
 // the installed packages aside in node_modules/.published-catalog/, and links each package's folder
-// in their place; unlinking puts them back (or runs `npm ci` when they're gone). package.json and
-// package-lock.json are never touched, and CI never links: it always runs the published pin
-// (scripts/check-catalog-moved.mjs --installed refuses a link). `npm install` or `npm ci` while
-// linked also puts the published packages back. Rebuild the sibling after changing it
+// in their place; unlinking puts them back (or runs `pnpm install --frozen-lockfile` when they're
+// gone). package.json and pnpm-lock.yaml are never touched, and CI never links: it always runs the published pin
+// (scripts/check-catalog-moved.mjs --installed refuses a link). `pnpm install` while linked
+// leaves the links in place: unlink first. Rebuild the sibling after changing it
 // (`npm run build` there): sc2-adjutant runs its dist/.
 import { execFileSync } from "node:child_process";
 import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, renameSync, rmSync, statSync, symlinkSync } from "node:fs";
@@ -30,7 +30,9 @@ const { values, positionals } = parseArgs({
   options: { root: { type: "string" }, from: { type: "string" }, "no-build": { type: "boolean", default: false } },
 });
 const ROOT = path.resolve(values.root ?? fileURLToPath(new URL("..", import.meta.url)));
-const npm = process.platform === "win32" ? "npm.cmd" : "npm";
+// The sibling sc2-asset-catalog builds with npm; this repo installs with pnpm. Each is a .cmd on
+// Windows, which Node runs only through a shell.
+const run = (command, args, cwd) => execFileSync(command, args, { cwd, stdio: "inherit", shell: process.platform === "win32" });
 
 /** The main working tree when `folder` is a linked worktree (its .git is a file naming the gitdir); else `folder`. */
 function mainCheckout(folder) {
@@ -65,8 +67,8 @@ function link() {
   });
   if (missing.length) throw new Error(`${sibling} isn't an sc2-asset-catalog checkout: it has no packages/${missing.join(", packages/")}. Clone TeamAntioch/sc2-asset-catalog there, or give --from <checkout>`);
   if (!values["no-build"]) {
-    if (!existsSync(path.join(sibling, "node_modules"))) execFileSync(npm, ["ci"], { cwd: sibling, stdio: "inherit" });
-    execFileSync(npm, ["run", "build"], { cwd: sibling, stdio: "inherit" });
+    if (!existsSync(path.join(sibling, "node_modules"))) run("npm", ["ci"], sibling);
+    run("npm", ["run", "build"], sibling);
   }
   try {
     for (const name of PACKAGES) linkOne(name, sibling);
@@ -75,7 +77,7 @@ function link() {
     unlink();
     throw error;
   }
-  console.log("npm run unlink-catalog goes back to the published packages.");
+  console.log("pnpm run unlink-catalog goes back to the published packages.");
 }
 
 /** Keeps the installed package aside (once) and links the sibling's in its place. */
@@ -105,8 +107,8 @@ function unlink() {
   }
   rmSync(path.join(ROOT, "node_modules", ASIDE), { recursive: true, force: true });
   if (reinstall) {
-    console.log("The published packages weren't kept aside: reinstalling them with npm ci");
-    execFileSync(npm, ["ci"], { cwd: ROOT, stdio: "inherit" });
+    console.log("The published packages weren't kept aside: reinstalling them with pnpm install");
+    run("pnpm", ["install", "--frozen-lockfile"], ROOT);
   }
   status();
 }
@@ -115,8 +117,8 @@ function status() {
   for (const name of PACKAGES) {
     const at = installedAt(name);
     if (isLink(at)) console.log(`${SCOPE}/${name}: linked to ${realpathSync(at)}`);
-    else if (existsSync(at)) console.log(`${SCOPE}/${name}: published ${versionAt(at)}${versionAt(at) === pinned(name) ? "" : ` (pinned ${pinned(name)}: run npm ci)`}`);
-    else console.log(`${SCOPE}/${name}: not installed (run npm ci)`);
+    else if (existsSync(at)) console.log(`${SCOPE}/${name}: published ${versionAt(at)}${versionAt(at) === pinned(name) ? "" : ` (pinned ${pinned(name)}: run pnpm install)`}`);
+    else console.log(`${SCOPE}/${name}: not installed (run pnpm install)`);
   }
 }
 

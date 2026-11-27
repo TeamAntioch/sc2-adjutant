@@ -11,8 +11,8 @@ name: CI
 # Tests that need the game, the Editor or a tool the runner lacks (ImageMagick) skip themselves,
 # as they do on any machine without it.
 #
-# Linux and Windows each run three jobs at once (#5), which together run what `npm test` and
-# `npm run lint` run: core's tests in two shards, and a third job with lint, every other package's
+# Linux and Windows each run three jobs at once (#5), which together run what `pnpm test` and
+# `pnpm run lint` run: core's tests in two shards, and a third job with lint, every other package's
 # tests and the check scripts.
 #
 # macOS runs the tests in one job, without lint, which is the same on every system: hosted macOS
@@ -64,9 +64,9 @@ jobs:
       # A hang fails here, not at the job's limit.
       - name: Test core (${{ matrix.part }})
         if: startsWith(matrix.part, 'core-')
-        run: npm test -w packages/core -- --shard=${{ matrix.part == 'core-1' && '1' || '2' }}/2
+        run: pnpm --filter @team-antioch/sc2-adjutant test --shard=${{ matrix.part == 'core-1' && '1' || '2' }}/2
         timeout-minutes: 30
-      - run: npm run lint
+      - run: pnpm run lint
         if: matrix.part == 'rest'
         timeout-minutes: 10
       - name: Test every package but core, then run the checks
@@ -95,7 +95,7 @@ jobs:
           key: vitest-${{ runner.os }}-${{ matrix.part }}-${{ github.run_id }}-${{ github.run_attempt }}
 
   # Whether this run tests on macOS: every run but a pull request's, and a pull request that changes
-  # the macOS Host, a package.json, the lockfile or anything under .github.
+  # the macOS Host, a package.json, pnpm's lockfile or workspace file, or anything under .github.
   macos-needed:
     name: Does macOS need to run?
     if: ${{ !github.event.repository.private }}
@@ -119,7 +119,7 @@ jobs:
             exit 0
           fi
           files=$(gh api --paginate "repos/$REPO/pulls/$PR/files" -q '.[].filename')
-          if grep -qE '^(packages/plugin-host-macos/|\.github/|package-lock\.json$|(.+/)?package\.json$)' <<<"$files"; then
+          if grep -qE '^(packages/plugin-host-macos/|\.github/|pnpm-lock\.yaml$|pnpm-workspace\.yaml$|(.+/)?package\.json$)' <<<"$files"; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "No change macOS needs to check; skipping it."
@@ -142,7 +142,7 @@ jobs:
       # The runner has three cores, and vitest's default of one fewer leaves one idle while the
       # tests wait on ffmpeg and the file system.
       - name: Test core
-        run: npm test -w packages/core -- --maxWorkers=3
+        run: pnpm --filter @team-antioch/sc2-adjutant test --maxWorkers=3
         timeout-minutes: 30
       - name: Test every package but core, then run the checks
         timeout-minutes: 15

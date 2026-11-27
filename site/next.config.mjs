@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 
 import createMDX from "@next/mdx";
 
-// The repo root: the npm workspaces hoist the site's dependencies there, and the site reads core's
+// The repo root: pnpm (nodeLinker: hoisted) hoists the site's dependencies there, and the site reads core's
 // package.json for the version it shows.
 const root = fileURLToPath(new URL("..", import.meta.url));
 

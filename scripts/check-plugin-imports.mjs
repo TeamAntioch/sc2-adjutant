@@ -1,4 +1,4 @@
-// Run by `npm run lint` and `npm test`: the Plugins' TypeScript reaches core only through `@team-antioch/sc2-adjutant/plugin-sdk`.
+// Run by `pnpm run lint` and `pnpm test`: the Plugins' TypeScript reaches core only through `@team-antioch/sc2-adjutant/plugin-sdk`.
 // A Plugin runs from its own folder, built to its dist/ (or as TypeScript with type stripping, for a
 // local Plugin), and the SDK resolves to core's built `dist/` there (to its declarations for tsc, and
 // to core's source under vitest). An import of core by path, even of types only, bypasses the SDK,

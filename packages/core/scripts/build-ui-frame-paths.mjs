@@ -11,7 +11,7 @@
 // frame's template is kept, not copied out: a lookup follows it (Blizzard's templates of templates
 // would copy out to hundreds of thousands of paths).
 //
-// Usage: npm run build -w @team-antioch/sc2-adjutant, then node packages/core/scripts/build-ui-frame-paths.mjs
+// Usage: pnpm --filter @team-antioch/sc2-adjutant run build, then node packages/core/scripts/build-ui-frame-paths.mjs
 // (GITHUB_TOKEN, when set, is sent with the one GitHub API call, the tree listing).
 
 import { writeFile } from "node:fs/promises";
