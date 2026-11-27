@@ -15,6 +15,16 @@ export const CELLS_PER_BLOCK = 8;
 export const blockOf = (blocksPerRow: number, cellX: number, cellY: number): number => Math.floor(cellY / CELLS_PER_BLOCK) * blocksPerRow + Math.floor(cellX / CELLS_PER_BLOCK);
 /** A block's south-west cell. */
 export const blockOrigin = (block: number, blocksPerRow: number): { readonly x: number; readonly y: number } => ({ x: (block % blocksPerRow) * CELLS_PER_BLOCK, y: Math.floor(block / blocksPerRow) * CELLS_PER_BLOCK });
+/**
+ * The set a block of a fully generated map goes to (ADR-0016): the one whose Zones cover most of its
+ * cells, a tie to the lowest index (set 0, then the order of the Blueprint's `textureSets`), and set
+ * 0 when no Zone covers any. `cellSets` are the covered cells' own sets, each below `setCount`.
+ */
+export function blockSet(cellSets: Iterable<number>, setCount: number): number {
+  const counts = new Array<number>(setCount).fill(0);
+  for (const set of cellSets) counts[set]!++;
+  return counts.indexOf(Math.max(...counts));
+}
 /** A block's cells, as warnings and refusals name them: "16-23 × 40-47". */
 export const blockLabel = (block: number, blocksPerRow: number): string => {
   const { x, y } = blockOrigin(block, blocksPerRow);

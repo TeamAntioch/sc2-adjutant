@@ -182,7 +182,7 @@ describe("the table against the Blueprint schema", () => {
   });
 
   it("finds ids in every collection of a populated Blueprint, so a wrong path can't read as empty", () => {
-    const blueprint = { ...blueprintNamingAnchorsEverywhere(), regions: [{ id: "r1" }], composites: [{ id: "c1" }], ramps: [{ id: "rp1" }], terrainObjects: [{ id: "t1" }] };
+    const blueprint = { ...blueprintNamingAnchorsEverywhere(), regions: [{ id: "r1" }], composites: [{ id: "c1" }], ramps: [{ id: "rp1" }], terrainObjects: [{ id: "t1" }], paintRegions: [{ id: "p1" }] };
     for (const collection of Object.keys(COLLECTION_LISTS) as Collection[]) {
       expect(idsOf(blueprint, collection).length, collection).toBeGreaterThan(0);
     }

@@ -23,7 +23,8 @@ import { BlueprintTriggerFolderSchema, BlueprintTriggerPath } from "./blueprint-
 import { MAP_GUI } from "./library-interface.js";
 import { isKnownUpgrade, techUnit } from "../catalog/tech-catalog.js";
 import { isKnownCliffSet } from "../catalog/tileset-cliff-sets.js";
-import { isKnownTexture, isKnownTileset } from "../catalog/tileset-textures.js";
+import { isKnownTexture, isKnownTileset, missionTextures } from "../catalog/tileset-textures.js";
+import { blockOf, blockOrigin, blockSet, CELLS_PER_BLOCK } from "../terrain/texture-grid.js";
 import { containsPoint } from "../terrain/polygon.js";
 
 /** An id: lowercase letters, digits, hyphens and underscores, starting with a letter (domain/slug-id.ts). */
@@ -1854,6 +1855,45 @@ export const TextureSetSchema = z
   .strict();
 export type TextureSet = z.infer<typeof TextureSetSchema>;
 
+/**
+ * One texture of a Paint Region's mix (ADR-0028), with its amount given one of two ways, or none:
+ * - `weight`, a blend weight: that fraction of the texture's layer in every cell of the region.
+ * - `share`, an area share: patches of the texture covering about that fraction of the region.
+ * - neither: the texture takes what the others leave. A mix has at most one of these.
+ */
+export const PaintMixSchema = z
+  .object({
+    /** A CTerrainTex id, one of the texture set's the region's cells are on. */
+    texture: z.string().min(1),
+    weight: z.number().gt(0).max(1).optional(),
+    share: z.number().gt(0).max(1).optional(),
+  })
+  .strict()
+  .refine((entry) => entry.weight === undefined || entry.share === undefined, "A texture takes a blend weight or an area share, not both");
+export type PaintMix = z.infer<typeof PaintMixSchema>;
+
+/**
+ * A Paint Region (ADR-0028): a polygon, or a Zone's, whose texture mix overrides its Zones' palette
+ * inside it. The compile paints the Zone palettes, then each region in order, feathered at its edge.
+ */
+export const PaintRegionSchema = z
+  .object({
+    id: slugId,
+    /** The region's outline in map cells, inside the map. Give this or `zone`. */
+    polygon: z.array(PositionSchema).min(3).optional(),
+    /** A Zone whose polygon is the region's outline (a generating one, beside Kept ground). Give this or `polygon`. */
+    zone: slugId.optional(),
+    /** The textures and their amounts: blend weights and area shares together at most 1. */
+    mix: z.array(PaintMixSchema).min(1).max(8),
+    /** Cells inward from the edge over which the mix fades in from the ground under it: 2 by default, 0 a hard edge. */
+    falloff: z.number().min(0).optional(),
+    /** Cliff levels the region paints; every level when left out. */
+    levels: z.array(z.number().int().min(0).max(15)).min(1).optional(),
+  })
+  .strict()
+  .refine((region) => (region.polygon === undefined) !== (region.zone === undefined), "A Paint Region gives a polygon or a zone, one of the two");
+export type PaintRegion = z.infer<typeof PaintRegionSchema>;
+
 /** One cliff set for a group of Zones' cliffs: see `cliffSets` on the blueprint. */
 export const CliffSetGroupSchema = z
   .object({
@@ -2142,6 +2182,12 @@ const CoreBlueprintSchema = z
      * other Zones' cells there are painted from it, with a warning.
      */
     textureSets: z.array(TextureSetSchema).optional(),
+    /**
+     * Paint Regions (ADR-0028): polygons, or Zones', each with a texture mix of blend weights, area
+     * shares and one texture taking the rest, painted in order over the Zone palettes, feathered
+     * at their edges. Not painted yet: the compile ignores them for now.
+     */
+    paintRegions: z.array(PaintRegionSchema).optional(),
     /** Map-wide dressing: cliff feet first (DL-05); set pieces are `set-piece` placements. */
     dressing: DressingSchema.optional(),
     /**
@@ -2282,6 +2328,8 @@ const CoreBlueprintSchema = z
     checkTextureSets(blueprint, named > 0, context);
     checkCliffSets(blueprint, named > 0, context);
     checkHiddenCells(blueprint, context);
+    checkPaintRegions(blueprint, named > 0, context);
+    checkIds("paintRegions");
     checkIds("anchors");
     checkIds("kept");
     // Kept References share the Anchor namespace.
@@ -3012,6 +3060,132 @@ function checkTextureSets(
   });
 }
 
+/**
+ * Issues in `paintRegions` (ADR-0028) the Blueprint alone can tell: a polygon inside the map, a
+ * known Zone (a generating one, beside Kept ground), each mix's amounts at most 1 together, one
+ * texture at most without an amount, and each texture once. Repeated ids are checkIds'. The
+ * textures against the sets the regions' cells are on are checkPaintRegionTextures', which needs the Catalog.
+ */
+function checkPaintRegions(
+  blueprint: { readonly paintRegions?: readonly PaintRegion[] | undefined; readonly zones: readonly z.infer<typeof ZoneSchema>[]; readonly mapSize: { readonly width: number; readonly height: number } },
+  keptTerrain: boolean,
+  context: z.RefinementCtx,
+): void {
+  const { width, height } = blueprint.mapSize;
+  blueprint.paintRegions?.forEach((region, regionIndex) => {
+    const path = ["paintRegions", regionIndex];
+    const off = region.polygon?.findIndex((point) => point.x < 0 || point.y < 0 || point.x > width || point.y > height) ?? -1;
+    if (off >= 0) {
+      const { x, y } = region.polygon![off]!;
+      context.addIssue({ code: z.ZodIssueCode.custom, message: `Paint Region ${region.id}'s point (${x}, ${y}) is off the ${width}×${height} map`, path: [...path, "polygon", off] });
+    }
+    if (region.zone !== undefined) {
+      const zone = blueprint.zones.find((candidate) => candidate.id === region.zone);
+      if (!zone) context.addIssue(unknownIdIssue("zones", region.zone, [...path, "zone"]));
+      else if (keptTerrain && zone.terrain !== "generate") {
+        context.addIssue({ code: z.ZodIssueCode.custom, message: `Zone ${zone.id} is drawn over Kept ground, which a Paint Region leaves as it is: give the region a generating Zone or a polygon over one`, path: [...path, "zone"] });
+      }
+    }
+    const amounts = region.mix.reduce((sum, entry) => sum + (entry.weight ?? entry.share ?? 0), 0);
+    // A little slack for decimals that don't add up exactly in binary (0.1 + 0.2 + 0.7).
+    if (amounts > 1 + 1e-9) {
+      context.addIssue({ code: z.ZodIssueCode.custom, message: `Paint Region ${region.id}'s blend weights and area shares add up to ${Number(amounts.toFixed(3))}: together they're at most 1`, path: [...path, "mix"] });
+    }
+    let rest: string | undefined;
+    const seen = new Set<string>();
+    region.mix.forEach((entry, entryIndex) => {
+      const at = [...path, "mix", entryIndex];
+      if (seen.has(entry.texture)) context.addIssue({ code: z.ZodIssueCode.custom, message: `${entry.texture} is in Paint Region ${region.id}'s mix twice: list each texture once`, path: at });
+      seen.add(entry.texture);
+      if (entry.weight !== undefined || entry.share !== undefined) return;
+      if (rest === undefined) rest = entry.texture;
+      else context.addIssue({ code: z.ZodIssueCode.custom, message: `Paint Region ${region.id}'s ${rest} already takes what the weights and shares leave: give ${entry.texture} a weight or a share`, path: at });
+    });
+  });
+}
+
+/**
+ * Issues in `paintRegions`' textures (ADR-0028): each one held by every texture set the region's
+ * cells are on, naming the set and its textures. A region's cells are those whose centre its outline
+ * holds, at its `levels` (its cell's Zone's level). A cell's Zone is the last listed whose polygon
+ * holds its centre. Its set:
+ * - on a fully generated map, its 8×8 block's (blockSet), set 0 the map's textures (missionTextures);
+ * - beside Kept ground, its Zone's texture set when it's a generating Zone in one. A generating Zone
+ *   in no set is on whatever set the package has its blocks on, which the compile checks, and a
+ *   Kept Zone's cells, or a cell no Zone holds, aren't painted at all.
+ */
+function checkPaintRegionTextures(blueprint: Pick<z.infer<typeof CoreBlueprintSchema>, "paintRegions" | "mapSize" | "zones" | "textureSets" | "tilesetId" | "textures" | "texturePalette">, catalog: Catalog, context: z.RefinementCtx): void {
+  const regions = blueprint.paintRegions ?? [];
+  if (regions.length === 0) return;
+  const { width, height } = blueprint.mapSize;
+  const keptTerrain = hasKeptTerrain(blueprint);
+  const sets = blueprint.textureSets ?? [];
+  const setOfZone = textureSetOfZone(sets, keptTerrain ? blueprint.zones.filter((zone) => zone.terrain === "generate") : blueprint.zones);
+  // Set 0, then each of textureSets by its place (1 the first).
+  const setTextures = [missionTextures(catalog, blueprint).filter((name) => name !== ""), ...sets.map((set) => set.textures)];
+  const setLabel = (set: number) => (set === 0 ? "the map's textures (set 0), which don't" : `texture set ${sets[set - 1]!.id}, which doesn't`);
+  // Each cell's Zone (its index, -1 for none), worked out as a cell is asked for.
+  const owners = new Int16Array(width * height).fill(-2);
+  const ownerOf = (x: number, y: number): number => {
+    const cell = y * width + x;
+    if (owners[cell] === -2) owners[cell] = blueprint.zones.findLastIndex((zone) => containsPoint(zone.polygon, { x: x + 0.5, y: y + 0.5 }));
+    return owners[cell]!;
+  };
+  const ownSet = (owner: number): number => (owner < 0 ? 0 : (setOfZone.get(blueprint.zones[owner]!.id) ?? -1) + 1);
+  const blocksPerRow = Math.ceil(width / CELLS_PER_BLOCK);
+  const blockSets = new Map<number, number>();
+  const generatedSet = (x: number, y: number): number => {
+    if (sets.length === 0) return 0;
+    const block = blockOf(blocksPerRow, x, y);
+    let set = blockSets.get(block);
+    if (set === undefined) {
+      const { x: bx, y: by } = blockOrigin(block, blocksPerRow);
+      const covered: number[] = [];
+      for (let cy = by; cy < Math.min(height, by + CELLS_PER_BLOCK); cy++) {
+        for (let cx = bx; cx < Math.min(width, bx + CELLS_PER_BLOCK); cx++) if (ownerOf(cx, cy) >= 0) covered.push(ownSet(ownerOf(cx, cy)));
+      }
+      blockSets.set(block, (set = blockSet(covered, sets.length + 1)));
+    }
+    return set;
+  };
+  // A cell's set, or undefined where the Blueprint can't tell or the region doesn't paint.
+  const cellSet = (x: number, y: number): number | undefined => {
+    if (!keptTerrain) return generatedSet(x, y);
+    const owner = ownerOf(x, y);
+    if (owner < 0 || blueprint.zones[owner]!.terrain !== "generate") return undefined;
+    const set = ownSet(owner);
+    return set === 0 ? undefined : set;
+  };
+  regions.forEach((region, regionIndex) => {
+    const outline = region.polygon ?? blueprint.zones.find((zone) => zone.id === region.zone)?.polygon;
+    if (!outline) return;
+    const xs = outline.map((point) => point.x);
+    const ys = outline.map((point) => point.y);
+    const onSets = new Set<number>();
+    for (let y = Math.max(0, Math.floor(Math.min(...ys))); y < Math.min(height, Math.ceil(Math.max(...ys))); y++) {
+      for (let x = Math.max(0, Math.floor(Math.min(...xs))); x < Math.min(width, Math.ceil(Math.max(...xs))); x++) {
+        if (!containsPoint(outline, { x: x + 0.5, y: y + 0.5 })) continue;
+        if (region.levels) {
+          const owner = ownerOf(x, y);
+          if (owner < 0 || !region.levels.includes(blueprint.zones[owner]!.elevation)) continue;
+        }
+        const set = cellSet(x, y);
+        if (set !== undefined) onSets.add(set);
+      }
+    }
+    region.mix.forEach((entry, entryIndex) => {
+      for (const set of [...onSets].sort((a, b) => a - b)) {
+        if (setTextures[set]!.includes(entry.texture)) continue;
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Paint Region ${region.id} paints cells on ${setLabel(set)} hold ${entry.texture}: ${setTextures[set]!.join(", ")}`,
+          path: ["paintRegions", regionIndex, "mix", entryIndex, "texture"],
+        });
+      }
+    });
+  });
+}
+
 /** Issues in a set's Zone: its own texture one of the set's, and, under the set's palette, a built Zone given a texture. */
 function checkSetZone(set: TextureSet, zone: z.infer<typeof ZoneSchema>, keptTerrain: boolean, path: (string | number)[], context: z.RefinementCtx): void {
   if (zone.texture !== undefined && !set.textures.includes(zone.texture)) {
@@ -3224,6 +3398,8 @@ export function missionBlueprintSchema(plugins: PluginRegistry, catalog: Catalog
         context.addIssue({ code: "custom", message: issue.message, path: [...path, "params", ...issue.path] });
       }
     });
+    // A Paint Region's textures are in the sets its cells are on, set 0's from the Catalog's tileset.
+    checkPaintRegionTextures(blueprint, catalog, context);
     // A Light of the Mission's own can't share an id with a Plugin's: the map holds one CLight by each id.
     blueprint.lights.forEach((light, lightIndex) => {
       const contributed = plugins.light(light.id);

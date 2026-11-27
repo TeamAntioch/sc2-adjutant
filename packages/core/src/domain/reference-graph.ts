@@ -22,7 +22,8 @@ export type Collection =
   | "ramps"
   | "terrainObjects"
   | "mechanics"
-  | "scenes";
+  | "scenes"
+  | "paintRegions";
 
 /** Where a collection's entries sit in the Blueprint (the path of its list). */
 export const COLLECTION_LISTS: Readonly<Record<Collection, readonly string[]>> = {
@@ -40,6 +41,7 @@ export const COLLECTION_LISTS: Readonly<Record<Collection, readonly string[]>> =
   terrainObjects: ["terrainObjects"],
   mechanics: ["mechanics"],
   scenes: ["screenplay", "scenes"],
+  paintRegions: ["paintRegions"],
 };
 
 /** The collections an "Unknown <noun> id" issue is raised for, and what one entry is called. */

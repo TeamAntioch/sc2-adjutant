@@ -78,6 +78,22 @@ describe("patch_blueprint", () => {
     expect(await readFile(blueprintFile(root), "utf8")).toBe(before);
   });
 
+  it("adds a Paint Region that get_blueprint returns as written, and refuses one whose texture its cells' set lacks", async () => {
+    const root = await copyOf("field");
+    const client = await connect(root);
+    const region = { id: "worn", zone: "cave", mix: [{ texture: "KorhalCityEx2_3", weight: 0.15 }, { texture: "KorhalCityEx2_2" }], falloff: 1 };
+    const added = await client.callTool({ name: "patch_blueprint", arguments: { mission: "lava-field", patch: [{ op: "add", path: "/paintRegions", value: [region] }] } });
+    expect(added.isError).toBeFalsy();
+    const read = await client.callTool({ name: "get_blueprint", arguments: { mission: "lava-field", pointer: "/paintRegions" } });
+    expect(read.structuredContent).toEqual({ value: [region], issues: [] });
+
+    const before = await readFile(blueprintFile(root), "utf8");
+    const refused = await client.callTool({ name: "patch_blueprint", arguments: { mission: "lava-field", patch: [{ op: "replace", path: "/paintRegions/0/mix/0/texture", value: "AiurRock" }] } });
+    expect(refused.isError).toBe(true);
+    expect(text(refused)).toContain("paintRegions.0.mix.0.texture: Paint Region worn paints cells on the map's textures (set 0), which don't hold AiurRock: KorhalCityEx2_1");
+    expect(await readFile(blueprintFile(root), "utf8")).toBe(before);
+  });
+
   it("rejects core schema errors, unknown Mechanic types and patches that can't apply", async () => {
     const root = await copyOf("field");
     const before = await readFile(blueprintFile(root), "utf8");
