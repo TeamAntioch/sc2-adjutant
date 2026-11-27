@@ -2185,7 +2185,7 @@ const CoreBlueprintSchema = z
     /**
      * Paint Regions (ADR-0028): polygons, or Zones', each with a texture mix of blend weights, area
      * shares and one texture taking the rest, painted in order over the Zone palettes, feathered
-     * at their edges. Not painted yet: the compile ignores them for now.
+     * at their edges (terrain/paint-regions.ts). Area shares paint at their palette strength until #135.
      */
     paintRegions: z.array(PaintRegionSchema).optional(),
     /** Map-wide dressing: cliff feet first (DL-05); set pieces are `set-piece` placements. */

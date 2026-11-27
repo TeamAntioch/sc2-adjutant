@@ -25,6 +25,18 @@ export function blockSet(cellSets: Iterable<number>, setCount: number): number {
   for (const set of cellSets) counts[set]!++;
   return counts.indexOf(Math.max(...counts));
 }
+/**
+ * A paint stroke's feather (docs/reference/terrain-file-formats.md, "Paint"): its strength `d` cells
+ * from where it is whole, `1 − smoothstep(d / falloff)`, 0 from the falloff on. The Kept-ground
+ * brush fades out past its area with it, and a Paint Region fades in from its outline (ADR-0028).
+ */
+export function feather(d: number, falloff: number): number {
+  if (d >= falloff) return 0;
+  const s = d / falloff;
+  return 1 - s * s * (3 - 2 * s);
+}
+/** The distance (cells) from a point to the nearest point of the cell (ix, iy), 0 inside it. */
+export const distanceToCell = (px: number, py: number, ix: number, iy: number): number => Math.hypot(Math.max(ix - px, 0, px - ix - 1), Math.max(iy - py, 0, py - iy - 1));
 /** A block's cells, as warnings and refusals name them: "16-23 × 40-47". */
 export const blockLabel = (block: number, blocksPerRow: number): string => {
   const { x, y } = blockOrigin(block, blocksPerRow);

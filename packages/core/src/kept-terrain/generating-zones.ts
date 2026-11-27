@@ -44,7 +44,8 @@ import { cliffCellZone, zoneCliffChoices } from "../terrain/cliff-sets.js";
 import { type CliffCellEntry, type KeptCliffs, writeKeptCliffs } from "./kept-cliffs.js";
 import { decodeKeptGround, type KeptGround, setQuantization, writeKeptGround, type WrittenGround } from "./kept-ground.js";
 import type { HeightQuantization } from "../terrain/write-t3-height-map.js";
-import { cellSet, dominantLayer, findSlot, findTexture, type KeptTextures, paintSlot, type PaintStroke, type PaintTarget, setTextures, slotTarget, usesSets, writePaint } from "./paint-brushes.js";
+import { cellSet, dominantLayer, findSlot, findTexture, type KeptTextures, paintRegionStroke, paintSlot, type PaintStroke, type PaintTarget, setTextures, slotTarget, usesSets, writePaint } from "./paint-brushes.js";
+import { rasterisePaintRegions, type RasterisedRegion } from "../terrain/paint-regions.js";
 import { setBoundaryWarnings } from "./set-boundaries.js";
 import { planTextureSets, type TextureSetEntry, textureSetEntries, textureSetTerrainEntries, writeTextureSetXml } from "./texture-sets.js";
 
@@ -252,6 +253,12 @@ export function generateBesideKept(
     current = { ...current, masks: stroke.masks };
     for (let cell = 0; cell < cells.length; cell++) if (cells[cell]) pending[cell] = 0;
   }
+  // Then the Paint Regions, in order, over the Zones' cells alone (ADR-0028), each from the set its cells' blocks are on.
+  for (const region of keptPaintRegions(blueprint, current, zones, owner, owned)) {
+    const stroke = paintRegionStroke(current, region);
+    strokes.push(stroke);
+    current = { ...current, masks: stroke.masks };
+  }
   const paint = strokes.length ? writePaint(base, mergeStrokes(strokes)) : { masks: base.masksFile, sync: base.syncFile };
   if (plan) warnings.push(...setBoundaryWarnings(plan, current, cliffEdit.cliffs.cellFlags ?? cliffs.cellFlags));
 
@@ -387,12 +394,37 @@ function keptSetPieces(blueprint: MissionBlueprint): MissionBlueprint | undefine
   return bindLikeOriginal(out, blueprint);
 }
 
+/**
+ * The Blueprint's Paint Regions rasterised beside Kept ground: on the generating Zones' cells only
+ * (`owner` indexes `zones`), each cell on its block's set as the package has it. A region naming a
+ * texture that set lacks is refused, which the schema can't tell for a Zone in no texture set.
+ */
+function keptPaintRegions(blueprint: MissionBlueprint, textures: KeptTextures, zones: MissionBlueprint["zones"], owner: Int16Array, owned: Uint8Array): RasterisedRegion[] {
+  try {
+    return rasterisePaintRegions(blueprint.paintRegions, {
+      width: textures.width,
+      height: textures.height,
+      owner,
+      // A region's `zone` is a generating Zone (the schema's rule beside Kept ground).
+      zones,
+      setOf: (x, y) => cellSet(textures, x, y),
+      setTextures: (set) => setTextures(textures, set),
+      setLabel: (set) => `texture set ${set} (${textures.sets[set] || "unnamed"})`,
+      paints: (cell) => owned[cell] === 1,
+    });
+  } catch (error) {
+    throw new Error(`${error instanceof Error ? error.message : String(error)}. ${FOOT}`, { cause: error });
+  }
+}
+
 /** The Blueprint the generator sees: the generating Zones alone, with straight outlines and no ramps, terrain objects or water of their own yet. */
 function generatorBlueprint(blueprint: MissionBlueprint): MissionBlueprint {
   const zones = generatingZones(blueprint);
   const ids = new Set(zones.map((zone) => zone.id));
+  // Paint Regions are painted here too, over the package's own textures (paintRegionStroke).
+  const { paintRegions: _paintRegions, ...rest } = blueprint;
   const out: MissionBlueprint = {
-    ...blueprint,
+    ...rest,
     // A Zone's texture is one of the map's own 8, painted here; the generator's palette doesn't have it.
     zones: zones.map(({ texture: _texture, ...zone }) => ({ ...zone, connections: zone.connections.filter((connection) => ids.has(connection.toZoneId)) })),
     placements: blueprint.placements.filter((placement) => ids.has(placement.zoneId)),

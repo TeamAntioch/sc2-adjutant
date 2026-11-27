@@ -1,11 +1,9 @@
 // Paint Regions (ADR-0028): polygons in a Mission Blueprint, each with a texture mix that overrides
-// its Zones' palette inside it. This layer is the schema and its checks; nothing paints them yet.
+// its Zones' palette inside it. These are the schema and its checks; tests/terrain/paint-regions.test.ts paints them.
 //
 // The Blueprint is a 64×64 generated map: a field on level 1 (set 0, the map's palette) and, from
 // x 32, a mesa on level 2 painted from the "cave" texture set. The mesa's edge is on the 8-cell
 // block grid, so every block is on one set.
-import { Buffer } from "node:buffer";
-
 import { describe, expect, it } from "vitest";
 
 import { rasterizeTerrain } from "../../src/terrain/rasterize.js";
@@ -66,11 +64,10 @@ describe("a Paint Region", () => {
     expect(parsed.paintRegions).toEqual(regions);
   });
 
-  it("isn't painted yet: the terrain comes out as it does without it", () => {
+  it("leaves the blocks' texture sets as the Zones give them (it's painted in tests/terrain/paint-regions.test.ts)", () => {
     const region = { id: "floor", polygon: rect(4, 4, 20, 20), mix: [{ texture: "MarSaraRocky", weight: 0.5 }, { texture: "MarSaraSand" }] };
     const withRegion = rasterizeTerrain(StyleBlueprintSchema.parse(blueprint([region])));
     const without = rasterizeTerrain(StyleBlueprintSchema.parse(blueprint([])));
-    expect(Buffer.compare(Buffer.from(withRegion.textureWeights), Buffer.from(without.textureWeights))).toBe(0);
     expect(withRegion.textureSets?.plan.textures.blockSets).toEqual(without.textureSets?.plan.textures.blockSets);
   });
 });

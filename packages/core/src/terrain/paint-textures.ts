@@ -23,6 +23,7 @@ import { blueprintCatalog, layerSource } from "../catalog/catalog-layer.js";
 import { isKnownTexture, textureStarkness, textureTone } from "../catalog/tileset-textures.js";
 import { type MissionBlueprint, type PaletteBand, paletteBands, paletteTextures, type TexturePalette } from "../domain/mission-blueprint.js";
 import { blueprintPlugins, type CliffTexturePair, type StyleRuleSlots } from "../plugins/plugin-api.js";
+import { applyPaintRegions, ditherThreshold, quantizeDithered, rasterisePaintRegions, type RasterisedRegion } from "./paint-regions.js";
 import { containsPoint } from "./rasterize.js";
 import { type Rot180, sourceCell, symmetricNoise } from "./symmetry.js";
 import { blockOf, blockOrigin, CELLS_PER_BLOCK, TEXELS_PER_CELL as GRID_TEXELS_PER_CELL } from "./texture-grid.js";
@@ -117,6 +118,8 @@ export type PlanSets = {
   readonly names: readonly (readonly string[])[];
   /** For each set, the layer each plan layer is on in it, or -1 when the set hasn't its texture. */
   readonly layerIn: readonly Int8Array[];
+  /** Each set's id in the Blueprint's `textureSets`, by index; undefined for set 0 and a kept set. */
+  readonly ids: readonly (string | undefined)[];
 };
 
 /**
@@ -208,7 +211,7 @@ function withSets(blueprint: MissionBlueprint, plan: TexturePlan, sets: TextureS
     zonePatches: painted.map((zone) => zone.patches),
     blendGroups,
     layerNames,
-    sets: { blockSets: sets.blockSets, blocksPerRow: sets.blocksPerRow, names, layerIn },
+    sets: { blockSets: sets.blockSets, blocksPerRow: sets.blocksPerRow, names, layerIn, ids: names.map((_, set) => [...sets.indexOf].find(([, index]) => index === set)?.[0]) },
     zoneSets,
     ...(setPalettes ? { setPalettes } : {}),
   };
@@ -800,7 +803,22 @@ function bilinear(grid: Float32Array, c: number, width: number, dx: number, ax: 
   return (grid[c]! * ax + grid[c + 1]! * dx) * ay + (grid[c + width]! * ax + grid[c + width + 1]! * dx) * dy;
 }
 
-/** The Zones' textures, blended; `owner` is each cell's Zone ({@link zoneOwners}). */
+/** The Blueprint's Paint Regions rasterised over a generated map: each cell on its block's set, set 0 the map's textures. */
+function paintRegionsOver(blueprint: MissionBlueprint, plan: TexturePlan, owner: Int16Array): RasterisedRegion[] {
+  if (!blueprint.paintRegions?.length) return [];
+  const sets = plan.sets;
+  return rasterisePaintRegions(blueprint.paintRegions, {
+    width: blueprint.mapSize.width,
+    height: blueprint.mapSize.height,
+    owner,
+    zones: blueprint.zones,
+    setOf: (x, y) => (sets ? sets.blockSets[blockOf(sets.blocksPerRow, x, y)]! : 0),
+    setTextures: (set) => (sets ? sets.names[set]! : plan.layerNames.slice(0, 8)),
+    setLabel: (set) => (set === 0 ? "the map's textures (set 0)" : `texture set ${sets?.ids[set] ?? set}`),
+  });
+}
+
+/** The Zones' textures, blended, then the Paint Regions over them; `owner` is each cell's Zone ({@link zoneOwners}). */
 export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, syncCliff: Uint16Array, owner: Int16Array, symmetry?: Rot180): PaintedTextures {
   const { width, height } = blueprint.mapSize;
   const { layers, built, zone, shares: layerShares } = cellTextureLayers(blueprint, plan, syncCliff, owner, symmetry);
@@ -1073,9 +1091,29 @@ export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, sy
       cellOwnLayer[cell] = layerIn[layers[cell]!]!;
     }
   }
+  // The Paint Regions over the Zones' paint (ADR-0028), on each cell's set's layers.
+  const regions = paintRegionsOver(blueprint, plan, owner);
+  const regionCells = new Uint8Array(regions.length > 0 ? width * height : 0);
+  for (const region of regions) for (let cell = 0; cell < regionCells.length; cell++) regionCells[cell] ||= region.cells[cell]!;
   for (let t = 0; t < texels; t++) {
     for (let layer = 0; layer < 8; layer++) shares[layer] = 0;
     const cell = texelCell[t]!;
+    if (regionCells[cell]) {
+      // A painted texel's weights come from its shares on every layer, dithered (paint-regions.ts).
+      const layerIn = sets ? cellLayerIn[cell]! : undefined;
+      const ownLayer = sets ? cellOwnLayer[cell]! : 0;
+      for (let index = 0; index < used.length; index++) {
+        const setLayer = layerIn ? layerIn[used[index]!]! : used[index]!;
+        shares[setLayer >= 0 ? setLayer : ownLayer]! += usedFields[index]![t]!;
+      }
+      const tx = t % texelWidth;
+      const ty = (t - tx) / texelWidth;
+      const set = sets ? sets.blockSets[blockOf(sets.blocksPerRow, cell % width, Math.floor(cell / width))]! : 0;
+      applyPaintRegions(regions, shares, tx, ty, set);
+      quantizeDithered(shares, texelWeights, t * 8, ditherThreshold(tx, ty));
+      for (let layer = 0; layer < 8; layer++) cellShares[cell * 8 + layer]! += shares[layer]! / (TEXELS_PER_CELL * TEXELS_PER_CELL);
+      continue;
+    }
     let pure = -1;
     if (sets) {
       // Each texture's share goes on its layer in the cell's block's set; one the set hasn't (blended

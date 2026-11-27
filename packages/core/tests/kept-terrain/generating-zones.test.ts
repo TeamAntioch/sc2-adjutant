@@ -464,6 +464,34 @@ describe("beside Kept ground of two texture sets", { timeout: 120_000 }, () => {
     expect(await generate(fixture)).toThrow(/Block 103 \(cells 56-63 × 48-55\) is on texture set 1 \(CharDunes\)/);
   });
 
+  it("paints a Paint Region over a generating Zone's cells, from the set its blocks are on, and leaves every other cell as it was", async () => {
+    fixture = await keptGround();
+    await withZones(fixture, { elevation: 2, connections: [], texture: "BelShirGrassLight" });
+    const plain = (await generate(fixture))();
+    // BelShirDirtLight is set 0's layer 0, at 15% in every cell past the falloff (2 cells).
+    await withZones(fixture, { elevation: 2, connections: [], texture: "BelShirGrassLight" }, { paintRegions: [{ id: "dirt", zone: "new_block", mix: [{ texture: "BelShirDirtLight", weight: 0.15 }] }] });
+    const zone = (await generate(fixture))();
+    const masks = readT3TextureMasks(zone.files.t3TextureMasks as Buffer);
+    const before = readT3TextureMasks(plain.files.t3TextureMasks as Buffer);
+    const share = (cx: number, cy: number) => {
+      let sum = 0;
+      for (let ty = 0; ty < 8; ty++) for (let tx = 0; tx < 8; tx++) sum += masks.layers[0]![(cy * 8 + ty) * masks.maskWidth + cx * 8 + tx]!;
+      return sum / (64 * 15);
+    };
+    for (let y = 58; y < 70; y++) for (let x = 16; x < 28; x++) expect(share(x, y)).toBeCloseTo(0.15, 2);
+    expect(share(14, 64)).toBeLessThan(share(15, 64));
+    for (let t = 0; t < masks.maskWidth * masks.maskHeight; t++) {
+      if (inBlock(Math.floor((t % masks.maskWidth) / 8), Math.floor(t / masks.maskWidth / 8))) continue;
+      for (let l = 0; l < 8; l++) if (masks.layers[l]![t] !== before.layers[l]![t]) throw new Error(`texel ${t} layer ${l} changed outside the Zone`);
+    }
+  });
+
+  it("refuses a Paint Region naming a texture the set its generating Zone's blocks are on lacks", async () => {
+    fixture = await keptGround();
+    await withZones(fixture, { elevation: 2, connections: [], texture: "BelShirGrassLight" }, { paintRegions: [{ id: "dunes", zone: "new_block", mix: [{ texture: "CharDunes_1", weight: 0.2 }] }] });
+    expect(await generate(fixture)).toThrow("Paint Region dunes paints cells on texture set 0 (BelShirEx1), which doesn't hold CharDunes_1: BelShirDirtLight, BelShirGrassLight. Nothing was compiled");
+  });
+
   it("leaves a Mission with no generating Zone alone, since it paints nothing", async () => {
     fixture = await keptGround();
     await withZones(fixture, { terrain: "kept", connections: [] });
