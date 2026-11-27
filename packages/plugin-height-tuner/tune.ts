@@ -3,7 +3,7 @@
 //   node <plugin>/dist/tune.js <Mission blueprint.json> <texture> [--base <texture>] [--variants <list>] [--pitch <degrees>] [--install <StarCraft II folder>]
 //
 // It writes missions/<id>/output/height-tuner/<texture>/: HeightTune<texture>.SC2Map, shots.json
-// (one Shot a strip, for capture_shots), tune.json (what each strip is) and blueprint.json (the
+// (two close Shots a strip, its low half then its high half, for capture_shots), tune.json (what each strip is) and blueprint.json (the
 // generated Blueprint the map is compiled from). Stock files come from the install through the
 // CASC extractor SC2_CASC_TOOL names; the install is the machine config's sc2Path unless --install.
 import path from "node:path";

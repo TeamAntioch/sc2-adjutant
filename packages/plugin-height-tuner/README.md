@@ -38,7 +38,7 @@ It writes `missions/<id>/output/height-tuner/<texture>/`:
 | File | What it is |
 |---|---|
 | `HeightTune<texture>.SC2Map` | The test map, on the Mission's tileset and lighting |
-| `shots.json` | One Shot a strip, for `capture_shots`, labelled `<n>. <variant> (0 to 100% left to right)` |
+| `shots.json` | Two close Shots a strip, for `capture_shots`: every strip's low half (`<n>. <variant>, 0-50%`), then every strip's high half (`, 50-100%`) |
 | `tune.json` | What each strip is: its variant, CTerrainTex id, normal map, scale and offset, mean height and share at 0; what the stock red channel holds; warnings |
 | `blueprint.json` | The generated Blueprint the map is compiled from |
 | `extract/` | The stock catalogs and normal map, from the install |
@@ -90,8 +90,11 @@ one flat Zone painted with the base, and the textures `[base, texture]`. Then it
   *i* + 1, from 0 to 15 in 16 steps of 2 cells along its 32 cells;
 - `Base.SC2Data/GameData/TerrainTexData.xml` and `Assets/Textures/` get the variants.
 
-Each strip is 6 cells wide, with 10 cells of base between strips and a 24-cell margin. A Shot is 40×12
-cells around its strip, so its 16:9 frame shows no other strip.
+Each strip is 6 cells wide, with 10 cells of base between strips and a 24-cell margin. The Shots
+come in two passes: each strip's low half (paint 0-50%, 8 of its 16 steps), then each strip's high
+half (50-100%), so the page shows the variants side by side at the same weights. Each Shot frames
+18×8 cells with `close: true`, so the camera comes nearer than the player's own (which frames about
+32 cells across) and each stone shows. Its 16:9 frame shows no other strip.
 
 ## What it's built on
 

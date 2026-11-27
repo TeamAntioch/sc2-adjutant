@@ -3,7 +3,7 @@
 // with no game.
 import { describe, expect, it } from "vitest";
 
-import { cameraFootprint, fitRect, frameToGround, framesDisc, framesRect, PLAYER_CAMERA, planAreaTour, type TourView } from "../../src/capture/area-tour.js";
+import { CLOSE_DISTANCE, cameraFootprint, fitRect, frameToGround, framesDisc, framesRect, PLAYER_CAMERA, planAreaTour, type TourView } from "../../src/capture/area-tour.js";
 import { containsPoint } from "../../src/terrain/rasterize.js";
 
 const BOUNDS = [0, 0, 256, 256] as const;
@@ -148,6 +148,17 @@ describe("fitRect", () => {
     }
     // A lower camera sits farther back: its target is south of the rectangle's middle.
     expect(fitRect(rect, { pitch: 45, yawOffset: 0 }, BOUNDS).target[1]).toBeLessThan(fitRect(rect, { pitch: 75, yawOffset: 0 }, BOUNDS).target[1]);
+  });
+
+  it("comes no nearer than the player's camera, unless asked to come close", () => {
+    const rect = { x: 100, y: 100, width: 18, height: 8 };
+    const usual = fitRect(rect, { pitch: 75, yawOffset: 0 }, BOUNDS);
+    expect(usual.distance).toBe(PLAYER_CAMERA.distance);
+    const close = fitRect(rect, { pitch: 75, yawOffset: 0 }, BOUNDS, CLOSE_DISTANCE);
+    expect(close.distance).toBeLessThan(PLAYER_CAMERA.distance);
+    expect(close.distance).toBeGreaterThan(CLOSE_DISTANCE);
+    expect(close.whole).toBe(true);
+    expect(framesRect({ ...close, distance: close.distance - 1 }, rect)).toBe(false);
   });
 
   it("stops at 400, and says a rectangle too big for that isn't whole", () => {

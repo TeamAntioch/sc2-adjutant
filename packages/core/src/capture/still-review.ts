@@ -56,7 +56,7 @@ export type BuildStillReviewOptions = {
 };
 
 /** A Shot as capture_shots places it: what matches a retake's Shot to the set's. */
-export type StillShotSpec = { readonly rect: readonly number[]; readonly pitch: number; readonly yaw: number; readonly label?: string };
+export type StillShotSpec = { readonly rect: readonly number[]; readonly pitch: number; readonly yaw: number; readonly label?: string; readonly close?: true };
 
 export type StillFrame = {
   readonly version: string;
@@ -115,6 +115,7 @@ const CapturedSchema = z
           pitch: z.number(),
           yaw: z.number(),
           label: z.string().optional(),
+          close: z.literal(true).optional(),
         })
         .passthrough(),
     ),
@@ -176,7 +177,7 @@ export async function buildStillReview(options: BuildStillReviewOptions): Promis
 
   // The set's Shots are the first capture's: every other capture's Shots must be among them.
   const first = capture(versions[0]!.captures[0]!);
-  const setShots = first.shots.map(({ shot, rect, pitch, yaw, label }) => ({ shot, rect, pitch, yaw, ...(label !== undefined ? { label } : {}) }));
+  const setShots = first.shots.map(({ shot, rect, pitch, yaw, label, close }) => ({ shot, rect, pitch, yaw, ...(label !== undefined ? { label } : {}), ...(close ? { close } : {}) }));
   const byPlace = new Map<string, number>();
   for (const shot of setShots) {
     const twin = byPlace.get(placeKey(shot));
@@ -251,7 +252,7 @@ export async function buildStillReview(options: BuildStillReviewOptions): Promis
     const lacking = new Set(problems.filter((problem) => problem.version === version.label).map((problem) => problem.shot));
     if (lacking.size === 0) return [];
     const map = capture(version.captures[0]!).map ?? "";
-    return [{ version: version.label, map, shots: setShots.filter((shot) => lacking.has(shot.shot)).map(({ rect, pitch, yaw, label }) => ({ rect, pitch, yaw, ...(label !== undefined ? { label } : {}) })) }];
+    return [{ version: version.label, map, shots: setShots.filter((shot) => lacking.has(shot.shot)).map(({ rect, pitch, yaw, label, close }) => ({ rect, pitch, yaw, ...(label !== undefined ? { label } : {}), ...(close ? { close } : {}) })) }];
   });
 
   const mapName = path.basename(first.map ?? "map", ".SC2Map");

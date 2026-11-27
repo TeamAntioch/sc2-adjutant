@@ -11,7 +11,7 @@ The Utility's command builds one texture's **test map**:
 node {{PLUGIN_FOLDER}}/dist/tune.js <Mission blueprint.json> <texture> [--base <texture>] [--variants <list>]
 ```
 
-It writes `missions/<id>/output/height-tuner/<texture>/`: the map, `shots.json` (one Shot a strip) and `tune.json` (what each strip is). The map uses the Mission's tileset and lighting. The base texture is held at 15/15 everywhere, and each strip raises the test texture from 0 at its left to 15/15 at its right.
+It writes `missions/<id>/output/height-tuner/<texture>/`: the map, `shots.json` (two close Shots a strip) and `tune.json` (what each strip is). The map uses the Mission's tileset and lighting. The base texture is held at 15/15 everywhere, and each strip raises the test texture from 0 at its left to 15/15 at its right.
 
 ## Leading words
 
@@ -21,7 +21,7 @@ It writes `missions/<id>/output/height-tuner/<texture>/`: the map, `shots.json` 
   - `inverted-crush:25`: the highest 25% (the stone tops) at 0, so the base sits on the tops and the stone reads as sunken, with deep crevices. The author: "a ton of depth to a texture". It is a look of its own, not a fix.
   - `flat` takes out the tile's broad bands only, `relevel` stretches the height to 0..1, and `*2` sets HeightMapScale 2.
   - The default list is `stock,crush:15,crush:25,crush:40,inverted-crush:15,inverted-crush:25,inverted-crush:40`. A map holds 7 strips.
-- **Strip**: one variant on the test map, framed by one Shot labelled `<n>. <variant> (0 to 100% left to right)`.
+- **Strip**: one variant on the test map. It is framed close, in two passes: every strip's low half (`<n>. <variant>, 0-50%`), then every strip's high half (`, 50-100%`). The page then shows the variants side by side at the same weights. At 0-50% the strip's first steps show almost nothing: weights 0 and 1 of 15.
 
 ## Steps
 
@@ -30,7 +30,7 @@ It writes `missions/<id>/output/height-tuner/<texture>/`: the map, `shots.json` 
 3. **Get the go-ahead to capture.** Each texture's capture takes about 3 minutes, and the Editor comes to the front and runs the map. The screen must be left alone until every capture is done, since a click or a key press lands in the game. Done when the author has said go.
 4. **Build and capture each texture.** With one texture, do it here. With several, start one subagent per texture, all in one message, each with its texture, base, Mission, variants and this step's brief. Each one:
    1. runs the command, and reads its report and warnings;
-   2. calls `capture_shots` with `mapPath` the map, `shots` from its `shots.json`, `name` `<set>-r1` (the set is `height-<texture in lower case>`, which the command prints), and `lighting` the Mission's Light if its Blueprint sets one;
+   2. calls `capture_shots` with `mapPath` the map, `shots` from its `shots.json` (each with `close: true`, which brings the camera near enough to see each stone), `name` `<set>-r1` (the set is `height-<texture in lower case>`, which the command prints), and `lighting` the Mission's Light if its Blueprint sets one;
    3. opens every frame: the stock strip's right end shows the test texture solid, and the variants differ from it and from each other;
    4. calls `build_still_review` with `mission`, `set`, `round` `r1` and one version, `{ label: "strips", note: "<texture> over <base>, one strip per variant", captures: [<the capture folder>] }`;
    5. returns the round's folder, its problems, and one line per strip: its variant, its share at 0, and what the frame shows.

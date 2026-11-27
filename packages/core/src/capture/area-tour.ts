@@ -19,6 +19,8 @@ export const PLAYER_CAMERA = { distance: cameraDefault("Distance"), pitch: camer
 export const HIGH_PITCH = 75;
 /** Cells round the area the high view frames too. */
 export const HIGH_MARGIN = 2;
+/** The nearest a close Shot's camera comes (a Shot's `close`): near enough to frame a few cells of ground. */
+export const CLOSE_DISTANCE = 8;
 /** The farthest the high view goes. */
 const MAX_DISTANCE = 400;
 /** How far the turned views turn either way, in degrees. */
@@ -137,14 +139,15 @@ export type FittedCamera = Pick<TourView, "target" | "distance" | "pitch" | "yaw
 /**
  * The camera that frames the whole of `rect` (cells) at a pitch and a yaw offset, with the default
  * game camera's field of view: aimed at the rectangle's middle, from the nearest distance, in whole
- * cells from the player's own, whose footprint holds all four corners. The distance stops at 400,
+ * cells from the player's own (or from `nearest`, for a closer view of a small rectangle), whose
+ * footprint holds all four corners. The distance stops at 400,
  * and the target is kept inside `bounds`, the map's camera bounds, as the game keeps it. `whole`
  * is false when either cut the frame short.
  */
-export function fitRect(rect: CellRect, view: Pick<TourView, "pitch" | "yawOffset">, bounds: Bounds): FittedCamera {
+export function fitRect(rect: CellRect, view: Pick<TourView, "pitch" | "yawOffset">, bounds: Bounds, nearest: number = PLAYER_CAMERA.distance): FittedCamera {
   const centre: [number, number] = [rect.x + rect.width / 2, rect.y + rect.height / 2];
   const { pitch, yawOffset } = view;
-  let distance = PLAYER_CAMERA.distance;
+  let distance = nearest;
   while (distance < MAX_DISTANCE && !framesRect({ target: aimAt(centre, { distance, pitch, yawOffset }), distance, pitch, yawOffset }, rect)) distance += 1;
   const camera = { target: clampTo(bounds, aimAt(centre, { distance, pitch, yawOffset })), distance, pitch, yawOffset };
   return { ...camera, fov: PLAYER_CAMERA.fov, whole: framesRect(camera, rect) };

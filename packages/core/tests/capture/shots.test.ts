@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { fitRect } from "../../src/capture/area-tour.js";
+import { fitRect, PLAYER_CAMERA } from "../../src/capture/area-tour.js";
 import { captureShots } from "../../src/capture/shots.js";
 import { bareHost, loadHost } from "../../src/host/host.js";
 import { captureStaleness, staleShotCaptures } from "../../src/session/evidence-coverage.js";
@@ -95,6 +95,17 @@ describe("captureShots", () => {
     // At the map's corner the target is held inside the Camera Bounds, so the second shows only part of its rectangle.
     expect(result.partial).toEqual(["2"]);
     expect(result.summary).toBe(`Captured 2 Shots in ${outputDir}; 2 shows only part of its rectangle (too big for the camera, or at the map's edge)`);
+  });
+
+  it("frames a close Shot nearer than the player's camera, and keeps close in shots.json for a retake", async () => {
+    const { host, blueprintPath, missionDir } = await setup();
+    const rect = [40, 30, 58, 38] as const;
+    await captureShots({ blueprintPath }, [{ rect, label: "far" }, { rect: [40, 40, 58, 48], label: "near", close: true }], { host, name: "close" });
+    const json = JSON.parse(await readFile(path.join(missionDir, "output", "shots", "close", "shots.json"), "utf8"));
+    const [far, near] = json.shots;
+    expect(far.camera.distance).toBe(PLAYER_CAMERA.distance);
+    expect(near.camera.distance).toBeLessThan(far.camera.distance);
+    expect([far.close, near.close, near.whole]).toEqual([undefined, true, true]);
   });
 
   it("records the Blueprint and Map Package a Mission's capture covers, and reports it stale once one changes (#748)", async () => {

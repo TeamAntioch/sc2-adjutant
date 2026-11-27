@@ -20,7 +20,7 @@ import { missionMapPackage } from "../map/mission-package.js";
 import { coverageOf, FIRST_PACKAGE_STAGE } from "../session/evidence-coverage.js";
 import { readMapInfo } from "../map/read-map-info.js";
 import type { CaptureTourResult, GameProcess } from "../plugins/plugin-api.js";
-import { type FittedCamera, fitRect, HIGH_PITCH, PLAYER_CAMERA } from "./area-tour.js";
+import { CLOSE_DISTANCE, type FittedCamera, fitRect, HIGH_PITCH, PLAYER_CAMERA } from "./area-tour.js";
 import { checkCaptureName, defaultName, nameFrames, refuseUsedFolder, runStopTour, tourSummary } from "./stop-tour.js";
 
 /** The most Shots one capture takes: frames are numbered in two digits. */
@@ -38,6 +38,7 @@ export const ShotSchema = z
     pitch: z.number().gt(PLAYER_CAMERA.fov / 2).max(90).optional(),
     yaw: z.number().min(-360).max(360).optional(),
     label: z.string().min(1).optional(),
+    close: z.boolean().optional().describe("Frame the rectangle as near as it needs, closer than the player's camera, which is otherwise the nearest a Shot comes: for judging a few cells of ground"),
   })
   .strict()
   .refine(({ rect: [left, bottom, right, top] }) => right > left && top > bottom, { message: "rect is [left, bottom, right, top], with right past left and top above bottom", path: ["rect"] });
@@ -72,6 +73,8 @@ export type CapturedShot = {
   readonly pitch: number;
   readonly yaw: number;
   readonly label?: string;
+  /** Framed as near as the rectangle needs (the Shot's `close`). */
+  readonly close?: true;
   readonly camera: Omit<FittedCamera, "whole">;
   /** Whether the frame shows all of the rectangle: false when the distance cap or the Camera Bounds cut it short. */
   readonly whole: boolean;
@@ -129,10 +132,11 @@ export async function captureShots(source: ShotsSource, shots: readonly Shot[], 
     const [left, bottom, right, top] = shot.rect;
     const pitch = shot.pitch ?? HIGH_PITCH;
     const yaw = shot.yaw ?? 0;
-    const { whole, ...camera } = fitRect({ x: left, y: bottom, width: right - left, height: top - bottom }, { pitch, yawOffset: yaw }, playableBounds);
+    const nearest = shot.close ? CLOSE_DISTANCE : PLAYER_CAMERA.distance;
+    const { whole, ...camera } = fitRect({ x: left, y: bottom, width: right - left, height: top - bottom }, { pitch, yawOffset: yaw }, playableBounds, nearest);
     const tail = shot.label ? slug(shot.label) : "";
     const frame = `${String(i + 1).padStart(2, "0")}${tail ? `-${tail}` : ""}.jpg`;
-    return { shot: i + 1, frame, rect: shot.rect, pitch, yaw, ...(shot.label ? { label: shot.label } : {}), camera, whole };
+    return { shot: i + 1, frame, rect: shot.rect, pitch, yaw, ...(shot.label ? { label: shot.label } : {}), ...(shot.close ? { close: true as const } : {}), camera, whole };
   });
   const named = (shot: { shot: number; label?: string }) => (shot.label ? `${shot.shot} (${shot.label})` : String(shot.shot));
 

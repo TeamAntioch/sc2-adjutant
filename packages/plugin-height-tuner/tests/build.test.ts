@@ -209,8 +209,13 @@ describe("buildTestMap", () => {
     expect([masks.layers[7]![bottom * masks.maskWidth + left], masks.layers[7]![bottom * masks.maskWidth + right - 1], masks.layers[0]![0]]).toEqual([0, 15, 15]);
 
     const shots = JSON.parse(await readFile(report.shotsPath, "utf8")) as { shots: { rect: number[]; label: string }[] };
-    expect(shots.shots).toHaveLength(7);
-    expect(shots.shots[1]!.label).toBe("2. crush 15% (0 to 100% left to right)");
+    // Two passes: each strip's low half, then each strip's high half, side by side along the strip.
+    expect(shots.shots).toHaveLength(14);
+    expect([shots.shots[1]!.label, shots.shots[8]!.label]).toEqual(["2. crush 15%, 0-50%", "2. crush 15%, 50-100%"]);
+    expect(shots.shots.every((shot) => (shot as { close?: boolean }).close === true)).toBe(true);
+    const [low, high] = [shots.shots[1]!.rect, shots.shots[8]!.rect];
+    expect([low[2]! - low[0]!, low[3]! - low[1]!]).toEqual([18, 8]);
+    expect([high[0]! - low[0]!, high[1]]).toEqual([16, low[1]]);
     for (const { rect } of shots.shots) expect(rect[0]! >= 0 && rect[1]! >= 0 && rect[2]! <= width && rect[3]! <= height).toBe(true);
     expect(existsSync(path.join(path.dirname(report.shotsPath), "tune.json"))).toBe(true);
   });

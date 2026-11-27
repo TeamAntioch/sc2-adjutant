@@ -31,7 +31,7 @@ import { needsNormalMap, type Variant, variantHeight, variantLabel, variantName,
 export const DEFAULT_BASE = "BelShirGrassLightEx2";
 
 // The layout, in cells. A strip is 32 cells long (16 steps of 2 cells) and 6 wide, with 10 cells of
-// plain base between strips, so a 40-cell-wide Shot of one shows none of the next. The margin keeps
+// plain base between strips, so a Shot of half a strip shows none of the next. The margin keeps
 // every Shot clear of the camera's bounds at the map's edge.
 export const STRIP_LENGTH = 32;
 export const STRIP_WIDTH = 6;
@@ -39,8 +39,13 @@ export const STRIP_GAP = 10;
 export const MARGIN = 24;
 /** Weight steps along a strip: 0 to 15 of 15. */
 export const STEPS = 16;
-const SHOT_WIDTH = 40;
-const SHOT_HEIGHT = 12;
+/** A Shot frames half a strip (8 of its 16 steps) with a cell to spare each end, close enough to judge the ground. */
+const SHOT_MARGIN = 1;
+/** The two passes: each strip's low half, then its high half. */
+export const PASSES = [
+  { from: 0, label: "0-50%" },
+  { from: 0.5, label: "50-100%" },
+] as const;
 
 /** The CTerrainTex fields a variant copies from the stock entry: what makes it look and blend as the stock one does. */
 const COPIED_FIELDS = ["Texture", "EditorIcon", "Normalmap", "PhysicsMaterial", "TilingFreq", "POMScale", "HeightMapScale", "HeightMapOffset"] as const;
@@ -132,17 +137,25 @@ export function stripWeights(strips: number): Uint8Array {
   return weights;
 }
 
-/** The Shots of a test map: one a strip, labelled with its variant. */
-export function stripShots(variants: readonly Variant[], pitch?: number): { rect: [number, number, number, number]; label: string; pitch?: number }[] {
-  return variants.map((variant, index) => {
-    const [left, bottom, right, top] = stripRect(index);
-    const [x, y] = [(left + right) / 2, (bottom + top) / 2];
-    return {
-      rect: [x - SHOT_WIDTH / 2, y - SHOT_HEIGHT / 2, x + SHOT_WIDTH / 2, y + SHOT_HEIGHT / 2],
-      label: `${index + 1}. ${variantLabel(variant)} (0 to 100% left to right)`,
-      ...(pitch !== undefined ? { pitch } : {}),
-    };
-  });
+/**
+ * The Shots of a test map, in two passes: every strip's low half (paint 0-50%, its left), then
+ * every strip's high half (50-100%, its right), so the page shows the variants side by side at the
+ * same weights. Each frames 18×8 cells, `close`, so the camera comes nearer than the player's own
+ * (which shows about 32 cells across) and the ground's detail shows.
+ */
+export function stripShots(variants: readonly Variant[], pitch?: number): { rect: [number, number, number, number]; label: string; close: true; pitch?: number }[] {
+  return PASSES.flatMap((pass) =>
+    variants.map((variant, index) => {
+      const [left, bottom, right, top] = stripRect(index);
+      const start = left + pass.from * (right - left);
+      return {
+        rect: [start - SHOT_MARGIN, bottom - SHOT_MARGIN, start + (right - left) / 2 + SHOT_MARGIN, top + SHOT_MARGIN] as [number, number, number, number],
+        label: `${index + 1}. ${variantLabel(variant)}, ${pass.label}`,
+        close: true as const,
+        ...(pitch !== undefined ? { pitch } : {}),
+      };
+    }),
+  );
 }
 
 /** The CTerrainTex id of a variant's copy: `ShakurasCity2_HtCrush28`. */
