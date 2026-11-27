@@ -4,8 +4,11 @@
 // The Blueprint is a 64×64 generated map: a field on level 1 (set 0, the map's palette) and, from
 // x 32, a mesa on level 2 painted from the "cave" texture set. The mesa's edge is on the 8-cell
 // block grid, so every block is on one set.
+import { Buffer } from "node:buffer";
+
 import { describe, expect, it } from "vitest";
 
+import { rasterizeTerrain } from "../../src/terrain/rasterize.js";
 import { StyleBlueprintSchema } from "../support/workspaces.js";
 
 const rect = (x0: number, y0: number, x1: number, y1: number) => [
@@ -62,6 +65,14 @@ describe("a Paint Region", () => {
     const parsed = StyleBlueprintSchema.parse(blueprint(regions));
     expect(parsed.paintRegions).toEqual(regions);
   });
+
+  it("isn't painted yet: the terrain comes out as it does without it", () => {
+    const region = { id: "floor", polygon: rect(4, 4, 20, 20), mix: [{ texture: "MarSaraRocky", weight: 0.5 }, { texture: "MarSaraSand" }] };
+    const withRegion = rasterizeTerrain(StyleBlueprintSchema.parse(blueprint([region])));
+    const without = rasterizeTerrain(StyleBlueprintSchema.parse(blueprint([])));
+    expect(Buffer.compare(Buffer.from(withRegion.textureWeights), Buffer.from(without.textureWeights))).toBe(0);
+    expect(withRegion.textureSets?.plan.textures.blockSets).toEqual(without.textureSets?.plan.textures.blockSets);
+  });
 });
 
 describe("a Paint Region's outline", () => {
@@ -116,7 +127,7 @@ describe("a Paint Region's textures", () => {
     const zones = blueprint([]).zones.map((zone) => ({ ...zone, terrain: zone.id === "mesa" ? "generate" : "kept" }));
     const kept = (region: Record<string, unknown>) => blueprint([{ id: "patch", mix: [{ texture: "AiurRock", weight: 0.5 }], ...region }], { zones, texturePalette: undefined, textures: undefined });
     expect(issues(kept({ polygon: rect(24, 4, 40, 12) }))).toEqual([]);
-    expect(issues(kept({ zone: "field" }))).toEqual(["paintRegions.0.zone: Zone field is drawn over Kept ground, which a Paint Region leaves as it is: give the region a generating Zone or a polygon over one"]);
+    expect(issues(kept({ zone: "field" }))).toEqual(["paintRegions.0.zone: Zone field is drawn over Kept ground: only a generating Zone ("terrain": "generate") is painted by a Paint Region"]);
   });
 });
 

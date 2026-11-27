@@ -3067,7 +3067,7 @@ function checkTextureSets(
  * textures against the sets the regions' cells are on are checkPaintRegionTextures', which needs the Catalog.
  */
 function checkPaintRegions(
-  blueprint: { readonly paintRegions?: readonly PaintRegion[] | undefined; readonly zones: readonly z.infer<typeof ZoneSchema>[]; readonly mapSize: { readonly width: number; readonly height: number } },
+  blueprint: Pick<z.infer<typeof CoreBlueprintSchema>, "paintRegions" | "zones" | "mapSize">,
   keptTerrain: boolean,
   context: z.RefinementCtx,
 ): void {
@@ -3083,7 +3083,7 @@ function checkPaintRegions(
       const zone = blueprint.zones.find((candidate) => candidate.id === region.zone);
       if (!zone) context.addIssue(unknownIdIssue("zones", region.zone, [...path, "zone"]));
       else if (keptTerrain && zone.terrain !== "generate") {
-        context.addIssue({ code: z.ZodIssueCode.custom, message: `Zone ${zone.id} is drawn over Kept ground, which a Paint Region leaves as it is: give the region a generating Zone or a polygon over one`, path: [...path, "zone"] });
+        context.addIssue({ code: z.ZodIssueCode.custom, message: `Zone ${zone.id} is drawn over Kept ground: only a generating Zone ("terrain": "generate") is painted by a Paint Region`, path: [...path, "zone"] });
       }
     }
     const amounts = region.mix.reduce((sum, entry) => sum + (entry.weight ?? entry.share ?? 0), 0);
@@ -3124,14 +3124,17 @@ function checkPaintRegionTextures(blueprint: Pick<z.infer<typeof CoreBlueprintSc
   // Set 0, then each of textureSets by its place (1 the first).
   const setTextures = [missionTextures(catalog, blueprint).filter((name) => name !== ""), ...sets.map((set) => set.textures)];
   const setLabel = (set: number) => (set === 0 ? "the map's textures (set 0), which don't" : `texture set ${sets[set - 1]!.id}, which doesn't`);
-  // Each cell's Zone (its index, -1 for none), worked out as a cell is asked for.
-  const owners = new Int16Array(width * height).fill(-2);
+  // Each cell's Zone: its index, NO_ZONE for none, worked out (from UNREAD) as a cell is asked for.
+  const [UNREAD, NO_ZONE] = [-2, -1];
+  const owners = new Int16Array(width * height).fill(UNREAD);
   const ownerOf = (x: number, y: number): number => {
     const cell = y * width + x;
-    if (owners[cell] === -2) owners[cell] = blueprint.zones.findLastIndex((zone) => containsPoint(zone.polygon, { x: x + 0.5, y: y + 0.5 }));
+    if (owners[cell] === UNREAD) owners[cell] = blueprint.zones.findLastIndex((zone) => containsPoint(zone.polygon, { x: x + 0.5, y: y + 0.5 }));
     return owners[cell]!;
   };
-  const ownSet = (owner: number): number => (owner < 0 ? 0 : (setOfZone.get(blueprint.zones[owner]!.id) ?? -1) + 1);
+  // A Zone's own set (0 for none, else its place in textureSets plus 1), as generatedTextureSets numbers them.
+  // A Zone's own set: 0 for none, else its place in textureSets plus 1, as generatedTextureSets numbers them.
+  const zoneSet = (owner: number): number => (owner === NO_ZONE ? 0 : (setOfZone.get(blueprint.zones[owner]!.id) ?? -1) + 1);
   const blocksPerRow = Math.ceil(width / CELLS_PER_BLOCK);
   const blockSets = new Map<number, number>();
   const generatedSet = (x: number, y: number): number => {
@@ -3142,7 +3145,7 @@ function checkPaintRegionTextures(blueprint: Pick<z.infer<typeof CoreBlueprintSc
       const { x: bx, y: by } = blockOrigin(block, blocksPerRow);
       const covered: number[] = [];
       for (let cy = by; cy < Math.min(height, by + CELLS_PER_BLOCK); cy++) {
-        for (let cx = bx; cx < Math.min(width, bx + CELLS_PER_BLOCK); cx++) if (ownerOf(cx, cy) >= 0) covered.push(ownSet(ownerOf(cx, cy)));
+        for (let cx = bx; cx < Math.min(width, bx + CELLS_PER_BLOCK); cx++) if (ownerOf(cx, cy) !== NO_ZONE) covered.push(zoneSet(ownerOf(cx, cy)));
       }
       blockSets.set(block, (set = blockSet(covered, sets.length + 1)));
     }
@@ -3152,8 +3155,8 @@ function checkPaintRegionTextures(blueprint: Pick<z.infer<typeof CoreBlueprintSc
   const cellSet = (x: number, y: number): number | undefined => {
     if (!keptTerrain) return generatedSet(x, y);
     const owner = ownerOf(x, y);
-    if (owner < 0 || blueprint.zones[owner]!.terrain !== "generate") return undefined;
-    const set = ownSet(owner);
+    if (owner === NO_ZONE || blueprint.zones[owner]!.terrain !== "generate") return undefined;
+    const set = zoneSet(owner);
     return set === 0 ? undefined : set;
   };
   regions.forEach((region, regionIndex) => {
@@ -3167,7 +3170,7 @@ function checkPaintRegionTextures(blueprint: Pick<z.infer<typeof CoreBlueprintSc
         if (!containsPoint(outline, { x: x + 0.5, y: y + 0.5 })) continue;
         if (region.levels) {
           const owner = ownerOf(x, y);
-          if (owner < 0 || !region.levels.includes(blueprint.zones[owner]!.elevation)) continue;
+          if (owner === NO_ZONE || !region.levels.includes(blueprint.zones[owner]!.elevation)) continue;
         }
         const set = cellSet(x, y);
         if (set !== undefined) onSets.add(set);
