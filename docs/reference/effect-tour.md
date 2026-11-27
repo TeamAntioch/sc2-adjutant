@@ -10,6 +10,7 @@ Code: `packages/core/src/capture/effect-tour.ts` (planning and the batch script)
 npm run effect-tour -- base                       # compile the flat test map, into missions/effect-tour (git-ignored)
 npm run effect-tour -- make --models <folder> --base missions/effect-tour/Effect-Tour.SC2Map --out <out>
 npm run effect-tour -- capture <out>              # film every batch through the Editor Broker
+npm run effect-tour -- recut <out> <cut>          # cut the clips and pick the frames again, into a new folder
 ```
 
 - **`base`** compiles a 256 × 256 flat floor, with Void (Campaign) as its only dependency (a few effect files are in that campaign's own assets). The view never reaches its edge.
@@ -19,6 +20,24 @@ npm run effect-tour -- capture <out>              # film every batch through the
   - **`capture --quit-other-games`** is for unattended runs. A game the tool didn't start, such as a test game left open, makes every batch refuse with `A game is running that this tool didn't start`, since it may be the author's. With the flag each batch quits any such game first: the quit request, Yes, then a kill after 20 s. It logs each game's pid and command, then carries on. Two waits that would otherwise last all night give way to it too. A Test Document game the Editor Broker is holding its queue for is quit, so the hold ends. A broker built from an older version, which refuses the job (`speaks protocol N`), is waited out: the job asks again every minute until a broker of this version takes it. That broker is never stopped, since it may be running someone else's capture. The game is lost unsaved, so the flag is never the default. On 2026-11-25 a `Test/EditorTest.SC2Map` game left from a morning test stopped an overnight run this way.
 
 As measured on 2026-11-23: all of the game's effects come to 1,313 models and 4,961 frames in 11 batches, about 4 h 20 min in game, plus 1–2 minutes to start each batch.
+
+- **`pick <out>`** cuts the clips and picks the frames again from each batch's recording, in place.
+- **`recut <out> <cut>`** does the same without the game into a new folder `<cut>`, with the same layout (`batch-NN/clips`, `peaks`, `frames`, `manifest.json`, `index.html`), so the gallery's import reads it as it reads a tour. `<out>` is only read: each batch's `frames/` is cloned, which costs no space on APFS. Its encodes run niced, two at a time (`--jobs <n>`), so it can run beside a capture. A batch already in `<cut>` with its `index.html` is skipped unless `--redo`; `--batches <a>-<b>` takes some of them.
+
+## Clips and picked frames
+
+Each clip is cut by phase (`effectCut` in `src/capture/effect-video.ts`) and its spans of the recording are joined into one clip. Most of a tour's recording is the holds the stills need, 1.5 s each plus the waits around it, where little moves. A clip keeps:
+
+| Span | From | To |
+| --- | --- | --- |
+| `attach` | the base frame, the bare pad 0.8 s before the attach | the end of Birth, then 0.8 s of a looping Stand, or all of one that plays once |
+| `move` | 0.55 s before the host starts to move | 0.3 s after it stops |
+| `destroy` | 0.55 s before the plain `Destroy` | 1.25 s after it |
+| `death` | 0.55 s before Death is played on the fresh copy | 0.3 s after Death ends, or before the copy is removed if that is sooner |
+
+Each event's time is reckoned from the stop of the frame that follows it, less that frame's waits in the script. A stop is noted up to about 0.45 s late, so each span opens that much early. Spans that touch are joined, and the manifest records each clip's spans under `cuts`, in seconds into `frames/video.mp4`.
+
+The picked frames are searched in the clip's spans, so each one's time (its caption in `index.html`) is into the clip. For most effects the search runs to the stand frame, before the host moves. A missile, or a model with ribbons, forms its trail only while it moves, so its search runs through the move too, and two of its four picks are kept for the moving frames with the most new bright pixels. A plain change from the base frame can't find a trail there, since the camera pulls back and follows the host and the whole ground shifts.
 
 ## Video quality and size
 
