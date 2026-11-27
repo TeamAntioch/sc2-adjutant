@@ -36,11 +36,10 @@ const TEXT_FILE = /\.(galaxy|txt)$/i;
 
 /** The compile stopped, writing nothing, because these converted parts differ from their originals. */
 export class EquivalenceError extends Error {
-  constructor(
-    readonly mismatches: readonly Mismatch[],
-    /** What names the Accepted Differences: a mod's Mod Blueprint, or a Mission's Mission Blueprint. */
-    blueprint = "Mod Blueprint",
-  ) {
+  readonly mismatches: readonly Mismatch[];
+
+  /** `blueprint` names what holds the Accepted Differences: a mod's Mod Blueprint, or a Mission's Mission Blueprint. */
+  constructor(mismatches: readonly Mismatch[], blueprint = "Mod Blueprint") {
     super(
       [
         `${mismatches.length} converted part(s) differ from the Kept original${mismatches.length === 1 ? "" : "s"} they replace, so nothing is compiled:`,
@@ -48,6 +47,7 @@ export class EquivalenceError extends Error {
         `Fix the ${blueprint} so it writes what the original has, or name each intended difference in its acceptedDifferences as { item, reason }.`,
       ].join("\n"),
     );
+    this.mismatches = mismatches;
     this.name = "EquivalenceError";
   }
 }
@@ -123,11 +123,11 @@ export class EquivalenceCheck {
   /** The parts compared by aspect, each with how its aspects are found. */
   private readonly aspects = new Map<string, { readonly differences: Aspects; readonly aspects: readonly string[] }>();
 
-  constructor(
-    accepted: readonly AcceptedDifference[],
-    /** What names them, for the refusal: the Mod Blueprint by default. */
-    private readonly blueprint = "Mod Blueprint",
-  ) {
+  /** What names the Accepted Differences, for the refusal: the Mod Blueprint by default. */
+  private readonly blueprint: string;
+
+  constructor(accepted: readonly AcceptedDifference[], blueprint = "Mod Blueprint") {
+    this.blueprint = blueprint;
     this.accepted = new Map(accepted.map((difference) => [difference.item, difference.reason]));
   }
 

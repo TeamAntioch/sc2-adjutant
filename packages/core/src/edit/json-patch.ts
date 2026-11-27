@@ -19,12 +19,15 @@ export type JsonPatchOperation = z.infer<typeof JsonPatchOperationSchema>;
 
 /** Why a patch couldn't apply: which operation, at which path. */
 export class JsonPatchError extends Error {
-  constructor(
-    readonly index: number,
-    readonly path: string,
-    readonly reason: string,
-  ) {
+  readonly index: number;
+  readonly path: string;
+  readonly reason: string;
+
+  constructor(index: number, path: string, reason: string) {
     super(`${index >= 0 ? `Operation ${index} at` : "At"} ${path || "(root)"}: ${reason}`);
+    this.index = index;
+    this.path = path;
+    this.reason = reason;
   }
 }
 

@@ -105,39 +105,57 @@ export function decodeDds(data: Uint8Array): DdsImage[] {
  * out), in its own format, its alpha kept as it was.
  */
 export function recolourDds(data: Uint8Array, recolour: (rgb: [number, number, number]) => [number, number, number]): Uint8Array {
+  return recolourDdsAt(data, recolour);
+}
+
+/**
+ * recolourDds with each texel's place: `recolour` also gets its column and row in its image (from
+ * the top left) and that image's size, so a change can vary over the texture, as a height map
+ * written into a normal map's red channel does at every mip level.
+ */
+export function recolourDdsAt(data: Uint8Array, recolour: (rgb: [number, number, number], x: number, y: number, width: number, height: number) => [number, number, number]): Uint8Array {
   const layout = ddsLayout(data);
   const out = new Uint8Array(data);
   const rgb: [number, number, number] = [0, 0, 0];
+  let [x, y, width, height] = [0, 0, 0, 0];
   const change = (pixels: Uint8Array, at: number): void => {
     rgb[0] = pixels[at]!;
     rgb[1] = pixels[at + 1]!;
     rgb[2] = pixels[at + 2]!;
-    const [r, g, b] = recolour(rgb);
+    const [r, g, b] = recolour(rgb, x, y, width, height);
     pixels[at] = clampByte(r);
     pixels[at + 1] = clampByte(g);
     pixels[at + 2] = clampByte(b);
   };
-  for (const { offset, size, width, height } of images(layout)) {
-    const image = out.subarray(offset, offset + size);
+  for (const image of images(layout)) {
+    [width, height] = [image.width, image.height];
+    const bytesOf = out.subarray(image.offset, image.offset + image.size);
     if (layout.format === "RGB") {
       const { bytes, masks } = layout.rgb!;
       const at = masks.map((mask) => (mask === 0 ? -1 : byteOfMask(mask)!));
       const texel = new Uint8Array(4);
       for (let i = 0; i < width * height; i++) {
         const base = i * bytes;
-        for (let c = 0; c < 3; c++) texel[c] = at[c]! < 0 ? 0 : image[base + at[c]!]!;
+        for (let c = 0; c < 3; c++) texel[c] = at[c]! < 0 ? 0 : bytesOf[base + at[c]!]!;
+        [x, y] = [i % width, Math.floor(i / width)];
         change(texel, 0);
-        for (let c = 0; c < 3; c++) if (at[c]! >= 0) image[base + at[c]!] = texel[c]!;
+        for (let c = 0; c < 3; c++) if (at[c]! >= 0) bytesOf[base + at[c]!] = texel[c]!;
       }
       continue;
     }
     const colourAt = layout.format === "DXT1" ? 0 : 8;
     const blockSize = layout.format === "DXT1" ? 8 : 16;
     const texels = new Uint8Array(64);
-    for (let block = 0; block < size / blockSize; block++) {
-      const colour = image.subarray(block * blockSize + colourAt, block * blockSize + colourAt + 8);
+    for (let block = 0; block < image.size / blockSize; block++) {
+      const colour = bytesOf.subarray(block * blockSize + colourAt, block * blockSize + colourAt + 8);
       const transparent = decodeColourBlock(colour, texels, layout.format === "DXT1");
-      for (let t = 0; t < 16; t++) if (!(transparent & (1 << t))) change(texels, 4 * t);
+      const [bx, by] = [(block % Math.ceil(width / 4)) * 4, Math.floor(block / Math.ceil(width / 4)) * 4];
+      for (let t = 0; t < 16; t++) {
+        if (transparent & (1 << t)) continue;
+        // A level under 4 texels across has texels past its edge: they take its last column or row.
+        [x, y] = [Math.min(bx + (t & 3), width - 1), Math.min(by + (t >> 2), height - 1)];
+        change(texels, 4 * t);
+      }
       encodeColourBlock(texels, transparent, colour);
     }
   }

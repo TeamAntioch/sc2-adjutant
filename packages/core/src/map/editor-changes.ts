@@ -69,11 +69,11 @@ export function editorDecision({ keep, discard }: EditorDecisions, name: string)
 
 /** The compile stopped, writing nothing, because of `changes`: each needs keeping or discarding, or a sync. */
 export class EditorChangesError extends Error {
-  constructor(
-    readonly changes: readonly EditorChange[],
-    message = formatEditorChanges(changes, []),
-  ) {
+  readonly changes: readonly EditorChange[];
+
+  constructor(changes: readonly EditorChange[], message = formatEditorChanges(changes, [])) {
     super(message);
+    this.changes = changes;
     this.name = "EditorChangesError";
   }
 }

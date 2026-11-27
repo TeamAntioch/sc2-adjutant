@@ -19,8 +19,11 @@ export type EditResult =
 
 /** An edit that can't be made as asked: the Blueprint path it concerns and why. */
 export class EditRefused extends Error {
-  constructor(readonly issue: BlueprintIssue) {
+  readonly issue: BlueprintIssue;
+
+  constructor(issue: BlueprintIssue) {
     super(`${issue.path}: ${issue.message}`);
+    this.issue = issue;
   }
 }
 

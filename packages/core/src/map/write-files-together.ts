@@ -47,20 +47,24 @@ const message = (error: unknown) => (error instanceof Error ? error.message : St
 
 /** How a write failed, for the caller to word: it adds its own prefix and phrasing. */
 export class WriteFailed extends Error {
-  constructor(
-    /** The folder written to. */
-    readonly dir: string,
-    /** Whether the failure was writing the pending files ("stage") or renaming them in ("commit"). */
-    readonly phase: "stage" | "commit",
-    /** The underlying error's message. */
-    readonly reason: string,
-    /** Files that could not be put back (commit only): each still has its old copy at `<file>.edit-backup`. */
-    readonly unrestored: readonly string[],
-    /** Whether some files had already been renamed in and were put back (commit only). */
-    readonly putBack: boolean,
-    cause: unknown,
-  ) {
+  /** The folder written to. */
+  readonly dir: string;
+  /** Whether the failure was writing the pending files ("stage") or renaming them in ("commit"). */
+  readonly phase: "stage" | "commit";
+  /** The underlying error's message. */
+  readonly reason: string;
+  /** Files that could not be put back (commit only): each still has its old copy at `<file>.edit-backup`. */
+  readonly unrestored: readonly string[];
+  /** Whether some files had already been renamed in and were put back (commit only). */
+  readonly putBack: boolean;
+
+  constructor(dir: string, phase: "stage" | "commit", reason: string, unrestored: readonly string[], putBack: boolean, cause: unknown) {
     super(reason, { cause });
+    this.dir = dir;
+    this.phase = phase;
+    this.reason = reason;
+    this.unrestored = unrestored;
+    this.putBack = putBack;
     this.name = "WriteFailed";
   }
 }

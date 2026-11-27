@@ -93,3 +93,14 @@ export { workspaceFor, workspaceRootFor, type Workspace } from "./workspace.js";
 export { loadHost, requireCapability } from "../host/host.js";
 export { loadMachineConfig } from "../host/machine-config.js";
 export { runBrokeredCapture } from "../capture/editor-broker-client.js";
+// For a Utility that builds terrain test maps (height-tuner): compiling a generated Blueprint, the
+// terrain files it then repaints, a texture's red channel rewritten at every mip, and the machine's
+// paths (the game's install, the cache).
+export { compileMission } from "../map/compile-mission.js";
+export { readT3TerrainXml } from "../terrain/read-t3-terrain-xml.js";
+export { readT3TextureMasks } from "../terrain/read-t3-texture-masks.js";
+export { writeT3TextureMasks } from "../terrain/write-t3-texture-masks.js";
+export { writeT3SyncTextureInfo } from "../terrain/write-t3-sync-texture-info.js";
+export { TEXELS_PER_CELL } from "../terrain/texture-grid.js";
+export { ddsLayout, decodeDds, recolourDdsAt, type DdsImage } from "../catalog/dds.js";
+export { hostContext } from "../host/machine-config.js";

@@ -1,0 +1,126 @@
+export const meta = {
+  title: "Tuning a texture's height",
+  summary: "Build a test map of a terrain texture's height-map variants, each a strip painted from 0 to 100% over a base texture, capture the strips in game and pick the one that makes the ground under it grow through its gaps.",
+  minutes: 25,
+};
+
+On a tileset that height-blends, a texture painted over another doesn't tint it evenly. Each layer's weight is cut by its **height**, the red channel of its normal map, so a lightly painted texture shows only where it stands higher than the one under it. Change that red channel and the same paint shows differently: as solid clumps, as stones with grass in the gaps, or as sunken stone.
+
+The Height Tuner Utility builds a **test map** for one texture. A base texture is held at full weight under the whole map, and there is one **strip** per candidate height, a **variant**. Along each strip the texture's paint rises from 0 at the left to 100% at the right, so one frame shows a variant at every weight. You judge the strips on a [Still Review](/tutorials/still-review/) page.
+
+You'll tune `ShakurasCity2`, a Protoss paving stone, over the Bel'Shir grass, on *Ashfall Relay* in the Workspace from [Your first Mission](/tutorials/first-mission/). The captures need a Host Adapter that can run camera tours. The turns below are written by hand. Claude's words, and what your frames show, will differ in your session. The tool calls are the ones Claude makes.
+
+<Objective id="setup" title="Add the Utility and a CASC extractor">
+
+The tuner makes its normal maps from your own install, on your machine, and they go only into the test map under the Mission's git-ignored `output/`. Blizzard's files are never committed. It reads them with a **CASC extractor**, a command-line tool that lists and extracts the game's storage. [tools/README.md](https://github.com/TeamAntioch/sc2-adjutant/blob/main/tools/README.md#a-casc-extractor) says how to install stormex, with the build steps for macOS. Name it in `SC2_CASC_TOOL`, in your shell's profile:
+
+```sh
+export SC2_CASC_TOOL=~/tools/stormex/build/bin/stormex
+```
+
+Then add the Utility to the Workspace: install its package and list it in the Workspace config's `utilities`.
+
+```sh
+npm install @team-antioch/sc2-adjutant-height-tuner
+```
+
+```json
+{ "utilities": ["bundled:anim-testbed", "bundled:height-tuner"] }
+```
+
+At the next Claude Code session in the Workspace, its `height-tuner` skill is in `.claude/skills/`.
+
+</Objective>
+
+<Objective id="build" title="Build the test map">
+
+<You>ShakurasCity2 sits in solid clumps over the grass on Ashfall Relay. Can we tune its height so the grass grows through it?</You>
+
+<Claude>
+I'll build a test map of ShakurasCity2 over BelShirGrassLightEx2, with the default seven strips:
+
+1. **stock**, the texture as the game has it, the reference;
+2. to 4. **crush** at 15%, 25% and 40%: the stones kept, with that share of the tile at height 0, so the grass grows in the gaps;
+5. to 7. **inverted crush** at 15%, 25% and 40%: the stone tops at 0, so the grass sits on them and the stone reads as sunken.
+</Claude>
+
+Claude runs the Utility's command:
+
+```sh
+node node_modules/@team-antioch/sc2-adjutant-height-tuner/dist/tune.js missions/ashfall-relay/blueprint.json ShakurasCity2
+```
+
+It reads the stock terrain catalogs and ShakurasCity2's normal map from the install, then writes a red channel per variant. A crush starts from the texture's own height, takes out the tile's broad light and dark bands, and drives the lowest share of the tile to 0. That share is a quantile, so `crush:25` puts a quarter of the tile at 0 on any texture. For a texture whose red channel holds no height, it integrates one from the normal instead, and says so. Then it compiles the map from a generated Blueprint on the Mission's tileset, and paints the strips straight into the map's texture masks.
+
+Everything goes in `missions/ashfall-relay/output/height-tuner/ShakurasCity2/`: the map, `shots.json` with one Shot a strip, and `tune.json`, which says what each strip is. That includes each strip's map-local texture id (`ShakurasCity2_HtCrush25`), its normal map, and the share of the tile at 0. `--variants` names other variants, such as `crush:25*2` for HeightMapScale 2. A map holds seven.
+
+</Objective>
+
+<Objective id="capture" title="Capture the strips" needs="editor.captureTour">
+
+<Claude>
+The map is built. One capture of the seven strips takes about three minutes. The Editor comes to the front and runs the map. Leave the screen alone until it's done: a click or a key press lands in the game. Go ahead?
+</Claude>
+
+<You>Go.</You>
+
+<Claude>
+<ToolCall
+  name="capture_shots"
+  args={{
+    mapPath: "missions/ashfall-relay/output/height-tuner/ShakurasCity2/HeightTuneShakurasCity2.SC2Map",
+    shots: [
+      { rect: [20, 21, 60, 33], label: "1. stock (0 to 100% left to right)" },
+      { rect: [20, 37, 60, 49], label: "2. crush 15% (0 to 100% left to right)" },
+      { rect: [20, 53, 60, 65], label: "3. crush 25% (0 to 100% left to right)" },
+      { rect: [20, 69, 60, 81], label: "4. crush 40% (0 to 100% left to right)" },
+      { rect: [20, 85, 60, 97], label: "5. inverted crush 15% (0 to 100% left to right)" },
+      { rect: [20, 101, 60, 113], label: "6. inverted crush 25% (0 to 100% left to right)" },
+      { rect: [20, 117, 60, 129], label: "7. inverted crush 40% (0 to 100% left to right)" },
+    ],
+    name: "height-shakurascity2-r1",
+  }}
+>
+  captures one frame per strip, the Shots from the test map's shots.json
+</ToolCall>
+
+<ToolCall
+  name="build_still_review"
+  args={{
+    mission: "ashfall-relay",
+    set: "height-shakurascity2",
+    round: "r1",
+    versions: [{ label: "strips", note: "ShakurasCity2 over BelShirGrassLightEx2, one strip per variant", captures: ["/Users/you/Library/Caches/sc2-adjutant/shots/height-shakurascity2-r1"] }],
+  }}
+>
+  lays the strips out on a Still Review page, one Shot each
+</ToolCall>
+
+Every strip is on the page. Stock is solid stone wherever it's painted past halfway. The crushes leave separate stones standing in the grass, thinning as the share at 0 grows. The inverted crushes turn into a lattice of dark crevices, with grass on the stone tops.
+</Claude>
+
+Claude opens every frame before building the page. The stock strip should show the stone solid at its right end, and each variant should differ from it. A variant that looks just like stock didn't load.
+
+</Objective>
+
+<Objective id="review" title="Judge the strips">
+
+Claude publishes the page as in [Reviewing stills in game](/tutorials/still-review/). The page compares versions, and here there is one, the map with its strips. So its **best** pick has nothing to choose between: use each strip's **tags** and **note**, and name your pick in the **Overall** note. Then press **Done reviewing**.
+
+Claude reads your feedback back and sums it up, one line per strip you left feedback on. On a Mission of their own, the author picked `crush:25` for this stone over this grass ("exactly what I'm looking for"), and kept the inverted crush in mind as a way to give a texture depth.
+
+</Objective>
+
+<Objective id="next" title="Narrow it down" needs="editor.captureTour">
+
+A next round narrows the strips around your pick, as shares either side of it or the pick at other scales:
+
+```sh
+node node_modules/@team-antioch/sc2-adjutant-height-tuner/dist/tune.js missions/ashfall-relay/blueprint.json ShakurasCity2 --variants crush:20,crush:25,crush:30,crush:25*0.5,crush:25*2
+```
+
+The new strips are new variants at the old strips' places, so Claude reviews them as a new set, `height-shakurascity2-2`. With several textures to tune, ask for all of them at once. Claude starts one subagent per texture, each building its map, capturing it and building its page. The captures queue one at a time through the Editor Broker.
+
+When you've settled on a variant, Claude tells you its word, its texture entry and its normal map, all from `tune.json`. A Mission's Blueprint can't declare a tuned height yet, so carrying the pick into the Mission is a hand-made map-local entry for now. The reference note [terrain-height-maps.md](https://github.com/TeamAntioch/sc2-adjutant/blob/main/docs/reference/terrain-height-maps.md) explains how the engine reads heights, and how each variant is made.
+
+</Objective>

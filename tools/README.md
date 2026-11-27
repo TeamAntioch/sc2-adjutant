@@ -11,7 +11,7 @@ Small command-line tools the skills and reference docs use from a checkout. Run 
 
 ## A CASC extractor
 
-The game's own files are in its install's CASC storage. This repo ships no extractor: install a community one and name it in `SC2_CASC_TOOL`. Only a maintainer needs one: to regenerate the data core commits (`node packages/core/scripts/build-trigger-libraries.mjs` and `build-catalog-schema.mjs`, each given the install's folder), to extract the decals' model files for sc2-asset-catalog's `extract-decals` ([decal-catalog.md](../docs/reference/decal-catalog.md)), or to extract music for a listening sheet. A mapper never does.
+The game's own files are in its install's CASC storage. This repo ships no extractor: install a community one and name it in `SC2_CASC_TOOL`. Only a maintainer needs one: to regenerate the data core commits (`node packages/core/scripts/build-trigger-libraries.mjs` and `build-catalog-schema.mjs`, each given the install's folder), to extract the decals' model files for sc2-asset-catalog's `extract-decals` ([decal-catalog.md](../docs/reference/decal-catalog.md)), or to extract music for a listening sheet. A mapper needs one only to tune a terrain texture's height map with the `height-tuner` Utility ([its README](../packages/plugin-height-tuner/README.md)), which reads the texture's normal map and the stock terrain catalogs from the install on each run.
 
 The scripts call it as [stormex](https://github.com/Talv/stormex) is called. stormex is built on [CascLib](https://github.com/ladislav-zezula/CascLib) and tested on StarCraft II:
 
@@ -20,7 +20,27 @@ The scripts call it as [stormex](https://github.com/Talv/stormex) is called. sto
 "$SC2_CASC_TOOL" -S <install folder> -l -I <regex>                # list them
 ```
 
-Install it from its [releases](https://github.com/Talv/stormex/releases) on Windows, or build it as its README says on macOS and Linux (CMake, with its CascLib submodule). Then set the variable, for example in your shell's profile:
+Install it from its [releases](https://github.com/Talv/stormex/releases) on Windows, or build it as its README says on Linux (CMake, with its CascLib submodule).
+
+On macOS, two things stop its own build: current CMake refuses its old minimum version, and it compiles its FUSE mount, which needs macFUSE, even with FUSE off. Extracting doesn't need the mount, so build it with a stub in the mount's place (checked on macOS 27.2 with Homebrew's CMake, 2026-11-27):
+
+```sh
+brew install cmake
+git clone --recursive https://github.com/Talv/stormex ~/tools/stormex
+cd ~/tools/stormex
+cat > src/cascfuse_stub.cc <<'STUB'
+#include "cascfuse.hpp"
+#include <iostream>
+int cascfs_mount(const std::string&, HANDLE) { std::cerr << "built without FUSE\n"; return 1; }
+STUB
+sed -i '' 's|src/cascfuse.cc|src/cascfuse_stub.cc|' CMakeLists.txt
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DENABLE_FUSE=OFF
+cmake --build build -j 8
+```
+
+Check it reads your install: `~/tools/stormex/build/bin/stormex -S "/Applications/StarCraft II" -l -I 'mods.core\.sc2mod.*terraintexdata\.xml$'` lists one file.
+
+Then set the variable, for example in your shell's profile:
 
 ```sh
 export SC2_CASC_TOOL=~/tools/stormex/build/bin/stormex

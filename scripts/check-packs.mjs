@@ -42,6 +42,7 @@ const RUNTIME_FILES = {
   "set-finder": ["dist/find-sets.js"],
   // The skill runs the command by its path, and the build reads the runtime it fills in by its path.
   "plugin-anim-testbed": ["dist/testbed.js", "runtime/testbed.galaxy", "examples/stock-units.json"],
+  "plugin-height-tuner": ["dist/tune.js", "skills/height-tuner/SKILL.md"],
 };
 
 /** Core's data folders whose JSON files ship, relative to its root. */

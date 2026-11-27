@@ -2,7 +2,7 @@
 // texture comes back in its own format, every level and face changed, its alpha as it was.
 import { describe, expect, it } from "vitest";
 
-import { ddsLayout, decodeDds, recolourDds } from "../../src/catalog/dds.js";
+import { ddsLayout, decodeDds, recolourDds, recolourDdsAt } from "../../src/catalog/dds.js";
 import { meanChroma, recolourTexel } from "../../src/catalog/recolour.js";
 import { BGRA, bgra, colourBlock, dds, rgb565 } from "../fixtures/dds.js";
 
@@ -113,6 +113,27 @@ describe("a DXT texture", () => {
     const cube = dds({ width: 4, height: 4, format: "DXT1", cube: true }, concat(...new Array(6).fill(face)));
     expect(ddsLayout(cube).faces).toBe(6);
     for (const image of decodeDds(recolourDds(cube, recolourTexel({ hue: 90 })))) expect(texel(image, 0, 0)[0]).toBeGreaterThan(200);
+  });
+});
+
+describe("recolourDdsAt", () => {
+  it("gives each texel its place in its own level, so a height can be written into red at every mip", () => {
+    // 8×8 DXT5 with its 4×4, 2×2 and 1×1 levels: a mid-grey green, alpha a ramp.
+    const alpha = new Uint8Array([255, 0, 0x49, 0x92, 0x24, 0x49, 0x92, 0x24]);
+    const block = concat(alpha, colourBlock(rgb565(0, 128, 0), rgb565(0, 120, 0), Array.from({ length: 16 }, () => 0)));
+    const texture = dds({ width: 8, height: 8, levels: 4, format: "DXT5" }, concat(...Array.from({ length: 4 + 1 + 1 + 1 }, () => block)));
+    const seen: string[] = [];
+    const out = recolourDdsAt(texture, ([, g, b], x, y, width, height) => {
+      if (x === width - 1 && y === height - 1) seen.push(`${width}x${height}`);
+      return [x < width / 2 ? 0 : 255, g, b];
+    });
+    expect([...new Set(seen)]).toEqual(["8x8", "4x4", "2x2", "1x1"]);
+    const [top, half] = decodeDds(out);
+    expect([texel(top!, 0, 3)[0], texel(top!, 7, 3)[0]]).toEqual([0, 255]);
+    expect([texel(half!, 1, 0)[0], texel(half!, 2, 0)[0]]).toEqual([0, 255]);
+    // Green stays close, and every block's alpha half is the same bytes.
+    expect(Math.abs(texel(top!, 0, 0)[1]! - texel(decodeDds(texture)[0]!, 0, 0)[1]!)).toBeLessThanOrEqual(4);
+    for (let block = 0; block < 7; block++) expect(out.subarray(128 + 16 * block, 136 + 16 * block)).toEqual(alpha);
   });
 });
 

@@ -8,8 +8,8 @@ sc2-adjutant plugin doesn't load it unless the Workspace asks for it.
 
 ## Adding one
 
-A Workspace made by `/sc2-adjutant:init` has the Utilities sc2-adjutant ships already. To add one to a
-Workspace that doesn't, install its package beside sc2-adjutant, then name it in the Workspace config's
+A Workspace made by `/sc2-adjutant:init` has the Anim Testbed already. To add another Utility, or the
+testbed to a Workspace that doesn't have it, install its package beside sc2-adjutant, then name it in the Workspace config's
 `utilities`:
 
 ```sh
@@ -32,3 +32,8 @@ cover the manifest.
 
 - [Anim Testbed](/utilities/anim-testbed/) builds an animation and sound test map from a spec, with a
   dialog in the game to pick a unit, a moment and a variation and play its timeline. `bundled:anim-testbed`.
+- Height Tuner builds a test map of a terrain texture's height-map variants. Each variant is a strip
+  painted from 0 to 100% over a base texture. Capture the strips in game and judge them on a Still
+  Review page ([Tuning a texture's height](/tutorials/height-tuning/)). It reads the texture's normal
+  map from your install with a CASC extractor ([tools/README.md](https://github.com/TeamAntioch/sc2-adjutant/blob/main/tools/README.md#a-casc-extractor)).
+  `bundled:height-tuner`, with the package `@team-antioch/sc2-adjutant-height-tuner`.
