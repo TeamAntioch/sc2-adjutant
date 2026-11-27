@@ -17,11 +17,10 @@
 
 import type { MissionBlueprint, PaintRegion } from "../domain/mission-blueprint.js";
 import { containsPoint } from "./polygon.js";
-import { distanceToCell, feather, LAYERS, TEXELS_PER_CELL } from "./texture-grid.js";
+import { distanceToCell, feather, FULL_WEIGHT as FULL, LAYERS, TEXELS_PER_CELL } from "./texture-grid.js";
 
 /** A region's default falloff, in cells. */
 export const DEFAULT_FALLOFF = 2;
-const FULL = 15;
 
 /** A region's mix on one texture set's 8 layers. */
 export type SetMix = {
@@ -210,7 +209,7 @@ function mixInto(shares: Float64Array, mix: SetMix, strength: number): void {
   // An area share keeps its palette strength, within what the weights leave.
   let kept = 0;
   for (const layer of mix.shares) kept += shares[layer]!;
-  const keep = kept > 1 - fixed ? Math.max(0, 1 - fixed) / kept : 1;
+  const keep = kept > 0 && kept > 1 - fixed ? Math.max(0, 1 - fixed) / kept : 1;
   for (const layer of mix.shares) target[layer] = shares[layer]! * keep;
   const left = Math.max(0, 1 - fixed - kept * keep);
   if (mix.rest >= 0) target[mix.rest] = left;

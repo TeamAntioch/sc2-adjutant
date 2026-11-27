@@ -6,6 +6,8 @@
 export const TEXELS_PER_CELL = 8;
 /** The layers of t3TextureMasks, and the textures of a texture set. */
 export const LAYERS = 8;
+/** What a texel's 8 layer weights sum to. */
+export const FULL_WEIGHT = 15;
 /** The most texture sets a map has. */
 export const SETS = 8;
 /** A texture set covers 8×8-cell blocks. */

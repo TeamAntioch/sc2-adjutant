@@ -479,11 +479,31 @@ describe("beside Kept ground of two texture sets", { timeout: 120_000 }, () => {
       return sum / (64 * 15);
     };
     for (let y = 58; y < 70; y++) for (let x = 16; x < 28; x++) expect(share(x, y)).toBeCloseTo(0.15, 2);
+    // Feathered in from the Zone's edge (x 14) over 2 cells.
+    expect(share(14, 64)).toBeGreaterThan(0);
     expect(share(14, 64)).toBeLessThan(share(15, 64));
+    expect(share(15, 64)).toBeLessThan(0.14);
     for (let t = 0; t < masks.maskWidth * masks.maskHeight; t++) {
       if (inBlock(Math.floor((t % masks.maskWidth) / 8), Math.floor(t / masks.maskWidth / 8))) continue;
       for (let l = 0; l < 8; l++) if (masks.layers[l]![t] !== before.layers[l]![t]) throw new Error(`texel ${t} layer ${l} changed outside the Zone`);
     }
+  });
+
+  it("paints the later of two overlapping Paint Regions where they overlap", async () => {
+    fixture = await keptGround();
+    const regions = [
+      { id: "half", zone: "new_block", mix: [{ texture: "BelShirDirtLight", weight: 0.5 }] },
+      { id: "tenth", polygon: square({ x: 14, y: 56, width: 8, height: 16 }), mix: [{ texture: "BelShirDirtLight", weight: 0.1 }] },
+    ];
+    await withZones(fixture, { elevation: 2, connections: [], texture: "BelShirGrassLight" }, { paintRegions: regions });
+    const masks = readT3TextureMasks((await generate(fixture))().files.t3TextureMasks as Buffer);
+    const share = (cx: number, cy: number) => {
+      let sum = 0;
+      for (let ty = 0; ty < 8; ty++) for (let tx = 0; tx < 8; tx++) sum += masks.layers[0]![(cy * 8 + ty) * masks.maskWidth + cx * 8 + tx]!;
+      return sum / (64 * 15);
+    };
+    expect(share(18, 64)).toBeCloseTo(0.1, 2);
+    expect(share(25, 64)).toBeCloseTo(0.5, 2);
   });
 
   it("refuses a Paint Region naming a texture the set its generating Zone's blocks are on lacks", async () => {

@@ -34,7 +34,7 @@ import { z } from "zod";
 import { isKnownTexture } from "../catalog/tileset-textures.js";
 import { readT3TerrainXml } from "../terrain/read-t3-terrain-xml.js";
 import { readT3TextureMasks, type T3TextureMasks } from "../terrain/read-t3-texture-masks.js";
-import { blockOf, blockOrigin, CELLS_PER_BLOCK, distanceToCell, feather, LAYERS, SETS, TEXELS_PER_CELL } from "../terrain/texture-grid.js";
+import { blockOf, blockOrigin, CELLS_PER_BLOCK, distanceToCell, feather, FULL_WEIGHT, LAYERS, SETS, TEXELS_PER_CELL } from "../terrain/texture-grid.js";
 import { applyPaintRegions, ditherThreshold, quantizeDithered, type RasterisedRegion } from "../terrain/paint-regions.js";
 import type { AreaMask, CellRect } from "./area.js";
 
@@ -44,7 +44,7 @@ export const SYNC_HEADER = 20;
 const TEXELS_PER_TILE = 64;
 const BYTES_PER_TILE = (TEXELS_PER_TILE * TEXELS_PER_TILE) / 2;
 const TEXELS_PER_BLOCK = CELLS_PER_BLOCK * TEXELS_PER_CELL;
-const FULL = 15;
+const FULL = FULL_WEIGHT;
 /** The Editor leaves this many texels unpainted on each side of a boundary between sets. */
 const SET_BAND = 2;
 /** How deep, in texels from a boundary between sets, a texture counts as meeting the other side. */
@@ -308,14 +308,18 @@ export function paintRegionStroke(textures: KeptTextures, region: RasterisedRegi
   const changedCells = new Uint8Array(width * textures.height);
   const shares = new Float64Array(LAYERS);
   const next = new Uint8Array(LAYERS);
+  const regions = [region];
   let texelCount = 0;
   for (let y = region.y * TEXELS_PER_CELL; y < (region.y + region.height) * TEXELS_PER_CELL; y++) {
+    const cellY = Math.floor(y / TEXELS_PER_CELL);
+    let set = -1;
     for (let x = region.x * TEXELS_PER_CELL; x < (region.x + region.width) * TEXELS_PER_CELL; x++) {
       const t = y * masks.maskWidth + x;
-      for (let l = 0; l < LAYERS; l++) shares[l] = layers[l]![t]! / FULL;
       const cellX = Math.floor(x / TEXELS_PER_CELL);
-      const cellY = Math.floor(y / TEXELS_PER_CELL);
-      if (!applyPaintRegions([region], shares, x, y, cellSet(textures, cellX, cellY))) continue;
+      // A cell's set, once per cell along the row.
+      if (x % TEXELS_PER_CELL === 0 || set < 0) set = cellSet(textures, cellX, cellY);
+      for (let l = 0; l < LAYERS; l++) shares[l] = layers[l]![t]! / FULL;
+      if (!applyPaintRegions(regions, shares, x, y, set)) continue;
       quantizeDithered(shares, next, 0, ditherThreshold(x, y));
       let changed = false;
       for (let l = 0; l < LAYERS; l++) changed ||= next[l] !== layers[l]![t];

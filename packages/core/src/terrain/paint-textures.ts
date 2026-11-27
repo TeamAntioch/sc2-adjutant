@@ -211,10 +211,17 @@ function withSets(blueprint: MissionBlueprint, plan: TexturePlan, sets: TextureS
     zonePatches: painted.map((zone) => zone.patches),
     blendGroups,
     layerNames,
-    sets: { blockSets: sets.blockSets, blocksPerRow: sets.blocksPerRow, names, layerIn, ids: names.map((_, set) => [...sets.indexOf].find(([, index]) => index === set)?.[0]) },
+    sets: { blockSets: sets.blockSets, blocksPerRow: sets.blocksPerRow, names, layerIn, ids: setIds(sets.indexOf, names.length) },
     zoneSets,
     ...(setPalettes ? { setPalettes } : {}),
   };
+}
+
+/** Each set's Blueprint id by its index, from the ids' indexes. */
+function setIds(indexOf: ReadonlyMap<string, number>, count: number): (string | undefined)[] {
+  const ids = new Array<string | undefined>(count).fill(undefined);
+  for (const [id, index] of indexOf) ids[index] = id;
+  return ids;
 }
 
 /**
@@ -804,8 +811,10 @@ function bilinear(grid: Float32Array, c: number, width: number, dx: number, ax: 
 }
 
 /** The Blueprint's Paint Regions rasterised over a generated map: each cell on its block's set, set 0 the map's textures. */
-function paintRegionsOver(blueprint: MissionBlueprint, plan: TexturePlan, owner: Int16Array): RasterisedRegion[] {
+function paintRegionsOver(blueprint: MissionBlueprint, plan: TexturePlan, owner: Int16Array, symmetric: boolean): RasterisedRegion[] {
   if (!blueprint.paintRegions?.length) return [];
+  // A melee map's two halves are one paint turned (turnWeights), so a region on one side would be copied onto the other.
+  if (symmetric) throw new Error("A melee map has no Paint Regions: its two halves are painted alike");
   const sets = plan.sets;
   return rasterisePaintRegions(blueprint.paintRegions, {
     width: blueprint.mapSize.width,
@@ -1081,18 +1090,20 @@ export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, sy
   const cellShares = new Float32Array(width * height * 8);
   const shares = new Float64Array(8);
   const sets = plan.sets;
-  // With texture sets, each cell's set's layers, and the layer its own texture is on there.
+  // With texture sets, each cell's set, its layers, and the layer its own texture is on there.
+  const cellSet = new Uint8Array(sets ? width * height : 0);
   const cellLayerIn: Int8Array[] = [];
   const cellOwnLayer = new Int8Array(sets ? width * height : 0);
   if (sets) {
     for (let cell = 0; cell < width * height; cell++) {
-      const layerIn = sets.layerIn[sets.blockSets[blockOf(sets.blocksPerRow, cell % width, Math.floor(cell / width))]!]!;
+      cellSet[cell] = sets.blockSets[blockOf(sets.blocksPerRow, cell % width, Math.floor(cell / width))]!;
+      const layerIn = sets.layerIn[cellSet[cell]!]!;
       cellLayerIn.push(layerIn);
       cellOwnLayer[cell] = layerIn[layers[cell]!]!;
     }
   }
   // The Paint Regions over the Zones' paint (ADR-0028), on each cell's set's layers.
-  const regions = paintRegionsOver(blueprint, plan, owner);
+  const regions = paintRegionsOver(blueprint, plan, owner, symmetry !== undefined);
   const regionCells = new Uint8Array(regions.length > 0 ? width * height : 0);
   for (const region of regions) for (let cell = 0; cell < regionCells.length; cell++) regionCells[cell] ||= region.cells[cell]!;
   for (let t = 0; t < texels; t++) {
@@ -1108,8 +1119,7 @@ export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, sy
       }
       const tx = t % texelWidth;
       const ty = (t - tx) / texelWidth;
-      const set = sets ? sets.blockSets[blockOf(sets.blocksPerRow, cell % width, Math.floor(cell / width))]! : 0;
-      applyPaintRegions(regions, shares, tx, ty, set);
+      applyPaintRegions(regions, shares, tx, ty, sets ? cellSet[cell]! : 0);
       quantizeDithered(shares, texelWeights, t * 8, ditherThreshold(tx, ty));
       for (let layer = 0; layer < 8; layer++) cellShares[cell * 8 + layer]! += shares[layer]! / (TEXELS_PER_CELL * TEXELS_PER_CELL);
       continue;
