@@ -29,12 +29,22 @@
 //   npm run effect-tour -- pick <out> [--batches <a>-<b>]
 //     cuts the clips and picks the frames again from each batch's recording, and rewrites the index
 //     of each batch filmed to its end.
+//   npm run effect-tour -- recut <tour> <out> [--batches <a>-<b>] [--jobs <n>] [--redo]
+//     cuts the clips and picks the frames of an existing tour folder again, without the game, into
+//     a new folder <out> with the same layout (batch-NN/clips, peaks, frames, manifest.json,
+//     index.html). <tour> is only read: each batch's frames/ is cloned (copy on write on APFS).
+//     Encodes run niced, <n> at a time (2 by default). A batch already in <out> with its index.html
+//     is skipped unless --redo.
+//
+// Every clip is cut by phase (effectCut in capture/effect-video.ts): the attach and Birth, a bit of
+// Stand, the move, the Destroy and the Death, joined without the holds between; its manifest.json
+// records each clip's kept spans under `cuts`.
 
-import { existsSync } from "node:fs";
-import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { constants as fsConstants, existsSync } from "node:fs";
+import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { cutEffect, effectSegments, parseVideoStops, type EffectVideoResult } from "../capture/effect-video.js";
+import { cutEffect, effectCut, effectSegments, parseVideoStops, type ClipSpan, type CutOptions, type EffectVideoResult } from "../capture/effect-video.js";
 import { batchRange, DEFAULT_HOLD, effectModelData, effectTourScript, batchSeconds, EFFECT_TOUR_BANK, EFFECT_TOUR_INIT, EFFECT_TOUR_SCRIPT_ID, planEffectBatch, type EffectPlacement, type EffectShot, type EffectTourOptions, type HostSites, type TourEffect } from "../capture/effect-tour.js";
 import { hideErrorsDuringTest } from "../capture/capture-copy.js";
 import { runBrokeredCapture } from "../capture/editor-broker-client.js";
@@ -53,6 +63,7 @@ const USAGE = [
   "       effect-tour make --models <folder> --base <map> --out <folder> [--batch <n>] [--only <regex>] [--limit <n>]",
   "       effect-tour capture <out> [--batches <a>-<b>] [--freeze] [--video] [--redo] [--quit-other-games]",
   "       effect-tour pick <out> [--batches <a>-<b>]",
+  "       effect-tour recut <tour> <out> [--batches <a>-<b>] [--jobs <n>] [--redo]",
 ].join("\n");
 
 /** Void (Campaign): a few effect files are only in the campaign's own assets, and it brings in Liberty's. */
@@ -141,7 +152,10 @@ const effectSites = async (): Promise<EffectSites> => JSON.parse(await readFile(
 /** The tour's host, a Marine: its attachment points, which each effect's site is checked against. */
 const hostSites = async (): Promise<HostSites> => (await effectSites()).hosts["Marine"]!.sites;
 
-type Manifest = { readonly batch: number; readonly map: string; readonly effects: readonly TourEffect[]; readonly shots: readonly EffectShot[]; readonly seconds: number };
+/** One effect's clip as the manifest records it: the clip, its length, and the spans of frames/video.mp4 it keeps, joined in order. */
+type ManifestCut = { readonly effect: number; readonly clip: string; readonly seconds: number; readonly spans: readonly ClipSpan[] };
+
+type Manifest = { readonly batch: number; readonly map: string; readonly effects: readonly TourEffect[]; readonly shots: readonly EffectShot[]; readonly seconds: number; readonly cuts?: readonly ManifestCut[] };
 
 async function make(args: string[]): Promise<void> {
   const models = option(args, "models");
@@ -306,6 +320,7 @@ async function capture(out: string, args: string[]): Promise<void> {
     );
     const present = new Set(existsSync(framesDir) ? (await readdir(framesDir)).filter((file) => file.endsWith(".jpg")) : []);
     const videos = video ? await cutBatch(dir, manifest) : new Map<number, EffectVideoResult>();
+    if (video) await writeManifest(dir, manifest, videos);
     // Only a batch filmed to its end gets its index, which marks it done: one that ended early is filmed again.
     if (end === "done") await writeFile(path.join(dir, "index.html"), batchIndex(manifest, framesDir, present, videos));
     const missed = manifest.shots.filter((shot) => !present.has(`${String(shot.stop).padStart(4, "0")}.jpg`));
@@ -330,8 +345,12 @@ async function batchHold(dir: string, manifest: Manifest): Promise<number> {
   return DEFAULT_HOLD;
 }
 
-/** Cuts a batch's recording into each effect's clip and picked frames; an empty map when it has no recording. */
-async function cutBatch(dir: string, manifest: Manifest): Promise<Map<number, EffectVideoResult>> {
+/**
+ * Cuts a batch's recording into each effect's clip and picked frames; an empty map when it has no
+ * recording. The recording is read from `dir`'s frames/ and the hold from its map; the clips and
+ * peaks are written into `outDir` (`dir` by default), `jobs` effects at a time.
+ */
+async function cutBatch(dir: string, manifest: Manifest, outDir = dir, options: CutOptions & { readonly jobs?: number } = {}): Promise<Map<number, EffectVideoResult>> {
   const framesDir = path.join(dir, "frames");
   const video = path.join(framesDir, "video.mp4");
   const stopsFile = path.join(framesDir, "video-stops.txt");
@@ -340,19 +359,45 @@ async function cutBatch(dir: string, manifest: Manifest): Promise<Map<number, Ef
     console.log(`  no recording in ${framesDir}`);
     return results;
   }
-  const segments = effectSegments(manifest.shots, parseVideoStops(await readFile(stopsFile, "utf8")), await batchHold(dir, manifest));
-  await rm(path.join(dir, "clips"), { recursive: true, force: true });
-  await rm(path.join(dir, "peaks"), { recursive: true, force: true });
-  for (const segment of segments) {
-    try {
-      results.set(segment.effect, await cutEffect(video, segment, dir, String(segment.effect + 1).padStart(4, "0")));
-    } catch (error) {
-      console.log(`  effect ${segment.effect + 1}: couldn't cut its clip: ${(error as Error).message}`);
+  const timeline = parseVideoStops(await readFile(stopsFile, "utf8"));
+  const hold = await batchHold(dir, manifest);
+  const segments = effectSegments(manifest.shots, timeline, hold);
+  // Planned again from the manifest, as the batch was filmed: the plan gives each part's waits.
+  const plans = planEffectBatch(manifest.effects, await hostSites()).plans;
+  await rm(path.join(outDir, "clips"), { recursive: true, force: true });
+  await rm(path.join(outDir, "peaks"), { recursive: true, force: true });
+  let next = 0;
+  const worker = async () => {
+    while (next < segments.length) {
+      const segment = segments[next++]!;
+      try {
+        const cut = effectCut(segment, manifest.shots, plans[segment.effect]!, timeline, hold);
+        results.set(segment.effect, await cutEffect(video, segment, outDir, String(segment.effect + 1).padStart(4, "0"), cut, options));
+      } catch (error) {
+        console.log(`  effect ${segment.effect + 1}: couldn't cut its clip: ${(error as Error).message}`);
+      }
     }
-  }
+  };
+  await Promise.all(Array.from({ length: Math.max(1, options.jobs ?? 1) }, worker));
   const unplaced = manifest.effects.length - segments.length;
   console.log(`  ${results.size} clips, ${[...results.values()].reduce((sum, each) => sum + each.peaks.length, 0)} picked frames${unplaced ? `; ${unplaced} effects not found in the recording` : ""}`);
   return results;
+}
+
+const clipSeconds = (spans: readonly ClipSpan[]): number => spans.reduce((sum, span) => sum + span.to - span.from, 0);
+const round3 = (value: number): number => Math.round(value * 1000) / 1000;
+
+/** Writes `dir`'s manifest.json with each clip's kept spans (`cuts`), in effect order. */
+async function writeManifest(dir: string, manifest: Manifest, videos: ReadonlyMap<number, EffectVideoResult>): Promise<void> {
+  const cuts: ManifestCut[] = [...videos.values()]
+    .sort((a, b) => a.effect - b.effect)
+    .map((each) => ({
+      effect: each.effect,
+      clip: path.relative(dir, each.clip).split(path.sep).join("/"),
+      seconds: round3(clipSeconds(each.spans)),
+      spans: each.spans.map((span) => ({ parts: span.parts, from: round3(span.from), to: round3(span.to) })),
+    }));
+  await writeFile(path.join(dir, "manifest.json"), `${JSON.stringify({ ...manifest, cuts }, null, 1)}\n`);
 }
 
 async function pick(out: string, args: string[]): Promise<void> {
@@ -369,6 +414,7 @@ async function pick(out: string, args: string[]): Promise<void> {
     const framesDir = path.join(dir, "frames");
     console.log(`${name}:`);
     const videos = await cutBatch(dir, manifest);
+    await writeManifest(dir, manifest, videos);
     // Only an index capture wrote is rewritten: an index marks a batch filmed to its end, and one
     // that ended early, or never started, has to stay unmarked so capture films it again.
     const index = path.join(dir, "index.html");
@@ -382,12 +428,67 @@ async function pick(out: string, args: string[]): Promise<void> {
   }
 }
 
+/**
+ * Re-cuts a tour folder into `out` without the game: for each batch, its frames/ cloned, its clips
+ * and peaks cut again from the recording there, and its manifest (with each clip's spans) and index
+ * written. Nothing in `tour` is written. A batch not filmed to its end (no index.html) gets clips
+ * but no index, as `pick` leaves it.
+ */
+async function recut(tour: string, out: string, args: string[]): Promise<void> {
+  const [from, to] = batchRange(option(args, "batches"));
+  const jobs = Number(option(args, "jobs") ?? 2);
+  const redo = flag(args, "redo");
+  if (!Number.isInteger(jobs) || jobs < 1) throw new Error("--jobs takes a whole number from 1");
+  const source = path.resolve(tour);
+  const target = path.resolve(out);
+  if (target === source || target.startsWith(`${source}${path.sep}`) || source.startsWith(`${target}${path.sep}`)) throw new Error("recut writes to a folder of its own, not in or around the tour it reads");
+  let bytes = 0;
+  let seconds = 0;
+  let clips = 0;
+  for (const name of (await readdir(source)).filter((each) => /^batch-\d+$/.test(each)).sort()) {
+    const number = Number(name.slice(6));
+    if (number < from || number > to) continue;
+    const dir = path.join(source, name);
+    const outDir = path.join(target, name);
+    if (!existsSync(path.join(dir, "manifest.json"))) {
+      console.log(`${name}: no manifest.json, skipped`);
+      continue;
+    }
+    if (!redo && existsSync(path.join(outDir, "index.html"))) {
+      console.log(`${name}: already cut, skipped`);
+      continue;
+    }
+    const manifest = JSON.parse(await readFile(path.join(dir, "manifest.json"), "utf8")) as Manifest;
+    console.log(`${name}:`);
+    await rm(outDir, { recursive: true, force: true });
+    await mkdir(outDir, { recursive: true });
+    const framesDir = path.join(outDir, "frames");
+    if (existsSync(path.join(dir, "frames"))) await cp(path.join(dir, "frames"), framesDir, { recursive: true, mode: fsConstants.COPYFILE_FICLONE });
+    const videos = await cutBatch(dir, manifest, outDir, { nice: true, jobs });
+    await writeManifest(outDir, manifest, videos);
+    for (const each of videos.values()) {
+      bytes += (await stat(each.clip)).size;
+      seconds += clipSeconds(each.spans);
+      clips++;
+    }
+    if (!existsSync(path.join(dir, "index.html"))) {
+      console.log(`${name}: not filmed to its end; clips cut, no index written`);
+      continue;
+    }
+    const present = new Set(existsSync(framesDir) ? (await readdir(framesDir)).filter((file) => file.endsWith(".jpg")) : []);
+    await writeFile(path.join(outDir, "index.html"), batchIndex(manifest, framesDir, present, videos));
+    console.log(`${name}: ${path.join(outDir, "index.html")}`);
+  }
+  if (clips) console.log(`${clips} clips cut this run, ${(bytes / 1024 ** 3).toFixed(2)} GB, ${(seconds / clips).toFixed(1)} s on average`);
+}
+
 async function main(): Promise<void> {
   const [command, ...args] = process.argv.slice(2);
   if (command === "base") return base(args[0] ?? path.resolve("missions", "effect-tour"));
   if (command === "make") return make(args);
   if (command === "capture" && args[0]) return capture(args[0], args.slice(1));
   if (command === "pick" && args[0]) return pick(args[0], args.slice(1));
+  if (command === "recut" && args[0] && args[1] && !args[1].startsWith("--")) return recut(args[0], args[1], args.slice(2));
   console.error(USAGE);
   process.exitCode = 1;
 }

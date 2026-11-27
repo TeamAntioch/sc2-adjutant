@@ -52,6 +52,8 @@ export type EffectPlan = {
   readonly birth: number;
   /** Into Stand when the stand frame is taken. */
   readonly standShot: number;
+  /** Whether Stand loops; one that plays once is filmed half way through (`standShot` is half of it). */
+  readonly standLoops: boolean;
   /** How long the host moves before the moving frame; 0 for an effect too short to move. */
   readonly move: number;
   /** How far it moves in that time, in cells. */
@@ -180,6 +182,7 @@ export function planEffect(effect: TourEffect, firstStop: number, hostSites?: Ho
   return {
     birth: birth ? round(Math.min(MAX_PART, birth.durationMs / 2000)) : 0,
     standShot,
+    standLoops: looping,
     move: fast ? FAST_MOVE : moves ? 1 : 0,
     // Slow, a quarter of the frame's width, so the host stays in view: the frame is about 0.84 × distance wide.
     moveCells: fast ? FAST_SPEED * FAST_MOVE : moves ? round(Math.min(12, Math.max(1, distance * 0.21))) : 0,
