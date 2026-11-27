@@ -11,9 +11,10 @@ Sources: in-game captures on copies of an author's Mission map (tileset AiurTemp
 map, read from the install. **[game]** marks what was seen in game, **[data]** what was read in a
 file, and **[inferred]** a reading with its reason.
 
-The draft `docs/reference/height-blending.md` on the Paint Regions stack (#146, ADR-0028) came
-before these tests. Where it disagrees with this note, this note is right: the height does not
-need the `Heightmap` field, and a texture with no `Heightmap` field still height-blends (below).
+[height-blending.md](./height-blending.md) covers how a Paint Region's blend weight reads on
+height-blended ground, and which stock textures height-blend. #163 brings it up to date with the
+same in-game tests. This note is about changing a texture's height: what the engine reads it from,
+how each of the tuner's variants is made, and what the author picked.
 
 ## What decides what shows
 
