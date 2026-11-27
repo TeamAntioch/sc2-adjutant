@@ -4,11 +4,20 @@
 
 Some LotV terrain textures carry a height map, and on a tileset that turns height blending on, a texture's blend weight is cut by the heights: a low weight shows as patches in the other textures' crevices, not as a tint over them. This matters for a Paint Region's **blend weight** (ADR-0028, decision 2): on such ground, how much of a texture shows is not linear in its weight. The `texture-sets` skill says when to give a texture a blend weight and when an area share.
 
-The research behind this note is on issue #137, read from the game data mirror (SC2 5.0.16.97364) and the install's texture files. Each claim is marked **[verified]** (read in a primary file, named) or **[inferred]** (a reading, with its reason). The scripts that decoded the normal maps are not in this repo.
+The research behind this note is on issue #137, read from the game data mirror (SC2 5.0.16.97364) and the install's texture files. Each claim is marked **[verified]** (read in a primary file, named), **[verified in game]** (seen in in-game captures, described in "Tested in game") or **[inferred]** (a reading, with its reason). The scripts that decoded the normal maps are not in this repo.
+
+## Tested in game (2026-11-27)
+
+These were settled on copies of one generated map on the AiurTempleJungle tileset (height blending on), each copy with one map-local `Base.SC2Data/GameData/TerrainTexData.xml` entry, its Shots captured with `capture_shots` and compared frame by frame with the unchanged map. They overrule the readings below where those differ.
+
+- **A map-local `CTerrainTex` entry loads.** A partial `<CTerrainTex id="ShakurasCity2">` setting only `Texture` to `Zerus_3.dds` turned that stone into moss, with no include list. **[verified in game]**
+- **The `Heightmap` field does nothing.** Pointing `ShakurasCity2`'s `Heightmap` at its own normal map, or at `Zerus3`'s flat one (R = 255), left the frames unchanged, within the noise between captures. The engine takes a layer's height from the red channel of its **`Normalmap`**, field or no field. So a texture with no `Heightmap` field height-blends if its normal map's R varies, and the way to change a texture's height is to give it a new `Normalmap`. **[verified in game]**
+- **`HeightMapScale` and `HeightMapOffset` work.** `Slayn7` (stock scale 5, offset 0.3) covered about half the ground at scale 2 and nearly vanished into the grass at scale 1, offset 0. **[verified in game]**
+- **A custom normal map shipped in the map package works**: an `Assets/Textures/<name>.dds` inside the `.SC2Map`, named by the map-local entry's `Normalmap`. Edit only its R channel: G and A hold the normal. **[verified in game]** Such a file made from a Blizzard texture can't be committed (ADR-0027), so it has to be built on each machine; issue #159 adds a tool and skill for tuning a texture's height that way.
 
 ## Short answer
 
-- Height blending is a **tileset (CTerrain) switch**, `HeightMapEnabled`, plus a per-texture height channel and tuning (`CTerrainTex` `Heightmap`, `HeightMapScale`, `HeightMapOffset`). All of these fields are set only in `void.sc2mod` (LotV) data. Liberty and Swarm set none of them. **[verified]**
+- Height blending is a **tileset (CTerrain) switch**, `HeightMapEnabled`, plus a per-texture height channel (the R of its `Normalmap`) and tuning (`CTerrainTex` `HeightMapScale`, `HeightMapOffset`). The `Heightmap` field exists and is set on many LotV textures, but the game ignores it (see "Tested in game"). All of these fields are set only in `void.sc2mod` (LotV) data. Liberty and Swarm set none of them. **[verified]**
 - The height is the **red channel of the texture's normal map** (`…Normal.dds`). Liberty and Swarm normal maps usually have R = 255 everywhere (no height). LotV normal maps carry a real height map there. **[verified]** for the shader and the files sampled.
 - The blend is **symmetric across all 8 layers**. No layer is "under" another. Each texel's paint weight is multiplied by that layer's height, and any layer more than 1.0 below the strongest is cut out. So a low-weight texture shows only where **its own height is high and the others' are low**: in their crevices. **[verified]** from the shader source.
 - At a low weight (2/15 ≈ 13%) a texture gets **less** than its paint share, in patches, not a tint. Over a texture with no height it can vanish. **[verified]** from the shader maths (simulated in section 3). How it looks in game is **not checked**.
@@ -31,7 +40,7 @@ None of the four has a field hint string.
 
 **[verified]** Where they're set (`mods/void.sc2mod/base.sc2data/GameData/`):
 
-- `TerrainData.xml`: `GenericTerrainEx3` (the parent of the LotV and Nova "Ex3" tilesets) sets `<HeightMapEnabled value="1"/>`. Other LotV tilesets set it themselves. Several set it to `0` explicitly: `CompoundSewer`, `CompoundMansion`, `MeinhoffEx3`, `UmojaEx3`, `KorhalCityEx2`, `CastanarEx2`, `IceWorldEx2`, `SpearOfAdun`, `Endion`, `PortCity`, `DefendersCity`, `TarsonisCity`, `BlackopsLab_A/B` and the LotV `…Ex1` copies of WoL tilesets, among others. No Liberty or Swarm tileset sets it, so they take the default (presumed 0; see "What remains uncertain").
+- `TerrainData.xml`: `GenericTerrainEx3` (the parent of the LotV and Nova "Ex3" tilesets) sets `<HeightMapEnabled value="1"/>`. Other LotV tilesets set it themselves. Only four set it to `0` explicitly: `CompoundSewer`, `CompoundMansion`, `MeinhoffEx3` and `UmojaEx3`. The other LotV tilesets that aren't among the 27 below (`KorhalCityEx2`, `CastanarEx2`, `IceWorldEx2`, `SpearOfAdun`, `Endion` and the rest) don't set it at all, and neither does any Liberty or Swarm tileset, so they take the default (presumed 0; see "What remains uncertain").
 - `TerrainTexData.xml`: 108 `CTerrainTex` entries set `Heightmap`; 55 set `HeightMapScale` (1.5 to 35), 40 set `HeightMapOffset` (0.2 or 0.3). In every stock entry `Heightmap` names a normal map, nearly always the texture's own `…Normal.dds`. The one exception: `ShakurasTemple4` points `Heightmap` at `shakurastemple_2normal.dds`, and its own normal map has a flat R channel.
 - No Liberty, Swarm, campaign or Co-op `TerrainTexData.xml` sets any of the three texture fields.
 
@@ -71,7 +80,7 @@ A large scale (Slayn's 25-35, `AiurCity6`'s 30) makes the cut nearly binary: a h
 - WoL and HotS: `aiur_rocknormal` and `zerus_3normal` have R = 255 everywhere. 89 of 192 Liberty textures and 89 of 128 Swarm textures are flat.
 - LotV: `belshirex2_2normal` has R 100 ± 45 (range 0-255), `korhalwastes_1normal` 132 ± 19, `slayn_2normal` 83 ± 30. 296 of 338 Void textures vary.
 - R doesn't correlate with the normal's X (A): r ≈ 0.00 across the samples. It is a separate map, not a copy of the normal.
-- **[inferred]** Some Liberty and Swarm textures have a varying R too (`BelShirBrush`, `AgriaConcrete`, `MarSaraDirt`, `Korhal1` …, 142 in all). Whether that is a usable height or other packed data can't be told from statistics. It would matter only if such a texture sits in a height-enabled tileset.
+- Some Liberty and Swarm textures have a varying R too, 142 in all. **86 of them are not heights**: they are the old WoL layout, R = G = B = the normal's Y (|corr(R, G)| ≥ 0.89), so on a height-enabled tileset they would blend in a lighting-shaped pattern. Keep them out of height-enabled sets. **The other 56 are real heights** in the LotV layout, presumably re-exported: `IceWorld1-8`, `KorhalCity1-8`, the WoL `MarSara*`, `HybridLabInner1-8`, `MoebiusLab2-8`, `XelNagaCavern1-8`, `ZhakulDas*`, `CharRedCracks` and `ShakurasSand`. **[verified]** by measuring all 668 stock normal maps; **[inferred]** for how the copies would look.
 
 ## 2. Which stock textures height-blend (proposed)
 
@@ -85,13 +94,13 @@ Two things must both hold. **[verified]** that they're necessary, from the data 
 By strength of evidence:
 
 - **Height map set, measured R varies, tileset enabled** (87 textures; the strongest evidence): all 8 of BelShirEx2, BraxisAlphaEx2, CharEx2, MarSaraEx2, KorhalPlatformEx2, PurificationDesert (`Purification_Desert_1-8`), ShakurasTemple (except `ShakurasTemple4`, which borrows texture 2's height), AiurCity, AiurTemple, Slayn and SlaynGrass.
-- **No `Heightmap` field, but measured R varies in an enabled tileset** (that the engine then falls back to the normal map is **[inferred]**): KorhalWastes_*, VolcanoIsle_*, Redstorm_*, BattleStation_1-7 (`_8` is flat), Aiur4City1-8, Aiur4Temple1-8, AiurTempleJungle1-8, ProtossBase1-8 and Void1-8 (TheVoid). Elsecaro, ElsecaroCity, JarbanMinor_Jungle, SnowRefinery and TarsonisInterior are the same case, but their R wasn't measured.
+- **No `Heightmap` field, but measured R varies in an enabled tileset** (these height-blend: the engine reads the normal map's R whatever the field says, **[verified in game]**): KorhalWastes_*, VolcanoIsle_*, Redstorm_*, BattleStation_1-7 (`_8` is flat), Aiur4City1-8, Aiur4Temple1-8, AiurTempleJungle1-8, ProtossBase1-8 and Void1-8 (TheVoid). Elsecaro, ElsecaroCity, JarbanMinor_Jungle, SnowRefinery and TarsonisInterior are the same case, but their R wasn't measured.
 - **Height map set, tileset off** (probably no effect unless the map turns its terrain type on): CastanarEx2's 8 (most have a flat R anyway), Endion1-8, EndionAiurProtoss1-2, SpearOfAdun8.
 - **Not height-blended in any stock tileset:** every Liberty and Swarm texture (`AiurRock`, `Zerus3` …), and the textures of the LotV-era tilesets that are off, explicitly or by default: KorhalCityEx2_*, IceWorldEx2_*, CompoundSewer and CompoundMansion, UmojaEx3, MeinhoffEx3, DefendersCity, PortCity, TarsonisCity, BlackOpsLab, ShadowCorps, Ulnar*, Cybros, Typhon and Valhalla.
 
 **The `Ex2` suffix as a guide [verified counts].** 48 of the 64 catalog textures with `Ex2` in the id set `Heightmap`. The 16 that don't are `IceWorldEx2_1-8` and `KorhalCityEx2_1-8`, and the 8 `CastanarEx2` textures set it but sit in a tileset that's off. So `Ex2` is right for about 40 of 64 once the tileset flag counts, and 59 of the 107 textures with the field have no `Ex2` at all. No texture id ends in `Ex3`: the `…Ex3` names are tilesets (`MeinhoffEx3`, `UmojaEx3`), both off. Go by the data, in this order: the texture's tileset has `HeightMapEnabled = 1`, then its normal map's R varies, then it sets `Heightmap`.
 
-**A map on a switched-off tileset.** A map whose tileset is `KorhalCityEx2` (the default for a Mission Blueprint without `tilesetId`) has `HeightMapEnabled = 0`, so no texture on it height-blends, even a `BelShirDirtDarkEx2` swapped in, unless the map's `TerrainData.xml` override adds `<HeightMapEnabled value="1"/>`. **[inferred]** from the data. Which `CTerrain` the flag is read from on a map with several texture sets is **unknown** (see below).
+**A map on a switched-off tileset.** A map whose tileset is `KorhalCityEx2` (the default for a Mission Blueprint without `tilesetId`) doesn't set `HeightMapEnabled`, so it takes the default, presumed 0, and no texture on it height-blends, even a `BelShirDirtDarkEx2` swapped in, unless the map's `TerrainData.xml` override adds `<HeightMapEnabled value="1"/>`. **[inferred]** from the data. Which `CTerrain` the flag is read from on a map with several texture sets is **unknown** (see below).
 
 ### Per tileset
 
@@ -166,7 +175,7 @@ The SC2Mapster forums now redirect to CurseForge, so these were read only as sea
 
 ## What remains uncertain
 
-1. **The fallback with no `Heightmap` field.** The shader reads R from the textures bound in the height pass. Whether the engine binds the normal map when `Heightmap` is empty, or treats the texture as flat, isn't in the data. For the fallback: Blizzard enabled `GenericTerrainEx3` tilesets whose textures set no `Heightmap` but have height in R, which would be pointless otherwise. For the field mattering: `ShakurasTemple4` borrows another file, and the Mar Sara forum fix was to clear the field. An in-game test settles it: a KorhalWastes_* pair at a low weight.
+1. ~~**The fallback with no `Heightmap` field.**~~ Settled in game: the field is ignored and the height always comes from the `Normalmap`'s R (see "Tested in game"). Blizzard's `ShakurasTemple4` entry and the Mar Sara forum fix both point at a field that, on this build, does nothing.
 2. **Defaults.** The engine's defaults for `HeightMapScale` and `HeightMapOffset` (presumably 1 and 0) and for `HeightMapEnabled` (presumably 0) aren't in any XML.
 3. **Which CTerrain's flag applies** on a map with several texture sets (ADR-0016), or a texture set named after a tileset other than the map's.
 4. **The diffuse pass using the adjusted masks** is read from the shader's structure, not traced in the engine.
