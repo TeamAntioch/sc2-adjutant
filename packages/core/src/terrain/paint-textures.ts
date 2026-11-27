@@ -32,14 +32,14 @@ import {
   MOTTLE_DEPTH,
   MOTTLE_PERIOD,
   MOTTLE_SEED,
-  PATCH_FEATHER,
+  blockLineGap,
   patchNoise,
   SET_EDGE_FADE,
   setEdgeFadeAt,
-  STARK_FEATHER,
   STARK_RARITY,
-  STARK_SCALE,
   STARK_STRENGTH,
+  starkFeather,
+  starkPeriod,
   valueNoise,
 } from "./variety-patches.js";
 
@@ -453,11 +453,11 @@ export function cellTextureLayers(
       patches.layers.forEach((layer, index) => {
         if (layer === base || fade === 0) return;
         const stark = starkness[layer] ?? 0;
-        const period = patches.period / (1 + (STARK_SCALE - 1) * stark);
+        const period = starkPeriod(patches.period, stark);
         const n = symmetricNoise((px, py) => patchNoise(px, py, index, period), symmetry, 1)(x, y) + MOTTLE_DEPTH * fine;
         const threshold = patches.threshold + STARK_RARITY * stark;
         if (n <= threshold) return;
-        const rise = Math.min(1, (n - threshold) / (PATCH_FEATHER + (STARK_FEATHER - PATCH_FEATHER) * stark));
+        const rise = Math.min(1, (n - threshold) / starkFeather(stark));
         const share = fade * rise * rise * (3 - 2 * rise) * (1 - (1 - STARK_STRENGTH) * stark);
         total += share;
         own.push({ layer, share });
@@ -563,9 +563,7 @@ function setEdgeFade(sets: PlanSets, width: number, height: number): Float32Arra
           const ny = by + dy;
           if ((dx === 0 && dy === 0) || nx < 0 || ny < 0 || nx >= sets.blocksPerRow || ny >= rows || sets.blockSets[ny * sets.blocksPerRow + nx] === set) continue;
           // The cell centre's distance to that block's nearest edge.
-          const gapX = dx === 0 ? 0 : dx < 0 ? x + 0.5 - bx * CELLS_PER_BLOCK : (bx + 1) * CELLS_PER_BLOCK - (x + 0.5);
-          const gapY = dy === 0 ? 0 : dy < 0 ? y + 0.5 - by * CELLS_PER_BLOCK : (by + 1) * CELLS_PER_BLOCK - (y + 0.5);
-          nearest = Math.min(nearest, Math.max(gapX, gapY));
+          nearest = Math.min(nearest, blockLineGap(x + 0.5, y + 0.5, bx, by, dx, dy, CELLS_PER_BLOCK));
         }
       }
       fade[y * width + x] = setEdgeFadeAt(nearest);

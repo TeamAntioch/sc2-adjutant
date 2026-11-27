@@ -33,6 +33,21 @@ export const MOTTLE_SEED = 977;
 export const setEdgeFadeAt = (d: number): number => Math.max(0, Math.min(1, (d - 0.5) / (SET_EDGE_FADE - 0.5)));
 
 /**
+ * How far (cells) a point (px, py) in block (bx, by) is from the line of its neighbouring block
+ * (dx, dy), each in -1..1: the larger of its gaps across and along, so a corner block counts from its corner.
+ */
+export function blockLineGap(px: number, py: number, bx: number, by: number, dx: number, dy: number, cellsPerBlock: number): number {
+  const gapX = dx === 0 ? 0 : dx < 0 ? px - bx * cellsPerBlock : (bx + 1) * cellsPerBlock - px;
+  const gapY = dy === 0 ? 0 : dy < 0 ? py - by * cellsPerBlock : (by + 1) * cellsPerBlock - py;
+  return Math.max(gapX, gapY);
+}
+
+/** A texture's patch period (cells) by its starkness: STARK_SCALE times finer at full starkness. */
+export const starkPeriod = (period: number, stark: number): number => period / (1 + (STARK_SCALE - 1) * stark);
+/** A texture's wash fade (of noise) by its starkness: PATCH_FEATHER, down to STARK_FEATHER at full starkness. */
+export const starkFeather = (stark: number): number => PATCH_FEATHER + (STARK_FEATHER - PATCH_FEATHER) * stark;
+
+/**
  * Noise shaping variety patches: three scales, each on a lattice turned to its own angle, so the
  * patches' edges don't follow the square grid value noise is built on.
  */

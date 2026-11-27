@@ -32,7 +32,8 @@ import { textureStarkness } from "../catalog/tileset-textures.js";
 import type { MissionBlueprint, PaintRegion } from "../domain/mission-blueprint.js";
 import { containsPoint } from "./polygon.js";
 import { CELLS_PER_BLOCK, distanceToCell, feather, FULL_WEIGHT as FULL, LAYERS, TEXELS_PER_CELL } from "./texture-grid.js";
-import { MOTTLE_DEPTH, MOTTLE_PERIOD, MOTTLE_SEED, PATCH_FEATHER, patchNoise, SET_EDGE_FADE, setEdgeFadeAt, STARK_FEATHER, STARK_SCALE, valueNoise } from "./variety-patches.js";
+import { hashString } from "./value-noise.js";
+import { blockLineGap, MOTTLE_DEPTH, MOTTLE_PERIOD, MOTTLE_SEED, patchNoise, SET_EDGE_FADE, setEdgeFadeAt, starkFeather, starkPeriod, valueNoise } from "./variety-patches.js";
 
 /** A region's default falloff, in cells. */
 export const DEFAULT_FALLOFF = 2;
@@ -40,8 +41,11 @@ export const DEFAULT_FALLOFF = 2;
 export const DEFAULT_PATCH_PERIOD = 12;
 /** The most texels a region's calibration samples, evenly spread over those past its falloff. */
 const CALIBRATION_SAMPLES = 1 << 16;
-/** Seeds an area share's patch noise apart from the palette's variety (indices 0-3): 8 + its place among the mix's shares. */
-const SHARE_NOISE_INDEX = 8;
+/**
+ * An area share's patch noise index (patchNoise's seed): past the palette's variety (0-3), from its
+ * region's id, so two regions' patches don't line up, and its place among the mix's shares.
+ */
+const shareNoiseIndex = (regionId: string, place: number): number => 8 + 8 * (hashString(regionId) % 4096) + place;
 
 /** A region's mix on one texture set's 8 layers. */
 export type SetMix = {
@@ -104,15 +108,17 @@ export type PaintRegionGround = {
 /**
  * The Blueprint's Paint Regions rasterised, in order, leaving out a region that paints no cell. A
  * region naming a texture one of its cells' sets lacks is refused, naming the set and its textures.
+ * `patches: false` leaves the area shares' patches out (no noise, no calibration), for a caller
+ * that only checks or measures the regions.
  */
-export function rasterisePaintRegions(regions: readonly PaintRegion[] | undefined, ground: PaintRegionGround): RasterisedRegion[] {
+export function rasterisePaintRegions(regions: readonly PaintRegion[] | undefined, ground: PaintRegionGround, { patches = true }: { readonly patches?: boolean } = {}): RasterisedRegion[] {
   return (regions ?? []).flatMap((region) => {
-    const rasterised = rasteriseRegion(region, ground);
+    const rasterised = rasteriseRegion(region, ground, patches);
     return rasterised ? [rasterised] : [];
   });
 }
 
-function rasteriseRegion(region: PaintRegion, ground: PaintRegionGround): RasterisedRegion | undefined {
+function rasteriseRegion(region: PaintRegion, ground: PaintRegionGround, withPatches: boolean): RasterisedRegion | undefined {
   const { width, height, owner, zones } = ground;
   const outline = region.polygon ?? zones.find((zone) => zone.id === region.zone)?.polygon;
   if (!outline) throw new Error(`Paint Region ${region.id}'s Zone ${region.zone} isn't one of the Blueprint's`);
@@ -141,14 +147,18 @@ function rasteriseRegion(region: PaintRegion, ground: PaintRegionGround): Raster
     }
   }
   const strength = regionStrength(cells, width, height, bounds, region.falloff ?? DEFAULT_FALLOFF);
-  const setFade = region.mix.some((entry) => entry.share !== undefined) ? setEdgeFade(cells, bounds, ground) : undefined;
-  return { id: region.id, cells, ...bounds, strength, mixBySet, patches: sharePatches(region, cells, width, bounds, strength, setFade, ground.patchPeriod ?? DEFAULT_PATCH_PERIOD), setFade };
+  const shared = withPatches && region.mix.some((entry) => entry.share !== undefined);
+  const setFade = shared ? shareSetFade(cells, bounds, ground) : undefined;
+  const patches = shared ? sharePatches(region, { cells, width, bounds }, strength, setFade, ground.patchPeriod ?? DEFAULT_PATCH_PERIOD) : [];
+  return { id: region.id, cells, ...bounds, strength, mixBySet, patches, setFade };
 }
 
 type Bounds = { readonly x: number; readonly y: number; readonly width: number; readonly height: number };
+/** A region's cells on the map (`width` cells wide), and their bounds. */
+type Footprint = { readonly cells: Uint8Array; readonly width: number; readonly bounds: Bounds };
 
 /** Calls `visit` for each texel of the region's cells: its index over the bounds, and its middle in map cells. */
-function eachTexel(cells: Uint8Array, width: number, bounds: Bounds, visit: (local: number, px: number, py: number) => void): void {
+function eachTexel({ cells, width, bounds }: Footprint, visit: (local: number, px: number, py: number) => void): void {
   const strengthWidth = bounds.width * TEXELS_PER_CELL;
   for (let cy = bounds.y; cy < bounds.y + bounds.height; cy++) {
     for (let cx = bounds.x; cx < bounds.x + bounds.width; cx++) {
@@ -166,7 +176,7 @@ function eachTexel(cells: Uint8Array, width: number, bounds: Bounds, visit: (loc
  * setEdgeFade does per cell: by the distance from the texel's middle to the nearest line of a
  * neighbouring block (sides and corners) on another set. Undefined when no cell's block has one.
  */
-function setEdgeFade(cells: Uint8Array, bounds: Bounds, ground: PaintRegionGround): Float32Array | undefined {
+function shareSetFade(cells: Uint8Array, bounds: Bounds, ground: PaintRegionGround): Float32Array | undefined {
   const { width, height } = ground;
   // Each block's neighbours on another set, as [dx, dy].
   const others = new Map<number, [number, number][]>();
@@ -190,17 +200,13 @@ function setEdgeFade(cells: Uint8Array, bounds: Bounds, ground: PaintRegionGroun
   };
   const fade = new Float32Array(bounds.width * TEXELS_PER_CELL * bounds.height * TEXELS_PER_CELL).fill(1);
   let any = false;
-  eachTexel(cells, width, bounds, (local, px, py) => {
+  eachTexel({ cells, width, bounds }, (local, px, py) => {
     const bx = Math.floor(px / CELLS_PER_BLOCK);
     const by = Math.floor(py / CELLS_PER_BLOCK);
     const near = otherNeighbours(bx, by);
     if (near.length === 0) return;
     let nearest = SET_EDGE_FADE;
-    for (const [dx, dy] of near) {
-      const gapX = dx === 0 ? 0 : dx < 0 ? px - bx * CELLS_PER_BLOCK : (bx + 1) * CELLS_PER_BLOCK - px;
-      const gapY = dy === 0 ? 0 : dy < 0 ? py - by * CELLS_PER_BLOCK : (by + 1) * CELLS_PER_BLOCK - py;
-      nearest = Math.min(nearest, Math.max(gapX, gapY));
-    }
+    for (const [dx, dy] of near) nearest = Math.min(nearest, blockLineGap(px, py, bx, by, dx, dy, CELLS_PER_BLOCK));
     fade[local] = setEdgeFadeAt(nearest);
     any ||= fade[local]! < 1;
   });
@@ -208,31 +214,32 @@ function setEdgeFade(cells: Uint8Array, bounds: Bounds, ground: PaintRegionGroun
 }
 
 /** The region's area shares' patches: each texel's noise, and the thresholds calibrated so each share's measure meets it (see the file's head). */
-function sharePatches(region: PaintRegion, cells: Uint8Array, width: number, bounds: Bounds, strength: Float32Array, setFade: Float32Array | undefined, period: number): SharePatches[] {
+function sharePatches(region: PaintRegion, footprint: Footprint, strength: Float32Array, setFade: Float32Array | undefined, period: number): SharePatches[] {
   const entries = region.mix.filter((entry) => entry.share !== undefined);
-  if (entries.length === 0) return [];
   const mottle = new Float32Array(strength.length);
   const texels: number[] = [];
-  eachTexel(cells, width, bounds, (local, px, py) => {
+  eachTexel(footprint, (local, px, py) => {
     mottle[local] = MOTTLE_DEPTH * valueNoise(px / MOTTLE_PERIOD, py / MOTTLE_PERIOD, MOTTLE_SEED);
     texels.push(local);
   });
   const shapes = entries.map((entry, k) => {
     const stark = textureStarkness(entry.texture);
-    const own = period / (1 + (STARK_SCALE - 1) * stark);
+    const own = starkPeriod(period, stark);
+    const index = shareNoiseIndex(region.id, k);
     const noise = new Float32Array(strength.length);
-    eachTexel(cells, width, bounds, (local, px, py) => {
-      noise[local] = patchNoise(px, py, SHARE_NOISE_INDEX + k, own) + mottle[local]!;
+    eachTexel(footprint, (local, px, py) => {
+      noise[local] = patchNoise(px, py, index, own) + mottle[local]!;
     });
-    return { noise, feather: PATCH_FEATHER + (STARK_FEATHER - PATCH_FEATHER) * stark };
+    return { noise, feather: starkFeather(stark) };
   });
   const core = texels.filter((local) => strength[local]! >= 1 - 1e-6);
   const pool = core.length > 0 ? core : texels;
-  const step = Math.max(1, Math.ceil(pool.length / CALIBRATION_SAMPLES));
-  const samples = pool.filter((_, i) => i % step === 0);
+  // Past the cap, a hashed pick rather than every n-th, which would keep to some of a cell's texel columns.
+  const keep = Math.min(1, CALIBRATION_SAMPLES / pool.length);
+  const samples = keep === 1 ? pool : pool.filter((local) => (Math.imul(local, 2654435761) >>> 0) / 4294967296 < keep);
   const thresholds = calibrate(
     entries.map((entry) => entry.share!),
-    available(region),
+    availableTo(region),
     shapes.map(({ noise, feather }) => ({ noise: Float64Array.from(samples, (local) => noise[local]!), feather })),
     Float64Array.from(samples, (local) => setFade?.[local] ?? 1),
   );
@@ -240,7 +247,7 @@ function sharePatches(region: PaintRegion, cells: Uint8Array, width: number, bou
 }
 
 /** What a region's blend weights leave, for its shares and the rest. */
-const available = (region: PaintRegion): number => Math.max(0, 1 - region.mix.reduce((sum, entry) => sum + (entry.weight ?? 0), 0));
+const availableTo = (region: PaintRegion): number => Math.max(0, 1 - region.mix.reduce((sum, entry) => sum + (entry.weight ?? 0), 0));
 
 /** A patch's wash at a texel: 0 at the threshold, rising by smoothstep over its fade to its core, times its fade beside another set. */
 function wash(noise: number, threshold: number, fade: number, setFade: number): number {
@@ -254,23 +261,25 @@ function wash(noise: number, threshold: number, fade: number, setFade: number): 
  * `available` × its wash, the washes scaled down to share the ground where they sum past 1, as
  * mixInto paints them. Each threshold by bisection, the others held, a few rounds for washes that overlap.
  */
-function calibrate(targets: readonly number[], avail: number, shapes: readonly { readonly noise: Float64Array; readonly feather: number }[], setFade: Float64Array): number[] {
+function calibrate(targets: readonly number[], available: number, shapes: readonly { readonly noise: Float64Array; readonly feather: number }[], setFade: Float64Array): number[] {
   const count = setFade.length;
   const thresholds = shapes.map(() => Number.POSITIVE_INFINITY);
-  if (count === 0 || avail <= 0) return thresholds;
+  if (count === 0 || available <= 0) return thresholds;
   const washes = shapes.map(() => new Float64Array(count));
-  const fill = (k: number) => {
+  /** Share k's wash at each sample, at its threshold now. */
+  const washAt = (k: number) => {
     const { noise, feather } = shapes[k]!;
     for (let i = 0; i < count; i++) washes[k]![i] = wash(noise[i]!, thresholds[k]!, feather, setFade[i]!);
   };
-  const measure = (k: number): number => {
+  /** Share k's mean over the samples, as mixInto paints it. */
+  const meanOf = (k: number): number => {
     let sum = 0;
     for (let i = 0; i < count; i++) {
       let total = 0;
       for (const w of washes) total += w[i]!;
       sum += total > 1 ? washes[k]![i]! / total : washes[k]![i]!;
     }
-    return (avail * sum) / count;
+    return (available * sum) / count;
   };
   const rounds = shapes.length === 1 ? 1 : 6;
   for (let round = 0; round < rounds; round++) {
@@ -281,12 +290,12 @@ function calibrate(targets: readonly number[], avail: number, shapes: readonly {
       lo -= feather;
       for (let step = 0; step < 40; step++) {
         thresholds[k] = (lo + hi) / 2;
-        fill(k);
-        if (measure(k) > targets[k]!) lo = thresholds[k]!;
+        washAt(k);
+        if (meanOf(k) > targets[k]!) lo = thresholds[k]!;
         else hi = thresholds[k]!;
       }
       thresholds[k] = (lo + hi) / 2;
-      fill(k);
+      washAt(k);
     });
   }
   return thresholds;

@@ -141,7 +141,7 @@ export async function packageMixIssues(blueprint: MissionBlueprint, blueprintPat
   return blueprint.paintRegions.flatMap((region, index) => {
     if (region.id !== id) return [];
     try {
-      rasterisePaintRegions([region], ground);
+      rasterisePaintRegions([region], ground, { patches: false });
       return [];
     } catch (error) {
       return [{ path: `paintRegions.${index}.mix`, message: `${(error as Error).message}, as ${path.basename(mapPackage)} has its blocks` }];

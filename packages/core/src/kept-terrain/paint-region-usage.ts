@@ -62,7 +62,7 @@ export function paintRegionUsage(blueprint: Pick<MissionBlueprint, "zones" | "ma
   return (blueprint.paintRegions ?? []).map((region) => {
     let rasterised: RasterisedRegion | undefined;
     try {
-      [rasterised] = rasterisePaintRegions([region], ground);
+      [rasterised] = rasterisePaintRegions([region], ground, { patches: false });
     } catch (error) {
       return { id: region.id, unmeasured: (error as Error).message };
     }
