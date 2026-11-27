@@ -9,13 +9,9 @@
   // The open ground of the Mission's Ash Flats.
   "stage": { "at": [36, 22], "gap": 4, "facing": 270 },
   "target": { "unit": "Zergling", "player": 1 },
-  // Each moment: what Play does to the unit, where its sounds play, and when cue times start.
-  "moments": {
-    "attack": { "do": "play" },
-    "impact": { "do": "play", "at": "target", "from": "land" },
-    "death": { "do": "kill" },
-    "voice": {}
-  },
+  // The moments, in dropdown order. Each unit's variations of a moment are whole timelines: elements at
+  // seconds from Play. The impacts play on the target, at the attack animation's land.
+  "moments": ["attack", "impact", "death", "voice"],
   "units": [
     {
       "key": "marine",
@@ -27,34 +23,88 @@
       "moments": {
         "attack": {
           "variations": [
-            { "cues": ["Marine_AttackLaunch@strike"], "note": "the Marine's own rifle burst", "pick": true },
             {
-              "cues": ["Marine_Stimpack~0.6", "Marine_AttackLaunch@strike+0.05"],
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Marine_AttackLaunch", "at": 0.1 }
+              ],
+              "note": "the Marine's own rifle burst", "pick": true
+            },
+            {
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Marine_Stimpack", "at": 0, "stop": 0.6 },
+                { "sound": "Marine_AttackLaunch", "at": 0.15 }
+              ],
               "note": "a stim grunt, cut off at 0.6 s, then the burst"
             }
           ]
         },
         "impact": {
           "variations": [
-            { "cues": ["Marine_AttackImpact"], "note": "the Marine's own bullet hits", "pick": true },
             {
-              "cues": ["Protoss_ShieldImpact", "Marine_AttackImpact@0.03"],
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Marine_AttackImpact", "at": 0.15, "on": "target" }
+              ],
+              "note": "the Marine's own bullet hits", "pick": true
+            },
+            {
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Protoss_ShieldImpact", "at": 0.15, "on": "target" },
+                { "sound": "Marine_AttackImpact", "at": 0.18, "on": "target" }
+              ],
               "note": "a shield hit layered over the bullet hits"
             }
           ]
         },
         "death": {
           "variations": [
-            { "cues": ["Marine_Death"], "note": "the Marine's own death", "pick": true },
-            { "cues": ["Marine_Death", "Marine_Death_BodyFall_A@1.0"], "note": "the death and a body fall as he lands" },
-            { "cues": ["Marine_DeathFXEviscerate"], "note": "the eviscerate death sound" }
+            {
+              "elements": [
+                { "kill": true, "at": 0 },
+                { "sound": "Marine_Death", "at": 0 }
+              ],
+              "note": "the Marine's own death", "pick": true
+            },
+            {
+              "elements": [
+                { "kill": true, "at": 0 },
+                { "sound": "Marine_Death", "at": 0 },
+                { "sound": "Marine_Death_BodyFall_A", "at": 1 }
+              ],
+              "note": "the death and a body fall as he lands"
+            },
+            {
+              "elements": [
+                { "kill": true, "at": 0 },
+                { "sound": "Marine_DeathFXEviscerate", "at": 0 }
+              ],
+              "note": "the eviscerate death sound"
+            }
           ]
         },
         "voice": {
           "variations": [
-            { "cues": ["Marine_Yes"], "note": "his Yes responses", "pick": true },
-            { "cues": ["Marine_What"], "note": "his What responses" },
-            { "cues": ["Marine_Pissed"], "note": "his Pissed responses" }
+            {
+              "elements": [
+                { "sound": "Marine_Yes", "at": 0 }
+              ],
+              "note": "his Yes responses", "pick": true
+            },
+            {
+              "elements": [
+                { "sound": "Marine_What", "at": 0 }
+              ],
+              "note": "his What responses"
+            },
+            {
+              "elements": [
+                { "sound": "Marine_Pissed", "at": 0 }
+              ],
+              "note": "his Pissed responses"
+            }
           ]
         }
       }
@@ -69,25 +119,66 @@
       "moments": {
         "attack": {
           "variations": [
-            { "cues": ["Zealot_AttackLaunch@strike"], "note": "the Zealot's own blade swing", "pick": true },
-            { "cues": ["Zealot_Charge", "Zealot_AttackLaunch@strike"], "note": "the charge cry before the swing" }
+            {
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Zealot_AttackLaunch", "at": 0.25 }
+              ],
+              "note": "the Zealot's own blade swing", "pick": true
+            },
+            {
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Zealot_Charge", "at": 0 },
+                { "sound": "Zealot_AttackLaunch", "at": 0.25 }
+              ],
+              "note": "the charge cry before the swing"
+            }
           ]
         },
         "impact": {
           "variations": [
-            { "cues": ["Zealot_AttackImpact"], "note": "the Zealot's own blade hit", "pick": true },
-            { "cues": ["Protoss_AttackImpactMediumSlice"], "note": "a medium Protoss slice" }
+            {
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Zealot_AttackImpact", "at": 0.3, "on": "target" }
+              ],
+              "note": "the Zealot's own blade hit", "pick": true
+            },
+            {
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Protoss_AttackImpactMediumSlice", "at": 0.3, "on": "target" }
+              ],
+              "note": "a medium Protoss slice"
+            }
           ]
         },
         "death": {
           "variations": [
-            { "cues": ["Zealot_Death"], "note": "the Zealot's own death", "pick": true }
+            {
+              "elements": [
+                { "kill": true, "at": 0 },
+                { "sound": "Zealot_Death", "at": 0 }
+              ],
+              "note": "the Zealot's own death", "pick": true
+            }
           ]
         },
         "voice": {
           "variations": [
-            { "cues": ["Zealot_Yes"], "note": "his Yes responses", "pick": true },
-            { "cues": ["Zealot_Ready"], "note": "his Ready response" }
+            {
+              "elements": [
+                { "sound": "Zealot_Yes", "at": 0 }
+              ],
+              "note": "his Yes responses", "pick": true
+            },
+            {
+              "elements": [
+                { "sound": "Zealot_Ready", "at": 0 }
+              ],
+              "note": "his Ready response"
+            }
           ]
         }
       }
@@ -103,23 +194,53 @@
       "moments": {
         "attack": {
           "variations": [
-            { "cues": ["Marauder_AttackLaunch@strike"], "note": "the Marauder's own grenade launch", "pick": true }
+            {
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Marauder_AttackLaunch", "at": 0.2 }
+              ],
+              "note": "the Marauder's own grenade launch", "pick": true
+            }
           ]
         },
         "impact": {
           "variations": [
-            { "cues": ["Marauder_AttackImpact"], "note": "the grenade landing, 0.4 s after the launch", "pick": true }
+            {
+              "elements": [
+                { "anim": "attack", "at": 0 },
+                { "sound": "Marauder_AttackImpact", "at": 0.6, "on": "target" }
+              ],
+              "note": "the grenade landing, 0.4 s after the launch", "pick": true
+            }
           ]
         },
         "death": {
           "variations": [
-            { "cues": ["Marauder_Death"], "note": "the Marauder's own death", "pick": true },
-            { "cues": ["Marauder_Death", "Marine_Death_BodyFall_B@0.9"], "note": "the death and a body fall" }
+            {
+              "elements": [
+                { "kill": true, "at": 0 },
+                { "sound": "Marauder_Death", "at": 0 }
+              ],
+              "note": "the Marauder's own death", "pick": true
+            },
+            {
+              "elements": [
+                { "kill": true, "at": 0 },
+                { "sound": "Marauder_Death", "at": 0 },
+                { "sound": "Marine_Death_BodyFall_B", "at": 0.9 }
+              ],
+              "note": "the death and a body fall"
+            }
           ]
         },
         "voice": {
           "variations": [
-            { "cues": ["Marauder_Yes"], "note": "his Yes responses", "pick": true }
+            {
+              "elements": [
+                { "sound": "Marauder_Yes", "at": 0 }
+              ],
+              "note": "his Yes responses", "pick": true
+            }
           ]
         }
       }

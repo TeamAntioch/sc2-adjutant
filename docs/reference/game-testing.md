@@ -469,6 +469,16 @@ Testing a Mission from a given campaign state (after mission 2, with research X)
 
 **Needs a real run:** the report on a real game's banks (the folder's layout under the account, bank files the game saves while it quits, the time the quit takes) and a fixture's copy in and restore haven't been checked; the code is tested against fixture folders.
 
+### When the game reads and writes a bank (checked in the game, 2026-11-26, issue #138)
+
+Checked on a Mac with Test Document, while designing the animation testbed's tuning bank:
+
+- **`BankSave` writes at once,** before the game quits, to `~/Library/Application Support/Blizzard/StarCraft II/Banks/<name>.SC2Bank`: straight in `Banks/`, with no account or handle folder. The file is unsigned, has CRLF line endings, and its keys come in no fixed order.
+- **A running game keeps the copy it started with.** `BankReload`, and a new `BankLoad` partway through the game, both return the bank as it was when the game started, not the file as changed since. So a tool can't feed a running game through a bank.
+- **The next game reads an outside edit** to a bank the game wrote: a strike changed from 0.15 to 0.35 in the file showed in the next Test Document.
+- **Preload a bank the map reads at map init.** Without it, `BankLoad` at map init reads the bank as empty, with or without `BankWait` after it: a tuning saved in one game came back as nothing in the next (2026-11-27). The Editor's Preload Bank action (Ntve's `BankPreload`, "synchronized for all players when the game first loads") compiles to no statement; the Editor lists the bank in the package's `BankList.xml` instead. The animation testbed writes both a Map Initialization trigger with Preload Bank and the list. Confirmed in the game on 2026-11-27: with both, Test Document restored the tuning. Blizzard's campaign libraries also call `BankWait` after a load (`LibComC.galaxy`).
+- **A bank written from scratch outside the game was never read.** CRLF endings, the game's file permissions and a `BankList.xml` beside the map didn't help; Test Document likely rewrites the map and loses the list. A run meant to have a Preload Bank trigger also failed, though whether the trigger was added wasn't confirmed. The cause is unknown, and it hasn't been tried with a map that preloads the bank (above), so only edit a bank the game made.
+
 ## Mission tests (issue #741)
 
 A Blueprint can carry `tests`, a manifest of what its Mission should do. Today it has one list, `routes`; combats are the follow-up below.

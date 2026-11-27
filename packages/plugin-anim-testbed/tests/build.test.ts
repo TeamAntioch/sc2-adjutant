@@ -1,4 +1,4 @@
-// The build: cues and times, a map from the stock example, and the checks that stop a build.
+// The build: elements and times, a map from the stock example, and the checks that stop a build.
 import { existsSync } from "node:fs";
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { buildTestbed, INIT_FUNC, parseCue, parseTime, readMoment } from "../build.ts";
+import { buildTestbed, DIALOG_ROWS, INIT_FUNC, momentNames, readElement, RUNTIME_PATH } from "../build.ts";
 
 const PACKAGE = fileURLToPath(new URL("..", import.meta.url));
 const EXAMPLE = path.join(PACKAGE, "examples", "stock-units.json");
@@ -42,64 +42,41 @@ async function editSpec(file: string, edit: (spec: Record<string, any>) => void)
   await writeFile(file, JSON.stringify(spec, null, 2));
 }
 
-describe("times and cues", () => {
-  it("reads seconds, strike, land and offsets from them", () => {
-    expect(parseTime("1.25", 0)).toEqual({ base: 0, at: 1.25 });
-    expect(parseTime("1.25", 2)).toEqual({ base: 2, at: 1.25 });
-    expect(parseTime("strike", 0)).toEqual({ base: 1, at: 0 });
-    expect(parseTime("hit", 0)).toEqual({ base: 1, at: 0 });
-    expect(parseTime("land-0.1", 0)).toEqual({ base: 2, at: -0.1 });
-    expect(parseTime("strike + 0.2", 0)).toEqual({ base: 1, at: 0.2 });
-    expect(parseTime("soon", 0)).toBeUndefined();
+describe("elements", () => {
+  const keys = new Set(["zealot"]);
+  const el = (e: Record<string, unknown>) => readElement({ at: 0, ...e } as never, keys);
+
+  it("reads each kind at seconds from Play, with a stop, a place and muted", () => {
+    expect(el({ anim: "attack" }).element).toEqual({ kind: "anim", what: "attack", on: "unit", child: "", at: 0, stop: -1, muted: false });
+    expect(el({ sound: "Marine_Stimpack", at: 0.1, stop: 0.6, muted: true }).element).toEqual({ kind: "sound", what: "Marine_Stimpack", on: "unit", child: "", at: 0.1, stop: 0.6, muted: true });
+    expect(el({ sound: "Marine_AttackImpact", at: 0.15, on: "target" }).element).toMatchObject({ on: "target" });
+    expect(el({ actor: "Destroy", at: 2, on: "TestBurst" }).element).toMatchObject({ kind: "actor", what: "Destroy", on: "child", child: "TestBurst" });
+    expect(el({ effect: "TestPunch", at: 0.2 }).element).toMatchObject({ kind: "effect", what: "TestPunch" });
+    expect(el({ kill: true, at: 0.5 }).element).toMatchObject({ kind: "kill", what: "", at: 0.5 });
   });
 
-  it("reads a sound with a start and a stop, and actor messages to the unit, a child and the target", () => {
-    expect(parseCue("Marine_Stimpack@0.1~strike", 0).cue).toEqual({ kind: 0, text: "Marine_Stimpack", child: "", base: 0, at: 0.1, stopBase: 1, stop: 0 });
-    expect(parseCue("actor Create TestBurst@0.1", 0).cue).toMatchObject({ kind: 1, text: "Create TestBurst", child: "", at: 0.1 });
-    expect(parseCue("actor:TestBurst Destroy@2", 0).cue).toMatchObject({ kind: 1, text: "Destroy", child: "TestBurst", at: 2 });
-    expect(parseCue("target AnimPlay Hit Hit NonLooping", 0).cue).toMatchObject({ kind: 2, text: "AnimPlay Hit Hit NonLooping", at: 0 });
-    expect(parseCue("Two Words", 0).problem).toMatch(/neither a CSound id/);
-    expect(parseCue("effect Marauder_PunisherGrenadesLM@strike", 0).cue).toMatchObject({ kind: 3, text: "Marauder_PunisherGrenadesLM", base: 1 });
-    expect(parseCue("effect Two Words", 0).problem).toMatch(/not "effect <CEffect id>"/);
-    expect(parseCue("effect Boom~1", 0).problem).toMatch(/only a sound can have/);
-    expect(parseCue("Marine_Yes@later", 0).problem).toMatch(/not a time/);
-    expect(parseCue("actor Create TestBurst@0.1~1", 0).problem).toMatch(/only a sound can have/);
+  it("refuses no kind or two, a stop where none goes or before the time, and a place the kind can't take", () => {
+    expect(el({}).problem).toMatch(/says no kind/);
+    expect(el({ sound: "A", anim: "b" }).problem).toMatch(/it is anim and sound/);
+    expect(el({ effect: "Boom", stop: 1 }).problem).toMatch(/a effect has no stop/);
+    expect(el({ sound: "A", at: 1, stop: 0.5 }).problem).toMatch(/not after its time/);
+    expect(el({ sound: "A", on: "Burst" }).problem).toMatch(/only an actor message goes to a child actor/);
+    expect(el({ anim: "attack", on: "target" }).problem).toMatch(/a anim can't go on the target/);
+    expect(el({ sound: "Two Words" }).problem).toMatch(/not a CSound id/);
+    expect(el({ sound: "A", at: "strike" }).problem).toMatch(/is not a time: give seconds from Play/);
   });
 
-  it("times a moment's plain numbers from its from", () => {
-    expect(parseCue("Marine_AttackImpact@0.03", 2).cue).toMatchObject({ base: 2, at: 0.03 });
+  it("keeps order, a unit's key as a place and on <event> as a time, not built yet", () => {
+    expect(el({ order: "Stimpack" }).problem).toMatch(/kept for a unit's abilities, not built yet/);
+    expect(el({ actor: "Destroy", on: "zealot" }).problem).toMatch(/kept for several units, not built yet/);
+    expect(el({ sound: "A", at: "on impact" }).problem).toMatch(/kept for actor events, not built yet/);
   });
 
-  it("keeps a unit's key as a cue's target and on <event> as a time, not built yet", () => {
-    const keys = new Set(["zealot"]);
-    expect(parseCue("zealot:Blade Destroy@1", 0, keys).problem).toMatch(/kept for several units, not built yet/);
-    expect(parseCue("zealot AnimPlay Hit Hit", 0, keys).problem).toMatch(/kept for several units/);
-    expect(parseCue("Marine_AttackImpact@on impact", 0).problem).toMatch(/kept for actor events, not built yet/);
-  });
-});
-
-describe("moments", () => {
-  const keys = new Set(["marine"]);
-  const moment = (def: Record<string, string>) => readMoment("m", { at: "unit", from: "start", ...def }, keys);
-
-  it("reads do, at and from, with none as the cues alone", () => {
-    expect(moment({}).moment).toEqual({ do: "none", at: "unit", from: "start" });
-    expect(moment({ do: "play", at: "target", from: "land" }).moment).toEqual({ do: "play", at: "target", from: "land" });
-    expect(moment({ do: "kill" }).moment).toEqual({ do: "kill", at: "unit", from: "start" });
-  });
-
-  it("refuses an animation's time on a moment that plays none, do hit, and spellings it doesn't know", () => {
-    expect(moment({ do: "kill", from: "strike" }).problems).toEqual([expect.stringMatching(/needs do "play"/)]);
-    expect(moment({ from: "land" }).problems).toEqual([expect.stringMatching(/needs do "play"/)]);
-    expect(moment({ do: "hit" }).problems).toEqual([expect.stringMatching(/do "hit" is gone: give the unit a hit animation with "clear"/)]);
-    expect(moment({ do: "dance" }).problems).toEqual([expect.stringMatching(/do "dance" is not one of play, kill/)]);
-    expect(moment({ at: "corpse" }).problems).toEqual([expect.stringMatching(/at "corpse" is not one of unit, target/)]);
-  });
-
-  it("keeps order <ability>, a unit's key and on <event>, not built yet", () => {
-    expect(moment({ do: "order Stimpack" }).problems).toEqual([expect.stringMatching(/kept for a unit's abilities, not built yet/)]);
-    expect(moment({ at: "marine" }).problems).toEqual([expect.stringMatching(/kept for several units, not built yet/)]);
-    expect(moment({ do: "play", from: "on strike" }).problems).toEqual([expect.stringMatching(/kept for actor events, not built yet/)]);
+  it("orders the moments by the spec's list, else as the units first name them", () => {
+    const units = [{ moments: { attack: {}, death: {} } }, { moments: { voice: {}, attack: {} } }] as never;
+    expect(momentNames({ units }).names).toEqual(["attack", "death", "voice"]);
+    expect(momentNames({ units, moments: ["voice", "attack", "death"] }).names).toEqual(["voice", "attack", "death"]);
+    expect(momentNames({ units, moments: ["attack", "attack"] }).problems).toEqual([expect.stringMatching(/"attack" is listed twice/), expect.stringMatching(/moment "death", which the list leaves out/), expect.stringMatching(/moment "voice"/)]);
   });
 });
 
@@ -110,21 +87,26 @@ describe("buildTestbed", () => {
     expect(result.report.errors).toEqual([]);
     expect(result.built).toBe(true);
     expect(result.outMap).toBe(outMap);
-    expect(result.counts).toMatchObject({ units: 3, moments: 4, variations: 22, cues: 27, files: 0 });
+    expect(result.counts).toMatchObject({ units: 3, moments: 4, variations: 22, elements: 43, files: 0 });
     const triggers = await readFile(path.join(outMap, "Triggers"), "utf8");
     expect(triggers).toContain(`<InitFunc>${INIT_FUNC}</InitFunc>`);
+    // The banks are preloaded, or a game reads them as empty at map init: a Map Initialization
+    // trigger with a Preload Bank for each, from which the Editor writes BankList.xml, and the list.
+    expect(triggers).toMatch(/<Item Type="Trigger" Id="E7710300"\/>\n {4}<\/Root>/);
+    expect(triggers).toContain('<FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>');
+    expect(triggers.match(/Library="Ntve" Id="7D278C76"/g)).toHaveLength(2);
+    expect(triggers).toContain(`<Value>${result.tuneBank}</Value>`);
+    expect(await readFile(path.join(outMap, "BankList.xml"), "utf8")).toContain(`<Bank Name="${result.tuneBank}" Player="1"/>`);
     const mapScript = await readFile(path.join(outMap, "MapScript.galaxy"), "utf8");
     expect(mapScript).toContain('Tb_U(0, "marine", "Marine"');
-    expect(mapScript).toContain('Tb_Q(0, "Marine_Stimpack", "", 0, 0.0, 0, 0.6);');
-    // Each moment's do, at and from: attack plays at the unit from the start; impact plays at the target from the land; death kills; voice is the cues alone.
-    expect(mapScript).toContain('Tb_M(0, "attack", 1, 0, 0);');
-    expect(mapScript).toContain('Tb_M(1, "impact", 1, 1, 2);');
-    expect(mapScript).toContain('Tb_M(2, "death", 2, 0, 0);');
-    expect(mapScript).toContain('Tb_M(3, "voice", 0, 0, 0);');
-    // Each unit's animations, its animation for each moment, and each variation tagged by what it holds.
-    expect(mapScript).toContain('Tb_A(0, 0, "attack", "AnimPlay Attack Attack NonLooping", 0.1, 0.15, 1.15, 0.0);');
-    expect(mapScript).toContain("Tb_UM(0, 1, 0);");
-    expect(mapScript).toContain('Tb_V(0, 0, "the Marine\'s own rifle burst  [sound]", "the Marine\'s own rifle burst", true, -1);');
+    // Moments are names; each variation is followed by its elements: kind, what, animation, place, child, at, stop, muted.
+    expect(mapScript).toContain('Tb_M(0, "attack");');
+    expect(mapScript).toContain('Tb_M(3, "voice");');
+    expect(mapScript).toContain('Tb_A(0, 0, "attack", "AnimPlay Attack Attack NonLooping", 0.1, 0.15, 1.15);');
+    expect(result.script).toMatch(/Tb_V\(0, 0, "the Marine's own rifle burst", "the Marine's own rifle burst", true\);\n {4}Tb_E\(0, "attack", 0, 0, "", 0\.0, -1\.0, false, 1, "e[0-9a-f]{8}"\);\n {4}Tb_E\(1, "Marine_AttackLaunch", -1, 0, "", 0\.1, -1\.0, false, 1, "e[0-9a-f]{8}"\);/);
+    expect(mapScript).toContain('Tb_E(1, "Marine_Stimpack", -1, 0, "", 0.0, 0.6, false, 1, "e');
+    expect(mapScript).toContain('Tb_E(1, "Marine_AttackImpact", -1, 1, "", 0.15, -1.0, false, 1, "e');
+    expect(mapScript).toContain('Tb_E(4, "", -1, 0, "", 0.0, -1.0, false, 1, "e');
     expect(mapScript).toContain("Tb_Init();");
     // The base map's own data is kept.
     expect(await readFile(path.join(outMap, "Base.SC2Data", "GameData", "UnitData.xml"), "utf8")).toContain('<CUnit id="Kept"/>');
@@ -139,21 +121,23 @@ describe("buildTestbed", () => {
     expect(existsSync(outMap)).toBe(false);
   });
 
-  it("refuses a missing sound, an unknown unit, a bad time and a moment the spec doesn't define", async () => {
+  it("refuses a missing sound, an unknown unit, a bad time, an animation the unit lacks and a moment the list leaves out", async () => {
     const { spec } = await mission();
     await editSpec(spec, (s) => {
-      s.units[0].moments.attack.variations.push({ cues: ["Not_A_Sound", "Marine_Yes@later"] });
+      s.units[0].moments.attack.variations.push({ elements: [{ sound: "Not_A_Sound" }, { sound: "Marine_Yes", at: "later" }, { anim: "cower" }, { kill: true }, { kill: true, at: 1 }] });
       s.units[1].unit = "NoSuchUnit";
-      s.units[2].moments.dance = { variations: [{ cues: ["Marine_Yes"] }] };
+      s.units[2].moments.dance = { variations: [{ elements: [{ sound: "Marine_Yes" }] }] };
     });
     const result = await buildTestbed(spec, { workspace: null });
     expect(result.built).toBe(false);
     expect(result.report.errors).toEqual(
       expect.arrayContaining([
-        expect.stringMatching(/no CSound "Not_A_Sound"/),
-        expect.stringMatching(/"later" .* is not a time/),
+        expect.stringMatching(/marine attack 3, element 1: no CSound "Not_A_Sound"/),
+        expect.stringMatching(/element 2: at "later" is not a time/),
+        expect.stringMatching(/element 3: marine has no animation "cower" \(it has attack\)/),
+        expect.stringMatching(/marine attack 3: more than one kill/),
         expect.stringMatching(/no CUnit "NoSuchUnit"/),
-        expect.stringMatching(/moment "dance", which the spec doesn't define/),
+        expect.stringMatching(/moment "dance", which the list leaves out/),
       ]),
     );
   });
@@ -167,48 +151,66 @@ describe("buildTestbed", () => {
     expect(result.report.warnings).toEqual(expect.arrayContaining([expect.stringMatching(/"Mega" .* is not one of SC2's animation words/)]));
   });
 
-  it("runs an effect cue, checked against the spec's own effects and warned about otherwise", async () => {
+  it("runs an effect, checked against the spec's own effects and warned about otherwise", async () => {
     const { root, spec } = await mission();
     await writeFile(path.join(root, "tests", "fx.xml"), '<Catalog>\n    <CEffectDamage id="TestPunch"/>\n</Catalog>\n');
     await editSpec(spec, (s) => {
       s.data = ["fx.xml"];
-      s.units[2].moments.impact.variations.push({ cues: ["effect TestPunch@0.1", "effect Marauder_StockGuess"] });
+      s.units[2].moments.impact.variations.push({ elements: [{ effect: "TestPunch", at: 0.1 }, { effect: "Marauder_StockGuess" }] });
     });
     const result = await buildTestbed(spec, { workspace: null, check: true });
     expect(result.report.errors).toEqual([]);
     expect(result.report.warnings).toEqual([expect.stringMatching(/"Marauder_StockGuess" is not one of the spec's or the Workspace's effects/)]);
-    expect(result.script).toContain('Tb_Q(3, "TestPunch", "", 2, 0.1, -1, 0.0);');
+    expect(result.script).toContain('Tb_E(2, "TestPunch", -1, 0, "", 0.1, -1.0, false, 1, "e');
   });
 
-  it("refuses a moment's problems as build errors", async () => {
+  it("plays another of the unit's animations in a variation, cleared at its stop, and tags it", async () => {
     const { spec } = await mission();
     await editSpec(spec, (s) => {
-      s.moments.attack = { do: "swing" };
-      s.moments.impact.at = "zealot";
+      s.units[0].animations.flinch = { play: "AnimPlay Damage Damage NonLooping" };
+      s.units[0].moments.attack.variations.push({ elements: [{ anim: "flinch", at: 0, stop: 0.4 }, { sound: "Marine_Yes", at: 0.1 }], note: "the flinch instead" });
     });
     const result = await buildTestbed(spec, { workspace: null, check: true });
-    expect(result.report.errors).toEqual([expect.stringMatching(/moment attack: do "swing"/), expect.stringMatching(/moment impact: at "zealot", a unit's key, is kept for several units/)]);
+    expect(result.report.errors).toEqual([]);
+    expect(result.script).toContain('Tb_A(0, 1, "flinch", "AnimPlay Damage Damage NonLooping", 0.0, 0.0, 1.0);');
+    expect(result.script).toContain('Tb_E(0, "flinch", 1, 0, "", 0.0, 0.4, false, 1, "e');
   });
 
-  it("lets a moment and a variation choose the unit's animation, and refuses one it doesn't have", async () => {
+  it("names the tuning bank, counts a repeated element's occurrence, gives each its own section and warns past the dialog's rows", async () => {
     const { spec } = await mission();
     await editSpec(spec, (s) => {
-      s.units[0].animations.flinch = { play: "AnimPlay Damage Damage NonLooping", clear: 0.4 };
-      s.moments.hit = { do: "play" };
-      s.units[0].moments.hit = { anim: "flinch", variations: [{ cues: ["Marine_Yes"] }] };
-      s.units[0].moments.attack.variations.push({ cues: [], anim: "flinch", note: "the flinch instead" });
+      s.units[0].moments.attack.variations.push({ elements: Array.from({ length: 16 }, (_, i) => ({ sound: "Marine_Yes", at: i / 10 })) });
     });
-    const good = await buildTestbed(spec, { workspace: null, check: true });
-    expect(good.report.errors).toEqual([]);
-    expect(good.script).toContain('Tb_A(0, 1, "flinch", "AnimPlay Damage Damage NonLooping", 0.0, 0.0, 1.4, 0.4);');
-    expect(good.script).toContain("Tb_UM(0, 4, 1);");
-    expect(good.script).toContain('Tb_V(0, 0, "the flinch instead  [anim]", "the flinch instead", false, 1);');
+    const result = await buildTestbed(spec, { workspace: null, check: true });
+    expect(result.report.errors).toEqual([]);
+    expect(result.tuneBank).toBe("AnimTuneStockUnits");
+    expect(result.script).toContain('const string TB_TUNE_BANK = "AnimTuneStockUnits";');
+    expect(result.script).toContain('Tb_E(1, "Marine_Yes", -1, 0, "", 0.1, -1.0, false, 2, "e');
+    const sections = [...result.script!.matchAll(/Tb_E\(.*, "(e[0-9a-f]{8}(?:_\d+)?)"\);/g)].map((m) => m[1]);
+    expect(sections.length).toBe(result.counts.elements);
+    expect(new Set(sections).size).toBe(sections.length);
+    expect(result.report.warnings).toContain("marine attack 3: 16 elements, and the dialog shows the first 15; the rest play but can't be tuned in the game");
+  });
+
+  it("warns past the rows the runtime's dialog has", async () => {
+    expect(await readFile(RUNTIME_PATH, "utf8")).toContain(`const int TB_ROWS = ${DIALOG_ROWS};`);
+  });
+
+  it("refuses the old moment definitions and cues, saying where they went", async () => {
+    const { spec } = await mission();
     await editSpec(spec, (s) => {
-      s.units[0].moments.hit.anim = "cower";
-      s.units[0].moments.death.variations[0].anim = "flinch";
+      s.moments = { attack: { do: "play" } };
+      s.units[0].moments.attack.variations[0] = { cues: ["Marine_Yes"] };
+      s.units[0].animations.attack.clear = 0.4;
     });
-    const bad = await buildTestbed(spec, { workspace: null, check: true });
-    expect(bad.report.errors).toEqual([expect.stringMatching(/marine death 1: an "anim", but moment death plays none/), expect.stringMatching(/marine hit: marine has no animation "cower" \(it has attack, flinch\)/)]);
+    const result = await buildTestbed(spec, { workspace: null, check: true });
+    expect(result.report.errors).toEqual(
+      expect.arrayContaining([
+        expect.stringMatching(/^moments: .*moments are names only now/),
+        expect.stringMatching(/^units\.0\.moments\.attack\.variations\.0: Unrecognized key.*cues are now "elements"/),
+        expect.stringMatching(/^units\.0\.animations\.attack: Unrecognized key.*clear is now the "stop"/),
+      ]),
+    );
   });
 
   it("routes the spec's own data to its catalogs, and checks the models its actors name", async () => {
@@ -233,7 +235,7 @@ describe("buildTestbed", () => {
     );
     await editSpec(spec, (s) => {
       s.data = ["fx.xml"];
-      s.units[0].moments.death.variations[0].cues.push("actor Create TestBurst@0.1");
+      s.units[0].moments.death.variations[0].elements.push({ actor: "Create TestBurst", at: 0.1 });
     });
     const failed = await buildTestbed(spec, { workspace: null });
     expect(failed.report.errors).toEqual([expect.stringMatching(/actor model "NoSuchModel"/)]);
@@ -254,7 +256,7 @@ describe("buildTestbed", () => {
     await editSpec(spec, (s) => {
       s.roots = { mine: path.join(root, "private") };
       s.sounds = { Test_Grunt: { parent: "Combat", from: "mine:", files: ["GRUNT_0?.wav"] } };
-      s.units[0].moments.voice.variations.push({ cues: ["Test_Grunt"] });
+      s.units[0].moments.voice.variations.push({ elements: [{ sound: "Test_Grunt" }] });
     });
     const result = await buildTestbed(spec, { workspace: null });
     expect(result.report.errors).toEqual([]);
@@ -278,7 +280,7 @@ describe("buildTestbed", () => {
     expect(result.report.errors).toEqual([expect.stringMatching(/more than one file .* is named grunt_01\.wav/)]);
   });
 
-  it("refuses a control character, a repeated key, a new unit named as a stock one, an unclosed data element and a tour animation the unit lacks", async () => {
+  it("refuses a control character, a repeated key, a new unit named as a stock one, an unclosed data element and a tour variation the unit lacks", async () => {
     const { root, spec } = await mission();
     await writeFile(path.join(root, "tests", "bad.xml"), '<Catalog>\n    <CModel id="Open">\n        <Model value="x"/>\n</Catalog>\n');
     await editSpec(spec, (s) => {
@@ -286,7 +288,7 @@ describe("buildTestbed", () => {
       s.units[2].key = "marine";
       s.units.push({ key: "custom", new: { id: "Zergling", model: "nothing.m3" } });
       s.data = ["bad.xml"];
-      s.tour = [{ unit: "zealot", moment: "voice", anim: "lunge", hold: 0.5 }];
+      s.tour = [{ unit: "zealot", moment: "voice", variation: 5, hold: 0.5 }];
     });
     const result = await buildTestbed(spec, { workspace: null, check: true, tour: true });
     expect(result.report.errors).toEqual(
@@ -295,7 +297,7 @@ describe("buildTestbed", () => {
         expect.stringMatching(/the key "marine" is given twice/),
         expect.stringMatching(/"Zergling" is already a unit/),
         expect.stringMatching(/bad\.xml: <CModel> .* has no closing <\/CModel>/),
-        expect.stringMatching(/tour stop 1: zealot has no animation "lunge"/),
+        expect.stringMatching(/tour stop 1: zealot has no voice variation 5/),
       ]),
     );
   });
@@ -318,23 +320,23 @@ describe("buildTestbed", () => {
     expect(result.report.errors).toEqual([expect.stringMatching(/not inside an output\/ folder/)]);
   });
 
-  it("adds the tour only for a capture, each stop with its unit, moment, animation and variation", async () => {
+  it("adds the tour only for a capture, each stop with its unit, moment and variation", async () => {
     const { spec } = await mission();
     const plain = await buildTestbed(spec, { workspace: null, check: true });
     expect(plain.script).not.toMatch(/^\s+Tb_T\(/m);
     const toured = await buildTestbed(spec, { workspace: null, check: true, tour: true });
     expect(toured.report.errors).toEqual([]);
-    expect(toured.script).toContain("Tb_T(0, 0, -1, 1, 0.5);");
-    expect(toured.script).toContain("Tb_T(1, 1, -1, 0, 0.6);");
+    expect(toured.script).toContain("Tb_T(0, 0, 1, 0.5);");
+    expect(toured.script).toContain("Tb_T(1, 1, 0, 0.6);");
   });
 
   it("reports a spec that doesn't parse, with the path of each problem", async () => {
     const { spec } = await mission();
     await editSpec(spec, (s) => {
       s.units[0].unit = undefined;
-      s.moments.attack = { kind: "clip" };
+      s.units[1].moments.attack.variations[0].elements[0].kind = "clip";
     });
     const result = await buildTestbed(spec, { workspace: null });
-    expect(result.report.errors).toEqual(expect.arrayContaining([expect.stringMatching(/^moments\.attack: Unrecognized key/), expect.stringMatching(/^units\.0: Give a unit "unit"/)]));
+    expect(result.report.errors).toEqual(expect.arrayContaining([expect.stringMatching(/^units\.1\.moments\.attack\.variations\.0\.elements\.0: Unrecognized key/), expect.stringMatching(/^units\.0: Give a unit "unit"/)]));
   });
 });

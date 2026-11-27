@@ -3,38 +3,51 @@
 // CONSTANTS marker line and its Tb_Data() at the DATA marker line, then writes the whole file into
 // the map (Triggers and MapScript.galaxy). Nothing here is specific to one test.
 //
-// The tables: units (each with animations), moments (each with a do, an at and a from), each unit's
-// animation for each moment, variations per unit and moment (a flat list, tb_v0/tb_vN index it), and
-// cues per variation (a flat list, tb_vQ0/tb_vQN index it). A cue is a sound, an actor message or an
-// effect at a time; a time is a base (the animation's start, strike or land) plus an offset, so a
-// candidate follows whichever animation is selected.
+// A moment is a timeline: each of its variations is a list of elements (an animation, a sound, an
+// effect, an actor message, a kill), each at an absolute time from Play. The tables: units (each with
+// animations, whose strike and land are only shown), moment names, variations per unit and moment (a
+// flat list, tb_v0/tb_vN index it) and elements per variation (a flat list, tb_vE0/tb_vEN index it).
+//
+// The dialog shows the selected variation as a timeline: a row per element, with a bar to scale. A
+// click on a row's name selects it; the steppers move its start and stop, and its box mutes it. Every
+// change is saved at once in the tuning bank (TB_TUNE_BANK), with what the build gave it, for
+// `testbed.js <spec> --apply` to write into the spec; the next game starts from the bank's values.
 //
 // Lessons built in: dialog events are registered one type at a time with c_invalidDialogControlId
 // (Any never fires); pulldown items count from 1; a new unit's actor needs 0.5 s before it takes
-// messages; sounds on a dead unit are dropped, so a kill's sounds play at the point it died.
+// messages; sounds on a dead unit are dropped, so after a kill its sounds play at the point it died;
+// a running game never sees its banks changed outside it, so the bank is read only at the start.
 //==================================================================================================
 
 //@@CONSTANTS
 
-// What a moment's Play does to the selected unit
-const int TB_DO_NONE = 0;        // nothing: the cues alone
-const int TB_DO_PLAY = 1;        // the selected animation
-const int TB_DO_KILL = 2;        // kill it; its sounds play at the point it died, and it respawns
+// An element's kind
+const int TB_E_ANIM = 0;         // one of the unit's animations
+const int TB_E_SOUND = 1;        // a CSound
+const int TB_E_EFFECT = 2;       // a CEffect from the unit, at the target (or the point in front of it)
+const int TB_E_ACTOR = 3;        // an actor message
+const int TB_E_KILL = 4;         // kills the unit; it comes back after its respawn
 
-// Where a moment's sounds play
-const int TB_AT_UNIT = 0;
-const int TB_AT_TARGET = 1;      // the point in front of the unit when there is no target
-
-const int TB_CUE_SOUND = 0;
-const int TB_CUE_ACTOR = 1;      // an actor message to the unit (or a child actor in its scope)
-const int TB_CUE_TARGET = 2;     // an actor message to the target
-const int TB_CUE_EFFECT = 3;     // a CEffect from the unit, at the target (or the point in front of it)
-
-const int TB_BASE_START = 0;
-const int TB_BASE_STRIKE = 1;
-const int TB_BASE_LAND = 2;
+// Where an element plays
+const int TB_ON_UNIT = 0;
+const int TB_ON_TARGET = 1;      // a sound plays at the point in front of the unit when there is no target
+const int TB_ON_CHILD = 2;       // an actor in the unit's scope, such as one a Create made
 
 const fixed TB_TARGET_RESPAWN = 2.0;  // how long after an effect kills the target it comes back
+const fixed TB_STEP = 0.05;           // a stepper press
+const string TB_GOLD = "d8b45a";      // a changed value
+
+// The dialog's layout
+const int TB_PAD = 20;          // added to every control's x, keeping clear of the dialog's border
+const int TB_W = 900 + 2 * TB_PAD;
+const int TB_H = 1100;
+const int TB_ROWS = 15;          // rows shown, as build.ts's DIALOG_ROWS; a variation's further elements still play          // rows shown; a variation's further elements still play
+const int TB_TICKS = 9;          // time labels along the top
+const int TB_BX = 330;           // where the bars start
+const int TB_BW = 510;           // how wide the bars' area is, leaving the last time label room
+const int TB_AY = 240;           // the time labels
+const int TB_RY = 265;           // the first row
+const int TB_RH = 38;            // a row's height
 
 // Units
 string[TB_NU] tb_uName;
@@ -44,86 +57,107 @@ string[TB_NU] tb_uIdle;
 fixed[TB_NU] tb_uRespawn;
 int[TB_NU] tb_uNAnim;
 unit[TB_NU] tb_unit;
+unit tb_target = null;
 
-// Animations
+// Each unit's animations: facts about the model, shared by every element that plays one
 string[TB_NU][TB_NA] tb_aName;
 string[TB_NU][TB_NA] tb_aPlay;
 fixed[TB_NU][TB_NA] tb_aStrike;
 fixed[TB_NU][TB_NA] tb_aLand;
 fixed[TB_NU][TB_NA] tb_aLen;
-fixed[TB_NU][TB_NA] tb_aClear;   // 0: let it finish
 
-// Moments, and each unit's animation for each
+// Moments, by name
 string[TB_NM] tb_mName;
-int[TB_NM] tb_mDo;
-int[TB_NM] tb_mAt;
-int[TB_NM] tb_mFrom;             // the base of a cue's plain seconds (the build has applied it)
-int[TB_NU][TB_NM] tb_umAnim;
 
-// Variations
+// Variations per unit and moment (a flat list)
 int[TB_NU][TB_NM] tb_v0;
 int[TB_NU][TB_NM] tb_vN;
+int[TB_NV] tb_vU;
+int[TB_NV] tb_vM;
 string[TB_NV] tb_vLabel;
 string[TB_NV] tb_vNote;
 bool[TB_NV] tb_vPick;
-int[TB_NV] tb_vAnim;             // -1: the moment's
-int[TB_NV] tb_vQ0;
-int[TB_NV] tb_vQN;
+int[TB_NV] tb_vE0;
+int[TB_NV] tb_vEN;
 int tb_nv = 0;
 
-// Cues
-int[TB_NQ] tb_qKind;
-string[TB_NQ] tb_qText;
-string[TB_NQ] tb_qChild;
-int[TB_NQ] tb_qBase;
-fixed[TB_NQ] tb_qAt;
-int[TB_NQ] tb_qStopBase;         // -1: let it play out
-fixed[TB_NQ] tb_qStop;
-int tb_nq = 0;
+// Elements per variation (a flat list). At, stop and muted are tuned in the game; the 0s are the build's.
+int[TB_NE] tb_eKind;
+string[TB_NE] tb_eWhat;          // the sound or effect id, the actor message; the animation's name
+int[TB_NE] tb_eAnim;             // the animation's place in the unit's list (TB_E_ANIM)
+int[TB_NE] tb_eOn;
+string[TB_NE] tb_eChild;         // the child actor (TB_ON_CHILD)
+fixed[TB_NE] tb_eAt;
+fixed[TB_NE] tb_eStop;           // -1: none; a sound fades out then, an animation is cleared
+bool[TB_NE] tb_eMuted;
+fixed[TB_NE] tb_eAt0;
+fixed[TB_NE] tb_eStop0;
+bool[TB_NE] tb_eMuted0;
+fixed[TB_NE] tb_eLen;            // an animation's length, a sound's (0 when the game doesn't say)
+int[TB_NE] tb_eV;                // its variation
+int[TB_NE] tb_eOcc;              // which of its variation's elements of this kind and id it is, from 1
+string[TB_NE] tb_eSec;           // its section in the tuning bank
+int tb_ne = 0;
 
-// The tour (a --capture build): each stop selects a unit, moment, animation and variation, plays
-// it, and announces itself in a bank after its hold, for the Host to screenshot.
+// The tour (a --capture build): each stop selects a unit, moment and variation, plays it, and
+// announces itself in a bank after its hold, for the Host to screenshot.
 int[TB_NTOUR] tb_tU;
 int[TB_NTOUR] tb_tM;
-int[TB_NTOUR] tb_tA;             // -1: the variation's or the moment's
-int[TB_NTOUR] tb_tV;             // -1: none
+int[TB_NTOUR] tb_tV;
 fixed[TB_NTOUR] tb_tHold;
 int tb_ntour = 0;
 
 // Selection and playback
 int tb_cur = 0;
 int tb_mom = 0;
-int tb_var = 0;                  // within the unit and moment's variations, from 0; tb_vN: "(none)"
-int tb_anim = 0;                 // the selected animation of the selected unit
+int tb_var = 0;                  // within the unit and moment's variations, from 0
+int tb_sel = -1;                 // the selected row, or -1
 int tb_gen = 0;                  // Stop and each Play bump it; a running timeline quits when it changes
 bool tb_looping = false;
-fixed tb_lastEnd = 0.0;          // how long the last Play's action lasts (animation length, respawn), for Loop
+fixed tb_lastEnd = 0.0;          // when the last Play's timeline ends (animations, a respawn), for Loop
 fixed tb_lastRan = 0.0;          // how far the last Play waited through it
-unit tb_target;
+fixed tb_span = 1.0;             // the time the bars' area spans
+bank tb_bank;
 
-// The GUI
+// The dialog
 int tb_dlg;
 int tb_unitPd;
 int tb_momPd;
+int tb_varLabel;
 int tb_varPd;
 int tb_note;
-int tb_animLabel;
-int tb_animPd;
+int tb_head;
+int[TB_TICKS] tb_tick;
+int[TB_TICKS] tb_grid;
+int[TB_ROWS] tb_rLane;
+int[TB_ROWS] tb_rMute;
+int[TB_ROWS] tb_rName;
+int[TB_ROWS] tb_rBar;
+int[TB_ROWS] tb_rCut;
+int[TB_ROWS] tb_rDot;
+int[TB_ROWS] tb_rStrike;
+int[TB_ROWS] tb_rLand;
+int tb_playhead;
+int tb_selLabel;
+int tb_startLabel;
+int tb_startMinus;
+int tb_startValue;
+int tb_startPlus;
+int tb_stopLabel;
+int tb_stopMinus;
+int tb_stopValue;
+int tb_stopPlus;
+int tb_reset;
+int tb_resetAll;
+int tb_menu;
+int tb_armGen = 0;               // bumped when Reset all is pressed once, and when it disarms or fires
+bool tb_armed = false;          // Reset all was pressed once, and the next press resets
 int tb_play;
 int tb_stop;
 int tb_loop;
-int tb_read;
 int tb_edit;
 int tb_send;
-
-// The readout: its sentence, then its rows in time order (cues, and strike and land markers)
-string tb_head = "";
-string[TB_NT] tb_row;
-fixed[TB_NT] tb_rowT;
-bool[TB_NT] tb_rowMark;
-bool[TB_NT] tb_fired;
-int tb_nrow = 0;
-fixed tb_clock = 0.0;
+string tb_headText = "";
 
 //--------------------------------------------------------------------------------------------------
 // Filling the tables (Tb_Data calls these)
@@ -137,57 +171,58 @@ void Tb_U (int u, string name, string type, fixed reach, string idle, fixed resp
     tb_uRespawn[u] = respawn;
 }
 
-void Tb_A (int u, int a, string name, string play, fixed strike, fixed land, fixed len, fixed clear) {
+void Tb_A (int u, int a, string name, string play, fixed strike, fixed land, fixed len) {
     tb_aName[u][a] = name;
     tb_aPlay[u][a] = play;
     tb_aStrike[u][a] = strike;
     tb_aLand[u][a] = land;
     tb_aLen[u][a] = len;
-    tb_aClear[u][a] = clear;
     if (tb_uNAnim[u] < a + 1) { tb_uNAnim[u] = a + 1; }
 }
 
-void Tb_M (int m, string name, int doIt, int at, int from) {
+void Tb_M (int m, string name) {
     tb_mName[m] = name;
-    tb_mDo[m] = doIt;
-    tb_mAt[m] = at;
-    tb_mFrom[m] = from;
 }
 
-void Tb_UM (int u, int m, int a) {
-    tb_umAnim[u][m] = a;
-}
-
-// A variation for unit u in moment m; the cues added next (Tb_Q) are its own. Each unit and
-// moment's variations come together.
-void Tb_V (int u, int m, string label, string note, bool pick, int a) {
+// A variation of unit u's moment m; its elements are the Tb_E calls that follow.
+void Tb_V (int u, int m, string label, string note, bool pick) {
     if (tb_vN[u][m] == 0) { tb_v0[u][m] = tb_nv; }
     tb_vN[u][m] += 1;
+    tb_vU[tb_nv] = u;
+    tb_vM[tb_nv] = m;
     tb_vLabel[tb_nv] = label;
     tb_vNote[tb_nv] = note;
     tb_vPick[tb_nv] = pick;
-    tb_vAnim[tb_nv] = a;
-    tb_vQ0[tb_nv] = tb_nq;
-    tb_vQN[tb_nv] = 0;
+    tb_vE0[tb_nv] = tb_ne;
+    tb_vEN[tb_nv] = 0;
     tb_nv += 1;
 }
 
-void Tb_Q (int kind, string what, string child, int base, fixed at, int stopBase, fixed stop) {
-    tb_qKind[tb_nq] = kind;
-    tb_qText[tb_nq] = what;
-    tb_qChild[tb_nq] = child;
-    tb_qBase[tb_nq] = base;
-    tb_qAt[tb_nq] = at;
-    tb_qStopBase[tb_nq] = stopBase;
-    tb_qStop[tb_nq] = stop;
-    tb_vQN[tb_nv - 1] += 1;
-    tb_nq += 1;
+void Tb_E (int kind, string what, int a, int on, string child, fixed at, fixed stop, bool muted, int occ, string sec) {
+    int v = tb_nv - 1;
+    tb_eKind[tb_ne] = kind;
+    tb_eWhat[tb_ne] = what;
+    tb_eAnim[tb_ne] = a;
+    tb_eOn[tb_ne] = on;
+    tb_eChild[tb_ne] = child;
+    tb_eAt[tb_ne] = at;
+    tb_eStop[tb_ne] = stop;
+    tb_eMuted[tb_ne] = muted;
+    tb_eAt0[tb_ne] = at;
+    tb_eStop0[tb_ne] = stop;
+    tb_eMuted0[tb_ne] = muted;
+    tb_eLen[tb_ne] = 0.0;
+    if (kind == TB_E_ANIM) { tb_eLen[tb_ne] = tb_aLen[tb_vU[v]][a]; }
+    tb_eV[tb_ne] = v;
+    tb_eOcc[tb_ne] = occ;
+    tb_eSec[tb_ne] = sec;
+    tb_vEN[v] += 1;
+    tb_ne += 1;
 }
 
-void Tb_T (int u, int m, int a, int v, fixed hold) {
+void Tb_T (int u, int m, int v, fixed hold) {
     tb_tU[tb_ntour] = u;
     tb_tM[tb_ntour] = m;
-    tb_tA[tb_ntour] = a;
     tb_tV[tb_ntour] = v;
     tb_tHold[tb_ntour] = hold;
     tb_ntour += 1;
@@ -215,6 +250,19 @@ string Tb_F (fixed f) {
     return FixedToString(f, 2);
 }
 
+string Tb_Gold (string s) {
+    return "<c val=\"" + TB_GOLD + "\">" + s + "</c>";
+}
+
+// A time to the nearest millisecond, so stepper presses don't add up a fixed's error.
+fixed Tb_Snap (fixed f) {
+    return IntToFixed(RoundI(f * 1000.0)) / 1000.0;
+}
+
+bool Tb_Same (fixed a, fixed b) {
+    return AbsF(a - b) < 0.0005;
+}
+
 point Tb_Home (int u) {
     return Point(TB_X + TB_GAP * IntToFixed(u), TB_Y);
 }
@@ -224,27 +272,45 @@ point Tb_Front (int u) {
     return PointWithOffsetPolar(Tb_Home(u), tb_uReach[u], TB_FACING);
 }
 
-bool Tb_Plays () {
-    return tb_mDo[tb_mom] == TB_DO_PLAY;
-}
-
-// The selected variation's index in the flat list, or -1 for "(none)".
+// The selected variation's index in the flat list, or -1 when the unit has none for the moment.
 int Tb_VarIndex () {
-    if (tb_var >= tb_vN[tb_cur][tb_mom]) { return -1; }
+    if (tb_var < 0 || tb_var >= tb_vN[tb_cur][tb_mom]) { return -1; }
     return tb_v0[tb_cur][tb_mom] + tb_var;
 }
 
-// The animation the selection plays: the variation's, else the unit's for the moment.
-int Tb_AnimFor (int v) {
-    if (v >= 0 && tb_vAnim[v] >= 0) { return tb_vAnim[v]; }
-    return tb_umAnim[tb_cur][tb_mom];
+// The element on row r of the selected variation, or -1.
+int Tb_RowElement (int r) {
+    int v = Tb_VarIndex();
+    if (v < 0 || r < 0 || r >= tb_vEN[v] || r >= TB_ROWS) { return -1; }
+    return tb_vE0[v] + r;
 }
 
-fixed Tb_BaseTime (int base) {
-    if (tb_uNAnim[tb_cur] == 0) { return 0.0; }
-    if (base == TB_BASE_STRIKE) { return tb_aStrike[tb_cur][tb_anim]; }
-    if (base == TB_BASE_LAND) { return tb_aLand[tb_cur][tb_anim]; }
-    return 0.0;
+// Where element e would end on its own: an animation's or a sound's length after its time (a second
+// for a sound the game gives no length).
+fixed Tb_ENatural (int e) {
+    if (tb_eKind[e] == TB_E_SOUND && tb_eLen[e] <= 0.0) { return tb_eAt[e] + 1.0; }
+    return tb_eAt[e] + tb_eLen[e];
+}
+
+// When element e's part of the timeline ends: its stop, an animation's or a sound's length, a kill's respawn, else its time.
+fixed Tb_EEnd (int e) {
+    if (tb_eStop[e] >= 0.0) { return tb_eStop[e]; }
+    if (tb_eKind[e] == TB_E_ANIM || tb_eKind[e] == TB_E_SOUND) { return tb_eAt[e] + tb_eLen[e]; }
+    if (tb_eKind[e] == TB_E_KILL) { return tb_eAt[e] + tb_uRespawn[tb_cur] + 0.5; }
+    return tb_eAt[e];
+}
+
+bool Tb_HasStop (int e) {
+    return tb_eKind[e] == TB_E_ANIM || tb_eKind[e] == TB_E_SOUND;
+}
+
+bool Tb_Changed (int e) {
+    return !Tb_Same(tb_eAt[e], tb_eAt0[e]) || !Tb_Same(tb_eStop[e], tb_eStop0[e]) || tb_eMuted[e] != tb_eMuted0[e];
+}
+
+// The AnimClear for an animation element: its play message's name word.
+string Tb_Clear (int e) {
+    return "AnimClear " + StringWord(tb_aPlay[tb_cur][tb_eAnim[e]], 2);
 }
 
 void Tb_Spawn (int u) {
@@ -271,117 +337,417 @@ void Tb_PlaceTarget () {
     UnitSetFacing(tb_target, TB_FACING + 180.0, 0.0);
 }
 
-//--------------------------------------------------------------------------------------------------
-// The readout
-//--------------------------------------------------------------------------------------------------
-
-void Tb_ShowRead () {
-    string s = tb_head + "<n/>t = " + Tb_F(tb_clock);
-    int i;
-    for (i = 0; i < tb_nrow; i += 1) {
-        if (tb_rowMark[i]) { s = s + "<n/><c val=\"d8b45a\">" + tb_row[i] + "</c>"; }
-        else if (tb_fired[i]) { s = s + "<n/>" + tb_row[i]; }
-        else { s = s + "<n/><c val=\"8a8a8a\">" + tb_row[i] + "</c>"; }
+// Each sound element's length, which the game gives only after asking every player.
+void Tb_SoundLengths () {
+    int e;
+    for (e = 0; e < tb_ne; e += 1) {
+        if (tb_eKind[e] == TB_E_SOUND) { SoundLengthQuery(SoundLink(tb_eWhat[e], c_soundIndexAny)); }
     }
-    Tb_Text(tb_read, s);
+    SoundLengthQueryWait();
+    for (e = 0; e < tb_ne; e += 1) {
+        if (tb_eKind[e] == TB_E_SOUND) { tb_eLen[e] = SoundLengthSync(SoundLink(tb_eWhat[e], c_soundIndexAny)); }
+    }
 }
 
-// Adds a row at time t, keeping the rows in time order (a marker before a cue at the same time).
-void Tb_AddRow (fixed t, string line, bool mark) {
-    int i = tb_nrow;
-    if (tb_nrow >= TB_NT) { return; }
-    while (i > 0) {
-        // Stop at the first earlier row (or a row at the same time, unless this marker goes before a cue there).
-        if (tb_rowT[i - 1] < t) { break; }
-        if (tb_rowT[i - 1] == t && !(mark && !tb_rowMark[i - 1])) { break; }
-        tb_row[i] = tb_row[i - 1];
-        tb_rowT[i] = tb_rowT[i - 1];
-        tb_rowMark[i] = tb_rowMark[i - 1];
-        tb_fired[i] = tb_fired[i - 1];
-        i -= 1;
-    }
-    tb_row[i] = line;
-    tb_rowT[i] = t;
-    tb_rowMark[i] = mark;
-    tb_fired[i] = false;
-    tb_nrow += 1;
+//--------------------------------------------------------------------------------------------------
+// The tuning bank: each changed element's section, with what the build gave it
+//--------------------------------------------------------------------------------------------------
+
+string Tb_KindName (int k) {
+    if (k == TB_E_ANIM) { return "anim"; }
+    if (k == TB_E_SOUND) { return "sound"; }
+    if (k == TB_E_EFFECT) { return "effect"; }
+    if (k == TB_E_ACTOR) { return "actor"; }
+    return "kill";
 }
 
-// Marks the first unfired cue row at time t with this line as fired.
-void Tb_FireRow (fixed t, string line) {
+// A bool as the bank keeps it: 1 or 0.
+int Tb_Int (bool b) {
+    if (b) { return 1; }
+    return 0;
+}
+
+// Saves element e's at, stop and muted, or takes its section out when they're back to the build's.
+void Tb_Save (int e) {
+    string s = tb_eSec[e];
+    int v = tb_eV[e];
+    if (!Tb_Changed(e)) {
+        if (BankSectionExists(tb_bank, s)) { BankSectionRemove(tb_bank, s); }
+        BankSave(tb_bank);
+        return;
+    }
+    BankValueSetFromString(tb_bank, s, "unit", tb_uName[tb_vU[v]]);
+    BankValueSetFromString(tb_bank, s, "moment", tb_mName[tb_vM[v]]);
+    BankValueSetFromInt(tb_bank, s, "variation", v - tb_v0[tb_vU[v]][tb_vM[v]] + 1);
+    BankValueSetFromString(tb_bank, s, "kind", Tb_KindName(tb_eKind[e]));
+    BankValueSetFromString(tb_bank, s, "id", tb_eWhat[e]);
+    BankValueSetFromInt(tb_bank, s, "occurrence", tb_eOcc[e]);
+    BankValueSetFromFixed(tb_bank, s, "at", tb_eAt[e]);
+    BankValueSetFromFixed(tb_bank, s, "atBuilt", tb_eAt0[e]);
+    BankValueSetFromFixed(tb_bank, s, "stop", tb_eStop[e]);
+    BankValueSetFromFixed(tb_bank, s, "stopBuilt", tb_eStop0[e]);
+    BankValueSetFromInt(tb_bank, s, "muted", Tb_Int(tb_eMuted[e]));
+    BankValueSetFromInt(tb_bank, s, "mutedBuilt", Tb_Int(tb_eMuted0[e]));
+    BankSave(tb_bank);
+}
+
+// Whether the bank's section s is element e's, saved from a build that gave it what this one does.
+bool Tb_SectionIs (string s, int e) {
+    int v = tb_eV[e];
+    if (!BankSectionExists(tb_bank, s)) { return false; }
+    if (!BankKeyExists(tb_bank, s, "atBuilt") || !BankKeyExists(tb_bank, s, "stopBuilt") || !BankKeyExists(tb_bank, s, "mutedBuilt")) { return false; }
+    if (BankValueGetAsString(tb_bank, s, "unit") != tb_uName[tb_vU[v]]) { return false; }
+    if (BankValueGetAsString(tb_bank, s, "moment") != tb_mName[tb_vM[v]]) { return false; }
+    if (BankValueGetAsInt(tb_bank, s, "variation") != v - tb_v0[tb_vU[v]][tb_vM[v]] + 1) { return false; }
+    if (BankValueGetAsString(tb_bank, s, "kind") != Tb_KindName(tb_eKind[e])) { return false; }
+    if (BankValueGetAsString(tb_bank, s, "id") != tb_eWhat[e]) { return false; }
+    if (BankValueGetAsInt(tb_bank, s, "occurrence") != tb_eOcc[e]) { return false; }
+    if (!Tb_Same(BankValueGetAsFixed(tb_bank, s, "atBuilt"), tb_eAt0[e])) { return false; }
+    if (!Tb_Same(BankValueGetAsFixed(tb_bank, s, "stopBuilt"), tb_eStop0[e])) { return false; }
+    return BankValueGetAsInt(tb_bank, s, "mutedBuilt") == Tb_Int(tb_eMuted0[e]);
+}
+
+// Starts each element from the bank's values, where its section is still this element's; says how many.
+void Tb_Restore () {
+    string s;
+    int e;
+    int n = 0;
+    tb_bank = BankLoad(TB_TUNE_BANK, 1);
+    BankWait(tb_bank);           // a bank the map doesn't preload is read in the background: empty until this
+    for (e = 0; e < tb_ne; e += 1) {
+        s = tb_eSec[e];
+        if (Tb_SectionIs(s, e)) {
+            tb_eAt[e] = Tb_Snap(MaxF(0.0, BankValueGetAsFixed(tb_bank, s, "at")));
+            tb_eStop[e] = BankValueGetAsFixed(tb_bank, s, "stop");
+            if (tb_eStop[e] >= 0.0) { tb_eStop[e] = Tb_Snap(tb_eStop[e]); }
+            else { tb_eStop[e] = -1.0; }
+            if (!Tb_HasStop(e) || (tb_eStop[e] >= 0.0 && tb_eStop[e] <= tb_eAt[e])) { tb_eStop[e] = tb_eStop0[e]; }
+            tb_eMuted[e] = BankValueGetAsInt(tb_bank, s, "muted") == 1;
+            if (Tb_Changed(e)) { n += 1; }
+        }
+    }
+    if (n > 0) { Tb_Msg(IntToString(n) + " elements start as last tuned, from the bank " + TB_TUNE_BANK + " (testbed.js <spec> --apply writes them into the spec)."); }
+}
+
+//--------------------------------------------------------------------------------------------------
+// The timeline view
+//--------------------------------------------------------------------------------------------------
+
+// Where time t falls in the bars' area.
+int Tb_X (fixed t) {
+    return TB_BX + RoundI(MaxF(0.0, MinF(t, tb_span)) / tb_span * IntToFixed(TB_BW));
+}
+
+void Tb_Place (int c, int x, int y, int w, int h) {
+    DialogControlSetPosition(c, PlayerGroupAll(), c_anchorTopLeft, x + TB_PAD, y);
+    DialogControlSetSize(c, PlayerGroupAll(), MaxI(w, 1), h);
+}
+
+void Tb_Color (int c, fixed r, fixed g, fixed b) {
+    DialogControlSetPropertyAsColor(c, c_triggerControlPropertyColor, PlayerGroupAll(), Color(r, g, b));
+}
+
+void Tb_Show (int c, bool on) {
+    DialogControlSetVisible(c, PlayerGroupAll(), on);
+}
+
+// Element e's bar colour: by kind, dim until it fires, grey when muted.
+void Tb_BarColor (int c, int e, bool lit) {
+    int k = tb_eKind[e];
+    if (tb_eMuted[e]) { Tb_Color(c, 26.0, 26.0, 26.0); }
+    else if (k == TB_E_ANIM && lit) { Tb_Color(c, 55.0, 78.0, 100.0); }
+    else if (k == TB_E_ANIM) { Tb_Color(c, 30.0, 44.0, 64.0); }
+    else if (k == TB_E_SOUND && lit) { Tb_Color(c, 50.0, 90.0, 60.0); }
+    else if (k == TB_E_SOUND) { Tb_Color(c, 26.0, 52.0, 34.0); }
+    else if (lit) { Tb_Color(c, 100.0, 70.0, 44.0); }
+    else { Tb_Color(c, 64.0, 42.0, 26.0); }
+}
+
+// A row's name: the kind, the id and where it plays; gold once tuned.
+string Tb_RowText (int e) {
+    int k = tb_eKind[e];
+    string s = Tb_KindName(k);
+    if (k != TB_E_KILL) { s = s + "  " + tb_eWhat[e]; }
+    if (tb_eOn[e] == TB_ON_TARGET) { s = s + "  (target)"; }
+    else if (tb_eOn[e] == TB_ON_CHILD) { s = s + "  (" + tb_eChild[e] + ")"; }
+    if (Tb_Changed(e)) { return Tb_Gold(s); }
+    return s;
+}
+
+// The span the bars fit, rounded up to a time label's step, and the labels and grid lines.
+void Tb_Scale (int v) {
+    fixed span = 0.5;
+    fixed step = 0.1;
     int i;
-    for (i = 0; i < tb_nrow; i += 1) {
-        if (!tb_rowMark[i] && !tb_fired[i] && tb_rowT[i] == t && tb_row[i] == line) {
-            tb_fired[i] = true;
-            return;
+    int e;
+    int n = 1;
+    if (v >= 0) {
+        for (i = 0; i < tb_vEN[v]; i += 1) {
+            e = tb_vE0[v] + i;
+            span = MaxF(span, tb_eAt[e]);
+            if (Tb_HasStop(e)) { span = MaxF(span, MaxF(Tb_ENatural(e), tb_eStop[e])); }
+        }
+    }
+    if (span > 0.8) { step = 0.25; }
+    if (span > 2.0) { step = 0.5; }
+    if (span > 4.0) { step = 1.0; }
+    if (span > 8.0) { step = 2.0; }
+    if (span > 16.0) { step = 5.0; }
+    while (step * IntToFixed(n) < span - 0.001) { n += 1; }
+    tb_span = step * IntToFixed(n);
+    for (i = 0; i < TB_TICKS; i += 1) {
+        Tb_Show(tb_tick[i], i <= n);
+        Tb_Show(tb_grid[i], i <= n);
+        if (i <= n) {
+            Tb_Place(tb_tick[i], Tb_X(step * IntToFixed(i)) - 4, TB_AY, 60, 22);
+            Tb_Text(tb_tick[i], "<c val=\"9a9a9a\">" + Tb_F(step * IntToFixed(i)) + "</c>");
+            Tb_Place(tb_grid[i], Tb_X(step * IntToFixed(i)), TB_RY, 1, TB_RH * TB_ROWS);
         }
     }
 }
 
-// A cue's row in the readout: its time, what it is, and its fade.
-string Tb_CueText (int q, fixed t) {
-    string s = Tb_F(t) + "  ";
-    if (tb_qKind[q] == TB_CUE_SOUND) { s = s + "sound  " + tb_qText[q]; }
-    else if (tb_qKind[q] == TB_CUE_EFFECT) { s = s + "effect  " + tb_qText[q]; }
-    else if (tb_qKind[q] == TB_CUE_TARGET) { s = s + "target  " + tb_qText[q]; }
-    else if (tb_qChild[q] != "") { s = s + "actor  [" + tb_qChild[q] + "] " + tb_qText[q]; }
-    else { s = s + "actor  " + tb_qText[q]; }
-    if (tb_qStopBase[q] >= 0) { s = s + "  (fades at " + Tb_F(Tb_BaseTime(tb_qStopBase[q]) + tb_qStop[q]) + ")"; }
-    return s;
+// Row r's controls for its element: the box, the name and the bars at their times.
+void Tb_PaintRow (int r) {
+    int e = Tb_RowElement(r);
+    int y = TB_RY + TB_RH * r;
+    int x0;
+    int x1;
+    int x2;
+    int a;
+    bool cut;
+    Tb_Show(tb_rLane[r], e >= 0);
+    Tb_Show(tb_rMute[r], e >= 0);
+    Tb_Show(tb_rName[r], e >= 0);
+    Tb_Show(tb_rBar[r], false);
+    Tb_Show(tb_rCut[r], false);
+    Tb_Show(tb_rDot[r], false);
+    Tb_Show(tb_rStrike[r], false);
+    Tb_Show(tb_rLand[r], false);
+    if (e < 0) { return; }
+    if (r == tb_sel) { Tb_Color(tb_rLane[r], 30.0, 27.0, 16.0); }
+    else { Tb_Color(tb_rLane[r], 11.0, 11.0, 11.0); }
+    DialogControlSetPropertyAsBool(tb_rMute[r], c_triggerControlPropertyChecked, PlayerGroupAll(), !tb_eMuted[e]);
+    Tb_Text(tb_rName[r], Tb_RowText(e));
+    x0 = Tb_X(tb_eAt[e]);
+    if (!Tb_HasStop(e)) {
+        Tb_Place(tb_rDot[r], x0 - 6, y + 13, 12, 12);
+        Tb_BarColor(tb_rDot[r], e, false);
+        Tb_Show(tb_rDot[r], true);
+        return;
+    }
+    // A stop before the natural end cuts the bar there; the rest shows dim.
+    x2 = Tb_X(Tb_ENatural(e));
+    cut = tb_eStop[e] >= 0.0 && tb_eStop[e] < Tb_ENatural(e);
+    x1 = x2;
+    if (cut) { x1 = Tb_X(tb_eStop[e]); }
+    Tb_Place(tb_rBar[r], x0, y + 9, MaxI(x1 - x0, 3), 20);
+    Tb_BarColor(tb_rBar[r], e, false);
+    Tb_Show(tb_rBar[r], true);
+    if (cut && x2 > x1) {
+        Tb_Place(tb_rCut[r], x1, y + 14, x2 - x1, 10);
+        Tb_Color(tb_rCut[r], 22.0, 22.0, 22.0);
+        Tb_Show(tb_rCut[r], true);
+    }
+    if (tb_eKind[e] == TB_E_ANIM && !tb_eMuted[e]) {
+        a = tb_eAnim[e];
+        Tb_Place(tb_rStrike[r], Tb_X(tb_eAt[e] + tb_aStrike[tb_cur][a]) - 1, y + 5, 3, 28);
+        Tb_Place(tb_rLand[r], Tb_X(tb_eAt[e] + tb_aLand[tb_cur][a]) - 1, y + 5, 3, 28);
+        Tb_Show(tb_rStrike[r], true);
+        Tb_Show(tb_rLand[r], true);
+    }
 }
 
-// The selection in one sentence: what the moment does and where its sounds play.
+// Lights element e's bar as it fires.
+void Tb_Light (int e) {
+    int r = e - tb_vE0[tb_eV[e]];
+    if (r < 0 || r >= TB_ROWS) { return; }
+    if (Tb_HasStop(e)) { Tb_BarColor(tb_rBar[r], e, true); }
+    else { Tb_BarColor(tb_rDot[r], e, true); }
+}
+
+// The selection in one sentence, with the clock while playing (clock < 0: none).
+void Tb_ShowHead (fixed clock) {
+    string s = tb_headText;
+    if (clock >= 0.0) { s = s + "   t = " + Tb_F(clock); }
+    Tb_Text(tb_head, s);
+}
+
+// The unit, the moment, the variation, when its timeline ends and how many elements are tuned.
 void Tb_Head () {
-    int m = tb_mom;
-    int u = tb_cur;
-    int a = tb_anim;
-    string at = "at the unit";
-    string from = "";
-    if (tb_mAt[m] == TB_AT_TARGET && tb_target != null) { at = "at the target"; }
-    else if (tb_mAt[m] == TB_AT_TARGET) { at = "at the point in front"; }
-    else if (tb_mDo[m] == TB_DO_KILL) { at = "where it died"; }
-    if (tb_mFrom[m] == TB_BASE_STRIKE) { from = ", times from the strike"; }
-    else if (tb_mFrom[m] == TB_BASE_LAND) { from = ", times from the land"; }
-    tb_head = tb_uName[u] + " " + tb_mName[m] + ": ";
-    if (tb_mDo[m] == TB_DO_PLAY && tb_uNAnim[u] > 0) {
-        tb_head = tb_head + "animation " + tb_aName[u][a] + " (" + Tb_F(tb_aLen[u][a]) + " s)";
+    int v = Tb_VarIndex();
+    int n = tb_vN[tb_cur][tb_mom];
+    int i;
+    int e;
+    int tuned = 0;
+    fixed end = 0.0;
+    tb_headText = tb_uName[tb_cur] + " " + tb_mName[tb_mom] + ": ";
+    if (v < 0) {
+        tb_headText = tb_headText + "no variations for this unit.";
+        return;
     }
-    else if (tb_mDo[m] == TB_DO_PLAY) { tb_head = tb_head + "no animation to play"; }
-    else if (tb_mDo[m] == TB_DO_KILL) { tb_head = tb_head + "killed, back after " + Tb_F(tb_uRespawn[u]) + " s"; }
-    else { tb_head = tb_head + "the cues alone"; }
-    tb_head = tb_head + ". Sounds " + at + from + ".";
+    for (i = 0; i < tb_vEN[v]; i += 1) {
+        e = tb_vE0[v] + i;
+        if (!tb_eMuted[e]) { end = MaxF(end, Tb_EEnd(e)); }
+        if (Tb_Changed(e)) { tuned += 1; }
+    }
+    if (n > 1) { tb_headText = tb_headText + "variation " + IntToString(tb_var + 1) + " of " + IntToString(n) + ", "; }
+    if (tb_vEN[v] == 1) { tb_headText = tb_headText + "1 element, " + Tb_F(end) + " s."; }
+    else { tb_headText = tb_headText + IntToString(tb_vEN[v]) + " elements, " + Tb_F(end) + " s."; }
+    if (tuned > 0) { tb_headText = tb_headText + Tb_Gold("  " + IntToString(tuned) + " tuned."); }
+    if (tb_vEN[v] > TB_ROWS) { tb_headText = tb_headText + "  The first " + IntToString(TB_ROWS) + " show; all play."; }
+}
+
+// The steppers, for the selected row's element.
+void Tb_ShowSel () {
+    int e = Tb_RowElement(tb_sel);
+    bool on = e >= 0;
+    bool stops = false;
+    string s;
+    if (on) { stops = Tb_HasStop(e); }
+    Tb_Show(tb_startLabel, on);
+    Tb_Show(tb_startMinus, on);
+    Tb_Show(tb_startValue, on);
+    Tb_Show(tb_startPlus, on);
+    Tb_Show(tb_stopLabel, stops);
+    Tb_Show(tb_stopMinus, stops);
+    Tb_Show(tb_stopValue, stops);
+    Tb_Show(tb_stopPlus, stops);
+    Tb_Show(tb_reset, on);
+    if (!on) {
+        Tb_Text(tb_selLabel, "<c val=\"9a9a9a\">Click an element's name to tune it. Its box mutes it.</c>");
+        return;
+    }
+    Tb_Text(tb_selLabel, "Selected: " + Tb_RowText(e));
+    s = Tb_F(tb_eAt[e]) + " s";
+    if (!Tb_Same(tb_eAt[e], tb_eAt0[e])) { s = Tb_Gold(s); }
+    Tb_Text(tb_startValue, s);
+    if (stops) {
+        if (tb_eKind[e] == TB_E_SOUND) { Tb_Text(tb_stopLabel, "Fade at"); }
+        else { Tb_Text(tb_stopLabel, "Clear at"); }
+        s = "none";
+        if (tb_eStop[e] >= 0.0) { s = Tb_F(tb_eStop[e]) + " s"; }
+        if (!Tb_Same(tb_eStop[e], tb_eStop0[e])) { s = Tb_Gold(s); }
+        Tb_Text(tb_stopValue, s);
+    }
+}
+
+// The whole view for the selection, with no bar lit.
+void Tb_Paint () {
+    int r;
+    Tb_Scale(Tb_VarIndex());
+    for (r = 0; r < TB_ROWS; r += 1) { Tb_PaintRow(r); }
+    Tb_Head();
+    Tb_ShowHead(-1.0);
+    Tb_ShowSel();
 }
 
 void Tb_Note () {
     int v = Tb_VarIndex();
     if (v >= 0) { Tb_Text(tb_note, tb_vNote[v]); }
-    else { Tb_Text(tb_note, "(none: Play does the moment's action alone)"); }
-}
-
-// The variation's cue rows, and the animation's strike and land markers, in time order.
-void Tb_Rows (int v) {
-    int q;
-    int i;
-    fixed t;
-    tb_nrow = 0;
-    if (Tb_Plays() && tb_uNAnim[tb_cur] > 0) {
-        Tb_AddRow(tb_aStrike[tb_cur][tb_anim], Tb_F(tb_aStrike[tb_cur][tb_anim]) + "  --- strike ---", true);
-        Tb_AddRow(tb_aLand[tb_cur][tb_anim], Tb_F(tb_aLand[tb_cur][tb_anim]) + "  --- land ---", true);
-    }
-    if (v < 0) { return; }
-    for (i = 0; i < tb_vQN[v]; i += 1) {
-        q = tb_vQ0[v] + i;
-        t = Tb_BaseTime(tb_qBase[q]) + tb_qAt[q];
-        Tb_AddRow(t, Tb_CueText(q, t), false);
-    }
+    else { Tb_Text(tb_note, ""); }
 }
 
 void Tb_ReadReset () {
-    tb_clock = 0.0;
-    Tb_Head();
     Tb_Note();
-    Tb_Rows(Tb_VarIndex());
-    Tb_ShowRead();
+    Tb_Paint();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Tuning: start, stop and mute, each saved at once
+//--------------------------------------------------------------------------------------------------
+
+// Moves the selected element's start by d, its stop with it; never before 0.
+void Tb_StepStart (fixed d) {
+    int e = Tb_RowElement(tb_sel);
+    fixed at;
+    if (e < 0) { return; }
+    at = Tb_Snap(MaxF(0.0, tb_eAt[e] + d));
+    if (Tb_Same(at, tb_eAt[e])) { return; }
+    if (tb_eStop[e] >= 0.0) { tb_eStop[e] = Tb_Snap(tb_eStop[e] + at - tb_eAt[e]); }
+    tb_eAt[e] = at;
+    Tb_Save(e);
+    Tb_Paint();
+}
+
+// Moves the selected element's stop by d: from none, - starts one a step before its natural end;
+// a stop stepped to its natural end or past it is none again. Never at or before its start.
+void Tb_StepStop (fixed d) {
+    int e = Tb_RowElement(tb_sel);
+    fixed nat;
+    fixed stop;
+    if (e < 0) { return; }
+    if (!Tb_HasStop(e)) { return; }
+    nat = Tb_ENatural(e);
+    if (tb_eStop[e] < 0.0) {
+        if (d > 0.0) { return; }
+        stop = Tb_Snap(nat - TB_STEP);
+    }
+    else { stop = Tb_Snap(tb_eStop[e] + d); }
+    if (stop <= tb_eAt[e] + 0.001) { return; }
+    if (stop >= nat - 0.001) { stop = -1.0; }
+    tb_eStop[e] = stop;
+    Tb_Save(e);
+    Tb_Paint();
+}
+
+// Puts the selected element back as the build gave it.
+void Tb_Reset () {
+    int e = Tb_RowElement(tb_sel);
+    if (e < 0) { return; }
+    tb_eAt[e] = tb_eAt0[e];
+    tb_eStop[e] = tb_eStop0[e];
+    tb_eMuted[e] = tb_eMuted0[e];
+    Tb_Save(e);
+    Tb_Paint();
+}
+
+// Reset all: the first press asks for a second within 3 s; the second puts every element back as the
+// spec has it and takes them out of the bank.
+void Tb_ResetAll () {
+    int e;
+    int n = 0;
+    if (!tb_armed) {
+        for (e = 0; e < tb_ne; e += 1) { if (Tb_Changed(e)) { n += 1; } }
+        if (n == 0) { Tb_Msg("Nothing is tuned."); return; }
+        tb_armed = true;
+        tb_armGen += 1;
+        Tb_Text(tb_resetAll, Tb_Gold("Sure?"));
+        Tb_Msg("Press Reset all again to put all " + IntToString(n) + " tuned elements back as the spec has them.");
+        TriggerExecute(TriggerCreate("Tb_DisarmThread"), false, false);
+        return;
+    }
+    tb_armed = false;
+    tb_armGen += 1;
+    Tb_Text(tb_resetAll, "Reset all");
+    for (e = 0; e < tb_ne; e += 1) {
+        if (Tb_Changed(e)) { n += 1; }
+        tb_eAt[e] = tb_eAt0[e];
+        tb_eStop[e] = tb_eStop0[e];
+        tb_eMuted[e] = tb_eMuted0[e];
+        if (BankSectionExists(tb_bank, tb_eSec[e])) { BankSectionRemove(tb_bank, tb_eSec[e]); }
+    }
+    BankSave(tb_bank);
+    Tb_Paint();
+    Tb_Msg(IntToString(n) + " elements are back as the spec has them, and the bank " + TB_TUNE_BANK + " is empty.");
+}
+
+bool Tb_DisarmThread (bool testConds, bool runActions) {
+    int g = tb_armGen;
+    Wait(3.0, c_timeReal);
+    if (tb_armed && g == tb_armGen) {
+        tb_armed = false;
+        Tb_Text(tb_resetAll, "Reset all");
+    }
+    return true;
+}
+
+void Tb_SetMuted (int r, bool muted) {
+    int e = Tb_RowElement(r);
+    if (e < 0) { return; }
+    if (tb_eMuted[e] == muted) { return; }
+    tb_eMuted[e] = muted;
+    Tb_Save(e);
+    Tb_Paint();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -398,7 +764,7 @@ void Tb_Sound (string id, unit on, point at, bool atPoint) {
 }
 
 // A CEffect from the selected unit at the target, or at the point in front of it; from the unit's
-// player at that point when the unit is dead (a kill moment).
+// player at that point once the unit is dead (after a kill).
 void Tb_Effect (string id) {
     unit u = tb_unit[tb_cur];
     if (!UnitIsAlive(u)) { PlayerCreateEffectPoint(TB_PLAYER, id, Tb_Front(tb_cur)); }
@@ -406,33 +772,81 @@ void Tb_Effect (string id) {
     else { UnitCreateEffectPoint(u, id, Tb_Front(tb_cur)); }
 }
 
-void Tb_ActorCue (actor a, string child, string msg) {
-    if (child == "") { ActorSend(a, msg); }
-    else { ActorSend(ActorFromScope(ActorScopeFromActor(a), child), msg); }
+// Element e's sound, where it says: on the target (or the point in front of the unit), else on the
+// unit, or where it died once it's dead.
+void Tb_PlaySound (int e, unit who, point died) {
+    if (tb_eOn[e] == TB_ON_TARGET && tb_target != null && UnitIsAlive(tb_target)) { Tb_Sound(tb_eWhat[e], tb_target, died, false); }
+    else if (tb_eOn[e] == TB_ON_TARGET) { Tb_Sound(tb_eWhat[e], who, Tb_Front(tb_cur), true); }
+    else if (!UnitIsAlive(who)) { Tb_Sound(tb_eWhat[e], who, died, true); }
+    else { Tb_Sound(tb_eWhat[e], who, died, false); }
 }
 
-// Runs variation v's cues in time order from now. Sounds play on `on` (or at `at` when atPoint);
-// actor cues go to ua (the unit's actor, taken before any kill) or ta (the target's). Returns the
-// time it ran to; quits early if tb_gen changes (Stop, or another Play).
-fixed Tb_RunCues (int v, int gen, unit on, point at, bool atPoint, actor ua, actor ta) {
-    fixed[TB_NT] t;
-    fixed[TB_NT] stop;
-    bool[TB_NT] played;
-    bool[TB_NT] stopped;
-    sound[TB_NT] snd;
-    int n = tb_vQN[v];
-    int q0 = tb_vQ0[v];
-    int q;
+// Element e's actor message: to the unit's actor (taken before any kill), the target's, or a child's.
+void Tb_ActorMsg (int e, actor ua) {
+    if (tb_eOn[e] == TB_ON_TARGET) {
+        if (tb_target != null && UnitIsAlive(tb_target)) { ActorSend(Tb_Actor(tb_target), tb_eWhat[e]); }
+    }
+    else if (tb_eOn[e] == TB_ON_CHILD) { ActorSend(ActorFromScope(ActorScopeFromActor(ua), tb_eChild[e]), tb_eWhat[e]); }
+    else { ActorSend(ua, tb_eWhat[e]); }
+}
+
+// The playhead: crosses the bars from 0 while the Play that started it runs, with the clock in the head.
+bool Tb_PlayheadThread (bool testConds, bool runActions) {
+    int gen = tb_gen;
+    fixed t = 0.0;
+    Tb_Show(tb_playhead, true);
+    while (gen == tb_gen && t <= tb_span + 0.001) {
+        Tb_Place(tb_playhead, Tb_X(t) - 1, TB_RY - 4, 2, TB_RH * TB_ROWS + 8);
+        Tb_ShowHead(t);
+        Wait(0.0625, c_timeGame);
+        t += 0.0625;
+    }
+    if (gen == tb_gen) { Tb_Show(tb_playhead, false); }
+    return true;
+}
+
+// Plays the selected variation's timeline from now: each element that isn't muted at its time, and
+// each stop (a sound's fade, an animation's clear) at its. After a kill the unit comes back after its
+// respawn. Quits early when tb_gen changes (Stop, or another Play).
+void Tb_Play () {
+    fixed[TB_NEV] t;
+    fixed[TB_NEV] stop;
+    bool[TB_NEV] played;
+    bool[TB_NEV] stopped;
+    sound[TB_NEV] snd;
+    int u = tb_cur;
+    int v = Tb_VarIndex();
+    int gen;
+    int n = 0;
+    int e0 = 0;
+    int e;
     int i;
     int best;
     bool isStop;
+    bool killed = false;
+    fixed killedAt = 0.0;
     fixed when = 0.0;
     fixed now = 0.0;
+    fixed end = 0.0;
+    unit who = tb_unit[u];
+    point died = UnitGetPosition(who);
+    actor ua = Tb_Actor(who);
+    tb_gen += 1;
+    gen = tb_gen;
+    Tb_Paint();
+    tb_lastEnd = 0.0;
+    tb_lastRan = 0.0;
+    if (v < 0 || !UnitIsAlive(who)) { return; }
+    TriggerExecute(TriggerCreate("Tb_PlayheadThread"), false, false);
+    n = tb_vEN[v];
+    e0 = tb_vE0[v];
     for (i = 0; i < n; i += 1) {
-        q = q0 + i;
-        t[i] = Tb_BaseTime(tb_qBase[q]) + tb_qAt[q];
-        stop[i] = -1.0;
-        if (tb_qStopBase[q] >= 0) { stop[i] = Tb_BaseTime(tb_qStopBase[q]) + tb_qStop[q]; }
+        e = e0 + i;
+        t[i] = tb_eAt[e];
+        stop[i] = tb_eStop[e];
+        played[i] = tb_eMuted[e];
+        stopped[i] = tb_eMuted[e];
+        if (!tb_eMuted[e]) { end = MaxF(end, Tb_EEnd(e)); }
     }
     while (true) {
         best = -1;
@@ -441,142 +855,113 @@ fixed Tb_RunCues (int v, int gen, unit on, point at, bool atPoint, actor ua, act
             if (!played[i] && (best == -1 || t[i] < when)) { best = i; when = t[i]; isStop = false; }
             if (played[i] && !stopped[i] && stop[i] >= 0.0 && (best == -1 || stop[i] < when)) { best = i; when = stop[i]; isStop = true; }
         }
-        if (best == -1) { return now; }
+        if (best == -1) { break; }
         if (when > now) {
             Wait(when - now, c_timeGame);
             now = when;
         }
-        if (gen != tb_gen) { return now; }
-        q = q0 + best;
+        if (gen != tb_gen) { break; }
+        e = e0 + best;
         if (isStop) {
-            SoundStop(snd[best], true);
             stopped[best] = true;
+            if (tb_eKind[e] == TB_E_SOUND) { SoundStop(snd[best], true); }
+            else if (tb_eKind[e] == TB_E_ANIM && UnitIsAlive(who)) { ActorSend(ua, Tb_Clear(e)); }
         }
         else {
             played[best] = true;
-            if (tb_qKind[q] == TB_CUE_SOUND) {
-                Tb_Sound(tb_qText[q], on, at, atPoint);
+            if (stop[best] < 0.0) { stopped[best] = true; }
+            if (tb_eKind[e] == TB_E_ANIM) {
+                if (UnitIsAlive(who)) { ActorSend(ua, tb_aPlay[u][tb_eAnim[e]]); }
+            }
+            else if (tb_eKind[e] == TB_E_SOUND) {
+                Tb_PlaySound(e, who, died);
                 snd[best] = SoundLastPlayed();
             }
-            else if (tb_qKind[q] == TB_CUE_ACTOR) { Tb_ActorCue(ua, tb_qChild[q], tb_qText[q]); }
-            else if (tb_qKind[q] == TB_CUE_EFFECT) { Tb_Effect(tb_qText[q]); }
-            else { Tb_ActorCue(ta, tb_qChild[q], tb_qText[q]); }
-            Tb_FireRow(t[best], Tb_CueText(q, t[best]));
-            tb_clock = now;
-            Tb_ShowRead();
+            else if (tb_eKind[e] == TB_E_EFFECT) { Tb_Effect(tb_eWhat[e]); }
+            else if (tb_eKind[e] == TB_E_ACTOR) { Tb_ActorMsg(e, ua); }
+            else if (UnitIsAlive(who)) {
+                died = UnitGetPosition(who);
+                UnitSetState(who, c_unitStateInvulnerable, false);
+                UnitKill(who);
+                killed = true;
+                killedAt = now;
+            }
+            Tb_Light(e);
         }
     }
-    return now;
+    // A killed unit comes back after its respawn, even when Stop cut the timeline short.
+    if (killed) {
+        if (now < killedAt + tb_uRespawn[u]) { Wait(killedAt + tb_uRespawn[u] - now, c_timeGame); }
+        Tb_Spawn(u);
+        Wait(0.5, c_timeGame);
+        Tb_Idle(u);
+        now = MaxF(now, killedAt + tb_uRespawn[u] + 0.5);
+    }
+    tb_lastEnd = MaxF(now, end);
+    tb_lastRan = now;
 }
 
-void Tb_Respawn (int u, fixed after) {
-    if (after > 0.0) { Wait(after, c_timeGame); }
-    Tb_Spawn(u);
-    Wait(0.5, c_timeGame);
-    Tb_Idle(u);
-}
-
-// Plays the selection: the moment's do (an animation or a kill) and the variation's cues at its at.
-void Tb_Play (bool withCues) {
-    int u = tb_cur;
-    int m = tb_mom;
-    int k = tb_mDo[m];
-    int a = tb_anim;
-    int v = -1;
-    int gen;
-    unit who = tb_unit[u];
-    point p = UnitGetPosition(who);
-    actor ua = Tb_Actor(who);
-    actor ta = null;
-    fixed ran = 0.0;
-    fixed len = 0.0;
-    if (withCues) { v = Tb_VarIndex(); }
-    if (tb_target != null && UnitIsAlive(tb_target)) { ta = Tb_Actor(tb_target); }
-    tb_gen += 1;
-    gen = tb_gen;
-    Tb_ReadReset();
-
-    tb_lastEnd = 0.0;
-    tb_lastRan = 0.0;
-    if (!UnitIsAlive(who)) { return; }
-    if (k == TB_DO_PLAY && tb_uNAnim[u] > 0) {
-        ActorSend(ua, tb_aPlay[u][a]);
-        len = tb_aLen[u][a];
-    }
-    else if (k == TB_DO_KILL) {
-        UnitSetState(who, c_unitStateInvulnerable, false);
-        UnitKill(who);
-        len = tb_uRespawn[u] + 0.5;
-    }
-
-    if (v >= 0) {
-        if (tb_mAt[m] == TB_AT_TARGET && ta != null) { ran = Tb_RunCues(v, gen, tb_target, p, false, ua, ta); }
-        else if (tb_mAt[m] == TB_AT_TARGET) { ran = Tb_RunCues(v, gen, who, Tb_Front(u), true, ua, ta); }
-        else if (k == TB_DO_KILL) { ran = Tb_RunCues(v, gen, who, p, true, ua, ta); }
-        else { ran = Tb_RunCues(v, gen, who, p, false, ua, ta); }
-    }
-
-    // An animation with a clear time (a hit reaction) is cleared then, not left to finish.
-    if (k == TB_DO_PLAY && tb_uNAnim[u] > 0 && tb_aClear[u][a] > 0.0 && gen == tb_gen) {
-        if (ran < tb_aClear[u][a]) { Wait(tb_aClear[u][a] - ran, c_timeGame); }
-        if (gen == tb_gen) { ActorSend(ua, "AnimClear " + StringWord(tb_aPlay[u][a], 2)); }
-        ran = MaxF(ran, tb_aClear[u][a]);
-        len = tb_aClear[u][a];
-    }
-    if (k == TB_DO_KILL) {
-        Tb_Respawn(u, MaxF(0.0, tb_uRespawn[u] - ran));
-        ran = MaxF(ran, tb_uRespawn[u]) + 0.5;
-    }
-    tb_lastEnd = MaxF(ran, len);
-    tb_lastRan = ran;
-}
-
+// Cuts the timeline and its sounds, and clears the variation's animations.
 void Tb_Stop () {
-    int u = tb_cur;
+    int v = Tb_VarIndex();
+    int i;
+    int e;
+    unit who = tb_unit[tb_cur];
     tb_gen += 1;
+    Tb_Show(tb_playhead, false);
     SoundStopAllTriggerSounds(true);
-    if (Tb_Plays() && tb_uNAnim[u] > 0 && UnitIsAlive(tb_unit[u])) {
-        ActorSend(Tb_Actor(tb_unit[u]), "AnimClear " + StringWord(tb_aPlay[u][tb_anim], 2));
+    if (v >= 0 && UnitIsAlive(who)) {
+        for (i = 0; i < tb_vEN[v]; i += 1) {
+            e = tb_vE0[v] + i;
+            if (tb_eKind[e] == TB_E_ANIM) { ActorSend(Tb_Actor(who), Tb_Clear(e)); }
+        }
     }
-    Tb_Idle(u);
+    if (UnitIsAlive(who)) { Tb_Idle(tb_cur); }
 }
 
 //--------------------------------------------------------------------------------------------------
 // The GUI
 //--------------------------------------------------------------------------------------------------
 
-// The Animation block: shown only for a moment that plays one, on the selection's animation.
-void Tb_FillAnims () {
-    int a;
-    bool show = Tb_Plays();
-    tb_anim = Tb_AnimFor(Tb_VarIndex());
-    DialogControlSetVisible(tb_animLabel, PlayerGroupAll(), show);
-    DialogControlSetVisible(tb_animPd, PlayerGroupAll(), show);
-    DialogControlRemoveAllItems(tb_animPd, PlayerGroupAll());
-    for (a = 0; a < tb_uNAnim[tb_cur]; a += 1) {
-        DialogControlAddItem(tb_animPd, PlayerGroupAll(), StringToText(tb_aName[tb_cur][a]));
+// What a variation holds, for its dropdown entry.
+string Tb_Tags (int v) {
+    bool sounds = false;
+    bool visuals = false;
+    bool anims = false;
+    string s = "";
+    int i;
+    int k;
+    for (i = 0; i < tb_vEN[v]; i += 1) {
+        k = tb_eKind[tb_vE0[v] + i];
+        if (k == TB_E_SOUND) { sounds = true; }
+        else if (k == TB_E_ANIM) { anims = true; }
+        else { visuals = true; }
     }
-    if (tb_uNAnim[tb_cur] == 0) { DialogControlAddItem(tb_animPd, PlayerGroupAll(), StringToText("(no animations)")); }
-    DialogControlSelectItem(tb_animPd, PlayerGroupAll(), tb_anim + 1);
+    if (anims) { s = s + " + anim"; }
+    if (sounds) { s = s + " + sound"; }
+    if (visuals) { s = s + " + visual"; }
+    if (s == "") { return ""; }
+    return "  [" + StringSub(s, 4, StringLength(s)) + "]";
 }
 
-// The unit and moment's variations, the pick marked *, then "(none)". Starts on the pick.
+// The unit and moment's variations, the pick marked *. Starts on the pick; hidden with fewer than two.
 void Tb_FillVars () {
     int n = tb_vN[tb_cur][tb_mom];
     int v0 = tb_v0[tb_cur][tb_mom];
     int i;
     string mark;
-    tb_var = n;
-    if (n > 0) { tb_var = 0; }
+    tb_var = 0;
+    tb_sel = -1;
+    if (n == 0) { tb_var = -1; }
     DialogControlRemoveAllItems(tb_varPd, PlayerGroupAll());
     for (i = 0; i < n; i += 1) {
         mark = "   ";
         if (tb_vPick[v0 + i]) { mark = "* "; tb_var = i; }
-        DialogControlAddItem(tb_varPd, PlayerGroupAll(), StringToText(mark + IntToString(i + 1) + "  " + tb_vLabel[v0 + i]));
+        DialogControlAddItem(tb_varPd, PlayerGroupAll(), StringToText(mark + IntToString(i + 1) + "  " + tb_vLabel[v0 + i] + Tb_Tags(v0 + i)));
     }
-    DialogControlAddItem(tb_varPd, PlayerGroupAll(), StringToText("(none: the action alone)"));
-    DialogControlSetEnabled(tb_varPd, PlayerGroupAll(), n > 0);
-    DialogControlSelectItem(tb_varPd, PlayerGroupAll(), tb_var + 1);
+    Tb_Show(tb_varLabel, n > 1);
+    Tb_Show(tb_varPd, n > 1);
+    if (n > 0) { DialogControlSelectItem(tb_varPd, PlayerGroupAll(), tb_var + 1); }
 }
 
 // The moments, each with the selected unit's count of variations.
@@ -589,17 +974,16 @@ void Tb_FillMoments () {
     DialogControlSelectItem(tb_momPd, PlayerGroupAll(), tb_mom + 1);
 }
 
-// After the unit or moment changes: its variations, then its animation, then the readout.
+// After the unit or moment changes: its variations, then the view.
 void Tb_Refill () {
     Tb_FillVars();
-    Tb_FillAnims();
     Tb_ReadReset();
 }
 
 int Tb_Ctl (int type, int w, int h, int x, int y) {
     int c = DialogControlCreate(tb_dlg, type);
     DialogControlSetSize(c, PlayerGroupAll(), w, h);
-    DialogControlSetPosition(c, PlayerGroupAll(), c_anchorTopLeft, x, y);
+    DialogControlSetPosition(c, PlayerGroupAll(), c_anchorTopLeft, x + TB_PAD, y);
     return c;
 }
 
@@ -609,10 +993,31 @@ int Tb_Button (string label, int w, int x, int y) {
     return c;
 }
 
+int Tb_Label (string label, int w, int x, int y) {
+    int c = Tb_Ctl(c_triggerControlTypeLabel, w, 30, x, y);
+    Tb_Text(c, label);
+    return c;
+}
+
+// A plain block of colour, hidden until painted.
+int Tb_Block () {
+    int c = Tb_Ctl(c_triggerControlTypeImage, 4, 4, TB_BX, TB_RY);
+    DialogControlSetPropertyAsString(c, c_triggerControlPropertyImage, PlayerGroupAll(), "Assets\\Textures\\white32.dds");
+    DialogControlSetPropertyAsInt(c, c_triggerControlPropertyImageType, PlayerGroupAll(), c_triggerImageTypeNormal);
+    Tb_Show(c, false);
+    return c;
+}
+
+bool Tb_PlayThread (bool testConds, bool runActions) {
+    Tb_Play();
+    return true;
+}
+
 bool Tb_OnEvent (bool testConds, bool runActions) {
     int c = EventDialogControl();
     int e = EventDialogControlEventType();
     int sel;
+    int r;
     string s;
     if (e == c_triggerControlEventTypeSelectionChanged) {
         if (c == tb_unitPd) {
@@ -630,38 +1035,60 @@ bool Tb_OnEvent (bool testConds, bool runActions) {
         }
         else if (c == tb_varPd) {
             sel = DialogControlGetSelectedItem(c, 1) - 1;
-            if (sel >= 0 && sel <= tb_vN[tb_cur][tb_mom] && sel != tb_var) {
+            if (sel >= 0 && sel < tb_vN[tb_cur][tb_mom] && sel != tb_var) {
                 tb_var = sel;
-                Tb_FillAnims();
+                tb_sel = -1;
                 Tb_ReadReset();
             }
         }
-        else if (c == tb_animPd) {
-            sel = DialogControlGetSelectedItem(c, 1) - 1;
-            if (sel >= 0 && sel < tb_uNAnim[tb_cur] && sel != tb_anim) { tb_anim = sel; Tb_ReadReset(); }
+        return true;
+    }
+    if (e == c_triggerControlEventTypeChecked) {
+        if (c == tb_loop) {
+            tb_looping = DialogControlGetPropertyAsBool(tb_loop, c_triggerControlPropertyChecked, 1);
+            return true;
+        }
+        // A row's box is ticked while its element plays.
+        for (r = 0; r < TB_ROWS; r += 1) {
+            if (c == tb_rMute[r]) { Tb_SetMuted(r, !DialogControlGetPropertyAsBool(c, c_triggerControlPropertyChecked, 1)); }
+        }
+        return true;
+    }
+    if (e != c_triggerControlEventTypeClick) { return true; }
+    if (c == tb_play) { Tb_Play(); }
+    else if (c == tb_stop) { Tb_Stop(); }
+    else if (c == tb_startMinus) { Tb_StepStart(-TB_STEP); }
+    else if (c == tb_startPlus) { Tb_StepStart(TB_STEP); }
+    else if (c == tb_stopMinus) { Tb_StepStop(-TB_STEP); }
+    else if (c == tb_stopPlus) { Tb_StepStop(TB_STEP); }
+    else if (c == tb_reset) { Tb_Reset(); }
+    else if (c == tb_resetAll) { Tb_ResetAll(); }
+    else if (c == tb_menu) { UIShowStandardMenu(PlayerGroupAll()); }
+    else if (c == tb_send) {
+        s = DialogControlGetPropertyAsString(tb_edit, c_triggerControlPropertyEditText, 1);
+        if (s == "") { return true; }
+        if (StringWord(s, 1) == "target" && tb_target != null) {
+            ActorSend(Tb_Actor(tb_target), StringSub(s, 8, StringLength(s)));
+            Tb_Msg("target actor: " + StringSub(s, 8, StringLength(s)));
+        }
+        else if (StringFind(s, " ", c_stringCase) == c_stringNotFound) {
+            Tb_Sound(s, tb_unit[tb_cur], Tb_Home(tb_cur), !UnitIsAlive(tb_unit[tb_cur]));
+            Tb_Msg("sound: " + s);
+        }
+        else {
+            ActorSend(Tb_Actor(tb_unit[tb_cur]), s);
+            Tb_Msg("actor: " + s);
         }
     }
-    else if (e == c_triggerControlEventTypeClick) {
-        if (c == tb_play) { Tb_Play(true); }
-        else if (c == tb_stop) { Tb_Stop(); }
-        else if (c == tb_send) {
-            s = DialogControlGetPropertyAsString(tb_edit, c_triggerControlPropertyEditText, 1);
-            if (StringWord(s, 1) == "target" && tb_target != null) {
-                ActorSend(Tb_Actor(tb_target), StringSub(s, 8, StringLength(s)));
-                Tb_Msg("target actor: " + StringSub(s, 8, StringLength(s)));
-            }
-            else if (StringFind(s, " ", c_stringCase) == c_stringNotFound) {
-                Tb_Sound(s, tb_unit[tb_cur], Tb_Home(tb_cur), !UnitIsAlive(tb_unit[tb_cur]));
-                Tb_Msg("sound: " + s);
-            }
-            else {
-                ActorSend(Tb_Actor(tb_unit[tb_cur]), s);
-                Tb_Msg("actor: " + s);
+    else {
+        // A row's name selects it, or deselects it when it is the selected one.
+        for (r = 0; r < TB_ROWS; r += 1) {
+            if (c == tb_rName[r]) {
+                if (tb_sel == r) { tb_sel = -1; }
+                else { tb_sel = r; }
+                Tb_Paint();
             }
         }
-    }
-    else if (e == c_triggerControlEventTypeChecked && c == tb_loop) {
-        tb_looping = DialogControlGetPropertyAsBool(tb_loop, c_triggerControlPropertyChecked, 1);
     }
     return true;
 }
@@ -669,7 +1096,7 @@ bool Tb_OnEvent (bool testConds, bool runActions) {
 bool Tb_Loop (bool testConds, bool runActions) {
     while (true) {
         if (tb_looping) {
-            Tb_Play(true);
+            Tb_Play();
             Wait(MaxF(0.0, tb_lastEnd - tb_lastRan) + 1.0, c_timeGame);
         }
         else { Wait(0.25, c_timeGame); }
@@ -678,67 +1105,95 @@ bool Tb_Loop (bool testConds, bool runActions) {
 }
 
 void Tb_Help () {
-    Tb_Msg("Testbed: pick a unit, a moment and a variation, then Play. * marks the spec's pick.");
-    Tb_Msg("Send: a CSound id plays at the unit; text with a space goes to its actor; 'target <msg>' goes to the target's actor.");
-    Tb_Msg("-t <strike> [land]: retime the selected animation   -len <s>: its length   -help: this");
+    Tb_Msg("Testbed: pick a unit, a moment and a variation, then Play. Each variation is a timeline; * marks the spec's pick.");
+    Tb_Msg("Click an element's name to move its start or stop; its box mutes it. Each change is saved in the bank " + TB_TUNE_BANK + " (Reset all, pressed twice, empties it); testbed.js <spec> --apply writes them into the spec.");
+    Tb_Msg("The game's UI is hidden: Menu opens the game menu.");
+    Tb_Msg("Send: a CSound id plays at the unit; text with a space goes to its actor; 'target' then a message goes to the target's actor.");
 }
 
 bool Tb_Chat (bool testConds, bool runActions) {
-    string msg = EventChatMessage(false);
-    string w1 = StringCase(StringWord(msg, 1), false);
-    string w2 = StringWord(msg, 2);
-    string w3 = StringWord(msg, 3);
-    int u = tb_cur;
-    int a = tb_anim;
-    if (w1 == "-help") { Tb_Help(); }
-    else if (tb_uNAnim[u] == 0) { return true; }
-    else if (w1 == "-t" && w2 != "") {
-        tb_aStrike[u][a] = StringToFixed(w2);
-        if (w3 != "") { tb_aLand[u][a] = StringToFixed(w3); }
-        Tb_Msg(tb_uName[u] + " / " + tb_aName[u][a] + ": \"strike\": " + Tb_F(tb_aStrike[u][a]) + ", \"land\": " + Tb_F(tb_aLand[u][a]));
-        Tb_ReadReset();
-    }
-    else if (w1 == "-len" && w2 != "") {
-        tb_aLen[u][a] = StringToFixed(w2);
-        Tb_ReadReset();
-    }
+    if (StringCase(StringWord(EventChatMessage(false), 1), false) == "-help") { Tb_Help(); }
     return true;
+}
+
+// The game's UI (the console, the menu bar, control groups, the timer and the rest) takes room the
+// dialog needs; the dialog's Menu button opens the game menu instead.
+void Tb_HideGameUi () {
+    int f;
+    for (f = c_syncFrameTypeFirst; f <= c_syncFrameTypeLast; f += 1) {
+        // Only Blizzard maps may hide the Battle UI.
+        if (f != c_syncFrameTypeBattleUI) { UISetFrameVisible(PlayerGroupAll(), f, false); }
+    }
 }
 
 void Tb_Gui () {
     trigger t = TriggerCreate("Tb_OnEvent");
     int i;
     int y = 70;
-    tb_dlg = DialogCreate(500, 700, c_anchorTopLeft, 20, 60, false);
+    tb_dlg = DialogCreate(TB_W, TB_H, c_anchorTopLeft, 20, 30, false);
     DialogSetTitle(tb_dlg, StringToText(TB_TITLE));
 
-    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5), "Unit");
-    tb_unitPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
+    Tb_Label("Unit", 70, 30, y + 5);
+    tb_unitPd = Tb_Ctl(c_triggerControlTypePulldown, 300, 40, 110, y);
     for (i = 0; i < TB_NU; i += 1) {
         DialogControlAddItem(tb_unitPd, PlayerGroupAll(), StringToText(tb_uName[i] + " (" + tb_uType[i] + ")"));
     }
     DialogControlSelectItem(tb_unitPd, PlayerGroupAll(), 1);
+    Tb_Label("Moment", 90, 440, y + 5);
+    tb_momPd = Tb_Ctl(c_triggerControlTypePulldown, 330, 40, 540, y);
     y += 45;
-    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5), "Moment");
-    tb_momPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
+    tb_varLabel = Tb_Label("Variation", 100, 30, y + 5);
+    tb_varPd = Tb_Ctl(c_triggerControlTypePulldown, 730, 40, 140, y);
     y += 45;
-    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5), "Variation");
-    tb_varPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
+    tb_note = Tb_Ctl(c_triggerControlTypeLabel, 840, 40, 30, y);
     y += 45;
-    tb_note = Tb_Ctl(c_triggerControlTypeLabel, 440, 50, 30, y);
+    tb_head = Tb_Ctl(c_triggerControlTypeLabel, 840, 28, 30, y);
+
+    // The timeline: lanes, then grid lines, then bars, so each draws over the one before.
+    for (i = 0; i < TB_TICKS; i += 1) { tb_tick[i] = Tb_Ctl(c_triggerControlTypeLabel, 60, 22, TB_BX, TB_AY); }
+    for (i = 0; i < TB_ROWS; i += 1) {
+        tb_rLane[i] = Tb_Block();
+        Tb_Place(tb_rLane[i], 26, TB_RY + TB_RH * i + 1, TB_BX + TB_BW - 26 + 4, TB_RH - 2);
+    }
+    for (i = 0; i < TB_TICKS; i += 1) {
+        tb_grid[i] = Tb_Block();
+        Tb_Color(tb_grid[i], 24.0, 24.0, 24.0);
+    }
+    for (i = 0; i < TB_ROWS; i += 1) {
+        tb_rMute[i] = Tb_Ctl(c_triggerControlTypeCheckBox, 26, 26, 32, TB_RY + TB_RH * i + 6);
+        tb_rName[i] = Tb_Ctl(c_triggerControlTypeButton, 262, 34, 62, TB_RY + TB_RH * i + 2);
+        tb_rBar[i] = Tb_Block();
+        tb_rCut[i] = Tb_Block();
+        tb_rDot[i] = Tb_Block();
+        tb_rStrike[i] = Tb_Block();
+        tb_rLand[i] = Tb_Block();
+        Tb_Color(tb_rStrike[i], 85.0, 71.0, 35.0);
+        Tb_Color(tb_rLand[i], 85.0, 71.0, 35.0);
+    }
+    tb_playhead = Tb_Block();
+    Tb_Color(tb_playhead, 100.0, 100.0, 100.0);
+
+    y = TB_RY + TB_RH * TB_ROWS + 12;
+    tb_selLabel = Tb_Ctl(c_triggerControlTypeLabel, 840, 28, 30, y);
+    y += 34;
+    tb_startLabel = Tb_Label("Start", 70, 30, y + 8);
+    tb_startMinus = Tb_Button("-", 45, 100, y);
+    tb_startValue = Tb_Label("", 90, 152, y + 8);
+    tb_startPlus = Tb_Button("+", 45, 240, y);
+    tb_stopLabel = Tb_Label("Stop", 90, 320, y + 8);
+    tb_stopMinus = Tb_Button("-", 45, 410, y);
+    tb_stopValue = Tb_Label("", 90, 462, y + 8);
+    tb_stopPlus = Tb_Button("+", 45, 550, y);
+    tb_reset = Tb_Button("Reset", 120, 750, y);
     y += 55;
-    tb_animLabel = Tb_Ctl(c_triggerControlTypeLabel, 100, 30, 30, y + 5);
-    Tb_Text(tb_animLabel, "Animation");
-    tb_animPd = Tb_Ctl(c_triggerControlTypePulldown, 340, 40, 130, y);
-    y += 50;
     tb_play = Tb_Button("Play", 90, 30, y);
     tb_stop = Tb_Button("Stop", 90, 125, y);
     tb_loop = Tb_Ctl(c_triggerControlTypeCheckBox, 30, 30, 235, y + 5);
-    Tb_Text(Tb_Ctl(c_triggerControlTypeLabel, 70, 30, 270, y + 8), "Loop");
-    y += 55;
-    tb_read = Tb_Ctl(c_triggerControlTypeLabel, 440, 700 - y - 100, 30, y);
-    tb_edit = Tb_Ctl(c_triggerControlTypeEditBox, 340, 40, 30, 700 - 85);
-    tb_send = Tb_Button("Send", 90, 380, 700 - 85);
+    Tb_Label("Loop", 70, 270, y + 8);
+    tb_resetAll = Tb_Button("Reset all", 120, 750, y);
+    tb_edit = Tb_Ctl(c_triggerControlTypeEditBox, 640, 40, 30, TB_H - 100);
+    tb_send = Tb_Button("Send", 90, 680, TB_H - 100);
+    tb_menu = Tb_Button("Menu", 90, 780, TB_H - 100);     // the game's menu bar is hidden (Tb_HideGameUi)
 
     Tb_FillMoments();
     TriggerAddEventDialogControl(t, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
@@ -750,14 +1205,10 @@ void Tb_Gui () {
 
 // The tour: selects each stop's state as the pulldowns would, plays it in its own thread, and saves
 // the stop in the bank after its hold; -1 when done.
-bool Tb_TourPlay (bool testConds, bool runActions) {
-    Tb_Play(true);
-    return true;
-}
-
 bool Tb_Tour (bool testConds, bool runActions) {
     bank b = BankLoad(TB_TOUR_BANK, 1);
     int i;
+    BankWait(b);
     Wait(4.0, c_timeGame);       // let the window settle before the first frame
     for (i = 0; i < tb_ntour; i += 1) {
         tb_cur = tb_tU[i];
@@ -767,17 +1218,11 @@ bool Tb_Tour (bool testConds, bool runActions) {
         DialogControlSelectItem(tb_unitPd, PlayerGroupAll(), tb_cur + 1);
         Tb_FillMoments();
         Tb_FillVars();
-        if (tb_tV[i] < 0) { tb_var = tb_vN[tb_cur][tb_mom]; }
-        else if (tb_tV[i] < tb_vN[tb_cur][tb_mom]) { tb_var = tb_tV[i]; }
-        DialogControlSelectItem(tb_varPd, PlayerGroupAll(), tb_var + 1);
-        Tb_FillAnims();
-        if (tb_tA[i] >= 0) {
-            tb_anim = tb_tA[i];
-            DialogControlSelectItem(tb_animPd, PlayerGroupAll(), tb_anim + 1);
-        }
+        if (tb_tV[i] >= 0 && tb_tV[i] < tb_vN[tb_cur][tb_mom]) { tb_var = tb_tV[i]; }
+        if (tb_vN[tb_cur][tb_mom] > 0) { DialogControlSelectItem(tb_varPd, PlayerGroupAll(), tb_var + 1); }
         Tb_ReadReset();
         Wait(0.5, c_timeGame);
-        TriggerExecute(TriggerCreate("Tb_TourPlay"), false, false);
+        TriggerExecute(TriggerCreate("Tb_PlayThread"), false, false);
         Wait(tb_tHold[i], c_timeGame);
         BankValueSetFromInt(b, "tour", "stop", i + 1);
         BankSave(b);
@@ -785,16 +1230,16 @@ bool Tb_Tour (bool testConds, bool runActions) {
         // has been seen taking 13 s between polls, and a stop it misses has no frame.
         Wait(15.0, c_timeReal);
         Tb_Stop();
-        // A kill stop waits for the unit to come back before the next stop.
-        if (tb_mDo[tb_mom] == TB_DO_KILL) { Wait(tb_uRespawn[tb_cur] + 1.0, c_timeGame); }
-        else { Wait(0.5, c_timeGame); }
+        // Wait for a killed unit to come back before the next stop.
+        while (!UnitIsAlive(tb_unit[tb_cur])) { Wait(0.5, c_timeGame); }
+        Wait(0.5, c_timeGame);
     }
     BankValueSetFromInt(b, "tour", "stop", -1);
     BankSave(b);
     return true;
 }
 
-// The target: real damage reaches it, so an effect cue can kill it; it comes back in front of the selected unit.
+// The target: real damage reaches it, so an effect can kill it; it comes back in front of the selected unit.
 void Tb_SpawnTarget () {
     UnitCreate(1, TB_TARGET, c_unitCreateIgnorePlacement, TB_TARGET_PLAYER, Tb_Front(tb_cur), TB_FACING + 180.0);
     tb_target = UnitLastCreated();
@@ -816,6 +1261,9 @@ bool Tb_Start (bool testConds, bool runActions) {
         VisEnable(c_visTypeFog, false);
     }
     Tb_Data();
+    // A tour films the build's own times, not the bank's.
+    if (tb_ntour == 0) { Tb_Restore(); }
+    else { tb_bank = BankLoad(TB_TUNE_BANK, 1); BankWait(tb_bank); }
     for (u = 0; u < TB_NU; u += 1) { Tb_Spawn(u); }
     if (TB_TARGET != "") {
         Tb_SpawnTarget();
@@ -823,6 +1271,8 @@ bool Tb_Start (bool testConds, bool runActions) {
         TriggerAddEventUnitDied(t, null);
     }
     CameraPan(1, Point(TB_X + TB_GAP * IntToFixed(TB_NU - 1) / 2.0, TB_Y - 2.5), 0.0, -1.0, 0.0, false);
+    Tb_SoundLengths();
+    Tb_HideGameUi();
     Tb_Gui();
     Wait(0.5, c_timeGame);       // a new unit's actor isn't there to take messages straight away
     for (u = 0; u < TB_NU; u += 1) { Tb_Idle(u); }
