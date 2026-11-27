@@ -3,10 +3,12 @@
 // there as painted, beside what the mix asked for.
 //
 // - **Cells.** As rasterisePaintRegions finds them: beside Kept ground, the generating Zones' own cells
-//   (ownedCells); on a generated map, every cell, each in the last Zone listed whose polygon holds it.
+//   (ownedCells, less the cells the compile record says the author kept); on a generated map, every cell, each in the last Zone listed whose polygon holds it.
 // - **Blend weight.** A texture's mean layer weight (out of 15) over the region's full-strength
 //   texels, past its falloff, and over all of its texels.
 // - **Area share.** The fraction of the region's cells the texture is the dominant texture of.
+// Both read the masks' raw weights. On LotV height-blended textures what shows isn't linear in them
+// (ADR-0028, decision 2), so they say what the compile painted, not what the eye sees.
 
 import { generatingZones, hasKeptTerrain, type MissionBlueprint, type PaintMix } from "../domain/mission-blueprint.js";
 import { type PaintRegionGround, rasterisePaintRegions, type RasterisedRegion } from "../terrain/paint-regions.js";
@@ -16,7 +18,7 @@ import { ownedCells } from "./generating-zones.js";
 import { cellSet, dominantLayer, type KeptTextures, setTextures } from "./paint-brushes.js";
 
 /** The ground a package's Paint Regions are rasterised on, as the compile has it. */
-export function packageRegionGround(blueprint: Pick<MissionBlueprint, "zones" | "mapSize">, textures: KeptTextures): PaintRegionGround {
+export function packageRegionGround(blueprint: Pick<MissionBlueprint, "zones" | "mapSize">, textures: KeptTextures, keptCells?: Uint8Array): PaintRegionGround {
   const { width, height } = textures;
   const base = {
     width,
@@ -25,8 +27,12 @@ export function packageRegionGround(blueprint: Pick<MissionBlueprint, "zones" | 
     setTextures: (set: number) => setTextures(textures, set),
     setLabel: (set: number) => `texture set ${set} (${textures.sets[set] || "unnamed"})`,
   };
-  if (!hasKeptTerrain(blueprint)) return { ...base, owner: zoneOwners({ ...blueprint, mapSize: { width, height } }), zones: blueprint.zones };
-  const { owned, owner } = ownedCells(blueprint, width, height);
+  if (!hasKeptTerrain(blueprint)) {
+    // As the compile names a generated map's sets (paint-textures.ts), set 0 being the map's own.
+    const setLabel = (set: number) => (set === 0 ? "the map's textures (set 0)" : base.setLabel(set));
+    return { ...base, setLabel, owner: zoneOwners({ ...blueprint, mapSize: { width, height } }), zones: blueprint.zones };
+  }
+  const { owned, owner } = ownedCells(blueprint, width, height, keptCells);
   return { ...base, owner, zones: generatingZones(blueprint), paints: (cell) => owned[cell] === 1 };
 }
 
@@ -49,8 +55,8 @@ export type RegionUsage =
   | { readonly id: string; readonly unmeasured: string };
 
 /** Each of the Blueprint's Paint Regions measured on the package, in order. */
-export function paintRegionUsage(blueprint: Pick<MissionBlueprint, "zones" | "mapSize" | "paintRegions">, textures: KeptTextures): RegionUsage[] {
-  const ground = packageRegionGround(blueprint, textures);
+export function paintRegionUsage(blueprint: Pick<MissionBlueprint, "zones" | "mapSize" | "paintRegions">, textures: KeptTextures, keptCells?: Uint8Array): RegionUsage[] {
+  const ground = packageRegionGround(blueprint, textures, keptCells);
   return (blueprint.paintRegions ?? []).map((region) => {
     let rasterised: RasterisedRegion | undefined;
     try {
@@ -118,7 +124,7 @@ const percent = (fraction: number) => `${Number((fraction * 100).toFixed(1))}%`;
 /** The regions' section of texture_usage's report. */
 export function describeRegionUsage(regions: readonly RegionUsage[]): string[] {
   if (regions.length === 0) return [];
-  const lines = ["", "Paint Regions (blend weight: mean layer weight past the falloff, and over the whole region; area share: the cells it is the dominant texture of):"];
+  const lines = ["", "Paint Regions, as painted (blend weight: the mean raw layer weight past the falloff, and over the whole region; area share: the cells it is the dominant texture of):"];
   for (const region of regions) {
     if ("unmeasured" in region) {
       lines.push(`  ${region.id}: not measured: ${region.unmeasured}`);

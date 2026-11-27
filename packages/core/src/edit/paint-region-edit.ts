@@ -18,23 +18,27 @@ import type { CapturedShot } from "../capture/shots.js";
 import { hasKeptTerrain, type MissionBlueprint, type PaintMix } from "../domain/mission-blueprint.js";
 import { packageRegionGround } from "../kept-terrain/paint-region-usage.js";
 import { readKeptTextures } from "../kept-terrain/paint-brushes.js";
-import { missionMapPackage } from "../map/mission-package.js";
+import { missionMapPackage, readCompileRecord } from "../map/mission-package.js";
+import { recordedKeptCells } from "../map/zones-beside-kept.js";
 import type { BlueprintIssue, Workspace } from "../plugins/workspace.js";
 import { rasterisePaintRegions } from "../terrain/paint-regions.js";
 import type { Point } from "../terrain/rasterize.js";
 import { type Edit, editMissionBlueprint, EditRefused, type EditResult } from "./edit-blueprint.js";
 
 type Raw = Record<string, unknown>;
-type Box = readonly [number, number, number, number];
+/** A rectangle of cells: [left, bottom, right, top], as a Shot's `rect`. */
+type CellRect = readonly [number, number, number, number];
+/** A box on a frame: [left, top, right, bottom], fractions of its width and height from its top-left corner. */
+type FrameBox = readonly [number, number, number, number];
 
 /** A box on a Still Review frame: the capture (its name under the Mission's output/shots, or a path to its shots.json), the Shot (its number or label) and the box. */
-export type FrameMark = { readonly capture: string; readonly shot: number | string; readonly box: Box };
+export type FrameMark = { readonly capture: string; readonly shot: number | string; readonly box: FrameBox };
 
 export type PaintRegionRequest = {
   readonly id: string;
   /** One outline source at most; none keeps an existing region's. */
   readonly zone?: string | undefined;
-  readonly rect?: Box | undefined;
+  readonly rect?: CellRect | undefined;
   readonly frame?: FrameMark | undefined;
   readonly mix?: readonly PaintMix[] | undefined;
   /** null removes it, back to the default. */
@@ -55,13 +59,13 @@ export async function missionPaintRegion(workspace: Workspace, blueprintPath: st
     else if (request.rect !== undefined) outline = rectOutline(request.rect);
     else if (request.frame !== undefined) outline = frameOutline(await readShot(blueprintPath, request.frame), request.frame, await mapSizeOf(blueprintPath));
   } catch (error) {
-    return { saved: false, issues: [error instanceof EditRefused ? error.issue : { path: "frame", message: (error as Error).message }] };
+    return { saved: false, issues: [error instanceof EditRefused ? error.issue : { path: sources[0] ?? "(blueprint)", message: (error as Error).message }] };
   }
-  return editMissionBlueprint(workspace, blueprintPath, paintRegionEdit(request, outline), { check: (blueprint) => packageMixIssues(blueprint, blueprintPath) });
+  return editMissionBlueprint(workspace, blueprintPath, paintRegionEdit(request, outline), { check: (blueprint) => packageMixIssues(blueprint, blueprintPath, request.id) });
 }
 
 /** A rectangle of cells as an outline, corners anticlockwise from its south-west one. */
-export function rectOutline([left, bottom, right, top]: Box): RegionOutline {
+export function rectOutline([left, bottom, right, top]: CellRect): RegionOutline {
   if (!(right > left && top > bottom)) throw new EditRefused({ path: "rect", message: "rect is [left, bottom, right, top], with right past left and top above bottom" });
   return { polygon: [{ x: left, y: bottom }, { x: right, y: bottom }, { x: right, y: top }, { x: left, y: top }], from: `cells [${left}, ${bottom}, ${right}, ${top}]` };
 }
@@ -121,18 +125,21 @@ export const paintRegionEdit =
   };
 
 /**
- * Beside Kept ground, each region's textures against the sets the Map Package has its cells' blocks
- * on, as the compile checks them (keptPaintRegions). Nothing to check before the package exists, or
- * on a generated map, whose sets the schema works out from the Blueprint.
+ * Beside Kept ground, region `id`'s textures against the sets the Map Package has its cells' blocks
+ * on, as the compile checks them (keptPaintRegions). Only that region, so one an earlier edit left
+ * wrong doesn't block fixing another. Nothing to check before the package has terrain (the compile
+ * checks then), or on a generated map, whose sets the schema works out from the Blueprint.
  */
-export async function packageMixIssues(blueprint: MissionBlueprint, blueprintPath: string): Promise<BlueprintIssue[]> {
+export async function packageMixIssues(blueprint: MissionBlueprint, blueprintPath: string, id: string): Promise<BlueprintIssue[]> {
   if (!blueprint.paintRegions?.length || !hasKeptTerrain(blueprint)) return [];
   const mapPackage = await missionMapPackage(blueprintPath);
   const files = ["t3Terrain.xml", "t3TextureMasks", "t3SyncTextureInfo"].map((file) => path.join(mapPackage, file));
   if (!files.every((file) => existsSync(file))) return [];
   const [terrain, masks, sync] = await Promise.all(files.map((file) => readFile(file)));
-  const ground = packageRegionGround(blueprint, readKeptTextures(terrain!.toString("utf8"), masks!, sync!));
+  const textures = readKeptTextures(terrain!.toString("utf8"), masks!, sync!);
+  const ground = packageRegionGround(blueprint, textures, recordedKeptCells(await readCompileRecord(blueprintPath), textures.width, textures.height));
   return blueprint.paintRegions.flatMap((region, index) => {
+    if (region.id !== id) return [];
     try {
       rasterisePaintRegions([region], ground);
       return [];

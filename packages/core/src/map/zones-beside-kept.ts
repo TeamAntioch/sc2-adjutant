@@ -59,6 +59,17 @@ export async function readKeptTerrain(mapPackage: string, catalog: Catalog): Pro
   };
 }
 
+/** The cells the compile record says the author kept from earlier compiles, less the entries named in `discarded`: the generating Zones don't own them. */
+export function recordedKeptCells(record: CompileRecord | undefined, width: number, height: number, discarded: readonly string[] = []): Uint8Array {
+  const keptCells = new Uint8Array(width * height);
+  for (const entry of record?.kept ?? []) {
+    if (entry.kind !== "terrain-cells" || discarded.includes(entryName(entry))) continue;
+    const cells = cellsOfRects(entry.cells, width, height);
+    for (let cell = 0; cell < cells.length; cell++) keptCells[cell] ||= cells[cell]!;
+  }
+  return keptCells;
+}
+
 /**
  * What a compile generates the Zones from, before it looks for hand edits: the package's Kept
  * terrain, the cells and texture sets the author kept, and the texture sets the Editor changed,
@@ -69,13 +80,8 @@ async function prepareZones(mapPackage: string, blueprint: MissionBlueprint, rec
   const { width, height } = kept.ground;
   const decision = decide(decisions);
   // Cells kept from earlier compiles, unless the author now discards them by name (as PackageOutput re-owns a kept entry: never by "all").
-  const keptCells = new Uint8Array(width * height);
   const discarded = Array.isArray(decisions.discard) ? decisions.discard : [];
-  for (const entry of record.kept ?? []) {
-    if (entry.kind !== "terrain-cells" || discarded.includes(entryName(entry))) continue;
-    const cells = cellsOfRects(entry.cells, width, height);
-    for (let cell = 0; cell < cells.length; cell++) keptCells[cell] ||= cells[cell]!;
-  }
+  const keptCells = recordedKeptCells(record, width, height, discarded);
   // The Blueprint's texture sets the last compile wrote, and those the author kept (ADR-0016).
   const recordedSets = record.entries.filter((entry): entry is TextureSetEntry => entry.kind === "texture-set");
   const keptSets = new Set((record.kept ?? []).flatMap((entry) => (entry.kind === "texture-set" && !discarded.includes(entryName(entry)) ? [entry.id] : [])));

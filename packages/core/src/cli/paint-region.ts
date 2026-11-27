@@ -19,10 +19,12 @@ const VALUED = new Set(["--zone", "--rect", "--capture", "--shot", "--box", "--m
 
 const numbers = (text: string, count?: number): number[] => {
   const values = text.split(",").map(Number);
-  if (values.some((value) => !Number.isFinite(value)) || (count !== undefined && values.length !== count)) throw new Error(`${text} isn't ${count ?? "a list of"} numbers, comma-separated`);
+  const wanted = count === 1 ? "a number" : `${count ?? "a list of"} numbers, comma-separated`;
+  if (values.some((value) => !Number.isFinite(value)) || (count !== undefined && values.length !== count)) throw new Error(`${text} isn't ${wanted}`);
   return values;
 };
-const four = (text: string) => numbers(text, 4) as [number, number, number, number];
+/** A rectangle or a box: four numbers. */
+const corners = (text: string) => numbers(text, 4) as [number, number, number, number];
 
 /** The request the arguments make, or a usage error. */
 function paintRegionArgs(args: readonly string[]): PaintRegionRequest & { readonly blueprint: string } {
@@ -45,8 +47,8 @@ function paintRegionArgs(args: readonly string[]): PaintRegionRequest & { readon
     blueprint: positional[0]!,
     id: positional[1]!,
     zone: options.get("--zone"),
-    rect: options.has("--rect") ? four(options.get("--rect")!) : undefined,
-    frame: framed.length ? { capture: options.get("--capture")!, shot: /^\d+$/.test(shot!) ? Number(shot) : shot!, box: four(options.get("--box")!) } : undefined,
+    rect: options.has("--rect") ? corners(options.get("--rect")!) : undefined,
+    frame: framed.length ? { capture: options.get("--capture")!, shot: /^\d+$/.test(shot!) ? Number(shot) : shot!, box: corners(options.get("--box")!) } : undefined,
     mix: mix === undefined ? undefined : (JSON.parse(mix) as PaintRegionRequest["mix"]),
     falloff: falloff === undefined ? undefined : falloff === "default" ? null : numbers(falloff, 1)[0]!,
     levels: levels === undefined ? undefined : levels === "all" ? null : numbers(levels),

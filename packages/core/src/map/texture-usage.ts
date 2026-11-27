@@ -22,7 +22,8 @@ import { clampCrop, cliffMask, CROP_MARGIN, type CropRect, windowCells } from ".
 import { darkenCells, enlarge, PX, renderTextureBlend, textureColours } from "../study/render-layers.js";
 import { LAYERS } from "../terrain/texture-grid.js";
 import { layerColours } from "./layer-colours.js";
-import { missionMapPackage } from "./mission-package.js";
+import { missionMapPackage, readCompileRecord } from "./mission-package.js";
+import { recordedKeptCells } from "./zones-beside-kept.js";
 import type { RgbImage } from "./read-tga.js";
 
 export type TextureUsageRequest = {
@@ -77,12 +78,12 @@ export async function missionTextureUsage(workspace: Workspace, blueprintPath: s
   const cellFlags = await readCellFlagCells(mapPackage, width, height);
   const usage = textureUsage(textures, cellZones(width, height, blueprint.zones, { owned, owner, generating }), cellFlags);
   const shown = request.render && usage.boundaries.stretches.length ? { render: renderBoundaries(textures, usage.boundaries.stretches, cellFlags) } : {};
-  const regions = paintRegionUsage(blueprint, textures);
+  const regions = paintRegionUsage(blueprint, textures, recordedKeptCells(await readCompileRecord(blueprintPath), width, height));
   const regionLines = describeRegionUsage(regions);
-  const describe = (...args: Parameters<typeof describeUsage>) => [describeUsage(...args), ...regionLines].join("\n");
+  const withRegions = (...args: Parameters<typeof describeUsage>) => [describeUsage(...args), ...regionLines].join("\n");
 
   const asked = request.proposal;
-  if (!asked) return { usage, regions, text: describe(usage), mapPackage, ...shown };
+  if (!asked) return { usage, regions, text: withRegions(usage), mapPackage, ...shown };
   const declared = asked.set === undefined ? undefined : blueprint.textureSets?.find((set) => set.id === asked.set);
   const proposed = asked.textures ?? declared?.textures;
   const zones = asked.zones ?? declared?.zones;
@@ -105,7 +106,7 @@ export async function missionTextureUsage(workspace: Workspace, blueprintPath: s
   const cells = Uint8Array.from(owner, (index, cell) => (owned[cell] && wanted.has(index) ? 1 : 0));
   // A set the Blueprint declares is in the package already once compiled: compare its Zones' cells as the set before it.
   const proposal = proposeSet(textures, usage, proposed, cells, owned);
-  return { usage, regions, proposal, text: describe(usage, proposal, proposed), mapPackage, ...shown };
+  return { usage, regions, proposal, text: withRegions(usage, proposal, proposed), mapPackage, ...shown };
 }
 
 const COLOURS = { cut: [230, 30, 30], artifact: [230, 0, 200] } as const;
