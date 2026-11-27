@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { EMPTY_CATALOG } from "../../src/catalog/catalog-layer.js";
-import { missionTextures } from "../../src/catalog/tileset-textures.js";
+import { missionTextures, textureStarkness } from "../../src/catalog/tileset-textures.js";
 import { MissionBlueprintSchema } from "../../src/domain/mission-blueprint.js";
 import { StyleBlueprintSchema } from "../support/workspaces.js";
 import { TEXELS_PER_CELL } from "../../src/terrain/texture-grid.js";
@@ -74,20 +74,43 @@ describe("texture palette", () => {
     expect(dominant(38, 14)).toBe("KorhalPlatform1");
   });
 
-  it("patches the main level with the variety textures, keeping the main one on about half", () => {
-    const counts = new Map<string, number>();
+  /** The main level's open cells: off the mesa, the pit and the yard with its crisp edge. */
+  const openMain = (x: number, y: number): boolean => terrain.syncCliff[y * W + x] === 64 && !(x >= 28 && x < 48 && y >= 4 && y < 24);
+
+  it("washes the main level with the variety textures, the main one keeping about two thirds by weight", () => {
+    const weights = new Map<string, number>();
     let total = 0;
     for (let y = 0; y < W; y++) {
       for (let x = 0; x < W; x++) {
-        if (terrain.syncCliff[y * W + x] !== 64 || (x >= 28 && x < 48 && y >= 4 && y < 24)) continue;
-        total++;
-        counts.set(dominant(x, y), (counts.get(dominant(x, y)) ?? 0) + 1);
+        if (!openMain(x, y)) continue;
+        total += 15;
+        textures.forEach((name, layer) => weights.set(name, (weights.get(name) ?? 0) + terrain.textureWeights[(y * W + x) * 8 + layer]!));
       }
     }
-    const share = (name: string): number => (counts.get(name) ?? 0) / total;
-    expect(share("MarSaraDirt")).toBeGreaterThan(0.3);
-    expect(share("MarSaraDirt")).toBeLessThan(0.7);
-    expect(share("MarSaraSand") + share("MarSaraRocky")).toBeGreaterThan(0.2);
+    const share = (name: string): number => (weights.get(name) ?? 0) / total;
+    expect(share("MarSaraDirt")).toBeGreaterThan(0.5);
+    expect(share("MarSaraDirt")).toBeLessThan(0.8);
+    expect(share("MarSaraSand")).toBeGreaterThan(0.05);
+    expect(share("MarSaraRocky")).toBeGreaterThan(0.05);
+  });
+
+  it("makes a variety patch a wash, not a swap: most open cells hold two textures, and few lose the main one altogether", () => {
+    let open = 0;
+    let mixed = 0;
+    let solid = 0;
+    for (let y = 0; y < W; y++) {
+      for (let x = 0; x < W; x++) {
+        if (!openMain(x, y)) continue;
+        open++;
+        const weights = terrain.textureWeights.subarray((y * W + x) * 8, (y * W + x) * 8 + 8);
+        if (Math.max(...weights) < 15) mixed++;
+        if (weights[textures.indexOf("MarSaraDirt")]! === 0) solid++;
+      }
+    }
+    expect(mixed / open).toBeGreaterThan(0.5);
+    // A wash has a core at full strength, so it still reads in dim light.
+    expect(solid / open).toBeGreaterThan(0);
+    expect(solid / open).toBeLessThan(0.1);
   });
 
   it("paints each zone its one texture, with no advice, when no Style Pack is active", () => {
@@ -146,15 +169,45 @@ describe("texture palette", () => {
     expect(errors(blueprint({ ...palette, variety: ["A", "B", "C", "D"] }))).not.toEqual([]);
   });
 
+  it("gives a stark variety texture less ground than a calm one, by its picture's contrast", () => {
+    // Pebbly ShakurasCity2 and lumpy Zerus3 are stark; smooth BelShirDirtLightEx2 is calm.
+    expect(textureStarkness("ShakurasCity2")).toBe(1);
+    expect(textureStarkness("Zerus3")).toBe(1);
+    expect(textureStarkness("BelShirDirtLightEx2")).toBe(0);
+    expect(textureStarkness("BelShirGrassLightEx2")).toBe(0);
+    const grass = { ...palette, main: "BelShirGrassLightEx2", variety: ["ShakurasCity2", "BelShirDirtLightEx2"] };
+    const parsedGrass = StyleBlueprintSchema.parse(blueprint(grass));
+    const painted = rasterizeTerrain(parsedGrass);
+    const names = missionTextures(EMPTY_CATALOG, parsedGrass);
+    const weight = (name: string): number => {
+      let sum = 0;
+      let cells = 0;
+      for (let y = 0; y < W; y++) {
+        for (let x = 0; x < W; x++) {
+          if (!openMain(x, y)) continue;
+          cells++;
+          sum += painted.textureWeights[(y * W + x) * 8 + names.indexOf(name)]! / 15;
+        }
+      }
+      return sum / cells;
+    };
+    expect(weight("BelShirDirtLightEx2")).toBeGreaterThan(0.1);
+    expect(weight("ShakurasCity2")).toBeGreaterThan(0.005);
+    expect(weight("ShakurasCity2")).toBeLessThan(weight("BelShirDirtLightEx2") / 2);
+    // Even at its core a stark texture takes about half a cell, so the grass shows through it.
+    let most = 0;
+    for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) if (openMain(x, y)) most = Math.max(most, painted.textureWeights[(y * W + x) * 8 + names.indexOf("ShakurasCity2")]!);
+    expect(most).toBeGreaterThanOrEqual(5);
+    expect(most).toBeLessThanOrEqual(9);
+  });
+
   describe("bands (DL-01, DL-02)", () => {
-    /** Shares of each texture among a zone's cells (dominant texture per cell). */
+    /** Each texture's share of a zone's ground, by weight. */
     const shares = (painted: ReturnType<typeof rasterizeTerrain>, names: string[], x0: number, y0: number, x1: number, y1: number) => {
       const counts = new Map<string, number>();
       for (let y = y0; y < y1; y++) {
         for (let x = x0; x < x1; x++) {
-          const weights = [...painted.textureWeights.subarray((y * W + x) * 8, (y * W + x) * 8 + 8)];
-          const name = names[weights.indexOf(Math.max(...weights))]!;
-          counts.set(name, (counts.get(name) ?? 0) + 1);
+          names.forEach((name, layer) => counts.set(name, (counts.get(name) ?? 0) + painted.textureWeights[(y * W + x) * 8 + layer]! / 15));
         }
       }
       const total = (x1 - x0) * (y1 - y0);
@@ -174,7 +227,8 @@ describe("texture palette", () => {
     it("patches a band with its own variety at full strength", () => {
       const { painted, names } = paint(blueprint({ ...palette, high: { texture: "MarSaraDarkSand", variety: ["MarSaraBlackenedRock"] } }));
       const share = shares(painted, names, 42, 42, 54, 54);
-      expect(share("MarSaraBlackenedRock")).toBeGreaterThan(0.2);
+      // A wash on a 12-cell mesa, of a texture stark enough to be painted lightly.
+      expect(share("MarSaraBlackenedRock")).toBeGreaterThan(0.02);
       expect(share("MarSaraSand") + share("MarSaraRocky")).toBe(0);
     });
 
@@ -221,7 +275,7 @@ describe("texture palette", () => {
     it("patches a zone that falls back to main like the main level", () => {
       const { painted, names } = paint(blueprint({ ...palette, high: undefined }));
       const share = shares(painted, names, 42, 42, 54, 54);
-      expect(share("MarSaraSand") + share("MarSaraRocky")).toBeGreaterThan(0.25);
+      expect(share("MarSaraSand") + share("MarSaraRocky")).toBeGreaterThan(0.1);
     });
 
     it("counts band variety against the 8-texture limit", () => {

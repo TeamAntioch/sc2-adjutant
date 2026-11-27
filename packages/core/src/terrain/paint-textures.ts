@@ -9,7 +9,8 @@
 //   border doesn't show) and blend over a width that varies along them, as on Blizzard's
 //   natural-ground maps: blends there run a median 3-6 cells, from about 1 to over 10.
 // - With a texture palette (texturePlan), zones take their elevation band's texture, natural
-//   ground gets patches of the variety textures where the Style Pack's rules ask for them, and
+//   ground gets washes of the variety textures where the Style Pack's rules ask for them (each
+//   fades in, stays below full strength and may overlap another, so no patch is a solid shape), and
 //   built zones get crisp, unwarped edges: a 2-3 texel fade, as on Blizzard's built maps (Media
 //   Blitz, 3-2, 3-4: median 2-3 texels).
 // - Which textures the wide blend joins, and the palette advice, are the Style Pack's rules too
@@ -19,7 +20,7 @@
 //   onto the other, so the two match exactly whatever the blurs' rounding.
 
 import { blueprintCatalog, layerSource } from "../catalog/catalog-layer.js";
-import { isKnownTexture, textureTone } from "../catalog/tileset-textures.js";
+import { isKnownTexture, textureStarkness, textureTone } from "../catalog/tileset-textures.js";
 import { type MissionBlueprint, type PaletteBand, paletteBands, paletteTextures, type TexturePalette } from "../domain/mission-blueprint.js";
 import { blueprintPlugins, type CliffTexturePair, type StyleRuleSlots } from "../plugins/plugin-api.js";
 import { containsPoint } from "./rasterize.js";
@@ -51,6 +52,32 @@ const CRISP_BLUR_TEXELS = 1;
 const CRISP_REACH_CELLS = 2 * WIDE_BLUR_CELLS;
 /** Cells round a ramp that always get the wide blend. */
 const RAMP_BLEND_CELLS = 3;
+
+/**
+ * A variety patch is a wash, not a swap. Its texture fades in over PATCH_FEATHER of noise above
+ * the threshold to a core at full strength, and a finer noise (MOTTLE_PERIOD cells) moves the
+ * threshold by up to MOTTLE_DEPTH, so the edge is soft and broken while the core still reads in
+ * dim light. Measured on the Antioch pack's natural-ground Exemplar Maps, half to nine tenths of
+ * open cells hold two or more textures.
+ *
+ * A stark texture (pebbles, lumpy moss, pitted creep, roots: textureStarkness, from its picture's
+ * contrast and the catalog's accent note) reads at full strength long before its weight gets
+ * there, so it gets less ground and smaller spots. At full starkness its noise is STARK_SCALE times
+ * finer, its threshold STARK_RARITY higher, its fade STARK_FEATHER and its core only STARK_STRENGTH
+ * of a texel, so the zone's own texture shows through it; a texture part-way stark is part-way
+ * there.
+ *
+ * Beside a block of another texture set every patch fades out over SET_EDGE_FADE cells: a set's
+ * edge is a cut along the block line, and a wash cut there shows as a step in its own texture.
+ */
+const PATCH_FEATHER = 0.25;
+const MOTTLE_PERIOD = 3;
+const MOTTLE_DEPTH = 0.12;
+const STARK_SCALE = 2;
+const STARK_RARITY = 0.18;
+const STARK_FEATHER = 0.12;
+const STARK_STRENGTH = 0.5;
+const SET_EDGE_FADE = 2;
 
 /** Variety patched into a zone's ground: the patch noise's period (cells), and the noise it takes to start one. */
 export type ZonePatches = { readonly layers: readonly number[]; readonly period: number; readonly threshold: number };
@@ -383,9 +410,10 @@ export function zoneOwners(blueprint: Pick<MissionBlueprint, "mapSize" | "zones"
 /**
  * Each cell's texture layer: its zone's (later zones win) when that zone is at the cell's cliff
  * level, otherwise the nearest same-level cell's that is. Ramp cells count as their top level.
- * Main-level cells wearing the palette's main texture take variety patches; `built` marks cells
- * of built zones, and `zone` is each cell's painting Zone ({@link paintingZones}). `owner` is each
- * cell's zone ({@link zoneOwners}).
+ * Main-level cells wearing the palette's main texture take variety patches; `layers` is the texture
+ * with the largest share of each cell and `shares[layer]` each texture's share of each cell (a
+ * cell's shares sum to 1). `built` marks cells of built zones, and `zone` is each cell's painting
+ * Zone ({@link paintingZones}). `owner` is each cell's zone ({@link zoneOwners}).
  */
 export function cellTextureLayers(
   blueprint: MissionBlueprint,
@@ -393,34 +421,64 @@ export function cellTextureLayers(
   syncCliff: Uint16Array,
   owner: Int16Array,
   symmetry?: Rot180,
-): { readonly layers: Int8Array; readonly built: Uint8Array; readonly zone: Int16Array } {
+): { readonly layers: Int8Array; readonly built: Uint8Array; readonly zone: Int16Array; readonly shares: (Float32Array | undefined)[] } {
   const { width, height } = blueprint.mapSize;
   const cells = width * height;
   const source = paintingZones(blueprint, syncCliff, owner);
   const layers = new Int8Array(cells);
   const built = new Uint8Array(cells);
+  const shares: (Float32Array | undefined)[] = new Array(Math.max(8, plan.layerNames.length)).fill(undefined);
+  const sharesOf = (layer: number): Float32Array => (shares[layer] ??= new Float32Array(cells));
+  const starkness = plan.layerNames.map((name) => textureStarkness(name));
+  const edgeFade = plan.sets && setEdgeFade(plan.sets, width, height);
   for (let i = 0; i < cells; i++) {
     const zone = source[i]!;
-    if (zone < 0) continue;
-    layers[i] = plan.zoneLayers[zone]!;
+    if (zone < 0) {
+      sharesOf(0)[i] = 1;
+      continue;
+    }
+    const base = plan.zoneLayers[zone]!;
+    layers[i] = base;
     built[i] = plan.builtZones[zone] ? 1 : 0;
     const patches = plan.zonePatches[zone];
-    if (!patches) continue;
-    // The variety texture whose noise is highest here, if it's high enough.
-    const x = (i % width) + 0.5;
-    const y = Math.floor(i / width) + 0.5;
-    let best = -Infinity;
-    let bestLayer = -1;
-    patches.layers.forEach((layer, index) => {
-      const n = symmetricNoise((px, py) => patchNoise(px, py, index, patches.period), symmetry, 1)(x, y);
-      if (n > best) {
-        best = n;
-        bestLayer = layer;
+    let total = 0;
+    if (patches) {
+      const x = (i % width) + 0.5;
+      const y = Math.floor(i / width) + 0.5;
+      const fine = symmetricNoise((px, py) => valueNoise(px / MOTTLE_PERIOD, py / MOTTLE_PERIOD, 977), symmetry, 1)(x, y);
+      const fade = edgeFade ? edgeFade[i]! : 1;
+      // Each variety texture's wash, sharing the ground between them where they overlap.
+      const own: { layer: number; share: number }[] = [];
+      patches.layers.forEach((layer, index) => {
+        if (layer === base || fade === 0) return;
+        const stark = starkness[layer] ?? 0;
+        const period = patches.period / (1 + (STARK_SCALE - 1) * stark);
+        const n = symmetricNoise((px, py) => patchNoise(px, py, index, period), symmetry, 1)(x, y) + MOTTLE_DEPTH * fine;
+        const threshold = patches.threshold + STARK_RARITY * stark;
+        if (n <= threshold) return;
+        const rise = Math.min(1, (n - threshold) / (PATCH_FEATHER + (STARK_FEATHER - PATCH_FEATHER) * stark));
+        const share = fade * rise * rise * (3 - 2 * rise) * (1 - (1 - STARK_STRENGTH) * stark);
+        total += share;
+        own.push({ layer, share });
+      });
+      const scale = total > 1 ? 1 / total : 1;
+      total = 0;
+      let best = 0;
+      for (const entry of own) {
+        const share = entry.share * scale;
+        sharesOf(entry.layer)[i]! += share;
+        total += share;
+        if (share > best) {
+          best = share;
+          layers[i] = entry.layer;
+        }
       }
-    });
-    if (best > patches.threshold) layers[i] = bestLayer;
+      total = Math.min(1, total);
+      if (best < 1 - total) layers[i] = base;
+    }
+    sharesOf(base)[i]! += 1 - total;
   }
-  return { layers, built, zone: source };
+  return { layers, built, zone: source, shares };
 }
 
 /**
@@ -488,6 +546,33 @@ function snapToSets(layers: Int8Array, plan: TexturePlan, width: number): void {
   }
 }
 
+/** How much of a patch each cell keeps beside a block of another texture set: 0 at the block line, 1 from SET_EDGE_FADE cells in. */
+function setEdgeFade(sets: PlanSets, width: number, height: number): Float32Array {
+  const fade = new Float32Array(width * height).fill(1);
+  const rows = Math.ceil(height / CELLS_PER_BLOCK);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const bx = Math.floor(x / CELLS_PER_BLOCK);
+      const by = Math.floor(y / CELLS_PER_BLOCK);
+      const set = sets.blockSets[by * sets.blocksPerRow + bx];
+      let nearest = SET_EDGE_FADE;
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          const nx = bx + dx;
+          const ny = by + dy;
+          if ((dx === 0 && dy === 0) || nx < 0 || ny < 0 || nx >= sets.blocksPerRow || ny >= rows || sets.blockSets[ny * sets.blocksPerRow + nx] === set) continue;
+          // The cell centre's distance to that block's nearest edge.
+          const gapX = dx === 0 ? 0 : dx < 0 ? x + 0.5 - bx * CELLS_PER_BLOCK : (bx + 1) * CELLS_PER_BLOCK - (x + 0.5);
+          const gapY = dy === 0 ? 0 : dy < 0 ? y + 0.5 - by * CELLS_PER_BLOCK : (by + 1) * CELLS_PER_BLOCK - (y + 0.5);
+          nearest = Math.min(nearest, Math.max(gapX, gapY));
+        }
+      }
+      fade[y * width + x] = Math.max(0, Math.min(1, (nearest - 0.5) / (SET_EDGE_FADE - 0.5)));
+    }
+  }
+  return fade;
+}
+
 /**
  * Noise shaping variety patches: three scales, each on a lattice turned to its own angle, so the
  * patches' edges don't follow the square grid value noise is built on.
@@ -502,9 +587,9 @@ function patchNoise(x: number, y: number, index: number, period: number): number
   }, 0);
 }
 const PATCH_OCTAVES = [
-  { weight: 0.6, scale: 1, angle: 0.5 },
-  { weight: 0.3, scale: 2.3, angle: 1.3 },
-  { weight: 0.1, scale: 5.1, angle: 2.2 },
+  { weight: 0.45, scale: 1, angle: 0.5 },
+  { weight: 0.35, scale: 2.6, angle: 1.3 },
+  { weight: 0.2, scale: 6, angle: 2.2 },
 ];
 
 /** Turns the source side's weights (below the centre) onto the other side's cells and texels. */
@@ -718,10 +803,29 @@ function bilinear(grid: Float32Array, c: number, width: number, dx: number, ax: 
 /** The Zones' textures, blended; `owner` is each cell's Zone ({@link zoneOwners}). */
 export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, syncCliff: Uint16Array, owner: Int16Array, symmetry?: Rot180): PaintedTextures {
   const { width, height } = blueprint.mapSize;
-  const { layers, built, zone } = cellTextureLayers(blueprint, plan, syncCliff, owner, symmetry);
+  const { layers, built, zone, shares: layerShares } = cellTextureLayers(blueprint, plan, syncCliff, owner, symmetry);
   if (plan.sets) {
     if (symmetry) throw new Error("A melee map has one texture set: its textures are `textures` and `texturePalette`");
     snapToSets(layers, plan, width);
+    // A cell with a texture its block's set lacks wears the snapped texture alone.
+    const sets = plan.sets;
+    for (let cell = 0; cell < layers.length; cell++) {
+      const layerIn = sets.layerIn[sets.blockSets[blockOf(sets.blocksPerRow, cell % width, Math.floor(cell / width))]!]!;
+      let dominant = -1;
+      let most = 0;
+      let off = false;
+      layerShares.forEach((share, layer) => {
+        const value = share?.[cell] ?? 0;
+        if (value > 0 && layerIn[layer]! < 0) off = true;
+        if (value > most) {
+          most = value;
+          dominant = layer;
+        }
+      });
+      if (!off && dominant === layers[cell]) continue;
+      for (const share of layerShares) if (share) share[cell] = 0;
+      (layerShares[layers[cell]!] ??= new Float32Array(layers.length))[cell] = 1;
+    }
   }
   // The per-texel loops below run millions of times a compile, so they call no closures and
   // allocate nothing: what they need per texel is worked out per cell or per row first.
@@ -737,12 +841,13 @@ export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, sy
   }
   const cellLevel = Int8Array.from(syncCliff, (value) => Math.ceil(value / 64));
 
-  // Which layer each texel shows before softening: the cell under a noise-warped position.
-  const used = [...new Set(layers)].sort((a, b) => a - b);
+  // What each texel shows before softening: the shares of the cell under a noise-warped position.
+  const used = layerShares.flatMap((share, layer) => (share ? [layer] : []));
   const fields: (Float32Array | undefined)[] = new Array(Math.max(8, plan.layerNames.length)).fill(undefined);
   for (const layer of used) fields[layer] = new Float32Array(texels);
   /** fields[used[index]], by index. */
   const usedFields = used.map((layer) => fields[layer]!);
+  const usedShares = used.map((layer) => layerShares[layer]!);
   /** Each texel column's x, in cells. */
   const xs = Float64Array.from({ length: texelWidth }, (_, tx) => (tx + 0.5) / TEXELS_PER_CELL);
   const warpNoise = WARP_OCTAVES.map(({ period }, octave) => [1 + 2 * octave, 2 + 2 * octave].map((seed) => new GridNoise(xs, period, seed, centre, -1)) as [GridNoise, GridNoise]);
@@ -771,7 +876,8 @@ export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, sy
       const own = texelCell[t]!;
       const warped = cy * width + cx;
       const wander = cellLevel[warped] === cellLevel[own] && !built[own] && !built[warped];
-      fields[layers[wander ? warped : own]!]![t] = 1;
+      const cell = wander ? warped : own;
+      for (let index = 0; index < usedShares.length; index++) usedFields[index]![t] = usedShares[index]![cell]!;
     }
   }
   // Built zones' edges stay crisp: texels within reach of a built cell (as far as the wide blend
@@ -819,7 +925,11 @@ export function paintTextures(blueprint: MissionBlueprint, plan: TexturePlan, sy
     // is blurred on its own and renormalised, and replaces only the narrow blend's same-group share,
     // so different groups keep the narrow seam between them. Round a ramp every texture is one
     // group (ANY_GROUP, which no rule's group name can be), so a ramp still fades into the ground at its foot.
-    const groupOf = (layer: number): string => plan.blendGroups[layer]!;
+    // A stark variety texture keeps to its dabs: on its own in a group, the wide blend doesn't spread
+    // it, since even a thin spread of it reads as the texture itself.
+    const starkVariety = new Set<number>();
+    for (const patches of plan.zonePatches) for (const layer of patches?.layers ?? []) if (textureStarkness(plan.layerNames[layer]!) >= 0.5) starkVariety.add(layer);
+    const groupOf = (layer: number): string => (starkVariety.has(layer) ? `stark variety ${layer}` : plan.blendGroups[layer]!);
     const cellGroup: (string | typeof ANY_GROUP)[] = Array.from(layers, (layer, cell) => (nearRamp[cell] ? ANY_GROUP : groupOf(layer)));
     const cellScratch = new Float32Array(width * height);
     /** The wide blend's blur, in place. */
