@@ -44,7 +44,7 @@ const int TB_H = 1100;
 const int TB_ROWS = 15;          // rows shown, as build.ts's DIALOG_ROWS; a variation's further elements still play          // rows shown; a variation's further elements still play
 const int TB_TICKS = 9;          // time labels along the top
 const int TB_BX = 330;           // where the bars start
-const int TB_BW = 540;           // how wide the bars' area is
+const int TB_BW = 510;           // how wide the bars' area is, leaving the last time label room
 const int TB_AY = 240;           // the time labels
 const int TB_RY = 265;           // the first row
 const int TB_RH = 38;            // a row's height
@@ -591,7 +591,8 @@ void Tb_Head () {
         if (Tb_Changed(e)) { tuned += 1; }
     }
     if (n > 1) { tb_headText = tb_headText + "variation " + IntToString(tb_var + 1) + " of " + IntToString(n) + ", "; }
-    tb_headText = tb_headText + IntToString(tb_vEN[v]) + " elements, " + Tb_F(end) + " s.";
+    if (tb_vEN[v] == 1) { tb_headText = tb_headText + "1 element, " + Tb_F(end) + " s."; }
+    else { tb_headText = tb_headText + IntToString(tb_vEN[v]) + " elements, " + Tb_F(end) + " s."; }
     if (tuned > 0) { tb_headText = tb_headText + Tb_Gold("  " + IntToString(tuned) + " tuned."); }
     if (tb_vEN[v] > TB_ROWS) { tb_headText = tb_headText + "  The first " + IntToString(TB_ROWS) + " show; all play."; }
 }
@@ -613,7 +614,7 @@ void Tb_ShowSel () {
     Tb_Show(tb_stopPlus, stops);
     Tb_Show(tb_reset, on);
     if (!on) {
-        Tb_Text(tb_selLabel, "<c val=\"9a9a9a\">Click an element's name to move its start or stop. Its box mutes it. Changes are saved as you make them.</c>");
+        Tb_Text(tb_selLabel, "<c val=\"9a9a9a\">Click an element's name to tune it. Its box mutes it.</c>");
         return;
     }
     Tb_Text(tb_selLabel, "Selected: " + Tb_RowText(e));
