@@ -38,9 +38,10 @@ const fixed TB_STEP = 0.05;           // a stepper press
 const string TB_GOLD = "d8b45a";      // a changed value
 
 // The dialog's layout
-const int TB_W = 900;
-const int TB_H = 880;
-const int TB_ROWS = 10;          // rows shown; a variation's further elements still play
+const int TB_PAD = 20;          // added to every control's x, keeping clear of the dialog's border
+const int TB_W = 900 + 2 * TB_PAD;
+const int TB_H = 1100;
+const int TB_ROWS = 15;          // rows shown, as build.ts's DIALOG_ROWS; a variation's further elements still play          // rows shown; a variation's further elements still play
 const int TB_TICKS = 9;          // time labels along the top
 const int TB_BX = 330;           // where the bars start
 const int TB_BW = 540;           // how wide the bars' area is
@@ -147,6 +148,10 @@ int tb_stopMinus;
 int tb_stopValue;
 int tb_stopPlus;
 int tb_reset;
+int tb_resetAll;
+int tb_menu;
+int tb_armGen = 0;               // bumped when Reset all is pressed once, and when it disarms or fires
+bool tb_armed = false;          // Reset all was pressed once, and the next press resets
 int tb_play;
 int tb_stop;
 int tb_loop;
@@ -434,7 +439,7 @@ int Tb_X (fixed t) {
 }
 
 void Tb_Place (int c, int x, int y, int w, int h) {
-    DialogControlSetPosition(c, PlayerGroupAll(), c_anchorTopLeft, x, y);
+    DialogControlSetPosition(c, PlayerGroupAll(), c_anchorTopLeft, x + TB_PAD, y);
     DialogControlSetSize(c, PlayerGroupAll(), MaxI(w, 1), h);
 }
 
@@ -695,6 +700,46 @@ void Tb_Reset () {
     Tb_Paint();
 }
 
+// Reset all: the first press asks for a second within 3 s; the second puts every element back as the
+// spec has it and takes them out of the bank.
+void Tb_ResetAll () {
+    int e;
+    int n = 0;
+    if (!tb_armed) {
+        for (e = 0; e < tb_ne; e += 1) { if (Tb_Changed(e)) { n += 1; } }
+        if (n == 0) { Tb_Msg("Nothing is tuned."); return; }
+        tb_armed = true;
+        tb_armGen += 1;
+        Tb_Text(tb_resetAll, Tb_Gold("Sure?"));
+        Tb_Msg("Press Reset all again to put all " + IntToString(n) + " tuned elements back as the spec has them.");
+        TriggerExecute(TriggerCreate("Tb_DisarmThread"), false, false);
+        return;
+    }
+    tb_armed = false;
+    tb_armGen += 1;
+    Tb_Text(tb_resetAll, "Reset all");
+    for (e = 0; e < tb_ne; e += 1) {
+        if (Tb_Changed(e)) { n += 1; }
+        tb_eAt[e] = tb_eAt0[e];
+        tb_eStop[e] = tb_eStop0[e];
+        tb_eMuted[e] = tb_eMuted0[e];
+        if (BankSectionExists(tb_bank, tb_eSec[e])) { BankSectionRemove(tb_bank, tb_eSec[e]); }
+    }
+    BankSave(tb_bank);
+    Tb_Paint();
+    Tb_Msg(IntToString(n) + " elements are back as the spec has them, and the bank " + TB_TUNE_BANK + " is empty.");
+}
+
+bool Tb_DisarmThread (bool testConds, bool runActions) {
+    int g = tb_armGen;
+    Wait(3.0, c_timeReal);
+    if (tb_armed && g == tb_armGen) {
+        tb_armed = false;
+        Tb_Text(tb_resetAll, "Reset all");
+    }
+    return true;
+}
+
 void Tb_SetMuted (int r, bool muted) {
     int e = Tb_RowElement(r);
     if (e < 0) { return; }
@@ -937,7 +982,7 @@ void Tb_Refill () {
 int Tb_Ctl (int type, int w, int h, int x, int y) {
     int c = DialogControlCreate(tb_dlg, type);
     DialogControlSetSize(c, PlayerGroupAll(), w, h);
-    DialogControlSetPosition(c, PlayerGroupAll(), c_anchorTopLeft, x, y);
+    DialogControlSetPosition(c, PlayerGroupAll(), c_anchorTopLeft, x + TB_PAD, y);
     return c;
 }
 
@@ -1016,6 +1061,8 @@ bool Tb_OnEvent (bool testConds, bool runActions) {
     else if (c == tb_stopMinus) { Tb_StepStop(-TB_STEP); }
     else if (c == tb_stopPlus) { Tb_StepStop(TB_STEP); }
     else if (c == tb_reset) { Tb_Reset(); }
+    else if (c == tb_resetAll) { Tb_ResetAll(); }
+    else if (c == tb_menu) { UIShowStandardMenu(PlayerGroupAll()); }
     else if (c == tb_send) {
         s = DialogControlGetPropertyAsString(tb_edit, c_triggerControlPropertyEditText, 1);
         if (s == "") { return true; }
@@ -1058,7 +1105,8 @@ bool Tb_Loop (bool testConds, bool runActions) {
 
 void Tb_Help () {
     Tb_Msg("Testbed: pick a unit, a moment and a variation, then Play. Each variation is a timeline; * marks the spec's pick.");
-    Tb_Msg("Click an element's name to move its start or stop; its box mutes it. Each change is saved in the bank " + TB_TUNE_BANK + "; testbed.js <spec> --apply writes them into the spec.");
+    Tb_Msg("Click an element's name to move its start or stop; its box mutes it. Each change is saved in the bank " + TB_TUNE_BANK + " (Reset all, pressed twice, empties it); testbed.js <spec> --apply writes them into the spec.");
+    Tb_Msg("The game's UI is hidden: Menu opens the game menu.");
     Tb_Msg("Send: a CSound id plays at the unit; text with a space goes to its actor; 'target' then a message goes to the target's actor.");
 }
 
@@ -1067,11 +1115,21 @@ bool Tb_Chat (bool testConds, bool runActions) {
     return true;
 }
 
+// The game's UI (the console, the menu bar, control groups, the timer and the rest) takes room the
+// dialog needs; the dialog's Menu button opens the game menu instead.
+void Tb_HideGameUi () {
+    int f;
+    for (f = c_syncFrameTypeFirst; f <= c_syncFrameTypeLast; f += 1) {
+        // Only Blizzard maps may hide the Battle UI.
+        if (f != c_syncFrameTypeBattleUI) { UISetFrameVisible(PlayerGroupAll(), f, false); }
+    }
+}
+
 void Tb_Gui () {
     trigger t = TriggerCreate("Tb_OnEvent");
     int i;
     int y = 70;
-    tb_dlg = DialogCreate(TB_W, TB_H, c_anchorTopLeft, 20, 60, false);
+    tb_dlg = DialogCreate(TB_W, TB_H, c_anchorTopLeft, 20, 30, false);
     DialogSetTitle(tb_dlg, StringToText(TB_TITLE));
 
     Tb_Label("Unit", 70, 30, y + 5);
@@ -1131,8 +1189,10 @@ void Tb_Gui () {
     tb_stop = Tb_Button("Stop", 90, 125, y);
     tb_loop = Tb_Ctl(c_triggerControlTypeCheckBox, 30, 30, 235, y + 5);
     Tb_Label("Loop", 70, 270, y + 8);
-    tb_edit = Tb_Ctl(c_triggerControlTypeEditBox, 640, 40, 30, TB_H - 85);
-    tb_send = Tb_Button("Send", 90, 680, TB_H - 85);
+    tb_resetAll = Tb_Button("Reset all", 120, 750, y);
+    tb_edit = Tb_Ctl(c_triggerControlTypeEditBox, 640, 40, 30, TB_H - 100);
+    tb_send = Tb_Button("Send", 90, 680, TB_H - 100);
+    tb_menu = Tb_Button("Menu", 90, 780, TB_H - 100);     // the game's menu bar is hidden (Tb_HideGameUi)
 
     Tb_FillMoments();
     TriggerAddEventDialogControl(t, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
@@ -1211,6 +1271,7 @@ bool Tb_Start (bool testConds, bool runActions) {
     }
     CameraPan(1, Point(TB_X + TB_GAP * IntToFixed(TB_NU - 1) / 2.0, TB_Y - 2.5), 0.0, -1.0, 0.0, false);
     Tb_SoundLengths();
+    Tb_HideGameUi();
     Tb_Gui();
     Wait(0.5, c_timeGame);       // a new unit's actor isn't there to take messages straight away
     for (u = 0; u < TB_NU; u += 1) { Tb_Idle(u); }

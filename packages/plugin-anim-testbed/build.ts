@@ -78,7 +78,7 @@ export const TOUR_BANK = "AnimTestbed";
 const KIND_CODE = { anim: 0, sound: 1, effect: 2, actor: 3, kill: 4 } as const;
 const ON_CODE = { unit: 0, target: 1, child: 2 } as const;
 /** How many of a variation's elements the dialog shows a row for (TB_ROWS); the rest still play. */
-export const DIALOG_ROWS = 10;
+export const DIALOG_ROWS = 15;
 /** Said of a spelling kept for several units, abilities and actor events, which aren't built yet. */
 const NOT_BUILT = "not built yet (#96)";
 

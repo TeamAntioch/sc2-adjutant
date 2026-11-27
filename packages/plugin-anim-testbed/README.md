@@ -52,9 +52,13 @@ In the dialog:
 4. **Tune it.** Click a row's name to select it. **Start** − and + move it by 0.05 s, its stop with it,
    never before 0. **Stop** (Fade at for a sound, Clear at for an animation) − and + move its stop; −
    from none starts one a step before the bar's end, and a stop stepped to the end is none again. The
-   row's box mutes it (ticked plays). **Reset** puts the element back as the build gave it. A changed
+   row's box mutes it (ticked plays). **Reset** puts the element back as the build gave it, and
+   **Reset all**, pressed twice within 3 s, puts every element back and empties the bank. A changed
    value, and the row's name, turn gold. Start, stop and mute are all the game changes: adding an
    element or swapping its id is a spec edit and a rebuild.
+
+The game's UI (console, menu bar, control groups, timer) is hidden to leave the dialog room; its **Menu** button opens the
+game menu.
 
 **Every change is saved at once** in the spec's tuning bank, `AnimTune<Name>` (`AnimTuneStockUnits`
 for `stock-units`), with what the build gave it. There is no Save button, and quitting loses nothing:
@@ -138,7 +142,7 @@ one of these, at `at` seconds from Play (0 by default):
 | `{ "kill": true }` | Kills the unit. Its sounds after that play at the point it died (sounds played on a dead unit are dropped), and it comes back after `respawn` s |
 
 Any element can be `"muted": true`: left out of Play, kept in the spec. The dialog shows the first
-10 elements of a variation; more still play, but can't be tuned in the game, and the build warns.
+15 elements of a variation; more still play, but can't be tuned in the game, and the build warns.
 
 ```json
 { "elements": [

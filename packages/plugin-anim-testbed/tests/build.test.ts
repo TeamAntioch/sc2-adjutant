@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { buildTestbed, INIT_FUNC, momentNames, readElement } from "../build.ts";
+import { buildTestbed, DIALOG_ROWS, INIT_FUNC, momentNames, readElement, RUNTIME_PATH } from "../build.ts";
 
 const PACKAGE = fileURLToPath(new URL("..", import.meta.url));
 const EXAMPLE = path.join(PACKAGE, "examples", "stock-units.json");
@@ -179,7 +179,7 @@ describe("buildTestbed", () => {
   it("names the tuning bank, counts a repeated element's occurrence, gives each its own section and warns past the dialog's rows", async () => {
     const { spec } = await mission();
     await editSpec(spec, (s) => {
-      s.units[0].moments.attack.variations.push({ elements: Array.from({ length: 11 }, (_, i) => ({ sound: "Marine_Yes", at: i / 10 })) });
+      s.units[0].moments.attack.variations.push({ elements: Array.from({ length: 16 }, (_, i) => ({ sound: "Marine_Yes", at: i / 10 })) });
     });
     const result = await buildTestbed(spec, { workspace: null, check: true });
     expect(result.report.errors).toEqual([]);
@@ -189,7 +189,11 @@ describe("buildTestbed", () => {
     const sections = [...result.script!.matchAll(/Tb_E\(.*, "(e[0-9a-f]{8}(?:_\d+)?)"\);/g)].map((m) => m[1]);
     expect(sections.length).toBe(result.counts.elements);
     expect(new Set(sections).size).toBe(sections.length);
-    expect(result.report.warnings).toContain("marine attack 3: 11 elements, and the dialog shows the first 10; the rest play but can't be tuned in the game");
+    expect(result.report.warnings).toContain("marine attack 3: 16 elements, and the dialog shows the first 15; the rest play but can't be tuned in the game");
+  });
+
+  it("warns past the rows the runtime's dialog has", async () => {
+    expect(await readFile(RUNTIME_PATH, "utf8")).toContain(`const int TB_ROWS = ${DIALOG_ROWS};`);
   });
 
   it("refuses the old moment definitions and cues, saying where they went", async () => {
