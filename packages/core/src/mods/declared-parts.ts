@@ -106,7 +106,10 @@ export class StringsTable {
   /** Who first gave each key, by file and key, so a clash names both writers. */
   private readonly keyBy = new Map<string, string>();
 
-  constructor(private readonly own: Strings) {
+  private readonly own: Strings;
+
+  constructor(own: Strings) {
+    this.own = own;
     this.files = Object.fromEntries(Object.entries(own).map(([file, keys]) => [file, { ...keys }]));
     for (const [file, keys] of Object.entries(own)) for (const key of Object.keys(keys)) this.keyBy.set(`${file}\0${key}`, `strings["${file}"]`);
   }

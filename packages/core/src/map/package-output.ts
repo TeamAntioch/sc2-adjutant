@@ -107,23 +107,36 @@ export class PackageOutput {
   /** Triggers items written where the package has them (a Mission Blueprint's own elements), by element key. */
   private readonly placed = new Set<string>();
 
+  private readonly root: string;
+  /** The last compile's record; undefined for a first compile, which writes every file whole. */
+  private readonly original: CompileRecord | undefined;
+  /** What the author decided for each Compiled entry the Editor changed. */
+  private readonly decisions: EditorDecisions;
+  /** The check for Compiled Content written over Kept Content; by default it must be byte for byte the same. */
+  private readonly replaceKept: ReplaceKept | undefined;
+  /** The trigger list Triggers is spliced in: a Mission's own (the default), or a mod's library. */
+  private readonly triggersScope: TriggersScope;
+  /**
+   * The Kept parts `replaceKept` checks, by entry name, when only some may be converted (a
+   * Mission's converted conversation): any other Kept part the compile writes must come out the
+   * same, as with no check. Every part, by default.
+   */
+  private readonly convertsKept: (name: string) => boolean;
+
   constructor(
-    private readonly root: string,
-    /** The last compile's record; undefined for a first compile, which writes every file whole. */
-    private readonly original?: CompileRecord,
-    /** What the author decided for each Compiled entry the Editor changed. */
-    private readonly decisions: EditorDecisions = {},
-    /** The check for Compiled Content written over Kept Content; by default it must be byte for byte the same. */
-    private readonly replaceKept?: ReplaceKept,
-    /** The trigger list Triggers is spliced in: a Mission's own (the default), or a mod's library. */
-    private readonly triggersScope: TriggersScope = {},
-    /**
-     * The Kept parts `replaceKept` checks, by entry name, when only some may be converted (a
-     * Mission's converted conversation): any other Kept part the compile writes must come out the
-     * same, as with no check. Every part, by default.
-     */
-    private readonly convertsKept: (name: string) => boolean = () => true,
+    root: string,
+    original?: CompileRecord,
+    decisions: EditorDecisions = {},
+    replaceKept?: ReplaceKept,
+    triggersScope: TriggersScope = {},
+    convertsKept: (name: string) => boolean = () => true,
   ) {
+    this.root = root;
+    this.original = original;
+    this.decisions = decisions;
+    this.replaceKept = replaceKept;
+    this.triggersScope = triggersScope;
+    this.convertsKept = convertsKept;
     this.previous = original;
     this.recordedFiles = new Set((original?.entries ?? []).flatMap((entry) => (wholeFile(entry) ? [entry.path] : [])));
   }

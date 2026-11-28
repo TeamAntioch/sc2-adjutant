@@ -118,16 +118,25 @@ export class KeptGalaxyRenderer {
   private readonly scopes = new Map<string, "global" | "local" | "member">();
   private readonly reach: Pick<TemplateScope, "libraries">;
 
+  private readonly file: TriggersFile;
+  /** TriggerStrings.txt's names, `Trigger/Name/<id>` and so on. */
+  private readonly names: ReadonlyMap<string, string>;
+  private readonly catalog: KeptCatalog;
+  /** The `Param/Value/<id>` and `Param/Expression/<id>` keys GameStrings gives text (textValueKeys); a text parameter without one is empty. Unknown when left out. */
+  private readonly texts: ReadonlyMap<string, string> | undefined;
+
+  /** `libraries`: those in reach of the map, the game's and its Workspace dependency mods' (librariesInReach); the game's alone when left out. */
   constructor(
-    private readonly file: TriggersFile,
-    /** TriggerStrings.txt's names, `Trigger/Name/<id>` and so on. */
-    private readonly names: ReadonlyMap<string, string>,
-    private readonly catalog: KeptCatalog,
-    /** The `Param/Value/<id>` and `Param/Expression/<id>` keys GameStrings gives text (textValueKeys); a text parameter without one is empty. Unknown when left out. */
-    private readonly texts?: ReadonlyMap<string, string>,
-    /** The libraries in reach of the map: the game's and its Workspace dependency mods' (librariesInReach); the game's alone when left out. */
+    file: TriggersFile,
+    names: ReadonlyMap<string, string>,
+    catalog: KeptCatalog,
+    texts?: ReadonlyMap<string, string>,
     libraries: Readonly<Record<string, GameLibrary>> = gameTriggerLibraries(),
   ) {
+    this.file = file;
+    this.names = names;
+    this.catalog = catalog;
+    this.texts = texts;
     this.reach = { libraries };
     for (const element of file.elements.values()) {
       const scope = element.type === "Structure" ? "member" : element.type === "Trigger" || element.type === "FunctionDef" ? "local" : undefined;

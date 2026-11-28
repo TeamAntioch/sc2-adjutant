@@ -339,8 +339,11 @@ function conceptElements(generated: TriggersFile, names: Readonly<Record<string,
 
 /** Why the Blueprint's elements can't be compiled: each problem, naming its element. */
 export class BlueprintTriggerError extends Error {
-  constructor(readonly problems: readonly string[]) {
+  readonly problems: readonly string[];
+
+  constructor(problems: readonly string[]) {
     super(`The Blueprint's triggers can't be compiled:\n${problems.map((problem) => `- ${problem}`).join("\n")}`);
+    this.problems = problems;
     this.name = "BlueprintTriggerError";
   }
 }

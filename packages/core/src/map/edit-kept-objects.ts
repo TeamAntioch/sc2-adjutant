@@ -196,10 +196,10 @@ class PackageEditor {
   private readonly compiledObjects: ReadonlySet<number>;
   private readonly compiledRegions: readonly number[];
 
-  constructor(
-    private readonly blueprint: MissionBlueprint,
-    record: CompileRecord,
-  ) {
+  private readonly blueprint: MissionBlueprint;
+
+  constructor(blueprint: MissionBlueprint, record: CompileRecord) {
+    this.blueprint = blueprint;
     this.compiledObjects = new Set(record.entries.flatMap((entry) => (entry.kind === "object" ? [entry.id] : [])));
     this.compiledRegions = record.entries.flatMap((entry) => (entry.kind === "region" ? [entry.id] : []));
   }

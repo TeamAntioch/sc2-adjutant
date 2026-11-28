@@ -7,6 +7,7 @@ export const PUBLIC_PACKAGES = [
   "plugin-host-windows",
   "plugin-style-antioch",
   "plugin-anim-testbed",
+  "plugin-height-tuner",
   "doodad-finder",
   "set-finder",
 ];
